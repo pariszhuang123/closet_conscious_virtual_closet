@@ -1,0 +1,1 @@
+ C:\\closetconscious\\.dart_tool\\flutter_build\\dbd4f20d831f44af6733d1e158f6bb24\\native_assets.yaml: 
