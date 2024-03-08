@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // For Apple and Google logos
 
 void main() {
   runApp(const MyApp());
@@ -10,104 +11,108 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Virtual Closet App',
-      home: const HomePage(),
+      title: 'Conscious Closet',
+      home: const DefaultTabController(
+        length: 2, // The number of tabs / content sections
+        child: MyHomePage(),
+      ),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Virtual Closet'),
-      ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: _AuthSection(
-                        title: 'Login',
-                        firstButtonText: 'Login with Google',
-                        secondButtonText: 'Login with Apple',
-                        onFirstButtonPressed: () {
-                          // Handle Google login
-                        },
-                        onSecondButtonPressed: () {
-                          // Handle Apple login
-                        },
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: const [
+                  // Your logo here
+                  // You can replace this with an Image widget if you have a logo image file
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent, // Assuming logo background is transparent
+                    radius: 48.0,
+                    child: Text(
+                      'Conscious Closet',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Expanded(
-                      child: _AuthSection(
-                        title: 'Sign Up',
-                        firstButtonText: 'Sign Up with Google',
-                        secondButtonText: 'Sign Up with Apple',
-                        onFirstButtonPressed: () {
-                          // Handle Google sign up
-                        },
-                        onSecondButtonPressed: () {
-                          // Handle Apple sign up
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 20), // Provides space between logo and tab bar
+                ],
               ),
             ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _AuthSection extends StatelessWidget {
-  final String title;
-  final String firstButtonText;
-  final String secondButtonText;
-  final VoidCallback onFirstButtonPressed;
-  final VoidCallback onSecondButtonPressed;
-
-  const _AuthSection({
-    super.key,
-    required this.title,
-    required this.firstButtonText,
-    required this.secondButtonText,
-    required this.onFirstButtonPressed,
-    required this.onSecondButtonPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: onFirstButtonPressed,
-            child: Text(firstButtonText),
-            style: ElevatedButton.styleFrom(minimumSize: const Size(double.infinity, 50)), // Ensures button takes full width
-          ),
-          const SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: onSecondButtonPressed,
-            child: Text(secondButtonText),
-            style: ElevatedButton.styleFrom(minimumSize: const Size(double.infinity, 50)), // Ensures button takes full width
-          ),
-        ],
+            const TabBar(
+              tabs: [
+                Tab(text: 'Sign In'),
+                Tab(text: 'Sign Up'),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  // Sign In Tab Content
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Login with your social account"),
+                        const SizedBox(height: 20),
+                        ElevatedButton.icon(
+                          icon: const FaIcon(FontAwesomeIcons.google, color: Colors.red),
+                          label: const Text("Login with Google"),
+                          onPressed: () {
+                            // Handle Google login
+                          },
+                        ),
+                        ElevatedButton.icon(
+                          icon: const FaIcon(FontAwesomeIcons.apple, color: Colors.black),
+                          label: const Text("Login with Apple"),
+                          onPressed: () {
+                            // Handle Apple login
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Sign Up Tab Content
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Sign up with your social account"),
+                        const SizedBox(height: 20),
+                        ElevatedButton.icon(
+                          icon: const FaIcon(FontAwesomeIcons.google, color: Colors.red),
+                          label: const Text("Sign Up with Google"),
+                          onPressed: () {
+                            // Handle Google sign up
+                          },
+                        ),
+                        ElevatedButton.icon(
+                          icon: const FaIcon(FontAwesomeIcons.apple, color: Colors.black),
+                          label: const Text("Sign Up with Apple"),
+                          onPressed: () {
+                            // Handle Apple sign up
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -30,6 +30,10 @@ flutter_lints
 3.0
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-3.0.1/
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-3.0.1/lib/
+font_awesome_flutter
+3.0
+file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/font_awesome_flutter-10.7.0/
+file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/font_awesome_flutter-10.7.0/lib/
 leak_tracker
 3.1
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-10.0.0/
@@ -94,10 +98,10 @@ vm_service
 3.0
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-13.0.0/
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-13.0.0/lib/
-closetconscious
+closet_conscious
 3.3
-file:///C:/closetconscious/closetconscious/
-file:///C:/closetconscious/closetconscious/lib/
+file:///C:/closetconscious/
+file:///C:/closetconscious/lib/
 sky_engine
 3.2
 file:///C:/flutter/bin/cache/pkg/sky_engine/
