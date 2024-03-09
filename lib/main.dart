@@ -40,6 +40,7 @@ class MyHomePage extends StatelessWidget {
                     radius: 48.0,
                     child: Text(
                       'Conscious Closet',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20.0,
