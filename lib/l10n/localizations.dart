@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'generated/intl/messages_all.dart';
+import 'package:closet_conscious/generated/intl/messages_all.dart';
 
 class AppLocalizations {
   static Future<AppLocalizations> load(Locale locale) {
@@ -13,7 +13,8 @@ class AppLocalizations {
     });
   }
 
-  static AppLocalizations of(BuildContext context) {
+  static AppLocalizations? of(BuildContext context) {
+    // Update the return type to handle nullable values
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
