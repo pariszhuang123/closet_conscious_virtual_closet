@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // For Apple and Google logos
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:closet_conscious/l10n/localizations.dart';
+import 'package:closet_conscious/generated/l10n.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,11 +11,19 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Conscious Closet',
-      home: DefaultTabController(
+      localizationsDelegates: [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales, // Add the locales here
+      home: const DefaultTabController(
         length: 2, // The number of tabs / content sections
         child: MyHomePage(),
       ),
@@ -27,6 +36,9 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Now using localization
+    final S loc = S.of(context); // Get localization instance
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -41,7 +53,7 @@ class MyHomePage extends StatelessWidget {
                     backgroundColor: Colors.transparent, // Assuming logo background is transparent
                     radius: 48.0,
                     child: Text(
-                      'Conscious Closet',
+                      loc.appName, // Replace 'Conscious Closet' with a localized string
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
