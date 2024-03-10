@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // For Apple and Google logos
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:closet_conscious/l10n/localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,9 +12,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Conscious Closet',
-      home: const DefaultTabController(
+      home: DefaultTabController(
         length: 2, // The number of tabs / content sections
         child: MyHomePage(),
       ),
@@ -29,10 +31,10 @@ class MyHomePage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(20.0),
+            const Padding(
+              padding: EdgeInsets.all(20.0),
               child: Column(
-                children: const [
+                children: [
                   // Your logo here
                   // You can replace this with an Image widget if you have a logo image file
                   CircleAvatar(
@@ -69,6 +71,7 @@ class MyHomePage extends StatelessWidget {
                         const Text("Login with your social account"),
                         const SizedBox(height: 20),
                         ElevatedButton.icon(
+                          key: const Key('loginWithGoogle'), // Add this line
                           icon: const FaIcon(FontAwesomeIcons.google, color: Colors.red),
                           label: const Text("Login with Google"),
                           onPressed: () {
@@ -76,6 +79,7 @@ class MyHomePage extends StatelessWidget {
                           },
                         ),
                         ElevatedButton.icon(
+                          key: const Key('loginWithApple'), // Add this line
                           icon: const FaIcon(FontAwesomeIcons.apple, color: Colors.black),
                           label: const Text("Login with Apple"),
                           onPressed: () {
