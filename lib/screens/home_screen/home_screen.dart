@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:closet_conscious/generated/l10n.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // For Apple and Google logos
+import 'package:closet_conscious/screens/home_screen/login/login_with_google.dart'; // Adjust the import path as necessary
+import 'package:closet_conscious/screens/home_screen/login/login_with_apple.dart'; // Adjust the import path as necessary
+import 'package:closet_conscious/screens/home_screen/signup/signup_with_google.dart'; // Adjust the import path as necessary
+import 'package:closet_conscious/screens/home_screen/signup/signup_with_apple.dart'; // Adjust the import path as necessary
+
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -53,46 +57,21 @@ class MyHomePage extends StatelessWidget {
                       children: [
                         Text(loc.loginSocialAccount),
                         const SizedBox(height: 20),
-                        ElevatedButton.icon(
-                          key: const Key('loginWithGoogle'), // Add this line
-                          icon: const FaIcon(FontAwesomeIcons.google, color: Colors.red),
-                          label: Text(loc.loginGoogle),
-                          onPressed: () {
-                            // Handle Google login
-                          },
-                        ),
-                        ElevatedButton.icon(
-                          key: const Key('loginWithApple'), // Add this line
-                          icon: const FaIcon(FontAwesomeIcons.apple, color: Colors.black),
-                          label: Text(loc.loginApple),
-                          onPressed: () {
-                            // Handle Apple login
-                          },
-                        ),
+                        LoginWithGoogle(), // Use the LoginWithGoogle widget
+                        LoginWithApple(), // Use the LoginWithApple widget
                       ],
                     ),
                   ),
+                  // Sign Up Tab Content
                   // Sign Up Tab Content
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(loc.SignupSocialAccount),
+                        Text(S.of(context).SignupSocialAccount),
                         const SizedBox(height: 20),
-                        ElevatedButton.icon(
-                          icon: const FaIcon(FontAwesomeIcons.google, color: Colors.red),
-                          label: Text(loc.SignupGoogle),
-                          onPressed: () {
-                            // Handle Google sign up
-                          },
-                        ),
-                        ElevatedButton.icon(
-                          icon: const FaIcon(FontAwesomeIcons.apple, color: Colors.black),
-                          label: Text(loc.SignupApple),
-                          onPressed: () {
-                            // Handle Apple sign up
-                          },
-                        ),
+                        const SignupWithGoogle(), // Use the SignupWithGoogle widget
+                        const SignupWithApple(), // Use the SignupWithApple widget
                       ],
                     ),
                   ),
