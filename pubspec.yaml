@@ -35,6 +35,8 @@ dependencies:
     sdk: flutter
   intl: ^0.18.1
   localization: ^2.1.1
+  logging_to_logcat: ^1.0.0
+  logging: ^1.2.0
 generate: true
 flutter_intl:
   enable: true

@@ -2,5 +2,11 @@
   "@@locale": "en",
   "appName": "Closet Conscious",
   "signIn": "Sign In",
-  "signUp": "Sign Up"
+  "signUp": "Sign Up",
+  "loginSocialAccount": "Login with your social account",
+  "loginGoogle": "Login with Google",
+  "loginApple": "Login with Apple",
+  "SignupSocialAccount": "Sign up with your Social Account",
+  "SignupGoogle": "Sign up with Google",
+  "SignupApple": "Sign up with Apple"
 }

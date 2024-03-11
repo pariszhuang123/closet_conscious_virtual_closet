@@ -1,0 +1,12 @@
+{
+  "@@locale": "zh_CN",
+  "appName": "衣橱选择",
+  "signIn": "登入",
+  "signUp": "注册",
+  "loginSocialAccount": "登录您的社交帐户",
+  "loginGoogle": "使用谷歌登录",
+  "loginApple": "使用苹果登录",
+  "SignupSocialAccount": "注册您的社交帐户",
+  "SignupGoogle": "使用谷歌注册",
+  "SignupApple": "使用苹果注册"
+}

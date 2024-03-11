@@ -79,6 +79,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Login with your social account`
+  String get loginSocialAccount {
+    return Intl.message(
+      'Login with your social account',
+      name: 'loginSocialAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login with Google`
+  String get loginGoogle {
+    return Intl.message(
+      'Login with Google',
+      name: 'loginGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login with Apple`
+  String get loginApple {
+    return Intl.message(
+      'Login with Apple',
+      name: 'loginApple',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign up with your Social Account`
+  String get SignupSocialAccount {
+    return Intl.message(
+      'Sign up with your Social Account',
+      name: 'SignupSocialAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign up with Google`
+  String get SignupGoogle {
+    return Intl.message(
+      'Sign up with Google',
+      name: 'SignupGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign up with Apple`
+  String get SignupApple {
+    return Intl.message(
+      'Sign up with Apple',
+      name: 'SignupApple',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -87,7 +147,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
-      Locale.fromSubtags(languageCode: 'zh'),
+      Locale.fromSubtags(languageCode: 'zh', countryCode: 'CN'),
     ];
   }
 
