@@ -68,12 +68,6 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "cupertino_icons",
-      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.6",
-      "packageUri": "lib/",
-      "languageVersion": "2.19"
-    },
-    {
       "name": "dart_style",
       "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/dart_style-2.3.6",
       "packageUri": "lib/",
@@ -362,7 +356,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-03-10T09:54:46.531152Z",
+  "generated": "2024-03-11T05:20:10.402618Z",
   "generator": "pub",
   "generatorVersion": "3.3.1"
 }

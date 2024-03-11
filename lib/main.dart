@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // For Apple and Google logos
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:closet_conscious/l10n/localizations.dart';
 import 'package:closet_conscious/generated/l10n.dart';
 
 void main() {
@@ -43,7 +42,7 @@ class MyHomePage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            const Padding(
+             Padding(
               padding: EdgeInsets.all(20.0),
               child: Column(
                 children: [
@@ -53,7 +52,7 @@ class MyHomePage extends StatelessWidget {
                     backgroundColor: Colors.transparent, // Assuming logo background is transparent
                     radius: 48.0,
                     child: Text(
-                      loc.appName, // Replace 'Conscious Closet' with a localized string
+                      loc.appName, // Replace 'Closet Conscious' with a localized string
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
@@ -66,10 +65,10 @@ class MyHomePage extends StatelessWidget {
                 ],
               ),
             ),
-            const TabBar(
+            TabBar(
               tabs: [
-                Tab(text: 'Sign In'),
-                Tab(text: 'Sign Up'),
+                Tab(text: loc.signIn),
+                Tab(text: loc.signUp),
               ],
             ),
             Expanded(

@@ -1,5 +1,6 @@
 {
-  "appName": "Conscious Closet",
+  "@@locale": "en",
+  "appName": "Closet Conscious",
   "signIn": "Sign In",
   "signUp": "Sign Up"
 }
