@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:closet_conscious/generated/l10n.dart';
-import 'package:closet_conscious/screens/home_screen/login/login_with_google.dart'; // Adjust the import path as necessary
-import 'package:closet_conscious/screens/home_screen/login/login_with_apple.dart'; // Adjust the import path as necessary
-import 'package:closet_conscious/screens/home_screen/signup/signup_with_google.dart'; // Adjust the import path as necessary
-import 'package:closet_conscious/screens/home_screen/signup/signup_with_apple.dart'; // Adjust the import path as necessary
+import 'package:closet_conscious/screens/login_screen/login/login_with_google.dart'; // Adjust the import path as necessary
+import 'package:closet_conscious/screens/login_screen/login/login_with_apple.dart'; // Adjust the import path as necessary
+import 'package:closet_conscious/screens/login_screen/signup/signup_with_google.dart'; // Adjust the import path as necessary
+import 'package:closet_conscious/screens/login_screen/signup/signup_with_apple.dart'; // Adjust the import path as necessary
 
 
 class MyHomePage extends StatelessWidget {

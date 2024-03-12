@@ -8,5 +8,7 @@
   "loginApple": "使用苹果登录",
   "SignupSocialAccount": "注册您的社交帐户",
   "SignupGoogle": "使用谷歌注册",
-  "SignupApple": "使用苹果注册"
+  "SignupApple": "使用苹果注册",
+  "loginSuccess": "欢迎回来！您现在已登录",
+  "loginFailed" : "登录失败。请检查您的凭据并重试"
 }

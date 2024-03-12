@@ -139,6 +139,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Welcome back! You are now logged in`
+  String get loginSuccess {
+    return Intl.message(
+      'Welcome back! You are now logged in',
+      name: 'loginSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login failed. Please check your credentials and try again`
+  String get loginFailed {
+    return Intl.message(
+      'Login failed. Please check your credentials and try again',
+      name: 'loginFailed',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

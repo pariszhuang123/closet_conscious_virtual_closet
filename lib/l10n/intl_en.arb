@@ -8,5 +8,7 @@
   "loginApple": "Login with Apple",
   "SignupSocialAccount": "Sign up with your Social Account",
   "SignupGoogle": "Sign up with Google",
-  "SignupApple": "Sign up with Apple"
+  "SignupApple": "Sign up with Apple",
+  "loginSuccess": "Welcome back! You are now logged in",
+  "loginFailed" : "Login failed. Please check your credentials and try again"
 }

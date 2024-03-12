@@ -30,13 +30,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  font_awesome_flutter: 10.7.0
   flutter_localizations:
     sdk: flutter
   intl: ^0.18.1
   localization: ^2.1.1
   logging_to_logcat: ^1.0.0
   logging: ^1.2.0
+  google_sign_in: ^6.2.1
+  supabase_flutter: ^2.3.4
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
+  fluttertoast: ^8.2.4
+  flutter_dotenv: ^5.1.0
+  flutter_signin_button: ^2.0.0
 generate: true
 flutter_intl:
   enable: true
@@ -49,10 +55,12 @@ flutter_intl:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  sign_in_with_apple: ^6.0.0
   integration_test:
     sdk: flutter
   intl_utils: ^2.8.7
-
+  mockito: ^5.4.4
+  build_runner: ^2.4.8
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

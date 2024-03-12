@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:closet_conscious/generated/l10n.dart';
-import 'package:closet_conscious/screens/home_screen/home_screen.dart';
+import 'package:closet_conscious/screens/login_screen/login_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(const MyApp());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyCustomApp());
 }
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyCustomApp extends StatelessWidget {
+  const MyCustomApp({super.key});
 
   @override
   Widget build(BuildContext context) {

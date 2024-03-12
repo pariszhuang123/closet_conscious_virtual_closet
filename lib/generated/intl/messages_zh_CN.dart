@@ -27,8 +27,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "SignupSocialAccount": MessageLookupByLibrary.simpleMessage("注册您的社交帐户"),
         "appName": MessageLookupByLibrary.simpleMessage("衣橱选择"),
         "loginApple": MessageLookupByLibrary.simpleMessage("使用苹果登录"),
+        "loginFailed": MessageLookupByLibrary.simpleMessage("登录失败。请检查您的凭据并重试"),
         "loginGoogle": MessageLookupByLibrary.simpleMessage("使用谷歌登录"),
         "loginSocialAccount": MessageLookupByLibrary.simpleMessage("登录您的社交帐户"),
+        "loginSuccess": MessageLookupByLibrary.simpleMessage("欢迎回来！您现在已登录"),
         "signIn": MessageLookupByLibrary.simpleMessage("登入"),
         "signUp": MessageLookupByLibrary.simpleMessage("注册")
       };

@@ -30,10 +30,14 @@ class MessageLookup extends MessageLookupByLibrary {
             "Sign up with your Social Account"),
         "appName": MessageLookupByLibrary.simpleMessage("Closet Conscious"),
         "loginApple": MessageLookupByLibrary.simpleMessage("Login with Apple"),
+        "loginFailed": MessageLookupByLibrary.simpleMessage(
+            "Login failed. Please check your credentials and try again"),
         "loginGoogle":
             MessageLookupByLibrary.simpleMessage("Login with Google"),
         "loginSocialAccount": MessageLookupByLibrary.simpleMessage(
             "Login with your social account"),
+        "loginSuccess": MessageLookupByLibrary.simpleMessage(
+            "Welcome back! You are now logged in"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign Up")
       };
