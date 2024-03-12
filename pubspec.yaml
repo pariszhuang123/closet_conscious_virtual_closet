@@ -43,6 +43,7 @@ dependencies:
   fluttertoast: ^8.2.4
   flutter_dotenv: ^5.1.0
   flutter_signin_button: ^2.0.0
+  flutter_svg: ^2.0.10+1
 generate: true
 flutter_intl:
   enable: true
