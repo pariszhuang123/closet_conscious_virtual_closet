@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:closet_conscious/generated/l10n.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:closet_conscious/services/google_auth_service.dart';
+import 'package:closet_conscious/services/supabase_client_service.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class LoginWithGoogle extends StatefulWidget {

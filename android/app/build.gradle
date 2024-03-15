@@ -22,6 +22,8 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+apply plugin: 'com.android.application'
+
 android {
     namespace "com.example.closetconscious"
     compileSdk flutter.compileSdkVersion

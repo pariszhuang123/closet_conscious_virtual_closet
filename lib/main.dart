@@ -2,12 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:closet_conscious/generated/l10n.dart';
 import 'package:closet_conscious/screens/login_screen/login_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env.local");
+
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  String packageName = packageInfo.packageName;
+
+  await Supabase.initialize(
+    url: dotenv.env['SUPABASE_URL'] ?? '',
+    anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
+  );
+
   runApp(MyCustomApp());
 }
 class MyCustomApp extends StatelessWidget {
