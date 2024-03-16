@@ -54,6 +54,14 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            signingConfig signingConfigs.debug
+            debuggable true
+            // Add the following line to enable the signing report
+            signingConfig signingConfigs.debug
+        }
+
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.

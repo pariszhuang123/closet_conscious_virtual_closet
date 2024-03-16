@@ -50,7 +50,7 @@ void main() {
 
     // Verify the user remains on the login screen or sees a cancellation message, depending on your app's behavior
     // This is just an example; replace or remove depending on your app's logic
-    expect(find.byType(LoginScreen), findsOneWidget);
+    expect(find.byType(Logincreen), findsOneWidget);
   });
 
   // More tests can be added here for different scenarios

@@ -18,8 +18,20 @@ void main() async {
     anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
   );
 
+  // Add a listener to monitor user authentication state changes
+  supabase.auth.onAuthStateChange.listen((event) {
+    if (event == AuthChangeEvent.signedIn) {
+      // User is signed in, perform necessary actions
+    } else if (event == AuthChangeEvent.signedOut) {
+      // User is signed out, perform necessary actions
+    }
+  });
+
   runApp(MyCustomApp());
 }
+
+final supabase = Supabase.instance.client;
+
 class MyCustomApp extends StatelessWidget {
   const MyCustomApp({super.key});
 
