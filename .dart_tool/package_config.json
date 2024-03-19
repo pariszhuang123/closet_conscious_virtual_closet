@@ -351,9 +351,9 @@
     },
     {
       "name": "js",
-      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.6.7",
+      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.7.1",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.1"
     },
     {
       "name": "json_annotation",
@@ -878,7 +878,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-03-16T06:37:28.179959Z",
+  "generated": "2024-03-16T22:58:55.084810Z",
   "generator": "pub",
   "generatorVersion": "3.3.1"
 }

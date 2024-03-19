@@ -41,4 +41,5 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-.env.local  // Add this line to exclude .env.local file from version control
+.env// Add this line to exclude .env file from version control
+debug.keystore
