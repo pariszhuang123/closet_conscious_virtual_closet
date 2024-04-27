@@ -1,0 +1,32 @@
+name: Flutter CI Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-test-production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '12'
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.3.1' # Specify your Flutter version
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Run linting and static analysis
+        run: flutter analyze
+      - name: Run tests
+        run: flutter test
+        if: always() # Proceed even if previous steps failed, to allow failure notification
+      - name: Build APK for production
+        run: flutter build apk --release
+        if: success() # Proceed only if tests were successful
+      - name: Build iOS for production
+        run: flutter build ios --release
+        if: success() # Proceed only if tests were successful
+    # Add caching, handling .env files, and other necessary steps as needed
