@@ -285,7 +285,7 @@
     },
     {
       "name": "google_sign_in_web",
-      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_web-0.12.3+3",
+      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_web-0.12.4",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -872,7 +872,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-04-27T09:41:18.449078Z",
+  "generated": "2024-04-27T11:17:55.446257Z",
   "generator": "pub",
   "generatorVersion": "3.3.4"
 }
