@@ -9,29 +9,52 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
           java-version: '17.0.9'
+
       - uses: dart-lang/setup-dart@v1
         with:
           sdk: 'stable'
+
       - name: Update PATH and Check Dart Version
         run: |
           echo "PATH=$(dirname $(which dart)):$PATH" >> $GITHUB_ENV
           dart --version
+
+      - name: Print environment PATH
+        run: echo $PATH
+
       - uses: subosito/flutter-action@v1
         id: flutter
         with:
           flutter-version: '3.3.1'
+
       - name: Install dependencies
-        run: flutter pub get
+        run: |
+          PATH=$(dirname $(which dart)):$PATH
+          PATH=$(dirname $(which flutter)):$PATH
+          flutter pub get
+
       - name: Run linting and static analysis
-        run: flutter analyze
+        run: |
+          PATH=$(dirname $(which dart)):$PATH
+          flutter analyze
+
       - name: Run tests
-        run: flutter test
+        run: |
+          PATH=$(dirname $(which dart)):$PATH
+          flutter test
+
       - name: Build APK for development
-        run: flutter build apk --debug
+        run: |
+          PATH=$(dirname $(which dart)):$PATH
+          flutter build apk --debug
+
       - name: Build iOS for development
-        run: flutter build ios --debug
-    # Add caching, handling .env files, and other necessary steps as needed
+        run: |
+          PATH=$(dirname $(which dart)):$PATH
+          flutter build ios --debug
+      # Add caching, handling .env files, and other necessary steps as needed
