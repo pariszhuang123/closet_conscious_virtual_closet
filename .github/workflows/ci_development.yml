@@ -30,7 +30,7 @@ jobs:
       - uses: subosito/flutter-action@v1
         id: flutter
         with:
-          flutter-version: '3.3.4'
+          flutter-version: '3.19.6'
 
       - name: Check Bundled Dart SDK Version
         run: flutter doctor -v
