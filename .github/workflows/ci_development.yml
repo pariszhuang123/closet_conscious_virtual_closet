@@ -13,17 +13,13 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17.0.9'
-      - name: Cache Dart SDK
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/dartsdk
-          key: ${{ runner.os }}-dart-sdk-v1-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-dart-sdk-v1-
       - uses: dart-lang/setup-dart@v1
         with:
           sdk: 'stable'
+      - name: Update PATH and Check Dart Version
+        run: |
+          echo "PATH=$(dirname $(which dart)):$PATH" >> $GITHUB_ENV
+          dart --version
       - uses: subosito/flutter-action@v1
         id: flutter
         with:
