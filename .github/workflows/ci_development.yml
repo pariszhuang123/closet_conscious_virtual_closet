@@ -32,6 +32,9 @@ jobs:
         with:
           flutter-version: '3.3.1'
 
+      - name: Check Bundled Dart SDK Version
+        run: flutter doctor -v
+
       - name: Install dependencies
         run: |
           PATH=$(dirname $(which dart)):$PATH
