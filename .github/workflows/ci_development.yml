@@ -2,7 +2,7 @@ name: Flutter CI Development
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build-and-test-development:
