@@ -46,7 +46,7 @@ jobs:
         run: flutter pub get
 
       - name: Run linting and static analysis
-        run: flutter analyze
+        run: flutter analyze --verbose
 
       - name: Run tests
         run: flutter test
