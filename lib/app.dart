@@ -10,8 +10,8 @@ class MyCustomApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Conscious Closet',
-      localizationsDelegates: [
+      title: 'Closet Conscious',
+      localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

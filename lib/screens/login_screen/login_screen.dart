@@ -4,7 +4,6 @@ import 'package:closet_conscious/screens/login_screen/login/login_with_google.da
 import 'package:closet_conscious/screens/login_screen/login/login_with_apple.dart'; // Adjust the import path as necessary
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
@@ -21,23 +20,23 @@ class MyHomePage extends StatelessWidget {
               // Your logo here
               SvgPicture.network(
                 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/SVG_CC_Logo.svg?t=2024-03-19T11%3A08%3A30.930Z',
-                placeholderBuilder: (BuildContext context) => CircularProgressIndicator(),
+                placeholderBuilder: (BuildContext context) => const CircularProgressIndicator(),
                 width: 100, // Set the width to a smaller value
                 height: 100, // Set the height to a smaller value
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20), // Add const
               Text(
                 loc.appName,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle( // Add const
                   color: Colors.black,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 20),
-              LoginWithGoogle(), // Display Google Sign-In button
-              LoginWithApple(), // Display Apple Sign-In button
+              const SizedBox(height: 20), // Add const
+              const LoginWithGoogle(), // Add const if LoginWithGoogle has no parameters changing internally
+              const LoginWithApple(), // Add const if LoginWithApple has no parameters changing internally
             ],
           ),
         ),
@@ -45,4 +44,3 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-

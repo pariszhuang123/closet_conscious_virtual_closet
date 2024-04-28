@@ -37,7 +37,7 @@ dependencies:
   logging_to_logcat: ^1.0.0
   logging: ^1.2.0
   google_sign_in: ^6.2.1
-  supabase_flutter: ^2.3.4
+  supabase_flutter: ^2.5.1
   fluttertoast: ^8.2.4
   flutter_signin_button: ^2.0.0
   flutter_svg: ^2.0.10+1
