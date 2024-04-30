@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:closet_conscious/generated/l10n.dart';
 import 'package:closet_conscious/screens/login_screen/login/login_with_google.dart'; // Adjust the import path as necessary
-import 'package:closet_conscious/screens/login_screen/login/login_with_apple.dart'; // Adjust the import path as necessary
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -36,7 +35,6 @@ class MyHomePage extends StatelessWidget {
               ),
               const SizedBox(height: 20), // Add const
               const LoginWithGoogle(), // Add const if LoginWithGoogle has no parameters changing internally
-              const LoginWithApple(), // Add const if LoginWithApple has no parameters changing internally
             ],
           ),
         ),
