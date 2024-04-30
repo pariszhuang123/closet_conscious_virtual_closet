@@ -18,9 +18,11 @@ class LoginWithGoogleState extends State<LoginWithGoogle> { // Renamed from _Log
   Widget build(BuildContext context) {
     final S loc = S.of(context);
 
+
     return SignInButton(
         Buttons.Google,
-        onPressed: ()  async {
+        text: loc.loginGoogle,
+      onPressed: ()  async {
           /// TODO: update the Web client ID with your own.
           ///
           /// Web Client ID that you registered with Google Cloud.
