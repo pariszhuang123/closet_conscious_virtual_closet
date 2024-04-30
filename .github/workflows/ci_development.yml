@@ -46,7 +46,7 @@ jobs:
         run: flutter pub get
 
       - name: Run linting and static analysis
-        run: flutter analyze --no fatal-warnings
+        run: flutter analyze --no-fatal-warnings
 
       - name: Run tests
         run: flutter test
