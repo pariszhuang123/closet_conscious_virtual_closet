@@ -55,7 +55,7 @@ flutter_intl:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  sign_in_with_apple: ^6.0.0
+  sign_in_with_apple: ^6.1.0
   integration_test:
     sdk: flutter
   intl_utils: ^2.8.7
