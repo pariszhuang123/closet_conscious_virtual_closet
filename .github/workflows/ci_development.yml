@@ -46,7 +46,7 @@ jobs:
         run: flutter pub get
 
       - name: Run linting and static analysis
-        run: flutter analyze --set-exit-if-error
+        run: flutter analyze
 
       - name: Run tests
         run: flutter test
