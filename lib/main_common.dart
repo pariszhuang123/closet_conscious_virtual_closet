@@ -24,7 +24,7 @@ Future<void> mainCommon(String environment) async {
 class MyApp extends StatelessWidget {
   final String environment;
 
-  const MyApp({Key? key, required this.environment}) : super(key: key);
+  const MyApp({super.key, required this.environment});
 
   @override
   Widget build(BuildContext context) {
