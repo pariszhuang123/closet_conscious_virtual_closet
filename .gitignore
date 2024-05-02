@@ -41,5 +41,7 @@ bin/
 ### Mac OS ###
 .DS_Store
 
+### Secrets ###
 .env// Add this line to exclude .env file from version control
+config/
 debug.keystore

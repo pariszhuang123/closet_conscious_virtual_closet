@@ -38,6 +38,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "bloc",
+      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/bloc-8.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/boolean_selector-2.1.1",
       "packageUri": "lib/",
@@ -168,6 +174,12 @@
       "rootUri": "file:///C:/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.2"
+    },
+    {
+      "name": "flutter_bloc",
+      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_bloc-8.1.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "flutter_dotenv",
@@ -398,6 +410,12 @@
       "languageVersion": "2.13"
     },
     {
+      "name": "logger",
+      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/logger-2.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "logging",
       "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/logging-1.2.0",
       "packageUri": "lib/",
@@ -438,6 +456,12 @@
       "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/mockito-5.4.4",
       "packageUri": "lib/",
       "languageVersion": "3.1"
+    },
+    {
+      "name": "nested",
+      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/nested-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "package_config",
@@ -540,6 +564,12 @@
       "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/process-5.0.2",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "provider",
+      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/provider-6.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "pub_semver",
@@ -872,7 +902,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-04-30T06:45:47.399697Z",
+  "generated": "2024-05-02T07:28:05.554781Z",
   "generator": "pub",
   "generatorVersion": "3.3.4"
 }
