@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:closet_conscious/core/authentication/services/google_sign_in_service.dart';
 import 'package:meta/meta.dart';
 
+
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 

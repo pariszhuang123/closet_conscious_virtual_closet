@@ -422,12 +422,6 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "logging_to_logcat",
-      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/logging_to_logcat-1.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "matcher",
       "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/matcher-0.12.16+1",
       "packageUri": "lib/",
@@ -902,7 +896,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-05-02T07:28:05.554781Z",
+  "generated": "2024-05-03T10:54:16.959447Z",
   "generator": "pub",
   "generatorVersion": "3.3.4"
 }
