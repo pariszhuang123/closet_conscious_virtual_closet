@@ -5,10 +5,12 @@ import 'package:closet_conscious/core/authentication/bloc/authentication_bloc.da
 import 'package:closet_conscious/core/authentication/services/google_sign_in_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:closet_conscious/app.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> mainCommon(String environment) async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await dotenv.load(fileName: ".env");
   // Initialize the configuration reader with the environment
   await ConfigReader.initialize(environment);
 
