@@ -11,7 +11,6 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
-
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
@@ -24,7 +23,14 @@ if (flutterVersionName == null) {
 
 apply plugin: 'com.android.application'
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+           keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
+
     namespace "com.example.closetconscious"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
@@ -45,12 +51,26 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.closetconscious"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 33
+        minSdkVersion 26
+        targetSdkVersion 33
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+    }
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+        debug {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
     }
 
     buildTypes {
@@ -58,7 +78,6 @@ android {
         debug {
             signingConfig signingConfigs.debug
             debuggable true
-            // Add the following line to enable the signing report
             signingConfig signingConfigs.debug
         }
 
@@ -74,4 +93,8 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    // Add Google Sign-In dependency
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+}
+

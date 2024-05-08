@@ -45,3 +45,4 @@ bin/
 .env// Add this line to exclude .env file from version control
 config/
 debug.keystore
+/android/key.properties
