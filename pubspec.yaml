@@ -47,6 +47,9 @@ dependencies:
   provider: ^6.1.2
   meta: ^1.11.0
   bloc: ^8.1.4
+  dartz: ^0.10.1
+  connectivity_plus: ^6.0.2
+  internet_connection_checker: ^1.0.0
 generate: true
 flutter_intl:
   enable: true
