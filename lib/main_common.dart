@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:closet_conscious/config_reader.dart';
-import 'package:closet_conscious/core/supabase_service.dart';
-import 'package:closet_conscious/core/authentication/bloc/authentication_bloc.dart';
-import 'package:closet_conscious/core/authentication/services/google_sign_in_service.dart';
+import 'package:closet_conscious/features/authentication/data/services/supabase_service.dart';
+import 'package:closet_conscious/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:closet_conscious/features/authentication/data/services/google_sign_in_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:closet_conscious/app.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
