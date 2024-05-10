@@ -82,6 +82,10 @@ collection
 2.18
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.18.0/
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.18.0/lib/
+color
+2.12
+file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/color-3.0.0/
+file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/color-3.0.0/lib/
 connectivity_plus
 3.2
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/connectivity_plus-6.0.3/
@@ -102,6 +106,10 @@ dart_style
 3.0
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/dart_style-2.3.6/
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/dart_style-2.3.6/lib/
+dartx
+2.12
+file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/dartx-1.2.0/
+file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/dartx-1.2.0/lib/
 dartz
 2.12
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/dartz-0.10.1/
@@ -134,6 +142,14 @@ flutter_dotenv
 2.12
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_dotenv-5.1.0/
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_dotenv-5.1.0/lib/
+flutter_gen
+2.17
+file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_gen-5.4.0/
+file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_gen-5.4.0/lib/
+flutter_gen_core
+2.17
+file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_gen_core-5.4.0/
+file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_gen_core-5.4.0/lib/
 flutter_lints
 3.1
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-3.0.2/
@@ -486,6 +502,10 @@ test_api
 3.0
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/test_api-0.6.1/
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/test_api-0.6.1/lib/
+time
+2.12
+file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/time-2.1.4/
+file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/time-2.1.4/lib/
 timing
 2.14
 file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/timing-1.0.1/

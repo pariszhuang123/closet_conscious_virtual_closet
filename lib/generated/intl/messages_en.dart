@@ -38,6 +38,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Login with your social account"),
         "loginSuccess": MessageLookupByLibrary.simpleMessage(
             "Welcome back! You are now logged in"),
+        "offlineStatus":
+            MessageLookupByLibrary.simpleMessage("You are currently offline"),
+        "retryConnection": MessageLookupByLibrary.simpleMessage("Retry"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign Up")
       };

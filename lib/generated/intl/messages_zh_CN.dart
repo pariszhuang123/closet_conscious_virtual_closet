@@ -31,6 +31,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginGoogle": MessageLookupByLibrary.simpleMessage("使用谷歌登录"),
         "loginSocialAccount": MessageLookupByLibrary.simpleMessage("登录您的社交帐户"),
         "loginSuccess": MessageLookupByLibrary.simpleMessage("欢迎回来！您现在已登录"),
+        "offlineStatus": MessageLookupByLibrary.simpleMessage("离线状态"),
+        "retryConnection": MessageLookupByLibrary.simpleMessage("重试连接"),
         "signIn": MessageLookupByLibrary.simpleMessage("登入"),
         "signUp": MessageLookupByLibrary.simpleMessage("注册")
       };

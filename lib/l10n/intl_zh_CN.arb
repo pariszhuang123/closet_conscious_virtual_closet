@@ -10,5 +10,7 @@
   "SignupGoogle": "使用谷歌注册",
   "SignupApple": "使用苹果注册",
   "loginSuccess": "欢迎回来！您现在已登录",
-  "loginFailed" : "登录失败。请检查您的凭据并重试"
+  "loginFailed" : "登录失败。请检查您的凭据并重试",
+  "offlineStatus" : "离线状态",
+  "retryConnection" : "重试连接"
 }

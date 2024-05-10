@@ -16,12 +16,10 @@ class MyHomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Your logo here
-              SvgPicture.network(
-                'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/SVG_CC_Logo.svg?t=2024-03-19T11%3A08%3A30.930Z',
-                placeholderBuilder: (BuildContext context) => const CircularProgressIndicator(),
-                width: 100, // Set the width to a smaller value
-                height: 100, // Set the height to a smaller value
+              SvgPicture.asset(
+                'assets/images/SVG_CC_Logo.svg',
+                width: 100, // Adjust the width as needed
+                height: 100, // Adjust the height as needed
               ),
               const SizedBox(height: 20), // Add const
               Text(

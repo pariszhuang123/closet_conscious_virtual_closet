@@ -159,6 +159,26 @@ class S {
       args: [],
     );
   }
+
+  /// `You are currently offline`
+  String get offlineStatus {
+    return Intl.message(
+      'You are currently offline',
+      name: 'offlineStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get retryConnection {
+    return Intl.message(
+      'Retry',
+      name: 'retryConnection',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
