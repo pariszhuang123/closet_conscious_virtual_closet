@@ -12,10 +12,17 @@ class SignInWithGoogle extends UseCase<User, NoParams> {
   @override
   Future<Either<Failure, User>> call(NoParams params) async {
     try {
-      final user = await repository.signInWithGoogle();
-      return Right(user!);
+      final either = await repository.signInWithGoogle();
+      return either.fold(
+            (failure) => Left(failure),
+            (user) => Right(user),
+      );
     } catch (error) {
       return const Left(ServerFailure());
     }
   }
 }
+
+
+
+

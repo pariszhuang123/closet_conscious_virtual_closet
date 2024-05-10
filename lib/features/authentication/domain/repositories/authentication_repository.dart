@@ -1,6 +1,11 @@
-import '../entities/user.dart'; // Adjust the path as needed based on your project structure
+import 'package:dartz/dartz.dart';
+import '../../../../core/error/failures.dart';
+import '../../domain/entities/user.dart';
 
 abstract class AuthenticationRepository {
-  Future<User?> signInWithGoogle();
-  Future<void> signOut();
+  Future<Either<Failure, void>> signOut();
+
+  // Sign in or sign up with Google
+  Future<Either<Failure, User>> signInWithGoogle();
 }
+
