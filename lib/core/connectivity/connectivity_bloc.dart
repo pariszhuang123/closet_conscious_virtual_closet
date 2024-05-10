@@ -9,25 +9,32 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   final Connectivity _connectivity = Connectivity();
 
   ConnectivityBloc() : super(ConnectivityInitial()) {
+    // Handle automatic connectivity changes
     _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
-      // Directly calling a function to handle the connectivity change
-      _handleConnectivityChange(result);
+      add(ConnectivityResultChanged(result));
     } as void Function(List<ConnectivityResult> event)?);
+
+    // Register event handlers
+    on<ConnectivityResultChanged>(_handleConnectivityChange);
+    on<CheckConnectivity>(_onCheckConnectivity);
   }
 
-  void _handleConnectivityChange(ConnectivityResult result) {
-    // Convert the connectivity result into a more usable boolean for connected status
-    add(ConnectivityResultChanged(result));
+  void _handleConnectivityChange(ConnectivityResultChanged event, Emitter<ConnectivityState> emit) async {
+    bool isConnected = await _updateConnectionStatus(event.result);
+    if (isConnected) {
+      emit(ConnectivityOnline());
+    } else {
+      emit(ConnectivityOffline());
+    }
   }
 
-  Stream<ConnectivityState> mapEventToState(ConnectivityEvent event) async* {
-    if (event is ConnectivityResultChanged) {
-      bool isConnected = await _updateConnectionStatus(event.result);
-      if (isConnected) {
-        yield ConnectivityOnline();
-      } else {
-        yield ConnectivityOffline();
-      }
+  void _onCheckConnectivity(CheckConnectivity event, Emitter<ConnectivityState> emit) async {
+    var result = await Connectivity().checkConnectivity();
+    bool isConnected = await _updateConnectionStatus(result as ConnectivityResult);
+    if (isConnected) {
+      emit(ConnectivityOnline());
+    } else {
+      emit(ConnectivityOffline());
     }
   }
 
