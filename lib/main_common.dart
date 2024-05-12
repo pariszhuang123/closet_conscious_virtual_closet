@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:closet_conscious/config_reader.dart';
-import 'package:closet_conscious/features/authentication/data/services/supabase_service.dart';
-import 'package:closet_conscious/features/authentication/presentation/bloc/authentication_bloc.dart';
-import 'package:closet_conscious/features/authentication/data/services/google_sign_in_service.dart';
-import 'package:closet_conscious/core/connectivity/connectivity_bloc.dart';
+import 'user_management/authentication/data/services/supabase_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:closet_conscious/app.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'core/connectivity/service_locator.dart' as connectivity_locator;
+import 'user_management/service_locator.dart' as user_management_locator;
+import 'core/connectivity/presentation/blocs/connectivity_bloc.dart';
+import 'user_management/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:closet_conscious/app.dart';
 
 Future<void> mainCommon(String environment) async {
   WidgetsFlutterBinding.ensureInitialized();
 
-
   await dotenv.load(fileName: ".env");
-  // Initialize the configuration reader with the environment
   await ConfigReader.initialize(environment);
-
-  // Initialize Supabase with the environment-specific URL and key
   await SupabaseService.initialize();
+
+  connectivity_locator.setupConnectivityLocator();
+  user_management_locator.setupUserManagementLocator();
 
   // Run the app
   runApp(MyApp(
@@ -42,10 +43,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthenticationBloc>(
-          create: (_) => AuthenticationBloc(GoogleSignInService()),
+          create: (_) => user_management_locator.locator<AuthenticationBloc>(),
         ),
         BlocProvider<ConnectivityBloc>(
-          create: (_) => ConnectivityBloc(),
+          create: (_) => connectivity_locator.locator<ConnectivityBloc>(),
         ),
       ],
 

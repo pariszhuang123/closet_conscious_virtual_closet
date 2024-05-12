@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:closet_conscious/generated/l10n.dart';
-import 'package:closet_conscious/features/authentication/presentation/pages/login_screen.dart';
+import 'generated/l10n.dart';
+import 'user_management/authentication/presentation/pages/login_screen.dart';
 
 class MyCustomApp extends StatelessWidget {
   final Color primaryColor;
