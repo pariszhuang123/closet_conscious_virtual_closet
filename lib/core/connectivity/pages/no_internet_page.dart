@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:closet_conscious/core/connectivity/presentation/blocs/connectivity_bloc.dart';
-import 'package:closet_conscious/generated/l10n.dart';
+import '../../../generated/l10n.dart';
 
 class NoInternetPage extends StatelessWidget {
   const NoInternetPage({super.key});

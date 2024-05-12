@@ -1,31 +1,16 @@
 import 'dart:async';
-import '../datasources/network_info.dart';
+
+import '../datasources/network_info.dart';  // Ensure this contains a correct implementation of NetworkChecker with a connectivityStream
 import '../../domain/repositories/connectivity_repository.dart';
 
-class ConnectivityRepositoryImpl extends ConnectivityRepository {
+class ConnectivityRepositoryImpl implements ConnectivityRepository {
   final NetworkChecker _networkChecker;
 
-  ConnectivityRepositoryImpl({
-    required NetworkChecker networkChecker,
-  }) : _networkChecker = networkChecker;
+  ConnectivityRepositoryImpl(this._networkChecker);
 
   @override
-  Future<bool> checkConnectivity() async {
-    bool hasInternetAccess = await _networkChecker.connectivityStream.first;
-    return hasInternetAccess;
-  }
-
-  @override
-  Stream<ConnectivityState> listenToConnectivityChanges() {
-    return _networkChecker.connectivityStream.map(_mapConnectivityState);
-  }
-
-  ConnectivityState _mapConnectivityState(bool hasInternetAccess) {
-    if (hasInternetAccess) {
-      return ConnectivityState.online;
-    } else {
-      return ConnectivityState.offline;
-    }
-  }
-
+  Stream<ConnectivityStatus> get connectivityStream =>
+      _networkChecker.connectivityStream.map((hasInternet) {
+        return hasInternet ? ConnectivityStatus.online : ConnectivityStatus.offline;
+      });
 }
