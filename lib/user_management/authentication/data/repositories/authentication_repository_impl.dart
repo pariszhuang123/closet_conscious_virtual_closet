@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:fpdart/fpdart.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/authentication_repository.dart';
 import '../../../../core/error/failures.dart';
@@ -15,7 +15,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       final user = await remoteDataSource.signInWithGoogle();
       return Right(user);
     } on Exception {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
     }
   }
 
@@ -25,7 +25,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       await remoteDataSource.signOut();
       return const Right(null);
     } on Exception {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
     }
   }
 }
