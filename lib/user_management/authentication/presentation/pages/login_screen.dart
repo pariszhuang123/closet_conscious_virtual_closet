@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:closet_conscious/generated/l10n.dart';
-import 'package:closet_conscious/features/authentication/presentation/widgets/login_with_google.dart'; // Adjust the import path as necessary
+import '../../presentation/widgets/login_with_google.dart'; // Adjust the import path as necessary
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MyHomePage extends StatelessWidget {
