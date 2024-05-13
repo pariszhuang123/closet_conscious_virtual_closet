@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:closet_conscious/core/error/failures.dart';
 
 abstract class UseCase<Type, Params> {

@@ -4,7 +4,7 @@ import 'user_management/authentication/data/services/supabase_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'core/connectivity/service_locator.dart' as connectivity_locator;
+import 'core/connectivity/connectivity_service_locator.dart' as connectivity_locator;
 import 'user_management/service_locator.dart' as user_management_locator;
 import 'core/connectivity/presentation/blocs/connectivity_bloc.dart';
 import 'user_management/authentication/presentation/bloc/authentication_bloc.dart';

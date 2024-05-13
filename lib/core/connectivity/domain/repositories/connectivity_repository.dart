@@ -1,6 +1,5 @@
 import 'dart:async';
-
-enum ConnectivityStatus { online, offline }
+import 'connectivity_status.dart';
 
 abstract class ConnectivityRepository {
   Stream<ConnectivityStatus> get connectivityStream;
