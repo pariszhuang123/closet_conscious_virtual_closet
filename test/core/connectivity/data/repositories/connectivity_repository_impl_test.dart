@@ -1,10 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:mockito/annotations.dart';
+
 import 'package:closet_conscious/core/connectivity/data/datasources/network_info.dart';
 import 'package:closet_conscious/core/connectivity/domain/repositories/connectivity_status.dart';
 import 'package:closet_conscious/core/connectivity/data/repositories/connectivity_repository_impl.dart';
 
-class MockNetworkChecker extends Mock implements NetworkChecker {}
+import 'connectivity_repository_impl_test.mocks.dart';
+
+@GenerateMocks([NetworkChecker])  // Annotate the class to generate the mock
 
 void main() {
   group('ConnectivityRepositoryImpl', () {

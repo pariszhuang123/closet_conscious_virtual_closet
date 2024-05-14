@@ -1,12 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:closet_conscious/core/connectivity/presentation/blocs/connectivity_bloc.dart';
 import 'package:closet_conscious/core/connectivity/domain/repositories/connectivity_status.dart';
 import 'package:closet_conscious/core/connectivity/application/connectivity_use_case.dart';
 
-class MockConnectivityUseCase extends Mock implements ConnectivityUseCase {}
+import 'connectivity_bloc_test.mocks.dart'; // Import the generated mocks file
 
+@GenerateMocks([ConnectivityUseCase]) // Annotate the class to generate the mock
 void main() {
   group('ConnectivityBloc', () {
     late MockConnectivityUseCase mockConnectivityUseCase;
