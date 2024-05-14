@@ -21,19 +21,20 @@ void main() {
               (_) => Stream.value(ConnectivityStatus.online)
       );
 
-      expectLater(connectivityUseCase.statusStream, emitsInOrder([
+      await expectLater(connectivityUseCase.statusStream, emits([
         ConnectivityStatus.online,
       ]));
     });
 
     test('should emit offline when no connectivity is available', () async {
-      when(mockConnectivityRepository.connectivityStream).thenAnswer(
-              (_) => Stream.value(ConnectivityStatus.offline)
-      );
+      // Create a mock stream that emits the expected event
+      final mockStream = Stream.value(ConnectivityStatus.offline);
 
-      expectLater(connectivityUseCase.statusStream, emitsInOrder([
-        ConnectivityStatus.offline,
-      ]));
+      // Set up the mock repository to return the mock stream
+      when(mockConnectivityRepository.connectivityStream).thenAnswer((_) => mockStream);
+
+      // Use expectLater to assert that the statusStream emits the expected event
+      await expectLater(connectivityUseCase.statusStream, emits(ConnectivityStatus.offline));
     });
 
     test('should check initial connectivity status upon initialization', () async {

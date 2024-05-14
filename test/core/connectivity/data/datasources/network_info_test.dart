@@ -1,45 +1,72 @@
+import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:closet_conscious/core/connectivity/data/datasources/network_info.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:closet_conscious/core/connectivity/data/datasources/network_info.dart';
+import 'network_info_test.mocks.dart';
 
-class MockConnectivityStreamController extends Mock implements ConnectivityStreamController {}
-
+@GenerateMocks([ConnectivityStreamController])
 void main() {
   late NetworkChecker networkChecker;
   late MockConnectivityStreamController mockStreamController;
 
   setUp(() {
     mockStreamController = MockConnectivityStreamController();
-    networkChecker = NetworkChecker(mockStreamController);  // This should not cause the error if NetworkChecker expects a ConnectivityStreamController
+    networkChecker = NetworkChecker(mockStreamController);
   });
 
   test('should emit true when internet connection is available', () async {
-    // Arrange
-    when(mockStreamController.stream).thenAnswer(
-            (_) => Stream.value(true)  // Simulating an internet connection available
-    );
+    print('Setting up test: should emit true when internet connection is available');
+    final streamController = StreamController<bool>.broadcast();
+    when(mockStreamController.stream).thenAnswer((_) => streamController.stream);
 
-    // Act and Assert
-    final result = await networkChecker.connectivityStream.first;
+    // Manually listen to the stream to debug events
+    streamController.stream.listen((event) {
+      print('Stream event received: $event');
+    });
+
+    // Act
+    Future.microtask(() => streamController.add(true));
+    print('Added true to stream');
+
+    final result = await networkChecker.connectivityStream.first.timeout(const Duration(seconds: 5));
+    print('Received result: $result');
+
+    // Assert
     expect(result, isTrue);
+    await streamController.close();
   });
 
   test('should emit false when internet connection is not available', () async {
-    // Arrange
-    when(mockStreamController.stream).thenAnswer(
-            (_) => Stream.value(false)  // Simulating no internet connection
-    );
+    print('Setting up test: should emit false when internet connection is not available');
+    final streamController = StreamController<bool>.broadcast();
+    when(mockStreamController.stream).thenAnswer((_) => streamController.stream);
 
-    // Act and Assert
-    final result = await networkChecker.connectivityStream.first;
+    // Manually listen to the stream to debug events
+    streamController.stream.listen((event) {
+      print('Stream event received: $event');
+    });
+
+    // Act
+    Future.microtask(() => streamController.add(false));
+    print('Added false to stream');
+
+    final result = await networkChecker.connectivityStream.first.timeout(const Duration(seconds: 5));
+    print('Received result: $result');
+
+    // Assert
     expect(result, isFalse);
+    await streamController.close();
   });
 
   test('should dispose the stream controller when disposed', () {
+    print('Setting up test: should dispose the stream controller when disposed');
+
     // Act
     networkChecker.dispose();
+    print('Disposed NetworkChecker');
 
     // Assert
-    verify(mockStreamController.dispose()).called(1);  // Verify that dispose was called on the mock
+    verify(mockStreamController.dispose()).called(1);
   });
 }

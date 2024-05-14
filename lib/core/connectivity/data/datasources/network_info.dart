@@ -29,21 +29,26 @@ class BroadcastStreamController implements ConnectivityStreamController {
 // NetworkChecker class
 class NetworkChecker {
   final ConnectivityStreamController _connectivityStreamController;
+  late StreamSubscription<bool> _subscription;
 
   // Constructor now accepts a ConnectivityStreamController
   NetworkChecker(this._connectivityStreamController) {
-    _checkInternetConnection();
+    _subscription = _checkInternetConnection();
   }
 
   Stream<bool> get connectivityStream => _connectivityStreamController.stream;
 
-  Future<void> _checkInternetConnection() async {
+  StreamSubscription<bool> _checkInternetConnection() {
     // Simulating an external class to check internet connection
-    bool hasInternetAccess = await InternetConnection().hasInternetAccess; // Ensure this class and method exist and are correct
-    _connectivityStreamController.addConnectivity(hasInternetAccess);
+    return Stream.periodic(const Duration(seconds: 1)).asyncMap((_) async {
+      bool hasInternetAccess = await InternetConnection().hasInternetAccess;
+      _connectivityStreamController.addConnectivity(hasInternetAccess);
+      return hasInternetAccess;
+    }).listen((event) {});
   }
 
   void dispose() {
+    _subscription.cancel();
     _connectivityStreamController.dispose();
   }
 }
