@@ -7,6 +7,7 @@ on:
 jobs:
   deploy_dev_supabase:
     runs-on: ubuntu-latest
+
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       SUPABASE_DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
