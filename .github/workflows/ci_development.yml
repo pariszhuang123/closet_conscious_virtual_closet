@@ -4,6 +4,7 @@ on:
   push:
     branches: [ master ]
 
+
 jobs:
   deploy_dev_supabase:
     runs-on: ubuntu-latest
