@@ -13,6 +13,7 @@ jobs:
       SUPABASE_DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
       SUPABASE_PROJECT_ID: ${{ secrets.DEV_PROJECT_ID }}
 
+
     steps:
       - uses: actions/checkout@v4
       - uses: supabase/setup-cli@v1
