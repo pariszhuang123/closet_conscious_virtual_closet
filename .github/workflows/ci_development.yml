@@ -4,7 +4,6 @@ on:
   push:
     branches: [ master ]
 
-
 jobs:
   deploy_dev_supabase:
     runs-on: ubuntu-latest
@@ -14,7 +13,6 @@ jobs:
       SUPABASE_DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
       SUPABASE_PROJECT_ID: ${{ secrets.DEV_PROJECT_ID }}
 
-
     steps:
       - uses: actions/checkout@v4
       - uses: supabase/setup-cli@v1
@@ -23,3 +21,64 @@ jobs:
 
       - run: supabase link --project-ref $SUPABASE_PROJECT_ID
       - run: supabase db push
+
+  deploy_dev_ui:
+    needs: deploy_dev_supabase
+    name: build
+    runs-on: ubuntu-latest
+    env:
+      ENV: dev # Set the environment variable for development
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17.0.9'
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 'stable'
+
+      - name: Update PATH and Check Dart Version
+        run: |
+          echo "PATH=$(dirname $(which dart)):$PATH" >> $GITHUB_ENV
+          dart --version
+
+      - name: Print environment PATH
+        run: echo $PATH
+
+      - uses: subosito/flutter-action@v1
+        id: flutter
+        with:
+          flutter-version: '3.19.6'
+
+      - name: Check Bundled Dart SDK Version
+        run: flutter doctor -v
+
+      - name: Create app_config_dev.json
+        run: |
+          mkdir -p config
+          echo '{
+            "SUPABASE_URL": "${{ secrets.SUPABASE_URL }}",
+            "SUPABASE_ANON_KEY": "${{ secrets.SUPABASE_ANON_KEY }}",
+            "webClientId": "${{ secrets.WEB_CLIENT_ID }}",
+            "iosClientId": "${{ secrets.IOS_CLIENT_ID }}"
+          }' > config/app_config_dev.json
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run linting and static analysis
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build APK for development
+        run: flutter build apk --debug --target=lib/main_prod.dart --dart-define=ENV=$ENV
+
+      - name: Build iOS for development
+        run: flutter build ios --debug --target=lib/main_prod.dart --dart-define=ENV=$ENV
+
