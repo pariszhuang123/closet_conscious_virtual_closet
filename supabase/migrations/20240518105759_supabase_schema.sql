@@ -66,7 +66,7 @@ CREATE TABLE swaps (
     swap_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     status TEXT CHECK (status IN ('pending', 'completed', 'initiated', 'cancelled')) DEFAULT 'pending',
     created_at TIMESTAMPTZ DEFAULT now(),
-    updated_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
 );
 
 -- Premium Services Table
@@ -78,7 +78,7 @@ CREATE TABLE premium_services (
     activation_date TIMESTAMPTZ,
     status TEXT CHECK (status IN ('active', 'inactive')) DEFAULT 'active',
     created_at TIMESTAMPTZ DEFAULT now(),
-    updated_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
 );
 
 -- Challenges Table
@@ -105,7 +105,7 @@ CREATE TABLE user_goals (
     current_streak INTEGER DEFAULT 0,
     highest_streak INTEGER DEFAULT 0,
     created_at TIMESTAMPTZ DEFAULT now(),
-    updated_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
 );
 
 -- High-Frequency User Stats Table
