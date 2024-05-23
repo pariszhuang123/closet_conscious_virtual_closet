@@ -57,6 +57,17 @@ jobs:
       - name: Check Bundled Dart SDK Version
         run: flutter doctor -v
 
+      - name: Decode and save keystore files
+        run: |
+          echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > closetconscious/android/debug.keystore
+
+      - name: Setup key.properties
+        run: |
+          echo "debugStoreFile=closetconscious/android/debug.keystore" >> key.properties
+          echo "debugStorePassword=${{ secrets.DEBUG_STORE_PASSWORD }}" >> key.properties
+          echo "debugKeyAlias=${{ secrets.DEBUG_KEY_ALIAS }}" >> key.properties
+          echo "debugKeyPassword=${{ secrets.DEBUG_KEY_PASSWORD }}" >> key.properties
+
       - name: Create app_config_dev.json
         run: |
           mkdir -p config
