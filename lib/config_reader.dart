@@ -4,27 +4,44 @@ import 'package:logger/logger.dart';
 
 class ConfigReader {
   static late Map<String, dynamic> _config;
-  static late String _environment;
   static final Logger _logger = Logger();
 
   static Future<void> initialize(String environment) async {
-    _environment = environment;  // Save the environment
-    _logger.i('Loading configuration for environment: $_environment');
+    final configFileName = 'config/app_config_$environment.json'; // Construct the file name based on environment
+    _logger.i('Loading configuration for environment: $environment');
 
-    final configString = await rootBundle.loadString('config/app_config.json');
+    final configString = await rootBundle.loadString(configFileName);
     _config = json.decode(configString) as Map<String, dynamic>;
-    _logger.i('Configuration loaded: $_config');
+    _logger.i('Configuration loaded successfully');
   }
 
   static String getSupabaseUrl() {
-    var url = _config[_environment]['SUPABASE_URL'] as String;
-    _logger.i('Fetched Supabase URL: $url');
+    var url = _config['SUPABASE_URL'] as String;
+    _logger.i('Fetched Supabase URL'); // Avoid logging the actual URL
     return url;
   }
 
   static String getSupabaseAnonKey() {
-    var anonKey = _config[_environment]['SUPABASE_ANON_KEY'] as String;
-    _logger.i('Fetched Supabase AnonKey: $anonKey');
+    var anonKey = _config['SUPABASE_ANON_KEY'] as String;
+    _logger.i('Fetched Supabase Anon Key'); // Avoid logging the actual key
     return anonKey;
+  }
+
+  static String getSupabaseProjectId() {
+    var projectId = _config['SUPABASE_PROJECT_ID'] as String;
+    _logger.i('Fetched Supabase Project ID'); // Avoid logging the actual key
+    return projectId;
+  }
+
+  static String getWebClientId() {
+    var webClientId = _config['WEB_CLIENT_ID'] as String;
+    _logger.i('Fetched Web Client ID'); // Avoid logging the actual ID
+    return webClientId;
+  }
+
+  static String getIosClientId() {
+    var iosClientId = _config['IOS_CLIENT_ID'] as String;
+    _logger.i('Fetched iOS Client ID'); // Avoid logging the actual ID
+    return iosClientId;
   }
 }

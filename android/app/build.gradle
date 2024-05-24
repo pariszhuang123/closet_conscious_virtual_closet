@@ -66,7 +66,12 @@ android {
             storePassword keystoreProperties['debugStorePassword']
         }
 
-
+        release {
+            keyAlias keystoreProperties['prodKeyAlias']
+            keyPassword keystoreProperties['prodKeyPassword']
+            storeFile file('closetconscious/android/closet_conscious_release.keystore')
+            storePassword keystoreProperties['prodStorePassword']
+        }
     }
 
     buildTypes {
@@ -77,6 +82,11 @@ android {
             signingConfig signingConfigs.debug
         }
 
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
 
     }
 }
