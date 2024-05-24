@@ -1,4 +1,4 @@
-name: Flutter CI Development
+name: ClosetConscious CI Trunk Based
 
 on:
   push:
