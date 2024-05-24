@@ -79,12 +79,13 @@ android {
         debug {
             signingConfig signingConfigs.debug
             debuggable true
-            signingConfig signingConfigs.debug
+            shrinkResources false
         }
 
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
