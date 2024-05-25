@@ -95,7 +95,7 @@ jobs:
         run: flutter test
 
       - name: Build APK for development
-        run: flutter build apk --debug --target=lib/main_dev.dart --dart-define=ENV=$ENV --stacktrace
+        run: flutter build apk --debug --target=lib/main_dev.dart --dart-define=ENV=$ENV --verbose
 
       - name: Upload development APK
         uses: actions/upload-artifact@v2
