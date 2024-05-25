@@ -64,19 +64,16 @@ jobs:
       - name: Create directory for keystore
         run: mkdir -p app
 
-      - name: Decode and save keystore files
-        run: |
-          echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > debug.keystore
-
-      - name: List contents of app directory
-        run: ls -la app
-
       - name: Setup key.properties
         run: |
           echo "debugStoreFile=debug.keystore" >> key.properties
           echo "debugStorePassword=${{ secrets.DEBUG_STORE_PASSWORD }}" >> key.properties
           echo "debugKeyAlias=${{ secrets.DEBUG_KEY_ALIAS }}" >> key.properties
           echo "debugKeyPassword=${{ secrets.DEBUG_KEY_PASSWORD }}" >> key.properties
+
+      - name: Decode and save keystore files
+        run: |
+          echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > debug.keystore
 
       - name: Create app_config_dev.json
         run: |
