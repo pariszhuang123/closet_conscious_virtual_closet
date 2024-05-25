@@ -12,4 +12,4 @@ GeneratedPluginRegistrant.java
 **/*.keystore
 **/*.jks
 /app/debug.keystore.base64
-/app/closet_conscious_release.keystor.base64
+/app/closet_conscious_release.keystore.base64
