@@ -33,15 +33,15 @@ CREATE POLICY "Allow individual user update"
 ON users
 FOR UPDATE USING (user_id = auth.uid() AND archived = false);
 
-CREATE POLICY "Allow admin access"
+CREATE POLICY "Allow supabase_admin access"
 ON users
-FOR ALL USING (role = 'admin');
+FOR ALL USING (role = 'supabase_admin');
 
--- Prevent deletion of users except by admin
+-- Prevent deletion of users except by supabase_admin
 CREATE POLICY "Prevent user deletion"
 ON users
 FOR DELETE TO PUBLIC
-USING (role = 'admin');
+USING (role = 'supabase_admin');
 
 -- Policies for items table
 CREATE POLICY "Allow user to access own items"
@@ -52,11 +52,11 @@ CREATE POLICY "Allow user to modify own items"
 ON items
 FOR UPDATE USING (user_id = auth.uid() AND archived = false);
 
--- Prevent deletion of items except by admin
+-- Prevent deletion of items except by supabase_admin
 CREATE POLICY "Prevent item deletion"
 ON items
 FOR DELETE TO PUBLIC
-USING (role = 'admin');
+USING (role = 'supabase_admin');
 
 CREATE POLICY "Allow user to insert items"
 ON items
@@ -71,11 +71,11 @@ CREATE POLICY "Allow user to modify own outfits"
 ON outfits
 FOR UPDATE USING (user_id = auth.uid() AND archived = false);
 
--- Prevent deletion of outfits except by admin
+-- Prevent deletion of outfits except by supabase_admin
 CREATE POLICY "Prevent outfit deletion"
 ON outfits
 FOR DELETE TO PUBLIC
-USING (role = 'admin');
+USING (role = 'supabase_admin');
 
 CREATE POLICY "Allow user to insert outfits"
 ON outfits
@@ -90,11 +90,11 @@ CREATE POLICY "Allow user to modify own outfit items"
 ON outfit_items
 FOR UPDATE USING (user_id = auth.uid() AND archived = false);
 
--- Prevent deletion of outfit items except by admin
+-- Prevent deletion of outfit items except by supabase_admin
 CREATE POLICY "Prevent outfit item deletion"
 ON outfit_items
 FOR DELETE TO PUBLIC
-USING (role = 'admin');
+USING (role = 'supabase_admin');
 
 CREATE POLICY "Allow user to insert outfit items"
 ON outfit_items
@@ -109,11 +109,11 @@ CREATE POLICY "Allow user to modify own disliked outfit items"
 ON disliked_outfit_items
 FOR UPDATE USING (user_id = auth.uid() AND archived = false);
 
--- Prevent deletion of disliked outfit items except by admin
+-- Prevent deletion of disliked outfit items except by supabase_admin
 CREATE POLICY "Prevent disliked outfit item deletion"
 ON disliked_outfit_items
 FOR DELETE TO PUBLIC
-USING (role = 'admin');
+USING (role = 'supabase_admin');
 
 CREATE POLICY "Allow user to insert disliked outfit items"
 ON disliked_outfit_items
@@ -128,11 +128,11 @@ CREATE POLICY "Allow user to modify own swaps"
 ON swaps
 FOR UPDATE USING (owner_id = auth.uid() AND archived = false);
 
--- Prevent deletion of swaps except by admin
+-- Prevent deletion of swaps except by supabase_admin
 CREATE POLICY "Prevent swap deletion"
 ON swaps
 FOR DELETE TO PUBLIC
-USING (role = 'admin');
+USING (role = 'supabase_admin');
 
 CREATE POLICY "Allow user to insert swaps"
 ON swaps
@@ -147,11 +147,11 @@ CREATE POLICY "Allow user to modify own premium services"
 ON premium_services
 FOR UPDATE USING (user_id = auth.uid() AND archived = false);
 
--- Prevent deletion of premium services except by admin
+-- Prevent deletion of premium services except by supabase_admin
 CREATE POLICY "Prevent premium service deletion"
 ON premium_services
 FOR DELETE TO PUBLIC
-USING (role = 'admin');
+USING (role = 'supabase_admin');
 
 CREATE POLICY "Allow user to insert premium services"
 ON premium_services
@@ -166,11 +166,11 @@ CREATE POLICY "Allow user to modify own challenges"
 ON challenges
 FOR UPDATE USING (user_id = auth.uid() AND archived = false);
 
--- Prevent deletion of challenges except by admin
+-- Prevent deletion of challenges except by supabase_admin
 CREATE POLICY "Prevent challenge deletion"
 ON challenges
 FOR DELETE TO PUBLIC
-USING (role = 'admin');
+USING (role = 'supabase_admin');
 
 CREATE POLICY "Allow user to insert challenges"
 ON challenges
@@ -185,11 +185,11 @@ CREATE POLICY "Allow user to modify own goals"
 ON user_goals
 FOR UPDATE USING (user_id = auth.uid() AND archived = false);
 
--- Prevent deletion of user goals except by admin
+-- Prevent deletion of user goals except by supabase_admin
 CREATE POLICY "Prevent user goal deletion"
 ON user_goals
 FOR DELETE TO PUBLIC
-USING (role = 'admin');
+USING (role = 'supabase_admin');
 
 CREATE POLICY "Allow user to insert goals"
 ON user_goals
@@ -204,11 +204,11 @@ CREATE POLICY "Allow user to modify own high freq stats"
 ON user_high_freq_stats
 FOR UPDATE USING (user_id = auth.uid() AND archived = false);
 
--- Prevent deletion of user high freq stats except by admin
+-- Prevent deletion of user high freq stats except by supabase_admin
 CREATE POLICY "Prevent user high freq stat deletion"
 ON user_high_freq_stats
 FOR DELETE TO PUBLIC
-USING (role = 'admin');
+USING (role = 'supabase_admin');
 
 CREATE POLICY "Allow user to insert high freq stats"
 ON user_high_freq_stats
@@ -223,11 +223,11 @@ CREATE POLICY "Allow user to modify own low freq stats"
 ON user_low_freq_stats
 FOR UPDATE USING (user_id = auth.uid() AND archived = false);
 
--- Prevent deletion of user low freq stats except by admin
+-- Prevent deletion of user low freq stats except by supabase_admin
 CREATE POLICY "Prevent user low freq stat deletion"
 ON user_low_freq_stats
 FOR DELETE TO PUBLIC
-USING (role = 'admin');
+USING (role = 'supabase_admin');
 
 CREATE POLICY "Allow user to insert low freq stats"
 ON user_low_freq_stats
