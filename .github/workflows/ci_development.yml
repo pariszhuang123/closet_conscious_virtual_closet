@@ -36,6 +36,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Move debug keystore file
+        run: |
+          mkdir -p /home/runner/work/closet_conscious_virtual_closet/closet_conscious_virtual_closet/app
+          mv android/app/debug.keystore /home/runner/work/closet_conscious_virtual_closet/closet_conscious_virtual_closet/app/debug.keystore
+
       - uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
