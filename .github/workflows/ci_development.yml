@@ -66,11 +66,11 @@ jobs:
 
       - name: Decode and save keystore files
         run: |
-          echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > closetconscious/android/debug.keystore
+          echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > closetconscious/android/app/debug.keystore
 
       - name: Setup key.properties
         run: |
-          echo "debugStoreFile=closetconscious/android/debug.keystore" >> key.properties
+          echo "debugStoreFile=closetconscious/android/app/debug.keystore" >> key.properties
           echo "debugStorePassword=${{ secrets.DEBUG_STORE_PASSWORD }}" >> key.properties
           echo "debugKeyAlias=${{ secrets.DEBUG_KEY_ALIAS }}" >> key.properties
           echo "debugKeyPassword=${{ secrets.DEBUG_KEY_PASSWORD }}" >> key.properties
@@ -172,11 +172,11 @@ jobs:
 
       - name: Decode and save production keystore file
         run: |
-          echo "${{ secrets.PROD_KEYSTORE_BASE64 }}" | base64 --decode > closetconscious/android/closet_conscious_release.keystore
+          echo "${{ secrets.PROD_KEYSTORE_BASE64 }}" | base64 --decode > closetconscious/android/app/prod_keystore.jks
 
       - name: Setup key.properties for production
         run: |
-          echo "prodStoreFile=closetconscious/android/closet_conscious_release.keystore" >> key.properties
+          echo "prodStoreFile=closetconscious/android/app/prod_keystore.jks" >> key.properties
           echo "prodStorePassword=${{ secrets.PROD_STORE_PASSWORD }}" >> key.properties
           echo "prodKeyAlias=${{ secrets.PROD_KEY_ALIAS }}" >> key.properties
           echo "prodKeyPassword=${{ secrets.PROD_KEY_PASSWORD }}" >> key.properties

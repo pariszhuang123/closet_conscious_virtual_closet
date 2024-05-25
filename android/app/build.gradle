@@ -69,7 +69,7 @@ android {
         release {
             keyAlias keystoreProperties['prodKeyAlias']
             keyPassword keystoreProperties['prodKeyPassword']
-            storeFile file('app/closet_conscious_release.keystore')
+            storeFile file('app/prod_keystore.jks')
             storePassword keystoreProperties['prodStorePassword']
         }
     }
