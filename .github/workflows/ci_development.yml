@@ -75,8 +75,8 @@ jobs:
         run: |
           echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > android/app/debug.keystore
 
-      - name: List contents of keystore directory
-        run: ls -la android/app
+      - name: List contents of android directory
+        run: ls -la android
 
       - name: Create app_config_dev.json
         run: |
