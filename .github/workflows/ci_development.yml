@@ -106,12 +106,15 @@ jobs:
           name: dev-apk
           path: build/app/outputs/flutter-apk/app-debug.apk
 
-  manual_approval:
-    needs: deploy_dev_ui
+  auto-approve:
+    needs: dev_build
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - name: Await manual approval
+      - name: Auto approve
         uses: hmarr/auto-approve-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   deploy_prod_supabase:
     needs: manual_approval
@@ -173,16 +176,17 @@ jobs:
       - name: Create directory for keystore
         run: mkdir -p app
 
-      - name: Decode and save production keystore file
-        run: |
-          echo "${{ secrets.PROD_KEYSTORE_BASE64 }}" | base64 --decode > app/prod_keystore.jks
-
       - name: Setup key.properties for production
         run: |
-          echo "prodStoreFile=app/prod_keystore.jks" >> key.properties
-          echo "prodStorePassword=${{ secrets.PROD_STORE_PASSWORD }}" >> key.properties
-          echo "prodKeyAlias=${{ secrets.PROD_KEY_ALIAS }}" >> key.properties
-          echo "prodKeyPassword=${{ secrets.PROD_KEY_PASSWORD }}" >> key.properties
+          echo "prodStoreFile=android/app/prod_keystore.jks" >> android/app/key.properties
+          echo "prodStorePassword=${{ secrets.PROD_STORE_PASSWORD }}" >> android/key.properties
+          echo "prodKeyAlias=${{ secrets.PROD_KEY_ALIAS }}" >> android/key.properties
+          echo "prodKeyPassword=${{ secrets.PROD_KEY_PASSWORD }}" >> android/key.properties
+
+
+      - name: Decode and save production keystore file
+        run: |
+          echo "${{ secrets.PROD_KEYSTORE_BASE64 }}" | base64 --decode > android/app/prod_keystore.jks
 
       - name: Create app_config_prod.json
         run: |
@@ -204,7 +208,7 @@ jobs:
         run: flutter test
 
       - name: Build APK for production
-        run: flutter build apk --release --target=lib/main_prod.dart --dart-define=ENV=$ENV
+        run: flutter build apk --release --target=lib/main_prod.dart --dart-define=ENV=$ENV --split-per-abi
 
       - name: Upload production APK
         uses: actions/upload-artifact@v2
