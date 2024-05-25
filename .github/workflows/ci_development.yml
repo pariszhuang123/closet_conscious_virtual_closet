@@ -66,10 +66,10 @@ jobs:
 
       - name: Setup key.properties
         run: |
-          echo "debugStoreFile=android/app/debug.keystore" >> android/app/key.properties
-          echo "debugStorePassword=${{ secrets.DEBUG_STORE_PASSWORD }}" >> android/app/key.properties
-          echo "debugKeyAlias=${{ secrets.DEBUG_KEY_ALIAS }}" >> android/app/key.properties
-          echo "debugKeyPassword=${{ secrets.DEBUG_KEY_PASSWORD }}" >> android/app/key.properties
+          echo "debugStoreFile=android/app/debug.keystore" >> android/key.properties
+          echo "debugStorePassword=${{ secrets.DEBUG_STORE_PASSWORD }}" >> android/key.properties
+          echo "debugKeyAlias=${{ secrets.DEBUG_KEY_ALIAS }}" >> android/key.properties
+          echo "debugKeyPassword=${{ secrets.DEBUG_KEY_PASSWORD }}" >> android/key.properties
 
       - name: Decode and save keystore files
         run: |
