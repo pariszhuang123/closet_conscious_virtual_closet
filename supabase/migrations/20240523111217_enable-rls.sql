@@ -1,4 +1,3 @@
-Set-Content -Path "2024-05-23-enable-rls.sql" -Value @"
 -- Enable RLS on all tables
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE items ENABLE ROW LEVEL SECURITY;
