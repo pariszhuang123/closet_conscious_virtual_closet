@@ -62,14 +62,14 @@ android {
         debug {
             keyAlias keystoreProperties['debugKeyAlias']
             keyPassword keystoreProperties['debugKeyPassword']
-            storeFile file('closetconscious/android/debug.keystore')
+            storeFile file('app/debug.keystore')
             storePassword keystoreProperties['debugStorePassword']
         }
 
         release {
             keyAlias keystoreProperties['prodKeyAlias']
             keyPassword keystoreProperties['prodKeyPassword']
-            storeFile file('closetconscious/android/closet_conscious_release.keystore')
+            storeFile file('app/closet_conscious_release.keystore')
             storePassword keystoreProperties['prodStorePassword']
         }
     }

@@ -62,7 +62,7 @@ jobs:
         run: flutter doctor -v
 
       - name: Create directory for keystore
-        run: mkdir -p closetconscious/android
+        run: mkdir -p app
 
       - name: Decode and save keystore files
         run: |
@@ -95,7 +95,7 @@ jobs:
         run: flutter test
 
       - name: Build APK for development
-        run: flutter build apk --debug --target=lib/main_dev.dart --dart-define=ENV=$ENV --verbose
+        run: flutter build apk --debug --target=lib/main_dev.dart --dart-define=ENV=$ENV
 
       - name: Upload development APK
         uses: actions/upload-artifact@v2
@@ -168,7 +168,7 @@ jobs:
         run: flutter doctor -v
 
       - name: Create directory for keystore
-        run: mkdir -p closetconscious/android
+        run: mkdir -p app
 
       - name: Decode and save production keystore file
         run: |
