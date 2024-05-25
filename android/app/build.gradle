@@ -62,7 +62,7 @@ android {
         debug {
             keyAlias keystoreProperties['debugKeyAlias']
             keyPassword keystoreProperties['debugKeyPassword']
-            storeFile file('debug.keystore')
+            storeFile keystoreProperties['debugStoreFile'] ? file(keystoreProperties['debugStoreFile']) : null
             storePassword keystoreProperties['debugStorePassword']
         }
 
