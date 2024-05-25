@@ -106,18 +106,18 @@ jobs:
           name: dev-apk
           path: build/app/outputs/flutter-apk/app-debug.apk
 
-  auto-approve:
+  deploy_to_production:
     needs: deploy_dev_ui
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    environment:
+      name: prod
+
     steps:
-      - name: Auto approve
-        uses: hmarr/auto-approve-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy to Production
+        run: echo "Deploying to production environment"
 
   deploy_prod_supabase:
-    needs: auto-approve
+    needs: deploy_to_production
     runs-on: ubuntu-latest
 
     env:
