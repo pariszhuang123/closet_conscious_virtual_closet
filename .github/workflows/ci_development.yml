@@ -6,7 +6,6 @@ on:
 
 jobs:
   deploy_prod_ui:
-    needs: deploy_prod_supabase
     name: prod_build
     runs-on: ubuntu-latest
     env:
