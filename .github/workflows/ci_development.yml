@@ -66,11 +66,11 @@ jobs:
 
       - name: Decode and save keystore files
         run: |
-          echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > app/debug.keystore
+          echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > debug.keystore
 
       - name: Setup key.properties
         run: |
-          echo "debugStoreFile=app/debug.keystore" >> key.properties
+          echo "debugStoreFile=debug.keystore" >> key.properties
           echo "debugStorePassword=${{ secrets.DEBUG_STORE_PASSWORD }}" >> key.properties
           echo "debugKeyAlias=${{ secrets.DEBUG_KEY_ALIAS }}" >> key.properties
           echo "debugKeyPassword=${{ secrets.DEBUG_KEY_PASSWORD }}" >> key.properties
