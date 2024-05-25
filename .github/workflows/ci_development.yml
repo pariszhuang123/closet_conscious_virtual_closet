@@ -208,4 +208,3 @@ jobs:
         with:
           name: prod-apk
           path: build/app/outputs/flutter-apk/app-release.apk
-
