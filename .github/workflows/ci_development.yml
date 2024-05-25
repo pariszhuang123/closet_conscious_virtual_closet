@@ -117,7 +117,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
   deploy_prod_supabase:
-    needs: manual_approval
+    needs: auto-approve
     runs-on: ubuntu-latest
 
     env:
