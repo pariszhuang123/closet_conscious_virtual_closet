@@ -107,7 +107,7 @@ jobs:
           path: build/app/outputs/flutter-apk/app-debug.apk
 
   auto-approve:
-    needs: dev_build
+    needs: deploy_dev_ui
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
