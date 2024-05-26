@@ -59,3 +59,4 @@ ADD CONSTRAINT user_high_freq_stats_user_id_fkey FOREIGN KEY (user_id) REFERENCE
 
 ALTER TABLE user_low_freq_stats
 ADD CONSTRAINT user_low_freq_stats_user_id_fkey FOREIGN KEY (user_id) REFERENCES user_profiles (user_id) ON DELETE CASCADE;
+
