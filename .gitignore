@@ -43,6 +43,6 @@ bin/
 
 ### Secrets ###
 .env// Add this line to exclude .env file from version control
-config/
+/config
 debug.keystore
 /android/key.properties
