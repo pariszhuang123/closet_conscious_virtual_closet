@@ -1,0 +1,161 @@
+name: ClosetConscious CI Trunk Based
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy_dev_supabase:
+    runs-on: ubuntu-latest
+
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
+      SUPABASE_PROJECT_ID: ${{ secrets.DEV_PROJECT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - run: supabase link --project-ref $SUPABASE_PROJECT_ID
+      - run: supabase db push
+
+  deploy_dev_ui:
+    needs: deploy_dev_supabase
+    runs-on: ubuntu-latest
+    env:
+      ENV: dev
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      WEB_CLIENT_ID: ${{ secrets.WEB_CLIENT_ID }}
+      IOS_CLIENT_ID: ${{ secrets.IOS_CLIENT_ID }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17.0.9'
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 'stable'
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.19.6'
+
+      - name: Setup key.properties for development
+        run: |
+          mkdir -p android/app
+          echo "storeFile=android/app/debug.keystore" > android/app/key.properties
+          echo "storePassword=${{ secrets.DEBUG_STORE_PASSWORD }}" >> android/app/key.properties
+          echo "keyAlias=${{ secrets.DEBUG_KEY_ALIAS }}" >> android/app/key.properties
+          echo "keyPassword=${{ secrets.DEBUG_KEY_PASSWORD }}" >> android/app/key.properties
+          echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > android/app/debug.keystore
+
+      - name: Create app_config_dev.json
+        run: |
+          mkdir -p config
+          echo '{
+            "SUPABASE_URL": "${{ secrets.SUPABASE_URL }}",
+            "SUPABASE_ANON_KEY": "${{ secrets.SUPABASE_ANON_KEY }}",
+            "webClientId": "${{ secrets.WEB_CLIENT_ID }}",
+            "iosClientId": "${{ secrets.IOS_CLIENT_ID }}"
+          }' > config/app_config_dev.json
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run linting and static analysis
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build APK for development
+        run: flutter build apk --debug --target=lib/main_dev.dart --dart-define=ENV=$ENV
+
+      - name: Upload development APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: dev-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+
+  deploy_prod_supabase:
+    needs: deploy_dev_ui
+    runs-on: ubuntu-latest
+
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.PROD_DB_PASSWORD }}
+      SUPABASE_PROJECT_ID: ${{ secrets.PROD_PROJECT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - run: supabase link --project-ref $SUPABASE_PROJECT_ID
+      - run: supabase db push
+
+  deploy_prod_ui:
+    needs: deploy_prod_supabase
+    runs-on: ubuntu-latest
+    env:
+      ENV: prod
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      WEB_CLIENT_ID: ${{ secrets.WEB_CLIENT_ID }}
+      IOS_CLIENT_ID: ${{ secrets.IOS_CLIENT_ID }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17.0.9'
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 'stable'
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '3.19.6'
+
+      - name: Setup key.properties for production
+        run: |
+          mkdir -p android/app
+          echo "storeFile=android/app/prod_keystore.jks" > android/app/key.properties
+          echo "storePassword=${{ secrets.PROD_STORE_PASSWORD }}" >> android/app/key.properties
+          echo "keyAlias=${{ secrets.PROD_KEY_ALIAS }}" >> android/app/key.properties
+          echo "keyPassword=${{ secrets.PROD_KEY_PASSWORD }}" >> android/app/key.properties
+          echo "${{ secrets.PROD_KEYSTORE_BASE64 }}" | base64 --decode > android/app/prod_keystore.jks
+
+      - name: Create app_config_prod.json
+        run: |
+          mkdir -p config
+          echo '{
+            "SUPABASE_URL": "${{ secrets.SUPABASE_URL }}",
+            "SUPABASE_ANON_KEY": "${{ secrets.SUPABASE_ANON_KEY }}",
+            "webClientId": "${{ secrets.WEB_CLIENT_ID }}",
+            "iosClientId": "${{ secrets.IOS_CLIENT_ID }}"
+          }' > config/app_config_prod.json
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run linting and static analysis
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build APK for production
+        run: flutter build apk --release --target=lib/main_prod.dart --dart-define=ENV=$ENV --split-per-abi
+
+      - name: Upload production APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: prod-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
