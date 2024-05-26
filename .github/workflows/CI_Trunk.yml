@@ -49,9 +49,9 @@ jobs:
         run: |
           mkdir -p android/app
           echo "storeFile=android/app/debug.keystore" > android/app/key.properties
-          echo "storePassword=${{ secrets.DEBUG_STORE_PASSWORD }}" >> android/app/key.properties
-          echo "keyAlias=${{ secrets.DEBUG_KEY_ALIAS }}" >> android/app/key.properties
-          echo "keyPassword=${{ secrets.DEBUG_KEY_PASSWORD }}" >> android/app/key.properties
+          echo "storePassword=${{ secrets.DEBUG_STORE_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.DEBUG_KEY_ALIAS }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.DEBUG_KEY_PASSWORD }}" >> android/key.properties
           echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > android/app/debug.keystore
 
       - name: Create app_config_dev.json
@@ -127,9 +127,9 @@ jobs:
         run: |
           mkdir -p android/app
           echo "storeFile=android/app/prod_keystore.jks" > android/app/key.properties
-          echo "storePassword=${{ secrets.PROD_STORE_PASSWORD }}" >> android/app/key.properties
-          echo "keyAlias=${{ secrets.PROD_KEY_ALIAS }}" >> android/app/key.properties
-          echo "keyPassword=${{ secrets.PROD_KEY_PASSWORD }}" >> android/app/key.properties
+          echo "keyAlias=${{ secrets.PROD_KEY_ALIAS }}" >> android/key.properties
+          echo "storePassword=${{ secrets.PROD_STORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.PROD_KEY_PASSWORD }}" >> android/key.properties
           echo "${{ secrets.PROD_KEYSTORE_BASE64 }}" | base64 --decode > android/app/prod_keystore.jks
 
       - name: Create app_config_prod.json
