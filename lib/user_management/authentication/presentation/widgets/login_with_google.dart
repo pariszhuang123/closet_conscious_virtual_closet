@@ -20,7 +20,7 @@ class LoginWithGoogleState extends State<LoginWithGoogle> {
       listener: (context, state) {
         if (state is AuthenticationFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: ${state.error}')),
+            SnackBar(content: Text('Error: ${state.message}')),
           );
         }
         if (state is AuthenticationSuccess) {

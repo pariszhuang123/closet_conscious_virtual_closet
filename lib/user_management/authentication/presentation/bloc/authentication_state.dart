@@ -7,10 +7,14 @@ class AuthenticationInitial extends AuthenticationState {}
 
 class AuthenticationLoading extends AuthenticationState {}
 
-class AuthenticationSuccess extends AuthenticationState {}
+class AuthenticationSuccess extends AuthenticationState {
+  final User user;
+
+  AuthenticationSuccess(this.user);
+}
 
 class AuthenticationFailure extends AuthenticationState {
-  final String error;
+  final String message;
 
-  AuthenticationFailure(this.error);
+  AuthenticationFailure(this.message);
 }

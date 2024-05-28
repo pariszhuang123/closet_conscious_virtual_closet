@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:closet_conscious/config_reader.dart';
 import 'user_management/authentication/data/services/supabase_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'core/connectivity/connectivity_service_locator.dart' as connectivity_locator;
 import 'user_management/service_locator.dart' as user_management_locator;
@@ -13,7 +12,6 @@ import 'package:closet_conscious/app.dart';
 Future<void> mainCommon(String environment) async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load(fileName: ".env");
   await ConfigReader.initialize(environment);
   await SupabaseService.initialize();
 

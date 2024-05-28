@@ -44,4 +44,11 @@ class ConfigReader {
     _logger.i('Fetched iOS Client ID'); // Avoid logging the actual ID
     return iosClientId;
   }
+
+  static String getClientSecret() {
+    var webClientSecret = _config['WEB_CLIENT_SECRET'] as String;
+    _logger.i('Fetched Web Client Secret'); // Avoid logging the actual ID
+    return webClientSecret;
+  }
 }
+

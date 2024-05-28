@@ -4,6 +4,7 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../domain/entities/user.dart';
 
+
 class SignInWithGoogle extends UseCase<User, NoParams> {
   final AuthenticationRepository repository;
 
@@ -22,7 +23,4 @@ class SignInWithGoogle extends UseCase<User, NoParams> {
     }
   }
 }
-
-
-
 

@@ -1,7 +1,39 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
+import '../../../../config_reader.dart'; // Import ConfigReader
+import 'dart:convert';
+
+// Function to decode JWT
+Map<String, dynamic> decodeJwt(String token) {
+  final parts = token.split('.');
+  assert(parts.length == 3);
+
+  final payload = _decodeBase64(parts[1]);
+  final payloadMap = json.decode(payload);
+  assert(payloadMap is Map<String, dynamic>);
+
+  return payloadMap;
+}
+
+String _decodeBase64(String str) {
+  String output = str.replaceAll('-', '+').replaceAll('_', '/');
+
+  switch (output.length % 4) {
+    case 0:
+      break;
+    case 2:
+      output += '==';
+      break;
+    case 3:
+      output += '=';
+      break;
+    default:
+      throw Exception('Illegal base64url string!"');
+  }
+
+  return utf8.decode(base64Url.decode(output));
+}
 
 class GoogleSignInService {
   final Logger _logger = Logger();
@@ -9,42 +41,70 @@ class GoogleSignInService {
   Future<void> signIn() async {
     _logger.i('Starting Google Sign In');
 
-    final webClientId = dotenv.env['WEB_CLIENT_ID'];
-    final iosClientId = dotenv.env['IOS_CLIENT_ID'];
+    final webClientId = ConfigReader.getWebClientId();
+    final iosClientId = ConfigReader.getIosClientId();
 
     final GoogleSignIn googleSignIn = GoogleSignIn(
       clientId: iosClientId,
       serverClientId: webClientId,
+      scopes: [
+        'openid',
+        'email',
+        'profile',
+      ],
     );
 
-    final googleUser = await googleSignIn.signIn();
-    if (googleUser == null) {
-      _logger.w('Sign in aborted by user');
-      return;
+    try {
+      final googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        _logger.w('Sign in aborted by user');
+        return;
+      }
+
+      final googleAuth = await googleUser.authentication;
+      final accessToken = googleAuth.accessToken;
+      final idToken = googleAuth.idToken;
+
+      _logger.d('Received Access Token: $accessToken');
+      _logger.d('Received ID Token: $idToken');
+
+      if (accessToken == null || idToken == null) {
+        _logger.e('Access Token or ID Token is null.');
+        throw 'Access Token or ID Token is null.';
+      }
+
+      // Log the raw access token
+      _logger.i('Raw Access Token: $accessToken');
+      _logger.i('Raw Id Token: $idToken');
+
+      // Check if the id token is a valid JWT
+      try {
+        final decodedIdToken = decodeJwt(idToken);
+        _logger.d('Decoded Id Token: $decodedIdToken');
+      } catch (e) {
+        _logger.e('Error decoding Id Token: $e');
+      }
+
+      // Check if the access token is a valid JWT
+      try {
+        final decodedAccessToken = decodeJwt(accessToken);
+        _logger.d('Decoded Access Token: $decodedAccessToken');
+      } catch (e) {
+        _logger.e('Error decoding Access Token: $e');
+      }
+
+      _logger.i('Signing in with Supabase');
+      await Supabase.instance.client.auth.signInWithIdToken(
+        provider: OAuthProvider.google,
+        idToken: idToken,
+        accessToken: accessToken,
+      );
+
+      _logger.i('Google Sign In successful');
+    } catch (e) {
+      _logger.e('Error during Google Sign In: $e');
+      rethrow;
     }
-
-    final googleAuth = await googleUser.authentication;
-    final accessToken = googleAuth.accessToken;
-    final idToken = googleAuth.idToken;
-
-    _logger.d('Received Access Token: $accessToken');
-    _logger.d('Received ID Token: $idToken');
-
-    if (accessToken == null) {
-      _logger.e('No Access Token found.');
-      throw 'No Access Token found.';
-    }
-    if (idToken == null) {
-      _logger.e('No ID Token found.');
-      throw 'No ID Token found.';
-    }
-
-    await Supabase.instance.client.auth.signInWithIdToken(
-      provider: OAuthProvider.google,
-      idToken: idToken,
-      accessToken: accessToken,
-    );
-    _logger.i('Google Sign In successful');
   }
 
   Future<void> signOut() async {
@@ -53,3 +113,4 @@ class GoogleSignInService {
     _logger.i('User signed out from Google');
   }
 }
+

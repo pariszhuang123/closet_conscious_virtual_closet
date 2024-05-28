@@ -12,8 +12,11 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   @override
   Future<Either<Failure, User>> signInWithGoogle() async {
     try {
-      final user = await remoteDataSource.signInWithGoogle();
-      return Right(user);
+      final result = await remoteDataSource.signInWithGoogle();
+      return result.fold(
+            (failure) => Left(failure),
+            (user) => Right(user),
+      );
     } on Exception {
       return const Left(ServerFailure());
     }
