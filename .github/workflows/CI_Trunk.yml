@@ -74,13 +74,13 @@ jobs:
         run: flutter test
 
       - name: Build APK for development
-        run: flutter build apk --debug --target=lib/main_dev.dart --dart-define=ENV=$ENV
+        run: flutter build apk --debug --target=lib/main_dev.dart --dart-define=ENV=$ENV --split-per-abi
 
       - name: Upload development APK
         uses: actions/upload-artifact@v2
         with:
           name: dev-apk
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          path: build/app/outputs/flutter-apk/app-arm64-v8a-debug.apk
 
   deploy_prod_supabase:
     needs: deploy_dev_ui
