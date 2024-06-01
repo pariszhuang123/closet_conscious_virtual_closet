@@ -77,12 +77,21 @@ class GoogleSignInService {
       _logger.i('Raw Access Token: $accessToken');
       _logger.i('Raw Id Token: $idToken');
 
+      // Declare the variable here to make it accessible throughout the method
+      late Map<String, dynamic> decodedIdToken;
+
       // Check if the id token is a valid JWT
       try {
-        final decodedIdToken = decodeJwt(idToken);
+        decodedIdToken = decodeJwt(idToken);
         _logger.d('Decoded Id Token: $decodedIdToken');
       } catch (e) {
         _logger.e('Error decoding Id Token: $e');
+      }
+
+      // Verify the ID token contains the at_hash claim
+      if (!decodedIdToken.containsKey('at_hash')) {
+        _logger.e('ID Token does not contain at_hash claim.');
+        throw 'ID Token is missing at_hash claim.';
       }
 
       // Check if the access token is a valid JWT

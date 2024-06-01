@@ -8,9 +8,13 @@ import 'user_management/service_locator.dart' as user_management_locator;
 import 'core/connectivity/presentation/blocs/connectivity_bloc.dart';
 import 'user_management/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:closet_conscious/app.dart';
+import 'flavor_config.dart';
 
 Future<void> mainCommon(String environment) async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize the configuration based on the environment
+  FlavorConfig.initialize(environment);
 
   await ConfigReader.initialize(environment);
   await SupabaseService.initialize();
@@ -19,24 +23,15 @@ Future<void> mainCommon(String environment) async {
   user_management_locator.setupUserManagementLocator();
 
   // Run the app
-  runApp(MyApp(
-    environment: environment,
-  ));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final String environment;
-
-  const MyApp({super.key, required this.environment});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Color primaryColor = Colors.transparent;  // Default to transparent
-    if (environment == 'dev') {
-      primaryColor = Colors.blue;  // Development color
-    } else if (environment == 'prod') {
-      primaryColor = Colors.transparent;  // Production color
-    }
+    final flavorConfig = FlavorConfig.instance;
 
     return MultiBlocProvider(
       providers: [
@@ -48,7 +43,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
 
-      child: MyCustomApp(primaryColor: primaryColor),
+      child: MyCustomApp(primaryColor: flavorConfig.primaryColor),
     );
   }
 }

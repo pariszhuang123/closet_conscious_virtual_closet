@@ -1,6 +1,5 @@
-import 'package:closet_conscious/main_common.dart';
-import 'package:closet_conscious/environment.dart';
+import 'main_common.dart';
 
-Future<void> main() async {
-  await mainCommon(Environment.prod);
+void main() {
+  mainCommon('prod');
 }
