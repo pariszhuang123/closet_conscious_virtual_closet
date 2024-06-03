@@ -27,12 +27,6 @@ class ConfigReader {
     return anonKey;
   }
 
-  static String getSupabaseProjectId() {
-    var projectId = _config['SUPABASE_PROJECT_ID'] as String;
-    _logger.i('Fetched Supabase Project ID'); // Avoid logging the actual key
-    return projectId;
-  }
-
   static String getWebClientId() {
     var webClientId = _config['WEB_CLIENT_ID'] as String;
     _logger.i('Fetched Web Client ID'); // Avoid logging the actual ID
@@ -44,11 +38,4 @@ class ConfigReader {
     _logger.i('Fetched iOS Client ID'); // Avoid logging the actual ID
     return iosClientId;
   }
-
-  static String getClientSecret() {
-    var webClientSecret = _config['WEB_CLIENT_SECRET'] as String;
-    _logger.i('Fetched Web Client Secret'); // Avoid logging the actual ID
-    return webClientSecret;
-  }
 }
-

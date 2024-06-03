@@ -58,14 +58,11 @@ android {
 
     productFlavors {
         dev {
-            dimension "default"
-            applicationIdSuffix ".dev"
+            applicationId "com.example.closetconscious.dev"
             versionNameSuffix "-dev"
-            resValue "string", "app_name", "Closet Conscious Dev"
         }
         prod {
-            dimension "default"
-            resValue "string", "app_name", "Closet Conscious"
+            applicationId "com.example.closetconscious"
         }
     }
 
@@ -73,7 +70,7 @@ android {
         debug {
             keyAlias keystoreProperties['debugKeyAlias']
             keyPassword keystoreProperties['debugKeyPassword']
-            storeFile file('debug.keystore')
+            storeFile file('dev_keystore.jks')
             storePassword keystoreProperties['debugStorePassword']
         }
 
@@ -106,9 +103,3 @@ android {
 flutter {
     source '../..'
 }
-
-dependencies {
-    // Add Google Sign-In dependency
-    implementation 'com.google.android.gms:play-services-auth:20.1.0'
-}
-
