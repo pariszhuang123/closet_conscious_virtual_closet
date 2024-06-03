@@ -1,11 +1,8 @@
-import 'package:fpdart/fpdart.dart';
-import '../../../../core/error/failures.dart';
-import '../../domain/entities/user.dart';
+import '../entities/user.dart';
 
-abstract class AuthenticationRepository {
-  Future<Either<Failure, void>> signOut();
-
-  // Sign in or sign up with Google
-  Future<Either<Failure, User>> signInWithGoogle();
+abstract class AuthRepository {
+  Future<User?> signInWithGoogle();
+  Stream<User?> get onAuthStateChange;
+  User? getCurrentUser();
+  Future<void> signOut(); // Added sign-out method
 }
-

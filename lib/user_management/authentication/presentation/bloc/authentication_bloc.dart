@@ -1,46 +1,58 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../application/usecases/sign_in_with_google.dart';
+import '../../application/usecases/get_current_user.dart';
 import '../../application/usecases/sign_out.dart';
-import '../../../../core/usecase/usecase.dart';
 import '../../domain/entities/user.dart';
 
-part 'authentication_event.dart';
-part 'authentication_state.dart';
+abstract class AuthEvent {}
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final SignInWithGoogle signInWithGoogle;
-  final SignOut signOut;
+class SignInEvent extends AuthEvent {}
 
-  AuthenticationBloc({
-    required this.signInWithGoogle,
-    required this.signOut,
-  }) : super(AuthenticationInitial()) {
-    on<GoogleSignInRequested>(_onGoogleSignInRequested);
-    on<SignOutRequested>(_onSignOutRequested);
-  }
+class SignOutEvent extends AuthEvent {}
 
-  Future<void> _onGoogleSignInRequested(
-      GoogleSignInRequested event,
-      Emitter<AuthenticationState> emit,
-      ) async {
-    emit(AuthenticationLoading());
-    final result = await signInWithGoogle(NoParams());
-    result.fold(
-          (failure) => emit(AuthenticationFailure(failure.toString())),
-          (user) => emit(AuthenticationSuccess(user)),
-    );
-  }
+class CheckAuthStatusEvent extends AuthEvent {}
 
-  Future<void> _onSignOutRequested(
-      SignOutRequested event,
-      Emitter<AuthenticationState> emit,
-      ) async {
-    emit(AuthenticationLoading());
-    final result = await signOut(NoParams());
-    result.fold(
-          (failure) => emit(AuthenticationFailure(failure.toString())),
-          (_) => emit(AuthenticationInitial()),
-    );
+abstract class AuthState {}
+
+class Authenticated extends AuthState {
+  final User user;
+
+  Authenticated(this.user);
+}
+
+class Unauthenticated extends AuthState {}
+
+class AuthLoading extends AuthState {}
+
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  final SignInWithGoogle _signInWithGoogle;
+  final GetCurrentUser _getCurrentUser;
+  final SignOut _signOut;
+
+  AuthBloc(this._signInWithGoogle, this._getCurrentUser, this._signOut) : super(Unauthenticated()) {
+    on<SignInEvent>((event, emit) async {
+      emit(AuthLoading());
+      final user = await _signInWithGoogle();
+      if (user != null) {
+        emit(Authenticated(user));
+      } else {
+        emit(Unauthenticated());
+      }
+    });
+
+    on<SignOutEvent>((event, emit) async {
+      emit(AuthLoading());
+      await _signOut();
+      emit(Unauthenticated());
+    });
+
+    on<CheckAuthStatusEvent>((event, emit) async { // Handle the new event
+      final user = _getCurrentUser();
+      if (user != null) {
+        emit(Authenticated(user));
+      } else {
+        emit(Unauthenticated());
+      }
+    });
   }
 }

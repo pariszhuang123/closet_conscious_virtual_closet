@@ -19,7 +19,6 @@ class FlavorConfig {
 
   static bool isProduction() => _instance!.name == 'prod';
   static bool isDevelopment() => _instance!.name == 'dev';
-  static bool isStaging() => _instance!.name == 'staging';
 
   static void initialize(String environment) {
     switch (environment) {

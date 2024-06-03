@@ -1,12 +1,12 @@
 import '../../domain/repositories/authentication_repository.dart';
 import '../../domain/entities/user.dart';
 
-class SignInWithGoogle {
+class GetCurrentUser {
   final AuthRepository repository;
 
-  SignInWithGoogle(this.repository);
+  GetCurrentUser(this.repository);
 
-  Future<User?> call() async {
-    return await repository.signInWithGoogle();
+  User? call() {
+    return repository.getCurrentUser();
   }
 }
