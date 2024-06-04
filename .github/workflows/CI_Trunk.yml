@@ -48,11 +48,11 @@ jobs:
       - name: Setup key.properties for development
         run: |
           mkdir -p app
-          echo "debugStoreFile=android/app/debug.keystore" > android/app/key.properties
+          echo "debugStoreFile=android/app/dev_keystore.jks" > android/app/key.properties
           echo "debugStorePassword=${{ secrets.DEBUG_STORE_PASSWORD }}" >> android/key.properties
           echo "debugKeyAlias=${{ secrets.DEBUG_KEY_ALIAS }}" >> android/key.properties
           echo "debugKeyPassword=${{ secrets.DEBUG_KEY_PASSWORD }}" >> android/key.properties
-          echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > android/app/debug.keystore
+          echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > android/app/dev_keystore.jks
 
       - name: Create app_config_dev.json
         run: |
