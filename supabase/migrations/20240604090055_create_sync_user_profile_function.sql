@@ -14,4 +14,4 @@ $$;
 -- trigger the function every time a user is created
 create trigger create_user_profile
   after insert on auth.users
-  for each row execute procedure public.user_profiles();
+  for each row execute procedure public.sync_user_profile();
