@@ -29,7 +29,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetCurrentUser _getCurrentUser;
   final SignOut _signOut;
 
-  AuthBloc(this._signInWithGoogle, this._getCurrentUser, this._signOut) : super(Unauthenticated()) {
+  AuthBloc({
+    required SignInWithGoogle signInWithGoogle,
+    required GetCurrentUser getCurrentUser,
+    required SignOut signOut,
+  })  : _signInWithGoogle = signInWithGoogle,
+        _getCurrentUser = getCurrentUser,
+        _signOut = signOut,
+        super(Unauthenticated()) {
+
     on<SignInEvent>((event, emit) async {
       emit(AuthLoading());
       final user = await _signInWithGoogle();

@@ -7,7 +7,11 @@ class AuthRepositoryImpl implements AuthRepository {
   final GoogleSignInService _googleSignInService;
   final SupabaseService _supabaseService;
 
-  AuthRepositoryImpl(this._googleSignInService, this._supabaseService);
+  AuthRepositoryImpl({
+    required GoogleSignInService googleSignInService,
+    required SupabaseService supabaseService,
+  })  : _googleSignInService = googleSignInService,
+        _supabaseService = supabaseService;
 
   @override
   Future<User?> signInWithGoogle() async {
