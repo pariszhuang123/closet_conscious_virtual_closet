@@ -74,7 +74,7 @@ jobs:
         run: flutter test
 
       - name: Build APK for development
-        run: flutter build apk --debug --flavor dev --target=lib/main_dev.dart --dart-define=ENV=$ENV --split-per-abi
+        run: flutter build apk --debug --flavor dev --target=lib/main_dev.dart --dart-define=ENV=$ENV --split-per-abi --target-platform android-arm64
 
       - name: Upload development APK
         uses: actions/upload-artifact@v2
@@ -152,7 +152,7 @@ jobs:
         run: flutter test
 
       - name: Build APK for production
-        run: flutter build apk --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV --split-per-abi
+        run: flutter build apk --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV --split-per-abi --target-platform android-arm64
 
       - name: Upload production APK
         uses: actions/upload-artifact@v2

@@ -1,17 +1,14 @@
 -- inserts a row into public.profiles
-create function public.sync_user_profile()
-returns trigger
-language plpgsql
-security definer set search_path = ''
-as $$
-begin
-  insert into public.user_profiles (id, email, name, role, created_at, updated_at)
-  values (new.id, new.raw_user_meta_data ->> 'name', new.email, 'authenticated', now(), now());
-  return new;
-end;
-$$;
+CREATE OR REPLACE FUNCTION public.sync_user_profile()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.user_profiles (id, email, name, role, created_at, updated_at)
+  VALUES (new.id, new.raw_user_meta_data ->> 'name', new.email, 'authenticated', now(), now());
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
 -- trigger the function every time a user is created
-create trigger create_user_profile
-  after insert on auth.users
-  for each row execute procedure public.sync_user_profile();
+CREATE TRIGGER public.create_user_profile
+AFTER INSERT ON auth.users
+FOR EACH ROW EXECUTE FUNCTION public.sync_user_profile();
