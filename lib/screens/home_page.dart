@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../user_management/authentication/presentation/bloc/authentication_bloc.dart';
-import '../user_management/authentication/presentation/widgets/sign_out_button.dart';
 import '../user_management/authentication/presentation/pages/login_screen.dart';
+import '../utilities/routes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,13 +26,11 @@ class HomePageState extends State<HomePage> {
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             if (state is Authenticated) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(state.user.id),
-                  const SignOutButton(),
-                ],
-              );
+              // Navigate to MyClosetPage
+              Future.microtask(() {
+                Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+              });
+              return const CircularProgressIndicator();
             } else if (state is Unauthenticated) {
               return const LoginScreen();
             } else {

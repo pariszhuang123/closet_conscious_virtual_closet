@@ -6,6 +6,7 @@ import 'generated/l10n.dart';
 import 'user_management/service_locator.dart';
 import 'screens/home_page.dart';
 import 'user_management/authentication/presentation/bloc/authentication_bloc.dart';
+import 'utilities/routes.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -29,6 +30,8 @@ class MainApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales, // Add the supported locales
+      initialRoute: AppRoutes.home, // Set initial route
+      onGenerateRoute: AppRoutes.generateRoute, // Use the routes
 
       home: const HomePage(),
     ),

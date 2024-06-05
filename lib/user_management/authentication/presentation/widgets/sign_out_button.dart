@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/authentication_bloc.dart';
+import '../../../../generated/l10n.dart';
 
 class SignOutButton extends StatelessWidget {
   const SignOutButton({super.key});
@@ -11,7 +12,13 @@ class SignOutButton extends StatelessWidget {
       onPressed: () {
         context.read<AuthBloc>().add(SignOutEvent());
       },
-      child: const Text('Sign Out'),
+      child: Text(
+        S.of(context).appName,
+        style: const TextStyle(
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }
