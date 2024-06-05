@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "offlineStatus": MessageLookupByLibrary.simpleMessage("离线状态"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("重试连接"),
         "signIn": MessageLookupByLibrary.simpleMessage("登入"),
+        "signOut": MessageLookupByLibrary.simpleMessage("登出"),
         "signUp": MessageLookupByLibrary.simpleMessage("注册")
       };
 }

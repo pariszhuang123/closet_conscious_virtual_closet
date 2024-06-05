@@ -3,6 +3,7 @@
   "appName": "衣橱选择",
   "signIn": "登入",
   "signUp": "注册",
+  "signOut": "登出",
   "loginSocialAccount": "登录您的社交帐户",
   "loginGoogle": "使用谷歌登录",
   "loginApple": "使用苹果登录",

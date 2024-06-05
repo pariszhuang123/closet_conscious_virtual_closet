@@ -3,6 +3,7 @@
   "appName": "Closet Conscious",
   "signIn": "Sign In",
   "signUp": "Sign Up",
+  "signOut": "Sign Out",
   "loginSocialAccount": "Login with your social account",
   "loginGoogle": "Login with Google",
   "loginApple": "Login with Apple",

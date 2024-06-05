@@ -20,7 +20,7 @@ jobs:
           version: latest
 
       - run: supabase link --project-ref $SUPABASE_PROJECT_ID
-      - run: supabase db push --debug
+      - run: supabase db push
 
   deploy_dev_ui:
     needs: deploy_dev_supabase
