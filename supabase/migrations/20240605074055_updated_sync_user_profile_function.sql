@@ -1,4 +1,4 @@
--- inserts a row into public.user_profiles
+-- Inserts a row into public.user_profiles
 CREATE OR REPLACE FUNCTION public.sync_user_profile()
 RETURNS TRIGGER AS $$
 LANGUAGE plpgsql
@@ -7,7 +7,7 @@ SET search_path = 'public, auth'
 AS $$
 BEGIN
   INSERT INTO public.user_profiles (user_id, name, email, role, created_at, updated_at)
-  VALUES (NEW.id, NEW.raw_user_meta_data ->> 'name', NEW.email, 'authenticated', now(), now());
+  VALUES (NEW.id::uuid, NEW.raw_user_meta_data ->> 'name'::text, NEW.email::text, 'authenticated'::text, now(), now());
   RETURN NEW;
 END;
 $$;
