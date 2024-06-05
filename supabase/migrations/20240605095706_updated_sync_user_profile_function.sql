@@ -6,7 +6,7 @@ SECURITY DEFINER
 SET search_path = 'public, auth'
 AS $$
 BEGIN
-  INSERT INTO public.user_profiles (user_id, name, email, role, created_at, updated_at)
+  INSERT INTO public.user_profiles (id, name, email, role, created_at, updated_at)
   VALUES (NEW.id::uuid, NEW.raw_user_meta_data ->> 'name', NEW.email::text, 'authenticated', now(), now());
   RETURN NEW;
 END;
