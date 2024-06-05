@@ -1,8 +1,5 @@
--- Step 2: Drop the function
-DROP FUNCTION IF EXISTS public.sync_user_profile();
-
 -- Inserts a row into public.user_profiles
-CREATE FUNCTION public.sync_user_profile()
+CREATE OR REPLACE FUNCTION public.sync_user_profile()
 RETURNS TRIGGER AS $$
 LANGUAGE plpgsql
 SECURITY DEFINER
@@ -19,3 +16,4 @@ $$;
 CREATE TRIGGER create_user_profile
 AFTER INSERT ON auth.users
 FOR EACH ROW EXECUTE FUNCTION public.sync_user_profile();
+
