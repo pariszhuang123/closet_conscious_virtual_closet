@@ -1,6 +1,6 @@
 -- Inserts a row into public.user_profiles
 CREATE OR REPLACE FUNCTION public.sync_user_profile()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER
 LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = 'public, auth'
