@@ -1,13 +1,32 @@
 import 'package:flutter/material.dart';
 
-class CreateOutfitPage extends StatelessWidget {
+class CreateOutfitPage extends StatefulWidget {
   const CreateOutfitPage({super.key});
+
+
+  @override
+  CreateOutfitPageState createState() => CreateOutfitPageState();
+}
+
+class CreateOutfitPageState extends State<CreateOutfitPage> {
+  int _selectedIndex = 1;
+
+  void _onItemTapped(int index) {
+    if (index == 0) {
+      Navigator.pushReplacementNamed(context, '/my_closet');
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create My Outfit'),
+        automaticallyImplyLeading: false, // This removes the back button
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -69,6 +88,9 @@ class CreateOutfitPage extends StatelessWidget {
             label: 'Outfit',
           ),
         ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: const Color(0xFF255163), // Set selected item color
+        onTap: _onItemTapped,
       ),
     );
   }

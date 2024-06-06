@@ -1,12 +1,23 @@
 # This is a generated file; do not edit or check into version control.
 app_links=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\app_links-5.0.0\\
 connectivity_plus=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\connectivity_plus-6.0.3\\
+file_selector_linux=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\file_selector_linux-0.9.2+1\\
+file_selector_macos=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\file_selector_macos-0.9.4\\
+file_selector_windows=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\file_selector_windows-0.9.3+1\\
+flutter_plugin_android_lifecycle=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\flutter_plugin_android_lifecycle-2.0.19\\
 fluttertoast=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\fluttertoast-8.2.5\\
 google_sign_in=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\google_sign_in-6.2.1\\
 google_sign_in_android=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\google_sign_in_android-6.1.23\\
 google_sign_in_ios=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\google_sign_in_ios-5.7.6\\
 google_sign_in_web=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\google_sign_in_web-0.12.4\\
 gtk=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\gtk-2.1.0\\
+image_picker=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\image_picker-1.1.2\\
+image_picker_android=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\image_picker_android-0.8.12+1\\
+image_picker_for_web=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\image_picker_for_web-3.0.4\\
+image_picker_ios=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\image_picker_ios-0.8.12\\
+image_picker_linux=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\image_picker_linux-0.2.1+1\\
+image_picker_macos=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\image_picker_macos-0.2.1+1\\
+image_picker_windows=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\image_picker_windows-0.2.1+1\\
 integration_test=C:\\flutter\\packages\\integration_test\\
 package_info_plus=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\package_info_plus-8.0.0\\
 path_provider=C:\\Users\\tomzq\\AppData\\Local\\Pub\\Cache\\hosted\\pub.dev\\path_provider-2.1.3\\

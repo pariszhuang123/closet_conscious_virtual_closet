@@ -8,7 +8,7 @@ import 'core/connectivity/connectivity_service_locator.dart' as connectivity_loc
 import 'user_management/service_locator.dart' as user_management_locator;
 
 import 'screens/home_page.dart';
-import 'utilities/routes.dart';
+import '../core/utilities/routes.dart';
 
 import 'user_management/authentication/presentation/bloc/authentication_bloc.dart';
 import 'core/connectivity/presentation/blocs/connectivity_bloc.dart';

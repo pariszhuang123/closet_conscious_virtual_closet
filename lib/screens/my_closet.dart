@@ -1,13 +1,36 @@
 import 'package:flutter/material.dart';
+import '../core/utilities/routes.dart';
 
-class MyClosetPage extends StatelessWidget {
+class MyClosetPage extends StatefulWidget {
   const MyClosetPage({super.key});
+
+  @override
+  MyClosetPageState createState() => MyClosetPageState();
+}
+
+class MyClosetPageState extends State<MyClosetPage> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    if (index == 1) {
+      Navigator.pushReplacementNamed(context, '/create_outfit');
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+  }
+
+  void _onUploadButtonPressed() {
+    Navigator.pushReplacementNamed(context, AppRoutes.uploadItem);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Closet'),
+        automaticallyImplyLeading: false, // This removes the back button
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -17,7 +40,7 @@ class MyClosetPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _onUploadButtonPressed,
                   child: const Column(
                     children: [
                       Icon(Icons.upload_file),
@@ -95,6 +118,9 @@ class MyClosetPage extends StatelessWidget {
             label: 'Outfit',
           ),
         ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: const Color(0xFF366d59), // Set selected item color
+        onTap: _onItemTapped,
       ),
     );
   }
