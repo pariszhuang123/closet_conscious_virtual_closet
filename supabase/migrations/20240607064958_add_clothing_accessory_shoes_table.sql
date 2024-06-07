@@ -23,18 +23,18 @@ CREATE TABLE items_shoes_basic (
 -- Add comments to describe the purpose and fields of each table
 COMMENT ON TABLE items_clothing_basic IS 'Table to store basic information about clothing items';
 COMMENT ON COLUMN items_clothing_basic.item_id IS 'Unique identifier for each clothing item';
-COMMENT ON TABLE items_clothing_basic.current_owner_id IS 'Identifier for the current owner of the item. This field is updated to reflect changes in ownership, such as through swaps or transfers';
+COMMENT ON COLUMN items_clothing_basic.current_owner_id IS 'Identifier for the current owner of the item. This field is updated to reflect changes in ownership, such as through swaps or transfers';
 COMMENT ON COLUMN items_clothing_basic.clothing_type IS 'Type of clothing: top, bottom, or full-length';
 COMMENT ON COLUMN items_clothing_basic.clothing_layer IS 'Layer of clothing: base_layer, insulating_layer, or outer_layer';
 
 COMMENT ON TABLE items_accessory_basic IS 'Table to store basic information about accessory items';
-COMMENT ON TABLE items_accessory_basic.current_owner_id IS 'Identifier for the current owner of the item. This field is updated to reflect changes in ownership, such as through swaps or transfers';
 COMMENT ON COLUMN items_accessory_basic.item_id IS 'Unique identifier for each accessory item';
+COMMENT ON COLUMN items_accessory_basic.current_owner_id IS 'Identifier for the current owner of the item. This field is updated to reflect changes in ownership, such as through swaps or transfers';
 COMMENT ON COLUMN items_accessory_basic.accessory_type IS 'Type of accessory: bag, belt, eyewear, gloves, hat, jewellery, scarf and wrap, or tie & bowtie';
 
 COMMENT ON TABLE items_shoes_basic IS 'Table to store basic information about shoe items';
-COMMENT ON TABLE items_shoes_basic.current_owner_id IS 'Identifier for the current owner of the item. This field is updated to reflect changes in ownership, such as through swaps or transfers';
 COMMENT ON COLUMN items_shoes_basic.item_id IS 'Unique identifier for each shoe item';
+COMMENT ON COLUMN items_shoes_basic.current_owner_id IS 'Identifier for the current owner of the item. This field is updated to reflect changes in ownership, such as through swaps or transfers';
 COMMENT ON COLUMN items_shoes_basic.shoes_type IS 'Type of shoes: boots, casual shoes, running shoes, dress shoes, or speciality shoes';
 
 -- Enable Row-Level Security on each table
