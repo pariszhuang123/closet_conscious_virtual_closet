@@ -11,7 +11,7 @@ CREATE TABLE items_accessory_basic (
 
 CREATE TABLE items_shoes_basic (
   item_id UUID PRIMARY KEY REFERENCES items(item_id) ON DELETE CASCADE,
-  shoes_type TEXT NOT NULL CHECK (shoes_type IN ('boots', 'casual shoes', 'running shoes', 'dress shoes', 'speciality shoes')),
+  shoes_type TEXT NOT NULL CHECK (shoes_type IN ('boots', 'casual shoes', 'running shoes', 'dress shoes', 'speciality shoes'))
 );
 
 COMMENT ON TABLE items_clothing_basic IS 'Table to store basic information about clothing items';
