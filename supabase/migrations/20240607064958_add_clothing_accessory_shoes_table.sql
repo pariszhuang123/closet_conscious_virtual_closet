@@ -1,7 +1,7 @@
 -- Define the items_clothing_basic table with ownership
 CREATE TABLE items_clothing_basic (
   item_id UUID PRIMARY KEY REFERENCES items(item_id),
-  current_owner_id UUID REFERENCES user_profiles(id) ON DELETE CASCADE;
+  current_owner_id UUID REFERENCES user_profiles(id) ON DELETE CASCADE,
   clothing_type TEXT NOT NULL CHECK (clothing_type IN ('top', 'bottom', 'full-length')),
   clothing_layer TEXT NOT NULL CHECK (clothing_layer IN ('base_layer', 'insulating_layer', 'outer_layer'))
 );
@@ -9,14 +9,14 @@ CREATE TABLE items_clothing_basic (
 -- Define the items_accessory_basic table with ownership
 CREATE TABLE items_accessory_basic (
   item_id UUID PRIMARY KEY REFERENCES items(item_id),
-  current_owner_id UUID REFERENCES user_profiles(id) ON DELETE CASCADE;
+  current_owner_id UUID REFERENCES user_profiles(id) ON DELETE CASCADE,
   accessory_type TEXT NOT NULL CHECK (accessory_type IN ('bag', 'belt', 'eyewear', 'gloves', 'hat', 'jewellery', 'scarf and wrap', 'tie & bowtie'))
 );
 
 -- Define the items_shoes_basic table with ownership
 CREATE TABLE items_shoes_basic (
   item_id UUID PRIMARY KEY REFERENCES items(item_id),
-  current_owner_id UUID REFERENCES user_profiles(id) ON DELETE CASCADE;
+  current_owner_id UUID REFERENCES user_profiles(id) ON DELETE CASCADE,
   shoes_type TEXT NOT NULL CHECK (shoes_type IN ('boots', 'casual shoes', 'running shoes', 'dress shoes', 'speciality shoes'))
 );
 
