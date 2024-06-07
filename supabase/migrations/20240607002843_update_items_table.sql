@@ -6,7 +6,7 @@ RENAME COLUMN user_id TO upload_owner_id;
 
 -- Add a new column current_owner_id with a foreign key constraint
 ALTER TABLE public.items
-ADD COLUMN current_owner_id UUID REFERENCES user_profile(id) ON DELETE CASCADE;
+ADD COLUMN current_owner_id UUID REFERENCES user_profiles(id) ON DELETE CASCADE;
 
 -- Drop the old index on user_id
 DROP INDEX IF EXISTS idx_items_user_id;
