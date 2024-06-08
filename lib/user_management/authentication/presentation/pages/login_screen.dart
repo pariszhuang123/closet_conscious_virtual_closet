@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
           SvgPicture.asset('assets/images/SVG_CC_Logo.svg', height: 100), // Ensure this path matches your asset path
           const SizedBox(height: 24),
           Text(
-            S.of(context).appName,
+            S.of(context).AppName,
             style: const TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,

@@ -22,27 +22,24 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "SignupApple":
-            MessageLookupByLibrary.simpleMessage("Sign up with Apple"),
-        "SignupGoogle":
-            MessageLookupByLibrary.simpleMessage("Sign up with Google"),
-        "SignupSocialAccount": MessageLookupByLibrary.simpleMessage(
-            "Sign up with your Social Account"),
-        "appName": MessageLookupByLibrary.simpleMessage("Closet Conscious"),
-        "loginApple": MessageLookupByLibrary.simpleMessage("Login with Apple"),
-        "loginFailed": MessageLookupByLibrary.simpleMessage(
-            "Login failed. Please check your credentials and try again"),
-        "loginGoogle":
-            MessageLookupByLibrary.simpleMessage("Login with Google"),
-        "loginSocialAccount": MessageLookupByLibrary.simpleMessage(
-            "Login with your social account"),
-        "loginSuccess": MessageLookupByLibrary.simpleMessage(
-            "Welcome back! You are now logged in"),
+        "AmountHint": MessageLookupByLibrary.simpleMessage(
+            "\'How much did the item cost?"),
+        "AmountLabel": MessageLookupByLibrary.simpleMessage("Amount"),
+        "AppName": MessageLookupByLibrary.simpleMessage("Closet Conscious"),
+        "ItemClothingLayerLabel":
+            MessageLookupByLibrary.simpleMessage("Clothing Layer"),
+        "ItemClothingTypeLabel":
+            MessageLookupByLibrary.simpleMessage("Clothing Type"),
+        "ItemColourLabel": MessageLookupByLibrary.simpleMessage("Colour"),
+        "ItemColourVariationLabel":
+            MessageLookupByLibrary.simpleMessage("Colour Variation"),
+        "ItemNameHint": MessageLookupByLibrary.simpleMessage(
+            "\'What is the name of your item?"),
+        "ItemNameLabel": MessageLookupByLibrary.simpleMessage("Name"),
+        "ItemOccasionLabel": MessageLookupByLibrary.simpleMessage("Occassion"),
+        "ItemSeasonLabel": MessageLookupByLibrary.simpleMessage("Season"),
         "offlineStatus":
             MessageLookupByLibrary.simpleMessage("You are currently offline"),
-        "retryConnection": MessageLookupByLibrary.simpleMessage("Retry"),
-        "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
-        "signOut": MessageLookupByLibrary.simpleMessage("Sign Out"),
-        "signUp": MessageLookupByLibrary.simpleMessage("Sign Up")
+        "retryConnection": MessageLookupByLibrary.simpleMessage("Retry")
       };
 }

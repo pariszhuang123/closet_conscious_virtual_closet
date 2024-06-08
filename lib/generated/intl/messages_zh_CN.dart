@@ -22,19 +22,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "SignupApple": MessageLookupByLibrary.simpleMessage("使用苹果注册"),
-        "SignupGoogle": MessageLookupByLibrary.simpleMessage("使用谷歌注册"),
-        "SignupSocialAccount": MessageLookupByLibrary.simpleMessage("注册您的社交帐户"),
-        "appName": MessageLookupByLibrary.simpleMessage("衣橱选择"),
-        "loginApple": MessageLookupByLibrary.simpleMessage("使用苹果登录"),
-        "loginFailed": MessageLookupByLibrary.simpleMessage("登录失败。请检查您的凭据并重试"),
-        "loginGoogle": MessageLookupByLibrary.simpleMessage("使用谷歌登录"),
-        "loginSocialAccount": MessageLookupByLibrary.simpleMessage("登录您的社交帐户"),
-        "loginSuccess": MessageLookupByLibrary.simpleMessage("欢迎回来！您现在已登录"),
+        "AmountHint": MessageLookupByLibrary.simpleMessage("\'物品花了多少钱"),
+        "AmountLabel": MessageLookupByLibrary.simpleMessage("物品成本"),
+        "AppName": MessageLookupByLibrary.simpleMessage("衣橱选择"),
+        "ItemClothingLayerLabel": MessageLookupByLibrary.simpleMessage("服装层"),
+        "ItemClothingTypeLabel": MessageLookupByLibrary.simpleMessage("服装类型"),
+        "ItemColourLabel": MessageLookupByLibrary.simpleMessage("颜色"),
+        "ItemColourVariationLabel":
+            MessageLookupByLibrary.simpleMessage("颜色变化"),
+        "ItemNameHint": MessageLookupByLibrary.simpleMessage("\'您的商品名称是什么？"),
+        "ItemNameLabel": MessageLookupByLibrary.simpleMessage("物品名称"),
+        "ItemOccasionLabel": MessageLookupByLibrary.simpleMessage("场合"),
+        "ItemSeasonLabel": MessageLookupByLibrary.simpleMessage("季节"),
         "offlineStatus": MessageLookupByLibrary.simpleMessage("离线状态"),
-        "retryConnection": MessageLookupByLibrary.simpleMessage("重试连接"),
-        "signIn": MessageLookupByLibrary.simpleMessage("登入"),
-        "signOut": MessageLookupByLibrary.simpleMessage("登出"),
-        "signUp": MessageLookupByLibrary.simpleMessage("注册")
+        "retryConnection": MessageLookupByLibrary.simpleMessage("重试连接")
       };
 }
