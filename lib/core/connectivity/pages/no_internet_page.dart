@@ -26,7 +26,7 @@ class NoInternetPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              loc.appName,
+              loc.AppName,
               textAlign: TextAlign.center,
               style: const TextStyle( // Add const
                 color: Colors.black,

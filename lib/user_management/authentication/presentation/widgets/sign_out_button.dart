@@ -13,7 +13,7 @@ class SignOutButton extends StatelessWidget {
         context.read<AuthBloc>().add(SignOutEvent());
       },
       child: Text(
-        S.of(context).appName,
+        S.of(context).AppName,
         style: const TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
