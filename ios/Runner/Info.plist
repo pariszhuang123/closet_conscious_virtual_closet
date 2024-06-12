@@ -52,10 +52,13 @@
         <string>Editor</string>
         <key>CFBundleURLSchemes</key>
         <array>
-            <string>com.googleusercontent.apps.545049041946-dihu87d353h61aju62ptf6mrj92o15ef</string>
+            <string>com.googleusercontent.apps.545049041946-1251261g1r124</string>
         </array>
       </dict>
     </array>
-
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Need to access the photo library</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Need to access the camera to upload items.</string>
 </dict>
 </plist>

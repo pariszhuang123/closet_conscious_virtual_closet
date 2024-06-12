@@ -17,5 +17,6 @@ class SupabaseService {
 
   Future<void> signOut() async {
     await supabaseClient.auth.signOut();
-  }
+
+    }
 }

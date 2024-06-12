@@ -3,9 +3,10 @@ import 'config_reader.dart';
 
 class SupabaseConfig {
   static final SupabaseClient client = SupabaseClient(
-    'your-supabase-url',
-    'your-supabase-anon-key',
+    ConfigReader.getSupabaseUrl(),
+    ConfigReader.getSupabaseAnonKey(),
   );
+
 
   static Future<void> initialize() async {
     await Supabase.initialize(
