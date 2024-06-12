@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../core/config/supabase_config.dart';
 import '../../../../screens/my_closet.dart';
 import '../../data/services/upload_service.dart';
 import '../../../../user_management/authentication/presentation/bloc/authentication_bloc.dart';
-
+import '../../../../core/utilities/logger.dart';
 
 class NavigationHelper {
   static Future<void> uploadAndNavigate(
@@ -20,30 +19,73 @@ class NavigationHelper {
       String? clothingLayer,
       String? imagePath,
       ) async {
-    final user = SupabaseConfig.client.auth.currentUser;
+    authBloc.add(CheckAuthStatusEvent());
+    logger.d('CheckAuthStatusEvent added');
 
-    if (user == null || !_areFieldsValid([
-      itemName, amount, itemType, occasion, season, color, clothingType, clothingLayer, imagePath
-    ])) {
-      _showSnackbar(context, 'Please complete all fields.');
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (!context.mounted) return;
+
+    final authState = authBloc.state;
+    if (authState is Unauthenticated) {
+      _showSnackbar(context, 'User is not authenticated.');
+      logger.e('User is not authenticated');
       return;
     }
 
-    try {
-      final uploadService = UploadService(authBloc);
+    if (authState is Authenticated) {
+      final user = authState.user;
 
-      final imageUrl = await uploadService.uploadImage(imagePath!);
-      final itemId = await uploadService.insertItemData(user.id, itemName!, amount!, itemType!, occasion!, season!, color!, colorVariation!, imageUrl);
-      await uploadService.insertClothingData(itemId, user.id, clothingType!, clothingLayer!);
+      if (!_areFieldsValid([
+        itemName,
+        amount,
+        itemType,
+        occasion,
+        season,
+        color,
+        clothingType,
+        clothingLayer,
+      ])) {
+        _showSnackbar(context, 'Please complete all fields.');
+        logger.w('Validation failed: Incomplete fields');
+        return;
+      }
 
-      if (!context.mounted) return;
+      try {
+        final uploadService = UploadService(authBloc);
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MyClosetPage()),
-      );
-    } catch (e) {
-      _showSnackbar(context, 'An error occurred: $e');
+        logger.d('Uploading image');
+        final imageUrl = await uploadService.uploadImage(imagePath!);
+        logger.d('Image uploaded, URL: $imageUrl');
+
+        logger.d('Inserting item data');
+        final itemId = await uploadService.insertItemData(
+          user.id,
+          itemName!,
+          amount!,
+          itemType!,
+          occasion!,
+          season!,
+          color!,
+          colorVariation!,
+          imageUrl,
+        );
+        logger.d('Item data inserted, ID: $itemId');
+
+        logger.d('Inserting clothing data');
+        await uploadService.insertClothingData(itemId, user.id, clothingType!, clothingLayer!);
+        logger.d('Clothing data inserted');
+
+        if (!context.mounted) return;
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MyClosetPage()),
+        );
+      } catch (e) {
+        _showSnackbar(context, 'An error occurred: $e');
+        logger.e('An error occurred during upload and navigate: $e');
+      }
     }
   }
 
@@ -75,9 +117,11 @@ class NavigationHelper {
         );
       } else {
         uploadAndNavigate();
+        logger.d('Upload and navigate triggered');
       }
     } else {
       _showSnackbar(context, 'Please complete all required fields.');
+      logger.w('Page navigation validation failed: Please complete all required fields.');
     }
   }
 }

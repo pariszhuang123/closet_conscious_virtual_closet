@@ -6,10 +6,19 @@ import '../widgets/upload_basic_second_page.dart';
 import '../widgets/upload_basic_third_page.dart';
 import '../presentation/utils/image_picker_helper.dart';
 import '../presentation/utils/navigation_helper.dart';
-import '../presentation/utils/validation_helper.dart';
-import '../widgets/image_display_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../user_management/authentication/presentation/bloc/authentication_bloc.dart';
+import '../widgets/image_display_widget.dart';
+
+String? itemName;
+String? amount;
+String? itemType;
+String? occasion;
+String? season;
+String? color;
+String? colorVariation;
+String? clothingType;
+String? clothingLayer;
 
 
 class UploadItemPage extends StatefulWidget {
@@ -25,7 +34,6 @@ class UploadItemPageState extends State<UploadItemPage> {
   int _currentPage = 0;
 
   final ImagePickerHelper _imagePickerHelper = ImagePickerHelper();
-  final ValidationHelper _validationHelper = ValidationHelper();
 
   @override
   void initState() {
@@ -45,7 +53,7 @@ class UploadItemPageState extends State<UploadItemPage> {
       context,
       _pageController,
       _currentPage,
-      _validateFields,
+          (int _) => true,  // Bypass validation by always returning true
           () => NavigationHelper.uploadAndNavigate(
         context,
         context.read<AuthBloc>(), // Get authBloc from context
@@ -60,31 +68,6 @@ class UploadItemPageState extends State<UploadItemPage> {
         clothingLayer,
         _image?.path,
       ),
-    );
-  }
-
-
-  bool _validateFields(int currentPage) {
-    return _validationHelper.validateFields(
-      currentPage,
-      itemName,
-      amount,
-      itemType,
-      occasion,
-      season,
-      color,
-      colorVariation,
-      clothingType,
-      clothingLayer,
-          (error) => setState(() => itemNameError = error),
-          (error) => setState(() => amountError = error),
-          (error) => setState(() => itemTypeError = error),
-          (error) => setState(() => occasionError = error),
-          (error) => setState(() => seasonError = error),
-          (error) => setState(() => colorError = error),
-          (error) => setState(() => colorVariationError = error),
-          (error) => setState(() => clothingTypeError = error),
-          (error) => setState(() => clothingLayerError = error),
     );
   }
 
@@ -175,51 +158,6 @@ class UploadItemPageState extends State<UploadItemPage> {
               ],
             ),
           ),
-          if (itemNameError != null)
-            Text(
-              itemNameError!,
-              style: const TextStyle(color: Colors.red),
-            ),
-          if (amountError != null)
-            Text(
-              amountError!,
-              style: const TextStyle(color: Colors.red),
-            ),
-          if (itemTypeError != null)
-            Text(
-              itemTypeError!,
-              style: const TextStyle(color: Colors.red),
-            ),
-          if (occasionError != null)
-            Text(
-              occasionError!,
-              style: const TextStyle(color: Colors.red),
-            ),
-          if (seasonError != null)
-            Text(
-              seasonError!,
-              style: const TextStyle(color: Colors.red),
-            ),
-          if (colorError != null)
-            Text(
-              colorError!,
-              style: const TextStyle(color: Colors.red),
-            ),
-          if (colorVariationError != null)
-            Text(
-              colorVariationError!,
-              style: const TextStyle(color: Colors.red),
-            ),
-          if (clothingTypeError != null)
-            Text(
-              clothingTypeError!,
-              style: const TextStyle(color: Colors.red),
-            ),
-          if (clothingLayerError != null)
-            Text(
-              clothingLayerError!,
-              style: const TextStyle(color: Colors.red),
-            ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
