@@ -36,6 +36,7 @@ dependencies:
   localization: ^2.1.1
   logging: ^1.2.0
   logger: ^2.2.0
+  uuid: ^4.4.0
   google_sign_in: ^6.2.1
   supabase_flutter: ^2.5.2
   fluttertoast: ^8.2.4
