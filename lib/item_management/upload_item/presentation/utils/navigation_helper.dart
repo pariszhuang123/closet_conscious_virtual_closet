@@ -31,6 +31,8 @@ class NavigationHelper {
     if (!context.mounted) return;
 
     final authState = authBloc.state;
+    logger.d('Auth state: $authState');
+
     if (authState is Unauthenticated) {
       _showSnackbar(context, 'User is not authenticated.');
       logger.e('User is not authenticated');
@@ -39,6 +41,21 @@ class NavigationHelper {
 
     if (authState is Authenticated) {
       final user = authState.user;
+      logger.d('User authenticated: ${user.id}');
+
+      final fields = [
+        itemName,
+        amount,
+        itemType,
+        occasion,
+        season,
+        color,
+        colorVariation,
+        clothingType,
+        clothingLayer,
+      ];
+
+      logger.d('Fields before validation: $fields');
 
       if (!_areFieldsValid([
         itemName,
