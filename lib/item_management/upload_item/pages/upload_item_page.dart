@@ -9,6 +9,7 @@ import '../presentation/utils/navigation_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../user_management/authentication/presentation/bloc/authentication_bloc.dart';
 import '../widgets/image_display_widget.dart';
+import '../presentation/utils/validation_helper.dart';
 
 String? itemName;
 String? amount;
@@ -20,6 +21,15 @@ String? colorVariation;
 String? clothingType;
 String? clothingLayer;
 
+String? itemNameError;
+String? amountError;
+String? itemTypeError;
+String? occasionError;
+String? seasonError;
+String? colorError;
+String? colorVariationError;
+String? clothingTypeError;
+String? clothingLayerError;
 
 class UploadItemPage extends StatefulWidget {
   const UploadItemPage({super.key});
@@ -49,27 +59,60 @@ class UploadItemPageState extends State<UploadItemPage> {
   }
 
   void _nextPage() {
-    NavigationHelper.nextPage(
-      context,
-      _pageController,
+    final validationResults = ValidationHelper().validateFields(
       _currentPage,
-          (int _) => true,  // Bypass validation by always returning true
-          () => NavigationHelper.uploadAndNavigate(
-        context,
-        context.read<AuthBloc>(), // Get authBloc from context
-        itemName,
-        amount,
-        itemType,
-        occasion,
-        season,
-        color,
-        colorVariation,
-        clothingType,
-        clothingLayer,
-        _image?.path,
-      ),
+      itemName,
+      amount,
+      itemType,
+      occasion,
+      season,
+      color,
+      colorVariation,
+      clothingType,
+      clothingLayer,
     );
+
+    setState(() {
+      itemNameError = validationResults['itemNameError'];
+      amountError = validationResults['amountError'];
+      itemTypeError = validationResults['itemTypeError'];
+      occasionError = validationResults['occasionError'];
+      seasonError = validationResults['seasonError'];
+      colorError = validationResults['colorError'];
+      colorVariationError = validationResults['colorVariationError'];
+      clothingTypeError = validationResults['clothingTypeError'];
+      clothingLayerError = validationResults['clothingLayerError'];
+    });
+
+    bool isValid = validationResults.values.every((error) => error == null);
+
+    if (isValid) {
+      if (_currentPage == 2) {
+        // If it's the last page, perform the upload
+        NavigationHelper.uploadAndNavigate(
+          context,
+          context.read<AuthBloc>(), // Get authBloc from context
+          itemName,
+          amount,
+          itemType,
+          occasion,
+          season,
+          color,
+          colorVariation,
+          clothingType,
+          clothingLayer,
+          _image?.path,
+        );
+      } else {
+        // Otherwise, navigate to the next page
+        _pageController.nextPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeIn,
+        );
+      }
+    }
   }
+
 
   void _onDataChanged(String newItemName, String newAmount, String newItemType) {
     setState(() {

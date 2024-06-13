@@ -1,24 +1,3 @@
-String? itemName;
-String? amount;
-String? itemType;
-String? occasion;
-String? season;
-String? color;
-String? colorVariation;
-String? clothingType;
-String? clothingLayer;
-
-String? itemNameError;
-String? amountError;
-String? itemTypeError;
-String? occasionError;
-String? seasonError;
-String? colorError;
-String? colorVariationError;
-String? clothingTypeError;
-String? clothingLayerError;
-
-
 class ValidationHelper {
   String? validateItemName(String? itemName) {
     return itemName == null || itemName.isEmpty ? 'Item Name is required' : null;
@@ -56,7 +35,7 @@ class ValidationHelper {
     return clothingLayer == null ? 'Clothing Layer is required' : null;
   }
 
-  bool validateFields(
+  Map<String, String?> validateFields(
       int currentPage,
       String? itemName,
       String? amount,
@@ -67,33 +46,23 @@ class ValidationHelper {
       String? colorVariation,
       String? clothingType,
       String? clothingLayer,
-      Function(String?) setItemNameError,
-      Function(String?) setAmountError,
-      Function(String?) setItemTypeError,
-      Function(String?) setOccasionError,
-      Function(String?) setSeasonError,
-      Function(String?) setColorError,
-      Function(String?) setColorVariationError,
-      Function(String?) setClothingTypeError,
-      Function(String?) setClothingLayerError,
       ) {
+    final errors = <String, String?>{};
+
     if (currentPage == 0) {
-      setItemNameError(validateItemName(itemName));
-      setAmountError(validateAmount(amount));
-      setItemTypeError(validateItemType(itemType));
-      return itemNameError == null && amountError == null && itemTypeError == null;
+      errors['itemNameError'] = validateItemName(itemName);
+      errors['amountError'] = validateAmount(amount);
+      errors['itemTypeError'] = validateItemType(itemType);
     } else if (currentPage == 1) {
-      setOccasionError(validateOccasion(occasion));
-      setSeasonError(validateSeason(season));
-      setColorError(validateColor(color));
-      return occasionError == null && seasonError == null && colorError == null;
+      errors['occasionError'] = validateOccasion(occasion);
+      errors['seasonError'] = validateSeason(season);
+      errors['colorError'] = validateColor(color);
     } else if (currentPage == 2) {
-      setColorVariationError(validateColorVariation(colorVariation));
-      setClothingTypeError(validateClothingType(clothingType));
-      setClothingLayerError(validateClothingLayer(clothingLayer));
-      return clothingTypeError == null && clothingLayerError == null;
+      errors['colorVariationError'] = validateColorVariation(colorVariation);
+      errors['clothingTypeError'] = validateClothingType(clothingType);
+      errors['clothingLayerError'] = validateClothingLayer(clothingLayer);
     }
 
-    return false;
+    return errors;
   }
 }
