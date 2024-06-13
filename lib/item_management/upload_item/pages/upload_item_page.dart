@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import '../../../core/utilities/logger.dart';
 import '../widgets/upload_basic_first_page.dart';
 import '../widgets/upload_basic_second_page.dart';
 import '../widgets/upload_basic_third_page.dart';
 import '../presentation/utils/image_picker_helper.dart';
-import '../presentation/utils/navigation_helper.dart';
+import '../presentation/utils/navigation_helper.dart'; // Ensure this path is correct
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../user_management/authentication/presentation/bloc/authentication_bloc.dart';
 import '../widgets/image_display_widget.dart';
@@ -44,6 +45,8 @@ class UploadItemPageState extends State<UploadItemPage> {
   int _currentPage = 0;
 
   final ImagePickerHelper _imagePickerHelper = ImagePickerHelper();
+
+  final NavigationHelper _navigationHelper = NavigationHelper(CustomLogger('NavigationHelper'));
 
   @override
   void initState() {
@@ -89,7 +92,7 @@ class UploadItemPageState extends State<UploadItemPage> {
     if (isValid) {
       if (_currentPage == 2) {
         // If it's the last page, perform the upload
-        NavigationHelper.uploadAndNavigate(
+        _navigationHelper.uploadAndNavigate(
           context,
           context.read<AuthBloc>(), // Get authBloc from context
           itemName,
@@ -112,7 +115,6 @@ class UploadItemPageState extends State<UploadItemPage> {
       }
     }
   }
-
 
   void _onDataChanged(String newItemName, String newAmount, String newItemType) {
     setState(() {

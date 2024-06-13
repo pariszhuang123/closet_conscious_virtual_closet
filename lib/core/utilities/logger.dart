@@ -1,12 +1,33 @@
 import 'package:logger/logger.dart';
 
-final logger = Logger(
-  printer: PrettyPrinter(
-      methodCount: 0,  // number of method calls to be displayed
-      errorMethodCount: 8,  // number of method calls if an error is logged
-      lineLength: 120,  // width of the log print
-      colors: true,  // Colorful log messages
-      printEmojis: true,  // Print emojis for each log level
-      printTime: false  // Should each log print contain a timestamp
-  ),
-);
+class CustomLogger {
+  final String tag;
+  final Logger _logger;
+
+  CustomLogger(this.tag) : _logger = Logger(
+    printer: PrettyPrinter(
+      methodCount: 0,
+      errorMethodCount: 5,
+      lineLength: 120,
+      colors: true,
+      printEmojis: true,
+      printTime: true,
+    ),
+  );
+
+  void d(String message) {
+    _logger.d('[$tag] $message');
+  }
+
+  void i(String message) {
+    _logger.i('[$tag] $message');
+  }
+
+  void w(String message) {
+    _logger.w('[$tag] $message');
+  }
+
+  void e(String message) {
+    _logger.e('[$tag] $message');
+  }
+}

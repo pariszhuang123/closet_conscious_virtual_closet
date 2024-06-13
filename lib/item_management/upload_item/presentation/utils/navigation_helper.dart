@@ -5,7 +5,11 @@ import '../../../../user_management/authentication/presentation/bloc/authenticat
 import '../../../../core/utilities/logger.dart';
 
 class NavigationHelper {
-  static Future<void> uploadAndNavigate(
+  final CustomLogger logger;
+
+  NavigationHelper(this.logger);
+
+  Future<void> uploadAndNavigate(
       BuildContext context,
       AuthBloc authBloc,
       String? itemName,
@@ -89,11 +93,11 @@ class NavigationHelper {
     }
   }
 
-  static bool _areFieldsValid(List<String?> fields) {
+  bool _areFieldsValid(List<String?> fields) {
     return fields.every((field) => field != null && field.isNotEmpty);
   }
 
-  static void _showSnackbar(BuildContext context, String message) {
+  void _showSnackbar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
@@ -102,7 +106,7 @@ class NavigationHelper {
     );
   }
 
-  static void nextPage(
+  void nextPage(
       BuildContext context,
       PageController pageController,
       int currentPage,

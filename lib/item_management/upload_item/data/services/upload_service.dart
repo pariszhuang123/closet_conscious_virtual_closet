@@ -6,6 +6,7 @@ import '../../../../core/utilities/logger.dart';
 
 class UploadService {
   final AuthBloc authBloc;
+  final CustomLogger logger = CustomLogger('UploadService');
 
   UploadService(this.authBloc);
 
@@ -62,6 +63,7 @@ class UploadService {
       'color': color,
       'color_variation': colorVariation,
     }).select('item_id').single();
+
 
     logger.i('Item inserted with ID: ${response['item_id']}');
     return response['item_id'] as String;
