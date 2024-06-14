@@ -12,6 +12,9 @@ create function upload_item_metadata(
   _clothing_layer text
 )
 returns void as $$
+declare
+  items_item_id uuid;
+
 begin
   -- Insert into items table
   insert into items (item_type, image_url, name, amount_spent, occasion, season, colour, colour_variations)
