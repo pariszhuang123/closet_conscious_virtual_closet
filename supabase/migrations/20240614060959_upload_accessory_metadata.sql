@@ -1,4 +1,4 @@
-create function upload_item_metadata(
+create function upload_accessory_metadata(
   _item_type text,
   _image_url text,
   _name text,
