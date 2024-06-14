@@ -14,12 +14,11 @@ create function upload_item_metadata(
 returns void as $$
 declare
   items_item_id uuid;
-
 begin
-  -- Insert into items table
+  -- Insert into items table and get the generated item_id
   insert into items (item_type, image_url, name, amount_spent, occasion, season, colour, colour_variations)
-  values (_item_type, _image_url, _name, _amount_spent, _occasion, _season, _colour, _colour_variations);
-  RETURNING item_id INTO items_item_id;
+  values (_item_type, _image_url, _name, _amount_spent, _occasion, _season, _colour, _colour_variations)
+  returning item_id into items_item_id;
 
   -- Insert into items_clothing_basic table
   insert into items_clothing_basic (item_id, clothing_type, clothing_layer)
