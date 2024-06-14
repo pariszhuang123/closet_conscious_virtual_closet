@@ -1,6 +1,5 @@
 -- Your SQL function definition
 create or replace function upload_item_metadata(
-  _item_id uuid,
   _item_type text,
   _image_url text,
   _name text,
@@ -15,11 +14,12 @@ create or replace function upload_item_metadata(
 returns void as $$
 begin
   -- Insert into items table
-  insert into items (item_id, item_type, image_url, name, amount_spent, occasion, season, colour, colour_variations)
-  values (_item_id, _item_type, _image_url, _name, _amount_spent, _occasion, _season, _colour, _colour_variations);
+  insert into items (item_type, image_url, name, amount_spent, occasion, season, colour, colour_variations)
+  values (_item_type, _image_url, _name, _amount_spent, _occasion, _season, _colour, _colour_variations);
+  RETURNING item_id INTO items_item_id;
 
   -- Insert into items_clothing_basic table
   insert into items_clothing_basic (item_id, clothing_type, clothing_layer)
-  values (_item_id, _clothing_type, _clothing_layer);
+  values (items_item_id, _clothing_type, _clothing_layer);
 end;
 $$ language plpgsql;
