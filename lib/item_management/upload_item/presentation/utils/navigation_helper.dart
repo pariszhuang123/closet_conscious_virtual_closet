@@ -3,6 +3,8 @@ import '../../../../screens/my_closet.dart';
 import '../../data/services/upload_service.dart';
 import '../../../../user_management/authentication/presentation/bloc/authentication_bloc.dart';
 import '../../../../core/utilities/logger.dart';
+import '../../../../core/theme/my_closet_theme.dart';
+import '../../../../core/theme/my_outfit_theme.dart';
 
 class NavigationHelper {
   final CustomLogger logger;
@@ -101,7 +103,10 @@ class NavigationHelper {
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const MyClosetPage()),
+          MaterialPageRoute(builder: (context) => MyClosetPage(
+              myClosetTheme: myClosetTheme,
+              myOutfitTheme: myOutfitTheme
+          )),
         );
       } catch (e) {
         _showSnackbar(context, 'An error occurred: $e');
