@@ -10,21 +10,34 @@ class Avatar extends StatelessWidget {
     super.key,
     required this.imageUrl,
     required this.onUpload,
+    required this.itemName,
     required this.itemType,
+    required this.amountSpent,
     this.clothingType,
     this.clothingLayer,
-    this.shoeType,
+    this.shoesType,
     this.accessoryType,
 
+    required this.occasion,
+    required this.season,
+    required this.colour,
+    required this.colourVariations,
   });
 
   final String? imageUrl;
   final void Function(String imageUrl) onUpload;
-  final String itemType; // New parameter for item type
+  final String itemName;
+  final double amountSpent;
+  final String itemType;
   final String? clothingType;
   final String? clothingLayer;
-  final String? shoeType;
+  final String? shoesType;
   final String? accessoryType;
+
+  final String? occasion;
+  final String? season;
+  final String? colour;
+  final String? colourVariations;
 
   @override
   Widget build(BuildContext context) {
@@ -81,35 +94,31 @@ class Avatar extends StatelessWidget {
               final Map<String, dynamic> params = {
                 '_item_type': itemType,
                 '_image_url': newImageUrl,
-                '_name': 'my clothing',
-                '_amount_spent': 10,
-                '_occasion': 'active',
-                '_season': 'spring',
-                '_colour': 'red',
-                '_colour_variations': 'light',
+                '_name': itemName,
+                '_amount_spent': amountSpent,
+                '_occasion': occasion,
+                '_season': season,
+                '_colour': colour,
+                '_colour_variations': colourVariations,
               };
 
               if (itemType == 'clothing') {
                 params['_clothing_type'] = clothingType;
                 params['_clothing_layer'] = clothingLayer;
-              } else if (itemType == 'shoe') {
-                params['_shoe_type'] = shoeType;
+              } else if (itemType == 'shoes') {
+                params['_shoes_type'] = shoesType;
               } else if (itemType == 'accessory') {
                 params['_accessory_type'] = accessoryType;
               }
 
-              final response = await SupabaseConfig.client.rpc('upload_clothing_metadata', params: {
-                '_item_type': 'clothing',
-                '_image_url': newImageUrl,
-                '_name': 'my clothing',
-                '_amount_spent': 10,
-                '_occasion': 'active',
-                '_season': 'spring',
-                '_colour': 'red',
-                '_colour_variations': 'light',
-                '_clothing_type': 'top',
-                '_clothing_layer': 'base_layer',
-              });
+              final response = await SupabaseConfig.client.rpc(
+                itemType == 'clothing'
+                    ? 'upload_clothing_metadata'
+                    : itemType == 'shoes'
+                    ? 'upload_shoes_metadata'
+                    : 'upload_accessory_metadata',
+                params: params,
+              );
 
               if (response.error != null) {
                 logger.e('Error inserting data: ${response.error!.message}');
