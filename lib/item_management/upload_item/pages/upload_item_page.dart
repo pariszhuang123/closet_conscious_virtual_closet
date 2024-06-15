@@ -1,6 +1,14 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'avatar.dart';
 import '../../../core/config/supabase_config.dart';
+import '../../../core/utilities/logger.dart';
+import '../../../core/utilities/routes.dart';
+
 
 class UploadItemPage extends StatefulWidget {
   const UploadItemPage({super.key});
@@ -12,22 +20,36 @@ class UploadItemPage extends StatefulWidget {
 class _UploadItemPageState extends State<UploadItemPage> {
   final _itemNameController = TextEditingController();
   final _amountSpentController = TextEditingController();
+  File? _imageFile;
   String? _imageUrl;
   String? selectedItemType;
   String? selectedSpecificType;
   String? selectedClothingLayer;
+  String? _amountSpentError;
 
   String? selectedOccasion;
   String? selectedSeason;
   String? selectedColour;
   String? selectedColourVariation;
 
-  String? _amountSpentError;
+  bool get _isFormValid {
+    final amountSpentText = _amountSpentController.text;
+    final amountSpent = double.tryParse(amountSpentText);
+    return selectedItemType != null &&
+        selectedSpecificType != null &&
+        (selectedItemType != 'clothing' || selectedClothingLayer != null) &&
+        selectedOccasion != null &&
+        selectedSeason != null &&
+        selectedColour != null &&
+        selectedColourVariation != null &&
+        _itemNameController.text.isNotEmpty &&
+        (amountSpentText.isEmpty || (amountSpent != null && amountSpent >= 0));
+      }
 
   @override
   void initState() {
     super.initState();
-    _getInitialProfile();
+    _capturePhoto();
   }
 
   @override
@@ -37,20 +59,22 @@ class _UploadItemPageState extends State<UploadItemPage> {
     super.dispose();
   }
 
-  Future<void> _getInitialProfile() async {
-    final userId = SupabaseConfig.client.auth.currentUser!.id;
-    final data =
-    await SupabaseConfig.client.from('item_pics').select().eq('id', userId).single();
-    setState(() {
-      _imageUrl = data['avatar_url'];
-    });
+  Future<void> _capturePhoto() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+      setState(() {
+        _imageFile = File(image.path);
+        _imageUrl = _imageFile!.path;
+      });
+    }
   }
 
   bool _validateAmountSpent() {
     final amountSpentText = _amountSpentController.text;
     if (amountSpentText.isEmpty) {
       setState(() {
-        _amountSpentError = null;
+        _amountSpentError = null;  // Clear the error if the field is empty
       });
       return true;
     }
@@ -67,6 +91,93 @@ class _UploadItemPageState extends State<UploadItemPage> {
       _amountSpentError = null;
     });
     return true;
+  }
+
+  Future<void> _saveData() async {
+    if (!_validateAmountSpent()) return;
+
+    final logger = CustomLogger('UploadItemPage');
+    final userId = SupabaseConfig.client.auth.currentUser!.id;
+    String? finalImageUrl = _imageUrl;
+
+    if (_imageFile != null) {
+      final imageBytes = await _imageFile!.readAsBytes();
+      final uuid = const Uuid().v4();
+      final imagePath = '/$userId/$uuid.jpg';
+
+      try {
+        await SupabaseConfig.client.storage.from('item_pics').uploadBinary(
+          imagePath,
+          imageBytes,
+          fileOptions: const FileOptions(
+            upsert: true,
+            contentType: 'image/jpeg',
+          ),
+        );
+
+        finalImageUrl = SupabaseConfig.client.storage.from('item_pics').getPublicUrl(imagePath);
+        finalImageUrl = Uri.parse(finalImageUrl).replace(queryParameters: {
+          't': DateTime.now().millisecondsSinceEpoch.toString()
+        }).toString();
+      } catch (e) {
+        logger.e('Error uploading image: $e');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+        }
+        return;
+      }
+    }
+
+    final Map<String, dynamic> params = {
+      '_item_type': selectedItemType,
+      '_image_url': finalImageUrl,
+      '_name': _itemNameController.text.trim(),
+      '_amount_spent': double.tryParse(_amountSpentController.text) ?? 0.0,
+      '_occasion': selectedOccasion,
+      '_season': selectedSeason,
+      '_colour': selectedColour,
+      '_colour_variations': selectedColourVariation,
+    };
+
+    if (selectedItemType == 'clothing') {
+      params['_clothing_type'] = selectedSpecificType;
+      params['_clothing_layer'] = selectedClothingLayer;
+    } else if (selectedItemType == 'shoes') {
+      params['_shoes_type'] = selectedSpecificType;
+    } else if (selectedItemType == 'accessory') {
+      params['_accessory_type'] = selectedSpecificType;
+    }
+
+    try {
+      final response = await SupabaseConfig.client.rpc(
+        selectedItemType == 'clothing'
+            ? 'upload_clothing_metadata'
+            : selectedItemType == 'shoes'
+            ? 'upload_shoes_metadata'
+            : 'upload_accessory_metadata',
+        params: params,
+      );
+
+
+      if (response == null || response.error == null) {
+        logger.i('Data inserted successfully');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Your data has been saved')));
+          Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+        }
+      } else {
+        final errorMessage = response.error?.message;
+        logger.e('Error inserting data: $errorMessage');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $errorMessage')));
+        }
+      }
+    } catch (e) {
+      logger.e('Unexpected error: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+      }
+    }
   }
 
   Widget _buildShoeTypeButton(String shoeType) {
@@ -191,7 +302,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
 
   @override
   Widget build(BuildContext context) {
-    bool isValid = _validateAmountSpent();
+    _validateAmountSpent();
 
     return Scaffold(
       appBar: AppBar(
@@ -201,28 +312,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
         padding: const EdgeInsets.all(12),
         children: [
           Avatar(
-              imageUrl: _imageUrl,
-              onUpload: (imageUrl) async {
-                setState(() {
-                  _imageUrl = imageUrl;
-                });
-                final userId = SupabaseConfig.client.auth.currentUser!.id;
-                await SupabaseConfig.client
-                    .from('item_pics')
-                    .update({'avatar_url': imageUrl}).eq('id', userId);
-              },
-               itemName: _itemNameController.text.trim(),
-               amountSpent: double.tryParse(_amountSpentController.text) ?? 0.0,
-               itemType: selectedItemType ?? '',
-               shoesType: selectedSpecificType,
-               accessoryType: selectedSpecificType,
-               clothingType: selectedSpecificType,
-               clothingLayer: selectedClothingLayer,
-
-               occasion: selectedOccasion,
-               season: selectedSeason,
-               colour: selectedColour,
-               colourVariations: selectedColourVariation,
+            imageUrl: _imageUrl,
           ),
           const SizedBox(height: 12),
           TextFormField(
@@ -352,7 +442,6 @@ class _UploadItemPageState extends State<UploadItemPage> {
               ],
             ),
           ],
-
           const SizedBox(height: 12),
           const Text(
             'Select Occasion',
@@ -414,18 +503,12 @@ class _UploadItemPageState extends State<UploadItemPage> {
               _buildColourVariationButton('dark'),
             ],
           ),
-
           const SizedBox(height: 12),
           ElevatedButton(
-            onPressed: isValid ? () async {
-              final userId = SupabaseConfig.client.auth.currentUser!.id;
-
-              await SupabaseConfig.client.from('item_pics').update({
-              }).eq('id', userId);
-              if (!mounted) return;
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Your data has been saved')));
-    }
+            onPressed: _isFormValid
+                ? () async {
+              await _saveData();
+            }
                 : null,
             child: const Text('Save'),
           ),
@@ -434,4 +517,3 @@ class _UploadItemPageState extends State<UploadItemPage> {
     );
   }
 }
-
