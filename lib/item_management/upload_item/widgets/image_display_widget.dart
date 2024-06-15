@@ -2,19 +2,34 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 class ImageDisplayWidget extends StatelessWidget {
-  final File? imageFile;
+  const ImageDisplayWidget({
+    super.key,
+    required this.imageUrl,
+  });
 
-  const ImageDisplayWidget({super.key, this.imageFile});
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
-    return imageFile != null
-        ? Image.file(
-      imageFile!,
-      height: 200,
-      width: 200,
-      fit: BoxFit.cover,
-    )
-        : const Text('No image selected.');
+    return SizedBox(
+      width: 175,
+      height: 175,
+      child: imageUrl != null
+          ? (Uri.tryParse(imageUrl!)?.isAbsolute == true
+          ? Image.network(
+        imageUrl!,
+        fit: BoxFit.contain,
+      )
+          : Image.file(
+        File(imageUrl!),
+        fit: BoxFit.contain,
+      ))
+          : Container(
+        color: Colors.grey,
+        child: const Center(
+          child: Text('No Image'),
+        ),
+      ),
+    );
   }
 }

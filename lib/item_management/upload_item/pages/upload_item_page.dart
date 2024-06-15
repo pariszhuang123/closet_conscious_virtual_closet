@@ -4,7 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'avatar.dart';
+import '../widgets/image_display_widget.dart';
 import '../../../core/config/supabase_config.dart';
 import '../../../core/utilities/logger.dart';
 import '../../../core/utilities/routes.dart';
@@ -207,7 +207,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
         body: ListView(
           padding: const EdgeInsets.all(12),
           children: [
-            Avatar(
+            ImageDisplayWidget(
               imageUrl: _imageUrl,
             ),
             const SizedBox(height: 12),
