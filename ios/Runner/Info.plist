@@ -48,6 +48,8 @@
 	<key>CFBundleURLTypes</key>
     <array>
       <dict>
+        <key>AdaptyPublicSdkKey</key>
+        <string>public_live_gXprPX4Q.SZNj6c4H5hw76xWUIHTs</string>
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
         <key>CFBundleURLSchemes</key>
