@@ -9,9 +9,10 @@ import '../../../core/config/supabase_config.dart';
 import '../../../core/utilities/logger.dart';
 import '../../../core/utilities/routes.dart';
 
-
 class UploadItemPage extends StatefulWidget {
-  const UploadItemPage({super.key});
+  final ThemeData myClosetTheme;
+
+  const UploadItemPage({super.key, required this.myClosetTheme});
 
   @override
   State<UploadItemPage> createState() => _UploadItemPageState();
@@ -41,10 +42,9 @@ class _UploadItemPageState extends State<UploadItemPage> {
         selectedOccasion != null &&
         selectedSeason != null &&
         selectedColour != null &&
-        selectedColourVariation != null &&
         _itemNameController.text.isNotEmpty &&
         (amountSpentText.isEmpty || (amountSpent != null && amountSpent >= 0));
-      }
+  }
 
   @override
   void initState() {
@@ -74,7 +74,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
     final amountSpentText = _amountSpentController.text;
     if (amountSpentText.isEmpty) {
       setState(() {
-        _amountSpentError = null;  // Clear the error if the field is empty
+        _amountSpentError = null; // Clear the error if the field is empty
       });
       return true;
     }
@@ -158,7 +158,6 @@ class _UploadItemPageState extends State<UploadItemPage> {
         params: params,
       );
 
-
       if (response == null || response.error == null) {
         logger.i('Data inserted successfully');
         if (mounted) {
@@ -180,339 +179,385 @@ class _UploadItemPageState extends State<UploadItemPage> {
     }
   }
 
-  Widget _buildShoeTypeButton(String shoeType) {
+  Widget _buildTypeButton(String type, String selectedType, Function() onPressed) {
+    bool isSelected = selectedType == type;
     return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          selectedSpecificType = shoeType;
-        });
-      },
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: selectedSpecificType == shoeType ? Colors.blue : Colors.grey,
+        backgroundColor: isSelected
+            ? Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({MaterialState.selected})
+            : Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({}),
+        foregroundColor: isSelected
+            ? Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({MaterialState.selected})
+            : Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({}),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
-      child: Text(shoeType),
-    );
-  }
-
-  Widget _buildAccessoryTypeButton(String accessoryType) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          selectedSpecificType = accessoryType;
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: selectedSpecificType == accessoryType ? Colors.blue : Colors.grey,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      ),
-      child: Text(accessoryType),
-    );
-  }
-
-  Widget _buildClothingTypeButton(String clothingType) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          selectedSpecificType = clothingType;
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: selectedSpecificType == clothingType ? Colors.blue : Colors.grey,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      ),
-      child: Text(clothingType),
-    );
-  }
-
-  Widget _buildClothingLayerButton(String clothingLayer) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          selectedClothingLayer = clothingLayer;
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: selectedClothingLayer == clothingLayer ? Colors.blue : Colors.grey,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      ),
-      child: Text(clothingLayer),
-    );
-  }
-
-  Widget _buildOccasionButton(String occasion) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          selectedOccasion = occasion;
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: selectedOccasion == occasion ? Colors.blue : Colors.grey,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      ),
-      child: Text(occasion),
-    );
-  }
-
-  Widget _buildSeasonButton(String season) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          selectedSeason = season;
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: selectedSeason == season ? Colors.blue : Colors.grey,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      ),
-      child: Text(season),
-    );
-  }
-
-  Widget _buildColourButton(String colour) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          selectedColour = colour;
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: selectedColour == colour ? Colors.blue : Colors.grey,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      ),
-      child: Text(colour),
-    );
-  }
-
-  Widget _buildColourVariationButton(String colourVariation) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          selectedColourVariation = colourVariation;
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: selectedColourVariation == colourVariation ? Colors.blue : Colors.grey,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      ),
-      child: Text(colourVariation),
+      child: Text(type),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    _validateAmountSpent();
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Upload Item'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(12),
-        children: [
-          Avatar(
-            imageUrl: _imageUrl,
-          ),
-          const SizedBox(height: 12),
-          TextFormField(
-            controller: _itemNameController,
-            decoration: const InputDecoration(
-              label: Text('Item Name'),
+    return Theme(
+      data: widget.myClosetTheme,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Upload Item'),
+        ),
+        body: ListView(
+          padding: const EdgeInsets.all(12),
+          children: [
+            Avatar(
+              imageUrl: _imageUrl,
             ),
-          ),
-          const SizedBox(height: 12),
-          TextFormField(
-            controller: _amountSpentController,
-            decoration: InputDecoration(
-              label: const Text('Amount Spent'),
-              hintText: 'Enter amount spent',
-              errorText: _amountSpentError,
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: _itemNameController,
+              decoration: InputDecoration(
+                labelText: 'Item Name',
+                labelStyle: Theme.of(context).textTheme.bodyMedium,
+              ),
             ),
-            keyboardType: TextInputType.number,
-            onChanged: (value) {
-              _validateAmountSpent();
-            },
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            'Select Item Type',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: _amountSpentController,
+              decoration: InputDecoration(
+                labelText: 'Amount Spent',
+                hintText: 'Enter amount spent',
+                errorText: _amountSpentError,
+                labelStyle: Theme.of(context).textTheme.bodyMedium,
+              ),
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                _validateAmountSpent();
+              },
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'Select Item Type',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildTypeButton('clothing', selectedItemType ?? '', () {
                   setState(() {
                     selectedItemType = 'clothing';
                   });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: selectedItemType == 'clothing' ? Colors.blue : Colors.grey,
-                ),
-                child: const Text('Clothing'),
-              ),
-              const SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
+                }),
+                const SizedBox(width: 10),
+                _buildTypeButton('shoes', selectedItemType ?? '', () {
                   setState(() {
                     selectedItemType = 'shoes';
                   });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: selectedItemType == 'shoes' ? Colors.blue : Colors.grey,
-                ),
-                child: const Text('Shoes'),
-              ),
-              const SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
+                }),
+                const SizedBox(width: 10),
+                _buildTypeButton('accessory', selectedItemType ?? '', () {
                   setState(() {
                     selectedItemType = 'accessory';
                   });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: selectedItemType == 'accessory' ? Colors.blue : Colors.grey,
-                ),
-                child: const Text('Accessories'),
+                }),
+              ],
+            ),
+            const SizedBox(height: 12),
+            if (selectedItemType == 'shoes') ...[
+              const Text(
+                'Select Shoe Type',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              Wrap(
+                spacing: 8.0,
+                children: [
+                  _buildTypeButton('boots', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'boots';
+                    });
+                  }),
+                  _buildTypeButton('casual shoes', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'casual shoes';
+                    });
+                  }),
+                  _buildTypeButton('running shoes', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'running shoes';
+                    });
+                  }),
+                  _buildTypeButton('dress shoes', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'dress shoes';
+                    });
+                  }),
+                  _buildTypeButton('speciality shoes', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'speciality shoes';
+                    });
+                  }),
+                ],
               ),
             ],
-          ),
-          const SizedBox(height: 12),
-          if (selectedItemType == 'shoes') ...[
+            if (selectedItemType == 'accessory') ...[
+              const Text(
+                'Select Accessory Type',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              Wrap(
+                spacing: 8.0,
+                children: [
+                  _buildTypeButton('bag', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'bag';
+                    });
+                  }),
+                  _buildTypeButton('belt', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'belt';
+                    });
+                  }),
+                  _buildTypeButton('eyewear', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'eyewear';
+                    });
+                  }),
+                  _buildTypeButton('gloves', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'gloves';
+                    });
+                  }),
+                  _buildTypeButton('hat', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'hat';
+                    });
+                  }),
+                  _buildTypeButton('jewellery', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'jewellery';
+                    });
+                  }),
+                  _buildTypeButton('scarf and wrap', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'scarf and wrap';
+                    });
+                  }),
+                  _buildTypeButton('tie & bowtie', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'tie & bowtie';
+                    });
+                  }),
+                ],
+              ),
+            ],
+            if (selectedItemType == 'clothing') ...[
+              const Text(
+                'Select Clothing Type',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              Wrap(
+                spacing: 8.0,
+                children: [
+                  _buildTypeButton('top', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'top';
+                    });
+                  }),
+                  _buildTypeButton('bottom', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'bottom';
+                    });
+                  }),
+                  _buildTypeButton('full-length', selectedSpecificType ?? '', () {
+                    setState(() {
+                      selectedSpecificType = 'full-length';
+                    });
+                  }),
+                ],
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Select Clothing Layer',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              Wrap(
+                spacing: 8.0,
+                children: [
+                  _buildTypeButton('base_layer', selectedClothingLayer ?? '', () {
+                    setState(() {
+                      selectedClothingLayer = 'base_layer';
+                    });
+                  }),
+                  _buildTypeButton('insulating_layer', selectedClothingLayer ?? '', () {
+                    setState(() {
+                      selectedClothingLayer = 'insulating_layer';
+                    });
+                  }),
+                  _buildTypeButton('outer_layer', selectedClothingLayer ?? '', () {
+                    setState(() {
+                      selectedClothingLayer = 'outer_layer';
+                    });
+                  }),
+                ],
+              ),
+            ],
+            const SizedBox(height: 12),
             const Text(
-              'Select Shoe Type',
+              'Select Occasion',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             Wrap(
               spacing: 8.0,
               children: [
-                _buildShoeTypeButton('boots'),
-                _buildShoeTypeButton('casual shoes'),
-                _buildShoeTypeButton('running shoes'),
-                _buildShoeTypeButton('dress shoes'),
-                _buildShoeTypeButton('speciality shoes'),
-              ],
-            ),
-          ],
-          if (selectedItemType == 'accessory') ...[
-            const Text(
-              'Select Accessory Type',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            Wrap(
-              spacing: 8.0,
-              children: [
-                _buildAccessoryTypeButton('bag'),
-                _buildAccessoryTypeButton('belt'),
-                _buildAccessoryTypeButton('eyewear'),
-                _buildAccessoryTypeButton('gloves'),
-                _buildAccessoryTypeButton('hat'),
-                _buildAccessoryTypeButton('jewellery'),
-                _buildAccessoryTypeButton('scarf and wrap'),
-                _buildAccessoryTypeButton('tie & bowtie'),
-              ],
-            ),
-          ],
-          if (selectedItemType == 'clothing') ...[
-            const Text(
-              'Select Clothing Type',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            Wrap(
-              spacing: 8.0,
-              children: [
-                _buildClothingTypeButton('top'),
-                _buildClothingTypeButton('bottom'),
-                _buildClothingTypeButton('full-length'),
+                _buildTypeButton('active', selectedOccasion ?? '', () {
+                  setState(() {
+                    selectedOccasion = 'active';
+                  });
+                }),
+                _buildTypeButton('casual', selectedOccasion ?? '', () {
+                  setState(() {
+                    selectedOccasion = 'casual';
+                  });
+                }),
+                _buildTypeButton('workplace', selectedOccasion ?? '', () {
+                  setState(() {
+                    selectedOccasion = 'workplace';
+                  });
+                }),
+                _buildTypeButton('social', selectedOccasion ?? '', () {
+                  setState(() {
+                    selectedOccasion = 'social';
+                  });
+                }),
+                _buildTypeButton('event', selectedOccasion ?? '', () {
+                  setState(() {
+                    selectedOccasion = 'event';
+                  });
+                }),
               ],
             ),
             const SizedBox(height: 12),
             const Text(
-              'Select Clothing Layer',
+              'Select Season',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             Wrap(
               spacing: 8.0,
               children: [
-                _buildClothingLayerButton('base_layer'),
-                _buildClothingLayerButton('insulating_layer'),
-                _buildClothingLayerButton('outer_layer'),
+                _buildTypeButton('spring', selectedSeason ?? '', () {
+                  setState(() {
+                    selectedSeason = 'spring';
+                  });
+                }),
+                _buildTypeButton('summer', selectedSeason ?? '', () {
+                  setState(() {
+                    selectedSeason = 'summer';
+                  });
+                }),
+                _buildTypeButton('autumn', selectedSeason ?? '', () {
+                  setState(() {
+                    selectedSeason = 'autumn';
+                  });
+                }),
+                _buildTypeButton('winter', selectedSeason ?? '', () {
+                  setState(() {
+                    selectedSeason = 'winter';
+                  });
+                }),
               ],
             ),
+            const SizedBox(height: 12),
+            const Text(
+              'Select Colour',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            Wrap(
+              spacing: 8.0,
+              children: [
+                _buildTypeButton('red', selectedColour ?? '', () {
+                  setState(() {
+                    selectedColour = 'red';
+                  });
+                }),
+                _buildTypeButton('blue', selectedColour ?? '', () {
+                  setState(() {
+                    selectedColour = 'blue';
+                  });
+                }),
+                _buildTypeButton('green', selectedColour ?? '', () {
+                  setState(() {
+                    selectedColour = 'green';
+                  });
+                }),
+                _buildTypeButton('yellow', selectedColour ?? '', () {
+                  setState(() {
+                    selectedColour = 'yellow';
+                  });
+                }),
+                _buildTypeButton('brown', selectedColour ?? '', () {
+                  setState(() {
+                    selectedColour = 'brown';
+                  });
+                }),
+                _buildTypeButton('grey', selectedColour ?? '', () {
+                  setState(() {
+                    selectedColour = 'grey';
+                  });
+                }),
+                _buildTypeButton('rainbow', selectedColour ?? '', () {
+                  setState(() {
+                    selectedColour = 'rainbow';
+                  });
+                }),
+                _buildTypeButton('black', selectedColour ?? '', () {
+                  setState(() {
+                    selectedColour = 'black';
+                    selectedColourVariation = null;
+                  });
+                }),
+                _buildTypeButton('white', selectedColour ?? '', () {
+                  setState(() {
+                    selectedColour = 'white';
+                    selectedColourVariation = null;
+                  });
+                }),
+              ],
+            ),
+            if (selectedColour != 'black' && selectedColour != 'white' && selectedColour != null) ...[
+              const SizedBox(height: 12),
+              const Text(
+                'Select Colour Variation',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              Wrap(
+                spacing: 8.0,
+                children: [
+                  _buildTypeButton('light', selectedColourVariation ?? '', () {
+                    setState(() {
+                      selectedColourVariation = 'light';
+                    });
+                  }),
+                  _buildTypeButton('medium', selectedColourVariation ?? '', () {
+                    setState(() {
+                      selectedColourVariation = 'medium';
+                    });
+                  }),
+                  _buildTypeButton('dark', selectedColourVariation ?? '', () {
+                    setState(() {
+                      selectedColourVariation = 'dark';
+                    });
+                  }),
+                ],
+              ),
+            ],
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: _isFormValid
+                  ? () async {
+                await _saveData();
+              }
+                  : null,
+              child: const Text('Save'),
+            ),
           ],
-          const SizedBox(height: 12),
-          const Text(
-            'Select Occasion',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          Wrap(
-            spacing: 8.0,
-            children: [
-              _buildOccasionButton('active'),
-              _buildOccasionButton('casual'),
-              _buildOccasionButton('workplace'),
-              _buildOccasionButton('social'),
-              _buildOccasionButton('event'),
-            ],
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            'Select Season',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          Wrap(
-            spacing: 8.0,
-            children: [
-              _buildSeasonButton('spring'),
-              _buildSeasonButton('summer'),
-              _buildSeasonButton('autumn'),
-              _buildSeasonButton('winter'),
-            ],
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            'Select Colour',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          Wrap(
-            spacing: 8.0,
-            children: [
-              _buildColourButton('red'),
-              _buildColourButton('blue'),
-              _buildColourButton('green'),
-              _buildColourButton('yellow'),
-              _buildColourButton('brown'),
-              _buildColourButton('grey'),
-              _buildColourButton('rainbow'),
-              _buildColourButton('black'),
-              _buildColourButton('white'),
-            ],
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            'Select Colour Variation',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          Wrap(
-            spacing: 8.0,
-            children: [
-              _buildColourVariationButton('light'),
-              _buildColourVariationButton('medium'),
-              _buildColourVariationButton('dark'),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ElevatedButton(
-            onPressed: _isFormValid
-                ? () async {
-              await _saveData();
-            }
-                : null,
-            child: const Text('Save'),
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "67.0.0"
+  adapty_flutter:
+    dependency: "direct main"
+    description:
+      name: adapty_flutter
+      sha256: "2c780b027a0d2bddd02e70442a5120ad7b7e203d74f7ae3f5eec0d915185cb95"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.10.1"
   analyzer:
     dependency: transitive
     description:

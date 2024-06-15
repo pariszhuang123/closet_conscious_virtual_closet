@@ -9,7 +9,10 @@ import '../core/connectivity/pages/no_internet_page.dart';
 
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final ThemeData myClosetTheme;
+  final ThemeData myOutfitTheme;
+
+  const HomePage({super.key, required this.myClosetTheme, required this.myOutfitTheme});
 
   @override
   HomePageState createState() => HomePageState();
@@ -21,7 +24,7 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(CheckAuthStatusEvent()); // Check auth status when the widget is initialized
+    context.read<AuthBloc>().add(CheckAuthStatusEvent());
 
     // Initialize the ConnectivityBloc
     connectivityBloc = context.read<ConnectivityBloc>();
@@ -53,7 +56,8 @@ class HomePageState extends State<HomePage> {
             if (state is Authenticated) {
               // Navigate to MyClosetPage
               Future.microtask(() {
-                Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+                Navigator.pushReplacementNamed(context,
+                    AppRoutes.myCloset);
               });
               return const CircularProgressIndicator();
             } else if (state is Unauthenticated) {

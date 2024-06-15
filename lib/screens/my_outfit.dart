@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CreateOutfitPage extends StatefulWidget {
-  const CreateOutfitPage({super.key});
+  final ThemeData myOutfitTheme;
+  final ThemeData myClosetTheme;
+
+  const CreateOutfitPage({super.key, required this.myOutfitTheme, required this.myClosetTheme});
 
 
   @override
@@ -23,7 +26,9 @@ class CreateOutfitPageState extends State<CreateOutfitPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Theme(
+        data: widget.myOutfitTheme,
+        child: Scaffold(
       appBar: AppBar(
         title: const Text('Create My Outfit'),
         automaticallyImplyLeading: false, // This removes the back button
@@ -92,7 +97,7 @@ class CreateOutfitPageState extends State<CreateOutfitPage> {
         selectedItemColor: const Color(0xFF255163), // Set selected item color
         onTap: _onItemTapped,
       ),
-    );
+    ));
   }
 
   Widget _buildOutfitCategoryCard(BuildContext context, String category, IconData icon) {

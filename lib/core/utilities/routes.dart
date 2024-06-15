@@ -17,18 +17,24 @@ class AppRoutes {
   static const String uploadItem = '/upload_item';
 
 
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic> generateRoute(RouteSettings settings, ThemeData myClosetTheme, ThemeData myOutfitTheme) {
     switch (settings.name) {
       case login:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case home:
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return MaterialPageRoute(builder: (_) => HomePage(myClosetTheme: myClosetTheme, myOutfitTheme: myOutfitTheme));
       case myCloset:
-        return MaterialPageRoute(builder: (_) => const MyClosetPage());
+        return MaterialPageRoute(
+          builder: (_) => MyClosetPage(myClosetTheme: myClosetTheme, myOutfitTheme: myOutfitTheme),
+        );
       case createOutfit:
-        return MaterialPageRoute(builder: (_) => const CreateOutfitPage());
+        return MaterialPageRoute(
+          builder: (_) => CreateOutfitPage(myOutfitTheme: myOutfitTheme, myClosetTheme: myClosetTheme),
+        );
       case uploadItem:
-        return MaterialPageRoute(builder: (_) => const UploadItemPage());
+        return MaterialPageRoute(
+          builder: (_) => UploadItemPage(myClosetTheme: myClosetTheme),
+        );
       case noInternet:
         return MaterialPageRoute(builder: (_) => const NoInternetPage());
       default:

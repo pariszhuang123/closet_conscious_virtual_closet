@@ -12,17 +12,17 @@ class Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200,
-      height: 200,
+      width: 175,
+      height: 175,
       child: imageUrl != null
           ? (Uri.tryParse(imageUrl!)?.isAbsolute == true
           ? Image.network(
         imageUrl!,
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
       )
           : Image.file(
         File(imageUrl!),
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
       ))
           : Container(
         color: Colors.grey,

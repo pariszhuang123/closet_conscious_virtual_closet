@@ -13,6 +13,9 @@ import '../core/utilities/routes.dart';
 import 'user_management/authentication/presentation/bloc/authentication_bloc.dart';
 import 'core/connectivity/presentation/blocs/connectivity_bloc.dart';
 
+import 'core/theme/my_closet_theme.dart';
+import 'core/theme/my_outfit_theme.dart';
+
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
@@ -48,9 +51,9 @@ class MainApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales, // Add the supported locales
       initialRoute: AppRoutes.home, // Set initial route
-      onGenerateRoute: AppRoutes.generateRoute, // Use the routes
-
-      home: const HomePage(),
+      onGenerateRoute: (settings) => AppRoutes.generateRoute(settings, myClosetTheme, myOutfitTheme),
+      theme: myClosetTheme, // Default theme
+      home: HomePage(myClosetTheme: myClosetTheme, myOutfitTheme: myOutfitTheme),
           ),
         ),
     );

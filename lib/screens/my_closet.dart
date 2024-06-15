@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import '../core/utilities/routes.dart';
 
 class MyClosetPage extends StatefulWidget {
-  const MyClosetPage({super.key});
+  final ThemeData myClosetTheme;
+  final ThemeData myOutfitTheme;
+
+  const MyClosetPage({super.key, required this.myClosetTheme, required this.myOutfitTheme});
 
   @override
   MyClosetPageState createState() => MyClosetPageState();
@@ -27,7 +30,9 @@ class MyClosetPageState extends State<MyClosetPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Theme(
+        data: widget.myClosetTheme,
+        child: Scaffold(
       appBar: AppBar(
         title: const Text('My Closet'),
         automaticallyImplyLeading: false, // This removes the back button
@@ -122,6 +127,6 @@ class MyClosetPageState extends State<MyClosetPage> {
         selectedItemColor: const Color(0xFF366d59), // Set selected item color
         onTap: _onItemTapped,
       ),
-    );
+    ));
   }
 }

@@ -8,6 +8,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "adapty_flutter",
+      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/adapty_flutter-2.10.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "analyzer",
       "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/analyzer-6.4.1",
       "packageUri": "lib/",
@@ -896,6 +902,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "sprintf",
+      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/sprintf-7.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "stack_trace",
       "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/stack_trace-1.11.1",
       "packageUri": "lib/",
@@ -1034,6 +1046,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "uuid",
+      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/uuid-4.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "vector_graphics",
       "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/vector_graphics-1.1.11+1",
       "packageUri": "lib/",
@@ -1130,7 +1148,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-06-06T09:12:16.937298Z",
+  "generated": "2024-06-15T07:27:46.739406Z",
   "generator": "pub",
   "generatorVersion": "3.3.4"
 }
