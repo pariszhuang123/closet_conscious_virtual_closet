@@ -9,6 +9,9 @@ import '../../../core/config/supabase_config.dart';
 import '../../../core/utilities/logger.dart';
 import '../../../core/utilities/routes.dart';
 
+import '../widgets/upload_images/type_data.dart';
+import '../widgets/upload_images/type_button.dart';
+
 class UploadItemPage extends StatefulWidget {
   final ThemeData myClosetTheme;
 
@@ -33,17 +36,36 @@ class _UploadItemPageState extends State<UploadItemPage> {
   String? selectedColour;
   String? selectedColourVariation;
 
-  bool get _isFormValid {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  final _formKeyPage1 = GlobalKey<FormState>();
+  final _formKeyPage2 = GlobalKey<FormState>();
+  final _formKeyPage3 = GlobalKey<FormState>();
+
+  bool get _isFormValidPage1 {
     final amountSpentText = _amountSpentController.text;
     final amountSpent = double.tryParse(amountSpentText);
     return selectedItemType != null &&
-        selectedSpecificType != null &&
-        (selectedItemType != 'clothing' || selectedClothingLayer != null) &&
-        selectedOccasion != null &&
-        selectedSeason != null &&
-        selectedColour != null &&
         _itemNameController.text.isNotEmpty &&
         (amountSpentText.isEmpty || (amountSpent != null && amountSpent >= 0));
+  }
+
+  bool get _isFormValidPage2 {
+    return selectedOccasion != null &&
+        selectedSeason != null &&
+        selectedSpecificType != null &&
+        (selectedItemType != 'clothing' || selectedClothingLayer != null);
+  }
+
+  bool get _isFormValidPage3 {
+    if (selectedColour == null) {
+      return false;
+    }
+    if (selectedColour != 'black' && selectedColour != 'white' && selectedColourVariation == null) {
+      return false;
+    }
+    return true;
   }
 
   @override
@@ -56,6 +78,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
   void dispose() {
     _itemNameController.dispose();
     _amountSpentController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -120,10 +143,9 @@ class _UploadItemPageState extends State<UploadItemPage> {
           't': DateTime.now().millisecondsSinceEpoch.toString()
         }).toString();
       } catch (e) {
+        if (!mounted) return;
         logger.e('Error uploading image: $e');
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
-        }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
         return;
       }
     }
@@ -158,42 +180,97 @@ class _UploadItemPageState extends State<UploadItemPage> {
         params: params,
       );
 
+
       if (response == null || response.error == null) {
+        if (!mounted) return;
         logger.i('Data inserted successfully');
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Your data has been saved')));
-          Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
-        }
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Your data has been saved')));
+        Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
       } else {
+        if (!mounted) return;
         final errorMessage = response.error?.message;
         logger.e('Error inserting data: $errorMessage');
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $errorMessage')));
-        }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $errorMessage')));
       }
     } catch (e) {
+      if (!mounted) return;
       logger.e('Unexpected error: $e');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+    }
+  }
+
+
+  void _handleNext() {
+    if (_currentPage == 0) {
+      if (_isFormValidPage1) {
+        _pageController.nextPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+        setState(() {
+          _currentPage = 1;
+        });
+      } else {
+        _showSpecificErrorMessagesPage1();
+      }
+    } else if (_currentPage == 1) {
+      if (_isFormValidPage2) {
+        _pageController.nextPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+        setState(() {
+          _currentPage = 2;
+        });
+      } else {
+        _showSpecificErrorMessagesPage2();
       }
     }
   }
 
-  Widget _buildTypeButton(String type, String selectedType, Function() onPressed) {
-    bool isSelected = selectedType == type;
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected
-            ? Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({MaterialState.selected})
-            : Theme.of(context).elevatedButtonTheme.style?.backgroundColor?.resolve({}),
-        foregroundColor: isSelected
-            ? Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({MaterialState.selected})
-            : Theme.of(context).elevatedButtonTheme.style?.foregroundColor?.resolve({}),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      ),
-      child: Text(type),
-    );
+  void _handleUpload() {
+    if (_isFormValidPage3) {
+      _saveData();
+    } else {
+      _showSpecificErrorMessagesPage3();
+    }
+  }
+
+  void _showSpecificErrorMessagesPage1() {
+    if (_itemNameController.text.isEmpty) {
+      _showErrorMessage('Item Name field is not filled.');
+    } else if (_amountSpentError == null) {
+      _showErrorMessage('Amount Spent field is not filled.');
+    } else if (selectedItemType == null) {
+      _showErrorMessage('Item Type field is not filled.');
+    }
+  }
+
+  void _showSpecificErrorMessagesPage2() {
+    if (selectedOccasion == null) {
+      _showErrorMessage('Occasion field is not filled.');
+    } else if (selectedSeason == null) {
+      _showErrorMessage('Season field is not filled.');
+    } else if (selectedSpecificType == null) {
+      _showErrorMessage('Item Type field is not filled.');
+    } else if (selectedItemType == 'clothing' && selectedClothingLayer == null) {
+      _showErrorMessage('Clothing Layer field is not filled.');
+    }
+  }
+
+  void _showSpecificErrorMessagesPage3() {
+    if (selectedColour == null) {
+      _showErrorMessage('Colour field is not filled.');
+    } else if (selectedColour != 'black' && selectedColour != 'white' && selectedColourVariation == null) {
+      _showErrorMessage('Colour Variation field is not filled.');
+    }
+  }
+
+  void _showErrorMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+    ));
   }
 
   @override
@@ -201,362 +278,289 @@ class _UploadItemPageState extends State<UploadItemPage> {
     return Theme(
       data: widget.myClosetTheme,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Upload Item'),
-        ),
-        body: ListView(
-          padding: const EdgeInsets.all(12),
-          children: [
-            ImageDisplayWidget(
-              imageUrl: _imageUrl,
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              controller: _itemNameController,
-              decoration: InputDecoration(
-                labelText: 'Item Name',
-                labelStyle: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              controller: _amountSpentController,
-              decoration: InputDecoration(
-                labelText: 'Amount Spent',
-                hintText: 'Enter amount spent',
-                errorText: _amountSpentError,
-                labelStyle: Theme.of(context).textTheme.bodyMedium,
-              ),
-              keyboardType: TextInputType.number,
-              onChanged: (value) {
-                _validateAmountSpent();
-              },
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              'Select Item Type',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
               children: [
-                _buildTypeButton('clothing', selectedItemType ?? '', () {
-                  setState(() {
-                    selectedItemType = 'clothing';
-                  });
-                }),
-                const SizedBox(width: 10),
-                _buildTypeButton('shoes', selectedItemType ?? '', () {
-                  setState(() {
-                    selectedItemType = 'shoes';
-                  });
-                }),
-                const SizedBox(width: 10),
-                _buildTypeButton('accessory', selectedItemType ?? '', () {
-                  setState(() {
-                    selectedItemType = 'accessory';
-                  });
-                }),
+                // Top Section: Image Display
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.25,
+                  child: ImageDisplayWidget(
+                    imageUrl: _imageUrl,
+                  ),
+                ),
+                // Middle Section: Metadata Pages
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.55,
+                  child: PageView(
+                    controller: _pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      // First Page
+                      Form(
+                        key: _formKeyPage1,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                controller: _itemNameController,
+                                decoration: InputDecoration(
+                                  labelText: 'Item Name',
+                                  labelStyle: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter an item name';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 12),
+                              TextFormField(
+                                controller: _amountSpentController,
+                                decoration: InputDecoration(
+                                  labelText: 'Amount Spent',
+                                  hintText: 'Enter amount spent',
+                                  errorText: _amountSpentError,
+                                  labelStyle: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                keyboardType: TextInputType.number,
+                                onChanged: (value) {
+                                  _validateAmountSpent();
+                                },
+                              ),
+                              const SizedBox(height: 12),
+                              const Text(
+                                'Select Item Type',
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              Wrap(
+                                spacing: 8.0,
+                                children: TypeDataList.itemGeneralTypes.map((type) {
+                                  return TypeButton(
+                                    label: type.name,
+                                    selectedLabel: selectedItemType ?? '',
+                                    onPressed: () {
+                                      setState(() {
+                                        selectedItemType = type.name;
+                                      });
+                                    },
+                                    imageUrl: type.imageUrl,
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // Second Page
+                      Form(
+                        key: _formKeyPage2,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
+                              const Text(
+                                'Select Occasion',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Wrap(
+                                spacing: 8.0,
+                                children: TypeDataList.occasions.map((occasion) {
+                                  return TypeButton(
+                                    label: occasion.name,
+                                    selectedLabel: selectedOccasion ?? '',
+                                    onPressed: () {
+                                      setState(() {
+                                        selectedOccasion = occasion.name;
+                                      });
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                              const SizedBox(height: 12),
+                              const Text(
+                                'Select Season',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Wrap(
+                                spacing: 8.0,
+                                children: TypeDataList.seasons.map((season) {
+                                  return TypeButton(
+                                    label: season.name,
+                                    selectedLabel: selectedSeason ?? '',
+                                    onPressed: () {
+                                      setState(() {
+                                        selectedSeason = season.name;
+                                      });
+                                    },
+                                    imageUrl: season.imageUrl,
+                                  );
+                                }).toList(),
+                              ),
+                              const SizedBox(height: 12),
+                              if (selectedItemType == 'shoes') ...[
+                                const Text(
+                                  'Select Shoe Type',
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                ),
+                                Wrap(
+                                  spacing: 8.0,
+                                  children: TypeDataList.shoeTypes.map((shoeType) {
+                                    return TypeButton(
+                                      label: shoeType.name,
+                                      selectedLabel: selectedSpecificType ?? '',
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedSpecificType = shoeType.name;
+                                        });
+                                      },
+                                      imageUrl: shoeType.imageUrl,
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                              if (selectedItemType == 'accessory') ...[
+                                const Text(
+                                  'Select Accessory Type',
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                ),
+                                Wrap(
+                                  spacing: 8.0,
+                                  children: TypeDataList.accessoryTypes.map((accessoryType) {
+                                    return TypeButton(
+                                      label: accessoryType.name,
+                                      selectedLabel: selectedSpecificType ?? '',
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedSpecificType = accessoryType.name;
+                                        });
+                                      },
+                                      imageUrl: accessoryType.imageUrl,
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                              if (selectedItemType == 'clothing') ...[
+                                const Text(
+                                  'Select Clothing Type',
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                ),
+                                Wrap(
+                                  spacing: 8.0,
+                                  children: TypeDataList.clothingTypes.map((clothingType) {
+                                    return TypeButton(
+                                      label: clothingType.name,
+                                      selectedLabel: selectedSpecificType ?? '',
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedSpecificType = clothingType.name;
+                                        });
+                                      },
+                                      imageUrl: clothingType.imageUrl,
+                                    );
+                                  }).toList(),
+                                ),
+                                const SizedBox(height: 12),
+                                const Text(
+                                  'Select Clothing Layer',
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                ),
+                                Wrap(
+                                  spacing: 8.0,
+                                  children: TypeDataList.clothingLayers.map((clothingLayer) {
+                                    return TypeButton(
+                                      label: clothingLayer.name,
+                                      selectedLabel: selectedClothingLayer ?? '',
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedClothingLayer = clothingLayer.name;
+                                        });
+                                      },
+                                      imageUrl: clothingLayer.imageUrl,
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                      // Third Page
+                      Form(
+                        key: _formKeyPage3,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
+                              const Text(
+                                'Select Colour',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Wrap(
+                                spacing: 8.0,
+                                children: TypeDataList.colors.map((color) {
+                                  return TypeButton(
+                                    label: color.name,
+                                    selectedLabel: selectedColour ?? '',
+                                    onPressed: () {
+                                      setState(() {
+                                        selectedColour = color.name;
+                                      });
+                                    },
+                                    imageUrl: color.imageUrl,
+                                  );
+                                }).toList(),
+                              ),
+                              if (selectedColour != 'black' && selectedColour != 'white' && selectedColour != null) ...[
+                                const SizedBox(height: 12),
+                                const Text(
+                                  'Select Colour Variation',
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                ),
+                                Wrap(
+                                  spacing: 8.0,
+                                  children: TypeDataList.colorVariations.map((variation) {
+                                    return TypeButton(
+                                      label: variation.name,
+                                      selectedLabel: selectedColourVariation ?? '',
+                                      onPressed: () {
+                                        setState(() {
+                                          selectedColourVariation = variation.name;
+                                        });
+                                      },
+                                      imageUrl: variation.imageUrl,
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Bottom Section: Navigation and Submission Button
+                Padding(
+                  padding: const EdgeInsets.only(top: 2.0, bottom: 2.0, left: 16.0, right: 16.0),
+                  child: ElevatedButton(
+                    onPressed: _currentPage == 0
+                        ? _handleNext
+                        : _currentPage == 1
+                        ? _handleNext
+                        : _handleUpload,
+                    child: Text(_currentPage == 0
+                        ? 'Next'
+                        : _currentPage == 1
+                        ? 'Next'
+                        : 'Upload'),
+                  ),
+                ),
               ],
             ),
-            const SizedBox(height: 12),
-            if (selectedItemType == 'shoes') ...[
-              const Text(
-                'Select Shoe Type',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              Wrap(
-                spacing: 8.0,
-                children: [
-                  _buildTypeButton('boots', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'boots';
-                    });
-                  }),
-                  _buildTypeButton('casual shoes', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'casual shoes';
-                    });
-                  }),
-                  _buildTypeButton('running shoes', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'running shoes';
-                    });
-                  }),
-                  _buildTypeButton('dress shoes', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'dress shoes';
-                    });
-                  }),
-                  _buildTypeButton('speciality shoes', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'speciality shoes';
-                    });
-                  }),
-                ],
-              ),
-            ],
-            if (selectedItemType == 'accessory') ...[
-              const Text(
-                'Select Accessory Type',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              Wrap(
-                spacing: 8.0,
-                children: [
-                  _buildTypeButton('bag', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'bag';
-                    });
-                  }),
-                  _buildTypeButton('belt', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'belt';
-                    });
-                  }),
-                  _buildTypeButton('eyewear', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'eyewear';
-                    });
-                  }),
-                  _buildTypeButton('gloves', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'gloves';
-                    });
-                  }),
-                  _buildTypeButton('hat', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'hat';
-                    });
-                  }),
-                  _buildTypeButton('jewellery', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'jewellery';
-                    });
-                  }),
-                  _buildTypeButton('scarf and wrap', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'scarf and wrap';
-                    });
-                  }),
-                  _buildTypeButton('tie & bowtie', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'tie & bowtie';
-                    });
-                  }),
-                ],
-              ),
-            ],
-            if (selectedItemType == 'clothing') ...[
-              const Text(
-                'Select Clothing Type',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              Wrap(
-                spacing: 8.0,
-                children: [
-                  _buildTypeButton('top', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'top';
-                    });
-                  }),
-                  _buildTypeButton('bottom', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'bottom';
-                    });
-                  }),
-                  _buildTypeButton('full-length', selectedSpecificType ?? '', () {
-                    setState(() {
-                      selectedSpecificType = 'full-length';
-                    });
-                  }),
-                ],
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                'Select Clothing Layer',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              Wrap(
-                spacing: 8.0,
-                children: [
-                  _buildTypeButton('base_layer', selectedClothingLayer ?? '', () {
-                    setState(() {
-                      selectedClothingLayer = 'base_layer';
-                    });
-                  }),
-                  _buildTypeButton('insulating_layer', selectedClothingLayer ?? '', () {
-                    setState(() {
-                      selectedClothingLayer = 'insulating_layer';
-                    });
-                  }),
-                  _buildTypeButton('outer_layer', selectedClothingLayer ?? '', () {
-                    setState(() {
-                      selectedClothingLayer = 'outer_layer';
-                    });
-                  }),
-                ],
-              ),
-            ],
-            const SizedBox(height: 12),
-            const Text(
-              'Select Occasion',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            Wrap(
-              spacing: 8.0,
-              children: [
-                _buildTypeButton('active', selectedOccasion ?? '', () {
-                  setState(() {
-                    selectedOccasion = 'active';
-                  });
-                }),
-                _buildTypeButton('casual', selectedOccasion ?? '', () {
-                  setState(() {
-                    selectedOccasion = 'casual';
-                  });
-                }),
-                _buildTypeButton('workplace', selectedOccasion ?? '', () {
-                  setState(() {
-                    selectedOccasion = 'workplace';
-                  });
-                }),
-                _buildTypeButton('social', selectedOccasion ?? '', () {
-                  setState(() {
-                    selectedOccasion = 'social';
-                  });
-                }),
-                _buildTypeButton('event', selectedOccasion ?? '', () {
-                  setState(() {
-                    selectedOccasion = 'event';
-                  });
-                }),
-              ],
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              'Select Season',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            Wrap(
-              spacing: 8.0,
-              children: [
-                _buildTypeButton('spring', selectedSeason ?? '', () {
-                  setState(() {
-                    selectedSeason = 'spring';
-                  });
-                }),
-                _buildTypeButton('summer', selectedSeason ?? '', () {
-                  setState(() {
-                    selectedSeason = 'summer';
-                  });
-                }),
-                _buildTypeButton('autumn', selectedSeason ?? '', () {
-                  setState(() {
-                    selectedSeason = 'autumn';
-                  });
-                }),
-                _buildTypeButton('winter', selectedSeason ?? '', () {
-                  setState(() {
-                    selectedSeason = 'winter';
-                  });
-                }),
-              ],
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              'Select Colour',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            Wrap(
-              spacing: 8.0,
-              children: [
-                _buildTypeButton('red', selectedColour ?? '', () {
-                  setState(() {
-                    selectedColour = 'red';
-                  });
-                }),
-                _buildTypeButton('blue', selectedColour ?? '', () {
-                  setState(() {
-                    selectedColour = 'blue';
-                  });
-                }),
-                _buildTypeButton('green', selectedColour ?? '', () {
-                  setState(() {
-                    selectedColour = 'green';
-                  });
-                }),
-                _buildTypeButton('yellow', selectedColour ?? '', () {
-                  setState(() {
-                    selectedColour = 'yellow';
-                  });
-                }),
-                _buildTypeButton('brown', selectedColour ?? '', () {
-                  setState(() {
-                    selectedColour = 'brown';
-                  });
-                }),
-                _buildTypeButton('grey', selectedColour ?? '', () {
-                  setState(() {
-                    selectedColour = 'grey';
-                  });
-                }),
-                _buildTypeButton('rainbow', selectedColour ?? '', () {
-                  setState(() {
-                    selectedColour = 'rainbow';
-                  });
-                }),
-                _buildTypeButton('black', selectedColour ?? '', () {
-                  setState(() {
-                    selectedColour = 'black';
-                    selectedColourVariation = null;
-                  });
-                }),
-                _buildTypeButton('white', selectedColour ?? '', () {
-                  setState(() {
-                    selectedColour = 'white';
-                    selectedColourVariation = null;
-                  });
-                }),
-              ],
-            ),
-            if (selectedColour != 'black' && selectedColour != 'white' && selectedColour != null) ...[
-              const SizedBox(height: 12),
-              const Text(
-                'Select Colour Variation',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              Wrap(
-                spacing: 8.0,
-                children: [
-                  _buildTypeButton('light', selectedColourVariation ?? '', () {
-                    setState(() {
-                      selectedColourVariation = 'light';
-                    });
-                  }),
-                  _buildTypeButton('medium', selectedColourVariation ?? '', () {
-                    setState(() {
-                      selectedColourVariation = 'medium';
-                    });
-                  }),
-                  _buildTypeButton('dark', selectedColourVariation ?? '', () {
-                    setState(() {
-                      selectedColourVariation = 'dark';
-                    });
-                  }),
-                ],
-              ),
-            ],
-            const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: _isFormValid
-                  ? () async {
-                await _saveData();
-              }
-                  : null,
-              child: const Text('Save'),
-            ),
-          ],
+          ),
         ),
       ),
     );

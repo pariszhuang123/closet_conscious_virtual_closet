@@ -12,8 +12,8 @@ class ImageDisplayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 175,
-      height: 175,
+      width: 200,
+      height: 200,
       child: imageUrl != null
           ? (Uri.tryParse(imageUrl!)?.isAbsolute == true
           ? Image.network(
