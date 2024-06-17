@@ -55,7 +55,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
     return selectedOccasion != null &&
         selectedSeason != null &&
         selectedSpecificType != null &&
-        (selectedItemType != 'clothing' || selectedClothingLayer != null);
+        (selectedItemType != 'Clothing' || selectedClothingLayer != null);
   }
 
   bool get _isFormValidPage3 {
@@ -161,20 +161,20 @@ class _UploadItemPageState extends State<UploadItemPage> {
       '_colour_variations': selectedColourVariation,
     };
 
-    if (selectedItemType == 'clothing') {
+    if (selectedItemType == 'Clothing') {
       params['_clothing_type'] = selectedSpecificType;
       params['_clothing_layer'] = selectedClothingLayer;
-    } else if (selectedItemType == 'shoes') {
+    } else if (selectedItemType == 'Shoes') {
       params['_shoes_type'] = selectedSpecificType;
-    } else if (selectedItemType == 'accessory') {
+    } else if (selectedItemType == 'Accessory') {
       params['_accessory_type'] = selectedSpecificType;
     }
 
     try {
       final response = await SupabaseConfig.client.rpc(
-        selectedItemType == 'clothing'
+        selectedItemType == 'Clothing'
             ? 'upload_clothing_metadata'
-            : selectedItemType == 'shoes'
+            : selectedItemType == 'Shoes'
             ? 'upload_shoes_metadata'
             : 'upload_accessory_metadata',
         params: params,
@@ -253,7 +253,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
       _showErrorMessage('Season field is not filled.');
     } else if (selectedSpecificType == null) {
       _showErrorMessage('Item Type field is not filled.');
-    } else if (selectedItemType == 'clothing' && selectedClothingLayer == null) {
+    } else if (selectedItemType == 'Clothing' && selectedClothingLayer == null) {
       _showErrorMessage('Clothing Layer field is not filled.');
     }
   }
@@ -273,6 +273,35 @@ class _UploadItemPageState extends State<UploadItemPage> {
     ));
   }
 
+  List<Widget> _buildIconRows(List<TypeData> typeDataList, String? selectedLabel, void Function(String) onTap) {
+    List<Widget> rows = [];
+    int index = 0;
+    while (index < typeDataList.length) {
+      int end = (index + 5) > typeDataList.length ? typeDataList.length : (index + 5);
+      List<TypeData> rowIcons = typeDataList.sublist(index, end);
+      rows.add(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: rowIcons.map((type) {
+            return TypeButton(
+              label: type.name,
+              selectedLabel: selectedLabel ?? '',
+              onPressed: () {
+                setState(() {
+                  onTap(type.name);
+                });
+              },
+              imageUrl: type.imageUrl, // Use assetPath instead of imageUrl
+            );
+          }).toList(),
+        ),
+      );
+      index = end;
+    }
+    return rows;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -291,7 +320,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                 ),
                 // Middle Section: Metadata Pages
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.55,
+                  height: MediaQuery.of(context).size.height * 0.6,
                   child: PageView(
                     controller: _pageController,
                     physics: const NeverScrollableScrollPhysics(),
@@ -335,20 +364,10 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 'Select Item Type',
                                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                               ),
-                              Wrap(
-                                spacing: 8.0,
-                                children: TypeDataList.itemGeneralTypes.map((type) {
-                                  return TypeButton(
-                                    label: type.name,
-                                    selectedLabel: selectedItemType ?? '',
-                                    onPressed: () {
-                                      setState(() {
-                                        selectedItemType = type.name;
-                                      });
-                                    },
-                                    imageUrl: type.imageUrl,
-                                  );
-                                }).toList(),
+                              ..._buildIconRows(
+                                TypeDataList.itemGeneralTypes,
+                                selectedItemType,
+                                    (name) => selectedItemType = name,
                               ),
                             ],
                           ),
@@ -365,122 +384,63 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 'Select Occasion',
                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
-                              Wrap(
-                                spacing: 8.0,
-                                children: TypeDataList.occasions.map((occasion) {
-                                  return TypeButton(
-                                    label: occasion.name,
-                                    selectedLabel: selectedOccasion ?? '',
-                                    onPressed: () {
-                                      setState(() {
-                                        selectedOccasion = occasion.name;
-                                      });
-                                    },
-                                  );
-                                }).toList(),
+                              ..._buildIconRows(
+                                TypeDataList.occasions,
+                                selectedOccasion,
+                                    (name) => selectedOccasion = name,
                               ),
                               const SizedBox(height: 12),
                               const Text(
                                 'Select Season',
                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
-                              Wrap(
-                                spacing: 8.0,
-                                children: TypeDataList.seasons.map((season) {
-                                  return TypeButton(
-                                    label: season.name,
-                                    selectedLabel: selectedSeason ?? '',
-                                    onPressed: () {
-                                      setState(() {
-                                        selectedSeason = season.name;
-                                      });
-                                    },
-                                    imageUrl: season.imageUrl,
-                                  );
-                                }).toList(),
+                              ..._buildIconRows(
+                                TypeDataList.seasons,
+                                selectedSeason,
+                                    (name) => selectedSeason = name,
                               ),
                               const SizedBox(height: 12),
-                              if (selectedItemType == 'shoes') ...[
+                              if (selectedItemType == 'Shoes') ...[
                                 const Text(
                                   'Select Shoe Type',
                                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                 ),
-                                Wrap(
-                                  spacing: 8.0,
-                                  children: TypeDataList.shoeTypes.map((shoeType) {
-                                    return TypeButton(
-                                      label: shoeType.name,
-                                      selectedLabel: selectedSpecificType ?? '',
-                                      onPressed: () {
-                                        setState(() {
-                                          selectedSpecificType = shoeType.name;
-                                        });
-                                      },
-                                      imageUrl: shoeType.imageUrl,
-                                    );
-                                  }).toList(),
+                                ..._buildIconRows(
+                                  TypeDataList.shoeTypes,
+                                  selectedSpecificType,
+                                      (name) => selectedSpecificType = name,
                                 ),
                               ],
-                              if (selectedItemType == 'accessory') ...[
+                              if (selectedItemType == 'Accessory') ...[
                                 const Text(
                                   'Select Accessory Type',
                                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                 ),
-                                Wrap(
-                                  spacing: 8.0,
-                                  children: TypeDataList.accessoryTypes.map((accessoryType) {
-                                    return TypeButton(
-                                      label: accessoryType.name,
-                                      selectedLabel: selectedSpecificType ?? '',
-                                      onPressed: () {
-                                        setState(() {
-                                          selectedSpecificType = accessoryType.name;
-                                        });
-                                      },
-                                      imageUrl: accessoryType.imageUrl,
-                                    );
-                                  }).toList(),
+                                ..._buildIconRows(
+                                  TypeDataList.accessoryTypes,
+                                  selectedSpecificType,
+                                      (name) => selectedSpecificType = name,
                                 ),
                               ],
-                              if (selectedItemType == 'clothing') ...[
+                              if (selectedItemType == 'Clothing') ...[
                                 const Text(
                                   'Select Clothing Type',
                                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                 ),
-                                Wrap(
-                                  spacing: 8.0,
-                                  children: TypeDataList.clothingTypes.map((clothingType) {
-                                    return TypeButton(
-                                      label: clothingType.name,
-                                      selectedLabel: selectedSpecificType ?? '',
-                                      onPressed: () {
-                                        setState(() {
-                                          selectedSpecificType = clothingType.name;
-                                        });
-                                      },
-                                      imageUrl: clothingType.imageUrl,
-                                    );
-                                  }).toList(),
+                                ..._buildIconRows(
+                                  TypeDataList.clothingTypes,
+                                  selectedSpecificType,
+                                      (name) => selectedSpecificType = name,
                                 ),
                                 const SizedBox(height: 12),
                                 const Text(
                                   'Select Clothing Layer',
                                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                 ),
-                                Wrap(
-                                  spacing: 8.0,
-                                  children: TypeDataList.clothingLayers.map((clothingLayer) {
-                                    return TypeButton(
-                                      label: clothingLayer.name,
-                                      selectedLabel: selectedClothingLayer ?? '',
-                                      onPressed: () {
-                                        setState(() {
-                                          selectedClothingLayer = clothingLayer.name;
-                                        });
-                                      },
-                                      imageUrl: clothingLayer.imageUrl,
-                                    );
-                                  }).toList(),
+                                ..._buildIconRows(
+                                  TypeDataList.clothingLayers,
+                                  selectedClothingLayer,
+                                      (name) => selectedClothingLayer = name,
                                 ),
                               ],
                             ],
@@ -498,20 +458,10 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 'Select Colour',
                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
-                              Wrap(
-                                spacing: 8.0,
-                                children: TypeDataList.colors.map((color) {
-                                  return TypeButton(
-                                    label: color.name,
-                                    selectedLabel: selectedColour ?? '',
-                                    onPressed: () {
-                                      setState(() {
-                                        selectedColour = color.name;
-                                      });
-                                    },
-                                    imageUrl: color.imageUrl,
-                                  );
-                                }).toList(),
+                              ..._buildIconRows(
+                                TypeDataList.colors,
+                                selectedColour,
+                                    (name) => selectedColour = name,
                               ),
                               if (selectedColour != 'black' && selectedColour != 'white' && selectedColour != null) ...[
                                 const SizedBox(height: 12),
@@ -519,20 +469,10 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   'Select Colour Variation',
                                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                 ),
-                                Wrap(
-                                  spacing: 8.0,
-                                  children: TypeDataList.colorVariations.map((variation) {
-                                    return TypeButton(
-                                      label: variation.name,
-                                      selectedLabel: selectedColourVariation ?? '',
-                                      onPressed: () {
-                                        setState(() {
-                                          selectedColourVariation = variation.name;
-                                        });
-                                      },
-                                      imageUrl: variation.imageUrl,
-                                    );
-                                  }).toList(),
+                                ..._buildIconRows(
+                                  TypeDataList.colorVariations,
+                                  selectedColourVariation,
+                                      (name) => selectedColourVariation = name,
                                 ),
                               ],
                             ],

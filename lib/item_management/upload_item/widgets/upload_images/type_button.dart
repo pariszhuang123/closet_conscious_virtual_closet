@@ -52,15 +52,15 @@ class TypeButton extends StatelessWidget {
     if (url.endsWith('.svg')) {
       return SvgPicture.network(
         url,
-        width: 50,
-        height: 50,
+        width: 25,
+        height: 25,
         placeholderBuilder: (BuildContext context) => const CircularProgressIndicator(),
       );
     } else {
       return Image.network(
         url,
-        width: 50,
-        height: 50,
+        width: 25,
+        height: 25,
         errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
           return const Icon(Icons.error); // Display an error icon if image fails to load
         },

@@ -128,7 +128,7 @@ class MyClosetPageState extends State<MyClosetPage> {
                 child: GridView.builder(
                   controller: _scrollController,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                    crossAxisCount: 3,
                     childAspectRatio: 3 / 4,
                   ),
                   itemCount: _items.length,
