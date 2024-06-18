@@ -48,12 +48,12 @@ class _UploadItemPageState extends State<UploadItemPage> {
     final amountSpent = double.tryParse(amountSpentText);
     return selectedItemType != null &&
         _itemNameController.text.isNotEmpty &&
-        (amountSpentText.isEmpty || (amountSpent != null && amountSpent >= 0));
+        (amountSpentText.isEmpty || (amountSpent != null && amountSpent >= 0)) &&
+        selectedOccasion != null;
   }
 
   bool get _isFormValidPage2 {
-    return selectedOccasion != null &&
-        selectedSeason != null &&
+    return selectedSeason != null &&
         selectedSpecificType != null &&
         (selectedItemType != 'Clothing' || selectedClothingLayer != null);
   }
@@ -62,7 +62,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
     if (selectedColour == null) {
       return false;
     }
-    if (selectedColour != 'black' && selectedColour != 'white' && selectedColourVariation == null) {
+    if (selectedColour != 'Black' && selectedColour != 'White' && selectedColourVariation == null) {
       return false;
     }
     return true;
@@ -97,7 +97,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
     final amountSpentText = _amountSpentController.text;
     if (amountSpentText.isEmpty) {
       setState(() {
-        _amountSpentError = null; // Clear the error if the field is empty
+        _amountSpentError = null;
       });
       return true;
     }
@@ -116,8 +116,16 @@ class _UploadItemPageState extends State<UploadItemPage> {
     return true;
   }
 
+  void _setColourVariationToNullIfBlackOrWhite() {
+    if (selectedColour == 'Black' || selectedColour == 'White') {
+      selectedColourVariation = null;
+    }
+  }
+
   Future<void> _saveData() async {
     if (!_validateAmountSpent()) return;
+
+    _setColourVariationToNullIfBlackOrWhite();
 
     final logger = CustomLogger('UploadItemPage');
     final userId = SupabaseConfig.client.auth.currentUser!.id;
@@ -199,7 +207,6 @@ class _UploadItemPageState extends State<UploadItemPage> {
     }
   }
 
-
   void _handleNext() {
     if (_currentPage == 0) {
       if (_isFormValidPage1) {
@@ -225,6 +232,12 @@ class _UploadItemPageState extends State<UploadItemPage> {
       } else {
         _showSpecificErrorMessagesPage2();
       }
+    } else if (_currentPage == 2) {
+      if (_isFormValidPage3) {
+        _handleUpload();
+      } else {
+        _showSpecificErrorMessagesPage3();
+      }
     }
   }
 
@@ -239,20 +252,20 @@ class _UploadItemPageState extends State<UploadItemPage> {
   void _showSpecificErrorMessagesPage1() {
     if (_itemNameController.text.isEmpty) {
       _showErrorMessage('Item Name field is not filled.');
-    } else if (_amountSpentError == null) {
-      _showErrorMessage('Amount Spent field is not filled.');
+    } else if (_amountSpentError != null) {
+      _showErrorMessage('Amount Spent field is not valid.');
     } else if (selectedItemType == null) {
       _showErrorMessage('Item Type field is not filled.');
+    } else if (selectedOccasion == null) {
+      _showErrorMessage('Occasion field is not filled.');
     }
   }
 
   void _showSpecificErrorMessagesPage2() {
-    if (selectedOccasion == null) {
-      _showErrorMessage('Occasion field is not filled.');
-    } else if (selectedSeason == null) {
+    if (selectedSeason == null) {
       _showErrorMessage('Season field is not filled.');
     } else if (selectedSpecificType == null) {
-      _showErrorMessage('Item Type field is not filled.');
+      _showErrorMessage('Specific Type field is not filled.');
     } else if (selectedItemType == 'Clothing' && selectedClothingLayer == null) {
       _showErrorMessage('Clothing Layer field is not filled.');
     }
@@ -261,7 +274,8 @@ class _UploadItemPageState extends State<UploadItemPage> {
   void _showSpecificErrorMessagesPage3() {
     if (selectedColour == null) {
       _showErrorMessage('Colour field is not filled.');
-    } else if (selectedColour != 'black' && selectedColour != 'white' && selectedColourVariation == null) {
+    } else if (selectedColour != 'Black' && selectedColour != 'White' &&
+        selectedColourVariation == null) {
       _showErrorMessage('Colour Variation field is not filled.');
     }
   }
@@ -301,32 +315,32 @@ class _UploadItemPageState extends State<UploadItemPage> {
     return rows;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Theme(
       data: widget.myClosetTheme,
       child: Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                // Top Section: Image Display
-                SizedBox(
+          child: Column(
+            children: [
+              // Top Section: Image Display
+              Padding(
+                padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
+                child: SizedBox(
                   height: MediaQuery.of(context).size.height * 0.25,
                   child: ImageDisplayWidget(
                     imageUrl: _imageUrl,
                   ),
                 ),
-                // Middle Section: Metadata Pages
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.6,
-                  child: PageView(
-                    controller: _pageController,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      // First Page
-                      Form(
+              ),
+              Expanded(
+                child: PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    // First Page
+                    SingleChildScrollView(
+                      child: Form(
                         key: _formKeyPage1,
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
@@ -369,17 +383,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 selectedItemType,
                                     (name) => selectedItemType = name,
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      // Second Page
-                      Form(
-                        key: _formKeyPage2,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: [
+                              const SizedBox(height: 12),
                               const Text(
                                 'Select Occasion',
                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -389,7 +393,19 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 selectedOccasion,
                                     (name) => selectedOccasion = name,
                               ),
-                              const SizedBox(height: 12),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Second Page
+                    SingleChildScrollView(
+                      child: Form(
+                        key: _formKeyPage2,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
                               const Text(
                                 'Select Season',
                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -447,8 +463,10 @@ class _UploadItemPageState extends State<UploadItemPage> {
                           ),
                         ),
                       ),
-                      // Third Page
-                      Form(
+                    ),
+                    // Third Page
+                    SingleChildScrollView(
+                      child: Form(
                         key: _formKeyPage3,
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
@@ -463,7 +481,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 selectedColour,
                                     (name) => selectedColour = name,
                               ),
-                              if (selectedColour != 'black' && selectedColour != 'white' && selectedColour != null) ...[
+                              if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
                                 const SizedBox(height: 12),
                                 const Text(
                                   'Select Colour Variation',
@@ -479,27 +497,18 @@ class _UploadItemPageState extends State<UploadItemPage> {
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                // Bottom Section: Navigation and Submission Button
-                Padding(
-                  padding: const EdgeInsets.only(top: 2.0, bottom: 2.0, left: 16.0, right: 16.0),
-                  child: ElevatedButton(
-                    onPressed: _currentPage == 0
-                        ? _handleNext
-                        : _currentPage == 1
-                        ? _handleNext
-                        : _handleUpload,
-                    child: Text(_currentPage == 0
-                        ? 'Next'
-                        : _currentPage == 1
-                        ? 'Next'
-                        : 'Upload'),
-                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
+                child: ElevatedButton(
+                  onPressed: _handleNext,
+                  child: Text(_currentPage == 2 ? 'Upload' : 'Next'),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
