@@ -16,11 +16,12 @@ class Item {
   }
 }
 
-Future<List<Item>> fetchItems() async {
+Future<List<Item>> fetchItems(int currentPage, int batchSize) async {
   final data = await Supabase.instance.client
       .from('items')
       .select('image_url, name, updated_at')
-      .order('updated_at', ascending: false);
+      .order('updated_at', ascending: false)
+      .range(currentPage * batchSize, (currentPage + 1) * batchSize - 1);
 
   return data.map((item) => Item.fromMap(item)).toList();
 }
