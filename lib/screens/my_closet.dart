@@ -1,7 +1,11 @@
+import '../core/theme/my_closet_theme.dart';
 import 'package:flutter/material.dart';
 import '../core/utilities/routes.dart';
 import 'view_my_closet.dart';
-import '../core/utilities/logger.dart'; // Import the CustomLogger
+import '../core/utilities/logger.dart';
+import '../item_management/core/data/models/closet_item_minimal.dart';
+import 'edit_my_closet.dart';
+import '../item_management/edit_item/data/edit_item_arguments.dart';
 
 class MyClosetPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -16,7 +20,7 @@ class MyClosetPage extends StatefulWidget {
 class MyClosetPageState extends State<MyClosetPage> {
   int _selectedIndex = 0;
   final ScrollController _scrollController = ScrollController();
-  final List<Item> _items = [];
+  final List<ClosetItemMinimal> _items = [];
   bool _isLoading = false;
   bool _hasMore = true;
   int _currentPage = 0;
@@ -131,27 +135,9 @@ class MyClosetPageState extends State<MyClosetPage> {
                 ],
               ),
               Expanded(
-                child: GridView.builder(
-                  controller: _scrollController,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 3 / 4,
-                  ),
-                  itemCount: _items.length,
-                  itemBuilder: (context, index) {
-                    final item = _items[index];
-                    return Card(
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Image.network(item.imageUrl, fit: BoxFit.contain),
-                          ),
-                          const SizedBox(height: 8.0),
-                          Text(item.name, style: const TextStyle(fontSize: 16.0)),
-                        ],
-                      ),
-                    );
-                  },
+                child: ItemGrid(
+                  items: _items,
+                  scrollController: _scrollController,
                 ),
               ),
               ElevatedButton(
@@ -177,6 +163,52 @@ class MyClosetPageState extends State<MyClosetPage> {
           onTap: _onItemTapped,
         ),
       ),
+    );
+  }
+}
+
+class ItemGrid extends StatelessWidget {
+  final List<ClosetItemMinimal> items;
+  final ScrollController scrollController;
+
+  const ItemGrid({super.key, required this.items, required this.scrollController});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      controller: scrollController,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        childAspectRatio: 3 / 4,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return GestureDetector(
+          onTap: () async {
+            final currentContext = context;
+            final fullItem = await fetchItemDetails(item.itemId, item.name);
+            if (currentContext.mounted) {
+              Navigator.pushNamed(
+                currentContext,
+                AppRoutes.editItem,
+                arguments: EditItemArguments(item: fullItem, myClosetTheme: myClosetTheme),
+              );
+            }
+          },
+          child: Card(
+            child: Column(
+              children: [
+                Expanded(
+                  child: Image.network(item.imageUrl, fit: BoxFit.contain),
+                ),
+                const SizedBox(height: 8.0),
+                Text(item.name, style: const TextStyle(fontSize: 16.0)),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

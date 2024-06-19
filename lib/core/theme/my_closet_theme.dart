@@ -15,7 +15,7 @@ final ThemeData myClosetTheme = ThemeData(
     onBackground: Colors.black,
     surface: Colors.grey.shade200,
     onSurface: Colors.black,
-    error: Colors.red,
+    error: Colors.red.shade200,
     onError: Colors.white,
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
