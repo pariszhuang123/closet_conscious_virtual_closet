@@ -8,6 +8,7 @@ import '../widgets/image_display_widget.dart';
 import '../../../core/config/supabase_config.dart';
 import '../../../core/utilities/logger.dart';
 import '../../../core/utilities/routes.dart';
+import '../../../core/theme/my_closet_theme.dart';
 
 import '../widgets/upload_images/type_data.dart';
 import '../widgets/upload_images/type_button.dart';
@@ -282,8 +283,11 @@ class _UploadItemPageState extends State<UploadItemPage> {
 
   void _showErrorMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      backgroundColor: Colors.red,
+      content: Text(
+        message,
+        style: myClosetTheme.textTheme.bodyMedium,
+      ),
+      backgroundColor: myClosetTheme.colorScheme.error,
     ));
   }
 
@@ -318,7 +322,20 @@ class _UploadItemPageState extends State<UploadItemPage> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: widget.myClosetTheme,
+        data: widget.myClosetTheme,
+        child: PopScope(
+        canPop: false, // Set to false to disable back navigation
+        onPopInvoked: (didPop) async {
+      // Custom logic to handle back button press
+      if (didPop) {
+        // Pop was successful
+        Navigator.pushReplacementNamed(context, '/my_closet');
+      } else {
+        // Pop was not successful
+        // Handle accordingly
+      }
+      return;
+    },
       child: Scaffold(
         body: SafeArea(
           child: Column(
@@ -512,6 +529,6 @@ class _UploadItemPageState extends State<UploadItemPage> {
           ),
         ),
       ),
-    );
+    ));
   }
 }
