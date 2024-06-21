@@ -4,17 +4,24 @@ import 'dart:io';
 class ImageDisplayWidget extends StatelessWidget {
   const ImageDisplayWidget({
     super.key,
-    required this.imageUrl,
+    this.imageUrl,
+    this.file,
   });
 
   final String? imageUrl;
+  final File? file;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 200,
       height: 200,
-      child: imageUrl != null
+      child: file != null
+          ? Image.file(
+        file!,
+        fit: BoxFit.contain,
+      )
+          : imageUrl != null
           ? (Uri.tryParse(imageUrl!)?.isAbsolute == true
           ? Image.network(
         imageUrl!,

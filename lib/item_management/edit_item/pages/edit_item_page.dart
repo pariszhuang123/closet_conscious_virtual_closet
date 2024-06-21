@@ -1,7 +1,8 @@
-import 'package:uuid/uuid.dart';
 import '../../upload_item/widgets/upload_images/type_data.dart';
 import '../../upload_item/widgets/upload_images/type_button.dart';
 import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -39,7 +40,9 @@ class _EditPageState extends State<EditPage> {
   String? selectedColourVariation;
 
   final _formKey = GlobalKey<FormState>();
-  final bool _isChanged = false;
+  bool _isChanged = false;
+
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -51,9 +54,7 @@ class _EditPageState extends State<EditPage> {
     selectedOccasion = widget.item.occasion;
     selectedSeason = widget.item.season;
     selectedColour = widget.item.colour;
-    selectedColourVariation = widget.item.colourVariations != null && widget.item.colourVariations!.isNotEmpty
-        ? widget.item.colourVariations!.join(', ')
-        : null;
+    selectedColourVariation = widget.item.colourVariations;
     if (widget.item is ClothingItem) {
       final clothingItem = widget.item as ClothingItem;
       selectedSpecificType = clothingItem.clothingType;
@@ -72,6 +73,16 @@ class _EditPageState extends State<EditPage> {
     _itemNameController.dispose();
     _amountSpentController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = File(pickedFile.path);
+        _isChanged = true;
+      });
+    }
   }
 
   bool _validateAmountSpent() {
@@ -103,19 +114,33 @@ class _EditPageState extends State<EditPage> {
     }
   }
 
+  bool get _isFormValid {
+    final amountSpentText = _amountSpentController.text;
+    final amountSpent = double.tryParse(amountSpentText);
+    if (_itemNameController.text.isEmpty) return false;
+    if (amountSpentText.isNotEmpty && (amountSpent == null || amountSpent < 0)) return false;
+    if (selectedItemType == null) return false;
+    if (selectedOccasion == null) return false;
+    if (selectedSeason == null) return false;
+    if (selectedSpecificType == null) return false;
+    if (selectedItemType == 'Clothing' && selectedClothingLayer == null) return false;
+    if (selectedColour == null) return false;
+    if (selectedColour != 'Black' && selectedColour != 'White' && selectedColourVariation == null) return false;
+    return true;
+  }
+
   Future<void> _saveData() async {
     if (!_validateAmountSpent()) return;
 
     _setColourVariationToNullIfBlackOrWhite();
 
     final logger = CustomLogger('EditPage');
-    final userId = SupabaseConfig.client.auth.currentUser!.id;
     String? finalImageUrl = _imageUrl;
 
     if (_imageFile != null) {
       final imageBytes = await _imageFile!.readAsBytes();
-      final uuid = const Uuid().v4();
-      final imagePath = '/$userId/$uuid.jpg';
+      final existingImagePath = Uri.parse(_imageUrl!).path; // Extract the existing image path
+      final imagePath = existingImagePath.startsWith('/') ? existingImagePath.substring(1) : existingImagePath; // Ensure the path does not start with '/'
 
       try {
         await SupabaseConfig.client.storage.from('item_pics').uploadBinary(
@@ -235,8 +260,12 @@ class _EditPageState extends State<EditPage> {
                 height: MediaQuery.of(context).size.height * 0.25,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
-                  child: ImageDisplayWidget(
-                    imageUrl: _imageUrl,
+                  child: GestureDetector(
+                    onTap: _pickImage,
+                    child: ImageDisplayWidget(
+                      imageUrl: _imageUrl,
+                      file: _imageFile, // Use the file if a new image is picked
+                    ),
                   ),
                 ),
               ),
@@ -261,6 +290,11 @@ class _EditPageState extends State<EditPage> {
                               }
                               return null;
                             },
+                            onChanged: (value) {
+                              setState(() {
+                                _isChanged = true;
+                              });
+                            },
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
@@ -274,6 +308,9 @@ class _EditPageState extends State<EditPage> {
                             keyboardType: TextInputType.number,
                             onChanged: (value) {
                               _validateAmountSpent();
+                              setState(() {
+                                _isChanged = true;
+                              });
                             },
                           ),
                           const SizedBox(height: 12),
@@ -285,7 +322,8 @@ class _EditPageState extends State<EditPage> {
                             TypeDataList.itemGeneralTypes,
                             selectedItemType,
                                 (name) => setState(() {
-                              selectedItemType = name;
+                                  _isChanged = true;
+                                  selectedItemType = name;
                               selectedSpecificType = null; // Reset specific type when general type changes
                             }),
                           ),
@@ -298,7 +336,8 @@ class _EditPageState extends State<EditPage> {
                             TypeDataList.occasions,
                             selectedOccasion,
                                 (name) => setState(() {
-                              selectedOccasion = name;
+                                  _isChanged = true;
+                                  selectedOccasion = name;
                             }),
                           ),
                           const SizedBox(height: 12),
@@ -310,7 +349,8 @@ class _EditPageState extends State<EditPage> {
                             TypeDataList.seasons,
                             selectedSeason,
                                 (name) => setState(() {
-                              selectedSeason = name;
+                                  _isChanged = true;
+                                  selectedSeason = name;
                             }),
                           ),
                           const SizedBox(height: 12),
@@ -323,7 +363,8 @@ class _EditPageState extends State<EditPage> {
                               TypeDataList.shoeTypes,
                               selectedSpecificType,
                                   (name) => setState(() {
-                                selectedSpecificType = name;
+                                    _isChanged = true;
+                                    selectedSpecificType = name;
                               }),
                             ),
                           ],
@@ -336,7 +377,8 @@ class _EditPageState extends State<EditPage> {
                               TypeDataList.accessoryTypes,
                               selectedSpecificType,
                                   (name) => setState(() {
-                                selectedSpecificType = name;
+                                    _isChanged = true;
+                                    selectedSpecificType = name;
                               }),
                             ),
                           ],
@@ -349,7 +391,8 @@ class _EditPageState extends State<EditPage> {
                               TypeDataList.clothingTypes,
                               selectedSpecificType,
                                   (name) => setState(() {
-                                selectedSpecificType = name;
+                                    _isChanged = true;
+                                    selectedSpecificType = name;
                               }),
                             ),
                             const SizedBox(height: 12),
@@ -361,7 +404,8 @@ class _EditPageState extends State<EditPage> {
                               TypeDataList.clothingLayers,
                               selectedClothingLayer,
                                   (name) => setState(() {
-                                selectedClothingLayer = name;
+                                    _isChanged = true;
+                                    selectedClothingLayer = name;
                               }),
                             ),
                           ],
@@ -374,7 +418,8 @@ class _EditPageState extends State<EditPage> {
                             TypeDataList.colors,
                             selectedColour,
                                 (name) => setState(() {
-                              selectedColour = name;
+                                  _isChanged = true;
+                                  selectedColour = name;
                             }),
                           ),
                           if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
@@ -387,7 +432,8 @@ class _EditPageState extends State<EditPage> {
                               TypeDataList.colorVariations,
                               selectedColourVariation,
                                   (name) => setState(() {
-                                selectedColourVariation = name;
+                                    _isChanged = true;
+                                    selectedColourVariation = name;
                               }),
                             ),
                           ],
@@ -399,10 +445,10 @@ class _EditPageState extends State<EditPage> {
               ),
               // Bottom Section: Button
               Padding(
-                padding: const EdgeInsets.only(top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
+                padding: const EdgeInsets.only(top: 10.0, bottom: 70.0, left: 16.0, right: 16.0),
                 child: ElevatedButton(
-                  onPressed: _handleUpload,
-                  child: Text(_isChanged ? 'Validate' : 'Archived'),
+                  onPressed: _isFormValid ? _handleUpload : null,
+                  child: Text(_isChanged ? 'Update' : 'Archived'),
                 ),
               ),
             ],

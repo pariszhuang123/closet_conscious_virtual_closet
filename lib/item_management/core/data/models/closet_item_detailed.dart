@@ -8,7 +8,7 @@ class ClosetItemDetailed {
   final String season;
   final String colour;
   final DateTime updatedAt;
-  final List<String>? colourVariations;
+  final String? colourVariations;
 
   ClosetItemDetailed({
     required this.itemId,
@@ -32,7 +32,7 @@ class ClosetItemDetailed {
       season: map['season'] as String,
       colour: map['colour'] as String,
       updatedAt: DateTime.parse(map['updated_at'] as String),
-      colourVariations: map['colour_variations'] != null ? List<String>.from(map['colour_variations']) : null,
+      colourVariations: map['colour_variations'] as String?,
     );
   }
 }
@@ -67,7 +67,7 @@ class ClothingItem extends ClosetItemDetailed {
       updatedAt: DateTime.parse(map['updated_at'] as String),
       clothingType: map['clothing_type'] as String,
       clothingLayer: map['clothing_layer'] as String,
-      colourVariations: map['colour_variations'] != null ? List<String>.from(map['colour_variations']) : null,
+      colourVariations: map['colour_variations'] as String?,
     );
   }
 }
@@ -99,7 +99,7 @@ class ShoesItem extends ClosetItemDetailed {
       colour: map['colour'] as String,
       updatedAt: DateTime.parse(map['updated_at'] as String),
       shoesType: map['shoes_type'] as String,
-      colourVariations: map['colour_variations'] != null ? List<String>.from(map['colour_variations']) : null,
+      colourVariations: map['colour_variations'] as String?, // Adjusted for a single nullable string
     );
   }
 }
@@ -131,7 +131,7 @@ class AccessoryItem extends ClosetItemDetailed {
       colour: map['colour'] as String,
       updatedAt: DateTime.parse(map['updated_at'] as String),
       accessoryType: map['accessory_type'] as String,
-      colourVariations: map['colour_variations'] != null ? List<String>.from(map['colour_variations']) : null,
+      colourVariations: map['colour_variations'] as String?, // Adjusted for a single nullable string
     );
   }
 }
