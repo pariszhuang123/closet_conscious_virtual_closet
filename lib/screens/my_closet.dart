@@ -1,11 +1,9 @@
-import '../core/theme/my_closet_theme.dart';
 import 'package:flutter/material.dart';
 import '../core/utilities/routes.dart';
-import 'view_my_closet.dart';
 import '../core/utilities/logger.dart';
 import '../item_management/core/data/models/closet_item_minimal.dart';
-import 'edit_my_closet.dart';
-import '../item_management/edit_item/data/edit_item_arguments.dart';
+import '../item_management/view_items/widget/item_grid.dart';
+import '../item_management/core/data/services/item_service.dart';
 
 class MyClosetPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -24,7 +22,7 @@ class MyClosetPageState extends State<MyClosetPage> {
   bool _isLoading = false;
   bool _hasMore = true;
   int _currentPage = 0;
-  final CustomLogger logger = CustomLogger('MyClosetPage'); // Initialize CustomLogger
+  final CustomLogger logger = CustomLogger('MyClosetPage');
 
   static const int _batchSize = 12;
 
@@ -60,12 +58,12 @@ class MyClosetPageState extends State<MyClosetPage> {
     });
 
     try {
-      final items = await fetchItems(_currentPage, _batchSize); // Pass the current page and batch size
+      final items = await fetchItems(_currentPage, _batchSize);
       setState(() {
         _items.addAll(items);
         _hasMore = items.length == _batchSize;
         if (_hasMore) {
-          _currentPage++; // Increment the page number if there are more items to fetch
+          _currentPage++;
         }
       });
       logger.i('Items fetched successfully');
@@ -123,21 +121,12 @@ class MyClosetPageState extends State<MyClosetPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(Icons.favorite),
-                  Icon(Icons.shield),
-                  Icon(Icons.local_florist),
-                  Icon(Icons.notifications),
-                  Icon(Icons.swap_horiz),
-                ],
-              ),
               Expanded(
                 child: ItemGrid(
                   items: _items,
                   scrollController: _scrollController,
+                  myClosetTheme: widget.myClosetTheme,
+                  logger: logger,
                 ),
               ),
               ElevatedButton(
@@ -167,48 +156,3 @@ class MyClosetPageState extends State<MyClosetPage> {
   }
 }
 
-class ItemGrid extends StatelessWidget {
-  final List<ClosetItemMinimal> items;
-  final ScrollController scrollController;
-
-  const ItemGrid({super.key, required this.items, required this.scrollController});
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      controller: scrollController,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 3 / 4,
-      ),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        final item = items[index];
-        return GestureDetector(
-          onTap: () async {
-            final currentContext = context;
-            final fullItem = await fetchItemDetails(item.itemId, item.name);
-            if (currentContext.mounted) {
-              Navigator.pushNamed(
-                currentContext,
-                AppRoutes.editItem,
-                arguments: EditItemArguments(item: fullItem, myClosetTheme: myClosetTheme),
-              );
-            }
-          },
-          child: Card(
-            child: Column(
-              children: [
-                Expanded(
-                  child: Image.network(item.imageUrl, fit: BoxFit.contain),
-                ),
-                const SizedBox(height: 8.0),
-                Text(item.name, style: const TextStyle(fontSize: 16.0)),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
