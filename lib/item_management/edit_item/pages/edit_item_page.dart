@@ -8,7 +8,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/config/supabase_config.dart';
 import '../../../core/utilities/logger.dart';
 import '../../../core/utilities/routes.dart';
-import '../../../core/theme/my_closet_theme.dart';
 
 import '../../core/data/models/closet_item_detailed.dart';
 import '../../upload_item/widgets/image_display_widget.dart';
@@ -39,37 +38,8 @@ class _EditPageState extends State<EditPage> {
   String? selectedColour;
   String? selectedColourVariation;
 
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
-
-  final _formKeyPage1 = GlobalKey<FormState>();
-  final _formKeyPage2 = GlobalKey<FormState>();
-  final _formKeyPage3 = GlobalKey<FormState>();
-
-  bool get _isFormValidPage1 {
-    final amountSpentText = _amountSpentController.text;
-    final amountSpent = double.tryParse(amountSpentText);
-    return selectedItemType != null &&
-        _itemNameController.text.isNotEmpty &&
-        (amountSpentText.isEmpty || (amountSpent != null && amountSpent >= 0)) &&
-        selectedOccasion != null;
-  }
-
-  bool get _isFormValidPage2 {
-    return selectedSeason != null &&
-        selectedSpecificType != null &&
-        (selectedItemType != 'Clothing' || selectedClothingLayer != null);
-  }
-
-  bool get _isFormValidPage3 {
-    if (selectedColour == null) {
-      return false;
-    }
-    if (selectedColour != 'Black' && selectedColour != 'White' && selectedColourVariation == null) {
-      return false;
-    }
-    return true;
-  }
+  final _formKey = GlobalKey<FormState>();
+  final bool _isChanged = false;
 
   @override
   void initState() {
@@ -101,7 +71,6 @@ class _EditPageState extends State<EditPage> {
   void dispose() {
     _itemNameController.dispose();
     _amountSpentController.dispose();
-    _pageController.dispose();
     super.dispose();
   }
 
@@ -219,87 +188,10 @@ class _EditPageState extends State<EditPage> {
     }
   }
 
-  void _handleNext() {
-    if (_currentPage == 0) {
-      if (_isFormValidPage1) {
-        _pageController.nextPage(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-        setState(() {
-          _currentPage = 1;
-        });
-      } else {
-        _showSpecificErrorMessagesPage1();
-      }
-    } else if (_currentPage == 1) {
-      if (_isFormValidPage2) {
-        _pageController.nextPage(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-        setState(() {
-          _currentPage = 2;
-        });
-      } else {
-        _showSpecificErrorMessagesPage2();
-      }
-    } else if (_currentPage == 2) {
-      if (_isFormValidPage3) {
-        _handleUpload();
-      } else {
-        _showSpecificErrorMessagesPage3();
-      }
-    }
-  }
-
   void _handleUpload() {
-    if (_isFormValidPage3) {
+    if (_formKey.currentState?.validate() ?? false) {
       _saveData();
-    } else {
-      _showSpecificErrorMessagesPage3();
     }
-  }
-
-  void _showSpecificErrorMessagesPage1() {
-    if (_itemNameController.text.isEmpty) {
-      _showErrorMessage('Item Name field is not filled.');
-    } else if (_amountSpentError != null) {
-      _showErrorMessage('Amount Spent field is not valid.');
-    } else if (selectedItemType == null) {
-      _showErrorMessage('Item Type field is not filled.');
-    } else if (selectedOccasion == null) {
-      _showErrorMessage('Occasion field is not filled.');
-    }
-  }
-
-  void _showSpecificErrorMessagesPage2() {
-    if (selectedSeason == null) {
-      _showErrorMessage('Season field is not filled.');
-    } else if (selectedSpecificType == null) {
-      _showErrorMessage('Specific Type field is not filled.');
-    } else if (selectedItemType == 'Clothing' && selectedClothingLayer == null) {
-      _showErrorMessage('Clothing Layer field is not filled.');
-    }
-  }
-
-  void _showSpecificErrorMessagesPage3() {
-    if (selectedColour == null) {
-      _showErrorMessage('Colour field is not filled.');
-    } else if (selectedColour != 'Black' && selectedColour != 'White' &&
-        selectedColourVariation == null) {
-      _showErrorMessage('Colour Variation field is not filled.');
-    }
-  }
-
-  void _showErrorMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        message,
-        style: myClosetTheme.textTheme.bodyMedium,
-      ),
-      backgroundColor: myClosetTheme.colorScheme.error,
-    ));
   }
 
   List<Widget> _buildIconRows(List<TypeData> typeDataList, String? selectedLabel, void Function(String) onTap) {
@@ -339,207 +231,178 @@ class _EditPageState extends State<EditPage> {
           child: Column(
             children: [
               // Top Section: Image Display
-              Padding(
-                padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.25,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.25,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
                   child: ImageDisplayWidget(
                     imageUrl: _imageUrl,
                   ),
                 ),
               ),
+              // Metadata Section
               Expanded(
-                child: PageView(
-                  controller: _pageController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    // First Page
-                    SingleChildScrollView(
-                      child: Form(
-                        key: _formKeyPage1,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                controller: _itemNameController,
-                                decoration: InputDecoration(
-                                  labelText: 'Item Name',
-                                  labelStyle: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter an item name';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 12),
-                              TextFormField(
-                                controller: _amountSpentController,
-                                decoration: InputDecoration(
-                                  labelText: 'Amount Spent',
-                                  hintText: 'Enter amount spent',
-                                  errorText: _amountSpentError,
-                                  labelStyle: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                keyboardType: TextInputType.number,
-                                onChanged: (value) {
-                                  _validateAmountSpent();
-                                },
-                              ),
-                              const SizedBox(height: 12),
-                              const Text(
-                                'Select Item Type',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              ..._buildIconRows(
-                                TypeDataList.itemGeneralTypes,
-                                selectedItemType,
-                                    (name) => setState(() {
-                                  selectedItemType = name;
-                                  selectedSpecificType = null; // Reset specific type when general type changes
-                                }),
-                              ),
-                              const SizedBox(height: 12),
-                              const Text(
-                                'Select Occasion',
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              ..._buildIconRows(
-                                TypeDataList.occasions,
-                                selectedOccasion,
-                                    (name) => setState(() {
-                                  selectedOccasion = name;
-                                }),
-                              ),
-                            ],
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: _itemNameController,
+                            decoration: InputDecoration(
+                              labelText: 'Item Name',
+                              labelStyle: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter an item name';
+                              }
+                              return null;
+                            },
                           ),
-                        ),
+                          const SizedBox(height: 12),
+                          TextFormField(
+                            controller: _amountSpentController,
+                            decoration: InputDecoration(
+                              labelText: 'Amount Spent',
+                              hintText: 'Enter amount spent',
+                              errorText: _amountSpentError,
+                              labelStyle: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              _validateAmountSpent();
+                            },
+                          ),
+                          const SizedBox(height: 12),
+                          const Text(
+                            'Select Item Type',
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          ..._buildIconRows(
+                            TypeDataList.itemGeneralTypes,
+                            selectedItemType,
+                                (name) => setState(() {
+                              selectedItemType = name;
+                              selectedSpecificType = null; // Reset specific type when general type changes
+                            }),
+                          ),
+                          const SizedBox(height: 12),
+                          const Text(
+                            'Select Occasion',
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          ..._buildIconRows(
+                            TypeDataList.occasions,
+                            selectedOccasion,
+                                (name) => setState(() {
+                              selectedOccasion = name;
+                            }),
+                          ),
+                          const SizedBox(height: 12),
+                          const Text(
+                            'Select Season',
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          ..._buildIconRows(
+                            TypeDataList.seasons,
+                            selectedSeason,
+                                (name) => setState(() {
+                              selectedSeason = name;
+                            }),
+                          ),
+                          const SizedBox(height: 12),
+                          if (selectedItemType == 'Shoes') ...[
+                            const Text(
+                              'Select Shoe Type',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            ..._buildIconRows(
+                              TypeDataList.shoeTypes,
+                              selectedSpecificType,
+                                  (name) => setState(() {
+                                selectedSpecificType = name;
+                              }),
+                            ),
+                          ],
+                          if (selectedItemType == 'Accessory') ...[
+                            const Text(
+                              'Select Accessory Type',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            ..._buildIconRows(
+                              TypeDataList.accessoryTypes,
+                              selectedSpecificType,
+                                  (name) => setState(() {
+                                selectedSpecificType = name;
+                              }),
+                            ),
+                          ],
+                          if (selectedItemType == 'Clothing') ...[
+                            const Text(
+                              'Select Clothing Type',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            ..._buildIconRows(
+                              TypeDataList.clothingTypes,
+                              selectedSpecificType,
+                                  (name) => setState(() {
+                                selectedSpecificType = name;
+                              }),
+                            ),
+                            const SizedBox(height: 12),
+                            const Text(
+                              'Select Clothing Layer',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            ..._buildIconRows(
+                              TypeDataList.clothingLayers,
+                              selectedClothingLayer,
+                                  (name) => setState(() {
+                                selectedClothingLayer = name;
+                              }),
+                            ),
+                          ],
+                          const SizedBox(height: 12),
+                          const Text(
+                            'Select Colour',
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          ..._buildIconRows(
+                            TypeDataList.colors,
+                            selectedColour,
+                                (name) => setState(() {
+                              selectedColour = name;
+                            }),
+                          ),
+                          if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
+                            const SizedBox(height: 12),
+                            const Text(
+                              'Select Colour Variation',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            ..._buildIconRows(
+                              TypeDataList.colorVariations,
+                              selectedColourVariation,
+                                  (name) => setState(() {
+                                selectedColourVariation = name;
+                              }),
+                            ),
+                          ],
+                        ],
                       ),
                     ),
-                    // Second Page
-                    SingleChildScrollView(
-                      child: Form(
-                        key: _formKeyPage2,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: [
-                              const Text(
-                                'Select Season',
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              ..._buildIconRows(
-                                TypeDataList.seasons,
-                                selectedSeason,
-                                    (name) => setState(() {
-                                  selectedSeason = name;
-                                }),
-                              ),
-                              const SizedBox(height: 12),
-                              if (selectedItemType == 'Shoes') ...[
-                                const Text(
-                                  'Select Shoe Type',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                ),
-                                ..._buildIconRows(
-                                  TypeDataList.shoeTypes,
-                                  selectedSpecificType,
-                                      (name) => setState(() {
-                                    selectedSpecificType = name;
-                                  }),
-                                ),
-                              ],
-                              if (selectedItemType == 'Accessory') ...[
-                                const Text(
-                                  'Select Accessory Type',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                ),
-                                ..._buildIconRows(
-                                  TypeDataList.accessoryTypes,
-                                  selectedSpecificType,
-                                      (name) => setState(() {
-                                    selectedSpecificType = name;
-                                  }),
-                                ),
-                              ],
-                              if (selectedItemType == 'Clothing') ...[
-                                const Text(
-                                  'Select Clothing Type',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                ),
-                                ..._buildIconRows(
-                                  TypeDataList.clothingTypes,
-                                  selectedSpecificType,
-                                      (name) => setState(() {
-                                    selectedSpecificType = name;
-                                  }),
-                                ),
-                                const SizedBox(height: 12),
-                                const Text(
-                                  'Select Clothing Layer',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                ),
-                                ..._buildIconRows(
-                                  TypeDataList.clothingLayers,
-                                  selectedClothingLayer,
-                                      (name) => setState(() {
-                                    selectedClothingLayer = name;
-                                  }),
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Third Page
-                    SingleChildScrollView(
-                      child: Form(
-                        key: _formKeyPage3,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: [
-                              const Text(
-                                'Select Colour',
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              ..._buildIconRows(
-                                TypeDataList.colors,
-                                selectedColour,
-                                    (name) => setState(() {
-                                  selectedColour = name;
-                                }),
-                              ),
-                              if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
-                                const SizedBox(height: 12),
-                                const Text(
-                                  'Select Colour Variation',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                ),
-                                ..._buildIconRows(
-                                  TypeDataList.colorVariations,
-                                  selectedColourVariation,
-                                      (name) => setState(() {
-                                    selectedColourVariation = name;
-                                  }),
-                                ),
-                              ],
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
+              // Bottom Section: Button
               Padding(
                 padding: const EdgeInsets.only(top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
                 child: ElevatedButton(
-                  onPressed: _handleNext,
-                  child: Text(_currentPage == 2 ? 'Save' : 'Next'),
+                  onPressed: _handleUpload,
+                  child: Text(_isChanged ? 'Validate' : 'Archived'),
                 ),
               ),
             ],
