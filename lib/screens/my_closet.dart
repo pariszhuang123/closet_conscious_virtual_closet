@@ -4,6 +4,10 @@ import '../core/utilities/logger.dart';
 import '../item_management/core/data/models/closet_item_minimal.dart';
 import '../item_management/view_items/widget/item_grid.dart';
 import '../item_management/core/data/services/item_service.dart';
+import '../core/widgets/number_type_button.dart';
+import '../core/widgets/text_type_button.dart';
+import '../item_management/core/data/type_data.dart';
+import '../generated/l10n.dart';
 
 class MyClosetPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -22,9 +26,10 @@ class MyClosetPageState extends State<MyClosetPage> {
   bool _isLoading = false;
   bool _hasMore = true;
   int _currentPage = 0;
+  int apparelCount = 0;
   final CustomLogger logger = CustomLogger('MyClosetPage');
 
-  static const int _batchSize = 12;
+  static const int _batchSize = 6;
 
   void _onItemTapped(int index) {
     if (index == 1) {
@@ -44,11 +49,23 @@ class MyClosetPageState extends State<MyClosetPage> {
   void initState() {
     super.initState();
     _fetchItems();
+    _fetchApparelCount();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && _hasMore && !_isLoading) {
         _fetchItems();
       }
     });
+  }
+
+  Future<void> _fetchApparelCount() async {
+    try {
+      final count = await fetchApparelCount();
+      setState(() {
+        apparelCount = count;
+      });
+    } catch (e) {
+      logger.e('Error fetching apparel count: $e');
+    }
   }
 
   Future<void> _fetchItems() async {
@@ -78,81 +95,122 @@ class MyClosetPageState extends State<MyClosetPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: widget.myClosetTheme,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('My Closet'),
-          automaticallyImplyLeading: false,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: _onUploadButtonPressed,
-                    child: const Column(
-                      children: [
-                        Icon(Icons.upload_file),
-                        Text('Upload'),
-                      ],
+    final uploadList = TypeDataList.upload(context);
+    final filterList = TypeDataList.filter(context);
+    final addClosetList = TypeDataList.addCloset(context);
+    final itemUploadedList = TypeDataList.itemUploaded(context);
+
+    return PopScope(
+      canPop: false, // Disable back navigation
+      child: Theme(
+        data: widget.myClosetTheme,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(S.of(context).myClosetTitle),
+            automaticallyImplyLeading: false, // Ensure no back button
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12), // Increase the value for more rounded corners
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            spreadRadius: 5,
+                            blurRadius: 10,
+                            offset: const Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextTypeButton(
+                                label: uploadList[0].getName(context),
+                                selectedLabel: '',
+                                onPressed: _onUploadButtonPressed,
+                                imageUrl: uploadList[0].imageUrl,
+                              ),
+                              TextTypeButton(
+                                label: filterList[0].getName(context),
+                                selectedLabel: '',
+                                onPressed: () {},
+                                imageUrl: filterList[0].imageUrl,
+                              ),
+                              TextTypeButton(
+                                label: addClosetList[0].getName(context),
+                                selectedLabel: '',
+                                onPressed: () {},
+                                imageUrl: addClosetList[0].imageUrl,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Column(
-                      children: [
-                        Icon(Icons.filter_list),
-                        Text('Filter'),
-                      ],
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12), // Increase the value for more rounded corners
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            spreadRadius: 5,
+                            blurRadius: 10,
+                            offset: const Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: NumberTypeButton(
+                        count: apparelCount,
+                        imageUrl: itemUploadedList[0].imageUrl,
+                      ),
+
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Column(
-                      children: [
-                        Icon(Icons.add_box),
-                        Text('Add Closet'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: ItemGrid(
-                  items: _items,
-                  scrollController: _scrollController,
-                  myClosetTheme: widget.myClosetTheme,
-                  logger: logger,
+                  ],
                 ),
+                Expanded(
+                  child: ItemGrid(
+                    items: _items,
+                    scrollController: _scrollController,
+                    myClosetTheme: widget.myClosetTheme,
+                    logger: logger,
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text(S.of(context).closetUploadComplete),
+                ),
+              ],
+            ),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            items: [
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.checkroom),
+                label: S.of(context).closetLabel,
               ),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Closet Upload Complete'),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.apartment),
+                label: S.of(context).outfitLabel,
               ),
             ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: const Color(0xFF366d59), // Set selected item color
+            onTap: _onItemTapped,
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.checkroom),
-              label: 'Closet',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.apartment),
-              label: 'Outfit',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: const Color(0xFF366d59), // Set selected item color
-          onTap: _onItemTapped,
         ),
       ),
     );
   }
 }
-

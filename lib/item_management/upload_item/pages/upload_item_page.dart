@@ -10,8 +10,10 @@ import '../../../core/utilities/logger.dart';
 import '../../../core/utilities/routes.dart';
 import '../../../core/theme/my_closet_theme.dart';
 
-import '../widgets/upload_images/type_data.dart';
-import '../widgets/upload_images/type_button.dart';
+import '../../core/data/type_data.dart';
+import '../../../core/widgets/text_type_button.dart';
+import '../../../generated/l10n.dart';
+
 
 class UploadItemPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -106,7 +108,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
     final amountSpent = double.tryParse(amountSpentText);
     if (amountSpent == null || amountSpent < 0) {
       setState(() {
-        _amountSpentError = 'Please enter a valid amount (0 or greater).';
+        _amountSpentError = S.of(context).please_enter_valid_amount;
       });
       return false;
     }
@@ -301,12 +303,12 @@ class _UploadItemPageState extends State<UploadItemPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: rowIcons.map((type) {
-            return TypeButton(
-              label: type.name,
+            return TextTypeButton(
+              label: type.getName(context),
               selectedLabel: selectedLabel ?? '',
               onPressed: () {
                 setState(() {
-                  onTap(type.name);
+                  onTap(type.getName(context));
                 });
               },
               imageUrl: type.imageUrl, // Use assetPath instead of imageUrl
@@ -321,25 +323,15 @@ class _UploadItemPageState extends State<UploadItemPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
+    return PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) async => false,
+        child: Theme(
         data: widget.myClosetTheme,
-        child: PopScope(
-        canPop: false, // Set to false to disable back navigation
-        onPopInvoked: (didPop) async {
-      // Custom logic to handle back button press
-      if (didPop) {
-        // Pop was successful
-        Navigator.pushReplacementNamed(context, '/my_closet');
-      } else {
-        // Pop was not successful
-        // Handle accordingly
-      }
-      return;
-    },
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
+        child: Scaffold(
+          body: SafeArea(
+            child: Column(
+              children: [
               // Top Section: Image Display
               Padding(
                 padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
@@ -366,12 +358,12 @@ class _UploadItemPageState extends State<UploadItemPage> {
                               TextFormField(
                                 controller: _itemNameController,
                                 decoration: InputDecoration(
-                                  labelText: 'Item Name',
+                                  labelText: S.of(context).item_name,
                                   labelStyle: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter an item name';
+                                    return S.of(context).please_enter_item_name;
                                   }
                                   return null;
                                 },
@@ -380,8 +372,8 @@ class _UploadItemPageState extends State<UploadItemPage> {
                               TextFormField(
                                 controller: _amountSpentController,
                                 decoration: InputDecoration(
-                                  labelText: 'Amount Spent',
-                                  hintText: 'Enter amount spent',
+                                  labelText: S.of(context).amount_spent,
+                                  hintText: S.of(context).enter_amount_spent,
                                   errorText: _amountSpentError,
                                   labelStyle: Theme.of(context).textTheme.bodyMedium,
                                 ),
@@ -391,22 +383,22 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 },
                               ),
                               const SizedBox(height: 12),
-                              const Text(
-                                'Select Item Type',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              Text(
+                                S.of(context).select_item_type,
+                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               ..._buildIconRows(
-                                TypeDataList.itemGeneralTypes,
+                                TypeDataList.itemGeneralTypes(context),
                                 selectedItemType,
                                     (name) => selectedItemType = name,
                               ),
                               const SizedBox(height: 12),
-                              const Text(
-                                'Select Occasion',
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              Text(
+                                S.of(context).select_occasion,
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               ..._buildIconRows(
-                                TypeDataList.occasions,
+                                TypeDataList.occasions(context),
                                 selectedOccasion,
                                     (name) => selectedOccasion = name,
                               ),
@@ -423,55 +415,55 @@ class _UploadItemPageState extends State<UploadItemPage> {
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
                             children: [
-                              const Text(
-                                'Select Season',
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              Text(
+                                S.of(context).select_season,
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               ..._buildIconRows(
-                                TypeDataList.seasons,
+                                TypeDataList.seasons(context),
                                 selectedSeason,
                                     (name) => selectedSeason = name,
                               ),
                               const SizedBox(height: 12),
                               if (selectedItemType == 'Shoes') ...[
-                                const Text(
-                                  'Select Shoe Type',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                Text(
+                                  S.of(context).select_shoe_type,
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                 ),
                                 ..._buildIconRows(
-                                  TypeDataList.shoeTypes,
+                                  TypeDataList.shoeTypes(context),
                                   selectedSpecificType,
                                       (name) => selectedSpecificType = name,
                                 ),
                               ],
                               if (selectedItemType == 'Accessory') ...[
-                                const Text(
-                                  'Select Accessory Type',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                Text(
+                                  S.of(context).select_accessory_type,
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                 ),
                                 ..._buildIconRows(
-                                  TypeDataList.accessoryTypes,
+                                  TypeDataList.accessoryTypes(context),
                                   selectedSpecificType,
                                       (name) => selectedSpecificType = name,
                                 ),
                               ],
                               if (selectedItemType == 'Clothing') ...[
-                                const Text(
-                                  'Select Clothing Type',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                Text(
+                                  S.of(context).select_clothing_type,
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                 ),
                                 ..._buildIconRows(
-                                  TypeDataList.clothingTypes,
+                                  TypeDataList.clothingTypes(context),
                                   selectedSpecificType,
                                       (name) => selectedSpecificType = name,
                                 ),
                                 const SizedBox(height: 12),
-                                const Text(
-                                  'Select Clothing Layer',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                Text(
+                                  S.of(context).select_clothing_layer,
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                 ),
                                 ..._buildIconRows(
-                                  TypeDataList.clothingLayers,
+                                  TypeDataList.clothingLayers(context),
                                   selectedClothingLayer,
                                       (name) => selectedClothingLayer = name,
                                 ),
@@ -489,23 +481,23 @@ class _UploadItemPageState extends State<UploadItemPage> {
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
                             children: [
-                              const Text(
-                                'Select Colour',
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              Text(
+                                S.of(context).select_colour,
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                               ..._buildIconRows(
-                                TypeDataList.colors,
+                                TypeDataList.colors(context),
                                 selectedColour,
                                     (name) => selectedColour = name,
                               ),
                               if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
                                 const SizedBox(height: 12),
-                                const Text(
-                                  'Select Colour Variation',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                Text(
+                                  S.of(context).select_colour_variation,
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                 ),
                                 ..._buildIconRows(
-                                  TypeDataList.colorVariations,
+                                  TypeDataList.colorVariations(context),
                                   selectedColourVariation,
                                       (name) => selectedColourVariation = name,
                                 ),
@@ -522,7 +514,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                 padding: const EdgeInsets.only(top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
                 child: ElevatedButton(
                   onPressed: _handleNext,
-                  child: Text(_currentPage == 2 ? 'Upload' : 'Next'),
+                  child: Text(_currentPage == 2 ? S.of(context).upload : S.of(context).next),
                 ),
               ),
             ],

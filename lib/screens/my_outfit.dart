@@ -26,78 +26,82 @@ class CreateOutfitPageState extends State<CreateOutfitPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
+    return PopScope(
+      canPop: false, // Disable back navigation
+      child: Theme(
         data: widget.myOutfitTheme,
         child: Scaffold(
-      appBar: AppBar(
-        title: const Text('Create My Outfit'),
-        automaticallyImplyLeading: false, // This removes the back button
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          appBar: AppBar(
+            title: const Text('Create My Outfit'),
+            automaticallyImplyLeading: false, // This removes the back button
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
               children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Row(
-                    children: [
-                      Icon(Icons.view_comfy),
-                      SizedBox(width: 5),
-                      Text('View Closets'),
-                    ],
-                  ),
-                ),
-                const Row(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      children: [
-                        Icon(Icons.favorite),
-                        Text('5'),
-                      ],
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Row(
+                        children: [
+                          Icon(Icons.view_comfy),
+                          SizedBox(width: 5),
+                          Text('View Closets'),
+                        ],
+                      ),
                     ),
-                    SizedBox(width: 10),
-                    Column(
+                    const Row(
                       children: [
-                        Icon(Icons.local_florist),
-                        Text('10'),
+                        Column(
+                          children: [
+                            Icon(Icons.favorite),
+                            Text('5'),
+                          ],
+                        ),
+                        SizedBox(width: 10),
+                        Column(
+                          children: [
+                            Icon(Icons.local_florist),
+                            Text('10'),
+                          ],
+                        ),
                       ],
                     ),
                   ],
                 ),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      _buildOutfitCategoryCard(context, 'Clothes', Icons.checkroom),
+                      _buildOutfitCategoryCard(context, 'Accessories', Icons.local_mall),
+                      _buildOutfitCategoryCard(context, 'Shoes', Icons.sports_kabaddi),
+                    ],
+                  ),
+                ),
               ],
             ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: ListView(
-                children: [
-                  _buildOutfitCategoryCard(context, 'Clothes', Icons.checkroom),
-                  _buildOutfitCategoryCard(context, 'Accessories', Icons.local_mall),
-                  _buildOutfitCategoryCard(context, 'Shoes', Icons.sports_kabaddi),
-                ],
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.checkroom),
+                label: 'Closet',
               ),
-            ),
-          ],
+              BottomNavigationBarItem(
+                icon: Icon(Icons.apartment),
+                label: 'Outfit',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: const Color(0xFF255163), // Set selected item color
+            onTap: _onItemTapped,
+          ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.checkroom),
-            label: 'Closet',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.apartment),
-            label: 'Outfit',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF255163), // Set selected item color
-        onTap: _onItemTapped,
-      ),
-    ));
+    );
   }
 
   Widget _buildOutfitCategoryCard(BuildContext context, String category, IconData icon) {
