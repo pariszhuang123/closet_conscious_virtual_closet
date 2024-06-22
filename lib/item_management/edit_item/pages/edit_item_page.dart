@@ -328,7 +328,7 @@ class _EditPageState extends State<EditPage> {
                           const SizedBox(height: 12),
                           Text(
                             S.of(context).select_item_type,
-                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           ..._buildIconRows(
                             TypeDataList.itemGeneralTypes(context),
@@ -342,7 +342,7 @@ class _EditPageState extends State<EditPage> {
                           const SizedBox(height: 12),
                           Text(
                             S.of(context).select_occasion,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           ..._buildIconRows(
                             TypeDataList.occasions(context),
@@ -355,7 +355,7 @@ class _EditPageState extends State<EditPage> {
                           const SizedBox(height: 12),
                           Text(
                             S.of(context).select_season,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           ..._buildIconRows(
                             TypeDataList.seasons(context),
@@ -369,7 +369,7 @@ class _EditPageState extends State<EditPage> {
                           if (selectedItemType == 'Shoes') ...[
                             Text(
                               S.of(context).select_shoe_type,
-                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             ..._buildIconRows(
                               TypeDataList.shoeTypes(context),
@@ -383,7 +383,7 @@ class _EditPageState extends State<EditPage> {
                           if (selectedItemType == 'Accessory') ...[
                             Text(
                               S.of(context).select_accessory_type,
-                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             ..._buildIconRows(
                               TypeDataList.accessoryTypes(context),
@@ -397,7 +397,7 @@ class _EditPageState extends State<EditPage> {
                           if (selectedItemType == 'Clothing') ...[
                              Text(
                               S.of(context).select_clothing_type,
-                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             ..._buildIconRows(
                               TypeDataList.clothingTypes(context),
@@ -410,7 +410,7 @@ class _EditPageState extends State<EditPage> {
                             const SizedBox(height: 12),
                             Text(
                               S.of(context).select_clothing_layer,
-                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             ..._buildIconRows(
                               TypeDataList.clothingLayers(context),
@@ -424,7 +424,7 @@ class _EditPageState extends State<EditPage> {
                           const SizedBox(height: 12),
                           Text(
                             S.of(context).select_colour,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           ..._buildIconRows(
                             TypeDataList.colors(context),
@@ -438,7 +438,7 @@ class _EditPageState extends State<EditPage> {
                             const SizedBox(height: 12),
                             Text(
                               S.of(context).select_colour_variation,
-                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             ..._buildIconRows(
                               TypeDataList.colorVariations(context),
