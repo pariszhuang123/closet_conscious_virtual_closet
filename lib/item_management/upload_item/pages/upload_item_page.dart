@@ -305,18 +305,16 @@ class _UploadItemPageState extends State<UploadItemPage> {
             child: Column(
               children: [
               // Top Section: Image Display
-              Padding(
-                padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.25,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16.0), // Adjust the radius as needed
+                Padding(
+                  padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.25,
                     child: ImageDisplayWidget(
                       imageUrl: _imageUrl,
                     ),
                   ),
                 ),
-              ),
+
               Expanded(
                 child: PageView(
                   controller: _pageController,
@@ -378,8 +376,10 @@ class _UploadItemPageState extends State<UploadItemPage> {
                               ...buildIconRows(
                                 TypeDataList.occasions(context),
                                 selectedOccasion,
-                                    (name) => selectedOccasion = name,
-                                context
+                                      (name) => setState(() {
+                                    selectedOccasion = name;
+                                  }),
+                                  context
                               ),
                             ],
                           ),
@@ -401,8 +401,10 @@ class _UploadItemPageState extends State<UploadItemPage> {
                               ...buildIconRows(
                                 TypeDataList.seasons(context),
                                 selectedSeason,
-                                    (name) => selectedSeason = name,
-                                context
+                                      (name) => setState(() {
+                                    selectedSeason = name;
+                                  }),
+                                  context
                               ),
                               const SizedBox(height: 12),
                               if (selectedItemType == 'Shoes') ...[
@@ -413,8 +415,10 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 ...buildIconRows(
                                   TypeDataList.shoeTypes(context),
                                   selectedSpecificType,
-                                      (name) => selectedSpecificType = name,
-                                  context
+                                        (name) => setState(() {
+                                      selectedSpecificType = name;
+                                    }),
+                                    context
                                 ),
                               ],
                               if (selectedItemType == 'Accessory') ...[
@@ -425,8 +429,10 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 ...buildIconRows(
                                   TypeDataList.accessoryTypes(context),
                                   selectedSpecificType,
-                                      (name) => selectedSpecificType = name,
-                                  context
+                                        (name) => setState(() {
+                                      selectedSpecificType = name;
+                                    }),
+                                    context
                                 ),
                               ],
                               if (selectedItemType == 'Clothing') ...[
@@ -437,8 +443,10 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 ...buildIconRows(
                                   TypeDataList.clothingTypes(context),
                                   selectedSpecificType,
-                                      (name) => selectedSpecificType = name,
-                                  context
+                                        (name) => setState(() {
+                                      selectedSpecificType = name;
+                                    }),
+                                    context
                                 ),
                                 const SizedBox(height: 12),
                                 Text(
@@ -448,8 +456,10 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 ...buildIconRows(
                                   TypeDataList.clothingLayers(context),
                                   selectedClothingLayer,
-                                      (name) => selectedClothingLayer = name,
-                                  context
+                                        (name) => setState(() {
+                                      selectedClothingLayer = name;
+                                    }),
+                                    context
                                 ),
                               ],
                             ],
@@ -488,7 +498,9 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 ...buildIconRows(
                                   TypeDataList.colorVariations(context),
                                   selectedColourVariation,
-                                      (name) => selectedColourVariation = name,
+                                        (name) => setState(() {
+                                      selectedColourVariation = name;
+                                    }),
                                     context
                                 ),
                               ],
