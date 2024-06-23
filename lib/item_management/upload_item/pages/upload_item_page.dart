@@ -10,9 +10,9 @@ import '../../../core/utilities/logger.dart';
 import '../../../core/utilities/routes.dart';
 import '../../../core/theme/my_closet_theme.dart';
 
-import '../../core/data/type_data.dart';
-import '../../../core/widgets/text_type_button.dart';
+import '../../../core/data/type_data.dart';
 import '../../../generated/l10n.dart';
+import '../../../core/widgets/icon_row_builder.dart';
 
 
 class UploadItemPage extends StatefulWidget {
@@ -293,34 +293,6 @@ class _UploadItemPageState extends State<UploadItemPage> {
     ));
   }
 
-  List<Widget> _buildIconRows(List<TypeData> typeDataList, String? selectedLabel, void Function(String) onTap) {
-    List<Widget> rows = [];
-    int index = 0;
-    while (index < typeDataList.length) {
-      int end = (index + 5) > typeDataList.length ? typeDataList.length : (index + 5);
-      List<TypeData> rowIcons = typeDataList.sublist(index, end);
-      rows.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: rowIcons.map((type) {
-            return TextTypeButton(
-              label: type.getName(context),
-              selectedLabel: selectedLabel ?? '',
-              onPressed: () {
-                setState(() {
-                  onTap(type.getName(context));
-                });
-              },
-              imageUrl: type.imageUrl, // Use assetPath instead of imageUrl
-            );
-          }).toList(),
-        ),
-      );
-      index = end;
-    }
-    return rows;
-  }
-
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -337,8 +309,11 @@ class _UploadItemPageState extends State<UploadItemPage> {
                 padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height * 0.25,
-                  child: ImageDisplayWidget(
-                    imageUrl: _imageUrl,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16.0), // Adjust the radius as needed
+                    child: ImageDisplayWidget(
+                      imageUrl: _imageUrl,
+                    ),
                   ),
                 ),
               ),
@@ -387,20 +362,24 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 S.of(context).select_item_type,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
-                              ..._buildIconRows(
+                              ...buildIconRows(
                                 TypeDataList.itemGeneralTypes(context),
                                 selectedItemType,
-                                    (name) => selectedItemType = name,
+                                    (name) => setState(() {
+                                  selectedItemType = name;
+                                }),
+                                context
                               ),
                               const SizedBox(height: 12),
                               Text(
                                 S.of(context).select_occasion,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
-                              ..._buildIconRows(
+                              ...buildIconRows(
                                 TypeDataList.occasions(context),
                                 selectedOccasion,
                                     (name) => selectedOccasion = name,
+                                context
                               ),
                             ],
                           ),
@@ -419,10 +398,11 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 S.of(context).select_season,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
-                              ..._buildIconRows(
+                              ...buildIconRows(
                                 TypeDataList.seasons(context),
                                 selectedSeason,
                                     (name) => selectedSeason = name,
+                                context
                               ),
                               const SizedBox(height: 12),
                               if (selectedItemType == 'Shoes') ...[
@@ -430,10 +410,11 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   S.of(context).select_shoe_type,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
-                                ..._buildIconRows(
+                                ...buildIconRows(
                                   TypeDataList.shoeTypes(context),
                                   selectedSpecificType,
                                       (name) => selectedSpecificType = name,
+                                  context
                                 ),
                               ],
                               if (selectedItemType == 'Accessory') ...[
@@ -441,10 +422,11 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   S.of(context).select_accessory_type,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
-                                ..._buildIconRows(
+                                ...buildIconRows(
                                   TypeDataList.accessoryTypes(context),
                                   selectedSpecificType,
                                       (name) => selectedSpecificType = name,
+                                  context
                                 ),
                               ],
                               if (selectedItemType == 'Clothing') ...[
@@ -452,20 +434,22 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   S.of(context).select_clothing_type,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
-                                ..._buildIconRows(
+                                ...buildIconRows(
                                   TypeDataList.clothingTypes(context),
                                   selectedSpecificType,
                                       (name) => selectedSpecificType = name,
+                                  context
                                 ),
                                 const SizedBox(height: 12),
                                 Text(
                                   S.of(context).select_clothing_layer,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
-                                ..._buildIconRows(
+                                ...buildIconRows(
                                   TypeDataList.clothingLayers(context),
                                   selectedClothingLayer,
                                       (name) => selectedClothingLayer = name,
+                                  context
                                 ),
                               ],
                             ],
@@ -485,10 +469,15 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 S.of(context).select_colour,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
-                              ..._buildIconRows(
+                              ...buildIconRows(
                                 TypeDataList.colors(context),
                                 selectedColour,
-                                    (name) => selectedColour = name,
+                                (name) {
+                                  setState(() {
+                                    selectedColour = name;
+                                  });
+                                },
+                                context
                               ),
                               if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
                                 const SizedBox(height: 12),
@@ -496,10 +485,11 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   S.of(context).select_colour_variation,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
-                                ..._buildIconRows(
+                                ...buildIconRows(
                                   TypeDataList.colorVariations(context),
                                   selectedColourVariation,
                                       (name) => selectedColourVariation = name,
+                                    context
                                 ),
                               ],
                             ],

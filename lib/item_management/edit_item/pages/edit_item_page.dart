@@ -1,5 +1,5 @@
-import '../../core/data/type_data.dart';
-import '../../../core/widgets/text_type_button.dart';
+import '../../../core/data/type_data.dart';
+import '../../../core/widgets/button/text_type_button.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -248,7 +248,7 @@ class _EditPageState extends State<EditPage> {
                   onTap(type.getName(context));
                 });
               },
-              imageUrl: type.imageUrl, // Use assetPath instead of imageUrl
+              imageUrl: type.imageUrl!, // Use assetPath instead of imageUrl
             );
           }).toList(),
         ),
@@ -271,12 +271,15 @@ class _EditPageState extends State<EditPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.25,
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
+                  padding: const EdgeInsets.all(16.0),
                   child: GestureDetector(
                     onTap: _pickImage,
-                    child: ImageDisplayWidget(
-                      imageUrl: _imageUrl,
-                      file: _imageFile, // Use the file if a new image is picked
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: ImageDisplayWidget(
+                        imageUrl: _imageUrl,
+                        file: _imageFile,
+                      ),
                     ),
                   ),
                 ),

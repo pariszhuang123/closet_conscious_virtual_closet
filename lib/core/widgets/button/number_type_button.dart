@@ -7,7 +7,7 @@ class NumberTypeButton extends TypeButton {
   const NumberTypeButton({
     super.key,
     required this.count,
-    super.imageUrl,
+    required super.imageUrl,
     super.isSelected,
   }) : super(
     onPressed: null,
@@ -18,8 +18,8 @@ class NumberTypeButton extends TypeButton {
     return Text(
       '$count',
       style: TextStyle(
-        color: isSelected ? theme.colorScheme.primary : theme.textTheme.bodyMedium?.color,
-        fontSize: 24, // Increase the font size for visibility
+        color: isSelected ? theme.colorScheme.primary : theme.colorScheme.primary,
+        fontSize: 12, // Increase the font size for visibility
         fontWeight: FontWeight.bold,
       ),
     );

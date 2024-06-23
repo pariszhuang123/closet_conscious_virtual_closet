@@ -4,9 +4,9 @@ import '../core/utilities/logger.dart';
 import '../item_management/core/data/models/closet_item_minimal.dart';
 import '../item_management/view_items/widget/item_grid.dart';
 import '../item_management/core/data/services/item_service.dart';
-import '../core/widgets/number_type_button.dart';
-import '../core/widgets/text_type_button.dart';
-import '../item_management/core/data/type_data.dart';
+import '../core/widgets/button/number_type_button.dart';
+import '../core/widgets/button/text_type_button.dart';
+import '../core/data/type_data.dart';
 import '../generated/l10n.dart';
 
 class MyClosetPage extends StatefulWidget {
@@ -29,7 +29,7 @@ class MyClosetPageState extends State<MyClosetPage> {
   int apparelCount = 0;
   final CustomLogger logger = CustomLogger('MyClosetPage');
 
-  static const int _batchSize = 6;
+  static const int _batchSize =  1;
 
   void _onItemTapped(int index) {
     if (index == 1) {
@@ -113,71 +113,58 @@ class MyClosetPageState extends State<MyClosetPage> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12), // Increase the value for more rounded corners
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            spreadRadius: 5,
-                            blurRadius: 10,
-                            offset: const Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 5,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
                       ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextTypeButton(
-                                label: uploadList[0].getName(context),
-                                selectedLabel: '',
-                                onPressed: _onUploadButtonPressed,
-                                imageUrl: uploadList[0].imageUrl,
-                              ),
-                              TextTypeButton(
-                                label: filterList[0].getName(context),
-                                selectedLabel: '',
-                                onPressed: () {},
-                                imageUrl: filterList[0].imageUrl,
-                              ),
-                              TextTypeButton(
-                                label: addClosetList[0].getName(context),
-                                selectedLabel: '',
-                                onPressed: () {},
-                                imageUrl: addClosetList[0].imageUrl,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            TextTypeButton(
+                              label: uploadList[0].getName(context),
+                              selectedLabel: '',
+                              onPressed: _onUploadButtonPressed,
+                              imageUrl: uploadList[0].imageUrl!,
+                            ),
+                            TextTypeButton(
+                              label: filterList[0].getName(context),
+                              selectedLabel: '',
+                              onPressed: () {},
+                              imageUrl: filterList[0].imageUrl!,
+                            ),
+                            TextTypeButton(
+                              label: addClosetList[0].getName(context),
+                              selectedLabel: '',
+                              onPressed: () {},
+                              imageUrl: addClosetList[0].imageUrl!,
+                            ),
+                          ],
+                        ),
+                        Container(
+                          width: 1.0,
+                          height: 40.0,
+                          color: Colors.lightGreen,
+                        ),
+                        NumberTypeButton(
+                          count: apparelCount,
+                          imageUrl: itemUploadedList[0].imageUrl!,
+                        ),
+                      ],
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12), // Increase the value for more rounded corners
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            spreadRadius: 5,
-                            blurRadius: 10,
-                            offset: const Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: NumberTypeButton(
-                        count: apparelCount,
-                        imageUrl: itemUploadedList[0].imageUrl,
-                      ),
-
-                    ),
-                  ],
+                  ),
                 ),
                 Expanded(
                   child: ItemGrid(

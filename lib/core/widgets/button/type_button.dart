@@ -3,13 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class TypeButton extends StatelessWidget {
   final VoidCallback? onPressed;
-  final String? imageUrl;
+  final String imageUrl;
   final bool isSelected;
 
   const TypeButton({
     super.key,
     this.onPressed,
-    this.imageUrl,
+    required this.imageUrl,
     this.isSelected = false,
   });
 
@@ -17,26 +17,32 @@ class TypeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        decoration: BoxDecoration(
-          color: isSelected ? theme.colorScheme.primary.withOpacity(0.2) : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-          border: isSelected ? Border.all(color: theme.colorScheme.primary, width: 2) : Border.all(color: Colors.grey, width: 1),
-        ),
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center, // Center the children vertically
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (imageUrl != null) _buildImage(imageUrl!),
-            const SizedBox(height: 4),
-            buildContent(context),
-          ],
-        ),
+    Widget content = Container(
+      decoration: BoxDecoration(
+        color: isSelected ? theme.colorScheme.background : theme.colorScheme.background,
+        borderRadius: BorderRadius.circular(12),
+        border: isSelected ? Border.all(color: theme.colorScheme.primary, width: 3) : null,
+      ),
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center, // Center the children vertically
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildImage(imageUrl),
+          const SizedBox(height: 4),
+          buildContent(context),
+        ],
       ),
     );
+
+    if (onPressed != null) {
+      content = GestureDetector(
+        onTap: onPressed,
+        child: content,
+      );
+    }
+
+    return content;
   }
 
   Widget _buildImage(String url) {

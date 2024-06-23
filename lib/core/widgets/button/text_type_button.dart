@@ -8,7 +8,7 @@ class TextTypeButton extends TypeButton {
   const TextTypeButton({
     super.key,
     required super.onPressed,
-    super.imageUrl,
+    required super.imageUrl,
     super.isSelected,
     required this.label,
     required this.selectedLabel, // Add this line
@@ -21,7 +21,7 @@ class TextTypeButton extends TypeButton {
     return Text(
       label[0].toUpperCase() + label.substring(1),
       style: TextStyle(
-        color: isSelected ? theme.colorScheme.primary : theme.textTheme.bodyMedium?.color,
+        color: isSelected ? theme.colorScheme.primary : theme.colorScheme.primary,
         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
       ),
     );
