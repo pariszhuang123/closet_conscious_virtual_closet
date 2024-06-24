@@ -8,6 +8,7 @@ import '../core/widgets/button/number_type_button.dart';
 import '../core/widgets/button/text_type_button.dart';
 import '../core/data/type_data.dart';
 import '../generated/l10n.dart';
+import '../core/widgets/filter_premium_bottom_sheet.dart';
 
 class MyClosetPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -43,6 +44,15 @@ class MyClosetPageState extends State<MyClosetPage> {
 
   void _onUploadButtonPressed() {
     Navigator.pushReplacementNamed(context, AppRoutes.uploadItem);
+  }
+
+  void _onFilterButtonPressed() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const PremiumFilterBottomSheet(isFromMyCloset: true);
+      },
+    );
   }
 
   @override
@@ -150,7 +160,7 @@ class MyClosetPageState extends State<MyClosetPage> {
                             TextTypeButton(
                               label: filterList[0].getName(context),
                               selectedLabel: '',
-                              onPressed: () {},
+                              onPressed: _onFilterButtonPressed,
                               imageUrl: filterList[0].imageUrl!,
                             ),
                             TextTypeButton(
