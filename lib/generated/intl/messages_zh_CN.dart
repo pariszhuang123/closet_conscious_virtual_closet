@@ -91,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("颜色字段未填写。"),
         "colourVariationFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("颜色变化字段未填写。"),
+        "editPageTitle": MessageLookupByLibrary.simpleMessage("编辑项目"),
         "enterAmountSpentHint": MessageLookupByLibrary.simpleMessage("输入花费金额"),
         "filterSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("筛选和搜索高级功能"),

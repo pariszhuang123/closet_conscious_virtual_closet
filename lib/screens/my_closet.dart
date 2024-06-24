@@ -124,7 +124,7 @@ class MyClosetPageState extends State<MyClosetPage> {
         data: widget.myClosetTheme,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(S.of(context).myClosetTitle),
+            title: Text(S.of(context).myClosetTitle, style: widget.myClosetTheme.textTheme.titleMedium),
             automaticallyImplyLeading: false, // Ensure no back button
           ),
           body: Padding(
@@ -133,11 +133,11 @@ class MyClosetPageState extends State<MyClosetPage> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: widget.myClosetTheme.colorScheme.background,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: widget.myClosetTheme.shadowColor.withOpacity(0.1),
                         spreadRadius: 5,
                         blurRadius: 10,
                         offset: const Offset(0, 3),
@@ -174,7 +174,7 @@ class MyClosetPageState extends State<MyClosetPage> {
                         Container(
                           width: 1.0,
                           height: 40.0,
-                          color: Colors.lightGreen,
+                          color: widget.myClosetTheme.dividerColor,
                         ),
                         NumberTypeButton(
                           count: apparelCount,
@@ -194,7 +194,7 @@ class MyClosetPageState extends State<MyClosetPage> {
                 ),
                 ElevatedButton(
                   onPressed: () {},
-                  child: Text(S.of(context).closetUploadComplete),
+                  child: Text(S.of(context).closetUploadComplete, style: widget.myClosetTheme.textTheme.labelLarge),
                 ),
               ],
             ),
@@ -211,7 +211,7 @@ class MyClosetPageState extends State<MyClosetPage> {
               ),
             ],
             currentIndex: _selectedIndex,
-            selectedItemColor: const Color(0xFF366d59), // Set selected item color
+            selectedItemColor: widget.myClosetTheme.colorScheme.primary,
             onTap: _onItemTapped,
           ),
         ),

@@ -348,7 +348,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                     controller: _itemNameController,
                                     decoration: InputDecoration(
                                       labelText: S.of(context).item_name,
-                                      labelStyle: Theme.of(context).textTheme.bodyMedium,
+                                      labelStyle: widget.myClosetTheme.textTheme.bodyMedium,
                                     ),
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
@@ -364,7 +364,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                       labelText: S.of(context).amountSpentLabel,
                                       hintText: S.of(context).enterAmountSpentHint,
                                       errorText: _amountSpentError,
-                                      labelStyle: Theme.of(context).textTheme.bodyMedium,
+                                      labelStyle: widget.myClosetTheme.textTheme.bodyMedium,
                                     ),
                                     keyboardType: TextInputType.number,
                                     onChanged: (value) {
@@ -374,7 +374,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   const SizedBox(height: 12),
                                   Text(
                                     S.of(context).selectItemType,
-                                    style: Theme.of(context).textTheme.bodyMedium,
+                                    style: widget.myClosetTheme.textTheme.bodyMedium,
                                   ),
                                   ...buildIconRows(
                                       TypeDataList.itemGeneralTypes(context),
@@ -387,7 +387,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   const SizedBox(height: 12),
                                   Text(
                                     S.of(context).selectOccasion,
-                                    style: Theme.of(context).textTheme.bodyMedium,
+                                    style: widget.myClosetTheme.textTheme.bodyMedium,
                                   ),
                                   ...buildIconRows(
                                       TypeDataList.occasions(context),
@@ -412,7 +412,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 children: [
                                   Text(
                                     S.of(context).selectSeason,
-                                    style: Theme.of(context).textTheme.bodyMedium,
+                                    style: widget.myClosetTheme.textTheme.bodyMedium,
                                   ),
                                   ...buildIconRows(
                                       TypeDataList.seasons(context),
@@ -426,7 +426,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   if (selectedItemType == 'Shoes') ...[
                                     Text(
                                       S.of(context).selectShoeType,
-                                      style: Theme.of(context).textTheme.bodyMedium,
+                                      style: widget.myClosetTheme.textTheme.bodyMedium,
                                     ),
                                     ...buildIconRows(
                                         TypeDataList.shoeTypes(context),
@@ -442,7 +442,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   if (selectedItemType == 'Accessory') ...[
                                     Text(
                                       S.of(context).selectAccessoryType,
-                                      style: Theme.of(context).textTheme.bodyMedium,
+                                      style: widget.myClosetTheme.textTheme.bodyMedium,
                                     ),
                                     ...buildIconRows(
                                         TypeDataList.accessoryTypes(context),
@@ -458,7 +458,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   if (selectedItemType == 'Clothing') ...[
                                     Text(
                                       S.of(context).selectClothingType,
-                                      style: Theme.of(context).textTheme.bodyMedium,
+                                      style: widget.myClosetTheme.textTheme.bodyMedium,
                                     ),
                                     ...buildIconRows(
                                         TypeDataList.clothingTypes(context),
@@ -473,7 +473,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                     const SizedBox(height: 12),
                                     Text(
                                       S.of(context).selectClothingLayer,
-                                      style: Theme.of(context).textTheme.bodyMedium,
+                                      style: widget.myClosetTheme.textTheme.bodyMedium,
                                     ),
                                     ...buildIconRows(
                                         TypeDataList.clothingLayers(context),
@@ -501,7 +501,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 children: [
                                   Text(
                                     S.of(context).selectColour,
-                                    style: Theme.of(context).textTheme.bodyMedium,
+                                    style: widget.myClosetTheme.textTheme.bodyMedium,
                                   ),
                                   ...buildIconRows(
                                       TypeDataList.colors(context),
@@ -517,7 +517,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                     const SizedBox(height: 12),
                                     Text(
                                       S.of(context).selectColourVariation,
-                                      style: Theme.of(context).textTheme.bodyMedium,
+                                      style: widget.myClosetTheme.textTheme.bodyMedium,
                                     ),
                                     ...buildIconRows(
                                         TypeDataList.colorVariations(context),

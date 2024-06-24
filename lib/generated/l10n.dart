@@ -1009,6 +1009,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Edit Item`
+  String get editPageTitle {
+    return Intl.message(
+      'Edit Item',
+      name: 'editPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

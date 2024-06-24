@@ -119,7 +119,7 @@ class TypeDataList {
 
   static List<TypeData> itemUploaded(BuildContext context) {
     return [
-      TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Main/upload_item.svg'),
+      TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Main/Items_uploaded.svg'),
     ];
   }
 }

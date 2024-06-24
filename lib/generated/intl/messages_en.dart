@@ -98,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Colour field is not filled."),
         "colourVariationFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Colour Variation field is not filled."),
+        "editPageTitle": MessageLookupByLibrary.simpleMessage("Edit Item"),
         "enterAmountSpentHint":
             MessageLookupByLibrary.simpleMessage("Enter amount spent"),
         "filterSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(

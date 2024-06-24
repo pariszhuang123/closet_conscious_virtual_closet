@@ -44,15 +44,15 @@ final ThemeData myOutfitTheme = ThemeData(
     ),
   ),
   textTheme: const TextTheme(
-    bodyLarge: TextStyle(color: Colors.black), // Larger body text
-    bodyMedium: TextStyle(color: Colors.black), // Smaller body text
-    displayLarge: TextStyle(color: Colors.black), // Largest headline
-    displayMedium: TextStyle(color: Colors.black), // Second largest headline
-    titleMedium: TextStyle(color: Colors.black), // Medium-emphasis text
-    titleSmall: TextStyle(color: Colors.black), // Smaller medium-emphasis text
-    bodySmall: TextStyle(color: Colors.black), // Caption text
-    labelLarge: TextStyle(color: Colors.white), // Text for buttons
-    labelSmall: TextStyle(color: Colors.black), // Overline text
+    bodyLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black), // Larger body text
+    bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black), // Medium body text
+    displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black), // Largest headline
+    displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black), // Second largest headline
+    titleMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black), // Medium-emphasis text
+    titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black), // Smaller medium-emphasis text
+    bodySmall: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black), // Caption text
+    labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white), // Text for buttons
+    labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black), // Overline text
   ),
   chipTheme: ChipThemeData(
     backgroundColor: Colors.grey.shade200,

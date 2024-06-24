@@ -268,6 +268,16 @@ class _EditPageState extends State<EditPage> {
     return Theme(
       data: widget.myClosetTheme,
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(S.of(context).editPageTitle, style: widget.myClosetTheme.textTheme.titleMedium), // Assuming you have a localization key for "Edit Page"
+          backgroundColor: widget.myClosetTheme.colorScheme.primaryContainer,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: widget.myClosetTheme.colorScheme.onPrimary),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: SafeArea(
           child: Column(
             children: [
@@ -301,7 +311,7 @@ class _EditPageState extends State<EditPage> {
                             controller: _itemNameController,
                             decoration: InputDecoration(
                               labelText: S.of(context).item_name,
-                              labelStyle: Theme.of(context).textTheme.bodyMedium,
+                              labelStyle: widget.myClosetTheme.textTheme.bodyMedium,
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -322,7 +332,7 @@ class _EditPageState extends State<EditPage> {
                               labelText: S.of(context).amountSpentLabel,
                               hintText: S.of(context).enterAmountSpentHint,
                               errorText: _amountSpentError,
-                              labelStyle: Theme.of(context).textTheme.bodyMedium,
+                              labelStyle: widget.myClosetTheme.textTheme.bodyMedium,
                             ),
                             keyboardType: TextInputType.number,
                             onChanged: (value) {
@@ -335,7 +345,7 @@ class _EditPageState extends State<EditPage> {
                           const SizedBox(height: 12),
                           Text(
                             S.of(context).selectItemType,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: widget.myClosetTheme.textTheme.bodyMedium,
                           ),
                           ...buildIconRows(
                               TypeDataList.itemGeneralTypes(context),
@@ -350,7 +360,7 @@ class _EditPageState extends State<EditPage> {
                           const SizedBox(height: 12),
                           Text(
                             S.of(context).selectOccasion,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: widget.myClosetTheme.textTheme.bodyMedium,
                           ),
                           ...buildIconRows(
                               TypeDataList.occasions(context),
@@ -364,7 +374,7 @@ class _EditPageState extends State<EditPage> {
                           const SizedBox(height: 12),
                           Text(
                             S.of(context).selectSeason,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: widget.myClosetTheme.textTheme.bodyMedium,
                           ),
                           ...buildIconRows(
                               TypeDataList.seasons(context),
@@ -379,7 +389,7 @@ class _EditPageState extends State<EditPage> {
                           if (selectedItemType == 'Shoes') ...[
                             Text(
                               S.of(context).selectShoeType,
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              style: widget.myClosetTheme.textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
                                 TypeDataList.shoeTypes(context),
@@ -394,7 +404,7 @@ class _EditPageState extends State<EditPage> {
                           if (selectedItemType == 'Accessory') ...[
                             Text(
                               S.of(context).selectAccessoryType,
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              style: widget.myClosetTheme.textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
                                 TypeDataList.accessoryTypes(context),
@@ -409,7 +419,7 @@ class _EditPageState extends State<EditPage> {
                           if (selectedItemType == 'Clothing') ...[
                             Text(
                               S.of(context).selectClothingType,
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              style: widget.myClosetTheme.textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
                                 TypeDataList.clothingTypes(context),
@@ -423,7 +433,7 @@ class _EditPageState extends State<EditPage> {
                             const SizedBox(height: 12),
                             Text(
                               S.of(context).selectClothingLayer,
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              style: widget.myClosetTheme.textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
                                 TypeDataList.clothingLayers(context),
@@ -438,7 +448,7 @@ class _EditPageState extends State<EditPage> {
                           const SizedBox(height: 12),
                           Text(
                             S.of(context).selectColour,
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: widget.myClosetTheme.textTheme.bodyMedium,
                           ),
                           ...buildIconRows(
                               TypeDataList.colors(context),
@@ -453,7 +463,7 @@ class _EditPageState extends State<EditPage> {
                             const SizedBox(height: 12),
                             Text(
                               S.of(context).selectColourVariation,
-                              style: Theme.of(context).textTheme.bodyMedium,
+                              style: widget.myClosetTheme.textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
                                 TypeDataList.colorVariations(context),
@@ -476,7 +486,7 @@ class _EditPageState extends State<EditPage> {
                 padding: const EdgeInsets.only(top: 10.0, bottom: 70.0, left: 16.0, right: 16.0),
                 child: ElevatedButton(
                   onPressed: _isFormValid ? _handleUpload : null,
-                  child: Text(_isChanged ? S.of(context).update : S.of(context).archived),
+                  child: Text(_isChanged ? S.of(context).update : S.of(context).archived, style: widget.myClosetTheme.textTheme.labelLarge),
                 ),
               ),
             ],
