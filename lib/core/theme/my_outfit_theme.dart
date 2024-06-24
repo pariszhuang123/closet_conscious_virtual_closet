@@ -10,9 +10,7 @@ final ThemeData myOutfitTheme = ThemeData(
     primaryContainer: Colors.blue.shade800, // Darker blue for primary container
     secondary: Colors.blueAccent.shade100, // Light blue for secondary
     onSecondary: Colors.black,
-    secondaryContainer: Colors.blueAccent.shade700, // Darker light blue for secondary container
-    background: Colors.white,
-    onBackground: Colors.black,
+    secondaryContainer: Colors.blueAccent.shade700,
     surface: Colors.grey.shade200,
     onSurface: Colors.black,
     error: Colors.red,
@@ -20,22 +18,22 @@ final ThemeData myOutfitTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.pressed) || states.contains(MaterialState.selected)) {
+      backgroundColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+          if (states.contains(WidgetState.pressed) || states.contains(WidgetState.selected)) {
             return Colors.blue.shade800; // Darker blue when pressed
           }
           return Colors.blue.shade700; // Dark blue for default state
         },
       ),
-      foregroundColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
+      foregroundColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
           return Colors.white; // Always white text for better visibility
         },
       ),
-      textStyle: MaterialStateProperty.resolveWith<TextStyle?>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.pressed) || states.contains(MaterialState.selected)) {
+      textStyle: WidgetStateProperty.resolveWith<TextStyle?>(
+            (Set<WidgetState> states) {
+          if (states.contains(WidgetState.pressed) || states.contains(WidgetState.selected)) {
             return const TextStyle(fontWeight: FontWeight.bold);
           }
           return const TextStyle(fontWeight: FontWeight.normal);

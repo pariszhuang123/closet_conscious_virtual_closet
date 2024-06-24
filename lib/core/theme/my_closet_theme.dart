@@ -10,9 +10,7 @@ final ThemeData myClosetTheme = ThemeData(
     primaryContainer: Colors.teal.shade900, // Closest to #255743
     secondary: Colors.teal.shade400, // Closest to #A0D6B4
     onSecondary: Colors.black,
-    secondaryContainer: Colors.green.shade500, // Closest to #88B69C
-    background: Colors.white,
-    onBackground: Colors.black,
+    secondaryContainer: Colors.green.shade500,
     surface: Colors.grey.shade200,
     onSurface: Colors.black,
     error: Colors.red.shade200,
@@ -20,22 +18,22 @@ final ThemeData myClosetTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.pressed) || states.contains(MaterialState.selected)) {
+      backgroundColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+          if (states.contains(WidgetState.pressed) || states.contains(WidgetState.selected)) {
             return Colors.teal.shade800; // Closest to #255743
           }
           return Colors.teal.shade400; // Closest to #366D59
         },
       ),
-      foregroundColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
+      foregroundColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
           return Colors.white; // Always white text for better visibility
         },
       ),
-      textStyle: MaterialStateProperty.resolveWith<TextStyle?>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.pressed) || states.contains(MaterialState.selected)) {
+      textStyle: WidgetStateProperty.resolveWith<TextStyle?>(
+            (Set<WidgetState> states) {
+          if (states.contains(WidgetState.pressed) || states.contains(WidgetState.selected)) {
             return const TextStyle(fontWeight: FontWeight.bold);
           }
           return const TextStyle(fontWeight: FontWeight.normal);
