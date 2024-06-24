@@ -100,7 +100,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Colour Variation field is not filled."),
         "enterAmountSpentHint":
             MessageLookupByLibrary.simpleMessage("Enter amount spent"),
+        "filterSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
+            "Filter & Search Premium Feature"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
+        "interested": MessageLookupByLibrary.simpleMessage("Interested"),
         "itemNameFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Item Name field is not filled."),
         "itemNameLabel": MessageLookupByLibrary.simpleMessage("Item Name"),
@@ -120,6 +123,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter an item name"),
         "please_enter_valid_amount": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid amount (0 or greater)."),
+        "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
+            "Quickly find items with filter and search options, saving time and staying organized."),
         "retryConnection": MessageLookupByLibrary.simpleMessage("Retry"),
         "seasonFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("Season field is not filled."),

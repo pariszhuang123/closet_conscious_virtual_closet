@@ -137,6 +137,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
     }
   }
 
+
   Future<void> _saveData() async {
     if (!_validateAmountSpent()) return;
 
@@ -314,238 +315,238 @@ class _UploadItemPageState extends State<UploadItemPage> {
           return Future.value();
         },
         child: Theme(
-        data: widget.myClosetTheme,
-        child: Scaffold(
-          body: SafeArea(
-            child: Column(
-              children: [
-              // Top Section: Image Display
-                Padding(
-                  padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    child: ImageDisplayWidget(
-                      imageUrl: _imageUrl,
+          data: widget.myClosetTheme,
+          child: Scaffold(
+            body: SafeArea(
+              child: Column(
+                children: [
+                  // Top Section: Image Display
+                  Padding(
+                    padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: ImageDisplayWidget(
+                        imageUrl: _imageUrl,
+                      ),
                     ),
                   ),
-                ),
 
-              Expanded(
-                child: PageView(
-                  controller: _pageController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    // First Page
-                    SingleChildScrollView(
-                      child: Form(
-                        key: _formKeyPage1,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                controller: _itemNameController,
-                                decoration: InputDecoration(
-                                  labelText: S.of(context).item_name,
-                                  labelStyle: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return S.of(context).pleaseEnterItemName;
-                                  }
-                                  return null;
-                                },
+                  Expanded(
+                    child: PageView(
+                      controller: _pageController,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        // First Page
+                        SingleChildScrollView(
+                          child: Form(
+                            key: _formKeyPage1,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    controller: _itemNameController,
+                                    decoration: InputDecoration(
+                                      labelText: S.of(context).item_name,
+                                      labelStyle: Theme.of(context).textTheme.bodyMedium,
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return S.of(context).pleaseEnterItemName;
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  const SizedBox(height: 12),
+                                  TextFormField(
+                                    controller: _amountSpentController,
+                                    decoration: InputDecoration(
+                                      labelText: S.of(context).amountSpentLabel,
+                                      hintText: S.of(context).enterAmountSpentHint,
+                                      errorText: _amountSpentError,
+                                      labelStyle: Theme.of(context).textTheme.bodyMedium,
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (value) {
+                                      _validateAmountSpent();
+                                    },
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    S.of(context).selectItemType,
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  ...buildIconRows(
+                                      TypeDataList.itemGeneralTypes(context),
+                                      selectedItemType,
+                                          (name) => setState(() {
+                                        selectedItemType = TypeDataList.itemGeneralTypes(context).firstWhere((item) => item.getName(context) == name).key;
+                                      }),
+                                      context
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    S.of(context).selectOccasion,
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  ...buildIconRows(
+                                      TypeDataList.occasions(context),
+                                      selectedOccasion,
+                                          (name) => setState(() {
+                                        selectedOccasion = TypeDataList.occasions(context).firstWhere((item) => item.getName(context) == name).key;
+                                      }),
+                                      context
+                                  ),
+                                ],
                               ),
-                              const SizedBox(height: 12),
-                              TextFormField(
-                                controller: _amountSpentController,
-                                decoration: InputDecoration(
-                                  labelText: S.of(context).amountSpentLabel,
-                                  hintText: S.of(context).enterAmountSpentHint,
-                                  errorText: _amountSpentError,
-                                  labelStyle: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                keyboardType: TextInputType.number,
-                                onChanged: (value) {
-                                  _validateAmountSpent();
-                                },
-                              ),
-                              const SizedBox(height: 12),
-                              Text(
-                                S.of(context).selectItemType,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                              ...buildIconRows(
-                                TypeDataList.itemGeneralTypes(context),
-                                selectedItemType,
-                                    (name) => setState(() {
-                                      selectedItemType = name;
-                                }),
-                                context
-                              ),
-                              const SizedBox(height: 12),
-                              Text(
-                                S.of(context).selectOccasion,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                              ...buildIconRows(
-                                TypeDataList.occasions(context),
-                                selectedOccasion,
-                                      (name) => setState(() {
-                                    selectedOccasion = name;
-                                  }),
-                                  context
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    // Second Page
-                    SingleChildScrollView(
-                      child: Form(
-                        key: _formKeyPage2,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                S.of(context).selectSeason,
-                                style: Theme.of(context).textTheme.bodyMedium,
+                        // Second Page
+                        SingleChildScrollView(
+                          child: Form(
+                            key: _formKeyPage2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    S.of(context).selectSeason,
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  ...buildIconRows(
+                                      TypeDataList.seasons(context),
+                                      selectedSeason,
+                                          (name) => setState(() {
+                                        selectedSeason = TypeDataList.seasons(context).firstWhere((item) => item.getName(context) == name).key;
+                                      }),
+                                      context
+                                  ),
+                                  const SizedBox(height: 12),
+                                  if (selectedItemType == 'Shoes') ...[
+                                    Text(
+                                      S.of(context).selectShoeType,
+                                      style: Theme.of(context).textTheme.bodyMedium,
+                                    ),
+                                    ...buildIconRows(
+                                        TypeDataList.shoeTypes(context),
+                                        selectedSpecificType,
+                                            (name) {
+                                          setState(() {
+                                            selectedSpecificType = TypeDataList.shoeTypes(context).firstWhere((item) => item.getName(context) == name).key;
+                                          });
+                                        },
+                                        context
+                                    ),
+                                  ],
+                                  if (selectedItemType == 'Accessory') ...[
+                                    Text(
+                                      S.of(context).selectAccessoryType,
+                                      style: Theme.of(context).textTheme.bodyMedium,
+                                    ),
+                                    ...buildIconRows(
+                                        TypeDataList.accessoryTypes(context),
+                                        selectedSpecificType,
+                                            (name) {
+                                          setState(() {
+                                            selectedSpecificType = TypeDataList.accessoryTypes(context).firstWhere((item) => item.getName(context) == name).key;
+                                          });
+                                        },
+                                        context
+                                    ),
+                                  ],
+                                  if (selectedItemType == 'Clothing') ...[
+                                    Text(
+                                      S.of(context).selectClothingType,
+                                      style: Theme.of(context).textTheme.bodyMedium,
+                                    ),
+                                    ...buildIconRows(
+                                        TypeDataList.clothingTypes(context),
+                                        selectedSpecificType,
+                                            (name) {
+                                          setState(() {
+                                            selectedSpecificType = TypeDataList.clothingTypes(context).firstWhere((item) => item.getName(context) == name).key;
+                                          });
+                                        },
+                                        context
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Text(
+                                      S.of(context).selectClothingLayer,
+                                      style: Theme.of(context).textTheme.bodyMedium,
+                                    ),
+                                    ...buildIconRows(
+                                        TypeDataList.clothingLayers(context),
+                                        selectedClothingLayer,
+                                            (name) {
+                                          setState(() {
+                                            selectedClothingLayer = TypeDataList.clothingLayers(context).firstWhere((item) => item.getName(context) == name).key;
+                                          });
+                                        },
+                                        context
+                                    ),
+                                  ],
+                                ],
                               ),
-                              ...buildIconRows(
-                                TypeDataList.seasons(context),
-                                selectedSeason,
-                                      (name) => setState(() {
-                                    selectedSeason = name;
-                                  }),
-                                  context
-                              ),
-                              const SizedBox(height: 12),
-                              if (selectedItemType == 'Shoes') ...[
-                                Text(
-                                  S.of(context).selectShoeType,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                ...buildIconRows(
-                                  TypeDataList.shoeTypes(context),
-                                    selectedSpecificType,
-                                        (name) {
-                                      setState(() {
-                                        selectedSpecificType = name;
-                                      });
-                                    },
-                                    context
-                                ),
-                              ],
-                              if (selectedItemType == 'Accessory') ...[
-                                Text(
-                                  S.of(context).selectAccessoryType,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                ...buildIconRows(
-                                  TypeDataList.accessoryTypes(context),
-                                    selectedSpecificType,
-                                        (name) {
-                                      setState(() {
-                                        selectedSpecificType = name;
-                                      });
-                                    },
-                                    context
-                                ),
-                              ],
-                              if (selectedItemType == 'Clothing') ...[
-                                Text(
-                                  S.of(context).selectClothingType,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                ...buildIconRows(
-                                  TypeDataList.clothingTypes(context),
-                                    selectedSpecificType,
-                                        (name) {
-                                      setState(() {
-                                        selectedSpecificType = name;
-                                      });
-                                    },
-                                    context
-                                ),
-                                const SizedBox(height: 12),
-                                Text(
-                                  S.of(context).selectClothingLayer,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                ...buildIconRows(
-                                  TypeDataList.clothingLayers(context),
-                                  selectedClothingLayer,
-                                        (name) {
-                                      setState(() {
-                                        selectedClothingLayer = name;
-                                      });
-                                    },
-                                    context
-                                ),
-                              ],
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    // Third Page
-                    SingleChildScrollView(
-                      child: Form(
-                        key: _formKeyPage3,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                S.of(context).selectColour,
-                                style: Theme.of(context).textTheme.bodyMedium,
+                        // Third Page
+                        SingleChildScrollView(
+                          child: Form(
+                            key: _formKeyPage3,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    S.of(context).selectColour,
+                                    style: Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  ...buildIconRows(
+                                      TypeDataList.colors(context),
+                                      selectedColour,
+                                          (name) {
+                                        setState(() {
+                                          selectedColour = TypeDataList.colors(context).firstWhere((item) => item.getName(context) == name).key;
+                                        });
+                                      },
+                                      context
+                                  ),
+                                  if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
+                                    const SizedBox(height: 12),
+                                    Text(
+                                      S.of(context).selectColourVariation,
+                                      style: Theme.of(context).textTheme.bodyMedium,
+                                    ),
+                                    ...buildIconRows(
+                                        TypeDataList.colorVariations(context),
+                                        selectedColourVariation,
+                                            (name) => setState(() {
+                                          selectedColourVariation = TypeDataList.colorVariations(context).firstWhere((item) => item.getName(context) == name).key;
+                                        }),
+                                        context
+                                    ),
+                                  ],
+                                ],
                               ),
-                              ...buildIconRows(
-                                TypeDataList.colors(context),
-                                selectedColour,
-                                (name) {
-                                  setState(() {
-                                    selectedColour = name;
-                                  });
-                                },
-                                context
-                              ),
-                              if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
-                                const SizedBox(height: 12),
-                                Text(
-                                  S.of(context).selectColourVariation,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                ...buildIconRows(
-                                  TypeDataList.colorVariations(context),
-                                  selectedColourVariation,
-                                        (name) => setState(() {
-                                      selectedColourVariation = name;
-                                    }),
-                                    context
-                                ),
-                              ],
-                            ],
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
+                    child: ElevatedButton(
+                      onPressed: _handleNext,
+                      child: Text(_currentPage == 2 ? S.of(context).upload : S.of(context).next),
+                    ),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
-                child: ElevatedButton(
-                  onPressed: _handleNext,
-                  child: Text(_currentPage == 2 ? S.of(context).upload : S.of(context).next),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 }

@@ -338,14 +338,14 @@ class _EditPageState extends State<EditPage> {
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           ...buildIconRows(
-                            TypeDataList.itemGeneralTypes(context),
-                            selectedItemType,
-                                (name) => setState(() {
-                                  _isChanged = true;
-                                  selectedItemType = name;
-                              selectedSpecificType = null;
-                            }),
-                            context
+                              TypeDataList.itemGeneralTypes(context),
+                              selectedItemType,
+                                  (name) => setState(() {
+                                _isChanged = true;
+                                selectedItemType = TypeDataList.itemGeneralTypes(context).firstWhere((item) => item.getName(context) == name).key;
+                                selectedSpecificType = null;
+                              }),
+                              context
                           ),
                           const SizedBox(height: 12),
                           Text(
@@ -353,13 +353,13 @@ class _EditPageState extends State<EditPage> {
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           ...buildIconRows(
-                            TypeDataList.occasions(context),
-                            selectedOccasion,
-                                (name) => setState(() {
-                                  _isChanged = true;
-                                  selectedOccasion = name;
-                            }),
-                            context
+                              TypeDataList.occasions(context),
+                              selectedOccasion,
+                                  (name) => setState(() {
+                                _isChanged = true;
+                                selectedOccasion = TypeDataList.occasions(context).firstWhere((item) => item.getName(context) == name).key;
+                              }),
+                              context
                           ),
                           const SizedBox(height: 12),
                           Text(
@@ -367,13 +367,13 @@ class _EditPageState extends State<EditPage> {
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           ...buildIconRows(
-                            TypeDataList.seasons(context),
-                            selectedSeason,
-                                (name) => setState(() {
-                                  _isChanged = true;
-                                  selectedSeason = name;
-                            }),
-                            context
+                              TypeDataList.seasons(context),
+                              selectedSeason,
+                                  (name) => setState(() {
+                                _isChanged = true;
+                                selectedSeason = TypeDataList.seasons(context).firstWhere((item) => item.getName(context) == name).key;
+                              }),
+                              context
                           ),
                           const SizedBox(height: 12),
                           if (selectedItemType == 'Shoes') ...[
@@ -382,13 +382,13 @@ class _EditPageState extends State<EditPage> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
-                              TypeDataList.shoeTypes(context),
-                              selectedSpecificType,
-                                  (name) => setState(() {
-                                    _isChanged = true;
-                                    selectedSpecificType = name;
-                              }),
-                              context
+                                TypeDataList.shoeTypes(context),
+                                selectedSpecificType,
+                                    (name) => setState(() {
+                                  _isChanged = true;
+                                  selectedSpecificType = TypeDataList.shoeTypes(context).firstWhere((item) => item.getName(context) == name).key;
+                                }),
+                                context
                             ),
                           ],
                           if (selectedItemType == 'Accessory') ...[
@@ -397,28 +397,28 @@ class _EditPageState extends State<EditPage> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
-                              TypeDataList.accessoryTypes(context),
-                              selectedSpecificType,
-                                  (name) => setState(() {
-                                    _isChanged = true;
-                                    selectedSpecificType = name;
-                              }),
-                              context
+                                TypeDataList.accessoryTypes(context),
+                                selectedSpecificType,
+                                    (name) => setState(() {
+                                  _isChanged = true;
+                                  selectedSpecificType = TypeDataList.accessoryTypes(context).firstWhere((item) => item.getName(context) == name).key;
+                                }),
+                                context
                             ),
                           ],
                           if (selectedItemType == 'Clothing') ...[
-                             Text(
+                            Text(
                               S.of(context).selectClothingType,
-                               style: Theme.of(context).textTheme.bodyMedium,
+                              style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
-                              TypeDataList.clothingTypes(context),
-                              selectedSpecificType,
-                                  (name) => setState(() {
-                                    _isChanged = true;
-                                    selectedSpecificType = name;
-                              }),
-                              context
+                                TypeDataList.clothingTypes(context),
+                                selectedSpecificType,
+                                    (name) => setState(() {
+                                  _isChanged = true;
+                                  selectedSpecificType = TypeDataList.clothingTypes(context).firstWhere((item) => item.getName(context) == name).key;
+                                }),
+                                context
                             ),
                             const SizedBox(height: 12),
                             Text(
@@ -426,13 +426,13 @@ class _EditPageState extends State<EditPage> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
-                              TypeDataList.clothingLayers(context),
-                              selectedClothingLayer,
-                                  (name) => setState(() {
-                                    _isChanged = true;
-                                    selectedClothingLayer = name;
-                              }),
-                              context
+                                TypeDataList.clothingLayers(context),
+                                selectedClothingLayer,
+                                    (name) => setState(() {
+                                  _isChanged = true;
+                                  selectedClothingLayer = TypeDataList.clothingLayers(context).firstWhere((item) => item.getName(context) == name).key;
+                                }),
+                                context
                             ),
                           ],
                           const SizedBox(height: 12),
@@ -441,13 +441,13 @@ class _EditPageState extends State<EditPage> {
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           ...buildIconRows(
-                            TypeDataList.colors(context),
-                            selectedColour,
-                                (name) => setState(() {
-                                  _isChanged = true;
-                                  selectedColour = name;
-                            }),
-                            context
+                              TypeDataList.colors(context),
+                              selectedColour,
+                                  (name) => setState(() {
+                                _isChanged = true;
+                                selectedColour = TypeDataList.colors(context).firstWhere((item) => item.getName(context) == name).key;
+                              }),
+                              context
                           ),
                           if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
                             const SizedBox(height: 12),
@@ -456,13 +456,13 @@ class _EditPageState extends State<EditPage> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
-                              TypeDataList.colorVariations(context),
-                              selectedColourVariation,
-                                  (name) => setState(() {
-                                    _isChanged = true;
-                                    selectedColourVariation = name;
-                              }),
-                              context
+                                TypeDataList.colorVariations(context),
+                                selectedColourVariation,
+                                    (name) => setState(() {
+                                  _isChanged = true;
+                                  selectedColourVariation = TypeDataList.colorVariations(context).firstWhere((item) => item.getName(context) == name).key;
+                                }),
+                                context
                             ),
                           ],
                         ],

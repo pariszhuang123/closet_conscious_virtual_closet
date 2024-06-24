@@ -92,7 +92,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "colourVariationFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("颜色变化字段未填写。"),
         "enterAmountSpentHint": MessageLookupByLibrary.simpleMessage("输入花费金额"),
+        "filterSearchPremiumFeature":
+            MessageLookupByLibrary.simpleMessage("筛选和搜索高级功能"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("筛选"),
+        "interested": MessageLookupByLibrary.simpleMessage("感兴趣"),
         "itemNameFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("项目名称字段未填写。"),
         "itemNameLabel": MessageLookupByLibrary.simpleMessage("物品名称"),
@@ -107,6 +110,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "offlineStatus": MessageLookupByLibrary.simpleMessage("您当前处于离线状态"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("穿搭"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
+        "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
+            "通过筛选和搜索选项快速找到物品，节省时间并保持井井有条。"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("重试"),
         "seasonFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("季节字段未填写。"),

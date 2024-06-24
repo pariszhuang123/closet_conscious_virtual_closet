@@ -979,6 +979,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Filter & Search Premium Feature`
+  String get filterSearchPremiumFeature {
+    return Intl.message(
+      'Filter & Search Premium Feature',
+      name: 'filterSearchPremiumFeature',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quickly find items with filter and search options, saving time and staying organized.`
+  String get quicklyFindItems {
+    return Intl.message(
+      'Quickly find items with filter and search options, saving time and staying organized.',
+      name: 'quicklyFindItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interested`
+  String get interested {
+    return Intl.message(
+      'Interested',
+      name: 'interested',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

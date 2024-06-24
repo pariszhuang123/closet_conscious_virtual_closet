@@ -66,7 +66,7 @@ final ThemeData myClosetTheme = ThemeData(
     brightness: Brightness.light,
   ),
   appBarTheme: AppBarTheme(
-    backgroundColor: Colors.teal.shade400, // Closest to #A0D6B4
+    backgroundColor: Color(0xFF366d59),  // Closest to #A0D6B4
     foregroundColor: Colors.black,
   ),
   drawerTheme: DrawerThemeData(

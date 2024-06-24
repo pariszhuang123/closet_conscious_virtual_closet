@@ -92,5 +92,8 @@
   "specificTypeFieldNotFilled": "Specific Type field is not filled.",
   "clothingLayerFieldNotFilled": "Clothing Layer field is not filled.",
   "colourFieldNotFilled": "Colour field is not filled.",
-  "colourVariationFieldNotFilled": "Colour Variation field is not filled."
+  "colourVariationFieldNotFilled": "Colour Variation field is not filled.",
+  "filterSearchPremiumFeature": "Filter & Search Premium Feature",
+  "quicklyFindItems": "Quickly find items with filter and search options, saving time and staying organized.",
+  "interested": "Interested"
 }

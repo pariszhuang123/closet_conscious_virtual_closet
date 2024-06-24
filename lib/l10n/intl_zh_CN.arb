@@ -90,5 +90,8 @@
   "specificTypeFieldNotFilled": "具体类型字段未填写。",
   "clothingLayerFieldNotFilled": "衣物层级字段未填写。",
   "colourFieldNotFilled": "颜色字段未填写。",
-  "colourVariationFieldNotFilled": "颜色变化字段未填写。"
+  "colourVariationFieldNotFilled": "颜色变化字段未填写。",
+  "filterSearchPremiumFeature": "筛选和搜索高级功能",
+  "quicklyFindItems": "通过筛选和搜索选项快速找到物品，节省时间并保持井井有条。",
+  "interested": "感兴趣"
 }
