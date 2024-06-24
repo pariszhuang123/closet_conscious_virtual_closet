@@ -50,6 +50,7 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: widget.myClosetTheme.colorScheme.surface,
       body: Center(
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {

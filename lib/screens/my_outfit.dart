@@ -35,6 +35,7 @@ class CreateOutfitPageState extends State<CreateOutfitPage> {
             title: const Text('Create My Outfit'),
             automaticallyImplyLeading: false, // This removes the back button
           ),
+          backgroundColor: widget.myOutfitTheme.colorScheme.primary,
           body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

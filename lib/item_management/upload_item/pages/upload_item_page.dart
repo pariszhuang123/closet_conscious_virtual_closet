@@ -317,6 +317,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
         child: Theme(
           data: widget.myClosetTheme,
           child: Scaffold(
+            backgroundColor: widget.myClosetTheme.colorScheme.surface,
             body: SafeArea(
               child: Column(
                 children: [

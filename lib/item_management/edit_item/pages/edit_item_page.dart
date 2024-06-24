@@ -268,6 +268,7 @@ class _EditPageState extends State<EditPage> {
     return Theme(
       data: widget.myClosetTheme,
       child: Scaffold(
+        backgroundColor: widget.myClosetTheme.colorScheme.surface,
         appBar: AppBar(
           title: Text(S.of(context).editPageTitle, style: widget.myClosetTheme.textTheme.titleMedium), // Assuming you have a localization key for "Edit Page"
           backgroundColor: widget.myClosetTheme.colorScheme.primaryContainer,

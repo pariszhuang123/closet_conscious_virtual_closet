@@ -126,7 +126,9 @@ class MyClosetPageState extends State<MyClosetPage> {
           appBar: AppBar(
             title: Text(S.of(context).myClosetTitle, style: widget.myClosetTheme.textTheme.titleMedium),
             automaticallyImplyLeading: false, // Ensure no back button
+            backgroundColor: widget.myClosetTheme.colorScheme.secondary,
           ),
+          backgroundColor: widget.myClosetTheme.colorScheme.surface,
           body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -212,6 +214,7 @@ class MyClosetPageState extends State<MyClosetPage> {
             ],
             currentIndex: _selectedIndex,
             selectedItemColor: widget.myClosetTheme.colorScheme.primary,
+            backgroundColor: widget.myClosetTheme.colorScheme.secondary, // Set the background color
             onTap: _onItemTapped,
           ),
         ),

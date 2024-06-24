@@ -16,6 +16,7 @@ final ThemeData myOutfitTheme = ThemeData(
     error: Colors.red,
     onError: Colors.white,
   ),
+  dividerColor: Colors.teal.shade800,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
       backgroundColor: WidgetStateProperty.resolveWith<Color?>(

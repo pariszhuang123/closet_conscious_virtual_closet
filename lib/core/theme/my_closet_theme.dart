@@ -8,7 +8,7 @@ final ThemeData myClosetTheme = ThemeData(
     primary: Colors.teal.shade800, // Closest to #366D59
     onPrimary: Colors.white,
     primaryContainer: Colors.teal.shade900, // Closest to #255743
-    secondary: Colors.teal.shade400, // Closest to #A0D6B4
+    secondary: Colors.teal.shade200, // Closest to #A0D6B4
     onSecondary: Colors.black,
     secondaryContainer: Colors.green.shade500,
     surface: Colors.grey.shade200,
@@ -16,6 +16,7 @@ final ThemeData myClosetTheme = ThemeData(
     error: Colors.red.shade200,
     onError: Colors.white,
   ),
+  dividerColor: Colors.teal.shade800,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
       backgroundColor: WidgetStateProperty.resolveWith<Color?>(
