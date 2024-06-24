@@ -45,6 +45,17 @@ jobs:
         with:
           flutter-version: '3.19.6'
 
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.pub-cache
+            .flutter-plugins
+            .flutter-plugins-dependencies
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}-${{ github.run_number / 100}}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
       - name: Setup key.properties for development
         run: |
           mkdir -p app
@@ -122,6 +133,17 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '3.19.6'
+
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.pub-cache
+            .flutter-plugins
+            .flutter-plugins-dependencies
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}-${{ github.run_number / 100}}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
 
       - name: Setup key.properties for production
         run: |
