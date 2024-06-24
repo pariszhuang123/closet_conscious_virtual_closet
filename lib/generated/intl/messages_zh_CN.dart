@@ -104,6 +104,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("项目类型字段未填写。"),
         "itemUploaded_itemUploaded":
             MessageLookupByLibrary.simpleMessage("物品已上传"),
+        "item_name": MessageLookupByLibrary.simpleMessage("物品名称"),
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("我的衣橱"),
         "next": MessageLookupByLibrary.simpleMessage("下一步"),
         "occasionFieldNotFilled":
@@ -111,6 +112,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "offlineStatus": MessageLookupByLibrary.simpleMessage("您当前处于离线状态"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("穿搭"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
+        "please_enter_valid_amount":
+            MessageLookupByLibrary.simpleMessage("请输入一个有效的金额（0或更大）。"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "通过筛选和搜索选项快速找到物品，节省时间并保持井井有条。"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("重试"),
