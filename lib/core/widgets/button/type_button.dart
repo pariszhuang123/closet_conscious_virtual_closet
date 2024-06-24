@@ -19,7 +19,7 @@ class TypeButton extends StatelessWidget {
 
     Widget content = Container(
       decoration: BoxDecoration(
-        color: isSelected ? theme.colorScheme.background : theme.colorScheme.background,
+        color: isSelected ? theme.colorScheme.surface : theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: isSelected ? Border.all(color: theme.colorScheme.primary, width: 3) : null,
       ),

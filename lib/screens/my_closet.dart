@@ -133,7 +133,7 @@ class MyClosetPageState extends State<MyClosetPage> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: widget.myClosetTheme.colorScheme.background,
+                    color: widget.myClosetTheme.colorScheme.surface,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(

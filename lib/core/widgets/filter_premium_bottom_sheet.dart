@@ -16,7 +16,7 @@ class PremiumFilterBottomSheet extends StatelessWidget {
     ColorScheme colorScheme = theme.colorScheme;
 
     return Container(
-      color: colorScheme.background,
+      color: colorScheme.surface,
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
         child: Column(
@@ -31,7 +31,7 @@ class PremiumFilterBottomSheet extends StatelessWidget {
                   style: theme.textTheme.titleMedium, // Apply titleMedium style
                 ),
                 IconButton(
-                  icon: Icon(Icons.close, color: colorScheme.onBackground),
+                  icon: Icon(Icons.close, color: colorScheme.onSurface),
                   onPressed: () {
                     Navigator.pop(context); // Close the bottom sheet
                   },
