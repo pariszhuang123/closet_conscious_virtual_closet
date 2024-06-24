@@ -48,11 +48,19 @@ class ItemGrid extends StatelessWidget {
               logger.w('Context not mounted. Unable to navigate.');
             }
           },
-          child: Card(
+          child: Container(
+            color: Colors.transparent,
             child: Column(
               children: [
-                Expanded(
-                  child: Image.network(item.imageUrl, fit: BoxFit.contain),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, right: 5.0, left: 5.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: AspectRatio(
+                      aspectRatio: 1.0, // Ensures the box is square
+                      child: Image.network(item.imageUrl, fit: BoxFit.cover),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 8.0),
                 Text(item.name, style: const TextStyle(fontSize: 16.0)),
@@ -64,4 +72,3 @@ class ItemGrid extends StatelessWidget {
     );
   }
 }
-

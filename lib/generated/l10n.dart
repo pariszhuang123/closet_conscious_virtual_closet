@@ -181,440 +181,440 @@ class S {
   }
 
   /// `Spring`
-  String get seasons_spring {
+  String get Spring {
     return Intl.message(
       'Spring',
-      name: 'seasons_spring',
+      name: 'Spring',
       desc: '',
       args: [],
     );
   }
 
   /// `Summer`
-  String get seasons_summer {
+  String get Summer {
     return Intl.message(
       'Summer',
-      name: 'seasons_summer',
+      name: 'Summer',
       desc: '',
       args: [],
     );
   }
 
   /// `Autumn`
-  String get seasons_autumn {
+  String get Autumn {
     return Intl.message(
       'Autumn',
-      name: 'seasons_autumn',
+      name: 'Autumn',
       desc: '',
       args: [],
     );
   }
 
   /// `Winter`
-  String get seasons_winter {
+  String get Winter {
     return Intl.message(
       'Winter',
-      name: 'seasons_winter',
+      name: 'Winter',
       desc: '',
       args: [],
     );
   }
 
   /// `Multi`
-  String get seasons_multi {
+  String get Multi {
     return Intl.message(
       'Multi',
-      name: 'seasons_multi',
+      name: 'Multi',
       desc: '',
       args: [],
     );
   }
 
   /// `Top`
-  String get clothingTypes_top {
+  String get Top {
     return Intl.message(
       'Top',
-      name: 'clothingTypes_top',
+      name: 'Top',
       desc: '',
       args: [],
     );
   }
 
   /// `Bottom`
-  String get clothingTypes_bottom {
+  String get Bottom {
     return Intl.message(
       'Bottom',
-      name: 'clothingTypes_bottom',
+      name: 'Bottom',
       desc: '',
       args: [],
     );
   }
 
   /// `One Piece`
-  String get clothingTypes_onePiece {
+  String get OnePiece {
     return Intl.message(
       'One Piece',
-      name: 'clothingTypes_onePiece',
+      name: 'OnePiece',
       desc: '',
       args: [],
     );
   }
 
   /// `Base`
-  String get clothingLayers_base {
+  String get Base {
     return Intl.message(
       'Base',
-      name: 'clothingLayers_base',
+      name: 'Base',
       desc: '',
       args: [],
     );
   }
 
   /// `Mid`
-  String get clothingLayers_mid {
+  String get Mid {
     return Intl.message(
       'Mid',
-      name: 'clothingLayers_mid',
+      name: 'Mid',
       desc: '',
       args: [],
     );
   }
 
   /// `Outer`
-  String get clothingLayers_outer {
+  String get Outer {
     return Intl.message(
       'Outer',
-      name: 'clothingLayers_outer',
+      name: 'Outer',
       desc: '',
       args: [],
     );
   }
 
   /// `Red`
-  String get colors_red {
+  String get Red {
     return Intl.message(
       'Red',
-      name: 'colors_red',
+      name: 'Red',
       desc: '',
       args: [],
     );
   }
 
   /// `Blue`
-  String get colors_blue {
+  String get Blue {
     return Intl.message(
       'Blue',
-      name: 'colors_blue',
+      name: 'Blue',
       desc: '',
       args: [],
     );
   }
 
   /// `Green`
-  String get colors_green {
+  String get Green {
     return Intl.message(
       'Green',
-      name: 'colors_green',
+      name: 'Green',
       desc: '',
       args: [],
     );
   }
 
   /// `Yellow`
-  String get colors_yellow {
+  String get Yellow {
     return Intl.message(
       'Yellow',
-      name: 'colors_yellow',
+      name: 'Yellow',
       desc: '',
       args: [],
     );
   }
 
   /// `Brown`
-  String get colors_brown {
+  String get Brown {
     return Intl.message(
       'Brown',
-      name: 'colors_brown',
+      name: 'Brown',
       desc: '',
       args: [],
     );
   }
 
   /// `Grey`
-  String get colors_grey {
+  String get Grey {
     return Intl.message(
       'Grey',
-      name: 'colors_grey',
+      name: 'Grey',
       desc: '',
       args: [],
     );
   }
 
   /// `Rainbow`
-  String get colors_rainbow {
+  String get Rainbow {
     return Intl.message(
       'Rainbow',
-      name: 'colors_rainbow',
+      name: 'Rainbow',
       desc: '',
       args: [],
     );
   }
 
   /// `Black`
-  String get colors_black {
+  String get Black {
     return Intl.message(
       'Black',
-      name: 'colors_black',
+      name: 'Black',
       desc: '',
       args: [],
     );
   }
 
   /// `White`
-  String get colors_white {
+  String get White {
     return Intl.message(
       'White',
-      name: 'colors_white',
+      name: 'White',
       desc: '',
       args: [],
     );
   }
 
   /// `Light`
-  String get colorVariations_light {
+  String get Light {
     return Intl.message(
       'Light',
-      name: 'colorVariations_light',
+      name: 'Light',
       desc: '',
       args: [],
     );
   }
 
   /// `Medium`
-  String get colorVariations_medium {
+  String get Medium {
     return Intl.message(
       'Medium',
-      name: 'colorVariations_medium',
+      name: 'Medium',
       desc: '',
       args: [],
     );
   }
 
   /// `Dark`
-  String get colorVariations_dark {
+  String get Dark {
     return Intl.message(
       'Dark',
-      name: 'colorVariations_dark',
+      name: 'Dark',
       desc: '',
       args: [],
     );
   }
 
   /// `Bag`
-  String get accessoryTypes_bag {
+  String get Bag {
     return Intl.message(
       'Bag',
-      name: 'accessoryTypes_bag',
+      name: 'Bag',
       desc: '',
       args: [],
     );
   }
 
   /// `Belt`
-  String get accessoryTypes_belt {
+  String get Belt {
     return Intl.message(
       'Belt',
-      name: 'accessoryTypes_belt',
+      name: 'Belt',
       desc: '',
       args: [],
     );
   }
 
   /// `Eyewear`
-  String get accessoryTypes_eyewear {
+  String get Eyewear {
     return Intl.message(
       'Eyewear',
-      name: 'accessoryTypes_eyewear',
+      name: 'Eyewear',
       desc: '',
       args: [],
     );
   }
 
   /// `Gloves`
-  String get accessoryTypes_gloves {
+  String get Gloves {
     return Intl.message(
       'Gloves',
-      name: 'accessoryTypes_gloves',
+      name: 'Gloves',
       desc: '',
       args: [],
     );
   }
 
   /// `Hat`
-  String get accessoryTypes_hat {
+  String get Hat {
     return Intl.message(
       'Hat',
-      name: 'accessoryTypes_hat',
+      name: 'Hat',
       desc: '',
       args: [],
     );
   }
 
   /// `Jewellery`
-  String get accessoryTypes_jewellery {
+  String get Jewellery {
     return Intl.message(
       'Jewellery',
-      name: 'accessoryTypes_jewellery',
+      name: 'Jewellery',
       desc: '',
       args: [],
     );
   }
 
   /// `Scarf`
-  String get accessoryTypes_scarf {
+  String get Scarf {
     return Intl.message(
       'Scarf',
-      name: 'accessoryTypes_scarf',
+      name: 'Scarf',
       desc: '',
       args: [],
     );
   }
 
   /// `Tie`
-  String get accessoryTypes_tie {
+  String get Tie {
     return Intl.message(
       'Tie',
-      name: 'accessoryTypes_tie',
+      name: 'Tie',
       desc: '',
       args: [],
     );
   }
 
   /// `Clothing`
-  String get itemGeneralTypes_clothing {
+  String get Clothing {
     return Intl.message(
       'Clothing',
-      name: 'itemGeneralTypes_clothing',
+      name: 'Clothing',
       desc: '',
       args: [],
     );
   }
 
   /// `Shoes`
-  String get itemGeneralTypes_shoes {
+  String get Shoes {
     return Intl.message(
       'Shoes',
-      name: 'itemGeneralTypes_shoes',
+      name: 'Shoes',
       desc: '',
       args: [],
     );
   }
 
   /// `Accessory`
-  String get itemGeneralTypes_accessory {
+  String get Accessory {
     return Intl.message(
       'Accessory',
-      name: 'itemGeneralTypes_accessory',
+      name: 'Accessory',
       desc: '',
       args: [],
     );
   }
 
   /// `Boots`
-  String get shoeTypes_boots {
+  String get Boots {
     return Intl.message(
       'Boots',
-      name: 'shoeTypes_boots',
+      name: 'Boots',
       desc: '',
       args: [],
     );
   }
 
-  /// `Casual`
-  String get shoeTypes_casual {
+  /// `Everyday`
+  String get Everyday {
     return Intl.message(
-      'Casual',
-      name: 'shoeTypes_casual',
+      'Everyday',
+      name: 'Everyday',
       desc: '',
       args: [],
     );
   }
 
   /// `Athletic`
-  String get shoeTypes_athletic {
+  String get Athletic {
     return Intl.message(
       'Athletic',
-      name: 'shoeTypes_athletic',
+      name: 'Athletic',
       desc: '',
       args: [],
     );
   }
 
   /// `Formal`
-  String get shoeTypes_formal {
+  String get Formal {
     return Intl.message(
       'Formal',
-      name: 'shoeTypes_formal',
+      name: 'Formal',
       desc: '',
       args: [],
     );
   }
 
   /// `Niche`
-  String get shoeTypes_niche {
+  String get Niche {
     return Intl.message(
       'Niche',
-      name: 'shoeTypes_niche',
+      name: 'Niche',
       desc: '',
       args: [],
     );
   }
 
   /// `Active`
-  String get occasions_active {
+  String get Active {
     return Intl.message(
       'Active',
-      name: 'occasions_active',
+      name: 'Active',
       desc: '',
       args: [],
     );
   }
 
   /// `Casual`
-  String get occasions_casual {
+  String get Casual {
     return Intl.message(
       'Casual',
-      name: 'occasions_casual',
+      name: 'Casual',
       desc: '',
       args: [],
     );
   }
 
   /// `Workplace`
-  String get occasions_workplace {
+  String get Workplace {
     return Intl.message(
       'Workplace',
-      name: 'occasions_workplace',
+      name: 'Workplace',
       desc: '',
       args: [],
     );
   }
 
   /// `Social`
-  String get occasions_social {
+  String get Social {
     return Intl.message(
       'Social',
-      name: 'occasions_social',
+      name: 'Social',
       desc: '',
       args: [],
     );
   }
 
   /// `Event`
-  String get occasions_event {
+  String get Event {
     return Intl.message(
       'Event',
-      name: 'occasions_event',
+      name: 'Event',
       desc: '',
       args: [],
     );
@@ -830,6 +830,16 @@ class S {
     );
   }
 
+  /// `Please enter a valid amount (0 or greater).`
+  String get please_enter_valid_amount {
+    return Intl.message(
+      'Please enter a valid amount (0 or greater).',
+      name: 'please_enter_valid_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Update`
   String get update {
     return Intl.message(
@@ -860,136 +870,6 @@ class S {
     );
   }
 
-  /// `Please enter an item name`
-  String get please_enter_item_name {
-    return Intl.message(
-      'Please enter an item name',
-      name: 'please_enter_item_name',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Amount Spent`
-  String get amount_spent {
-    return Intl.message(
-      'Amount Spent',
-      name: 'amount_spent',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Enter amount spent`
-  String get enter_amount_spent {
-    return Intl.message(
-      'Enter amount spent',
-      name: 'enter_amount_spent',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select Item Type`
-  String get select_item_type {
-    return Intl.message(
-      'Select Item Type',
-      name: 'select_item_type',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select Occasion`
-  String get select_occasion {
-    return Intl.message(
-      'Select Occasion',
-      name: 'select_occasion',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select Season`
-  String get select_season {
-    return Intl.message(
-      'Select Season',
-      name: 'select_season',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select Shoe Type`
-  String get select_shoe_type {
-    return Intl.message(
-      'Select Shoe Type',
-      name: 'select_shoe_type',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select Accessory Type`
-  String get select_accessory_type {
-    return Intl.message(
-      'Select Accessory Type',
-      name: 'select_accessory_type',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select Clothing Type`
-  String get select_clothing_type {
-    return Intl.message(
-      'Select Clothing Type',
-      name: 'select_clothing_type',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select Clothing Layer`
-  String get select_clothing_layer {
-    return Intl.message(
-      'Select Clothing Layer',
-      name: 'select_clothing_layer',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select Colour`
-  String get select_colour {
-    return Intl.message(
-      'Select Colour',
-      name: 'select_colour',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Select Colour Variation`
-  String get select_colour_variation {
-    return Intl.message(
-      'Select Colour Variation',
-      name: 'select_colour_variation',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Please enter a valid amount (0 or greater).`
-  String get please_enter_valid_amount {
-    return Intl.message(
-      'Please enter a valid amount (0 or greater).',
-      name: 'please_enter_valid_amount',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Upload`
   String get upload {
     return Intl.message(
@@ -1005,6 +885,96 @@ class S {
     return Intl.message(
       'Next',
       name: 'next',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Item Name field is not filled.`
+  String get itemNameFieldNotFilled {
+    return Intl.message(
+      'Item Name field is not filled.',
+      name: 'itemNameFieldNotFilled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount Spent field is not valid.`
+  String get amountSpentFieldNotValid {
+    return Intl.message(
+      'Amount Spent field is not valid.',
+      name: 'amountSpentFieldNotValid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Item Type field is not filled.`
+  String get itemTypeFieldNotFilled {
+    return Intl.message(
+      'Item Type field is not filled.',
+      name: 'itemTypeFieldNotFilled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Occasion field is not filled.`
+  String get occasionFieldNotFilled {
+    return Intl.message(
+      'Occasion field is not filled.',
+      name: 'occasionFieldNotFilled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Season field is not filled.`
+  String get seasonFieldNotFilled {
+    return Intl.message(
+      'Season field is not filled.',
+      name: 'seasonFieldNotFilled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Specific Type field is not filled.`
+  String get specificTypeFieldNotFilled {
+    return Intl.message(
+      'Specific Type field is not filled.',
+      name: 'specificTypeFieldNotFilled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clothing Layer field is not filled.`
+  String get clothingLayerFieldNotFilled {
+    return Intl.message(
+      'Clothing Layer field is not filled.',
+      name: 'clothingLayerFieldNotFilled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Colour field is not filled.`
+  String get colourFieldNotFilled {
+    return Intl.message(
+      'Colour field is not filled.',
+      name: 'colourFieldNotFilled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Colour Variation field is not filled.`
+  String get colourVariationFieldNotFilled {
+    return Intl.message(
+      'Colour Variation field is not filled.',
+      name: 'colourVariationFieldNotFilled',
       desc: '',
       args: [],
     );

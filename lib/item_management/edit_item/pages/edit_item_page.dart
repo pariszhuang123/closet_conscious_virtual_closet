@@ -1,5 +1,4 @@
 import '../../../core/data/type_data.dart';
-import '../../../core/widgets/button/text_type_button.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,6 +12,7 @@ import '../../../core/utilities/routes.dart';
 import '../../core/data/models/closet_item_detailed.dart';
 import '../../upload_item/widgets/image_display_widget.dart';
 import '../../../generated/l10n.dart';
+import '../../../core/widgets/icon_row_builder.dart';
 
 
 class EditPage extends StatefulWidget {
@@ -227,35 +227,39 @@ class _EditPageState extends State<EditPage> {
   void _handleUpload() {
     if (_formKey.currentState?.validate() ?? false) {
       _saveData();
+    } else {
+      _showSpecificErrorMessages();
     }
   }
 
-  List<Widget> _buildIconRows(List<TypeData> typeDataList, String? selectedLabel, void Function(String) onTap) {
-    List<Widget> rows = [];
-    int index = 0;
-    while (index < typeDataList.length) {
-      int end = (index + 5) > typeDataList.length ? typeDataList.length : (index + 5);
-      List<TypeData> rowIcons = typeDataList.sublist(index, end);
-      rows.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: rowIcons.map((type) {
-            return TextTypeButton(
-              label: type.getName(context),
-              selectedLabel: selectedLabel ?? '',
-              onPressed: () {
-                setState(() {
-                  onTap(type.getName(context));
-                });
-              },
-              imageUrl: type.imageUrl!, // Use assetPath instead of imageUrl
-            );
-          }).toList(),
-        ),
-      );
-      index = end;
+  void _showSpecificErrorMessages() {
+    if (_itemNameController.text.isEmpty) {
+      _showErrorMessage(S.of(context).itemNameFieldNotFilled);
+    } else if (_amountSpentError != null) {
+      _showErrorMessage(S.of(context).amountSpentFieldNotValid);
+    } else if (_amountSpentError == null) {
+      _showErrorMessage(S.of(context).amountSpentFieldNotValid);
+    } else if (selectedItemType == null) {
+      _showErrorMessage(S.of(context).itemTypeFieldNotFilled);
+    } else if (selectedOccasion == null) {
+      _showErrorMessage(S.of(context).occasionFieldNotFilled);
     }
-    return rows;
+    if (selectedSeason == null) {
+      _showErrorMessage(S.of(context).seasonFieldNotFilled);
+    } else if (selectedSpecificType == null) {
+      _showErrorMessage(S.of(context).specificTypeFieldNotFilled);
+    } else if (selectedItemType == 'Clothing' && selectedClothingLayer == null) {
+      _showErrorMessage(S.of(context).clothingLayerFieldNotFilled);
+    }
+    if (selectedColour == null) {
+      _showErrorMessage(S.of(context).colourFieldNotFilled);
+    } else if (selectedColour != 'Black' && selectedColour != 'White' && selectedColourVariation == null) {
+      _showErrorMessage(S.of(context).colourVariationFieldNotFilled);
+    }
+  }
+
+  void _showErrorMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -301,7 +305,7 @@ class _EditPageState extends State<EditPage> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return S.of(context).please_enter_item_name;
+                                return S.of(context).pleaseEnterItemName;
                               }
                               return null;
                             },
@@ -315,8 +319,8 @@ class _EditPageState extends State<EditPage> {
                           TextFormField(
                             controller: _amountSpentController,
                             decoration: InputDecoration(
-                              labelText: S.of(context).amount_spent,
-                              hintText: S.of(context).enter_amount_spent,
+                              labelText: S.of(context).amountSpentLabel,
+                              hintText: S.of(context).enterAmountSpentHint,
                               errorText: _amountSpentError,
                               labelStyle: Theme.of(context).textTheme.bodyMedium,
                             ),
@@ -330,10 +334,10 @@ class _EditPageState extends State<EditPage> {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            S.of(context).select_item_type,
+                            S.of(context).selectItemType,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
-                          ..._buildIconRows(
+                          ...buildIconRows(
                             TypeDataList.itemGeneralTypes(context),
                             selectedItemType,
                                 (name) => setState(() {
@@ -341,115 +345,124 @@ class _EditPageState extends State<EditPage> {
                                   selectedItemType = name;
                               selectedSpecificType = null;
                             }),
+                            context
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            S.of(context).select_occasion,
+                            S.of(context).selectOccasion,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
-                          ..._buildIconRows(
+                          ...buildIconRows(
                             TypeDataList.occasions(context),
                             selectedOccasion,
                                 (name) => setState(() {
                                   _isChanged = true;
                                   selectedOccasion = name;
                             }),
+                            context
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            S.of(context).select_season,
+                            S.of(context).selectSeason,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
-                          ..._buildIconRows(
+                          ...buildIconRows(
                             TypeDataList.seasons(context),
                             selectedSeason,
                                 (name) => setState(() {
                                   _isChanged = true;
                                   selectedSeason = name;
                             }),
+                            context
                           ),
                           const SizedBox(height: 12),
                           if (selectedItemType == 'Shoes') ...[
                             Text(
-                              S.of(context).select_shoe_type,
+                              S.of(context).selectShoeType,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
-                            ..._buildIconRows(
+                            ...buildIconRows(
                               TypeDataList.shoeTypes(context),
                               selectedSpecificType,
                                   (name) => setState(() {
                                     _isChanged = true;
                                     selectedSpecificType = name;
                               }),
+                              context
                             ),
                           ],
                           if (selectedItemType == 'Accessory') ...[
                             Text(
-                              S.of(context).select_accessory_type,
+                              S.of(context).selectAccessoryType,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
-                            ..._buildIconRows(
+                            ...buildIconRows(
                               TypeDataList.accessoryTypes(context),
                               selectedSpecificType,
                                   (name) => setState(() {
                                     _isChanged = true;
                                     selectedSpecificType = name;
                               }),
+                              context
                             ),
                           ],
                           if (selectedItemType == 'Clothing') ...[
                              Text(
-                              S.of(context).select_clothing_type,
+                              S.of(context).selectClothingType,
                                style: Theme.of(context).textTheme.bodyMedium,
                             ),
-                            ..._buildIconRows(
+                            ...buildIconRows(
                               TypeDataList.clothingTypes(context),
                               selectedSpecificType,
                                   (name) => setState(() {
                                     _isChanged = true;
                                     selectedSpecificType = name;
                               }),
+                              context
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              S.of(context).select_clothing_layer,
+                              S.of(context).selectClothingLayer,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
-                            ..._buildIconRows(
+                            ...buildIconRows(
                               TypeDataList.clothingLayers(context),
                               selectedClothingLayer,
                                   (name) => setState(() {
                                     _isChanged = true;
                                     selectedClothingLayer = name;
                               }),
+                              context
                             ),
                           ],
                           const SizedBox(height: 12),
                           Text(
-                            S.of(context).select_colour,
+                            S.of(context).selectColour,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
-                          ..._buildIconRows(
+                          ...buildIconRows(
                             TypeDataList.colors(context),
                             selectedColour,
                                 (name) => setState(() {
                                   _isChanged = true;
                                   selectedColour = name;
                             }),
+                            context
                           ),
                           if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
                             const SizedBox(height: 12),
                             Text(
-                              S.of(context).select_colour_variation,
+                              S.of(context).selectColourVariation,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
-                            ..._buildIconRows(
+                            ...buildIconRows(
                               TypeDataList.colorVariations(context),
                               selectedColourVariation,
                                   (name) => setState(() {
                                     _isChanged = true;
                                     selectedColourVariation = name;
                               }),
+                              context
                             ),
                           ],
                         ],

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -13,7 +14,6 @@ import '../../../core/theme/my_closet_theme.dart';
 import '../../../core/data/type_data.dart';
 import '../../../generated/l10n.dart';
 import '../../../core/widgets/icon_row_builder.dart';
-
 
 class UploadItemPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -49,9 +49,10 @@ class _UploadItemPageState extends State<UploadItemPage> {
   bool get _isFormValidPage1 {
     final amountSpentText = _amountSpentController.text;
     final amountSpent = double.tryParse(amountSpentText);
+
     return selectedItemType != null &&
         _itemNameController.text.isNotEmpty &&
-        (amountSpentText.isEmpty || (amountSpent != null && amountSpent >= 0)) &&
+        amountSpentText.isNotEmpty && amountSpent != null && amountSpent >= 0 &&
         selectedOccasion != null;
   }
 
@@ -87,13 +88,24 @@ class _UploadItemPageState extends State<UploadItemPage> {
 
   Future<void> _capturePhoto() async {
     final ImagePicker picker = ImagePicker();
+    final Completer<void> completer = Completer<void>();
+
     final XFile? image = await picker.pickImage(source: ImageSource.camera);
     if (image != null) {
       setState(() {
         _imageFile = File(image.path);
         _imageUrl = _imageFile!.path;
       });
+      completer.complete();
+
+    } else {
+      // Handle the case where the user canceled the camera
+      if (mounted) {
+        completer.complete();
+        Navigator.of(context).pushReplacementNamed(AppRoutes.myCloset); // Close this screen if no photo is taken
+      }
     }
+    return completer.future;
   }
 
   bool _validateAmountSpent() {
@@ -254,32 +266,33 @@ class _UploadItemPageState extends State<UploadItemPage> {
 
   void _showSpecificErrorMessagesPage1() {
     if (_itemNameController.text.isEmpty) {
-      _showErrorMessage('Item Name field is not filled.');
+      _showErrorMessage(S.of(context).itemNameFieldNotFilled);
     } else if (_amountSpentError != null) {
-      _showErrorMessage('Amount Spent field is not valid.');
+      _showErrorMessage(S.of(context).amountSpentFieldNotValid);
+    } else if (_amountSpentError == null) {
+      _showErrorMessage(S.of(context).amountSpentFieldNotValid);
     } else if (selectedItemType == null) {
-      _showErrorMessage('Item Type field is not filled.');
+      _showErrorMessage(S.of(context).itemTypeFieldNotFilled);
     } else if (selectedOccasion == null) {
-      _showErrorMessage('Occasion field is not filled.');
+      _showErrorMessage(S.of(context).occasionFieldNotFilled);
     }
   }
 
   void _showSpecificErrorMessagesPage2() {
     if (selectedSeason == null) {
-      _showErrorMessage('Season field is not filled.');
+      _showErrorMessage(S.of(context).seasonFieldNotFilled);
     } else if (selectedSpecificType == null) {
-      _showErrorMessage('Specific Type field is not filled.');
+      _showErrorMessage(S.of(context).specificTypeFieldNotFilled);
     } else if (selectedItemType == 'Clothing' && selectedClothingLayer == null) {
-      _showErrorMessage('Clothing Layer field is not filled.');
+      _showErrorMessage(S.of(context).clothingLayerFieldNotFilled);
     }
   }
 
   void _showSpecificErrorMessagesPage3() {
     if (selectedColour == null) {
-      _showErrorMessage('Colour field is not filled.');
-    } else if (selectedColour != 'Black' && selectedColour != 'White' &&
-        selectedColourVariation == null) {
-      _showErrorMessage('Colour Variation field is not filled.');
+      _showErrorMessage(S.of(context).colourFieldNotFilled);
+    } else if (selectedColour != 'Black' && selectedColour != 'White' && selectedColourVariation == null) {
+      _showErrorMessage(S.of(context).colourVariationFieldNotFilled);
     }
   }
 
@@ -297,7 +310,9 @@ class _UploadItemPageState extends State<UploadItemPage> {
   Widget build(BuildContext context) {
     return PopScope(
         canPop: false,
-        onPopInvoked: (didPop) async => false,
+        onPopInvoked: (popDisposition) async {
+          return Future.value();
+        },
         child: Theme(
         data: widget.myClosetTheme,
         child: Scaffold(
@@ -336,7 +351,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return S.of(context).please_enter_item_name;
+                                    return S.of(context).pleaseEnterItemName;
                                   }
                                   return null;
                                 },
@@ -345,8 +360,8 @@ class _UploadItemPageState extends State<UploadItemPage> {
                               TextFormField(
                                 controller: _amountSpentController,
                                 decoration: InputDecoration(
-                                  labelText: S.of(context).amount_spent,
-                                  hintText: S.of(context).enter_amount_spent,
+                                  labelText: S.of(context).amountSpentLabel,
+                                  hintText: S.of(context).enterAmountSpentHint,
                                   errorText: _amountSpentError,
                                   labelStyle: Theme.of(context).textTheme.bodyMedium,
                                 ),
@@ -357,20 +372,20 @@ class _UploadItemPageState extends State<UploadItemPage> {
                               ),
                               const SizedBox(height: 12),
                               Text(
-                                S.of(context).select_item_type,
+                                S.of(context).selectItemType,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               ...buildIconRows(
                                 TypeDataList.itemGeneralTypes(context),
                                 selectedItemType,
                                     (name) => setState(() {
-                                  selectedItemType = name;
+                                      selectedItemType = name;
                                 }),
                                 context
                               ),
                               const SizedBox(height: 12),
                               Text(
-                                S.of(context).select_occasion,
+                                S.of(context).selectOccasion,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               ...buildIconRows(
@@ -395,7 +410,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                           child: Column(
                             children: [
                               Text(
-                                S.of(context).select_season,
+                                S.of(context).selectSeason,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               ...buildIconRows(
@@ -409,56 +424,64 @@ class _UploadItemPageState extends State<UploadItemPage> {
                               const SizedBox(height: 12),
                               if (selectedItemType == 'Shoes') ...[
                                 Text(
-                                  S.of(context).select_shoe_type,
+                                  S.of(context).selectShoeType,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 ...buildIconRows(
                                   TypeDataList.shoeTypes(context),
-                                  selectedSpecificType,
-                                        (name) => setState(() {
-                                      selectedSpecificType = name;
-                                    }),
+                                    selectedSpecificType,
+                                        (name) {
+                                      setState(() {
+                                        selectedSpecificType = name;
+                                      });
+                                    },
                                     context
                                 ),
                               ],
                               if (selectedItemType == 'Accessory') ...[
                                 Text(
-                                  S.of(context).select_accessory_type,
+                                  S.of(context).selectAccessoryType,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 ...buildIconRows(
                                   TypeDataList.accessoryTypes(context),
-                                  selectedSpecificType,
-                                        (name) => setState(() {
-                                      selectedSpecificType = name;
-                                    }),
+                                    selectedSpecificType,
+                                        (name) {
+                                      setState(() {
+                                        selectedSpecificType = name;
+                                      });
+                                    },
                                     context
                                 ),
                               ],
                               if (selectedItemType == 'Clothing') ...[
                                 Text(
-                                  S.of(context).select_clothing_type,
+                                  S.of(context).selectClothingType,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 ...buildIconRows(
                                   TypeDataList.clothingTypes(context),
-                                  selectedSpecificType,
-                                        (name) => setState(() {
-                                      selectedSpecificType = name;
-                                    }),
+                                    selectedSpecificType,
+                                        (name) {
+                                      setState(() {
+                                        selectedSpecificType = name;
+                                      });
+                                    },
                                     context
                                 ),
                                 const SizedBox(height: 12),
                                 Text(
-                                  S.of(context).select_clothing_layer,
+                                  S.of(context).selectClothingLayer,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 ...buildIconRows(
                                   TypeDataList.clothingLayers(context),
                                   selectedClothingLayer,
-                                        (name) => setState(() {
-                                      selectedClothingLayer = name;
-                                    }),
+                                        (name) {
+                                      setState(() {
+                                        selectedClothingLayer = name;
+                                      });
+                                    },
                                     context
                                 ),
                               ],
@@ -476,7 +499,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                           child: Column(
                             children: [
                               Text(
-                                S.of(context).select_colour,
+                                S.of(context).selectColour,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               ...buildIconRows(
@@ -492,7 +515,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                               if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
                                 const SizedBox(height: 12),
                                 Text(
-                                  S.of(context).select_colour_variation,
+                                  S.of(context).selectColourVariation,
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                                 ...buildIconRows(

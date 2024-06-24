@@ -5,12 +5,12 @@ final ThemeData myClosetTheme = ThemeData(
     primarySwatch: Colors.teal,
     accentColor: Colors.tealAccent,
   ).copyWith(
-    primary: Colors.teal.shade700, // Closest to #366D59
+    primary: Colors.teal.shade800, // Closest to #366D59
     onPrimary: Colors.white,
-    primaryContainer: Colors.teal.shade800, // Closest to #255743
-    secondary: Colors.greenAccent.shade100, // Closest to #A0D6B4
+    primaryContainer: Colors.teal.shade900, // Closest to #255743
+    secondary: Colors.teal.shade400, // Closest to #A0D6B4
     onSecondary: Colors.black,
-    secondaryContainer: Colors.green.shade700, // Closest to #88B69C
+    secondaryContainer: Colors.green.shade500, // Closest to #88B69C
     background: Colors.white,
     onBackground: Colors.black,
     surface: Colors.grey.shade200,
@@ -56,9 +56,9 @@ final ThemeData myClosetTheme = ThemeData(
   ),
   chipTheme: ChipThemeData(
     backgroundColor: Colors.grey.shade200,
-    selectedColor: Colors.teal.shade700, // Closest to #366D59
+    selectedColor: Colors.teal.shade800, // Closest to #366D59
     disabledColor: Colors.grey,
-    secondarySelectedColor: Colors.green.shade700, // Closest to #88B69C
+    secondarySelectedColor: Colors.teal.shade400, // Closest to #88B69C
     padding: const EdgeInsets.all(4.0),
     shape: const StadiumBorder(),
     labelStyle: const TextStyle(color: Colors.black),
@@ -66,7 +66,7 @@ final ThemeData myClosetTheme = ThemeData(
     brightness: Brightness.light,
   ),
   appBarTheme: AppBarTheme(
-    backgroundColor: Colors.greenAccent.shade100, // Closest to #A0D6B4
+    backgroundColor: Colors.teal.shade400, // Closest to #A0D6B4
     foregroundColor: Colors.black,
   ),
   drawerTheme: DrawerThemeData(

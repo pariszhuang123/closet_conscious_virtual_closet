@@ -60,9 +60,11 @@ class MyClosetPageState extends State<MyClosetPage> {
   Future<void> _fetchApparelCount() async {
     try {
       final count = await fetchApparelCount();
-      setState(() {
-        apparelCount = count;
-      });
+      if (mounted) {
+        setState(() {
+          apparelCount = count;
+        });
+      }
     } catch (e) {
       logger.e('Error fetching apparel count: $e');
     }
@@ -70,26 +72,32 @@ class MyClosetPageState extends State<MyClosetPage> {
 
   Future<void> _fetchItems() async {
     if (_isLoading) return;
-    setState(() {
-      _isLoading = true;
-    });
+    if (mounted) {
+      setState(() {
+        _isLoading = true;
+      });
+    }
 
     try {
       final items = await fetchItems(_currentPage, _batchSize);
-      setState(() {
-        _items.addAll(items);
-        _hasMore = items.length == _batchSize;
-        if (_hasMore) {
-          _currentPage++;
-        }
-      });
-      logger.i('Items fetched successfully');
+      if (mounted) {
+        setState(() {
+          _items.addAll(items);
+          _hasMore = items.length == _batchSize;
+          if (_hasMore) {
+            _currentPage++;
+          }
+        });
+        logger.i('Items fetched successfully');
+      }
     } catch (e) {
       logger.e('Error fetching items: $e');
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
