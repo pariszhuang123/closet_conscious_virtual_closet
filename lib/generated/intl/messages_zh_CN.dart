@@ -44,6 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Everyday": MessageLookupByLibrary.simpleMessage("休闲鞋"),
         "Eyewear": MessageLookupByLibrary.simpleMessage("眼镜"),
         "Formal": MessageLookupByLibrary.simpleMessage("正式鞋"),
+        "Gift": MessageLookupByLibrary.simpleMessage("赠送"),
         "Gloves": MessageLookupByLibrary.simpleMessage("手套"),
         "Green": MessageLookupByLibrary.simpleMessage("绿色"),
         "Grey": MessageLookupByLibrary.simpleMessage("灰色"),
@@ -68,10 +69,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "Rainbow": MessageLookupByLibrary.simpleMessage("彩虹色"),
         "Red": MessageLookupByLibrary.simpleMessage("红色"),
         "Scarf": MessageLookupByLibrary.simpleMessage("围巾"),
+        "Sell": MessageLookupByLibrary.simpleMessage("出售"),
         "Shoes": MessageLookupByLibrary.simpleMessage("鞋子"),
         "Social": MessageLookupByLibrary.simpleMessage("社交"),
         "Spring": MessageLookupByLibrary.simpleMessage("春季"),
         "Summer": MessageLookupByLibrary.simpleMessage("夏季"),
+        "Swap": MessageLookupByLibrary.simpleMessage("交换"),
+        "Throw": MessageLookupByLibrary.simpleMessage("扔掉"),
         "Tie": MessageLookupByLibrary.simpleMessage("领带"),
         "Top": MessageLookupByLibrary.simpleMessage("上装"),
         "White": MessageLookupByLibrary.simpleMessage("白色"),
@@ -82,6 +86,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "amountSpentFieldNotValid":
             MessageLookupByLibrary.simpleMessage("花费金额字段无效。"),
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
+        "archiveOptions": MessageLookupByLibrary.simpleMessage("你想做什么？"),
         "archived": MessageLookupByLibrary.simpleMessage("已归档"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("衣橱"),
         "closetUploadComplete": MessageLookupByLibrary.simpleMessage("衣橱上传完成"),
@@ -96,6 +101,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "filterSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("筛选和搜索高级功能"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("筛选"),
+        "interestAcknowledged":
+            MessageLookupByLibrary.simpleMessage("您的兴趣已被记录。请关注更新。"),
         "interested": MessageLookupByLibrary.simpleMessage("感兴趣"),
         "itemNameFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("项目名称字段未填写。"),
@@ -105,11 +112,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "itemUploaded_itemUploaded":
             MessageLookupByLibrary.simpleMessage("物品已上传"),
         "item_name": MessageLookupByLibrary.simpleMessage("物品名称"),
+        "multiClosetFeatureDescription":
+            MessageLookupByLibrary.simpleMessage("通过即将推出的多衣橱功能轻松管理多个衣橱。感兴趣吗？"),
+        "multiClosetFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("发现我们的新多衣橱功能"),
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("我的衣橱"),
         "next": MessageLookupByLibrary.simpleMessage("下一步"),
         "occasionFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("场合字段未填写。"),
         "offlineStatus": MessageLookupByLibrary.simpleMessage("您当前处于离线状态"),
+        "ok": MessageLookupByLibrary.simpleMessage("好的"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("穿搭"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
         "please_enter_valid_amount":
@@ -130,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectShoeType": MessageLookupByLibrary.simpleMessage("选择鞋子类型"),
         "specificTypeFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("具体类型字段未填写。"),
+        "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
         "update": MessageLookupByLibrary.simpleMessage("更新"),
         "upload": MessageLookupByLibrary.simpleMessage("上传"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("上传")

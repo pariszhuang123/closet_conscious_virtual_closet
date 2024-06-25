@@ -735,9 +735,9 @@
     },
     {
       "name": "platform",
-      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/platform-3.1.4",
+      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/platform-3.1.5",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.2"
     },
     {
       "name": "plugin_platform_interface",
@@ -1071,7 +1071,7 @@
     },
     {
       "name": "vm_service",
-      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-14.2.1",
+      "rootUri": "file:///C:/Users/tomzq/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-14.2.4",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -1142,7 +1142,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-06-24T22:49:20.411188Z",
+  "generated": "2024-06-25T10:49:04.915088Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///C:/flutter",

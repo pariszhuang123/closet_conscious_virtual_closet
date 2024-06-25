@@ -5,7 +5,8 @@ import '../core/utilities/logger.dart';
 final logger = CustomLogger('fetchItemDetails');
 
 Future<ClosetItemDetailed> fetchItemDetails(String itemId, String itemType) async {
-  // Fetch common item details from the 'items' table
+  logger.i('Fetching details for itemId: $itemId, itemType: $itemType');
+
   final itemData = await Supabase.instance.client
       .from('items')
       .select('*')
@@ -23,6 +24,7 @@ Future<ClosetItemDetailed> fetchItemDetails(String itemId, String itemType) asyn
         itemId: itemData['item_id'],
         imageUrl: itemData['image_url'],
         name: itemData['name'],
+        itemType: itemData['item_type'],
         amountSpent: itemData['amount_spent'],
         occasion: itemData['occasion'],
         season: itemData['season'],
@@ -33,6 +35,7 @@ Future<ClosetItemDetailed> fetchItemDetails(String itemId, String itemType) asyn
         clothingLayer: clothingData['clothing_layer'],
       );
     case 'shoes':
+      logger.i('Fetching shoes details for itemId: $itemId');
       final shoesData = await Supabase.instance.client
           .from('items_shoes_basic')
           .select('shoes_type')
@@ -42,6 +45,7 @@ Future<ClosetItemDetailed> fetchItemDetails(String itemId, String itemType) asyn
         itemId: itemData['item_id'],
         imageUrl: itemData['image_url'],
         name: itemData['name'],
+        itemType: itemData['item_type'],
         amountSpent: itemData['amount_spent'],
         occasion: itemData['occasion'],
         season: itemData['season'],
@@ -51,6 +55,7 @@ Future<ClosetItemDetailed> fetchItemDetails(String itemId, String itemType) asyn
         shoesType: shoesData['shoes_type'],
       );
     case 'accessory':
+      logger.i('Fetching accessory details for itemId: $itemId');
       final accessoryData = await Supabase.instance.client
           .from('items_accessory_basic')
           .select('accessory_type')
@@ -60,6 +65,7 @@ Future<ClosetItemDetailed> fetchItemDetails(String itemId, String itemType) asyn
         itemId: itemData['item_id'],
         imageUrl: itemData['image_url'],
         name: itemData['name'],
+        itemType: itemData['item_type'],
         amountSpent: itemData['amount_spent'],
         occasion: itemData['occasion'],
         season: itemData['season'],
@@ -69,6 +75,7 @@ Future<ClosetItemDetailed> fetchItemDetails(String itemId, String itemType) asyn
         accessoryType: accessoryData['accessory_type'],
       );
     default:
+      logger.e('Unknown item type: $itemType');
       throw Exception('Unknown item type: $itemType');
   }
 }

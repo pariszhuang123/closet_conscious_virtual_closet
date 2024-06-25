@@ -7,7 +7,7 @@ class TypeButton extends StatelessWidget {
   final bool isSelected;
 
   const TypeButton({
-    super.key,
+    super.key, // This is the widget key
     this.onPressed,
     required this.imageUrl,
     this.isSelected = false,

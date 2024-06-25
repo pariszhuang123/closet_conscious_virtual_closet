@@ -11,7 +11,7 @@ final ThemeData myClosetTheme = ThemeData(
     secondary: Colors.teal.shade200, // Closest to #A0D6B4
     onSecondary: Colors.black,
     secondaryContainer: Colors.green.shade500,
-    surface: Colors.grey.shade200,
+    surface: Colors.white,
     onSurface: Colors.black,
     error: Colors.red.shade200,
     onError: Colors.white,

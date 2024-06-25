@@ -45,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Everyday": MessageLookupByLibrary.simpleMessage("Everyday"),
         "Eyewear": MessageLookupByLibrary.simpleMessage("Eyewear"),
         "Formal": MessageLookupByLibrary.simpleMessage("Formal"),
+        "Gift": MessageLookupByLibrary.simpleMessage("Gift"),
         "Gloves": MessageLookupByLibrary.simpleMessage("Gloves"),
         "Green": MessageLookupByLibrary.simpleMessage("Green"),
         "Grey": MessageLookupByLibrary.simpleMessage("Grey"),
@@ -72,10 +73,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "Rainbow": MessageLookupByLibrary.simpleMessage("Rainbow"),
         "Red": MessageLookupByLibrary.simpleMessage("Red"),
         "Scarf": MessageLookupByLibrary.simpleMessage("Scarf"),
+        "Sell": MessageLookupByLibrary.simpleMessage("Sell"),
         "Shoes": MessageLookupByLibrary.simpleMessage("Shoes"),
         "Social": MessageLookupByLibrary.simpleMessage("Social"),
         "Spring": MessageLookupByLibrary.simpleMessage("Spring"),
         "Summer": MessageLookupByLibrary.simpleMessage("Summer"),
+        "Swap": MessageLookupByLibrary.simpleMessage("Swap"),
+        "Throw": MessageLookupByLibrary.simpleMessage("Throw"),
         "Tie": MessageLookupByLibrary.simpleMessage("Tie"),
         "Top": MessageLookupByLibrary.simpleMessage("Top"),
         "White": MessageLookupByLibrary.simpleMessage("White"),
@@ -88,6 +92,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Amount Spent field is not valid."),
         "amountSpentLabel":
             MessageLookupByLibrary.simpleMessage("Amount Spent"),
+        "archiveOptions":
+            MessageLookupByLibrary.simpleMessage("What would you like to do?"),
         "archived": MessageLookupByLibrary.simpleMessage("Archived"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("Closet"),
         "closetUploadComplete":
@@ -104,6 +110,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "filterSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Filter & Search Premium Feature"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
+        "interestAcknowledged": MessageLookupByLibrary.simpleMessage(
+            "Your interest has been noted. Stay tuned for updates."),
         "interested": MessageLookupByLibrary.simpleMessage("Interested"),
         "itemNameFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Item Name field is not filled."),
@@ -113,12 +121,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "itemUploaded_itemUploaded":
             MessageLookupByLibrary.simpleMessage("Item Uploaded"),
         "item_name": MessageLookupByLibrary.simpleMessage("Item Name"),
+        "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "Manage multiple closets effortlessly with our upcoming multi-closet feature. Interested?"),
+        "multiClosetFeatureTitle": MessageLookupByLibrary.simpleMessage(
+            "Discover Our New Multi-Closet Feature"),
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("My Closet"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "occasionFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Occasion field is not filled."),
         "offlineStatus":
             MessageLookupByLibrary.simpleMessage("You are currently offline"),
+        "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("Outfit"),
         "pleaseEnterItemName":
             MessageLookupByLibrary.simpleMessage("Please enter an item name"),
@@ -147,6 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Select Shoe Type"),
         "specificTypeFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Specific Type field is not filled."),
+        "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("Upload")

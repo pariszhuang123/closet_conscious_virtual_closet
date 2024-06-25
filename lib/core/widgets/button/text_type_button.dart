@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'type_button.dart';
 
 class TextTypeButton extends TypeButton {
+  final String dataKey;
+  final String selectedKey;
   final String label;
-  final String selectedLabel;
 
   const TextTypeButton({
-    super.key,
-    required super.onPressed,
+    super.key, // This is the widget key
+    required this.dataKey, // This is your custom key for selection logic
+    required this.selectedKey,
+    required this.label,
     required super.imageUrl,
     super.isSelected,
-    required this.label,
-    required this.selectedLabel, // Add this line
+    super.onPressed,
   });
 
 

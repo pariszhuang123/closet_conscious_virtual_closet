@@ -96,5 +96,15 @@
   "filterSearchPremiumFeature": "Filter & Search Premium Feature",
   "quicklyFindItems": "Quickly find items with filter and search options, saving time and staying organized.",
   "interested": "Interested",
-  "editPageTitle": "Edit Item"
+  "editPageTitle": "Edit Item",
+  "multiClosetFeatureTitle": "Discover Our New Multi-Closet Feature",
+  "multiClosetFeatureDescription": "Manage multiple closets effortlessly with our upcoming multi-closet feature. Interested?",
+  "thankYou": "Thank You!",
+  "interestAcknowledged": "Your interest has been noted. Stay tuned for updates.",
+  "ok": "OK",
+  "Sell": "Sell",
+  "Swap": "Swap",
+  "Gift": "Gift",
+  "Throw": "Throw",
+  "archiveOptions" : "What would you like to do?"
 }

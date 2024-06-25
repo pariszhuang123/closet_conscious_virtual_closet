@@ -1,3 +1,4 @@
+import '../core/widgets/button/navigation_type_button.dart';
 import 'package:flutter/material.dart';
 import '../core/utilities/routes.dart';
 import '../core/utilities/logger.dart';
@@ -5,10 +6,10 @@ import '../item_management/core/data/models/closet_item_minimal.dart';
 import '../item_management/view_items/widget/item_grid.dart';
 import '../item_management/core/data/services/item_service.dart';
 import '../core/widgets/button/number_type_button.dart';
-import '../core/widgets/button/text_type_button.dart';
 import '../core/data/type_data.dart';
 import '../generated/l10n.dart';
 import '../core/widgets/filter_premium_bottom_sheet.dart';
+import '../core/widgets/multi_closet_premium_bottom_sheet.dart';
 
 class MyClosetPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -51,6 +52,15 @@ class MyClosetPageState extends State<MyClosetPage> {
       context: context,
       builder: (BuildContext context) {
         return const PremiumFilterBottomSheet(isFromMyCloset: true);
+      },
+    );
+  }
+
+  void _onMultiClosetButtonPressed() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const MultiClosetFeatureBottomSheet(isFromMyCloset: true);
       },
     );
   }
@@ -153,22 +163,22 @@ class MyClosetPageState extends State<MyClosetPage> {
                       children: [
                         Row(
                           children: [
-                            TextTypeButton(
+                            NavigationTypeButton(
                               label: uploadList[0].getName(context),
                               selectedLabel: '',
                               onPressed: _onUploadButtonPressed,
                               imageUrl: uploadList[0].imageUrl!,
                             ),
-                            TextTypeButton(
+                            NavigationTypeButton(
                               label: filterList[0].getName(context),
                               selectedLabel: '',
                               onPressed: _onFilterButtonPressed,
                               imageUrl: filterList[0].imageUrl!,
                             ),
-                            TextTypeButton(
+                            NavigationTypeButton(
                               label: addClosetList[0].getName(context),
                               selectedLabel: '',
-                              onPressed: () {},
+                              onPressed: _onMultiClosetButtonPressed,
                               imageUrl: addClosetList[0].imageUrl!,
                             ),
                           ],

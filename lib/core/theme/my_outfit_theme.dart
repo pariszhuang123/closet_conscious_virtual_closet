@@ -11,7 +11,7 @@ final ThemeData myOutfitTheme = ThemeData(
     secondary: Colors.blueAccent.shade100, // Light blue for secondary
     onSecondary: Colors.black,
     secondaryContainer: Colors.blueAccent.shade700,
-    surface: Colors.grey.shade200,
+    surface: Colors.white,
     onSurface: Colors.black,
     error: Colors.red,
     onError: Colors.white,

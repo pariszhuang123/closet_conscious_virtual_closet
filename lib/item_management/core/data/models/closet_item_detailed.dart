@@ -3,6 +3,7 @@ class ClosetItemDetailed {
   final String itemId;
   final String imageUrl;
   final String name;
+  final String itemType;
   final double amountSpent;
   final String occasion;
   final String season;
@@ -14,6 +15,7 @@ class ClosetItemDetailed {
     required this.itemId,
     required this.imageUrl,
     required this.name,
+    required this.itemType,
     required this.amountSpent,
     required this.occasion,
     required this.season,
@@ -27,6 +29,7 @@ class ClosetItemDetailed {
       itemId: map['item_id'] as String,
       imageUrl: map['image_url'] as String,
       name: map['name'] as String,
+      itemType: map['item_type'] as String,
       amountSpent: (map['amount_spent'] as num).toDouble(),
       occasion: map['occasion'] as String,
       season: map['season'] as String,
@@ -45,6 +48,7 @@ class ClothingItem extends ClosetItemDetailed {
     required super.itemId,
     required super.imageUrl,
     required super.name,
+    required super.itemType,
     required super.amountSpent,
     required super.occasion,
     required super.season,
@@ -60,6 +64,7 @@ class ClothingItem extends ClosetItemDetailed {
       itemId: map['item_id'] as String,
       imageUrl: map['image_url'] as String,
       name: map['name'] as String,
+      itemType: map['item_type'] as String,
       amountSpent: (map['amount_spent'] as num).toDouble(),
       occasion: map['occasion'] as String,
       season: map['season'] as String,
@@ -79,6 +84,7 @@ class ShoesItem extends ClosetItemDetailed {
     required super.itemId,
     required super.imageUrl,
     required super.name,
+    required super.itemType,
     required super.amountSpent,
     required super.occasion,
     required super.season,
@@ -93,6 +99,7 @@ class ShoesItem extends ClosetItemDetailed {
       itemId: map['item_id'] as String,
       imageUrl: map['image_url'] as String,
       name: map['name'] as String,
+      itemType: map['item_type'] as String,
       amountSpent: (map['amount_spent'] as num).toDouble(),
       occasion: map['occasion'] as String,
       season: map['season'] as String,
@@ -111,6 +118,7 @@ class AccessoryItem extends ClosetItemDetailed {
     required super.itemId,
     required super.imageUrl,
     required super.name,
+    required super.itemType,
     required super.amountSpent,
     required super.occasion,
     required super.season,
@@ -125,6 +133,7 @@ class AccessoryItem extends ClosetItemDetailed {
       itemId: map['item_id'] as String,
       imageUrl: map['image_url'] as String,
       name: map['name'] as String,
+      itemType: map['item_type'] as String,
       amountSpent: (map['amount_spent'] as num).toDouble(),
       occasion: map['occasion'] as String,
       season: map['season'] as String,

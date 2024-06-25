@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
+import '../../../core/theme/my_closet_theme.dart';
 
 class ImageDisplayWidget extends StatelessWidget {
   const ImageDisplayWidget({
@@ -21,9 +22,9 @@ class ImageDisplayWidget extends StatelessWidget {
         child: file != null
             ? Image.file(
           file!,
-          fit: BoxFit.contain,
+          fit: BoxFit.cover,
         )
-            : imageUrl != null
+            : imageUrl != null && imageUrl!.isNotEmpty
             ? (Uri.tryParse(imageUrl!)?.isAbsolute == true
             ? Image.network(
           imageUrl!,
@@ -34,7 +35,7 @@ class ImageDisplayWidget extends StatelessWidget {
           fit: BoxFit.cover,
         ))
             : Container(
-          color: Colors.grey,
+          color: myClosetTheme.colorScheme.secondary,
           child: const Center(
             child: Text('No Image'),
           ),

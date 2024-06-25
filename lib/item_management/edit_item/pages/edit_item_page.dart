@@ -13,6 +13,8 @@ import '../../core/data/models/closet_item_detailed.dart';
 import '../../upload_item/widgets/image_display_widget.dart';
 import '../../../generated/l10n.dart';
 import '../../../core/widgets/icon_row_builder.dart';
+import '../widgets/archive_options_bottom_sheet.dart';
+
 
 
 class EditPage extends StatefulWidget {
@@ -61,11 +63,12 @@ class _EditPageState extends State<EditPage> {
     _itemNameController = TextEditingController(text: widget.item.name);
     _amountSpentController = TextEditingController(text: widget.item.amountSpent.toString());
     _imageUrl = widget.item.imageUrl;
-    selectedItemType = widget.item.runtimeType.toString().replaceAll('Item', '');
+    selectedItemType = widget.item.itemType;
     selectedOccasion = widget.item.occasion;
     selectedSeason = widget.item.season;
     selectedColour = widget.item.colour;
     selectedColourVariation = widget.item.colourVariations;
+
     if (widget.item is ClothingItem) {
       final clothingItem = widget.item as ClothingItem;
       selectedSpecificType = clothingItem.clothingType;
@@ -86,6 +89,14 @@ class _EditPageState extends State<EditPage> {
     super.dispose();
   }
 
+  void _showArchiveOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const ArchiveOptionsBottomSheet(isFromMyCloset: true);
+      },
+    );
+  }
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
@@ -270,9 +281,11 @@ class _EditPageState extends State<EditPage> {
       child: Scaffold(
         backgroundColor: widget.myClosetTheme.colorScheme.surface,
         appBar: AppBar(
-          title: Text(S.of(context).editPageTitle, style: widget.myClosetTheme.textTheme.titleMedium), // Assuming you have a localization key for "Edit Page"
+          title: Text(S.of(context).editPageTitle, style: widget.myClosetTheme.textTheme.titleMedium),
           backgroundColor: widget.myClosetTheme.colorScheme.primaryContainer,
-          leading: IconButton(
+          leading: _isChanged
+              ? null
+              : IconButton(
             icon: Icon(Icons.arrow_back, color: widget.myClosetTheme.colorScheme.onPrimary),
             onPressed: () {
               Navigator.pop(context);
@@ -351,11 +364,12 @@ class _EditPageState extends State<EditPage> {
                           ...buildIconRows(
                               TypeDataList.itemGeneralTypes(context),
                               selectedItemType,
-                                  (name) => setState(() {
+                                  (dataKey) => setState(() {
                                 _isChanged = true;
-                                selectedItemType = TypeDataList.itemGeneralTypes(context).firstWhere((item) => item.getName(context) == name).key;
+                                selectedItemType = dataKey;
                                 selectedSpecificType = null;
-                              }),
+                                selectedClothingLayer = null;
+                                  }),
                               context
                           ),
                           const SizedBox(height: 12),
@@ -366,9 +380,9 @@ class _EditPageState extends State<EditPage> {
                           ...buildIconRows(
                               TypeDataList.occasions(context),
                               selectedOccasion,
-                                  (name) => setState(() {
+                                  (dataKey) => setState(() {
                                 _isChanged = true;
-                                selectedOccasion = TypeDataList.occasions(context).firstWhere((item) => item.getName(context) == name).key;
+                                selectedOccasion = dataKey;
                               }),
                               context
                           ),
@@ -380,9 +394,9 @@ class _EditPageState extends State<EditPage> {
                           ...buildIconRows(
                               TypeDataList.seasons(context),
                               selectedSeason,
-                                  (name) => setState(() {
+                                  (dataKey) => setState(() {
                                 _isChanged = true;
-                                selectedSeason = TypeDataList.seasons(context).firstWhere((item) => item.getName(context) == name).key;
+                                selectedSeason = dataKey;
                               }),
                               context
                           ),
@@ -395,9 +409,9 @@ class _EditPageState extends State<EditPage> {
                             ...buildIconRows(
                                 TypeDataList.shoeTypes(context),
                                 selectedSpecificType,
-                                    (name) => setState(() {
+                                    (dataKey) => setState(() {
                                   _isChanged = true;
-                                  selectedSpecificType = TypeDataList.shoeTypes(context).firstWhere((item) => item.getName(context) == name).key;
+                                  selectedSpecificType = dataKey;
                                 }),
                                 context
                             ),
@@ -410,9 +424,9 @@ class _EditPageState extends State<EditPage> {
                             ...buildIconRows(
                                 TypeDataList.accessoryTypes(context),
                                 selectedSpecificType,
-                                    (name) => setState(() {
+                                    (dataKey) => setState(() {
                                   _isChanged = true;
-                                  selectedSpecificType = TypeDataList.accessoryTypes(context).firstWhere((item) => item.getName(context) == name).key;
+                                  selectedSpecificType = dataKey;
                                 }),
                                 context
                             ),
@@ -425,9 +439,9 @@ class _EditPageState extends State<EditPage> {
                             ...buildIconRows(
                                 TypeDataList.clothingTypes(context),
                                 selectedSpecificType,
-                                    (name) => setState(() {
+                                    (dataKey) => setState(() {
                                   _isChanged = true;
-                                  selectedSpecificType = TypeDataList.clothingTypes(context).firstWhere((item) => item.getName(context) == name).key;
+                                  selectedSpecificType = dataKey;
                                 }),
                                 context
                             ),
@@ -439,9 +453,9 @@ class _EditPageState extends State<EditPage> {
                             ...buildIconRows(
                                 TypeDataList.clothingLayers(context),
                                 selectedClothingLayer,
-                                    (name) => setState(() {
+                                    (dataKey) => setState(() {
                                   _isChanged = true;
-                                  selectedClothingLayer = TypeDataList.clothingLayers(context).firstWhere((item) => item.getName(context) == name).key;
+                                  selectedClothingLayer = dataKey;
                                 }),
                                 context
                             ),
@@ -454,9 +468,9 @@ class _EditPageState extends State<EditPage> {
                           ...buildIconRows(
                               TypeDataList.colors(context),
                               selectedColour,
-                                  (name) => setState(() {
+                                  (dataKey) => setState(() {
                                 _isChanged = true;
-                                selectedColour = TypeDataList.colors(context).firstWhere((item) => item.getName(context) == name).key;
+                                selectedColour = dataKey;
                               }),
                               context
                           ),
@@ -469,9 +483,9 @@ class _EditPageState extends State<EditPage> {
                             ...buildIconRows(
                                 TypeDataList.colorVariations(context),
                                 selectedColourVariation,
-                                    (name) => setState(() {
+                                    (dataKey) => setState(() {
                                   _isChanged = true;
-                                  selectedColourVariation = TypeDataList.colorVariations(context).firstWhere((item) => item.getName(context) == name).key;
+                                  selectedColourVariation = dataKey;
                                 }),
                                 context
                             ),
@@ -486,8 +500,13 @@ class _EditPageState extends State<EditPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 10.0, bottom: 70.0, left: 16.0, right: 16.0),
                 child: ElevatedButton(
-                  onPressed: _isFormValid ? _handleUpload : null,
-                  child: Text(_isChanged ? S.of(context).update : S.of(context).archived, style: widget.myClosetTheme.textTheme.labelLarge),
+                  onPressed: _isFormValid
+                      ? _isChanged
+                      ? _handleUpload
+                      : () => _showArchiveOptions
+                      : null,
+                  child: Text(_isChanged ? S.of(context).update : S.of(context).archived,
+                      style: widget.myClosetTheme.textTheme.labelLarge),
                 ),
               ),
             ],

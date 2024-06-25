@@ -380,8 +380,8 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   ...buildIconRows(
                                       TypeDataList.itemGeneralTypes(context),
                                       selectedItemType,
-                                          (name) => setState(() {
-                                        selectedItemType = TypeDataList.itemGeneralTypes(context).firstWhere((item) => item.getName(context) == name).key;
+                                          (dataKey) => setState(() {
+                                        selectedItemType = dataKey;
                                       }),
                                       context
                                   ),
@@ -393,8 +393,8 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   ...buildIconRows(
                                       TypeDataList.occasions(context),
                                       selectedOccasion,
-                                          (name) => setState(() {
-                                        selectedOccasion = TypeDataList.occasions(context).firstWhere((item) => item.getName(context) == name).key;
+                                          (dataKey) => setState(() {
+                                        selectedOccasion = dataKey;
                                       }),
                                       context
                                   ),
@@ -418,8 +418,8 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   ...buildIconRows(
                                       TypeDataList.seasons(context),
                                       selectedSeason,
-                                          (name) => setState(() {
-                                        selectedSeason = TypeDataList.seasons(context).firstWhere((item) => item.getName(context) == name).key;
+                                          (dataKey) => setState(() {
+                                        selectedSeason = dataKey;
                                       }),
                                       context
                                   ),
@@ -432,11 +432,9 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                     ...buildIconRows(
                                         TypeDataList.shoeTypes(context),
                                         selectedSpecificType,
-                                            (name) {
-                                          setState(() {
-                                            selectedSpecificType = TypeDataList.shoeTypes(context).firstWhere((item) => item.getName(context) == name).key;
-                                          });
-                                        },
+                                            (dataKey) => setState(() {
+                                          selectedSpecificType = dataKey;
+                                        }),
                                         context
                                     ),
                                   ],
@@ -448,11 +446,9 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                     ...buildIconRows(
                                         TypeDataList.accessoryTypes(context),
                                         selectedSpecificType,
-                                            (name) {
-                                          setState(() {
-                                            selectedSpecificType = TypeDataList.accessoryTypes(context).firstWhere((item) => item.getName(context) == name).key;
-                                          });
-                                        },
+                                            (dataKey) => setState(() {
+                                          selectedSpecificType = dataKey;
+                                        }),
                                         context
                                     ),
                                   ],
@@ -464,11 +460,9 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                     ...buildIconRows(
                                         TypeDataList.clothingTypes(context),
                                         selectedSpecificType,
-                                            (name) {
-                                          setState(() {
-                                            selectedSpecificType = TypeDataList.clothingTypes(context).firstWhere((item) => item.getName(context) == name).key;
-                                          });
-                                        },
+                                            (dataKey) => setState(() {
+                                          selectedSpecificType = dataKey;
+                                        }),
                                         context
                                     ),
                                     const SizedBox(height: 12),
@@ -479,12 +473,9 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                     ...buildIconRows(
                                         TypeDataList.clothingLayers(context),
                                         selectedClothingLayer,
-                                            (name) {
-                                          setState(() {
-                                            selectedClothingLayer = TypeDataList.clothingLayers(context).firstWhere((item) => item.getName(context) == name).key;
-                                          });
-                                        },
-                                        context
+                                            (dataKey) => setState(() {
+                                          selectedClothingLayer = dataKey;
+                                        }),                                        context
                                     ),
                                   ],
                                 ],
@@ -507,11 +498,10 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   ...buildIconRows(
                                       TypeDataList.colors(context),
                                       selectedColour,
-                                          (name) {
-                                        setState(() {
-                                          selectedColour = TypeDataList.colors(context).firstWhere((item) => item.getName(context) == name).key;
-                                        });
-                                      },
+                                          (dataKey) => setState(() {
+                                        selectedColour = dataKey;
+                                      }),
+
                                       context
                                   ),
                                   if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
@@ -523,8 +513,8 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                     ...buildIconRows(
                                         TypeDataList.colorVariations(context),
                                         selectedColourVariation,
-                                            (name) => setState(() {
-                                          selectedColourVariation = TypeDataList.colorVariations(context).firstWhere((item) => item.getName(context) == name).key;
+                                            (dataKey) => setState(() {
+                                          selectedColourVariation = dataKey;
                                         }),
                                         context
                                     ),

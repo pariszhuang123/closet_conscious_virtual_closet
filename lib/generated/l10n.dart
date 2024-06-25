@@ -1019,6 +1019,106 @@ class S {
       args: [],
     );
   }
+
+  /// `Discover Our New Multi-Closet Feature`
+  String get multiClosetFeatureTitle {
+    return Intl.message(
+      'Discover Our New Multi-Closet Feature',
+      name: 'multiClosetFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manage multiple closets effortlessly with our upcoming multi-closet feature. Interested?`
+  String get multiClosetFeatureDescription {
+    return Intl.message(
+      'Manage multiple closets effortlessly with our upcoming multi-closet feature. Interested?',
+      name: 'multiClosetFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thank You!`
+  String get thankYou {
+    return Intl.message(
+      'Thank You!',
+      name: 'thankYou',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your interest has been noted. Stay tuned for updates.`
+  String get interestAcknowledged {
+    return Intl.message(
+      'Your interest has been noted. Stay tuned for updates.',
+      name: 'interestAcknowledged',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OK`
+  String get ok {
+    return Intl.message(
+      'OK',
+      name: 'ok',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sell`
+  String get Sell {
+    return Intl.message(
+      'Sell',
+      name: 'Sell',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap`
+  String get Swap {
+    return Intl.message(
+      'Swap',
+      name: 'Swap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gift`
+  String get Gift {
+    return Intl.message(
+      'Gift',
+      name: 'Gift',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Throw`
+  String get Throw {
+    return Intl.message(
+      'Throw',
+      name: 'Throw',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What would you like to do?`
+  String get archiveOptions {
+    return Intl.message(
+      'What would you like to do?',
+      name: 'archiveOptions',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
