@@ -132,7 +132,7 @@ jobs:
           sdk: 'stable'
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '3.19.6'
+          flutter-version: '3.22.2'
 
       - name: Cache Flutter dependencies
         uses: actions/cache@v2
