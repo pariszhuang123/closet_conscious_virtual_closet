@@ -52,7 +52,7 @@ jobs:
             ~/.pub-cache
             .flutter-plugins
             .flutter-plugins-dependencies
-          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}-${{ github.run_number / 100}}
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}-${{ github.run_number / 1000 }}
           restore-keys: |
             ${{ runner.os }}-flutter-
 
@@ -141,7 +141,7 @@ jobs:
             ~/.pub-cache
             .flutter-plugins
             .flutter-plugins-dependencies
-          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}-${{ github.run_number / 100}}
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}-${{ github.run_number / 1000 }}
           restore-keys: |
             ${{ runner.os }}-flutter-
 
