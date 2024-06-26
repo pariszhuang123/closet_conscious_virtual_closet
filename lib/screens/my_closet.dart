@@ -188,9 +188,13 @@ class MyClosetPageState extends State<MyClosetPage> {
                           height: 40.0,
                           color: widget.myClosetTheme.dividerColor,
                         ),
-                        NumberTypeButton(
+                        Tooltip(
+                          message: S.of(context).itemsUploadedTooltip,
+                          child: NumberTypeButton(
                           count: apparelCount,
                           imageUrl: itemUploadedList[0].imageUrl!,
+                            isHorizontal: true,
+                          ),
                         ),
                       ],
                     ),

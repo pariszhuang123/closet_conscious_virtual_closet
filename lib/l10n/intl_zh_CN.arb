@@ -106,5 +106,11 @@
   "Swap": "交换",
   "Gift": "赠送",
   "Throw": "扔掉",
-  "declutterOptions" : "你想做什么？"
+  "declutterOptions" : "你想做什么？",
+  "itemsUploadedTooltip": "这显示了您上传的物品数量",
+  "outfitsUploadedTooltip": "这显示了您上传的穿搭数量",
+  "currentStreakTooltip": "这显示了您当前的不购买连续天数",
+  "highestStreakTooltip": "这显示了您最高的不购买连续天数",
+  "spendingTooltip": "这显示了您在新物品上的花费",
+  "newItemsTooltip": "这显示了您购买的新物品数量"
 }

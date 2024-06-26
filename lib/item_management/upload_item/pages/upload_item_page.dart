@@ -268,8 +268,6 @@ class _UploadItemPageState extends State<UploadItemPage> {
   void _showSpecificErrorMessagesPage1() {
     if (_itemNameController.text.isEmpty) {
       _showErrorMessage(S.of(context).itemNameFieldNotFilled);
-    } else if (_amountSpentError != null) {
-      _showErrorMessage(S.of(context).amountSpentFieldNotValid);
     } else if (_amountSpentError == null) {
       _showErrorMessage(S.of(context).amountSpentFieldNotValid);
     } else if (selectedItemType == null) {

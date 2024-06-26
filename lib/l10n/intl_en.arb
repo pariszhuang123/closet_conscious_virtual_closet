@@ -106,5 +106,11 @@
   "Swap": "Swap",
   "Gift": "Gift",
   "Throw": "Throw",
-  "declutterOptions" : "What would you like to do?"
+  "declutterOptions" : "What would you like to do?",
+  "itemsUploadedTooltip": "This shows the number of items you have uploaded",
+  "outfitsUploadedTooltip": "This shows the number of items you have uploaded",
+  "currentStreakTooltip": "This shows your current streak of no purchase",
+  "highestStreakTooltip": "This shows your highest score of no purchase",
+  "spendingTooltip": "This shows how much you have spent on new items",
+  "newItemsTooltip": "This shows how many new items you have purchased"
 }

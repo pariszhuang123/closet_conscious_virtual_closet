@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../../../generated/l10n.dart';
 import '../../core/theme/my_closet_theme.dart';
 import '../../core/theme/my_outfit_theme.dart';
@@ -8,10 +10,8 @@ class PremiumFilterBottomSheet extends StatelessWidget {
 
   const PremiumFilterBottomSheet({super.key, required this.isFromMyCloset});
 
-
   @override
   Widget build(BuildContext context) {
-    // Determine the theme and colors based on originating page
     ThemeData theme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
     ColorScheme colorScheme = theme.colorScheme;
 
@@ -28,33 +28,66 @@ class PremiumFilterBottomSheet extends StatelessWidget {
               children: [
                 Text(
                   S.of(context).filterSearchPremiumFeature,
-                  style: theme.textTheme.titleMedium, // Apply titleMedium style
+                  style: theme.textTheme.titleMedium,
                 ),
                 IconButton(
                   icon: Icon(Icons.close, color: colorScheme.onSurface),
-                  onPressed: () {
-                    Navigator.pop(context); // Close the bottom sheet
-                  },
+                  onPressed: () => Navigator.pop(context),
                 ),
               ],
             ),
             const SizedBox(height: 8.0),
             Text(
               S.of(context).quicklyFindItems,
-              style: theme.textTheme.bodyMedium, // Apply bodyMedium style
+              style: theme.textTheme.bodyMedium,
             ),
             const SizedBox(height: 16.0),
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  // Handle user interest in the premium feature
-                  Navigator.pop(context); // Close the bottom sheet
-                  // You can add further logic here to navigate to the purchase page or show more details
+                onPressed: () async {
+                  final userId = Supabase.instance.client.auth.currentUser!.id;
+                  try {
+                    final response = await Supabase.instance.client.rpc(
+                      'increment_filter_request',
+                      params: {'user_id': userId},
+                    );
+
+                    if (response.error != null) {
+                      throw Exception(response.error!.message);
+                    }
+
+                    if (context.mounted) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(S.of(context).thankYou),
+                            content: Text(S.of(context).interestAcknowledged),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Close the dialog
+                                },
+                                child: Text(S.of(context).ok),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('Failed to increment filter request: $e'),
+                      ));
+                    }
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: colorScheme.onPrimary, backgroundColor: colorScheme.primary,
                 ),
-                child: Text(S.of(context).interested, style: theme.textTheme.labelLarge), // Apply labelLarge text style
+                child: Text(S.of(context).interested, style: theme.textTheme.labelLarge),
               ),
             ),
           ],

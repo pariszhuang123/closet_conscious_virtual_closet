@@ -89,7 +89,7 @@ class _EditPageState extends State<EditPage> {
     super.dispose();
   }
 
-  void _showDeclutterOptions() {
+  Future<void> _showDeclutterOptions() async {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -282,7 +282,7 @@ class _EditPageState extends State<EditPage> {
         backgroundColor: widget.myClosetTheme.colorScheme.surface,
         appBar: AppBar(
           title: Text(S.of(context).editPageTitle, style: widget.myClosetTheme.textTheme.titleMedium),
-          backgroundColor: widget.myClosetTheme.colorScheme.primaryContainer,
+          backgroundColor: widget.myClosetTheme.colorScheme.secondary,
           leading: _isChanged
               ? null
               : IconButton(

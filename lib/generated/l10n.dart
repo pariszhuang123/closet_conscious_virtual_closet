@@ -1119,6 +1119,66 @@ class S {
       args: [],
     );
   }
+
+  /// `This shows the number of items you have uploaded`
+  String get itemsUploadedTooltip {
+    return Intl.message(
+      'This shows the number of items you have uploaded',
+      name: 'itemsUploadedTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This shows the number of items you have uploaded`
+  String get outfitsUploadedTooltip {
+    return Intl.message(
+      'This shows the number of items you have uploaded',
+      name: 'outfitsUploadedTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This shows your current streak of no purchase`
+  String get currentStreakTooltip {
+    return Intl.message(
+      'This shows your current streak of no purchase',
+      name: 'currentStreakTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This shows your highest score of no purchase`
+  String get highestStreakTooltip {
+    return Intl.message(
+      'This shows your highest score of no purchase',
+      name: 'highestStreakTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This shows how much you have spent on new items`
+  String get spendingTooltip {
+    return Intl.message(
+      'This shows how much you have spent on new items',
+      name: 'spendingTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This shows how many new items you have purchased`
+  String get newItemsTooltip {
+    return Intl.message(
+      'This shows how many new items you have purchased',
+      name: 'newItemsTooltip',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

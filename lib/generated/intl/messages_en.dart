@@ -101,6 +101,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Colour field is not filled."),
         "colourVariationFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Colour Variation field is not filled."),
+        "currentStreakTooltip": MessageLookupByLibrary.simpleMessage(
+            "This shows your current streak of no purchase"),
         "declutter": MessageLookupByLibrary.simpleMessage("Declutter"),
         "declutterOptions":
             MessageLookupByLibrary.simpleMessage("What would you like to do?"),
@@ -110,6 +112,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "filterSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Filter & Search Premium Feature"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
+        "highestStreakTooltip": MessageLookupByLibrary.simpleMessage(
+            "This shows your highest score of no purchase"),
         "interestAcknowledged": MessageLookupByLibrary.simpleMessage(
             "Your interest has been noted. Stay tuned for updates."),
         "interested": MessageLookupByLibrary.simpleMessage("Interested"),
@@ -121,11 +125,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "itemUploaded_itemUploaded":
             MessageLookupByLibrary.simpleMessage("Item Uploaded"),
         "item_name": MessageLookupByLibrary.simpleMessage("Item Name"),
+        "itemsUploadedTooltip": MessageLookupByLibrary.simpleMessage(
+            "This shows the number of items you have uploaded"),
         "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "Manage multiple closets effortlessly with our upcoming multi-closet feature. Interested?"),
         "multiClosetFeatureTitle": MessageLookupByLibrary.simpleMessage(
             "Discover Our New Multi-Closet Feature"),
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("My Closet"),
+        "newItemsTooltip": MessageLookupByLibrary.simpleMessage(
+            "This shows how many new items you have purchased"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "occasionFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Occasion field is not filled."),
@@ -133,6 +141,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("You are currently offline"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("Outfit"),
+        "outfitsUploadedTooltip": MessageLookupByLibrary.simpleMessage(
+            "This shows the number of items you have uploaded"),
         "pleaseEnterItemName":
             MessageLookupByLibrary.simpleMessage("Please enter an item name"),
         "please_enter_valid_amount": MessageLookupByLibrary.simpleMessage(
@@ -160,6 +170,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Select Shoe Type"),
         "specificTypeFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Specific Type field is not filled."),
+        "spendingTooltip": MessageLookupByLibrary.simpleMessage(
+            "This shows how much you have spent on new items"),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),

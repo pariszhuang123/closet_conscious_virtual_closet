@@ -5,12 +5,14 @@ class TypeButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String imageUrl;
   final bool isSelected;
+  final bool isHorizontal;
 
   const TypeButton({
     super.key, // This is the widget key
     this.onPressed,
     required this.imageUrl,
     this.isSelected = false,
+    this.isHorizontal = false,
   });
 
   @override
@@ -28,7 +30,7 @@ class TypeButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center, // Center the children vertically
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildImage(imageUrl),
+          buildImage(imageUrl),
           const SizedBox(height: 4),
           buildContent(context),
         ],
@@ -45,7 +47,32 @@ class TypeButton extends StatelessWidget {
     return content;
   }
 
-  Widget _buildImage(String url) {
+    Widget buildHorizontalContent(BuildContext context) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center, // Center the children horizontally
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          buildContent(context),
+          const SizedBox(width: 4),
+          buildImage(imageUrl),
+        ],
+      );
+    }
+
+
+  Widget buildVerticalContent(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center, // Center the children vertically
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        buildImage(imageUrl),
+        const SizedBox(height: 4),
+        buildContent(context),
+      ],
+    );
+  }
+
+  Widget buildImage(String url) {
     if (url.endsWith('.svg')) {
       return SvgPicture.network(
         url,

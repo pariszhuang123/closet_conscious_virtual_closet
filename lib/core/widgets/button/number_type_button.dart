@@ -9,19 +9,24 @@ class NumberTypeButton extends TypeButton {
     required this.count,
     required super.imageUrl,
     super.isSelected,
+    bool isHorizontal = false,
   }) : super(
     onPressed: null,
   );
+
   @override
   Widget buildContent(BuildContext context) {
     final theme = Theme.of(context);
-    return Text(
-      '$count',
-      style: TextStyle(
-        color: isSelected ? theme.colorScheme.primary : theme.colorScheme.primary,
-        fontSize: 12, // Increase the font size for visibility
-        fontWeight: FontWeight.bold,
-      ),
+    return Row(
+      mainAxisSize: MainAxisSize.min, // Ensure the row wraps its content
+      children: [
+        Text(
+          '$count',
+          style: theme.textTheme.headlineSmall?.copyWith(
+            color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
+          ),
+        ),
+      ],
     );
   }
 }
