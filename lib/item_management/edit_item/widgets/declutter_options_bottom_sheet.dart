@@ -5,10 +5,10 @@ import '../../../core/theme/my_outfit_theme.dart';
 import '../../../core/widgets/icon_row_builder.dart';
 import '../../../core/data/type_data.dart';
 
-class ArchiveOptionsBottomSheet extends StatelessWidget {
+class DeclutterOptionsBottomSheet extends StatelessWidget {
   final bool isFromMyCloset;
 
-  const ArchiveOptionsBottomSheet({super.key, required this.isFromMyCloset});
+  const DeclutterOptionsBottomSheet({super.key, required this.isFromMyCloset});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class ArchiveOptionsBottomSheet extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  S.of(context).archiveOptions,
+                  S.of(context).declutterOptions,
                   style: theme.textTheme.titleMedium,
                 ),
                 IconButton(

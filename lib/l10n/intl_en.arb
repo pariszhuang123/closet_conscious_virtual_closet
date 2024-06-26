@@ -80,7 +80,7 @@
   "selectColourVariation": "Select Colour Variation",
   "please_enter_valid_amount": "Please enter a valid amount (0 or greater).",
   "update": "Update",
-  "archived": "Archived",
+  "declutter": "Declutter",
   "item_name": "Item Name",
   "upload": "Upload",
   "next": "Next",
@@ -106,5 +106,5 @@
   "Swap": "Swap",
   "Gift": "Gift",
   "Throw": "Throw",
-  "archiveOptions" : "What would you like to do?"
+  "declutterOptions" : "What would you like to do?"
 }

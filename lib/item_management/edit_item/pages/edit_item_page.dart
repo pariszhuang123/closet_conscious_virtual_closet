@@ -13,7 +13,7 @@ import '../../core/data/models/closet_item_detailed.dart';
 import '../../upload_item/widgets/image_display_widget.dart';
 import '../../../generated/l10n.dart';
 import '../../../core/widgets/icon_row_builder.dart';
-import '../widgets/archive_options_bottom_sheet.dart';
+import '../widgets/declutter_options_bottom_sheet.dart';
 
 
 
@@ -89,11 +89,11 @@ class _EditPageState extends State<EditPage> {
     super.dispose();
   }
 
-  void _showArchiveOptions() {
+  void _showDeclutterOptions() {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return const ArchiveOptionsBottomSheet(isFromMyCloset: true);
+        return const DeclutterOptionsBottomSheet(isFromMyCloset: true);
       },
     );
   }
@@ -503,9 +503,9 @@ class _EditPageState extends State<EditPage> {
                   onPressed: _isFormValid
                       ? _isChanged
                       ? _handleUpload
-                      : () => _showArchiveOptions
+                      : () => _showDeclutterOptions
                       : null,
-                  child: Text(_isChanged ? S.of(context).update : S.of(context).archived,
+                  child: Text(_isChanged ? S.of(context).update : S.of(context).declutter,
                       style: widget.myClosetTheme.textTheme.labelLarge),
                 ),
               ),

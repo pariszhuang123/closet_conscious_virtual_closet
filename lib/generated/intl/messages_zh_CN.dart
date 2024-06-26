@@ -86,8 +86,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "amountSpentFieldNotValid":
             MessageLookupByLibrary.simpleMessage("花费金额字段无效。"),
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
-        "archiveOptions": MessageLookupByLibrary.simpleMessage("你想做什么？"),
-        "archived": MessageLookupByLibrary.simpleMessage("已归档"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("衣橱"),
         "closetUploadComplete": MessageLookupByLibrary.simpleMessage("衣橱上传完成"),
         "clothingLayerFieldNotFilled":
@@ -96,6 +94,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("颜色字段未填写。"),
         "colourVariationFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("颜色变化字段未填写。"),
+        "declutter": MessageLookupByLibrary.simpleMessage("整理"),
+        "declutterOptions": MessageLookupByLibrary.simpleMessage("你想做什么？"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("编辑项目"),
         "enterAmountSpentHint": MessageLookupByLibrary.simpleMessage("输入花费金额"),
         "filterSearchPremiumFeature":

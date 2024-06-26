@@ -850,11 +850,11 @@ class S {
     );
   }
 
-  /// `Archived`
-  String get archived {
+  /// `Declutter`
+  String get declutter {
     return Intl.message(
-      'Archived',
-      name: 'archived',
+      'Declutter',
+      name: 'declutter',
       desc: '',
       args: [],
     );
@@ -1111,10 +1111,10 @@ class S {
   }
 
   /// `What would you like to do?`
-  String get archiveOptions {
+  String get declutterOptions {
     return Intl.message(
       'What would you like to do?',
-      name: 'archiveOptions',
+      name: 'declutterOptions',
       desc: '',
       args: [],
     );

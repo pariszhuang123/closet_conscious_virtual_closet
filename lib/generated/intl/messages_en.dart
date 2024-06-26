@@ -92,9 +92,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Amount Spent field is not valid."),
         "amountSpentLabel":
             MessageLookupByLibrary.simpleMessage("Amount Spent"),
-        "archiveOptions":
-            MessageLookupByLibrary.simpleMessage("What would you like to do?"),
-        "archived": MessageLookupByLibrary.simpleMessage("Archived"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("Closet"),
         "closetUploadComplete":
             MessageLookupByLibrary.simpleMessage("Closet Upload Complete"),
@@ -104,6 +101,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Colour field is not filled."),
         "colourVariationFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Colour Variation field is not filled."),
+        "declutter": MessageLookupByLibrary.simpleMessage("Declutter"),
+        "declutterOptions":
+            MessageLookupByLibrary.simpleMessage("What would you like to do?"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("Edit Item"),
         "enterAmountSpentHint":
             MessageLookupByLibrary.simpleMessage("Enter amount spent"),
