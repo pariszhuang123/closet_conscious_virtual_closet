@@ -52,6 +52,7 @@ jobs:
             ~/.pub-cache
             .flutter-plugins
             .flutter-plugins-dependencies
+            build/
           key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}-${{ github.run_number}}
           restore-keys: |
             ${{ runner.os }}-flutter-
@@ -78,11 +79,22 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Generate code and resources
+        run: |
+          flutter pub run build_runner build --delete-conflicting-outputs
+          flutter pub run flutter_gen
+
+      - name: Create localization files
+        run: flutter pub run intl_utils:generate
+
       - name: Run linting and static analysis
         run: flutter analyze
 
-      - name: Run tests
+      - name: Run unit and widget tests
         run: flutter test
+
+      - name: Run integration tests
+        run: flutter test integration_test
 
       - name: Build APK for development
         run: flutter build apk --debug --flavor dev --target=lib/main_dev.dart --dart-define=ENV=$ENV --split-per-abi --target-platform android-arm64
@@ -141,6 +153,7 @@ jobs:
             ~/.pub-cache
             .flutter-plugins
             .flutter-plugins-dependencies
+            build/
           key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}-${{ github.run_number }}
           restore-keys: |
             ${{ runner.os }}-flutter-
