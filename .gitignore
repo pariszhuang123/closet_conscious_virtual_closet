@@ -42,7 +42,10 @@ bin/
 .DS_Store
 
 ### Secrets ###
-.env// Add this line to exclude .env file from version control
+.env
 /config
 debug.keystore
 /android/key.properties
+
+# Dart generated files
+.dart_tool/
