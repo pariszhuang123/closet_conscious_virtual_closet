@@ -47,17 +47,17 @@ class TypeButton extends StatelessWidget {
     return content;
   }
 
-    Widget buildHorizontalContent(BuildContext context) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center, // Center the children horizontally
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          buildContent(context),
-          const SizedBox(width: 4),
-          buildImage(imageUrl),
-        ],
-      );
-    }
+  Widget buildHorizontalContent(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center, // Center the children horizontally
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        buildContent(context),
+        const SizedBox(width: 4),
+        buildImage(imageUrl),
+      ],
+    );
+  }
 
 
   Widget buildVerticalContent(BuildContext context) {

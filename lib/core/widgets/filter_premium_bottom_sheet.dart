@@ -23,13 +23,15 @@ class PremiumFilterBottomSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  S.of(context).filterSearchPremiumFeature,
-                  style: theme.textTheme.titleMedium,
+          Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text(
+                S.of(context).filterSearchPremiumFeature,
+                style: theme.textTheme.titleMedium,
                 ),
+            ),
                 IconButton(
                   icon: Icon(Icons.close, color: colorScheme.onSurface),
                   onPressed: () => Navigator.pop(context),

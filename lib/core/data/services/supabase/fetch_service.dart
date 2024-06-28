@@ -1,7 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../models/closet_item_minimal.dart';
-import '../models/closet_item_detailed.dart';
-import '../../../../core/utilities/logger.dart';
+import '../../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../../item_management/core/data/models/closet_item_detailed.dart';
+import '../../../utilities/logger.dart';
 
 final logger = CustomLogger('SupabaseService');
 

@@ -112,5 +112,20 @@
   "currentStreakTooltip": "这显示了您当前的不购买连续天数",
   "highestStreakTooltip": "这显示了您最高的不购买连续天数",
   "spendingTooltip": "这显示了您在新物品上的花费",
-  "newItemsTooltip": "这显示了您购买的新物品数量"
+  "newItemsTooltip": "这显示了您购买的新物品数量",
+  "profileSection": "个人资料",
+  "achievements": "成就",
+  "usageInsights": "使用洞察",
+  "appInformationSection": "应用信息",
+  "policy": "政策",
+  "news": "新闻",
+  "supportAssistanceSection": "支持与协助",
+  "becomeAmbassador": "成为大使",
+  "faq": "常见问题",
+  "contactUs": "联系我们",
+  "deleteAccount": "删除账户",
+  "logOut": "退出登录",
+  "dataUpdatedSuccessfully": "您的数据已更新",
+  "error": "错误",
+  "dataInsertedSuccessfully": "您的数据已保存"
 }

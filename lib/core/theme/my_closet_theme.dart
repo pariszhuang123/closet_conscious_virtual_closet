@@ -69,7 +69,7 @@ final ThemeData myClosetTheme = ThemeData(
     foregroundColor: Colors.black,
   ),
   drawerTheme: DrawerThemeData(
-    backgroundColor: Colors.greenAccent.shade100, // Closest to #A0D6B4
+    backgroundColor: Colors.teal.shade100, // Closest to #A0D6B4
     elevation: 16.0,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(

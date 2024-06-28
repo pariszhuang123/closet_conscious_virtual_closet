@@ -15,7 +15,7 @@ class DeclutterOptionsBottomSheet extends StatelessWidget {
     ThemeData theme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
     ColorScheme colorScheme = theme.colorScheme;
 
-    List<TypeData> typeDataList = TypeDataList.archiveOptions(context);
+    List<TypeData> typeDataList = TypeDataList.declutterOptions(context);
 
     return Container(
       color: colorScheme.surface,

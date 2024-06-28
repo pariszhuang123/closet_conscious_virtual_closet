@@ -22,7 +22,7 @@ class NumberTypeButton extends TypeButton {
       children: [
         Text(
           '$count',
-          style: theme.textTheme.headlineSmall?.copyWith(
+          style: theme.textTheme.labelSmall?.copyWith(
             color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
           ),
         ),

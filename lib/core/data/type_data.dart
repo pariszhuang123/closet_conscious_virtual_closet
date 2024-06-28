@@ -1,12 +1,15 @@
 import '../../../generated/l10n.dart';
 import 'package:flutter/material.dart';
+import '../utilities/icon_helper.dart';
 
 class TypeData {
   final String key;
   final String Function(BuildContext) getName;
   final String? imageUrl;
+  final VoidCallback? onPressed;
 
-  TypeData(this.key, this.getName, [this.imageUrl]);
+
+  TypeData(this.key, this.getName, [this.imageUrl, this.onPressed]);
 }
 
 class TypeDataList {
@@ -123,7 +126,7 @@ class TypeDataList {
     ];
   }
 
-  static List<TypeData> archiveOptions(BuildContext context) {
+  static List<TypeData> declutterOptions(BuildContext context) {
     return [
       TypeData('Sell', (context) => S.of(context).Sell, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png'),
       TypeData('Swap', (context) => S.of(context).Swap, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png'),
@@ -131,6 +134,47 @@ class TypeDataList {
       TypeData('Throw', (context) => S.of(context).Throw, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png'),
 
     ];
-  }
 
+  }
+  static List<TypeData> drawerAchievements(BuildContext context) {
+    return [
+      TypeData('Achievements', (context) => S.of(context).achievements,
+        IconHelper.getIconPath('drawer', 'achievements')),
+    ];
+  }
+  static List<TypeData> drawerInsights(BuildContext context) {
+    return [
+      TypeData('UsageInsights', (context) => S.of(context).usageInsights, IconHelper.getIconPath('drawer', 'analytics')),
+    ];
+  }
+  static List<TypeData> drawerPolicy(BuildContext context) {
+    return [
+      TypeData('Policy', (context) => S.of(context).policy, IconHelper.getIconPath('drawer', 'policy')),
+    ];
+  }
+  static List<TypeData> drawerNews(BuildContext context) {
+    return [
+      TypeData('News', (context) => S.of(context).news, IconHelper.getIconPath('drawer', 'news')),
+    ];
+  }
+  static List<TypeData> drawerFaq(BuildContext context) {
+    return [
+      TypeData('FAQ', (context) => S.of(context).faq, IconHelper.getIconPath('drawer', 'faq')),
+    ];
+  }
+  static List<TypeData> drawerContactUs(BuildContext context) {
+    return [
+      TypeData('ContactUs', (context) => S.of(context).contactUs, IconHelper.getIconPath('drawer', 'contact_us')),
+    ];
+  }
+  static List<TypeData> drawerDeleteAccount(BuildContext context) {
+    return [
+      TypeData('DeleteAccount', (context) => S.of(context).deleteAccount, IconHelper.getIconPath('drawer', 'delete_account')),
+    ];
+  }
+  static List<TypeData> drawerLogOut(BuildContext context) {
+    return [
+      TypeData('LogOut', (context) => S.of(context).logOut, IconHelper.getIconPath('drawer', 'logout')),
+    ];
+  }
 }

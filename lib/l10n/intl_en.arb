@@ -112,5 +112,20 @@
   "currentStreakTooltip": "This shows your current streak of no purchase",
   "highestStreakTooltip": "This shows your highest score of no purchase",
   "spendingTooltip": "This shows how much you have spent on new items",
-  "newItemsTooltip": "This shows how many new items you have purchased"
+  "newItemsTooltip": "This shows how many new items you have purchased",
+  "profileSection": "Profile",
+  "achievements": "Achievements",
+  "usageInsights": "Usage Insights",
+  "appInformationSection": "App Information",
+  "policy": "Policy",
+  "news": "News",
+  "supportAssistanceSection": "Support & Assistance",
+  "becomeAmbassador": "Become an Ambassador",
+  "faq": "FAQ",
+  "contactUs": "Contact Us",
+  "deleteAccount": "Delete Account",
+  "logOut": "Log Out",
+  "dataUpdatedSuccessfully": "Your data has been updated",
+  "error": "Error",
+  "dataInsertedSuccessfully": "Your data has been saved"
 }

@@ -3,7 +3,6 @@ import '../../../core/utilities/routes.dart';
 import '../../../core/utilities/logger.dart';
 import '../../core/data/models/closet_item_minimal.dart';
 import '../../edit_item/data/edit_item_arguments.dart';
-import '../../core/data/services/item_service.dart';
 
 class ItemGrid extends StatelessWidget {
   final List<ClosetItemMinimal> items;
@@ -24,25 +23,24 @@ class ItemGrid extends StatelessWidget {
     return GridView.builder(
       controller: scrollController,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount: 3,
         childAspectRatio: 3 / 4,
       ),
       itemCount: items.length,
       itemBuilder: (context, index) {
         final item = items[index];
         return GestureDetector(
-          onTap: () async {
+          onTap: () {
             logger.i('Grid item clicked: ${item.itemId}');
-            final currentContext = context;
-            final fullItem = await fetchItemDetails(item.itemId);
-            if (currentContext.mounted) {
+            if (context.mounted) {
               logger.i('Navigating to edit item: ${item.itemId}');
               Navigator.pushNamed(
-                currentContext,
+                context,
                 AppRoutes.editItem,
                 arguments: EditItemArguments(
-                  item: fullItem,
-                  myClosetTheme: myClosetTheme,),
+                  itemId: item.itemId,  // Ensure this is a String
+                  myClosetTheme: myClosetTheme,
+                ),
               );
             } else {
               logger.w('Context not mounted. Unable to navigate.');

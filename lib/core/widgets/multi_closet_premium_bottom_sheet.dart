@@ -25,9 +25,11 @@ class MultiClosetFeatureBottomSheet extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  S.of(context).multiClosetFeatureTitle,
-                  style: theme.textTheme.titleMedium, // Apply titleMedium style
+                Flexible(
+                  child: Text(
+                    S.of(context).filterSearchPremiumFeature,
+                    style: theme.textTheme.titleMedium,
+                  ),
                 ),
                 IconButton(
                   icon: Icon(Icons.close, color: colorScheme.onSurface),

@@ -40,7 +40,7 @@ class AppRoutes {
         if (settings.arguments is EditItemArguments) {
           final args = settings.arguments as EditItemArguments;
           return MaterialPageRoute(
-            builder: (_) => EditPage(item: args.item, myClosetTheme: args.myClosetTheme),
+            builder: (_) => EditItemPage(itemId: args.itemId, myClosetTheme: args.myClosetTheme),
           );
         }
         return _errorRoute(settings.name);

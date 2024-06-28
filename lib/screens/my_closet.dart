@@ -1,15 +1,17 @@
-import '../core/widgets/button/navigation_type_button.dart';
 import 'package:flutter/material.dart';
+
+import '../core/widgets/button/navigation_type_button.dart';
 import '../core/utilities/routes.dart';
 import '../core/utilities/logger.dart';
 import '../item_management/core/data/models/closet_item_minimal.dart';
 import '../item_management/view_items/widget/item_grid.dart';
-import '../item_management/core/data/services/item_service.dart';
+import '../core/data/services/supabase/fetch_service.dart';
 import '../core/widgets/button/number_type_button.dart';
 import '../core/data/type_data.dart';
 import '../generated/l10n.dart';
 import '../core/widgets/filter_premium_bottom_sheet.dart';
 import '../core/widgets/multi_closet_premium_bottom_sheet.dart';
+import '../screens/app_drawer.dart';
 
 class MyClosetPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -135,9 +137,10 @@ class MyClosetPageState extends State<MyClosetPage> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(S.of(context).myClosetTitle, style: widget.myClosetTheme.textTheme.titleMedium),
-            automaticallyImplyLeading: false, // Ensure no back button
+            automaticallyImplyLeading: true, // Ensure no back button
             backgroundColor: widget.myClosetTheme.colorScheme.secondary,
           ),
+          drawer: const AppDrawer(), // Include the AppDrawer here
           backgroundColor: widget.myClosetTheme.colorScheme.surface,
           body: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -183,18 +186,11 @@ class MyClosetPageState extends State<MyClosetPage> {
                             ),
                           ],
                         ),
-                        Container(
-                          width: 1.0,
-                          height: 40.0,
-                          color: widget.myClosetTheme.dividerColor,
-                        ),
                         Tooltip(
                           message: S.of(context).itemsUploadedTooltip,
                           child: NumberTypeButton(
                           count: apparelCount,
-                          imageUrl: itemUploadedList[0].imageUrl!,
-                            isHorizontal: true,
-                          ),
+                          imageUrl: itemUploadedList[0].imageUrl!),
                         ),
                       ],
                     ),

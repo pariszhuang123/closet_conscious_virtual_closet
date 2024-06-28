@@ -66,7 +66,8 @@ class _UploadItemPageState extends State<UploadItemPage> {
     if (selectedColour == null) {
       return false;
     }
-    if (selectedColour != 'Black' && selectedColour != 'White' && selectedColourVariation == null) {
+    if (selectedColour != 'Black' && selectedColour != 'White' &&
+        selectedColourVariation == null) {
       return false;
     }
     return true;
@@ -97,12 +98,12 @@ class _UploadItemPageState extends State<UploadItemPage> {
         _imageUrl = _imageFile!.path;
       });
       completer.complete();
-
     } else {
       // Handle the case where the user canceled the camera
       if (mounted) {
         completer.complete();
-        Navigator.of(context).pushReplacementNamed(AppRoutes.myCloset); // Close this screen if no photo is taken
+        Navigator.of(context).pushReplacementNamed(
+            AppRoutes.myCloset); // Close this screen if no photo is taken
       }
     }
     return completer.future;
@@ -120,7 +121,9 @@ class _UploadItemPageState extends State<UploadItemPage> {
     final amountSpent = double.tryParse(amountSpentText);
     if (amountSpent == null || amountSpent < 0) {
       setState(() {
-        _amountSpentError = S.of(context).please_enter_valid_amount;
+        _amountSpentError = S
+            .of(context)
+            .please_enter_valid_amount;
       });
       return false;
     }
@@ -162,14 +165,20 @@ class _UploadItemPageState extends State<UploadItemPage> {
           ),
         );
 
-        finalImageUrl = SupabaseConfig.client.storage.from('item_pics').getPublicUrl(imagePath);
+        finalImageUrl =
+            SupabaseConfig.client.storage.from('item_pics').getPublicUrl(
+                imagePath);
         finalImageUrl = Uri.parse(finalImageUrl).replace(queryParameters: {
-          't': DateTime.now().millisecondsSinceEpoch.toString()
+          't': DateTime
+              .now()
+              .millisecondsSinceEpoch
+              .toString()
         }).toString();
       } catch (e) {
         if (!mounted) return;
         logger.e('Error uploading image: $e');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: $e')));
         return;
       }
     }
@@ -208,18 +217,19 @@ class _UploadItemPageState extends State<UploadItemPage> {
       if (response == null || response.error == null) {
         if (!mounted) return;
         logger.i('Data inserted successfully');
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Your data has been saved')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(S.of(context).dataInsertedSuccessfully)));
         Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
       } else {
         if (!mounted) return;
         final errorMessage = response.error?.message;
         logger.e('Error inserting data: $errorMessage');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $errorMessage')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${S.of(context).error}: $errorMessage')));
       }
     } catch (e) {
       if (!mounted) return;
       logger.e('Unexpected error: $e');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')));
     }
   }
 
@@ -267,31 +277,51 @@ class _UploadItemPageState extends State<UploadItemPage> {
 
   void _showSpecificErrorMessagesPage1() {
     if (_itemNameController.text.isEmpty) {
-      _showErrorMessage(S.of(context).itemNameFieldNotFilled);
+      _showErrorMessage(S
+          .of(context)
+          .itemNameFieldNotFilled);
     } else if (_amountSpentError == null) {
-      _showErrorMessage(S.of(context).amountSpentFieldNotValid);
+      _showErrorMessage(S
+          .of(context)
+          .amountSpentFieldNotValid);
     } else if (selectedItemType == null) {
-      _showErrorMessage(S.of(context).itemTypeFieldNotFilled);
+      _showErrorMessage(S
+          .of(context)
+          .itemTypeFieldNotFilled);
     } else if (selectedOccasion == null) {
-      _showErrorMessage(S.of(context).occasionFieldNotFilled);
+      _showErrorMessage(S
+          .of(context)
+          .occasionFieldNotFilled);
     }
   }
 
   void _showSpecificErrorMessagesPage2() {
     if (selectedSeason == null) {
-      _showErrorMessage(S.of(context).seasonFieldNotFilled);
+      _showErrorMessage(S
+          .of(context)
+          .seasonFieldNotFilled);
     } else if (selectedSpecificType == null) {
-      _showErrorMessage(S.of(context).specificTypeFieldNotFilled);
-    } else if (selectedItemType == 'Clothing' && selectedClothingLayer == null) {
-      _showErrorMessage(S.of(context).clothingLayerFieldNotFilled);
+      _showErrorMessage(S
+          .of(context)
+          .specificTypeFieldNotFilled);
+    } else
+    if (selectedItemType == 'Clothing' && selectedClothingLayer == null) {
+      _showErrorMessage(S
+          .of(context)
+          .clothingLayerFieldNotFilled);
     }
   }
 
   void _showSpecificErrorMessagesPage3() {
     if (selectedColour == null) {
-      _showErrorMessage(S.of(context).colourFieldNotFilled);
-    } else if (selectedColour != 'Black' && selectedColour != 'White' && selectedColourVariation == null) {
-      _showErrorMessage(S.of(context).colourVariationFieldNotFilled);
+      _showErrorMessage(S
+          .of(context)
+          .colourFieldNotFilled);
+    } else if (selectedColour != 'Black' && selectedColour != 'White' &&
+        selectedColourVariation == null) {
+      _showErrorMessage(S
+          .of(context)
+          .colourVariationFieldNotFilled);
     }
   }
 
@@ -308,234 +338,328 @@ class _UploadItemPageState extends State<UploadItemPage> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-        canPop: false,
-        onPopInvoked: (popDisposition) async {
-          return Future.value();
-        },
-        child: Theme(
-          data: widget.myClosetTheme,
-          child: Scaffold(
-            backgroundColor: widget.myClosetTheme.colorScheme.surface,
-            body: SafeArea(
-              child: Column(
-                children: [
-                  // Top Section: Image Display
-                  Padding(
-                    padding: const EdgeInsets.all(16.0), // Adjust the padding as needed
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      child: ImageDisplayWidget(
-                        imageUrl: _imageUrl,
-                      ),
+      canPop: false,
+      onPopInvoked: (popDisposition) async {
+        return Future.value();
+      },
+      child: Theme(
+        data: widget.myClosetTheme,
+        child: Scaffold(
+          backgroundColor: widget.myClosetTheme.colorScheme.surface,
+          body: SafeArea(
+            child: Column(
+              children: [
+                // Top Section: Image Display
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  // Adjust the padding as needed
+                  child: SizedBox(
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.25,
+                    child: ImageDisplayWidget(
+                      imageUrl: _imageUrl,
                     ),
                   ),
+                ),
 
-                  Expanded(
-                    child: PageView(
-                      controller: _pageController,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        // First Page
-                        SingleChildScrollView(
-                          child: Form(
-                            key: _formKeyPage1,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                children: [
-                                  TextFormField(
-                                    controller: _itemNameController,
-                                    decoration: InputDecoration(
-                                      labelText: S.of(context).item_name,
-                                      labelStyle: widget.myClosetTheme.textTheme.bodyMedium,
-                                    ),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return S.of(context).pleaseEnterItemName;
-                                      }
-                                      return null;
-                                    },
+                Expanded(
+                  child: PageView(
+                    controller: _pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      // First Page
+                      SingleChildScrollView(
+                        child: Form(
+                          key: _formKeyPage1,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  controller: _itemNameController,
+                                  decoration: InputDecoration(
+                                    labelText: S
+                                        .of(context)
+                                        .item_name,
+                                    labelStyle: widget.myClosetTheme.textTheme
+                                        .bodyMedium,
                                   ),
-                                  const SizedBox(height: 12),
-                                  TextFormField(
-                                    controller: _amountSpentController,
-                                    decoration: InputDecoration(
-                                      labelText: S.of(context).amountSpentLabel,
-                                      hintText: S.of(context).enterAmountSpentHint,
-                                      errorText: _amountSpentError,
-                                      labelStyle: widget.myClosetTheme.textTheme.bodyMedium,
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                    onChanged: (value) {
-                                      _validateAmountSpent();
-                                    },
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return S
+                                          .of(context)
+                                          .pleaseEnterItemName;
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 12),
+                                TextFormField(
+                                  controller: _amountSpentController,
+                                  decoration: InputDecoration(
+                                    labelText: S
+                                        .of(context)
+                                        .amountSpentLabel,
+                                    hintText: S
+                                        .of(context)
+                                        .enterAmountSpentHint,
+                                    errorText: _amountSpentError,
+                                    labelStyle: widget.myClosetTheme.textTheme
+                                        .bodyMedium,
                                   ),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    S.of(context).selectItemType,
-                                    style: widget.myClosetTheme.textTheme.bodyMedium,
-                                  ),
-                                  ...buildIconRows(
+                                  keyboardType: TextInputType.number,
+                                  onChanged: (value) {
+                                    _validateAmountSpent();
+                                  },
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  S
+                                      .of(context)
+                                      .selectItemType,
+                                  style: widget.myClosetTheme.textTheme
+                                      .bodyMedium,
+                                ),
+                                SafeArea(
+                                  child: Column(
+                                    children: buildIconRows(
                                       TypeDataList.itemGeneralTypes(context),
                                       selectedItemType,
-                                          (dataKey) => setState(() {
-                                        selectedItemType = dataKey;
-                                      }),
-                                      context
+                                          (dataKey) =>
+                                          setState(() {
+                                            selectedItemType = dataKey;
+                                          }),
+                                      context,
+                                    ),
                                   ),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    S.of(context).selectOccasion,
-                                    style: widget.myClosetTheme.textTheme.bodyMedium,
-                                  ),
-                                  ...buildIconRows(
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  S
+                                      .of(context)
+                                      .selectOccasion,
+                                  style: widget.myClosetTheme.textTheme
+                                      .bodyMedium,
+                                ),
+                                SafeArea(
+                                  child: Column(
+                                    children: buildIconRows(
                                       TypeDataList.occasions(context),
                                       selectedOccasion,
-                                          (dataKey) => setState(() {
-                                        selectedOccasion = dataKey;
-                                      }),
-                                      context
+                                          (dataKey) =>
+                                          setState(() {
+                                            selectedOccasion = dataKey;
+                                          }),
+                                      context,
+                                    ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        // Second Page
-                        SingleChildScrollView(
-                          child: Form(
-                            key: _formKeyPage2,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    S.of(context).selectSeason,
-                                    style: widget.myClosetTheme.textTheme.bodyMedium,
-                                  ),
-                                  ...buildIconRows(
+                      ),
+                      // Second Page
+                      SingleChildScrollView(
+                        child: Form(
+                          key: _formKeyPage2,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  S
+                                      .of(context)
+                                      .selectSeason,
+                                  style: widget.myClosetTheme.textTheme
+                                      .bodyMedium,
+                                ),
+                                SafeArea(
+                                  child: Column(
+                                    children: buildIconRows(
                                       TypeDataList.seasons(context),
                                       selectedSeason,
-                                          (dataKey) => setState(() {
-                                        selectedSeason = dataKey;
-                                      }),
-                                      context
-                                  ),
-                                  const SizedBox(height: 12),
-                                  if (selectedItemType == 'Shoes') ...[
-                                    Text(
-                                      S.of(context).selectShoeType,
-                                      style: widget.myClosetTheme.textTheme.bodyMedium,
+                                          (dataKey) =>
+                                          setState(() {
+                                            selectedSeason = dataKey;
+                                          }),
+                                      context,
                                     ),
-                                    ...buildIconRows(
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                                if (selectedItemType == 'Shoes') ...[
+                                  Text(
+                                    S
+                                        .of(context)
+                                        .selectShoeType,
+                                    style: widget.myClosetTheme.textTheme
+                                        .bodyMedium,
+                                  ),
+                                  SafeArea(
+                                    child: Column(
+                                      children: buildIconRows(
                                         TypeDataList.shoeTypes(context),
                                         selectedSpecificType,
-                                            (dataKey) => setState(() {
-                                          selectedSpecificType = dataKey;
-                                        }),
-                                        context
+                                            (dataKey) =>
+                                            setState(() {
+                                              selectedSpecificType = dataKey;
+                                            }),
+                                        context,
+                                      ),
                                     ),
-                                  ],
-                                  if (selectedItemType == 'Accessory') ...[
-                                    Text(
-                                      S.of(context).selectAccessoryType,
-                                      style: widget.myClosetTheme.textTheme.bodyMedium,
-                                    ),
-                                    ...buildIconRows(
+                                  ),
+                                ],
+                                if (selectedItemType == 'Accessory') ...[
+                                  Text(
+                                    S
+                                        .of(context)
+                                        .selectAccessoryType,
+                                    style: widget.myClosetTheme.textTheme
+                                        .bodyMedium,
+                                  ),
+                                  SafeArea(
+                                    child: Column(
+                                      children: buildIconRows(
                                         TypeDataList.accessoryTypes(context),
                                         selectedSpecificType,
-                                            (dataKey) => setState(() {
-                                          selectedSpecificType = dataKey;
-                                        }),
-                                        context
+                                            (dataKey) =>
+                                            setState(() {
+                                              selectedSpecificType = dataKey;
+                                            }),
+                                        context,
+                                      ),
                                     ),
-                                  ],
-                                  if (selectedItemType == 'Clothing') ...[
-                                    Text(
-                                      S.of(context).selectClothingType,
-                                      style: widget.myClosetTheme.textTheme.bodyMedium,
-                                    ),
-                                    ...buildIconRows(
+                                  ),
+                                ],
+                                if (selectedItemType == 'Clothing') ...[
+                                  Text(
+                                    S
+                                        .of(context)
+                                        .selectClothingType,
+                                    style: widget.myClosetTheme.textTheme
+                                        .bodyMedium,
+                                  ),
+                                  SafeArea(
+                                    child: Column(
+                                      children: buildIconRows(
                                         TypeDataList.clothingTypes(context),
                                         selectedSpecificType,
-                                            (dataKey) => setState(() {
-                                          selectedSpecificType = dataKey;
-                                        }),
-                                        context
+                                            (dataKey) =>
+                                            setState(() {
+                                              selectedSpecificType = dataKey;
+                                            }),
+                                        context,
+                                      ),
                                     ),
-                                    const SizedBox(height: 12),
-                                    Text(
-                                      S.of(context).selectClothingLayer,
-                                      style: widget.myClosetTheme.textTheme.bodyMedium,
-                                    ),
-                                    ...buildIconRows(
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    S
+                                        .of(context)
+                                        .selectClothingLayer,
+                                    style: widget.myClosetTheme.textTheme
+                                        .bodyMedium,
+                                  ),
+                                  SafeArea(
+                                    child: Column(
+                                      children: buildIconRows(
                                         TypeDataList.clothingLayers(context),
                                         selectedClothingLayer,
-                                            (dataKey) => setState(() {
-                                          selectedClothingLayer = dataKey;
-                                        }),                                        context
+                                            (dataKey) =>
+                                            setState(() {
+                                              selectedClothingLayer = dataKey;
+                                            }),
+                                        context,
+                                      ),
                                     ),
-                                  ],
+                                  ),
                                 ],
-                              ),
+                              ],
                             ),
                           ),
                         ),
-                        // Third Page
-                        SingleChildScrollView(
-                          child: Form(
-                            key: _formKeyPage3,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    S.of(context).selectColour,
-                                    style: widget.myClosetTheme.textTheme.bodyMedium,
-                                  ),
-                                  ...buildIconRows(
+                      ),
+                      // Third Page
+                      SingleChildScrollView(
+                        child: Form(
+                          key: _formKeyPage3,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  S
+                                      .of(context)
+                                      .selectColour,
+                                  style: widget.myClosetTheme.textTheme
+                                      .bodyMedium,
+                                ),
+                                SafeArea(
+                                  child: Column(
+                                    children: buildIconRows(
                                       TypeDataList.colors(context),
                                       selectedColour,
-                                          (dataKey) => setState(() {
-                                        selectedColour = dataKey;
-                                      }),
-
-                                      context
-                                  ),
-                                  if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
-                                    const SizedBox(height: 12),
-                                    Text(
-                                      S.of(context).selectColourVariation,
-                                      style: widget.myClosetTheme.textTheme.bodyMedium,
+                                          (dataKey) =>
+                                          setState(() {
+                                            selectedColour = dataKey;
+                                          }),
+                                      context,
                                     ),
-                                    ...buildIconRows(
+                                  ),
+                                ),
+                                if (selectedColour != 'Black' &&
+                                    selectedColour != 'White' &&
+                                    selectedColour != null) ...[
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    S
+                                        .of(context)
+                                        .selectColourVariation,
+                                    style: widget.myClosetTheme.textTheme
+                                        .bodyMedium,
+                                  ),
+                                  SafeArea(
+                                    child: Column(
+                                      children: buildIconRows(
                                         TypeDataList.colorVariations(context),
                                         selectedColourVariation,
-                                            (dataKey) => setState(() {
-                                          selectedColourVariation = dataKey;
-                                        }),
-                                        context
+                                            (dataKey) =>
+                                            setState(() {
+                                              selectedColourVariation = dataKey;
+                                            }),
+                                        context,
+                                      ),
                                     ),
-                                  ],
+                                  ),
                                 ],
-                              ),
+                              ],
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
-                    child: ElevatedButton(
-                      onPressed: _handleNext,
-                      child: Text(_currentPage == 2 ? S.of(context).upload : S.of(context).next),
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
+                  child: ElevatedButton(
+                    onPressed: _handleNext,
+                    child: Text(_currentPage == 2 ? S
+                        .of(context)
+                        .upload : S
+                        .of(context)
+                        .next),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

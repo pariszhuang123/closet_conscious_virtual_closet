@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/app_drawer.dart';
 
 class CreateOutfitPage extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -33,9 +34,10 @@ class CreateOutfitPageState extends State<CreateOutfitPage> {
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Create My Outfit'),
-            automaticallyImplyLeading: false, // This removes the back button
+            automaticallyImplyLeading: true, // This removes the back button
           ),
-          backgroundColor: widget.myOutfitTheme.colorScheme.primary,
+          drawer: const AppDrawer(), // Include the AppDrawer here
+          backgroundColor: widget.myOutfitTheme.colorScheme.surface,
           body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -120,3 +122,4 @@ class CreateOutfitPageState extends State<CreateOutfitPage> {
     );
   }
 }
+

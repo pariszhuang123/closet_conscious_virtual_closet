@@ -82,10 +82,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "Winter": MessageLookupByLibrary.simpleMessage("冬季"),
         "Workplace": MessageLookupByLibrary.simpleMessage("工作场合"),
         "Yellow": MessageLookupByLibrary.simpleMessage("黄色"),
+        "achievements": MessageLookupByLibrary.simpleMessage("成就"),
         "addCloset_addCloset": MessageLookupByLibrary.simpleMessage("添加衣橱"),
         "amountSpentFieldNotValid":
             MessageLookupByLibrary.simpleMessage("花费金额字段无效。"),
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
+        "appInformationSection": MessageLookupByLibrary.simpleMessage("应用信息"),
+        "becomeAmbassador": MessageLookupByLibrary.simpleMessage("成为大使"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("衣橱"),
         "closetUploadComplete": MessageLookupByLibrary.simpleMessage("衣橱上传完成"),
         "clothingLayerFieldNotFilled":
@@ -94,12 +97,20 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("颜色字段未填写。"),
         "colourVariationFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("颜色变化字段未填写。"),
+        "contactUs": MessageLookupByLibrary.simpleMessage("联系我们"),
         "currentStreakTooltip":
             MessageLookupByLibrary.simpleMessage("这显示了您当前的不购买连续天数"),
+        "dataInsertedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("您的数据已保存"),
+        "dataUpdatedSuccessfully":
+            MessageLookupByLibrary.simpleMessage("您的数据已更新"),
         "declutter": MessageLookupByLibrary.simpleMessage("整理"),
         "declutterOptions": MessageLookupByLibrary.simpleMessage("你想做什么？"),
+        "deleteAccount": MessageLookupByLibrary.simpleMessage("删除账户"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("编辑项目"),
         "enterAmountSpentHint": MessageLookupByLibrary.simpleMessage("输入花费金额"),
+        "error": MessageLookupByLibrary.simpleMessage("错误"),
+        "faq": MessageLookupByLibrary.simpleMessage("常见问题"),
         "filterSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("筛选和搜索高级功能"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("筛选"),
@@ -118,6 +129,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "item_name": MessageLookupByLibrary.simpleMessage("物品名称"),
         "itemsUploadedTooltip":
             MessageLookupByLibrary.simpleMessage("这显示了您上传的物品数量"),
+        "logOut": MessageLookupByLibrary.simpleMessage("退出登录"),
         "multiClosetFeatureDescription":
             MessageLookupByLibrary.simpleMessage("通过即将推出的多衣橱功能轻松管理多个衣橱。感兴趣吗？"),
         "multiClosetFeatureTitle":
@@ -125,6 +137,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("我的衣橱"),
         "newItemsTooltip":
             MessageLookupByLibrary.simpleMessage("这显示了您购买的新物品数量"),
+        "news": MessageLookupByLibrary.simpleMessage("新闻"),
         "next": MessageLookupByLibrary.simpleMessage("下一步"),
         "occasionFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("场合字段未填写。"),
@@ -136,6 +149,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
         "please_enter_valid_amount":
             MessageLookupByLibrary.simpleMessage("请输入一个有效的金额（0或更大）。"),
+        "policy": MessageLookupByLibrary.simpleMessage("政策"),
+        "profileSection": MessageLookupByLibrary.simpleMessage("个人资料"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "通过筛选和搜索选项快速找到物品，节省时间并保持井井有条。"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("重试"),
@@ -154,9 +169,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("具体类型字段未填写。"),
         "spendingTooltip":
             MessageLookupByLibrary.simpleMessage("这显示了您在新物品上的花费"),
+        "supportAssistanceSection":
+            MessageLookupByLibrary.simpleMessage("支持与协助"),
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
         "update": MessageLookupByLibrary.simpleMessage("更新"),
         "upload": MessageLookupByLibrary.simpleMessage("上传"),
-        "upload_upload": MessageLookupByLibrary.simpleMessage("上传")
+        "upload_upload": MessageLookupByLibrary.simpleMessage("上传"),
+        "usageInsights": MessageLookupByLibrary.simpleMessage("使用洞察")
       };
 }

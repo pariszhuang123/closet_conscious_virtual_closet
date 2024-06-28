@@ -8,7 +8,7 @@ final ThemeData myOutfitTheme = ThemeData(
     primary: Colors.blue.shade700, // Dark blue for primary
     onPrimary: Colors.white,
     primaryContainer: Colors.blue.shade800, // Darker blue for primary container
-    secondary: Colors.blueAccent.shade100, // Light blue for secondary
+    secondary: Colors.lightBlue.shade100, // Light blue for secondary
     onSecondary: Colors.black,
     secondaryContainer: Colors.blueAccent.shade700,
     surface: Colors.white,
@@ -69,7 +69,7 @@ final ThemeData myOutfitTheme = ThemeData(
     foregroundColor: Colors.black,
   ),
   drawerTheme: DrawerThemeData(
-    backgroundColor: Colors.blueAccent.shade100, // Light blue for Drawer
+    backgroundColor: Colors.lightBlue.shade100, // Light blue for Drawer
     elevation: 16.0,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(

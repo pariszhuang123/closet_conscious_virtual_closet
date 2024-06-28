@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../core/data/models/closet_item_detailed.dart';
 
 class EditItemArguments {
-  final ClosetItemDetailed item;
+  final String itemId;
   final ThemeData myClosetTheme;
 
-  EditItemArguments({required this.item, required this.myClosetTheme});
+  EditItemArguments({required this.itemId, required this.myClosetTheme});
 }

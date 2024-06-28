@@ -1179,6 +1179,156 @@ class S {
       args: [],
     );
   }
+
+  /// `Profile`
+  String get profileSection {
+    return Intl.message(
+      'Profile',
+      name: 'profileSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Achievements`
+  String get achievements {
+    return Intl.message(
+      'Achievements',
+      name: 'achievements',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Usage Insights`
+  String get usageInsights {
+    return Intl.message(
+      'Usage Insights',
+      name: 'usageInsights',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App Information`
+  String get appInformationSection {
+    return Intl.message(
+      'App Information',
+      name: 'appInformationSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Policy`
+  String get policy {
+    return Intl.message(
+      'Policy',
+      name: 'policy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `News`
+  String get news {
+    return Intl.message(
+      'News',
+      name: 'news',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Support & Assistance`
+  String get supportAssistanceSection {
+    return Intl.message(
+      'Support & Assistance',
+      name: 'supportAssistanceSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Become an Ambassador`
+  String get becomeAmbassador {
+    return Intl.message(
+      'Become an Ambassador',
+      name: 'becomeAmbassador',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `FAQ`
+  String get faq {
+    return Intl.message(
+      'FAQ',
+      name: 'faq',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Us`
+  String get contactUs {
+    return Intl.message(
+      'Contact Us',
+      name: 'contactUs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Account`
+  String get deleteAccount {
+    return Intl.message(
+      'Delete Account',
+      name: 'deleteAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log Out`
+  String get logOut {
+    return Intl.message(
+      'Log Out',
+      name: 'logOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your data has been updated`
+  String get dataUpdatedSuccessfully {
+    return Intl.message(
+      'Your data has been updated',
+      name: 'dataUpdatedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get error {
+    return Intl.message(
+      'Error',
+      name: 'error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your data has been saved`
+  String get dataInsertedSuccessfully {
+    return Intl.message(
+      'Your data has been saved',
+      name: 'dataInsertedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

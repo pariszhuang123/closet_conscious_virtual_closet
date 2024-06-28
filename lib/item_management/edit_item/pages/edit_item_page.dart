@@ -14,20 +14,20 @@ import '../../upload_item/widgets/image_display_widget.dart';
 import '../../../generated/l10n.dart';
 import '../../../core/widgets/icon_row_builder.dart';
 import '../widgets/declutter_options_bottom_sheet.dart';
+import '../../../core/data/services/supabase/fetch_service.dart';
 
 
-
-class EditPage extends StatefulWidget {
-  final ClosetItemDetailed item;
+class EditItemPage extends StatefulWidget {
   final ThemeData myClosetTheme;
+  final String itemId;
 
-  const EditPage({super.key, required this.item, required this.myClosetTheme});
+  const EditItemPage({super.key, required this.myClosetTheme, required this.itemId});
 
   @override
-  State<EditPage> createState() => _EditPageState();
+  State<EditItemPage> createState() => _EditItemPageState();
 }
 
-class _EditPageState extends State<EditPage> {
+class _EditItemPageState extends State<EditItemPage> {
   late final TextEditingController _itemNameController;
   late final TextEditingController _amountSpentController;
   File? _imageFile;
@@ -40,6 +40,7 @@ class _EditPageState extends State<EditPage> {
   String? selectedSeason;
   String? selectedColour;
   String? selectedColourVariation;
+  bool isLoading = true;
 
   final _formKey = GlobalKey<FormState>();
   bool _isChanged = false;
@@ -60,27 +61,42 @@ class _EditPageState extends State<EditPage> {
   @override
   void initState() {
     super.initState();
-    _itemNameController = TextEditingController(text: widget.item.name);
-    _amountSpentController = TextEditingController(text: widget.item.amountSpent.toString());
-    _imageUrl = widget.item.imageUrl;
-    selectedItemType = widget.item.itemType;
-    selectedOccasion = widget.item.occasion;
-    selectedSeason = widget.item.season;
-    selectedColour = widget.item.colour;
-    selectedColourVariation = widget.item.colourVariations;
+    _itemNameController = TextEditingController();
+    _amountSpentController = TextEditingController();
+    _fetchItemDetailsAndInitialize(widget.itemId);
+  }
 
-    if (widget.item is ClothingItem) {
-      final clothingItem = widget.item as ClothingItem;
-      selectedSpecificType = clothingItem.clothingType;
-      selectedClothingLayer = clothingItem.clothingLayer;
-    } else if (widget.item is ShoesItem) {
-      final shoesItem = widget.item as ShoesItem;
-      selectedSpecificType = shoesItem.shoesType;
-    } else if (widget.item is AccessoryItem) {
-      final accessoryItem = widget.item as AccessoryItem;
-      selectedSpecificType = accessoryItem.accessoryType;
+  Future<void> _fetchItemDetailsAndInitialize(String itemId) async {
+    try {
+      final item = await fetchItemDetails(itemId);
+
+      if (mounted) {
+        setState(() {
+        _itemNameController.text = item.name;
+        _amountSpentController.text = item.amountSpent.toString();
+        _imageUrl = item.imageUrl;
+        selectedItemType = item.itemType;
+        selectedOccasion = item.occasion;
+        selectedSeason = item.season;
+        selectedColour = item.colour;
+        selectedColourVariation = item.colourVariations;
+
+        if (item is ClothingItem) {
+          selectedSpecificType = item.clothingType;
+          selectedClothingLayer = item.clothingLayer;
+        } else if (item is ShoesItem) {
+          selectedSpecificType = item.shoesType;
+        } else if (item is AccessoryItem) {
+          selectedSpecificType = item.accessoryType;
+        }
+        });
+      }
+    } catch (error) {
+      // Handle the error appropriately, e.g., show a snackbar or alert
+      logger.e('Error initializing item details: $error');
     }
   }
+
 
   @override
   void dispose() {
@@ -97,6 +113,7 @@ class _EditPageState extends State<EditPage> {
       },
     );
   }
+
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
@@ -151,7 +168,7 @@ class _EditPageState extends State<EditPage> {
     return true;
   }
 
-  Future<void> _saveData() async {
+  Future<void> _updateItemData() async {
     if (!_validateAmountSpent()) return;
 
     _setColourVariationToNullIfBlackOrWhite();
@@ -161,7 +178,7 @@ class _EditPageState extends State<EditPage> {
 
     if (_imageFile != null) {
       final imageBytes = await _imageFile!.readAsBytes();
-      final existingImagePath = Uri.parse(_imageUrl!).path; // Extract the existing image path
+      final existingImagePath = Uri.parse(_imageUrl ?? '').path; // Extract the existing image path
       final imagePath = existingImagePath.startsWith('/') ? existingImagePath.substring(1) : existingImagePath; // Ensure the path does not start with '/'
 
       try {
@@ -187,7 +204,7 @@ class _EditPageState extends State<EditPage> {
     }
 
     final Map<String, dynamic> params = {
-      '_item_id': widget.item.itemId,
+      '_item_id': widget.itemId,
       if (finalImageUrl != initialImageUrl) '_image_url': finalImageUrl,
       if (_itemNameController.text.trim() != initialName) '_name': _itemNameController.text.trim(),
       if (double.tryParse(_amountSpentController.text) != initialAmountSpent)
@@ -220,13 +237,13 @@ class _EditPageState extends State<EditPage> {
       if (response == null || response.error == null) {
         if (!mounted) return;
         logger.i('Data updated successfully');
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Your data has been updated')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(S.of(context).dataUpdatedSuccessfully)));
         Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
       } else {
         if (!mounted) return;
         final errorMessage = response.error?.message;
         logger.e('Error updating data: $errorMessage');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $errorMessage')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${S.of(context).error}: $errorMessage')));
       }
     } catch (e) {
       if (!mounted) return;
@@ -235,9 +252,9 @@ class _EditPageState extends State<EditPage> {
     }
   }
 
-  void _handleUpload() {
+  void _handleUpdate() {
     if (_formKey.currentState?.validate() ?? false) {
-      _saveData();
+      _updateItemData();
     } else {
       _showSpecificErrorMessages();
     }
@@ -275,7 +292,6 @@ class _EditPageState extends State<EditPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Theme(
       data: widget.myClosetTheme,
       child: Scaffold(
@@ -362,15 +378,15 @@ class _EditPageState extends State<EditPage> {
                             style: widget.myClosetTheme.textTheme.bodyMedium,
                           ),
                           ...buildIconRows(
-                              TypeDataList.itemGeneralTypes(context),
-                              selectedItemType,
-                                  (dataKey) => setState(() {
-                                _isChanged = true;
-                                selectedItemType = dataKey;
-                                selectedSpecificType = null;
-                                selectedClothingLayer = null;
-                                  }),
-                              context
+                            TypeDataList.itemGeneralTypes(context),
+                            selectedItemType,
+                                (dataKey) => setState(() {
+                              _isChanged = true;
+                              selectedItemType = dataKey;
+                              selectedSpecificType = null;
+                              selectedClothingLayer = null;
+                            }),
+                            context,
                           ),
                           const SizedBox(height: 12),
                           Text(
@@ -378,13 +394,13 @@ class _EditPageState extends State<EditPage> {
                             style: widget.myClosetTheme.textTheme.bodyMedium,
                           ),
                           ...buildIconRows(
-                              TypeDataList.occasions(context),
-                              selectedOccasion,
-                                  (dataKey) => setState(() {
-                                _isChanged = true;
-                                selectedOccasion = dataKey;
-                              }),
-                              context
+                            TypeDataList.occasions(context),
+                            selectedOccasion,
+                                (dataKey) => setState(() {
+                              _isChanged = true;
+                              selectedOccasion = dataKey;
+                            }),
+                            context,
                           ),
                           const SizedBox(height: 12),
                           Text(
@@ -392,13 +408,13 @@ class _EditPageState extends State<EditPage> {
                             style: widget.myClosetTheme.textTheme.bodyMedium,
                           ),
                           ...buildIconRows(
-                              TypeDataList.seasons(context),
-                              selectedSeason,
-                                  (dataKey) => setState(() {
-                                _isChanged = true;
-                                selectedSeason = dataKey;
-                              }),
-                              context
+                            TypeDataList.seasons(context),
+                            selectedSeason,
+                                (dataKey) => setState(() {
+                              _isChanged = true;
+                              selectedSeason = dataKey;
+                            }),
+                            context,
                           ),
                           const SizedBox(height: 12),
                           if (selectedItemType == 'Shoes') ...[
@@ -407,13 +423,13 @@ class _EditPageState extends State<EditPage> {
                               style: widget.myClosetTheme.textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
-                                TypeDataList.shoeTypes(context),
-                                selectedSpecificType,
-                                    (dataKey) => setState(() {
-                                  _isChanged = true;
-                                  selectedSpecificType = dataKey;
-                                }),
-                                context
+                              TypeDataList.shoeTypes(context),
+                              selectedSpecificType,
+                                  (dataKey) => setState(() {
+                                _isChanged = true;
+                                selectedSpecificType = dataKey;
+                              }),
+                              context,
                             ),
                           ],
                           if (selectedItemType == 'Accessory') ...[
@@ -422,13 +438,13 @@ class _EditPageState extends State<EditPage> {
                               style: widget.myClosetTheme.textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
-                                TypeDataList.accessoryTypes(context),
-                                selectedSpecificType,
-                                    (dataKey) => setState(() {
-                                  _isChanged = true;
-                                  selectedSpecificType = dataKey;
-                                }),
-                                context
+                              TypeDataList.accessoryTypes(context),
+                              selectedSpecificType,
+                                  (dataKey) => setState(() {
+                                _isChanged = true;
+                                selectedSpecificType = dataKey;
+                              }),
+                              context,
                             ),
                           ],
                           if (selectedItemType == 'Clothing') ...[
@@ -437,13 +453,13 @@ class _EditPageState extends State<EditPage> {
                               style: widget.myClosetTheme.textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
-                                TypeDataList.clothingTypes(context),
-                                selectedSpecificType,
-                                    (dataKey) => setState(() {
-                                  _isChanged = true;
-                                  selectedSpecificType = dataKey;
-                                }),
-                                context
+                              TypeDataList.clothingTypes(context),
+                              selectedSpecificType,
+                                  (dataKey) => setState(() {
+                                _isChanged = true;
+                                selectedSpecificType = dataKey;
+                              }),
+                              context,
                             ),
                             const SizedBox(height: 12),
                             Text(
@@ -451,13 +467,13 @@ class _EditPageState extends State<EditPage> {
                               style: widget.myClosetTheme.textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
-                                TypeDataList.clothingLayers(context),
-                                selectedClothingLayer,
-                                    (dataKey) => setState(() {
-                                  _isChanged = true;
-                                  selectedClothingLayer = dataKey;
-                                }),
-                                context
+                              TypeDataList.clothingLayers(context),
+                              selectedClothingLayer,
+                                  (dataKey) => setState(() {
+                                _isChanged = true;
+                                selectedClothingLayer = dataKey;
+                              }),
+                              context,
                             ),
                           ],
                           const SizedBox(height: 12),
@@ -466,28 +482,30 @@ class _EditPageState extends State<EditPage> {
                             style: widget.myClosetTheme.textTheme.bodyMedium,
                           ),
                           ...buildIconRows(
-                              TypeDataList.colors(context),
-                              selectedColour,
-                                  (dataKey) => setState(() {
-                                _isChanged = true;
-                                selectedColour = dataKey;
-                              }),
-                              context
+                            TypeDataList.colors(context),
+                            selectedColour,
+                                (dataKey) => setState(() {
+                              _isChanged = true;
+                              selectedColour = dataKey;
+                            }),
+                            context,
                           ),
-                          if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
+                          if (selectedColour != 'Black' &&
+                              selectedColour != 'White' &&
+                              selectedColour != null) ...[
                             const SizedBox(height: 12),
                             Text(
                               S.of(context).selectColourVariation,
                               style: widget.myClosetTheme.textTheme.bodyMedium,
                             ),
                             ...buildIconRows(
-                                TypeDataList.colorVariations(context),
-                                selectedColourVariation,
-                                    (dataKey) => setState(() {
-                                  _isChanged = true;
-                                  selectedColourVariation = dataKey;
-                                }),
-                                context
+                              TypeDataList.colorVariations(context),
+                              selectedColourVariation,
+                                  (dataKey) => setState(() {
+                                _isChanged = true;
+                                selectedColourVariation = dataKey;
+                              }),
+                              context,
                             ),
                           ],
                         ],
@@ -498,14 +516,18 @@ class _EditPageState extends State<EditPage> {
               ),
               // Bottom Section: Button
               Padding(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 70.0, left: 16.0, right: 16.0),
+                padding: const EdgeInsets.only(
+                    top: 10.0, bottom: 70.0, left: 16.0, right: 16.0),
                 child: ElevatedButton(
                   onPressed: _isFormValid
                       ? _isChanged
-                      ? _handleUpload
-                      : () => _showDeclutterOptions
+                      ? _handleUpdate
+                      : _showDeclutterOptions
                       : null,
-                  child: Text(_isChanged ? S.of(context).update : S.of(context).declutter,
+                  child: Text(
+                      _isChanged
+                          ? S.of(context).update
+                          : S.of(context).declutter,
                       style: widget.myClosetTheme.textTheme.labelLarge),
                 ),
               ),

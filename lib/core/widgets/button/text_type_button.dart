@@ -22,9 +22,8 @@ class TextTypeButton extends TypeButton {
     final theme = Theme.of(context);
     return Text(
       label[0].toUpperCase() + label.substring(1),
-      style: TextStyle(
-        color: isSelected ? theme.colorScheme.primary : theme.colorScheme.primary,
-        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+      style: theme.textTheme.labelSmall?.copyWith(
+        color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
       ),
     );
   }

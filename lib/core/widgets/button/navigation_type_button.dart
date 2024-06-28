@@ -19,7 +19,7 @@ class NavigationTypeButton extends TypeButton {
     final theme = Theme.of(context);
     return Text(
       isSelected ? selectedLabel : label,
-      style: theme.textTheme.bodyMedium?.copyWith(
+      style: theme.textTheme.labelSmall?.copyWith(
         color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
       ),
       textAlign: TextAlign.center,
