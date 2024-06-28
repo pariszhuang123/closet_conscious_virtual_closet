@@ -41,13 +41,15 @@ COMMENT ON COLUMN user_achievements.achieved_at IS 'Timestamp when the achieveme
 -- Enable RLS for user_achievements table
 ALTER TABLE user_achievements ENABLE ROW LEVEL SECURITY;
 
--- Allow users to manage their own user_achievements records
+-- Allow users to select their own user_achievements records
 CREATE POLICY "user_achievements_select_own"
 ON user_achievements
 FOR SELECT
 USING (user_id = auth.uid());
 
+-- Allow users to manage their own user_achievements records
 CREATE POLICY "user_achievements_modify_own"
 ON user_achievements
 FOR INSERT, UPDATE, DELETE
-USING (user_id = auth.uid());
+USING (user_id = auth.uid())
+WITH CHECK (user_id = auth.uid());
