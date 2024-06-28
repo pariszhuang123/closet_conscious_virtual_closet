@@ -2,7 +2,7 @@
 ALTER TABLE user_low_freq_stats
 ADD COLUMN multi_closet_request int4 DEFAULT 0 NOT NULL,
 ADD COLUMN filter_request int4 DEFAULT 0 NOT NULL,
-ADD COLUMN analytics_request int4 DEFAULT 0 NOT NULL,
+ADD COLUMN analytics_request int4 DEFAULT 0 NOT NULL;
 
 -- Adding comments to user_low_freq_stats table columns
 COMMENT ON COLUMN user_low_freq_stats.multi_closet_request IS 'Tracks the number of times multiple closets feature are requested';
