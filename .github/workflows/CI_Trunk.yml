@@ -82,7 +82,6 @@ jobs:
       - name: Generate code and resources
         run: |
           flutter pub run build_runner build --delete-conflicting-outputs
-          flutter pub run flutter_gen
 
       - name: Create localization files
         run: flutter pub run intl_utils:generate
