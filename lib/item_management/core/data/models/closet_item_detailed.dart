@@ -1,146 +1,52 @@
-// closet_item_detailed.dart
 class ClosetItemDetailed {
   final String itemId;
   final String imageUrl;
-  final String name;
   final String itemType;
+  final String name;
   final double amountSpent;
   final String occasion;
   final String season;
   final String colour;
+  final String colourVariations;
   final DateTime updatedAt;
-  final String? colourVariations;
+  final String? clothingType;
+  final String? clothingLayer;
+  final String? shoesType;
+  final String? accessoryType;
 
   ClosetItemDetailed({
     required this.itemId,
     required this.imageUrl,
-    required this.name,
     required this.itemType,
+    required this.name,
     required this.amountSpent,
     required this.occasion,
     required this.season,
     required this.colour,
+    required this.colourVariations,
     required this.updatedAt,
-    this.colourVariations, // Optional field
+    this.clothingType,
+    this.clothingLayer,
+    this.shoesType,
+    this.accessoryType,
   });
 
   factory ClosetItemDetailed.fromMap(Map<String, dynamic> map) {
     return ClosetItemDetailed(
-      itemId: map['item_id'] as String,
-      imageUrl: map['image_url'] as String,
-      name: map['name'] as String,
-      itemType: map['item_type'] as String,
-      amountSpent: (map['amount_spent'] as num).toDouble(),
-      occasion: map['occasion'] as String,
-      season: map['season'] as String,
-      colour: map['colour'] as String,
-      updatedAt: DateTime.parse(map['updated_at'] as String),
-      colourVariations: map['colour_variations'] as String?,
-    );
-  }
-}
-
-class ClothingItem extends ClosetItemDetailed {
-  final String clothingType;
-  final String clothingLayer;
-
-  ClothingItem({
-    required super.itemId,
-    required super.imageUrl,
-    required super.name,
-    required super.itemType,
-    required super.amountSpent,
-    required super.occasion,
-    required super.season,
-    required super.colour,
-    required super.updatedAt,
-    required this.clothingType,
-    required this.clothingLayer,
-    super.colourVariations,
-  });
-
-  factory ClothingItem.fromMap(Map<String, dynamic> map) {
-    return ClothingItem(
-      itemId: map['item_id'] as String,
-      imageUrl: map['image_url'] as String,
-      name: map['name'] as String,
-      itemType: map['item_type'] as String,
-      amountSpent: (map['amount_spent'] as num).toDouble(),
-      occasion: map['occasion'] as String,
-      season: map['season'] as String,
-      colour: map['colour'] as String,
-      updatedAt: DateTime.parse(map['updated_at'] as String),
-      clothingType: map['clothing_type'] as String,
-      clothingLayer: map['clothing_layer'] as String,
-      colourVariations: map['colour_variations'] as String?,
-    );
-  }
-}
-
-class ShoesItem extends ClosetItemDetailed {
-  final String shoesType;
-
-  ShoesItem({
-    required super.itemId,
-    required super.imageUrl,
-    required super.name,
-    required super.itemType,
-    required super.amountSpent,
-    required super.occasion,
-    required super.season,
-    required super.colour,
-    required super.updatedAt,
-    required this.shoesType,
-    super.colourVariations,
-  });
-
-  factory ShoesItem.fromMap(Map<String, dynamic> map) {
-    return ShoesItem(
-      itemId: map['item_id'] as String,
-      imageUrl: map['image_url'] as String,
-      name: map['name'] as String,
-      itemType: map['item_type'] as String,
-      amountSpent: (map['amount_spent'] as num).toDouble(),
-      occasion: map['occasion'] as String,
-      season: map['season'] as String,
-      colour: map['colour'] as String,
-      updatedAt: DateTime.parse(map['updated_at'] as String),
-      shoesType: map['shoes_type'] as String,
-      colourVariations: map['colour_variations'] as String?, // Adjusted for a single nullable string
-    );
-  }
-}
-
-class AccessoryItem extends ClosetItemDetailed {
-  final String accessoryType;
-
-  AccessoryItem({
-    required super.itemId,
-    required super.imageUrl,
-    required super.name,
-    required super.itemType,
-    required super.amountSpent,
-    required super.occasion,
-    required super.season,
-    required super.colour,
-    required super.updatedAt,
-    required this.accessoryType,
-    super.colourVariations,
-  });
-
-  factory AccessoryItem.fromMap(Map<String, dynamic> map) {
-    return AccessoryItem(
-      itemId: map['item_id'] as String,
-      imageUrl: map['image_url'] as String,
-      name: map['name'] as String,
-      itemType: map['item_type'] as String,
-      amountSpent: (map['amount_spent'] as num).toDouble(),
-      occasion: map['occasion'] as String,
-      season: map['season'] as String,
-      colour: map['colour'] as String,
-      updatedAt: DateTime.parse(map['updated_at'] as String),
-      accessoryType: map['accessory_type'] as String,
-      colourVariations: map['colour_variations'] as String?, // Adjusted for a single nullable string
+      itemId: map['item_id'],
+      imageUrl: map['image_url'],
+      itemType: map['item_type'],
+      name: map['name'],
+      amountSpent: map['amount_spent'],
+      occasion: map['occasion'],
+      season: map['season'],
+      colour: map['colour'],
+      colourVariations: map['colour_variations'],
+      updatedAt: DateTime.parse(map['updated_at']),
+      clothingType: map['clothing_type'],
+      clothingLayer: map['clothing_layer'],
+      shoesType: map['shoes_type'],
+      accessoryType: map['accessory_type'],
     );
   }
 }

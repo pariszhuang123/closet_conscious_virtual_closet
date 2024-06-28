@@ -25,56 +25,32 @@ Future<List<ClosetItemMinimal>> fetchItems(int currentPage, int batchSize) async
 Future<ClosetItemDetailed> fetchItemDetails(String itemId) async {
   try {
     logger.d('Fetching details for item: $itemId');
-    final itemData = await Supabase.instance.client
+
+    final data = await Supabase.instance.client
         .from('items')
-        .select('item_id, image_url, item_type, name, amount_spent, occasion, season, colour, colour_variations, updated_at')
+        .select('''
+          item_id, 
+          image_url, 
+          item_type, 
+          name, 
+          amount_spent, 
+          occasion, 
+          season, 
+          colour, 
+          colour_variations, 
+          updated_at,
+          items_clothing_basic(clothing_type, clothing_layer),
+          items_shoes_basic(shoes_type),
+          items_accessory_basic(accessory_type)
+        ''')
         .eq('item_id', itemId)
         .single();
 
-    final itemType = itemData['item_type'] as String;
+    final result = data;
 
-    switch (itemType) {
-      case 'clothing':
-        final clothingData = await Supabase.instance.client
-            .from('items_clothing_basic')
-            .select('clothing_type, clothing_layer')
-            .eq('item_id', itemId)
-            .single();
-
-        return ClothingItem.fromMap({
-          ...itemData,
-          ...clothingData,
-        });
-
-      case 'shoes':
-        final shoesData = await Supabase.instance.client
-            .from('items_shoes_basic')
-            .select('shoes_type')
-            .eq('item_id', itemId)
-            .single();
-
-        return ShoesItem.fromMap({
-          ...itemData,
-          ...shoesData,
-        });
-
-      case 'accessory':
-        final accessoryData = await Supabase.instance.client
-            .from('items_accessory_basic')
-            .select('accessory_type')
-            .eq('item_id', itemId)
-            .single();
-
-        return AccessoryItem.fromMap({
-          ...itemData,
-          ...accessoryData,
-        });
-      default:
-        return ClosetItemDetailed.fromMap(itemData);
-    }
-
-  } catch (error) {
-    logger.e('Error fetching item details for $itemId: $error');
+    return ClosetItemDetailed.fromMap(result);
+  } catch (e) {
+    logger.e('Error fetching item details: $e');
     rethrow;
   }
 }
