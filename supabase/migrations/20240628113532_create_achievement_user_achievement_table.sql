@@ -26,7 +26,7 @@ USING (auth.role() = 'supabase_admin');
 
 -- Create user_achievements table
 CREATE TABLE user_achievements (
-    user_id UUID REFERENCES users(user_id) ON DELETE CASCADE,
+    user_id UUID REFERENCES user_profiles(id) ON DELETE CASCADE,
     achievement_id UUID REFERENCES achievements(id),
     achieved_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     PRIMARY KEY (user_id, achievement_id)
