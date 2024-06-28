@@ -9,7 +9,6 @@ import '../../../core/config/supabase_config.dart';
 import '../../../core/utilities/logger.dart';
 import '../../../core/utilities/routes.dart';
 
-import '../../core/data/models/closet_item_detailed.dart';
 import '../../upload_item/widgets/image_display_widget.dart';
 import '../../../generated/l10n.dart';
 import '../../../core/widgets/icon_row_builder.dart';
@@ -61,8 +60,6 @@ class _EditItemPageState extends State<EditItemPage> {
   @override
   void initState() {
     super.initState();
-    _itemNameController = TextEditingController();
-    _amountSpentController = TextEditingController();
     _fetchItemDetailsAndInitialize(widget.itemId);
   }
 
@@ -72,23 +69,23 @@ class _EditItemPageState extends State<EditItemPage> {
 
       if (mounted) {
         setState(() {
-        _itemNameController.text = item.name;
-        _amountSpentController.text = item.amountSpent.toString();
-        _imageUrl = item.imageUrl;
-        selectedItemType = item.itemType;
-        selectedOccasion = item.occasion;
-        selectedSeason = item.season;
-        selectedColour = item.colour;
-        selectedColourVariation = item.colourVariations;
+          _itemNameController.text = item.name;
+          _amountSpentController.text = item.amountSpent.toString();
+          _imageUrl = item.imageUrl;
+          selectedItemType = item.itemType;
+          selectedOccasion = item.occasion;
+          selectedSeason = item.season;
+          selectedColour = item.colour;
+          selectedColourVariation = item.colourVariations;
 
-        if (item is ClothingItem) {
-          selectedSpecificType = item.clothingType;
-          selectedClothingLayer = item.clothingLayer;
-        } else if (item is ShoesItem) {
-          selectedSpecificType = item.shoesType;
-        } else if (item is AccessoryItem) {
-          selectedSpecificType = item.accessoryType;
-        }
+          if (item.itemType == 'clothing') {
+            selectedSpecificType = item.clothingType;
+            selectedClothingLayer = item.clothingLayer;
+          } else if (item.itemType == 'shoes') {
+            selectedSpecificType = item.shoesType;
+          } else if (item.itemType == 'accessory') {
+            selectedSpecificType = item.accessoryType;
+          }
         });
       }
     } catch (error) {
