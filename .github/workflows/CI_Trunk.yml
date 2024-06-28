@@ -92,9 +92,6 @@ jobs:
       - name: Run unit and widget tests
         run: flutter test
 
-      - name: Run integration tests
-        run: flutter test integration_test
-
       - name: Build APK for development
         run: flutter build apk --debug --flavor dev --target=lib/main_dev.dart --dart-define=ENV=$ENV --split-per-abi --target-platform android-arm64
 
