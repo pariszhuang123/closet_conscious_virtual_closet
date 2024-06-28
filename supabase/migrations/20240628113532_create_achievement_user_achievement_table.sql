@@ -47,9 +47,21 @@ ON user_achievements
 FOR SELECT
 USING (user_id = auth.uid());
 
--- Allow users to manage their own user_achievements records
-CREATE POLICY "user_achievements_modify_own"
+-- Allow users to insert their own user_achievements records
+CREATE POLICY "user_achievements_insert_own"
 ON user_achievements
-FOR INSERT, UPDATE, DELETE
+FOR INSERT
+WITH CHECK (user_id = auth.uid());
+
+-- Allow users to update their own user_achievements records
+CREATE POLICY "user_achievements_update_own"
+ON user_achievements
+FOR UPDATE
 USING (user_id = auth.uid())
 WITH CHECK (user_id = auth.uid());
+
+-- Allow users to delete their own user_achievements records
+CREATE POLICY "user_achievements_delete_own"
+ON user_achievements
+FOR DELETE
+USING (user_id = auth.uid());
