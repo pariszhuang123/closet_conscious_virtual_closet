@@ -45,9 +45,9 @@ ALTER TABLE user_achievements ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "user_achievements_select_own"
 ON user_achievements
 FOR SELECT
-USING (auth.uid() = user_id);
+USING (user_id = auth.uid());
 
 CREATE POLICY "user_achievements_modify_own"
 ON user_achievements
 FOR INSERT, UPDATE, DELETE
-USING (auth.uid() = user_id);
+USING (user_id = auth.uid());
