@@ -1,7 +1,7 @@
 -- Increment filter requests
 CREATE OR REPLACE FUNCTION increment_filter_request(p_user_id uuid)
     RETURNS void AS $$
-    SET search_path = public.user_low_freq_stats as $$
+    SET search_path = 'public.user_low_freq_stats' as $$
 
 BEGIN
     UPDATE public.user_low_freq_stats
