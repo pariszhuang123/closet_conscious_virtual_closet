@@ -53,7 +53,7 @@ jobs:
             .flutter-plugins
             .flutter-plugins-dependencies
             build/
-          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}-${{ github.run_number}}
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}-${{ github.run_number }}
           restore-keys: |
             ${{ runner.os }}-flutter-
 
@@ -93,13 +93,13 @@ jobs:
         run: flutter test
 
       - name: Build APK for development
-        run: flutter build apk --debug --flavor dev --target=lib/main_dev.dart --dart-define=ENV=$ENV --split-per-abi --target-platform android-arm64
+        run: flutter build apk --debug --flavor dev --target=lib/main_dev.dart --dart-define=ENV=$ENV --target-platform android-arm64
 
       - name: Upload development APK
         uses: actions/upload-artifact@v3
         with:
           name: dev-apk
-          path: build/app/outputs/flutter-apk/dev/app-arm64-v8a-debug.apk
+          path: build/app/outputs/flutter-apk/app-dev-debug.apk
 
   deploy_prod_supabase:
     needs: deploy_dev_ui
@@ -183,10 +183,10 @@ jobs:
         run: flutter test
 
       - name: Build APK for production
-        run: flutter build apk --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV --split-per-abi --target-platform android-arm64
+        run: flutter build apk --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV --target-platform android-arm64
 
       - name: Upload production APK
         uses: actions/upload-artifact@v3
         with:
           name: prod-apk
-          path: build/app/outputs/flutter-apk/prod/app-arm64-v8a-release.apk
+          path: build/app/outputs/flutter-apk/app-prod-release.apk
