@@ -18,6 +18,7 @@ ALTER TABLE achievements ENABLE ROW LEVEL SECURITY;
 -- Allow read access to all authenticated users
 CREATE OR REPLACE POLICY "achievements_read_access" ON public.achievements
 FOR SELECT
+to anon
 USING (true);  -- This assumes all authenticated users can view achievements
 
 -- Allow full access to admin roles
