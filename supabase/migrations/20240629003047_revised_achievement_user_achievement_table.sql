@@ -17,9 +17,9 @@ ALTER TABLE achievements ENABLE ROW LEVEL SECURITY;
 
 -- Allow read access to all authenticated users
 CREATE OR REPLACE POLICY "achievements_read_access"
-ON public.achievements FOR SELECT
+ON achievements FOR SELECT
 TO authenticated
-USING (true);  -- This assumes all authenticated users can view achievements
+USING ( true );  -- This assumes all authenticated users can view achievements
 
 -- Create the user_achievements table
 CREATE TABLE user_achievements (
