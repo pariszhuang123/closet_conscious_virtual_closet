@@ -43,7 +43,23 @@ ALTER TABLE user_achievements ENABLE ROW LEVEL SECURITY;
 
 -- Allow users to select their own user_achievements records
 CREATE POLICY "user_achievements_select_own"
-ON user_achievements
+ON user_ach-- Create the achievements table
+           CREATE TABLE achievements (
+               achievement_name VARCHAR(255) PRIMARY KEY,
+               badge_url VARCHAR(255) NOT NULL,
+               description TEXT NOT NULL,
+               type TEXT CHECK (type IN ('one-time', 'repeatable')) NOT NULL
+           );
+
+           -- Create the user_achievements table
+           CREATE TABLE user_achievements (
+               user_id UUID NOT NULL REFERENCES user_profiles(id) ON DELETE CASCADE,
+               achievement_name VARCHAR(255) NOT NULL,
+               awarded_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),  -- Combining 'awarded_date' and 'achieved_at' into a single column
+               FOREIGN KEY (achievement_name) REFERENCES achievements(achievement_name) ON DELETE RESTRICT,
+               PRIMARY KEY (user_id, achievement_name)
+           );
+ievements
 FOR SELECT
 USING (user_id = auth.uid());
 
