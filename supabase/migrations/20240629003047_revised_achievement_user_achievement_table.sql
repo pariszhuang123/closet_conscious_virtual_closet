@@ -40,17 +40,17 @@ FOR SELECT
 USING ((SELECT auth.uid()) = user_id);
 
 -- Policy for users to insert their own achievements
-CREATE OR REPLACE POLICY "user_achievements_insert_own" ON public.user_achievements
+CREATE POLICY "user_achievements_insert_own" ON public.user_achievements
 FOR INSERT
 WITH CHECK ((SELECT auth.uid()) = user_id);
 
 -- Policy for users to update their own achievements
-CREATE OR REPLACE POLICY "user_achievements_update_own" ON public.user_achievements
+CREATE POLICY "user_achievements_update_own" ON public.user_achievements
 FOR UPDATE
 USING ((SELECT auth.uid()) = user_id)
 WITH CHECK ((SELECT auth.uid()) = user_id);
 
 -- Policy for users to delete their own achievements
-CREATE OR REPLACE POLICY "user_achievements_delete_own" ON public.user_achievements
+CREATE POLICY "user_achievements_delete_own" ON public.user_achievements
 FOR DELETE
 USING ((SELECT auth.uid()) = user_id);
