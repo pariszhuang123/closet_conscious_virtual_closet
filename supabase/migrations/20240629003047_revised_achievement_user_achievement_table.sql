@@ -16,10 +16,10 @@ COMMENT ON COLUMN achievements.badge_url IS 'URL of the badge image associated w
 ALTER TABLE achievements ENABLE ROW LEVEL SECURITY;
 
 -- Allow read access to all authenticated users
-CREATE OR REPLACE POLICY "achievements_read_access"
-ON achievements FOR SELECT
-TO authenticated
-USING ( true );  -- This assumes all authenticated users can view achievements
+create policy "achievements_read_access"
+on achievements for select
+to anon         -- the Postgres Role (recommended)
+using ( true ); -- the actual Policy
 
 -- Create the user_achievements table
 CREATE TABLE user_achievements (
