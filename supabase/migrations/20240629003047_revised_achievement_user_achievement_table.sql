@@ -7,7 +7,7 @@ CREATE TABLE achievements (
 );
 -- Add comments to achievements table
 COMMENT ON TABLE achievements IS 'Stores information about the various achievements that users can earn.';
-COMMENT ON COLUMN achievements.name IS 'Name of the achievement, must be unique.';
+COMMENT ON COLUMN achievements.achievement_name IS 'Name of the achievement, must be unique.';
 COMMENT ON COLUMN achievements.description IS 'Description of the achievement.';
 COMMENT ON COLUMN achievements.type IS 'Type of achievement, either one-time or repeatable.';
 COMMENT ON COLUMN achievements.badge_url IS 'URL of the badge image associated with the achievement.';
