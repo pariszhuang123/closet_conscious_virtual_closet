@@ -16,16 +16,10 @@ COMMENT ON COLUMN achievements.badge_url IS 'URL of the badge image associated w
 ALTER TABLE achievements ENABLE ROW LEVEL SECURITY;
 
 -- Allow read access to all authenticated users
-CREATE OR REPLACE POLICY "achievements_read_access" ON public.achievements
-FOR SELECT
-to anon
-USING (true);  -- This assumes all authenticated users can view achievements
-
--- Allow full access to admin roles
-CREATE OR REPLACE POLICY "achievements_admin_full_access" ON public.achievements
-FOR ALL
-USING (auth.role() = 'supabase_admin');
-WITH CHECK (auth.role() = 'supabase_admin');
+CREATE OR REPLACE POLICY "achievements_read_access"
+ON public.achievements FOR SELECT
+TO authenticated
+USING ( true );  -- This assumes all authenticated users can view achievements
 
 -- Create the user_achievements table
 CREATE TABLE user_achievements (
