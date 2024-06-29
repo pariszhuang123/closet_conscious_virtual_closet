@@ -18,7 +18,7 @@ ALTER TABLE achievements ENABLE ROW LEVEL SECURITY;
 -- Allow read access to all authenticated users
 create policy "achievements_read_access"
 on achievements for select
-to anon         -- the Postgres Role (recommended)
+to authenticated     -- the Postgres Role (recommended)
 using ( true ); -- the actual Policy
 
 -- Create the user_achievements table
@@ -35,7 +35,7 @@ COMMENT ON TABLE user_achievements IS 'Tracks which users have earned which achi
 COMMENT ON COLUMN user_achievements.user_id IS 'Unique identifier of the user who earned the achievement, references user_profiles(id) with cascade delete.'; COMMENT ON COLUMN user_achievements.achievement_name IS 'Name of the achievement, must be unique, references achievements(achievement_name).'; COMMENT ON COLUMN user_achievements.awarded_at IS 'Timestamp when the achievement was earned by the user, defaults to current timestamp.';
 
 -- Policy for users to select their own achievements
-CREATE OR REPLACE POLICY "user_achievements_select_own" ON public.user_achievements
+CREATE POLICY "user_achievements_select_own" ON public.user_achievements
 FOR SELECT
 USING ((SELECT auth.uid()) = user_id);
 
