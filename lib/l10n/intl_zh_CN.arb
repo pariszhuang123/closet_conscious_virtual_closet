@@ -1,6 +1,7 @@
 {
   "@@locale": "zh_CN",
   "AppName": "环保衣橱",
+  "tagline": "购物你的衣橱",
   "offlineStatus" : "您当前处于离线状态",
   "retryConnection" : "重试",
   "ItemNameLabel" : "名称",

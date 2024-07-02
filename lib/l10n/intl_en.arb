@@ -1,6 +1,7 @@
 {
   "@@locale": "en",
-  "AppName": "Closet Conscious",
+  "AppName": "ClosetConscious",
+  "tagline": "ShopYourCloset",
   "offlineStatus" : "You are currently offline",
   "retryConnection" : "Retry",
   "ItemNameLabel" : "Name",

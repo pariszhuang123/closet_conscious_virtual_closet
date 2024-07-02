@@ -171,6 +171,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("这显示了您在新物品上的花费"),
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("支持与协助"),
+        "tagline": MessageLookupByLibrary.simpleMessage("购物你的衣橱"),
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
         "update": MessageLookupByLibrary.simpleMessage("更新"),
         "upload": MessageLookupByLibrary.simpleMessage("上传"),

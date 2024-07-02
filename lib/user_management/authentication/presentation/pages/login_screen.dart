@@ -5,7 +5,9 @@ import '../widgets/sign_in_button_google.dart';
 import '../../../../generated/l10n.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  final ThemeData myClosetTheme;
+
+  const LoginScreen({super.key, required this.myClosetTheme });
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +21,13 @@ class LoginScreen extends StatelessWidget {
           const SizedBox(height: 24),
           Text(
             S.of(context).AppName,
-            style: const TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
+            style: myClosetTheme.textTheme.displayLarge, // Use the theme's displayLarge style
+          ),
+          const SizedBox(height: 8), // Adjusted space between AppName and tagline
+          Text(
+            S.of(context).tagline,
+            style: myClosetTheme.textTheme.bodyMedium?.copyWith(
+              fontStyle: FontStyle.italic, // Apply italic to the bodyMedium style
             ),
           ),
           const SizedBox(height: 24),

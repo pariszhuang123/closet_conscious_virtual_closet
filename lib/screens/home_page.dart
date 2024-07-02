@@ -1,3 +1,4 @@
+import 'package:closet_conscious/core/theme/my_closet_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,7 +63,7 @@ class HomePageState extends State<HomePage> {
               });
               return const CircularProgressIndicator();
             } else if (state is Unauthenticated) {
-              return const LoginScreen();
+              return LoginScreen(myClosetTheme: myClosetTheme);
             } else {
               return const CircularProgressIndicator();
             }

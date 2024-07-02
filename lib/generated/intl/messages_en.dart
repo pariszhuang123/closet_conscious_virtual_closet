@@ -27,7 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "AmountHint": MessageLookupByLibrary.simpleMessage(
             "\'How much did the item cost?"),
         "AmountLabel": MessageLookupByLibrary.simpleMessage("Amount"),
-        "AppName": MessageLookupByLibrary.simpleMessage("Closet Conscious"),
+        "AppName": MessageLookupByLibrary.simpleMessage("ClosetConscious"),
         "Athletic": MessageLookupByLibrary.simpleMessage("Athletic"),
         "Autumn": MessageLookupByLibrary.simpleMessage("Autumn"),
         "Bag": MessageLookupByLibrary.simpleMessage("Bag"),
@@ -191,6 +191,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "This shows how much you have spent on new items"),
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("Support & Assistance"),
+        "tagline": MessageLookupByLibrary.simpleMessage("ShopYourCloset"),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),

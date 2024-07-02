@@ -50,11 +50,21 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Closet Conscious`
+  /// `ClosetConscious`
   String get AppName {
     return Intl.message(
-      'Closet Conscious',
+      'ClosetConscious',
       name: 'AppName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ShopYourCloset`
+  String get tagline {
+    return Intl.message(
+      'ShopYourCloset',
+      name: 'tagline',
       desc: '',
       args: [],
     );
