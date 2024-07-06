@@ -32,8 +32,8 @@ ALTER TABLE public.outfit_items ENABLE ROW LEVEL SECURITY;
 -- Create a policy for selecting records for authenticated users
 CREATE POLICY "Allow user to access own outfit items"
 ON public.outfit_items
-TO authenticated
 FOR SELECT
+TO authenticated
 USING (
     EXISTS (
         SELECT 1
@@ -72,8 +72,8 @@ WITH CHECK (
 -- Create a policy for updating records for authenticated users
 CREATE POLICY "Allow user to update own outfit items"
 ON public.outfit_items
-TO authenticated
 FOR UPDATE
+TO authenticated
 USING (
     EXISTS (
         SELECT 1
@@ -106,8 +106,8 @@ WITH CHECK (
 -- Create a policy for deleting records for authenticated users
 CREATE POLICY "Allow user to delete own outfit items"
 ON public.outfit_items
-TO authenticated
 FOR DELETE
+TO authenticated
 USING (
     EXISTS (
         SELECT 1
@@ -135,8 +135,8 @@ ALTER TABLE public.disliked_outfit_items ENABLE ROW LEVEL SECURITY;
 -- Create a policy for selecting records for authenticated users
 CREATE POLICY "Allow user to access own disliked_outfit items"
 ON public.disliked_outfit_items
-TO authenticated
 FOR SELECT
+TO authenticated
 USING (
     EXISTS (
         SELECT 1
@@ -155,8 +155,8 @@ USING (
 -- Create a policy for inserting records for authenticated users
 CREATE POLICY "Allow user to insert disliked outfit items"
 ON public.disliked_outfit_items
-TO authenticated
 FOR INSERT
+TO authenticated
 WITH CHECK (
     EXISTS (
         SELECT 1
@@ -175,8 +175,8 @@ WITH CHECK (
 -- Create a policy for updating records for authenticated users
 CREATE POLICY "Allow user to update own disliked outfit items"
 ON public.disliked_outfit_items
-TO authenticated
 FOR UPDATE
+TO authenticated
 USING (
     EXISTS (
         SELECT 1
@@ -209,8 +209,8 @@ WITH CHECK (
 -- Create a policy for deleting records for authenticated users
 CREATE POLICY "Allow user to delete own disliked_outfit items"
 ON public.disliked_outfit_items
-TO authenticated
 FOR DELETE
+TO authenticated
 USING (
     EXISTS (
         SELECT 1
