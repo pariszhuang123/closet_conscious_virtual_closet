@@ -16,11 +16,14 @@ DROP TABLE IF EXISTS public.disliked_outfit_items;
 
 -- Create outfit_items table with comments
 CREATE TABLE public.outfit_items (
-    outfit_id uuid REFERENCES outfits(outfit_id) ON DELETE CASCADE COMMENT 'References the unique identifier of an outfit in the outfits table',
-    item_id uuid REFERENCES items(item_id) COMMENT 'References the unique identifier of an item in the items table',
+    outfit_id uuid REFERENCES outfits(outfit_id) ON DELETE CASCADE,
+    item_id uuid REFERENCES items(item_id),
     PRIMARY KEY (outfit_id, item_id)
 );
 
+-- Add comments to the columns
+COMMENT ON COLUMN public.outfit_items.outfit_id IS 'References the unique identifier of an outfit in the outfits table';
+COMMENT ON COLUMN public.outfit_items.item_id IS 'References the unique identifier of an item in the items table';
 COMMENT ON TABLE public.outfit_items IS 'Table linking outfits to their respective items';
 
 -- Enable Row Level Security on the outfit_items table if not already enabled
@@ -116,11 +119,14 @@ USING (
 
 -- Create disliked_outfit_items table with comments
 CREATE TABLE public.disliked_outfit_items (
-    outfit_id uuid REFERENCES outfits(outfit_id) ON DELETE CASCADE COMMENT 'References the unique identifier of an outfit in the outfits table',
-    item_id uuid REFERENCES items(item_id) COMMENT 'References the unique identifier of an item in the items table',
+    outfit_id uuid REFERENCES outfits(outfit_id) ON DELETE CASCADE,
+    item_id uuid REFERENCES items(item_id),
     PRIMARY KEY (outfit_id, item_id)
 );
 
+-- Add comments to the columns
+COMMENT ON COLUMN public.disliked_outfit_items.outfit_id IS 'References the unique identifier of an outfit in the outfits table';
+COMMENT ON COLUMN public.disliked_outfit_items.item_id IS 'References the unique identifier of an item in the items table';
 COMMENT ON TABLE public.disliked_outfit_items IS 'Table linking outfits to their respective disliked_items';
 
 -- Enable Row Level Security on the disliked_outfit_items table if not already enabled
