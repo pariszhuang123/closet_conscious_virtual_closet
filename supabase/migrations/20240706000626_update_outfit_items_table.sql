@@ -52,8 +52,8 @@ USING (
 -- Create a policy for inserting records for authenticated users
 CREATE POLICY "Allow user to insert outfit items"
 ON public.outfit_items
-TO authenticated
 FOR INSERT
+TO authenticated
 WITH CHECK (
     EXISTS (
         SELECT 1
