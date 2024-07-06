@@ -1,7 +1,7 @@
 BEGIN;
 
 -- Drop primary key constraint
-ALTER TABLE premium_services DROP CONSTRAINT premium_id_pkey;
+ALTER TABLE premium_services DROP CONSTRAINT premium_services_pkey;
 
 -- Drop columns
 ALTER TABLE premium_services
