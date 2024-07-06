@@ -2,18 +2,18 @@
 BEGIN;
 
 -- Rename columns
-ALTER TABLE premium_service
+ALTER TABLE premium_services
 RENAME COLUMN usage_feature TO usage_features,
 RENAME COLUMN challenge_feature TO challenge_features;
 
 -- Add comment for one_off_features column
-COMMENT ON COLUMN premium_service.one_off_features IS 'Stores features that are one-time or non-recurring in nature.';
+COMMENT ON COLUMN premium_services.one_off_features IS 'Stores features that are one-time or non-recurring in nature.';
 
 -- Add comment for usage_features column
-COMMENT ON COLUMN premium_service.usage_features IS 'Holds features related to user-specific usage limits or capabilities. This may include different subscription levels such as bronze, silver, or gold which dictate limits or capacities like the number of items a user can upload.';
+COMMENT ON COLUMN premium_services.usage_features IS 'Holds features related to user-specific usage limits or capabilities. This may include different subscription levels such as bronze, silver, or gold which dictate limits or capacities like the number of items a user can upload.';
 
 -- Add comment for challenge_features column
-COMMENT ON COLUMN premium_service.challenge_features IS 'Contains features associated with user challenges or achievements. This can track user participation in challenges, progress, and rewards.';
+COMMENT ON COLUMN premium_services.challenge_features IS 'Contains features associated with user challenges or achievements. This can track user participation in challenges, progress, and rewards.';
 
 -- Add Boolean for closet upload
 ALTER TABLE items
