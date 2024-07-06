@@ -3,7 +3,9 @@ BEGIN;
 
 -- Rename columns
 ALTER TABLE premium_services
-RENAME COLUMN usage_feature TO usage_features,
+RENAME COLUMN usage_feature TO usage_features;
+
+ALTER TABLE premium_services
 RENAME COLUMN challenge_feature TO challenge_features;
 
 -- Add comment for one_off_features column
