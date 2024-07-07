@@ -1,3 +1,48 @@
+-- Drop Function to increment_items_gifted
+drop function if exists increment_items_gifted()
+drop function if exists increment_items_sold()
+drop function if exists increment_items_swapped()
+
+-- Drop Function to upload_accessory_metadata
+drop function if exists upload_accessory_metadata(
+  _item_type text,
+  _image_url text,
+  _name text,
+  _amount_spent numeric,
+  _occasion text,
+  _season text,
+  _colour text,
+  _colour_variations text,
+  _accessory_type text
+);
+
+-- Drop Function to upload_clothing_metadata
+drop function if exists upload_clothing_metadata(
+  _item_type text,
+  _image_url text,
+  _name text,
+  _amount_spent numeric,
+  _occasion text,
+  _season text,
+  _colour text,
+  _colour_variations text,
+  _clothing_type text,
+  _clothing_layer text
+)
+
+-- Drop Function to upload_shoes_metadata
+drop function if exists upload_shoes_metadata(
+  _item_type text,
+  _image_url text,
+  _name text,
+  _amount_spent numeric,
+  _occasion text,
+  _season text,
+  _colour text,
+  _colour_variations text,
+  _shoes_type text
+  )
+
 -- Function to upload_accessory_metadata
 create or replace function upload_accessory_metadata(
   _item_type text,
