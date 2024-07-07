@@ -1,15 +1,15 @@
 -- Start a transaction
 BEGIN;
 
--- Drop sync functions
-drop function if exists sync_user_high_freq_stats();
-drop function if exists sync_user_low_freq_stats();
-drop function if exists sync_user_premium_service();
-
 -- Drop trigger functions
 drop trigger if exists create_user_high_freq_stats_profile ON public.user_profiles;
 drop trigger if exists create_user_low_freq_stats_profile ON public.user_profiles;
 drop trigger if exists create_user_premium_service_profile ON public.user_profiles;
+
+-- Drop sync functions
+drop function if exists sync_user_high_freq_stats();
+drop function if exists sync_user_low_freq_stats();
+drop function if exists sync_user_premium_service();
 
 -- Create the function to sync `auth.users` with user records
 CREATE OR REPLACE FUNCTION sync_user_profile()
