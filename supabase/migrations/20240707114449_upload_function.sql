@@ -1,7 +1,7 @@
 -- Drop Function to increment_items_gifted
-drop function if exists increment_items_gifted()
-drop function if exists increment_items_sold()
-drop function if exists increment_items_swapped()
+drop function if exists increment_items_gifted();
+drop function if exists increment_items_sold();
+drop function if exists increment_items_swapped();
 
 -- Drop Function to upload_accessory_metadata
 drop function if exists upload_accessory_metadata(
@@ -28,7 +28,7 @@ drop function if exists upload_clothing_metadata(
   _colour_variations text,
   _clothing_type text,
   _clothing_layer text
-)
+);
 
 -- Drop Function to upload_shoes_metadata
 drop function if exists upload_shoes_metadata(
@@ -41,7 +41,7 @@ drop function if exists upload_shoes_metadata(
   _colour text,
   _colour_variations text,
   _shoes_type text
-  )
+  );
 
 -- Function to upload_accessory_metadata
 create or replace function upload_accessory_metadata(
