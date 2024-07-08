@@ -260,10 +260,8 @@ class _EditItemPageState extends State<EditItemPage> {
   void _showSpecificErrorMessages() {
     if (_itemNameController.text.isEmpty) {
       _showErrorMessage(S.of(context).itemNameFieldNotFilled);
-    } else if (_amountSpentError != null) {
-      _showErrorMessage(S.of(context).amountSpentFieldNotValid);
-    } else if (_amountSpentError == null) {
-      _showErrorMessage(S.of(context).amountSpentFieldNotValid);
+    } else if (_amountSpentController.text.isEmpty) {
+      _showErrorMessage(S.of(context).amountSpentFieldNotFilled);
     } else if (selectedItemType == null) {
       _showErrorMessage(S.of(context).itemTypeFieldNotFilled);
     } else if (selectedOccasion == null) {
