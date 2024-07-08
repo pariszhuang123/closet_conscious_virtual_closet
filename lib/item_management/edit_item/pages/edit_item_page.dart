@@ -60,6 +60,8 @@ class _EditItemPageState extends State<EditItemPage> {
   @override
   void initState() {
     super.initState();
+    _itemNameController = TextEditingController();
+    _amountSpentController = TextEditingController();
     _fetchItemDetailsAndInitialize(widget.itemId);
   }
 
@@ -78,12 +80,12 @@ class _EditItemPageState extends State<EditItemPage> {
           selectedColour = item.colour;
           selectedColourVariation = item.colourVariations;
 
-          if (item.itemType == 'clothing') {
+          if (item.itemType == 'Clothing') {
             selectedSpecificType = item.clothingType;
             selectedClothingLayer = item.clothingLayer;
-          } else if (item.itemType == 'shoes') {
+          } else if (item.itemType == 'Shoes') {
             selectedSpecificType = item.shoesType;
-          } else if (item.itemType == 'accessory') {
+          } else if (item.itemType == 'Accessory') {
             selectedSpecificType = item.accessoryType;
           }
         });

@@ -39,22 +39,22 @@ Future<ClosetItemDetailed> fetchItemDetails(String itemId) async {
           colour, 
           colour_variations, 
           updated_at,
-          items_clothing_basic(clothing_type, clothing_layer),
-          items_shoes_basic(shoes_type),
-          items_accessory_basic(accessory_type)
+          items_clothing_basic!item_id(clothing_type, clothing_layer),
+          items_shoes_basic!item_id(shoes_type),
+          items_accessory_basic!item_id(accessory_type)
         ''')
         .eq('item_id', itemId)
         .single();
 
-    final result = data;
+    logger.d('Item details received: $data');
 
-    return ClosetItemDetailed.fromMap(result);
+    final result = ClosetItemDetailed.fromJson(data);
+    return result;
   } catch (e) {
     logger.e('Error fetching item details: $e');
     rethrow;
   }
 }
-
 Future<bool> isClothingItem(String itemId) async {
   try {
     final data = await Supabase.instance.client

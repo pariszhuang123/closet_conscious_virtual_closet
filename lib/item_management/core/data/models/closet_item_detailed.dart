@@ -31,22 +31,30 @@ class ClosetItemDetailed {
     this.accessoryType,
   });
 
-  factory ClosetItemDetailed.fromMap(Map<String, dynamic> map) {
+  factory ClosetItemDetailed.fromJson(Map<String, dynamic> json) {
     return ClosetItemDetailed(
-      itemId: map['item_id'],
-      imageUrl: map['image_url'],
-      itemType: map['item_type'],
-      name: map['name'],
-      amountSpent: map['amount_spent'],
-      occasion: map['occasion'],
-      season: map['season'],
-      colour: map['colour'],
-      colourVariations: map['colour_variations'],
-      updatedAt: DateTime.parse(map['updated_at']),
-      clothingType: map['clothing_type'],
-      clothingLayer: map['clothing_layer'],
-      shoesType: map['shoes_type'],
-      accessoryType: map['accessory_type'],
+      itemId: json['item_id'],
+      imageUrl: json['image_url'],
+      itemType: json['item_type'],
+      name: json['name'],
+      amountSpent: json['amount_spent'],
+      occasion: json['occasion'],
+      season: json['season'],
+      colour: json['colour'],
+      colourVariations: json['colour_variations'] ?? [],
+      clothingType: json['items_clothing_basic'] != null
+          ? json['items_clothing_basic']['clothing_type']
+          : null,
+      clothingLayer: json['items_clothing_basic'] != null
+          ? json['items_clothing_basic']['clothing_layer']
+          : null,
+      shoesType: json['items_shoes_basic'] != null
+          ? json['items_shoes_basic']['shoes_type']
+          : null,
+      accessoryType: json['items_accessory_basic'] != null
+          ? json['items_accessory_basic']['accessory_type']
+          : null,
+      updatedAt: DateTime.parse(json['updated_at']),
     );
   }
 }
