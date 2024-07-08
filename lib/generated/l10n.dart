@@ -910,11 +910,11 @@ class S {
     );
   }
 
-  /// `Amount Spent field is not valid.`
-  String get amountSpentFieldNotValid {
+  /// `Amount Spent field is not filled.`
+  String get amountSpentFieldNotFilled {
     return Intl.message(
-      'Amount Spent field is not valid.',
-      name: 'amountSpentFieldNotValid',
+      'Amount Spent field is not filled.',
+      name: 'amountSpentFieldNotFilled',
       desc: '',
       args: [],
     );
@@ -1337,6 +1337,26 @@ class S {
       name: 'dataInsertedSuccessfully',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Upload successful!`
+  String get upload_successful {
+    return Intl.message(
+      'Upload successful!',
+      name: 'upload_successful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload failed: {error}`
+  String upload_failed(Object error) {
+    return Intl.message(
+      'Upload failed: $error',
+      name: 'upload_failed',
+      desc: '',
+      args: [error],
     );
   }
 }

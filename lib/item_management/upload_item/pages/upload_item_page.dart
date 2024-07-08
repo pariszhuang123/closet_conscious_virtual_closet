@@ -185,8 +185,8 @@ class _UploadItemPageState extends State<UploadItemPage> {
   void _showSpecificErrorMessagesPage1() {
     if (_itemNameController.text.isEmpty) {
       _showErrorMessage(S.of(context).itemNameFieldNotFilled);
-    } else if (_amountSpentError == null) {
-      _showErrorMessage(S.of(context).amountSpentFieldNotValid);
+    } else if (_amountSpentController.text.isEmpty) {
+      _showErrorMessage(S.of(context).amountSpentFieldNotFilled);
     } else if (selectedItemType == null) {
       _showErrorMessage(S.of(context).itemTypeFieldNotFilled);
     } else if (selectedOccasion == null) {
@@ -230,12 +230,12 @@ class _UploadItemPageState extends State<UploadItemPage> {
         listener: (context, state) {
           if (state is UploadSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Upload successful!')),
+              SnackBar(content: Text(S.of(context).upload_successful)),
             );
             Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
           } else if (state is UploadFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Upload failed: ${state.error}')),
+              SnackBar(content: Text(S.of(context).upload_failed(state.error))),
             );
           }
         },

@@ -86,7 +86,7 @@
   "upload": "Upload",
   "next": "Next",
   "itemNameFieldNotFilled": "Item Name field is not filled.",
-  "amountSpentFieldNotValid": "Amount Spent field is not valid.",
+  "amountSpentFieldNotFilled": "Amount Spent field is not filled.",
   "itemTypeFieldNotFilled": "Item Type field is not filled.",
   "occasionFieldNotFilled": "Occasion field is not filled.",
   "seasonFieldNotFilled": "Season field is not filled.",
@@ -128,5 +128,7 @@
   "logOut": "Log Out",
   "dataUpdatedSuccessfully": "Your data has been updated",
   "error": "Error",
-  "dataInsertedSuccessfully": "Your data has been saved"
+  "dataInsertedSuccessfully": "Your data has been saved",
+  "upload_successful": "Upload successful!",
+  "upload_failed": "Upload failed: {error}"
 }

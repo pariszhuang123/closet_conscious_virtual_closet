@@ -77,4 +77,8 @@ final ThemeData myOutfitTheme = ThemeData(
     selectedItemColor: Colors.blue.shade800, // Darker blue for selected item
     unselectedItemColor: Colors.grey,
   ),
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: Colors.blue.shade700, // Set the background color for SnackBar
+    contentTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold), // Set the text color and style
+  ),
 );

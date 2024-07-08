@@ -20,6 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh_CN';
 
+  static String m0(error) => "上传失败: ${error}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Accessory": MessageLookupByLibrary.simpleMessage("配饰"),
@@ -84,8 +86,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Yellow": MessageLookupByLibrary.simpleMessage("黄色"),
         "achievements": MessageLookupByLibrary.simpleMessage("成就"),
         "addCloset_addCloset": MessageLookupByLibrary.simpleMessage("添加衣橱"),
-        "amountSpentFieldNotValid":
-            MessageLookupByLibrary.simpleMessage("花费金额字段无效。"),
+        "amountSpentFieldNotFilled":
+            MessageLookupByLibrary.simpleMessage("花费金额字段未填写。"),
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
         "appInformationSection": MessageLookupByLibrary.simpleMessage("应用信息"),
         "becomeAmbassador": MessageLookupByLibrary.simpleMessage("成为大使"),
@@ -175,6 +177,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
         "update": MessageLookupByLibrary.simpleMessage("更新"),
         "upload": MessageLookupByLibrary.simpleMessage("上传"),
+        "upload_failed": m0,
+        "upload_successful": MessageLookupByLibrary.simpleMessage("上传成功"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("上传"),
         "usageInsights": MessageLookupByLibrary.simpleMessage("使用洞察")
       };

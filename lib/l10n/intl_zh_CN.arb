@@ -86,7 +86,7 @@
   "upload": "上传",
   "next": "下一步",
   "itemNameFieldNotFilled": "项目名称字段未填写。",
-  "amountSpentFieldNotValid": "花费金额字段无效。",
+  "amountSpentFieldNotFilled": "花费金额字段未填写。",
   "itemTypeFieldNotFilled": "项目类型字段未填写。",
   "occasionFieldNotFilled": "场合字段未填写。",
   "seasonFieldNotFilled": "季节字段未填写。",
@@ -128,5 +128,7 @@
   "logOut": "退出登录",
   "dataUpdatedSuccessfully": "您的数据已更新",
   "error": "错误",
-  "dataInsertedSuccessfully": "您的数据已保存"
+  "dataInsertedSuccessfully": "您的数据已保存",
+  "upload_successful": "上传成功",
+  "upload_failed": "上传失败: {error}"
 }

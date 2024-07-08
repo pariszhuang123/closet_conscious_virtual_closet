@@ -20,6 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(error) => "Upload failed: ${error}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Accessory": MessageLookupByLibrary.simpleMessage("Accessory"),
@@ -89,8 +91,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "achievements": MessageLookupByLibrary.simpleMessage("Achievements"),
         "addCloset_addCloset":
             MessageLookupByLibrary.simpleMessage("Add Closet"),
-        "amountSpentFieldNotValid": MessageLookupByLibrary.simpleMessage(
-            "Amount Spent field is not valid."),
+        "amountSpentFieldNotFilled": MessageLookupByLibrary.simpleMessage(
+            "Amount Spent field is not filled."),
         "amountSpentLabel":
             MessageLookupByLibrary.simpleMessage("Amount Spent"),
         "appInformationSection":
@@ -195,6 +197,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),
+        "upload_failed": m0,
+        "upload_successful":
+            MessageLookupByLibrary.simpleMessage("Upload successful!"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "usageInsights": MessageLookupByLibrary.simpleMessage("Usage Insights")
       };

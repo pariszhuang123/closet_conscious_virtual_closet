@@ -77,4 +77,8 @@ final ThemeData myClosetTheme = ThemeData(
     selectedItemColor: Colors.teal.shade800, // Closest to #255743
     unselectedItemColor: Colors.grey,
   ),
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: Colors.teal.shade800, // Set the background color for SnackBar
+    contentTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold), // Set the text color and style
+  ),
 );

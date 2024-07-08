@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -15,7 +17,9 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     on<StartUpload>(_onStartUpload);
   }
 
-  Future<void> _onStartUpload(StartUpload event, Emitter<UploadState> emit) async {
+  Future<void> _onStartUpload(StartUpload event,
+      Emitter<UploadState> emit) async {
+    emit(Uploading());
     emit(Uploading());
     try {
       final result = await _saveData(
@@ -41,8 +45,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     }
   }
 
-  Future<String?> _saveData(
-      String itemName,
+  Future<String?> _saveData(String itemName,
       double amountSpent,
       File? imageFile,
       String? imageUrl,
@@ -52,8 +55,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
       String? selectedOccasion,
       String? selectedSeason,
       String? selectedColour,
-      String? selectedColourVariation,
-      ) async {
+      String? selectedColourVariation,) async {
     final logger = CustomLogger('UploadItemPage');
     final userId = SupabaseConfig.client.auth.currentUser!.id;
     String? finalImageUrl = imageUrl;
@@ -73,9 +75,14 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           ),
         );
 
-        finalImageUrl = SupabaseConfig.client.storage.from('item_pics').getPublicUrl(imagePath);
+        finalImageUrl =
+            SupabaseConfig.client.storage.from('item_pics').getPublicUrl(
+                imagePath);
         finalImageUrl = Uri.parse(finalImageUrl).replace(queryParameters: {
-          't': DateTime.now().millisecondsSinceEpoch.toString()
+          't': DateTime
+              .now()
+              .millisecondsSinceEpoch
+              .toString()
         }).toString();
       } catch (e) {
         logger.e('Error uploading image: $e');
@@ -112,17 +119,19 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             : 'upload_accessory_metadata',
         params: params,
       );
+      logger.i('Full response: ${jsonEncode(response)}');
 
-      if (response == null) {
-        logger.i('Data inserted successfully');
-        return null;  // Indicating success
-      } else if (response.error != null) {
-        final errorMessage = response.error!.message;
-        logger.e('Error inserting data: $errorMessage');
-        return 'Error inserting data: $errorMessage';
+      if (response is Map<String, dynamic> && response.containsKey('status')) {
+        if (response['status'] == 'success') {
+          logger.i('Data inserted successfully: ${jsonEncode(response)}');
+          return null; // Indicating success
+        } else {
+          logger.e('Unexpected response format: ${jsonEncode(response)}');
+          return 'Unexpected response format';
+        }
       } else {
-        logger.i('Data inserted successfully');
-        return null;  // Indicating success
+        logger.e('Unexpected response: ${jsonEncode(response)}');
+        return 'Unexpected response format';
       }
     } catch (e) {
       logger.e('Unexpected error: $e');
