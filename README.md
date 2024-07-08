@@ -3,35 +3,39 @@ Closet Conscious is a mobile application designed to reduce fashion waste by enc
 
 # Table of Contents
 ## [Features](#Features)
-## Usage
-## Architecture
+## [Usage](#Usage)
+## [Architecture](#Architecture)
 
-# [#Features]
-## Virtual Closet Management: 
+## #Features
+### [Virtual Closet Management:](#Virtual_Closet)
 Upload, edit, and archive items such as clothing, accessories, and shoes.
-## Outfit Creation: 
+### [Outfit Creation:](#Oufit_Creation) 
 Mix and match items to create new outfits and receive feedback on your choices.
-## Sustainability Challenges: 
+### [Sustainability Challenges:](#Sustainability_Challenge) 
 Participate in challenges like the 90-day no-buy challenge and earn rewards.
-## Social Features: 
+### [Social Features:](#Social_Features) 
 Share outfits online and organize clothing swap meetups.
-## Premium Features: 
+### [Premium Features:](#Architecture) 
 AI-based outfit suggestions and a feature to 'lock away' clothes for three months.
 
 
-Virtual Closet
+### #Virtual_Closet
 Upload Items: Add items by taking a photo or selecting from your gallery, and fill in the item details.
 Edit Items: Update the details of your items as needed.
 Archive Items: Move items to the archive if they are no longer in use.
-Outfit Creation
+
+### #Oufit_Creation
 Mix and Match: Create outfits by combining different items from your closet.
 Daily Feedback: Provide feedback on your outfits to help the app make better suggestions.
-Sustainability Challenges
+
+### #Sustainability_Challenge
 90-Day No-Buy Challenge: Track your progress and earn rewards for not buying new clothes for 90 days.
 Tree Rewards: Earn a tree for every five items you upload daily.
-Social Features
+
+### #Social_Features
 Share Outfits: Post your outfits on social media directly from the app.
 Organize Swaps: Plan and organize clothing swap events with your friends or community.
+
 Architecture
 Closet Conscious is built with the following technologies:
 
