@@ -1,15 +1,15 @@
 -- Drop Function update_accessory_metadata
 drop function if exists update_accessory_metadata(
   _item_id uuid,
-  _item_type text DEFAULT NULL,
-  _image_url text DEFAULT NULL,
-  _name text DEFAULT NULL,
-  _amount_spent numeric DEFAULT NULL,
-  _occasion text DEFAULT NULL,
-  _season text DEFAULT NULL,
-  _colour text DEFAULT NULL,
-  _colour_variations text DEFAULT NULL,
-  _accessory_type text DEFAULT NULL
+  _item_type text,
+  _image_url text,
+  _name text,
+  _amount_spent numeric,
+  _occasion text,
+  _season text,
+  _colour text,
+  _colour_variations text,
+  _accessory_type text
 );
 -- Drop Function update_clothing_metadata
 drop function if exists update_clothing_metadata(
