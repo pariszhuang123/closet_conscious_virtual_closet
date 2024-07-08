@@ -1,16 +1,70 @@
-# closetconscious
+# Closet Conscious
+Closet Conscious is a mobile application designed to reduce fashion waste by encouraging users to make the most of their existing wardrobes. By integrating traditional retail, online shopping, and personal closets into a cohesive experience, Closet Conscious aims to make shopping in your virtual closet as fun and engaging as shopping online and in stores.
 
-A new Flutter project.
+# Table of Contents
+## [Features](#Features)
+## Usage
+## Architecture
 
-## Getting Started
+# [#Features]
+## Virtual Closet Management: 
+Upload, edit, and archive items such as clothing, accessories, and shoes.
+## Outfit Creation: 
+Mix and match items to create new outfits and receive feedback on your choices.
+## Sustainability Challenges: 
+Participate in challenges like the 90-day no-buy challenge and earn rewards.
+## Social Features: 
+Share outfits online and organize clothing swap meetups.
+## Premium Features: 
+AI-based outfit suggestions and a feature to 'lock away' clothes for three months.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+Virtual Closet
+Upload Items: Add items by taking a photo or selecting from your gallery, and fill in the item details.
+Edit Items: Update the details of your items as needed.
+Archive Items: Move items to the archive if they are no longer in use.
+Outfit Creation
+Mix and Match: Create outfits by combining different items from your closet.
+Daily Feedback: Provide feedback on your outfits to help the app make better suggestions.
+Sustainability Challenges
+90-Day No-Buy Challenge: Track your progress and earn rewards for not buying new clothes for 90 days.
+Tree Rewards: Earn a tree for every five items you upload daily.
+Social Features
+Share Outfits: Post your outfits on social media directly from the app.
+Organize Swaps: Plan and organize clothing swap events with your friends or community.
+Architecture
+Closet Conscious is built with the following technologies:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Frontend: Flutter
+Backend: Supabase
+State Management: BLoC
+Programming Paradigms: Clean Architecture, Test-Driven Development (TDD), Domain-Driven Design (DDD)
+Folder Structure
+lua
+Copy code
+lib/
+|-- data/
+|   |-- models/
+|   |-- repositories/
+|-- domain/
+|   |-- usecases/
+|   |-- entities/
+|-- presentation/
+|   |-- blocs/
+|   |-- screens/
+|   |-- widgets/
+|-- supabase_config.dart
+Contributing
+We welcome contributions from the community! Here’s how you can help:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Fork the repository.
+Create a new branch (git checkout -b feature/your-feature-name).
+Make your changes.
+Commit your changes (git commit -m 'Add some feature').
+Push to the branch (git push origin feature/your-feature-name).
+Open a pull request.
+Please ensure your code adheres to our coding standards and includes tests where applicable.
+
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
