@@ -3,6 +3,7 @@ class ClosetItemMinimal {
   final String imageUrl;
   final String name;
   final String itemType;
+  final double amountSpent;
   final DateTime updatedAt;
 
   ClosetItemMinimal({
@@ -10,6 +11,7 @@ class ClosetItemMinimal {
     required this.imageUrl,
     required this.name,
     required this.itemType,
+    required this.amountSpent,
     required this.updatedAt});
 
   factory ClosetItemMinimal.fromMap(Map<String, dynamic> map) {
@@ -18,6 +20,7 @@ class ClosetItemMinimal {
       imageUrl: map['image_url'] as String,
       name: map['name'] as String,
       itemType: map['item_type'] as String,
+      amountSpent: (map['amount_spent'] ?? 0.0) as double,
       updatedAt: DateTime.parse(map['updated_at'] as String),
     );
   }

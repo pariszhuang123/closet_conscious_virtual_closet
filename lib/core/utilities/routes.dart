@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../screens/home_page.dart';
 import '../../screens/my_closet.dart';
@@ -8,6 +9,7 @@ import '../../core/connectivity/pages/no_internet_page.dart';
 import '../../item_management/upload_item/pages/upload_item_page.dart';
 import '../../item_management/edit_item/pages/edit_item_page.dart';
 import '../../item_management/edit_item/data/edit_item_arguments.dart';
+import '../../item_management/edit_item/presentation/bloc/edit_item_bloc.dart';
 
 class AppRoutes {
   static const String login = '/';
@@ -40,7 +42,37 @@ class AppRoutes {
         if (settings.arguments is EditItemArguments) {
           final args = settings.arguments as EditItemArguments;
           return MaterialPageRoute(
-            builder: (_) => EditItemPage(itemId: args.itemId, myClosetTheme: args.myClosetTheme),
+            builder: (_) => BlocProvider(
+              create: (context) => EditItemBloc(
+                itemNameController: args.itemNameController,
+                amountSpentController: args.amountSpentController,
+                itemId: args.itemId,
+                initialName: args.initialName,
+                initialAmountSpent: args.initialAmountSpent,
+                initialImageUrl: args.initialImageUrl,
+                initialItemType: args.initialItemType,
+                initialSpecificType: args.initialSpecificType,
+                initialClothingLayer: args.initialClothingLayer,
+                initialOccasion: args.initialOccasion,
+                initialSeason: args.initialSeason,
+                initialColour: args.initialColour,
+                initialColourVariation: args.initialColourVariation,
+              )..add(FetchItemDetailsEvent(args.itemId)),
+              child: EditItemPage(
+                myClosetTheme: args.myClosetTheme,
+                itemId: args.itemId,
+                initialName: args.initialName,
+                initialAmountSpent: args.initialAmountSpent,
+                initialImageUrl: args.initialImageUrl,
+                initialItemType: args.initialItemType,
+                initialSpecificType: args.initialSpecificType,
+                initialClothingLayer: args.initialClothingLayer,
+                initialOccasion: args.initialOccasion,
+                initialSeason: args.initialSeason,
+                initialColour: args.initialColour,
+                initialColourVariation: args.initialColourVariation,
+              ),
+            ),
           );
         }
         return _errorRoute(settings.name);

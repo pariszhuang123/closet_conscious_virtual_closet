@@ -34,12 +34,20 @@ class ItemGrid extends StatelessWidget {
             logger.i('Grid item clicked: ${item.itemId}');
             if (context.mounted) {
               logger.i('Navigating to edit item: ${item.itemId}');
+              final TextEditingController amountSpentController = TextEditingController(text: item.amountSpent.toString());
+              final TextEditingController itemNameController = TextEditingController(text: item.name);
+
               Navigator.pushNamed(
                 context,
                 AppRoutes.editItem,
                 arguments: EditItemArguments(
-                  itemId: item.itemId,  // Ensure this is a String
+                  itemId: item.itemId,
                   myClosetTheme: myClosetTheme,
+                  initialName: item.name,
+                  initialAmountSpent: item.amountSpent,
+                  initialImageUrl: item.imageUrl,
+                  amountSpentController: amountSpentController,
+                  itemNameController: itemNameController,
                 ),
               );
             } else {
