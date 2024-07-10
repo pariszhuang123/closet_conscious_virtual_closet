@@ -162,6 +162,15 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   void _onUpdateImage(UpdateImageEvent event, Emitter<EditItemState> emit) {
     imageFile = event.imageFile;
     _isChanged = true;
+    emit(EditItemUpdated(
+      selectedItemType: selectedItemType ?? initialItemType,
+      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+      selectedOccasion: selectedOccasion ?? initialOccasion,
+      selectedSeason: selectedSeason ?? initialSeason,
+      selectedColour: selectedColour ?? initialColour,
+      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
+    ));
   }
 
   void _onItemTypeChanged(ItemTypeChangedEvent event, Emitter<EditItemState> emit) {
@@ -169,12 +178,12 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     _isChanged = true;
     emit(EditItemUpdated(
       selectedItemType: selectedItemType,
-      selectedSpecificType: selectedSpecificType,
-      selectedClothingLayer: selectedClothingLayer,
-      selectedOccasion: selectedOccasion,
-      selectedSeason: selectedSeason,
-      selectedColour: selectedColour,
-      selectedColourVariation: selectedColourVariation,
+      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+      selectedOccasion: selectedOccasion ?? initialOccasion,
+      selectedSeason: selectedSeason ?? initialSeason,
+      selectedColour: selectedColour ?? initialColour,
+      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
     ));
   }
 
@@ -182,13 +191,13 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     selectedOccasion = event.occasion;
     _isChanged = true;
     emit(EditItemUpdated(
-      selectedItemType: selectedItemType,
-      selectedSpecificType: selectedSpecificType,
-      selectedClothingLayer: selectedClothingLayer,
+      selectedItemType: selectedItemType ?? initialItemType,
+      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
       selectedOccasion: selectedOccasion,
-      selectedSeason: selectedSeason,
-      selectedColour: selectedColour,
-      selectedColourVariation: selectedColourVariation,
+      selectedSeason: selectedSeason ?? initialSeason,
+      selectedColour: selectedColour ?? initialColour,
+      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
     ));
   }
 
@@ -196,13 +205,13 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     selectedSeason = event.season;
     _isChanged = true;
     emit(EditItemUpdated(
-      selectedItemType: selectedItemType,
-      selectedSpecificType: selectedSpecificType,
-      selectedClothingLayer: selectedClothingLayer,
-      selectedOccasion: selectedOccasion,
+      selectedItemType: selectedItemType ?? initialItemType,
+      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+      selectedOccasion: selectedOccasion ?? initialOccasion,
       selectedSeason: selectedSeason,
-      selectedColour: selectedColour,
-      selectedColourVariation: selectedColourVariation,
+      selectedColour: selectedColour ?? initialColour,
+      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
     ));
   }
 
@@ -210,13 +219,13 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     selectedSpecificType = event.specificType;
     _isChanged = true;
     emit(EditItemUpdated(
-      selectedItemType: selectedItemType,
+      selectedItemType: selectedItemType ?? initialItemType,
       selectedSpecificType: selectedSpecificType,
-      selectedClothingLayer: selectedClothingLayer,
-      selectedOccasion: selectedOccasion,
-      selectedSeason: selectedSeason,
-      selectedColour: selectedColour,
-      selectedColourVariation: selectedColourVariation,
+      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+      selectedOccasion: selectedOccasion ?? initialOccasion,
+      selectedSeason: selectedSeason ?? initialSeason,
+      selectedColour: selectedColour ?? initialColour,
+      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
     ));
   }
 
@@ -224,13 +233,13 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     selectedClothingLayer = event.clothingLayer;
     _isChanged = true;
     emit(EditItemUpdated(
-      selectedItemType: selectedItemType,
-      selectedSpecificType: selectedSpecificType,
+      selectedItemType: selectedItemType ?? initialItemType,
+      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
       selectedClothingLayer: selectedClothingLayer,
-      selectedOccasion: selectedOccasion,
-      selectedSeason: selectedSeason,
-      selectedColour: selectedColour,
-      selectedColourVariation: selectedColourVariation,
+      selectedOccasion: selectedOccasion ?? initialOccasion,
+      selectedSeason: selectedSeason ?? initialSeason,
+      selectedColour: selectedColour ?? initialColour,
+      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
     ));
   }
 
@@ -238,13 +247,13 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     selectedColour = event.colour;
     _isChanged = true;
     emit(EditItemUpdated(
-      selectedItemType: selectedItemType,
-      selectedSpecificType: selectedSpecificType,
-      selectedClothingLayer: selectedClothingLayer,
-      selectedOccasion: selectedOccasion,
-      selectedSeason: selectedSeason,
+      selectedItemType: selectedItemType ?? initialItemType,
+      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+      selectedOccasion: selectedOccasion ?? initialOccasion,
+      selectedSeason: selectedSeason ?? initialSeason,
       selectedColour: selectedColour,
-      selectedColourVariation: selectedColourVariation,
+      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
     ));
   }
 
@@ -252,12 +261,12 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     selectedColourVariation = event.colourVariation;
     _isChanged = true;
     emit(EditItemUpdated(
-      selectedItemType: selectedItemType,
-      selectedSpecificType: selectedSpecificType,
-      selectedClothingLayer: selectedClothingLayer,
-      selectedOccasion: selectedOccasion,
-      selectedSeason: selectedSeason,
-      selectedColour: selectedColour,
+      selectedItemType: selectedItemType ?? initialItemType,
+      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+      selectedOccasion: selectedOccasion ?? initialOccasion,
+      selectedSeason: selectedSeason ?? initialSeason,
+      selectedColour: selectedColour ?? initialColour,
       selectedColourVariation: selectedColourVariation,
     ));
   }
