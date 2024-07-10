@@ -1409,6 +1409,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Unexpected response format. Please try again later or contact support if the issue persists.`
+  String get unexpectedResponseFormat {
+    return Intl.message(
+      'Unexpected response format. Please try again later or contact support if the issue persists.',
+      name: 'unexpectedResponseFormat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An unexpected error occurred. Please try again later or contact support if the issue persists.`
+  String get unexpectedErrorOccurred {
+    return Intl.message(
+      'An unexpected error occurred. Please try again later or contact support if the issue persists.',
+      name: 'unexpectedErrorOccurred',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

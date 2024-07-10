@@ -205,6 +205,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Support & Assistance"),
         "tagline": MessageLookupByLibrary.simpleMessage("ShopYourCloset"),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
+        "unexpectedErrorOccurred": MessageLookupByLibrary.simpleMessage(
+            "An unexpected error occurred. Please try again later or contact support if the issue persists."),
+        "unexpectedResponseFormat": MessageLookupByLibrary.simpleMessage(
+            "Unexpected response format. Please try again later or contact support if the issue persists."),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "upload_failed": m0,

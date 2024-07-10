@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:convert';
 
 import '../../../../generated/l10n.dart';
 import '../../../../core/theme/my_closet_theme.dart';
 import '../../../../core/theme/my_outfit_theme.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
+import '../../../../core/utilities/logger.dart';
 
 class DeclutterBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
@@ -18,6 +20,7 @@ class DeclutterBottomSheet extends StatefulWidget {
 
 class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
   bool _isButtonDisabled = false;
+  final logger = CustomLogger('DeclutterRequest');
 
   Future<void> _handleButtonPress(String rpcName) async {
     setState(() {
@@ -25,31 +28,97 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
     });
 
     try {
-      final data = await Supabase.instance.client.rpc(
+      final response = await Supabase.instance.client.rpc(
         rpcName,
         params: {'current_item_id': widget.currentItemId},
       ).single();
 
-      if (data['status'] != 'success') {
-        throw Exception(data['message']);
+      logger.i('Full response: ${jsonEncode(response)}');
+
+      if (!mounted) return;
+
+      if (response.containsKey('status')) {
+        if (response['status'] == 'success') {
+          logger.i('Request processed successfully: ${jsonEncode(response)}');
+          Navigator.pop(context); // Close the bottom sheet
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(S.of(context).thankYou),
+                content: Text(S.of(context).declutterAcknowledged), // Replace with appropriate localization key
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the dialog
+                    },
+                    child: Text(S.of(context).ok),
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          logger.e('Unexpected response format: ${jsonEncode(response)}');
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(S.of(context).error),
+                content: Text(S.of(context).unexpectedResponseFormat),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the dialog
+                    },
+                    child: Text(S.of(context).ok),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      } else {
+        logger.e('Unexpected response: ${jsonEncode(response)}');
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(S.of(context).error),
+              content: Text(S.of(context).unexpectedResponseFormat),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                  child: Text(S.of(context).ok),
+                ),
+              ],
+            );
+          },
+        );
       }
-
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(S.of(context).declutterAcknowledged), // Replace with appropriate localization key
-        ),
-      );
-      Navigator.pop(context); // Navigate back to the previous screen
     } catch (e) {
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(S.of(context).errorDeclutter), // Replace with appropriate localization key
-        ),
-      );
+      logger.e('Unexpected error: $e');
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(S.of(context).error),
+              content: Text(S.of(context).unexpectedErrorOccurred),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                  child: Text(S.of(context).ok),
+                ),
+              ],
+            );
+          },
+        );
+      }
     } finally {
       if (mounted) {
         setState(() {
@@ -97,7 +166,8 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
             ),
             const SizedBox(height: 16.0),
             Center(
-              child: Column(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   NavigationTypeButton(
                     label: S.of(context).Sell,
@@ -105,21 +175,18 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
                     imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_sold'),
                   ),
-                  const SizedBox(height: 8.0),
                   NavigationTypeButton(
                     label: S.of(context).Swap,
                     selectedLabel: S.of(context).Swap,
                     imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_swapped'),
                   ),
-                  const SizedBox(height: 8.0),
                   NavigationTypeButton(
                     label: S.of(context).Gift,
                     selectedLabel: S.of(context).Gift,
                     imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_gifted'),
                   ),
-                  const SizedBox(height: 8.0),
                   NavigationTypeButton(
                     label: S.of(context).Throw,
                     selectedLabel: S.of(context).Throw,

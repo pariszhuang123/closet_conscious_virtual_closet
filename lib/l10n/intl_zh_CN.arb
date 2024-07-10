@@ -135,6 +135,7 @@
   "declutterAcknowledged": "您的衣柜已整理干净！",
   "errorDeclutter": "很抱歉，我们无法整理您的衣柜。",
   "declutterFeatureTitle": "整理您的衣柜",
-  "declutterFeatureDescription": "轻松整理和清理您的衣柜，移除不需要的物品。简化您的衣橱，为新的风格腾出空间。"
-
+  "declutterFeatureDescription": "轻松整理和清理您的衣柜，移除不需要的物品。简化您的衣橱，为新的风格腾出空间。",
+  "unexpectedResponseFormat": "响应格式异常。请稍后再试，或联系支持团队以获取帮助。",
+  "unexpectedErrorOccurred": "发生意外错误。请稍后再试，或联系支持团队以获取帮助。"
 }

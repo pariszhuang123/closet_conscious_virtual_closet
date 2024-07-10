@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:convert';
 
 import '../../../generated/l10n.dart';
 import '../../core/theme/my_closet_theme.dart';
 import '../../core/theme/my_outfit_theme.dart';
+import '../../core/utilities/logger.dart';
+import '../widgets/Feedback/custom_alert_dialog.dart'; // Import the custom alert dialog
 
 class MultiClosetFeatureBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
@@ -16,6 +19,7 @@ class MultiClosetFeatureBottomSheet extends StatefulWidget {
 
 class MultiClosetFeatureBottomSheetState extends State<MultiClosetFeatureBottomSheet> {
   bool _isButtonDisabled = false;
+  final logger = CustomLogger('MultiClosetRequest');
 
   @override
   Widget build(BuildContext context) {
@@ -64,28 +68,86 @@ class MultiClosetFeatureBottomSheetState extends State<MultiClosetFeatureBottomS
                   });
 
                   try {
-                    final data = await Supabase.instance.client.rpc(
+                    final response = await Supabase.instance.client.rpc(
                       'increment_multi_closet_request',
                     ).single();
 
-                    if (data['status'] != 'success') {
-                      throw Exception(data['message']);
-                    }
+                    logger.i('Full response: ${jsonEncode(response)}');
 
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(S.of(context).interestAcknowledged),
-                        ),
-                      );
-                      Navigator.pop(context); // Navigate back to the previous screen
+                    if (response.containsKey('status')) {
+                      if (response['status'] == 'success') {
+                        logger.i('Request processed successfully: ${jsonEncode(response)}');
+                        if (context.mounted) {
+                          Navigator.pop(context); // Close the bottom sheet
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomAlertDialog(
+                                title: S.of(context).thankYou,
+                                content: S.of(context).interestAcknowledged,
+                                buttonText: S.of(context).ok,
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Close the dialog
+                                },
+                                theme: theme,
+                              );
+                            },
+                          );
+                        }
+                      } else {
+                        logger.e('Unexpected response format: ${jsonEncode(response)}');
+                        if (context.mounted) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CustomAlertDialog(
+                                title: S.of(context).error,
+                                content: S.of(context).unexpectedResponseFormat,
+                                buttonText: S.of(context).ok,
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Close the dialog
+                                },
+                                theme: theme,
+                              );
+                            },
+                          );
+                        }
+                      }
+                    } else {
+                      logger.e('Unexpected response: ${jsonEncode(response)}');
+                      if (context.mounted) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomAlertDialog(
+                              title: S.of(context).error,
+                              content: S.of(context).unexpectedResponseFormat,
+                              buttonText: S.of(context).ok,
+                              onPressed: () {
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              theme: theme,
+                            );
+                          },
+                        );
+                      }
                     }
                   } catch (e) {
+                    logger.e('Unexpected error: $e');
                     if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(S.of(context).errorIncrement),
-                        ),
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CustomAlertDialog(
+                            title: S.of(context).error,
+                            content: S.of(context).unexpectedErrorOccurred,
+                            buttonText: S.of(context).ok,
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close the dialog
+                            },
+                            theme: theme,
+                          );
+                        },
                       );
                     }
                   } finally {

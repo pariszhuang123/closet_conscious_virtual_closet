@@ -81,4 +81,9 @@ final ThemeData myOutfitTheme = ThemeData(
     backgroundColor: Colors.blue.shade700, // Set the background color for SnackBar
     contentTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold), // Set the text color and style
   ),
+  dialogTheme: DialogTheme(
+    backgroundColor: Colors.lightBlue.shade100,
+    titleTextStyle: TextStyle(color: Colors.blue.shade900, fontWeight: FontWeight.bold),
+    contentTextStyle: TextStyle(color: Colors.blue.shade800),
+  ),
 );

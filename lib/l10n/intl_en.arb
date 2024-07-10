@@ -135,5 +135,7 @@
   "declutterAcknowledged": "Your closet has being decluttered!",
   "errorDeclutter": "We are sorry, we can't declutter your closet",
   "declutterFeatureTitle": "Declutter Your Closet",
-  "declutterFeatureDescription": "Easily organize and clean up your closet by removing unwanted items. Simplify your wardrobe and make room for new styles."
+  "declutterFeatureDescription": "Easily organize and clean up your closet by removing unwanted items. Simplify your wardrobe and make room for new styles.",
+  "unexpectedResponseFormat": "Unexpected response format. Please try again later or contact support if the issue persists.",
+  "unexpectedErrorOccurred": "An unexpected error occurred. Please try again later or contact support if the issue persists."
 }
