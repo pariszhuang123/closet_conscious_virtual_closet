@@ -143,3 +143,10 @@ class ColourVariationChangedEvent extends EditItemEvent {
 }
 
 class DeclutterOptionsEvent extends EditItemEvent {}
+
+class SubmitFormEvent extends EditItemEvent {
+  const SubmitFormEvent();
+
+  @override
+  List<Object?> get props => [];
+}

@@ -57,11 +57,9 @@ class _EditItemPageState extends State<EditItemPage> {
   String? selectedSeason;
   String? selectedColour;
   String? selectedColourVariation;
-  bool isLoading = true;
+  bool _isChanged = false; // Updated to manage state change tracking
 
   final _formKey = GlobalKey<FormState>();
-  final bool _isChanged = false;
-
   final ImagePicker _picker = ImagePicker();
 
   @override
@@ -92,6 +90,7 @@ class _EditItemPageState extends State<EditItemPage> {
       final file = File(pickedFile.path);
       setState(() {
         _imageFile = file;
+        _isChanged = true; // Update the change tracking flag
       });
       if (mounted) {
         context.read<EditItemBloc>().add(UpdateImageEvent(file));
@@ -101,10 +100,7 @@ class _EditItemPageState extends State<EditItemPage> {
 
   void _handleUpdate() {
     if (_formKey.currentState?.validate() ?? false) {
-      context.read<EditItemBloc>().add(ValidateAndUpdateEvent(
-        itemNameController: _itemNameController,
-        amountSpentController: _amountSpentController,
-      ));
+      context.read<EditItemBloc>().add(const SubmitFormEvent()); // Dispatch SubmitFormEvent
     }
   }
 
@@ -220,6 +216,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                         return null;
                                       },
                                       onChanged: (value) {
+                                        setState(() {
+                                          _isChanged = true; // Update the change tracking flag
+                                        });
                                         context.read<EditItemBloc>().add(FieldChangedEvent());
                                       },
                                     ),
@@ -234,10 +233,10 @@ class _EditItemPageState extends State<EditItemPage> {
                                       ),
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
-                                        context.read<EditItemBloc>().add(ValidateAndUpdateEvent(
-                                          itemNameController: _itemNameController,
-                                          amountSpentController: _amountSpentController,
-                                        ));
+                                        setState(() {
+                                          _isChanged = true; // Update the change tracking flag
+                                        });
+                                        context.read<EditItemBloc>().add(FieldChangedEvent());
                                       },
                                     ),
                                     const SizedBox(height: 12),
@@ -249,6 +248,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                       TypeDataList.itemGeneralTypes(context),
                                       selectedItemType,
                                           (dataKey) {
+                                        setState(() {
+                                          _isChanged = true; // Update the change tracking flag
+                                        });
                                         context.read<EditItemBloc>().add(ItemTypeChangedEvent(dataKey));
                                       },
                                       context,
@@ -262,6 +264,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                       TypeDataList.occasions(context),
                                       selectedOccasion,
                                           (dataKey) {
+                                        setState(() {
+                                          _isChanged = true; // Update the change tracking flag
+                                        });
                                         context.read<EditItemBloc>().add(OccasionChangedEvent(dataKey));
                                       },
                                       context,
@@ -275,6 +280,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                       TypeDataList.seasons(context),
                                       selectedSeason,
                                           (dataKey) {
+                                        setState(() {
+                                          _isChanged = true; // Update the change tracking flag
+                                        });
                                         context.read<EditItemBloc>().add(SeasonChangedEvent(dataKey));
                                       },
                                       context,
@@ -289,6 +297,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                         TypeDataList.shoeTypes(context),
                                         selectedSpecificType,
                                             (dataKey) {
+                                          setState(() {
+                                            _isChanged = true; // Update the change tracking flag
+                                          });
                                           context.read<EditItemBloc>().add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
@@ -303,6 +314,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                         TypeDataList.accessoryTypes(context),
                                         selectedSpecificType,
                                             (dataKey) {
+                                          setState(() {
+                                            _isChanged = true; // Update the change tracking flag
+                                          });
                                           context.read<EditItemBloc>().add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
@@ -317,6 +331,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                         TypeDataList.clothingTypes(context),
                                         selectedSpecificType,
                                             (dataKey) {
+                                          setState(() {
+                                            _isChanged = true; // Update the change tracking flag
+                                          });
                                           context.read<EditItemBloc>().add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
@@ -330,6 +347,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                         TypeDataList.clothingLayers(context),
                                         selectedClothingLayer,
                                             (dataKey) {
+                                          setState(() {
+                                            _isChanged = true; // Update the change tracking flag
+                                          });
                                           context.read<EditItemBloc>().add(ClothingLayerChangedEvent(dataKey));
                                         },
                                         context,
@@ -344,6 +364,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                       TypeDataList.colors(context),
                                       selectedColour,
                                           (dataKey) {
+                                        setState(() {
+                                          _isChanged = true; // Update the change tracking flag
+                                        });
                                         context.read<EditItemBloc>().add(ColourChangedEvent(dataKey));
                                       },
                                       context,
@@ -360,6 +383,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                         TypeDataList.colorVariations(context),
                                         selectedColourVariation,
                                             (dataKey) {
+                                          setState(() {
+                                            _isChanged = true; // Update the change tracking flag
+                                          });
                                           context.read<EditItemBloc>().add(ColourVariationChangedEvent(dataKey));
                                         },
                                         context,

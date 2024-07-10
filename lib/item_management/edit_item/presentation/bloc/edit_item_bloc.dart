@@ -89,7 +89,21 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<ColourChangedEvent>(_onColourChanged);
 
     on<ColourVariationChangedEvent>(_onColourVariationChanged);
+
+    on<SubmitFormEvent>(_onSubmitForm);
   }
+
+  void _onSubmitForm(SubmitFormEvent event, Emitter<EditItemState> emit) {
+    if (_isChanged) {
+      add(ValidateAndUpdateEvent(
+        itemNameController: itemNameController,
+        amountSpentController: amountSpentController,
+      ));
+    } else {
+      emit(EditItemDeclutterOptions());
+    }
+  }
+
 
   void _onValidateAndUpdate(ValidateAndUpdateEvent event, Emitter<EditItemState> emit) {
     emit(EditItemValidation());
