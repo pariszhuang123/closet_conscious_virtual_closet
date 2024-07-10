@@ -1100,10 +1100,10 @@ class S {
     );
   }
 
-  /// `Gift`
+  /// `Pay It Forward`
   String get Gift {
     return Intl.message(
-      'Gift',
+      'Pay It Forward',
       name: 'Gift',
       desc: '',
       args: [],
@@ -1357,6 +1357,56 @@ class S {
       name: 'upload_failed',
       desc: '',
       args: [error],
+    );
+  }
+
+  /// `We are sorry, we can't record your interest`
+  String get errorIncrement {
+    return Intl.message(
+      'We are sorry, we can\'t record your interest',
+      name: 'errorIncrement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your closet has being decluttered!`
+  String get declutterAcknowledged {
+    return Intl.message(
+      'Your closet has being decluttered!',
+      name: 'declutterAcknowledged',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We are sorry, we can't declutter your closet`
+  String get errorDeclutter {
+    return Intl.message(
+      'We are sorry, we can\'t declutter your closet',
+      name: 'errorDeclutter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Declutter Your Closet`
+  String get declutterFeatureTitle {
+    return Intl.message(
+      'Declutter Your Closet',
+      name: 'declutterFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Easily organize and clean up your closet by removing unwanted items. Simplify your wardrobe and make room for new styles.`
+  String get declutterFeatureDescription {
+    return Intl.message(
+      'Easily organize and clean up your closet by removing unwanted items. Simplify your wardrobe and make room for new styles.',
+      name: 'declutterFeatureDescription',
+      desc: '',
+      args: [],
     );
   }
 }

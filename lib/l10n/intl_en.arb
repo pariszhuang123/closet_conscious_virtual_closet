@@ -105,7 +105,7 @@
   "ok": "OK",
   "Sell": "Sell",
   "Swap": "Swap",
-  "Gift": "Gift",
+  "Gift": "Pay It Forward",
   "Throw": "Throw",
   "declutterOptions" : "What would you like to do?",
   "itemsUploadedTooltip": "This shows the number of items you have uploaded",
@@ -130,5 +130,10 @@
   "error": "Error",
   "dataInsertedSuccessfully": "Your data has been saved",
   "upload_successful": "Upload successful!",
-  "upload_failed": "Upload failed: {error}"
+  "upload_failed": "Upload failed: {error}",
+  "errorIncrement": "We are sorry, we can't record your interest",
+  "declutterAcknowledged": "Your closet has being decluttered!",
+  "errorDeclutter": "We are sorry, we can't declutter your closet",
+  "declutterFeatureTitle": "Declutter Your Closet",
+  "declutterFeatureDescription": "Easily organize and clean up your closet by removing unwanted items. Simplify your wardrobe and make room for new styles."
 }

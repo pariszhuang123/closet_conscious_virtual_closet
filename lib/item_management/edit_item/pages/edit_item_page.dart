@@ -9,6 +9,7 @@ import '../../upload_item/widgets/image_display_widget.dart';
 import '../../../generated/l10n.dart';
 import '../../../core/widgets/icon_row_builder.dart';
 import '../presentation/bloc/edit_item_bloc.dart';
+import '../../declutter_items/presentation/widgets/declutter_options_bottom_sheet.dart';
 
 class EditItemPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -104,6 +105,16 @@ class _EditItemPageState extends State<EditItemPage> {
     }
   }
 
+  void _openDeclutterSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => DeclutterBottomSheet(
+        currentItemId: widget.itemId,
+        isFromMyCloset: true, // Set this based on your requirements
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -132,30 +143,25 @@ class _EditItemPageState extends State<EditItemPage> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(state.error)),
                 );
+              } else if (state is EditItemLoaded) {
+                // Update the controller values when the state is loaded
+                _itemNameController.text = state.itemName;
+                _amountSpentController.text = state.amountSpent.toString();
+                setState(() {
+                  _imageUrl = state.imageUrl;
+                  selectedItemType = state.selectedItemType;
+                  selectedSpecificType = state.selectedSpecificType;
+                  selectedClothingLayer = state.selectedClothingLayer;
+                  selectedOccasion = state.selectedOccasion;
+                  selectedSeason = state.selectedSeason;
+                  selectedColour = state.selectedColour;
+                  selectedColourVariation = state.selectedColourVariation;
+                });
               }
             },
             builder: (context, state) {
               if (state is EditItemLoading) {
                 return const Center(child: CircularProgressIndicator());
-              } else if (state is EditItemLoaded) {
-                _itemNameController.text = state.itemName;
-                _amountSpentController.text = state.amountSpent.toString();
-                _imageUrl = state.imageUrl;
-                selectedItemType = state.selectedItemType;
-                selectedSpecificType = state.selectedSpecificType;
-                selectedClothingLayer = state.selectedClothingLayer;
-                selectedOccasion = state.selectedOccasion;
-                selectedSeason = state.selectedSeason;
-                selectedColour = state.selectedColour;
-                selectedColourVariation = state.selectedColourVariation;
-              } else if (state is EditItemUpdated) {
-                selectedItemType = state.selectedItemType;
-                selectedSpecificType = state.selectedSpecificType;
-                selectedClothingLayer = state.selectedClothingLayer;
-                selectedOccasion = state.selectedOccasion;
-                selectedSeason = state.selectedSeason;
-                selectedColour = state.selectedColour;
-                selectedColourVariation = state.selectedColourVariation;
               }
 
               return Theme(
@@ -402,7 +408,7 @@ class _EditItemPageState extends State<EditItemPage> {
                           padding: const EdgeInsets.only(
                               top: 10.0, bottom: 70.0, left: 16.0, right: 16.0),
                           child: ElevatedButton(
-                            onPressed: _handleUpdate,
+                            onPressed: _isChanged ? _handleUpdate : _openDeclutterSheet,
                             child: Text(
                               _isChanged ? S.of(context).update : S.of(context).declutter,
                               style: widget.myClosetTheme.textTheme.labelLarge,

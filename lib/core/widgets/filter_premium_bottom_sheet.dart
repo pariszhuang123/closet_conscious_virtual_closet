@@ -5,14 +5,21 @@ import '../../../generated/l10n.dart';
 import '../../core/theme/my_closet_theme.dart';
 import '../../core/theme/my_outfit_theme.dart';
 
-class PremiumFilterBottomSheet extends StatelessWidget {
+class PremiumFilterBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
 
   const PremiumFilterBottomSheet({super.key, required this.isFromMyCloset});
 
   @override
+  PremiumFilterBottomSheetState createState() => PremiumFilterBottomSheetState();
+}
+
+class PremiumFilterBottomSheetState extends State<PremiumFilterBottomSheet> {
+  bool _isButtonDisabled = false;
+
+  @override
   Widget build(BuildContext context) {
-    ThemeData theme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
+    ThemeData theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
     ColorScheme colorScheme = theme.colorScheme;
 
     return Container(
@@ -23,15 +30,15 @@ class PremiumFilterBottomSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text(
-                S.of(context).filterSearchPremiumFeature,
-                style: theme.textTheme.titleMedium,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    S.of(context).filterSearchPremiumFeature,
+                    style: theme.textTheme.titleMedium,
+                  ),
                 ),
-            ),
                 IconButton(
                   icon: Icon(Icons.close, color: colorScheme.onSurface),
                   onPressed: () => Navigator.pop(context),
@@ -46,48 +53,47 @@ class PremiumFilterBottomSheet extends StatelessWidget {
             const SizedBox(height: 16.0),
             Center(
               child: ElevatedButton(
-                onPressed: () async {
-                  final userId = Supabase.instance.client.auth.currentUser!.id;
-                  try {
-                    final response = await Supabase.instance.client.rpc(
-                      'increment_filter_request',
-                      params: {'user_id': userId},
-                    );
+                onPressed: _isButtonDisabled
+                    ? null
+                    : () async {
+                  setState(() {
+                    _isButtonDisabled = true;
+                  });
 
-                    if (response.error != null) {
-                      throw Exception(response.error!.message);
+                  try {
+                    final data = await Supabase.instance.client.rpc(
+                      'increment_filter_request',
+                    ).single();
+
+                    if (data['status'] != 'success') {
+                      throw Exception(data['message']);
                     }
 
                     if (context.mounted) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(S.of(context).thankYou),
-                            content: Text(S.of(context).interestAcknowledged),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop(); // Close the dialog
-                                },
-                                child: Text(S.of(context).ok),
-                              ),
-                            ],
-                          );
-                        },
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(S.of(context).interestAcknowledged),
+                        ),
                       );
+                      Navigator.pop(context); // Navigate back to the previous screen
                     }
-
                   } catch (e) {
                     if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Failed to increment filter request: $e'),
-                      ));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(S.of(context).errorIncrement),
+                        ),
+                      );
                     }
+                  } finally {
+                    setState(() {
+                      _isButtonDisabled = false;
+                    });
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: colorScheme.onPrimary, backgroundColor: colorScheme.primary,
+                  foregroundColor: colorScheme.onPrimary,
+                  backgroundColor: colorScheme.primary,
                 ),
                 child: Text(S.of(context).interested, style: theme.textTheme.labelLarge),
               ),

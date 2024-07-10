@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../../../generated/l10n.dart';
 import '../../core/theme/my_closet_theme.dart';
 import '../../core/theme/my_outfit_theme.dart';
 
-class MultiClosetFeatureBottomSheet extends StatelessWidget {
+class MultiClosetFeatureBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
 
   const MultiClosetFeatureBottomSheet({super.key, required this.isFromMyCloset});
 
   @override
+  MultiClosetFeatureBottomSheetState createState() => MultiClosetFeatureBottomSheetState();
+}
+
+class MultiClosetFeatureBottomSheetState extends State<MultiClosetFeatureBottomSheet> {
+  bool _isButtonDisabled = false;
+
+  @override
   Widget build(BuildContext context) {
     // Determine the theme and colors based on originating page
-    ThemeData theme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
+    ThemeData theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
     ColorScheme colorScheme = theme.colorScheme;
 
     return Container(
@@ -47,30 +56,47 @@ class MultiClosetFeatureBottomSheet extends StatelessWidget {
             const SizedBox(height: 16.0),
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  // Handle user interest in the multi-closet feature
-                  Navigator.pop(context); // Close the bottom sheet
-                  // Logic to express interest
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text(S.of(context).thankYou),
-                        content: Text(S.of(context).interestAcknowledged),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop(); // Close the dialog
-                            },
-                            child: Text(S.of(context).ok),
-                          ),
-                        ],
+                onPressed: _isButtonDisabled
+                    ? null
+                    : () async {
+                  setState(() {
+                    _isButtonDisabled = true;
+                  });
+
+                  try {
+                    final data = await Supabase.instance.client.rpc(
+                      'increment_multi_closet_request',
+                    ).single();
+
+                    if (data['status'] != 'success') {
+                      throw Exception(data['message']);
+                    }
+
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(S.of(context).interestAcknowledged),
+                        ),
                       );
-                    },
-                  );
+                      Navigator.pop(context); // Navigate back to the previous screen
+                    }
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(S.of(context).errorIncrement),
+                        ),
+                      );
+                    }
+                  } finally {
+                    setState(() {
+                      _isButtonDisabled = false;
+                    });
+                  }
                 },
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: colorScheme.onPrimary, backgroundColor: colorScheme.primary,
+                  foregroundColor: colorScheme.onPrimary,
+                  backgroundColor: colorScheme.primary,
                 ),
                 child: Text(S.of(context).interested, style: theme.textTheme.labelLarge), // Apply labelLarge text style
               ),

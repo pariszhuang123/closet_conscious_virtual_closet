@@ -105,7 +105,7 @@
   "ok": "好的",
   "Sell": "出售",
   "Swap": "交换",
-  "Gift": "赠送",
+  "Gift": "传递爱心",
   "Throw": "扔掉",
   "declutterOptions" : "你想做什么？",
   "itemsUploadedTooltip": "这显示了您上传的物品数量",
@@ -130,5 +130,11 @@
   "error": "错误",
   "dataInsertedSuccessfully": "您的数据已保存",
   "upload_successful": "上传成功",
-  "upload_failed": "上传失败: {error}"
+  "upload_failed": "上传失败: {error}",
+  "errorIncrement": "我们很抱歉，我们无法记录您的兴趣。",
+  "declutterAcknowledged": "您的衣柜已整理干净！",
+  "errorDeclutter": "很抱歉，我们无法整理您的衣柜。",
+  "declutterFeatureTitle": "整理您的衣柜",
+  "declutterFeatureDescription": "轻松整理和清理您的衣柜，移除不需要的物品。简化您的衣橱，为新的风格腾出空间。"
+
 }

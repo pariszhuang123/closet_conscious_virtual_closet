@@ -46,7 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Everyday": MessageLookupByLibrary.simpleMessage("休闲鞋"),
         "Eyewear": MessageLookupByLibrary.simpleMessage("眼镜"),
         "Formal": MessageLookupByLibrary.simpleMessage("正式鞋"),
-        "Gift": MessageLookupByLibrary.simpleMessage("赠送"),
+        "Gift": MessageLookupByLibrary.simpleMessage("传递爱心"),
         "Gloves": MessageLookupByLibrary.simpleMessage("手套"),
         "Green": MessageLookupByLibrary.simpleMessage("绿色"),
         "Grey": MessageLookupByLibrary.simpleMessage("灰色"),
@@ -107,11 +107,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "dataUpdatedSuccessfully":
             MessageLookupByLibrary.simpleMessage("您的数据已更新"),
         "declutter": MessageLookupByLibrary.simpleMessage("整理"),
+        "declutterAcknowledged":
+            MessageLookupByLibrary.simpleMessage("您的衣柜已整理干净！"),
+        "declutterFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "轻松整理和清理您的衣柜，移除不需要的物品。简化您的衣橱，为新的风格腾出空间。"),
+        "declutterFeatureTitle": MessageLookupByLibrary.simpleMessage("整理您的衣柜"),
         "declutterOptions": MessageLookupByLibrary.simpleMessage("你想做什么？"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("删除账户"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("编辑项目"),
         "enterAmountSpentHint": MessageLookupByLibrary.simpleMessage("输入花费金额"),
         "error": MessageLookupByLibrary.simpleMessage("错误"),
+        "errorDeclutter":
+            MessageLookupByLibrary.simpleMessage("很抱歉，我们无法整理您的衣柜。"),
+        "errorIncrement":
+            MessageLookupByLibrary.simpleMessage("我们很抱歉，我们无法记录您的兴趣。"),
         "faq": MessageLookupByLibrary.simpleMessage("常见问题"),
         "filterSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("筛选和搜索高级功能"),

@@ -47,7 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Everyday": MessageLookupByLibrary.simpleMessage("Everyday"),
         "Eyewear": MessageLookupByLibrary.simpleMessage("Eyewear"),
         "Formal": MessageLookupByLibrary.simpleMessage("Formal"),
-        "Gift": MessageLookupByLibrary.simpleMessage("Gift"),
+        "Gift": MessageLookupByLibrary.simpleMessage("Pay It Forward"),
         "Gloves": MessageLookupByLibrary.simpleMessage("Gloves"),
         "Green": MessageLookupByLibrary.simpleMessage("Green"),
         "Grey": MessageLookupByLibrary.simpleMessage("Grey"),
@@ -116,6 +116,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "dataUpdatedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Your data has been updated"),
         "declutter": MessageLookupByLibrary.simpleMessage("Declutter"),
+        "declutterAcknowledged": MessageLookupByLibrary.simpleMessage(
+            "Your closet has being decluttered!"),
+        "declutterFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "Easily organize and clean up your closet by removing unwanted items. Simplify your wardrobe and make room for new styles."),
+        "declutterFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("Declutter Your Closet"),
         "declutterOptions":
             MessageLookupByLibrary.simpleMessage("What would you like to do?"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
@@ -123,6 +129,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterAmountSpentHint":
             MessageLookupByLibrary.simpleMessage("Enter amount spent"),
         "error": MessageLookupByLibrary.simpleMessage("Error"),
+        "errorDeclutter": MessageLookupByLibrary.simpleMessage(
+            "We are sorry, we can\'t declutter your closet"),
+        "errorIncrement": MessageLookupByLibrary.simpleMessage(
+            "We are sorry, we can\'t record your interest"),
         "faq": MessageLookupByLibrary.simpleMessage("FAQ"),
         "filterSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Filter & Search Premium Feature"),
