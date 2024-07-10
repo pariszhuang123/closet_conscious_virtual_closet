@@ -7,6 +7,7 @@ import '../../../../core/theme/my_closet_theme.dart';
 import '../../../../core/theme/my_outfit_theme.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/utilities/logger.dart';
+import '../../../../core/widgets/Feedback/custom_alert_dialog.dart'; // Import the custom alert dialog
 
 class DeclutterBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
@@ -44,17 +45,14 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text(S.of(context).thankYou),
-                content: Text(S.of(context).declutterAcknowledged), // Replace with appropriate localization key
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Close the dialog
-                    },
-                    child: Text(S.of(context).ok),
-                  ),
-                ],
+              return CustomAlertDialog(
+                title: S.of(context).thankYou,
+                content: S.of(context).declutterAcknowledged,
+                buttonText: S.of(context).ok,
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
               );
             },
           );
@@ -63,17 +61,14 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text(S.of(context).error),
-                content: Text(S.of(context).unexpectedResponseFormat),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Close the dialog
-                    },
-                    child: Text(S.of(context).ok),
-                  ),
-                ],
+              return CustomAlertDialog(
+                title: S.of(context).error,
+                content: S.of(context).unexpectedResponseFormat,
+                buttonText: S.of(context).ok,
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
               );
             },
           );
@@ -83,17 +78,14 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(S.of(context).error),
-              content: Text(S.of(context).unexpectedResponseFormat),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close the dialog
-                  },
-                  child: Text(S.of(context).ok),
-                ),
-              ],
+            return CustomAlertDialog(
+              title: S.of(context).error,
+              content: S.of(context).unexpectedResponseFormat,
+              buttonText: S.of(context).ok,
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
             );
           },
         );
@@ -104,17 +96,14 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(S.of(context).error),
-              content: Text(S.of(context).unexpectedErrorOccurred),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close the dialog
-                  },
-                  child: Text(S.of(context).ok),
-                ),
-              ],
+            return CustomAlertDialog(
+              title: S.of(context).error,
+              content: S.of(context).unexpectedErrorOccurred,
+              buttonText: S.of(context).ok,
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
             );
           },
         );
