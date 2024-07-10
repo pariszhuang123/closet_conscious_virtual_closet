@@ -1,3 +1,10 @@
+-- drop functions
+drop function if exists increment_filter_request();
+
+drop function if exists increment_analytics_request();
+
+drop function if exists increment_multi_closet_request();
+
 -- Increment filter requests
 CREATE OR REPLACE FUNCTION increment_filter_request()
 RETURNS json
