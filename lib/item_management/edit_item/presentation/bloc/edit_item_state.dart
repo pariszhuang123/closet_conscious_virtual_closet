@@ -67,3 +67,34 @@ class EditItemLoaded extends EditItemState {
     selectedColourVariation,
   ];
 }
+
+class EditItemUpdated extends EditItemState {
+  final String? selectedItemType;
+  final String? selectedSpecificType;
+  final String? selectedClothingLayer;
+  final String? selectedOccasion;
+  final String? selectedSeason;
+  final String? selectedColour;
+  final String? selectedColourVariation;
+
+  const EditItemUpdated({
+    this.selectedItemType,
+    this.selectedSpecificType,
+    this.selectedClothingLayer,
+    this.selectedOccasion,
+    this.selectedSeason,
+    this.selectedColour,
+    this.selectedColourVariation,
+  });
+
+  @override
+  List<Object?> get props => [
+    selectedItemType,
+    selectedSpecificType,
+    selectedClothingLayer,
+    selectedOccasion,
+    selectedSeason,
+    selectedColour,
+    selectedColourVariation,
+  ];
+}

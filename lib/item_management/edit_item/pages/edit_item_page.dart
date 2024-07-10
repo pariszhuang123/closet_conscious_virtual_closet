@@ -152,6 +152,14 @@ class _EditItemPageState extends State<EditItemPage> {
                 selectedSeason = state.selectedSeason;
                 selectedColour = state.selectedColour;
                 selectedColourVariation = state.selectedColourVariation;
+              } else if (state is EditItemUpdated) {
+                selectedItemType = state.selectedItemType;
+                selectedSpecificType = state.selectedSpecificType;
+                selectedClothingLayer = state.selectedClothingLayer;
+                selectedOccasion = state.selectedOccasion;
+                selectedSeason = state.selectedSeason;
+                selectedColour = state.selectedColour;
+                selectedColourVariation = state.selectedColourVariation;
               }
 
               return Theme(

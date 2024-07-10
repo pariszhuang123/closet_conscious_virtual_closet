@@ -166,39 +166,100 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   void _onItemTypeChanged(ItemTypeChangedEvent event, Emitter<EditItemState> emit) {
     selectedItemType = event.itemType;
-    selectedSpecificType = null;
-    selectedClothingLayer = null;
     _isChanged = true;
+    emit(EditItemUpdated(
+      selectedItemType: selectedItemType,
+      selectedSpecificType: selectedSpecificType,
+      selectedClothingLayer: selectedClothingLayer,
+      selectedOccasion: selectedOccasion,
+      selectedSeason: selectedSeason,
+      selectedColour: selectedColour,
+      selectedColourVariation: selectedColourVariation,
+    ));
   }
 
   void _onOccasionChanged(OccasionChangedEvent event, Emitter<EditItemState> emit) {
     selectedOccasion = event.occasion;
     _isChanged = true;
+    emit(EditItemUpdated(
+      selectedItemType: selectedItemType,
+      selectedSpecificType: selectedSpecificType,
+      selectedClothingLayer: selectedClothingLayer,
+      selectedOccasion: selectedOccasion,
+      selectedSeason: selectedSeason,
+      selectedColour: selectedColour,
+      selectedColourVariation: selectedColourVariation,
+    ));
   }
 
   void _onSeasonChanged(SeasonChangedEvent event, Emitter<EditItemState> emit) {
     selectedSeason = event.season;
     _isChanged = true;
+    emit(EditItemUpdated(
+      selectedItemType: selectedItemType,
+      selectedSpecificType: selectedSpecificType,
+      selectedClothingLayer: selectedClothingLayer,
+      selectedOccasion: selectedOccasion,
+      selectedSeason: selectedSeason,
+      selectedColour: selectedColour,
+      selectedColourVariation: selectedColourVariation,
+    ));
   }
 
   void _onSpecificTypeChanged(SpecificTypeChangedEvent event, Emitter<EditItemState> emit) {
     selectedSpecificType = event.specificType;
     _isChanged = true;
+    emit(EditItemUpdated(
+      selectedItemType: selectedItemType,
+      selectedSpecificType: selectedSpecificType,
+      selectedClothingLayer: selectedClothingLayer,
+      selectedOccasion: selectedOccasion,
+      selectedSeason: selectedSeason,
+      selectedColour: selectedColour,
+      selectedColourVariation: selectedColourVariation,
+    ));
   }
 
   void _onClothingLayerChanged(ClothingLayerChangedEvent event, Emitter<EditItemState> emit) {
     selectedClothingLayer = event.clothingLayer;
     _isChanged = true;
+    emit(EditItemUpdated(
+      selectedItemType: selectedItemType,
+      selectedSpecificType: selectedSpecificType,
+      selectedClothingLayer: selectedClothingLayer,
+      selectedOccasion: selectedOccasion,
+      selectedSeason: selectedSeason,
+      selectedColour: selectedColour,
+      selectedColourVariation: selectedColourVariation,
+    ));
   }
 
   void _onColourChanged(ColourChangedEvent event, Emitter<EditItemState> emit) {
     selectedColour = event.colour;
     _isChanged = true;
+    emit(EditItemUpdated(
+      selectedItemType: selectedItemType,
+      selectedSpecificType: selectedSpecificType,
+      selectedClothingLayer: selectedClothingLayer,
+      selectedOccasion: selectedOccasion,
+      selectedSeason: selectedSeason,
+      selectedColour: selectedColour,
+      selectedColourVariation: selectedColourVariation,
+    ));
   }
 
   void _onColourVariationChanged(ColourVariationChangedEvent event, Emitter<EditItemState> emit) {
     selectedColourVariation = event.colourVariation;
     _isChanged = true;
+    emit(EditItemUpdated(
+      selectedItemType: selectedItemType,
+      selectedSpecificType: selectedSpecificType,
+      selectedClothingLayer: selectedClothingLayer,
+      selectedOccasion: selectedOccasion,
+      selectedSeason: selectedSeason,
+      selectedColour: selectedColour,
+      selectedColourVariation: selectedColourVariation,
+    ));
   }
 
   bool _validateAmountSpent(TextEditingController amountSpentController) {
