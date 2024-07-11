@@ -9,6 +9,7 @@ import '../../../core/data/type_data.dart';
 import '../../../generated/l10n.dart';
 import '../../../core/widgets/icon_row_builder.dart';
 import '../presentation/bloc/upload_bloc.dart';
+import '../../../core/widgets/Feedback/custom_snack_bar.dart';
 
 class UploadItemPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -213,13 +214,10 @@ class _UploadItemPageState extends State<UploadItemPage> {
   }
 
   void _showErrorMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        message,
-        style: widget.myClosetTheme.textTheme.bodyMedium,
-      ),
-      backgroundColor: widget.myClosetTheme.colorScheme.error,
-    ));
+    CustomSnackbar(
+      message: message,
+      theme: widget.myClosetTheme,
+    ).show(context);
   }
 
   @override
@@ -229,14 +227,16 @@ class _UploadItemPageState extends State<UploadItemPage> {
       child: BlocConsumer<UploadBloc, UploadState>(
         listener: (context, state) {
           if (state is UploadSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(S.of(context).upload_successful)),
-            );
+            CustomSnackbar(
+              message: S.of(context).upload_successful,
+              theme: widget.myClosetTheme,
+            ).show(context);
             Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
           } else if (state is UploadFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(S.of(context).upload_failed(state.error))),
-            );
+            CustomSnackbar(
+              message: S.of(context).upload_failed(state.error),
+              theme: widget.myClosetTheme,
+            ).show(context);
           }
         },
         builder: (context, state) {
