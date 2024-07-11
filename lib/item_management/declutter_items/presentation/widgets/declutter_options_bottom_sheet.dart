@@ -40,73 +40,17 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
 
       if (response.containsKey('status')) {
         if (response['status'] == 'success') {
-          logger.i('Request processed successfully: ${jsonEncode(response)}');
-          Navigator.pop(context); // Close the bottom sheet
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return CustomAlertDialog(
-                title: S.of(context).thankYou,
-                content: S.of(context).declutterAcknowledged,
-                buttonText: S.of(context).ok,
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
-              );
-            },
-          );
+          _showCustomDialog(S.of(context).thankYou, S.of(context).declutterAcknowledged);
         } else {
-          logger.e('Unexpected response format: ${jsonEncode(response)}');
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return CustomAlertDialog(
-                title: S.of(context).error,
-                content: S.of(context).unexpectedResponseFormat,
-                buttonText: S.of(context).ok,
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
-              );
-            },
-          );
+          _showCustomDialog(S.of(context).error, S.of(context).unexpectedResponseFormat);
         }
       } else {
-        logger.e('Unexpected response: ${jsonEncode(response)}');
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CustomAlertDialog(
-              title: S.of(context).error,
-              content: S.of(context).unexpectedResponseFormat,
-              buttonText: S.of(context).ok,
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
-            );
-          },
-        );
+        _showCustomDialog(S.of(context).error, S.of(context).unexpectedResponseFormat);
       }
     } catch (e) {
       logger.e('Unexpected error: $e');
       if (mounted) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CustomAlertDialog(
-              title: S.of(context).error,
-              content: S.of(context).unexpectedErrorOccurred,
-              buttonText: S.of(context).ok,
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
-            );
-          },
-        );
+        _showCustomDialog(S.of(context).error, S.of(context).unexpectedErrorOccurred);
       }
     } finally {
       if (mounted) {
@@ -115,6 +59,23 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
         });
       }
     }
+  }
+
+  void _showCustomDialog(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+          title: title,
+          content: content,
+          buttonText: S.of(context).ok,
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
+        );
+      },
+    );
   }
 
   @override
