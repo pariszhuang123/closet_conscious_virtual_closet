@@ -65,7 +65,8 @@ class PremiumFilterBottomSheetState extends State<PremiumFilterBottomSheet> {
           content: content,
           buttonText: S.of(context).ok,
           onPressed: () {
-            Navigator.of(context).pop(); // Close the dialog
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
           },
           theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
         );

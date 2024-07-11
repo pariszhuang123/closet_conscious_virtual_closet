@@ -11,6 +11,7 @@ Future<List<ClosetItemMinimal>> fetchItems(int currentPage, int batchSize) async
     final data = await Supabase.instance.client
         .from('items')
         .select('item_id, image_url, name, item_type, updated_at')
+        .eq('status', 'active')
         .order('updated_at', ascending: false)
         .range(currentPage * batchSize, (currentPage + 1) * batchSize - 1);
 

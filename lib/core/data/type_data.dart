@@ -131,22 +131,24 @@ class TypeDataList {
       TypeData('Sell', (context) => S.of(context).Sell, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png'),
     ];
   }
+
   static List<TypeData> declutterOptionsSwap(BuildContext context) {
     return [
-      TypeData('Swap', (context) => S.of(context).Swap, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png'),
+      TypeData('Swap', (context) => S.of(context).Swap, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Main/Items_uploaded.svg'),
     ];
   }
+
   static List<TypeData> declutterOptionsGift(BuildContext context) {
     return [
-      TypeData('Gift', (context) => S.of(context).Gift, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png'),
+      TypeData('Gift', (context) => S.of(context).Gift, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Main/Closet_plus.svg'),
     ];
   }
+
   static List<TypeData> declutterOptionsThrow(BuildContext context) {
     return [
       TypeData('Throw', (context) => S.of(context).Throw, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png'),
     ];
   }
-
 
   static List<TypeData> drawerAchievements(BuildContext context) {
     return [

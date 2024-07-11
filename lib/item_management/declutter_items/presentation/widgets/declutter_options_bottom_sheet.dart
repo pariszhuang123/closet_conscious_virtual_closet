@@ -8,6 +8,8 @@ import '../../../../core/theme/my_outfit_theme.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/widgets/Feedback/custom_alert_dialog.dart'; // Import the custom alert dialog
+import '../../../../core/utilities/routes.dart';
+import '../../../../core/data/type_data.dart'; // Import the type_data.dart file
 
 class DeclutterBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
@@ -44,8 +46,6 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
         } else {
           _showCustomDialog(S.of(context).error, S.of(context).unexpectedResponseFormat);
         }
-      } else {
-        _showCustomDialog(S.of(context).error, S.of(context).unexpectedResponseFormat);
       }
     } catch (e) {
       logger.e('Unexpected error: $e');
@@ -70,7 +70,8 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
           content: content,
           buttonText: S.of(context).ok,
           onPressed: () {
-            Navigator.of(context).pop(); // Close the dialog
+            Navigator.of(context).pop();
+            Navigator.pushNamed(context, AppRoutes.myCloset);
           },
           theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
         );
@@ -83,6 +84,11 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
     // Determine the theme and colors based on originating page
     ThemeData theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
     ColorScheme colorScheme = theme.colorScheme;
+
+    final declutterSellOptions = TypeDataList.declutterOptionsSell(context);
+    final declutterSwapOptions = TypeDataList.declutterOptionsSwap(context);
+    final declutterGiftOptions = TypeDataList.declutterOptionsGift(context);
+    final declutterThrowOptions = TypeDataList.declutterOptionsThrow(context);
 
     return Container(
       color: colorScheme.surface,
@@ -120,28 +126,28 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   NavigationTypeButton(
-                    label: S.of(context).Sell,
-                    selectedLabel: S.of(context).Sell,
-                    imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png',
+                    label: declutterSellOptions[0].getName(context),
+                    selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_sold'),
+                    imageUrl: declutterSellOptions[0].imageUrl!,
                   ),
                   NavigationTypeButton(
-                    label: S.of(context).Swap,
-                    selectedLabel: S.of(context).Swap,
-                    imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png',
+                    label: declutterSwapOptions[0].getName(context),
+                    selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_swapped'),
+                    imageUrl: declutterSwapOptions[0].imageUrl!,
                   ),
                   NavigationTypeButton(
-                    label: S.of(context).Gift,
-                    selectedLabel: S.of(context).Gift,
-                    imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png',
+                    label: declutterGiftOptions[0].getName(context),
+                    selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_gifted'),
+                    imageUrl: declutterGiftOptions[0].imageUrl!,
                   ),
                   NavigationTypeButton(
-                    label: S.of(context).Throw,
-                    selectedLabel: S.of(context).Throw,
-                    imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png',
+                    label: declutterThrowOptions[0].getName(context),
+                    selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_thrown'),
+                    imageUrl: declutterThrowOptions[0].imageUrl!,
                   ),
                 ],
               ),
