@@ -1,6 +1,5 @@
 create or replace function public.increment_items_sold(current_item_id uuid)
 returns json
-SET search_path = ''
 language plpgsql
 as $$
 declare
@@ -32,8 +31,8 @@ begin
     -- Update user high frequency stats if item was uploaded and worn in an outfit
     update public.user_high_freq_stats
     set
-        initial_upload_item_count = initial_upload_item_count - 1
-        initial_upload_items_worn_count = initial_upload_items_worn_count - 1,
+        initial_upload_item_count = initial_upload_item_count - 1,
+        initial_upload_items_worn_count = initial_upload_items_worn_count - 1
     where
         user_id = current_user_id and
         exists (
@@ -49,5 +48,7 @@ begin
         updated_at = now()
     where
         user_id = current_user_id;
+
+    return json_build_object('status', 'success');
 end;
-$$ language plpgsql;
+$$;
