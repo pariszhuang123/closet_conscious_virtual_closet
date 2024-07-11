@@ -113,10 +113,10 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     try {
       final response = await SupabaseConfig.client.rpc(
         selectedItemType == 'Clothing'
-            ? 'update_clothing_metadata'
+            ? 'upload_clothing_metadata'
             : selectedItemType == 'Shoes'
-            ? 'update_shoes_metadata'
-            : 'update_accessory_metadata',
+            ? 'upload_shoes_metadata'
+            : 'upload_accessory_metadata',
         params: params,
       );
       logger.i('Full response: ${jsonEncode(response)}');
