@@ -43,17 +43,10 @@ begin
             where closet_upload = true and worn_in_outfit > 0 and current_owner_id = current_user_id and item_id = current_item_id
         );
 
-        result := json_build_object('status', 'success', 'message', 'Item successfully thrown away');
-    else
-        result := json_build_object('status', 'failure', 'message', 'Item does not exist or cannot be thrown away');
-    end if;
-
-    return result;
-exception
-    when others then
-        return json_build_object('status', 'error', 'message', format('An error occurred: %s', SQLERRM));
+    return json_build_object('status', 'success');
 end;
 $$;
+
 
 -- Function for increment_items_sold
 create or replace function public.increment_items_sold(current_item_id uuid)
@@ -108,16 +101,7 @@ begin
     where
         user_id = current_user_id;
 
-        result := json_build_object('status', 'success', 'message', 'Item successfully sold');
-    else
-        result := json_build_object('status', 'failure', 'message', 'Item does not exist or cannot be sold');
-    end if;
-
-    return result;
-
-exception
-    when others then
-        return json_build_object('status', 'error', 'message', format('An error occurred: %s', SQLERRM));
+    return json_build_object('status', 'success');
 end;
 $$;
 
@@ -174,15 +158,7 @@ begin
     where
         user_id = current_user_id;
 
-        result := json_build_object('status', 'success', 'message', 'Item successfully gifted');
-    else
-        result := json_build_object('status', 'failure', 'message', 'Item does not exist or cannot be gifted');
-    end if;
-
-    return result;
-exception
-    when others then
-        return json_build_object('status', 'error', 'message', format('An error occurred: %s', SQLERRM));
+    return json_build_object('status', 'success');
 end;
 $$;
 
@@ -239,15 +215,6 @@ begin
     where
         user_id = current_user_id;
 
-        result := json_build_object('status', 'success', 'message', 'Item successfully swapped');
-    else
-        result := json_build_object('status', 'failure', 'message', 'Item does not exist or cannot be swapped');
-    end if;
-
-    return result;
-
-exception
-    when others then
-        return json_build_object('status', 'error', 'message', format('An error occurred: %s', SQLERRM));
+    return json_build_object('status', 'success');
 end;
 $$;
