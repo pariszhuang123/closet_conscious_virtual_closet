@@ -49,7 +49,6 @@ begin
     end if;
 
     return result;
-
 exception
     when others then
         return json_build_object('status', 'error', 'message', format('An error occurred: %s', SQLERRM));
