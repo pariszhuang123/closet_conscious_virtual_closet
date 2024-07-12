@@ -2,130 +2,108 @@ import 'package:flutter/material.dart';
 import '../../core/widgets/button/navigation_type_button.dart';
 import '../../core/data/type_data.dart';
 import '../core/config/supabase_config.dart';
+import '../generated/l10n.dart';
+import '../core/utilities/logger.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({super.key});
+  AppDrawer({super.key});
+
+  final CustomLogger logger = CustomLogger('AppDrawer');
 
   @override
   Widget build(BuildContext context) {
     final achievementsList = TypeDataList.drawerAchievements(context);
     final insightsList = TypeDataList.drawerInsights(context);
-    final policyList = TypeDataList.drawerPolicy(context);
-    final newsList = TypeDataList.drawerNews(context);
-    final faqList = TypeDataList.drawerFaq(context);
+    final infoHubList = TypeDataList.drawerInfoHub(context);
     final contactUsList = TypeDataList.drawerContactUs(context);
     final deleteAccountList = TypeDataList.drawerDeleteAccount(context);
     final logOutList = TypeDataList.drawerLogOut(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Closet Conscious'),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.green,
+    return Drawer(
+      child: Column(
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Theme
+                  .of(context)
+                  .drawerTheme
+                  .backgroundColor,
+            ),
+            child: Text(
+              S
+                  .of(context)
+                  .AppName,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .displayMedium
+                  ?.copyWith(
+                color: Theme
+                    .of(context)
+                    .colorScheme
+                    .onSecondary,
               ),
-              child: Text('Menu'),
             ),
-            NavigationTypeButton(
-              label: achievementsList[0].getName(context),
-              selectedLabel: '',
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/achievements');
-              },
-              imagePath: achievementsList[0].imagePath!,
-              isSelected: false,
-              isAsset: true,
+          ),
+          Expanded(
+            child: Container(
+              color: Colors.white, // Set the body color to white
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  _buildNavigationButton(
+                      context, achievementsList[0], '/achievements', null),
+                  _buildVerticalSpacing(),
+                  _buildNavigationButton(context, insightsList[0], null,
+                      _showUsageInsightsBottomSheet),
+                  _buildVerticalSpacing(),
+                  _buildNavigationButton(
+                      context, infoHubList[0], '/info_hub', null),
+                  _buildVerticalSpacing(),
+                  _buildNavigationButton(
+                      context, contactUsList[0], '/contact_us', null),
+                  _buildVerticalSpacing(),
+                  _buildNavigationButton(context, deleteAccountList[0], null,
+                      _showDeleteAccountDialog),
+                  _buildVerticalSpacing(),
+                  _buildNavigationButton(context, logOutList[0], null, _logOut),
+                ],
+              ),
             ),
-            NavigationTypeButton(
-              label: insightsList[0].getName(context),
-              selectedLabel: '',
-              onPressed: () {
-                Navigator.pop(context);
-                _showUsageInsightsBottomSheet(context);
-              },
-              imagePath: insightsList[0].imagePath!,
-              isSelected: false,
-              isAsset: true,
-            ),
-            NavigationTypeButton(
-              label: policyList[0].getName(context),
-              selectedLabel: '',
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/policy');
-              },
-              imagePath: policyList[0].imagePath!,
-              isSelected: false,
-              isAsset: policyList[0].isAsset,
-            ),
-            NavigationTypeButton(
-              label: newsList[0].getName(context),
-              selectedLabel: '',
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/news');
-              },
-              imagePath: newsList[0].imagePath!,
-              isSelected: false,
-              isAsset: newsList[0].isAsset,
-            ),
-            NavigationTypeButton(
-              label: faqList[0].getName(context),
-              selectedLabel: '',
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/faq');
-              },
-              imagePath: faqList[0].imagePath!,
-              isSelected: false,
-              isAsset: faqList[0].isAsset,
-            ),
-            NavigationTypeButton(
-              label: contactUsList[0].getName(context),
-              selectedLabel: '',
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, '/contact_us');
-              },
-              imagePath: contactUsList[0].imagePath!,
-              isSelected: false,
-              isAsset: contactUsList[0].isAsset,
-            ),
-            NavigationTypeButton(
-              label: deleteAccountList[0].getName(context),
-              selectedLabel: '',
-              onPressed: () {
-                Navigator.pop(context);
-                _showDeleteAccountDialog(context);
-              },
-              imagePath: deleteAccountList[0].imagePath!,
-              isSelected: false,
-              isAsset: deleteAccountList[0].isAsset,
-            ),
-            NavigationTypeButton(
-              label: logOutList[0].getName(context),
-              selectedLabel: '',
-              onPressed: () {
-                Navigator.pop(context);
-                _logOut(context);
-              },
-              imagePath: logOutList[0].imagePath!,
-              isSelected: false,
-              isAsset: logOutList[0].isAsset,
-            ),
-          ],
-        ),
-      ),
-      body: const Center(
-        child: Text('Welcome to Closet Conscious!'),
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _buildNavigationButton(BuildContext context, dynamic item,
+      String? route, void Function(BuildContext)? customAction) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: NavigationTypeButton(
+          label: item.getName(context),
+          selectedLabel: '',
+          onPressed: () {
+            Navigator.pop(context);
+            if (route != null) {
+              Navigator.pushNamed(context, route);
+            } else if (customAction != null) {
+              customAction(context);
+            }
+          },
+          imagePath: item.imagePath!,
+          isSelected: false,
+          isAsset: true,
+          isHorizontal: true,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildVerticalSpacing() {
+    return const SizedBox(height: 16.0);
   }
 
   void _showUsageInsightsBottomSheet(BuildContext context) {
@@ -170,13 +148,19 @@ class AppDrawer extends StatelessWidget {
   }
 
   Future<void> _logOut(BuildContext context) async {
-    // Capture the Navigator state
-    final navigator = Navigator.of(context);
+    // Navigate to the login screen first
+    Navigator.pushReplacementNamed(context, '/');
 
     // Perform log out action, e.g., Supabase sign out
-    await SupabaseConfig.client.auth.signOut();
+    try {
+      logger.i("Logging out...");
 
-    // Use the captured Navigator state
-    navigator.pushNamedAndRemoveUntil('/', (route) => false);
+      await SupabaseConfig.client.auth.signOut();
+
+      logger.i("Logged out successfully.");
+    } catch (e) {
+      // Handle errors if needed
+      logger.e("Logout failed: $e");
+    }
   }
 }

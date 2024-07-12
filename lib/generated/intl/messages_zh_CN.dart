@@ -121,12 +121,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("很抱歉，我们无法整理您的衣柜。"),
         "errorIncrement":
             MessageLookupByLibrary.simpleMessage("我们很抱歉，我们无法记录您的兴趣。"),
-        "faq": MessageLookupByLibrary.simpleMessage("常见问题"),
         "filterSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("筛选和搜索高级功能"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("筛选"),
         "highestStreakTooltip":
             MessageLookupByLibrary.simpleMessage("这显示了您最高的不购买连续天数"),
+        "infoHub": MessageLookupByLibrary.simpleMessage("信息中心"),
         "interestAcknowledged":
             MessageLookupByLibrary.simpleMessage("您的兴趣已被记录。请关注更新。"),
         "interested": MessageLookupByLibrary.simpleMessage("感兴趣"),
@@ -148,7 +148,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("我的衣橱"),
         "newItemsTooltip":
             MessageLookupByLibrary.simpleMessage("这显示了您购买的新物品数量"),
-        "news": MessageLookupByLibrary.simpleMessage("新闻"),
         "next": MessageLookupByLibrary.simpleMessage("下一步"),
         "occasionFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("场合字段未填写。"),
@@ -160,7 +159,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
         "please_enter_valid_amount":
             MessageLookupByLibrary.simpleMessage("请输入一个有效的金额（0或更大）。"),
-        "policy": MessageLookupByLibrary.simpleMessage("政策"),
         "profileSection": MessageLookupByLibrary.simpleMessage("个人资料"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "通过筛选和搜索选项快速找到物品，节省时间并保持井井有条。"),
@@ -184,6 +182,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("支持与协助"),
         "tagline": MessageLookupByLibrary.simpleMessage("购物你的衣橱"),
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
+        "unexpectedErrorOccurred":
+            MessageLookupByLibrary.simpleMessage("发生意外错误。请稍后再试，或联系支持团队以获取帮助。"),
+        "unexpectedResponseFormat":
+            MessageLookupByLibrary.simpleMessage("响应格式异常。请稍后再试，或联系支持团队以获取帮助。"),
         "update": MessageLookupByLibrary.simpleMessage("更新"),
         "upload": MessageLookupByLibrary.simpleMessage("上传"),
         "upload_failed": m0,

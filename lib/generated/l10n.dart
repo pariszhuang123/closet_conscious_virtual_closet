@@ -1230,21 +1230,11 @@ class S {
     );
   }
 
-  /// `Policy`
-  String get policy {
+  /// `Info Hub`
+  String get infoHub {
     return Intl.message(
-      'Policy',
-      name: 'policy',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `News`
-  String get news {
-    return Intl.message(
-      'News',
-      name: 'news',
+      'Info Hub',
+      name: 'infoHub',
       desc: '',
       args: [],
     );
@@ -1265,16 +1255,6 @@ class S {
     return Intl.message(
       'Become an Ambassador',
       name: 'becomeAmbassador',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `FAQ`
-  String get faq {
-    return Intl.message(
-      'FAQ',
-      name: 'faq',
       desc: '',
       args: [],
     );

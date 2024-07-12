@@ -160,19 +160,9 @@ class TypeDataList {
       TypeData('UsageInsights', (context) => S.of(context).usageInsights, 'assets/icons/drawer/analytics.svg', isAsset: true),
     ];
   }
-  static List<TypeData> drawerPolicy(BuildContext context) {
+  static List<TypeData> drawerInfoHub(BuildContext context) {
     return [
-      TypeData('Policy', (context) => S.of(context).policy, 'assets/icons/drawer/policy.svg', isAsset: true),
-    ];
-  }
-  static List<TypeData> drawerNews(BuildContext context) {
-    return [
-      TypeData('News', (context) => S.of(context).news, 'assets/icons/drawer/news.svg', isAsset: true),
-    ];
-  }
-  static List<TypeData> drawerFaq(BuildContext context) {
-    return [
-      TypeData('FAQ', (context) => S.of(context).faq, 'assets/icons/drawer/faq.svg', isAsset: true),
+      TypeData('Policy', (context) => S.of(context).infoHub, 'assets/icons/drawer/info_hub.svg', isAsset: true),
     ];
   }
   static List<TypeData> drawerContactUs(BuildContext context) {

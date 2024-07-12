@@ -36,7 +36,7 @@ class CreateOutfitPageState extends State<CreateOutfitPage> {
             title: const Text('Create My Outfit'),
             automaticallyImplyLeading: true, // This removes the back button
           ),
-          drawer: const AppDrawer(), // Include the AppDrawer here
+          drawer: AppDrawer(), // Include the AppDrawer here
           backgroundColor: widget.myOutfitTheme.colorScheme.surface,
           body: Padding(
             padding: const EdgeInsets.all(8.0),

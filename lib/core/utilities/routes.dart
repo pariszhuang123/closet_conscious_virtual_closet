@@ -20,9 +20,7 @@ class AppRoutes {
   static const String noInternet = '/no_internet';
   static const String uploadItem = '/upload_item';
   static const String editItem = '/edit_item';
-  static const String policy = '/policy';
-  static const String news = '/news';
-  static const String faq = '/faq';
+  static const String infoHub = '/info_hub';
 
   static Route<dynamic> generateRoute(RouteSettings settings, ThemeData myClosetTheme, ThemeData myOutfitTheme) {
     switch (settings.name) {
@@ -80,12 +78,8 @@ class AppRoutes {
           );
         }
         return _errorRoute(settings.name);
-      case policy:
-        return MaterialPageRoute(builder: (_) => const WebViewScreen(url: 'https://your-policy-url.com', title: 'Policy'));
-      case news:
-        return MaterialPageRoute(builder: (_) => const WebViewScreen(url: 'https://your-news-url.com', title: 'News'));
-      case faq:
-        return MaterialPageRoute(builder: (_) => const WebViewScreen(url: 'https://your-faq-url.com', title: 'FAQ'));
+      case infoHub:
+        return MaterialPageRoute(builder: (_) => const WebViewScreen(url: 'https://inky-twill-3ab.notion.site/719d833d32c5426b835badf3dd57e3a4?v=91eba3023ab4457395d01a500c0989d8&pvs=25'));
       case noInternet:
         return MaterialPageRoute(builder: (_) => const NoInternetPage());
       default:

@@ -133,12 +133,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "We are sorry, we can\'t declutter your closet"),
         "errorIncrement": MessageLookupByLibrary.simpleMessage(
             "We are sorry, we can\'t record your interest"),
-        "faq": MessageLookupByLibrary.simpleMessage("FAQ"),
         "filterSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Filter & Search Premium Feature"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "highestStreakTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows your highest score of no purchase"),
+        "infoHub": MessageLookupByLibrary.simpleMessage("Info Hub"),
         "interestAcknowledged": MessageLookupByLibrary.simpleMessage(
             "Your interest has been noted. Stay tuned for updates."),
         "interested": MessageLookupByLibrary.simpleMessage("Interested"),
@@ -160,7 +160,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("My Closet"),
         "newItemsTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows how many new items you have purchased"),
-        "news": MessageLookupByLibrary.simpleMessage("News"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "occasionFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Occasion field is not filled."),
@@ -174,7 +173,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter an item name"),
         "please_enter_valid_amount": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid amount (0 or greater)."),
-        "policy": MessageLookupByLibrary.simpleMessage("Policy"),
         "profileSection": MessageLookupByLibrary.simpleMessage("Profile"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "Quickly find items with filter and search options, saving time and staying organized."),
