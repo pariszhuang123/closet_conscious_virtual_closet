@@ -8,7 +8,9 @@ import '../core/theme/ui_constant.dart';
 import '../core/widgets/bottom_sheet/analytics_premium_bottom_sheet.dart';
 
 class AppDrawer extends StatelessWidget {
-  AppDrawer({super.key});
+  final bool isFromMyCloset;
+
+  AppDrawer({super.key, required this.isFromMyCloset});
 
   final CustomLogger logger = CustomLogger('AppDrawer');
 
@@ -25,7 +27,7 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: appBarHeight*1.53, // Set the desired height here
+            height: appBarHeight * 1.53, // Set the desired height here
             child: DrawerHeader(
               decoration: BoxDecoration(
                 color: Theme.of(context).drawerTheme.backgroundColor,
@@ -33,9 +35,10 @@ class AppDrawer extends StatelessWidget {
               margin: EdgeInsets.zero, // Ensure the height is strictly as defined
               child: Center(
                 child: Text(
-                  S.of(context).AppName,style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSecondary,
-                ),
+                  S.of(context).AppName,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
                 ),
               ),
             ),
@@ -49,8 +52,8 @@ class AppDrawer extends StatelessWidget {
                   _buildNavigationButton(
                       context, achievementsList[0], '/achievements', null),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(context, insightsList[0], null,
-                      _showUsageInsightsBottomSheet),
+                  _buildNavigationButton(
+                      context, insightsList[0], null, (ctx) => _showUsageInsightsBottomSheet(ctx, isFromMyCloset)),
                   _buildVerticalSpacing(),
                   _buildNavigationButton(
                       context, infoHubList[0], '/info_hub', null),
@@ -58,10 +61,11 @@ class AppDrawer extends StatelessWidget {
                   _buildNavigationButton(
                       context, contactUsList[0], '/contact_us', null),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(context, deleteAccountList[0], null,
-                      _showDeleteAccountDialog),
+                  _buildNavigationButton(
+                      context, deleteAccountList[0], null, _showDeleteAccountDialog),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(context, logOutList[0], null, _logOut),
+                  _buildNavigationButton(
+                      context, logOutList[0], null, _logOut),
                 ],
               ),
             ),
@@ -71,8 +75,7 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildNavigationButton(BuildContext context, dynamic item,
-      String? route, void Function(BuildContext)? customAction) {
+  Widget _buildNavigationButton(BuildContext context, dynamic item, String? route, void Function(BuildContext)? customAction) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
@@ -94,6 +97,7 @@ class AppDrawer extends StatelessWidget {
           isSelected: false,
           isAsset: true,
           isHorizontal: true,
+
         ),
       ),
     );
@@ -103,11 +107,11 @@ class AppDrawer extends StatelessWidget {
     return const SizedBox(height: 16.0);
   }
 
-  void _showUsageInsightsBottomSheet(BuildContext context) {
+  void _showUsageInsightsBottomSheet(BuildContext context, bool isFromMyCloset) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return const PremiumAnalyticsBottomSheet(isFromMyCloset: true);
+        return PremiumAnalyticsBottomSheet(isFromMyCloset: isFromMyCloset);
       },
     );
   }

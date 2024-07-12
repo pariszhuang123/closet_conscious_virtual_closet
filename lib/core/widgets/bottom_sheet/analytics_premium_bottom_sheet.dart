@@ -79,46 +79,49 @@ class PremiumAnalyticsBottomSheetState extends State<PremiumAnalyticsBottomSheet
     ThemeData theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
     ColorScheme colorScheme = theme.colorScheme;
 
-    return Container(
-      color: colorScheme.surface,
-      padding: const EdgeInsets.all(16.0),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Text(
-                    S.of(context).AnalyticsSearchPremiumFeature,
-                    style: theme.textTheme.titleMedium,
+    return Theme(
+      data: theme,
+      child: Container(
+        color: colorScheme.surface,
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(
+                      S.of(context).AnalyticsSearchPremiumFeature,
+                      style: theme.textTheme.titleMedium,
+                    ),
                   ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.close, color: colorScheme.onSurface),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8.0),
-            Text(
-              S.of(context).trackAnalyticsDescription,
-              style: theme.textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 16.0),
-            Center(
-              child: ElevatedButton(
-                onPressed: _isButtonDisabled ? null : _handleButtonPress,
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: colorScheme.onPrimary,
-                  backgroundColor: colorScheme.primary,
-                ),
-                child: Text(S.of(context).interested, style: theme.textTheme.labelLarge),
+                  IconButton(
+                    icon: Icon(Icons.close, color: colorScheme.onSurface),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: 8.0),
+              Text(
+                S.of(context).trackAnalyticsDescription,
+                style: theme.textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 16.0),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _isButtonDisabled ? null : _handleButtonPress,
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: colorScheme.onPrimary,
+                    backgroundColor: colorScheme.primary,
+                  ),
+                  child: Text(S.of(context).interested, style: theme.textTheme.labelLarge),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

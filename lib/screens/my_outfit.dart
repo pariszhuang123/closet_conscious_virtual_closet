@@ -43,7 +43,7 @@ class CreateOutfitPageState extends State<CreateOutfitPage> {
               backgroundColor: widget.myOutfitTheme.colorScheme.secondary,
             ),
           ),
-          drawer: AppDrawer(), // Include the AppDrawer here
+          drawer: AppDrawer(isFromMyCloset: false), // Include the AppDrawer here
           backgroundColor: widget.myOutfitTheme.colorScheme.surface,
           body: Padding(
             padding: const EdgeInsets.all(8.0),

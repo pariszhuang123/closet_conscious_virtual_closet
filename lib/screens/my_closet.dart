@@ -145,7 +145,7 @@ class MyClosetPageState extends State<MyClosetPage> {
               backgroundColor: widget.myClosetTheme.colorScheme.secondary,
             ),
           ),
-          drawer: AppDrawer(), // Include the AppDrawer here
+          drawer: AppDrawer(isFromMyCloset: true), // Include the AppDrawer here
           backgroundColor: widget.myClosetTheme.colorScheme.surface,
           body: Padding(
             padding: const EdgeInsets.all(8.0),
