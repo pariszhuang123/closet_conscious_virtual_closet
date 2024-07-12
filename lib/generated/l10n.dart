@@ -680,6 +680,16 @@ class S {
     );
   }
 
+  /// `Create My Outfit`
+  String get myOutfitTitle {
+    return Intl.message(
+      'Create My Outfit',
+      name: 'myOutfitTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Closet Upload Complete`
   String get closetUploadComplete {
     return Intl.message(

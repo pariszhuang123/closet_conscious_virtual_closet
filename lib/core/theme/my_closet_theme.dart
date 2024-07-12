@@ -51,7 +51,7 @@ final ThemeData myClosetTheme = ThemeData(
     titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black), // Smaller medium-emphasis text
     bodySmall: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black), // Caption text
     labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white), // Text for buttons
-    labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black), // Overline text
+    labelSmall: TextStyle(fontSize: 13, fontWeight: FontWeight.normal, color: Colors.black), // Overline text
   ),
   chipTheme: ChipThemeData(
     backgroundColor: Colors.grey.shade200,

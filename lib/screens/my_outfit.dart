@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../screens/app_drawer.dart';
+import '../core/theme/ui_constant.dart';
+import '../generated/l10n.dart';
+
 
 class CreateOutfitPage extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -32,9 +35,13 @@ class CreateOutfitPageState extends State<CreateOutfitPage> {
       child: Theme(
         data: widget.myOutfitTheme,
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Create My Outfit'),
-            automaticallyImplyLeading: true, // This removes the back button
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(appBarHeight),
+            child: AppBar(
+              title: Text(S.of(context).myOutfitTitle, style: widget.myOutfitTheme.textTheme.titleMedium),
+              automaticallyImplyLeading: true, // Ensure no back button
+              backgroundColor: widget.myOutfitTheme.colorScheme.secondary,
+            ),
           ),
           drawer: AppDrawer(), // Include the AppDrawer here
           backgroundColor: widget.myOutfitTheme.colorScheme.surface,
@@ -99,7 +106,7 @@ class CreateOutfitPageState extends State<CreateOutfitPage> {
               ),
             ],
             currentIndex: _selectedIndex,
-            selectedItemColor: const Color(0xFF255163), // Set selected item color
+            backgroundColor: widget.myOutfitTheme.colorScheme.secondary,
             onTap: _onItemTapped,
           ),
         ),

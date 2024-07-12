@@ -12,6 +12,8 @@ import '../generated/l10n.dart';
 import '../core/widgets/bottom_sheet/filter_premium_bottom_sheet.dart';
 import '../core/widgets/bottom_sheet/multi_closet_premium_bottom_sheet.dart';
 import '../screens/app_drawer.dart';
+import '../core/theme/ui_constant.dart';
+
 
 class MyClosetPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -135,10 +137,13 @@ class MyClosetPageState extends State<MyClosetPage> {
       child: Theme(
         data: widget.myClosetTheme,
         child: Scaffold(
-          appBar: AppBar(
-            title: Text(S.of(context).myClosetTitle, style: widget.myClosetTheme.textTheme.titleMedium),
-            automaticallyImplyLeading: true, // Ensure no back button
-            backgroundColor: widget.myClosetTheme.colorScheme.secondary,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(appBarHeight),
+            child: AppBar(
+              title: Text(S.of(context).myClosetTitle, style: widget.myClosetTheme.textTheme.titleMedium),
+              automaticallyImplyLeading: true, // Ensure no back button
+              backgroundColor: widget.myClosetTheme.colorScheme.secondary,
+            ),
           ),
           drawer: AppDrawer(), // Include the AppDrawer here
           backgroundColor: widget.myClosetTheme.colorScheme.surface,

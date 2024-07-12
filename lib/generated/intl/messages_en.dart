@@ -158,6 +158,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "multiClosetFeatureTitle": MessageLookupByLibrary.simpleMessage(
             "Discover Our New Multi-Closet Feature"),
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("My Closet"),
+        "myOutfitTitle":
+            MessageLookupByLibrary.simpleMessage("Create My Outfit"),
         "newItemsTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows how many new items you have purchased"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),

@@ -4,6 +4,7 @@ import '../../core/data/type_data.dart';
 import '../core/config/supabase_config.dart';
 import '../generated/l10n.dart';
 import '../core/utilities/logger.dart';
+import '../core/theme/ui_constant.dart';
 
 class AppDrawer extends StatelessWidget {
   AppDrawer({super.key});
@@ -22,26 +23,19 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Theme
-                  .of(context)
-                  .drawerTheme
-                  .backgroundColor,
-            ),
-            child: Text(
-              S
-                  .of(context)
-                  .AppName,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .displayMedium
-                  ?.copyWith(
-                color: Theme
-                    .of(context)
-                    .colorScheme
-                    .onSecondary,
+          SizedBox(
+            height: appBarHeight*1.53, // Set the desired height here
+            child: DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).drawerTheme.backgroundColor,
+              ),
+              margin: EdgeInsets.zero, // Ensure the height is strictly as defined
+              child: Center(
+                child: Text(
+                  S.of(context).AppName,style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                ),
               ),
             ),
           ),
