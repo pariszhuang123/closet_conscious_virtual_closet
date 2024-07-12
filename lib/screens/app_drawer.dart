@@ -5,6 +5,7 @@ import '../core/config/supabase_config.dart';
 import '../generated/l10n.dart';
 import '../core/utilities/logger.dart';
 import '../core/theme/ui_constant.dart';
+import '../core/widgets/bottom_sheet/analytics_premium_bottom_sheet.dart';
 
 class AppDrawer extends StatelessWidget {
   AppDrawer({super.key});
@@ -33,8 +34,8 @@ class AppDrawer extends StatelessWidget {
               child: Center(
                 child: Text(
                   S.of(context).AppName,style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                  ),
+                  color: Theme.of(context).colorScheme.onSecondary,
+                ),
                 ),
               ),
             ),
@@ -79,10 +80,12 @@ class AppDrawer extends StatelessWidget {
         child: NavigationTypeButton(
           label: item.getName(context),
           selectedLabel: '',
-          onPressed: () {
-            Navigator.pop(context);
+          onPressed: () async {
+            final navigator = Navigator.of(context);
+            navigator.pop(); // Close the drawer
+            Future.delayed(const Duration(milliseconds: 300)); // Allow drawer to close
             if (route != null) {
-              Navigator.pushNamed(context, route);
+              navigator.pushNamed(route);
             } else if (customAction != null) {
               customAction(context);
             }
@@ -103,13 +106,8 @@ class AppDrawer extends StatelessWidget {
   void _showUsageInsightsBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      builder: (context) {
-        return const SizedBox(
-          height: 200,
-          child: Center(
-            child: Text('Usage Insights Details Here'),
-          ),
-        );
+      builder: (BuildContext context) {
+        return const PremiumAnalyticsBottomSheet(isFromMyCloset: true);
       },
     );
   }

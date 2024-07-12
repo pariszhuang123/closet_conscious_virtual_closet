@@ -28,6 +28,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Active": MessageLookupByLibrary.simpleMessage("运动"),
         "AmountHint": MessageLookupByLibrary.simpleMessage("这件物品花费了多少钱？"),
         "AmountLabel": MessageLookupByLibrary.simpleMessage("金额"),
+        "AnalyticsSearchPremiumFeature":
+            MessageLookupByLibrary.simpleMessage("注册风格分析高级功能"),
         "AppName": MessageLookupByLibrary.simpleMessage("环保衣橱"),
         "Athletic": MessageLookupByLibrary.simpleMessage("运动鞋"),
         "Autumn": MessageLookupByLibrary.simpleMessage("秋季"),
@@ -183,6 +185,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("支持与协助"),
         "tagline": MessageLookupByLibrary.simpleMessage("购物你的衣橱"),
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
+        "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
+            "深入了解您的衣橱，帮助您优化使用、追踪花费，并发现您的个人风格。"),
         "unexpectedErrorOccurred":
             MessageLookupByLibrary.simpleMessage("发生意外错误。请稍后再试，或联系支持团队以获取帮助。"),
         "unexpectedResponseFormat":

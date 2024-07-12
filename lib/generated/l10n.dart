@@ -1060,6 +1060,26 @@ class S {
     );
   }
 
+  /// `Register for Style Analytics Premium Feature`
+  String get AnalyticsSearchPremiumFeature {
+    return Intl.message(
+      'Register for Style Analytics Premium Feature',
+      name: 'AnalyticsSearchPremiumFeature',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gain deep insights into your wardrobe, helping you optimize usage, track spending, and discover your personal style.`
+  String get trackAnalyticsDescription {
+    return Intl.message(
+      'Gain deep insights into your wardrobe, helping you optimize usage, track spending, and discover your personal style.',
+      name: 'trackAnalyticsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Thank You!`
   String get thankYou {
     return Intl.message(

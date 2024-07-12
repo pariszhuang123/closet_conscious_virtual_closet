@@ -29,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "AmountHint": MessageLookupByLibrary.simpleMessage(
             "\'How much did the item cost?"),
         "AmountLabel": MessageLookupByLibrary.simpleMessage("Amount"),
+        "AnalyticsSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
+            "Register for Style Analytics Premium Feature"),
         "AppName": MessageLookupByLibrary.simpleMessage("ClosetConscious"),
         "Athletic": MessageLookupByLibrary.simpleMessage("Athletic"),
         "Autumn": MessageLookupByLibrary.simpleMessage("Autumn"),
@@ -205,6 +207,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Support & Assistance"),
         "tagline": MessageLookupByLibrary.simpleMessage("ShopYourCloset"),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
+        "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
+            "Gain deep insights into your wardrobe, helping you optimize usage, track spending, and discover your personal style."),
         "unexpectedErrorOccurred": MessageLookupByLibrary.simpleMessage(
             "An unexpected error occurred. Please try again later or contact support if the issue persists."),
         "unexpectedResponseFormat": MessageLookupByLibrary.simpleMessage(
