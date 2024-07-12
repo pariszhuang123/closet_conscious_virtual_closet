@@ -11,7 +11,7 @@ class TextTypeButton extends TypeButton {
     required this.dataKey, // This is your custom key for selection logic
     required this.selectedKey,
     required this.label,
-    required super.imageUrl,
+    required super.imagePath,
     super.isSelected,
     super.onPressed,
   });

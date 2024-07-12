@@ -7,7 +7,7 @@ class DrawerItem extends TypeButton {
 
   const DrawerItem({
     super.key,
-    required super.imageUrl,
+    required super.imagePath,
     required this.text,
     bool isSelected = false,
     VoidCallback? onPressed,

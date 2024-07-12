@@ -9,7 +9,7 @@ class NavigationTypeButton extends TypeButton {
     required this.label,
     required this.selectedLabel,
     required super.onPressed,
-    required super.imageUrl,
+    required super.imagePath,
     super.isSelected,
     super.key,
   });

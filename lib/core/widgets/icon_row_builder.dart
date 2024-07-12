@@ -26,7 +26,7 @@ List<Widget> buildIconRows(
             dataKey: key,
             selectedKey: selectedKey ?? '',
             label: label,
-            imageUrl: type.imageUrl!,
+            imagePath: type.imagePath!,
             isSelected: selectedKey == key,
             onPressed: () {
               onTap(key);

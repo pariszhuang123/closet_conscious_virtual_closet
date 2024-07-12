@@ -5,11 +5,11 @@ import '../utilities/icon_helper.dart';
 class TypeData {
   final String key;
   final String Function(BuildContext) getName;
-  final String? imageUrl;
+  final String? imagePath;
+  final bool isAsset;
   final VoidCallback? onPressed;
 
-
-  TypeData(this.key, this.getName, [this.imageUrl, this.onPressed]);
+  TypeData(this.key, this.getName, this.imagePath, {this.isAsset = false, this.onPressed});
 }
 
 class TypeDataList {
@@ -122,7 +122,7 @@ class TypeDataList {
 
   static List<TypeData> itemUploaded(BuildContext context) {
     return [
-      TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Main/Items_uploaded.svg'),
+      TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'assets/icons/my_closet/Items_uploaded.svg', isAsset: true),
     ];
   }
 

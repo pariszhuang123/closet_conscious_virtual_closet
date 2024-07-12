@@ -7,9 +7,11 @@ class NumberTypeButton extends TypeButton {
   const NumberTypeButton({
     super.key,
     required this.count,
-    required super.imageUrl,
+    required super.imagePath,
+    required super.isAsset,
+    required super.isCloset,
     super.isSelected,
-    bool isHorizontal = false,
+    super.isHorizontal,
   }) : super(
     onPressed: null,
   );
