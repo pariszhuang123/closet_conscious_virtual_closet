@@ -1,6 +1,5 @@
 import '../../../generated/l10n.dart';
 import 'package:flutter/material.dart';
-import '../utilities/icon_helper.dart';
 
 class TypeData {
   final String key;
@@ -152,43 +151,43 @@ class TypeDataList {
 
   static List<TypeData> drawerAchievements(BuildContext context) {
     return [
-      TypeData('Achievements', (context) => S.of(context).achievements,
-        IconHelper.getIconPath('drawer', 'achievements')),
+      TypeData('Achievements', (context) => S.of(context).achievements, 'assets/icons/drawer/achievements.svg', isAsset: true),
     ];
   }
+
   static List<TypeData> drawerInsights(BuildContext context) {
     return [
-      TypeData('UsageInsights', (context) => S.of(context).usageInsights, IconHelper.getIconPath('drawer', 'analytics')),
+      TypeData('UsageInsights', (context) => S.of(context).usageInsights, 'assets/icons/drawer/analytics.svg', isAsset: true),
     ];
   }
   static List<TypeData> drawerPolicy(BuildContext context) {
     return [
-      TypeData('Policy', (context) => S.of(context).policy, IconHelper.getIconPath('drawer', 'policy')),
+      TypeData('Policy', (context) => S.of(context).policy, 'assets/icons/drawer/policy.svg', isAsset: true),
     ];
   }
   static List<TypeData> drawerNews(BuildContext context) {
     return [
-      TypeData('News', (context) => S.of(context).news, IconHelper.getIconPath('drawer', 'news')),
+      TypeData('News', (context) => S.of(context).news, 'assets/icons/drawer/news.svg', isAsset: true),
     ];
   }
   static List<TypeData> drawerFaq(BuildContext context) {
     return [
-      TypeData('FAQ', (context) => S.of(context).faq, IconHelper.getIconPath('drawer', 'faq')),
+      TypeData('FAQ', (context) => S.of(context).faq, 'assets/icons/drawer/faq.svg', isAsset: true),
     ];
   }
   static List<TypeData> drawerContactUs(BuildContext context) {
     return [
-      TypeData('ContactUs', (context) => S.of(context).contactUs, IconHelper.getIconPath('drawer', 'contact_us')),
+      TypeData('ContactUs', (context) => S.of(context).contactUs, 'assets/icons/drawer/contact_us.svg', isAsset: true),
     ];
   }
   static List<TypeData> drawerDeleteAccount(BuildContext context) {
     return [
-      TypeData('DeleteAccount', (context) => S.of(context).deleteAccount, IconHelper.getIconPath('drawer', 'delete_account')),
+      TypeData('DeleteAccount', (context) => S.of(context).deleteAccount, 'assets/icons/drawer/delete_account.svg', isAsset: true),
     ];
   }
   static List<TypeData> drawerLogOut(BuildContext context) {
     return [
-      TypeData('LogOut', (context) => S.of(context).logOut, IconHelper.getIconPath('drawer', 'logout')),
+      TypeData('LogOut', (context) => S.of(context).logOut, 'assets/icons/drawer/logout.svg', isAsset: true),
     ];
   }
 }

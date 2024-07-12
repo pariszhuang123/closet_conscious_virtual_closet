@@ -9,8 +9,8 @@ import '../core/data/services/supabase/fetch_service.dart';
 import '../core/widgets/button/number_type_button.dart';
 import '../core/data/type_data.dart';
 import '../generated/l10n.dart';
-import '../core/widgets/filter_premium_bottom_sheet.dart';
-import '../core/widgets/multi_closet_premium_bottom_sheet.dart';
+import '../core/widgets/bottom_sheet/filter_premium_bottom_sheet.dart';
+import '../core/widgets/bottom_sheet/multi_closet_premium_bottom_sheet.dart';
 import '../screens/app_drawer.dart';
 
 class MyClosetPage extends StatefulWidget {
@@ -140,7 +140,7 @@ class MyClosetPageState extends State<MyClosetPage> {
             automaticallyImplyLeading: true, // Ensure no back button
             backgroundColor: widget.myClosetTheme.colorScheme.secondary,
           ),
-          drawer: const AppDrawer(), // Include the AppDrawer here
+          drawer: AppDrawer(), // Include the AppDrawer here
           backgroundColor: widget.myClosetTheme.colorScheme.surface,
           body: Padding(
             padding: const EdgeInsets.all(8.0),

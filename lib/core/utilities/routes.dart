@@ -10,6 +10,7 @@ import '../../item_management/upload_item/pages/upload_item_page.dart';
 import '../../item_management/edit_item/pages/edit_item_page.dart';
 import '../../item_management/edit_item/data/edit_item_arguments.dart';
 import '../../item_management/edit_item/presentation/bloc/edit_item_bloc.dart';
+import '../widgets/webview_screen.dart';
 
 class AppRoutes {
   static const String login = '/';
@@ -19,6 +20,9 @@ class AppRoutes {
   static const String noInternet = '/no_internet';
   static const String uploadItem = '/upload_item';
   static const String editItem = '/edit_item';
+  static const String policy = '/policy';
+  static const String news = '/news';
+  static const String faq = '/faq';
 
   static Route<dynamic> generateRoute(RouteSettings settings, ThemeData myClosetTheme, ThemeData myOutfitTheme) {
     switch (settings.name) {
@@ -76,6 +80,12 @@ class AppRoutes {
           );
         }
         return _errorRoute(settings.name);
+      case policy:
+        return MaterialPageRoute(builder: (_) => const WebViewScreen(url: 'https://your-policy-url.com', title: 'Policy'));
+      case news:
+        return MaterialPageRoute(builder: (_) => const WebViewScreen(url: 'https://your-news-url.com', title: 'News'));
+      case faq:
+        return MaterialPageRoute(builder: (_) => const WebViewScreen(url: 'https://your-faq-url.com', title: 'FAQ'));
       case noInternet:
         return MaterialPageRoute(builder: (_) => const NoInternetPage());
       default:
