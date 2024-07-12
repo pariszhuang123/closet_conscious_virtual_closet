@@ -19,16 +19,12 @@ class NumberTypeButton extends TypeButton {
   @override
   Widget buildContent(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
-      mainAxisSize: MainAxisSize.min, // Ensure the row wraps its content
-      children: [
-        Text(
-          '$count',
-          style: theme.textTheme.labelSmall?.copyWith(
-            color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
-          ),
-        ),
-      ],
+
+    return Text(
+      '$count',
+      style: theme.textTheme.labelSmall?.copyWith(
+        color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
+      ),
     );
   }
 }

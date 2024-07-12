@@ -12,8 +12,12 @@ class TextTypeButton extends TypeButton {
     required this.selectedKey,
     required this.label,
     required super.imagePath,
+    required super.onPressed,
     super.isSelected,
-    super.onPressed,
+    super.isHorizontal,
+    super.isAsset,
+    super.isCloset,
+
   });
 
 

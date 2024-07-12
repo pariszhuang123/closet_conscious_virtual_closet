@@ -11,7 +11,7 @@ class TypeButton extends StatelessWidget {
   final bool isCloset;
 
   const TypeButton({
-    super.key, // This is the widget key
+    super.key,
     this.onPressed,
     required this.imagePath,
     this.isAsset = false,
@@ -26,7 +26,7 @@ class TypeButton extends StatelessWidget {
 
     Widget content = Container(
       decoration: BoxDecoration(
-        color: isSelected ? theme.colorScheme.surface : theme.colorScheme.surface,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: isSelected ? Border.all(color: theme.colorScheme.primary, width: 3) : null,
       ),
@@ -46,20 +46,19 @@ class TypeButton extends StatelessWidget {
 
   Widget buildHorizontalContent(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center, // Center the children horizontally
+      mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        buildContent(context),
-        const SizedBox(width: 4),
         buildImage(),
+        const SizedBox(width: 4),
+        buildContent(context),
       ],
     );
   }
 
-
   Widget buildVerticalContent(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center, // Center the children vertically
+      mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
         buildImage(),
@@ -89,7 +88,7 @@ class TypeButton extends StatelessWidget {
           width: 25,
           height: 25,
           errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-            return const Icon(Icons.error); // Display an error icon if image fails to load
+            return const Icon(Icons.error);
           },
         );
       }
@@ -97,6 +96,6 @@ class TypeButton extends StatelessWidget {
   }
 
   Widget buildContent(BuildContext context) {
-    return const SizedBox.shrink(); // Placeholder for derived classes to override
+    return const SizedBox.shrink();
   }
 }

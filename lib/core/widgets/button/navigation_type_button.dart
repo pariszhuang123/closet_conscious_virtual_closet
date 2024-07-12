@@ -11,12 +11,16 @@ class NavigationTypeButton extends TypeButton {
     required super.onPressed,
     required super.imagePath,
     super.isSelected,
+    super.isHorizontal,
+    super.isAsset,
+    super.isCloset,
     super.key,
   });
 
   @override
   Widget buildContent(BuildContext context) {
     final theme = Theme.of(context);
+
     return Text(
       isSelected ? selectedLabel : label,
       style: theme.textTheme.labelSmall?.copyWith(
@@ -26,3 +30,4 @@ class NavigationTypeButton extends TypeButton {
     );
   }
 }
+
