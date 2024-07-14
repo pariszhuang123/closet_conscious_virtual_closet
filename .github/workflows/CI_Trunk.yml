@@ -185,6 +185,9 @@ jobs:
       - name: Build AAB for production
         run: flutter build appbundle --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV
 
+      - name: List Files
+        run: ls -R build/app/outputs/bundle/release/
+
       - name: Upload production AAB
         uses: actions/upload-artifact@v4
         with:
