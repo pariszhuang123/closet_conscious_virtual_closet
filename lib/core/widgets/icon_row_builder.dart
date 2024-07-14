@@ -7,6 +7,7 @@ List<Widget> buildIconRows(
     String? selectedKey,
     void Function(String) onTap,
     BuildContext context,
+    bool isFromMyCloset,
     ) {
   List<Widget> rows = [];
   int index = 0;
@@ -28,6 +29,7 @@ List<Widget> buildIconRows(
             label: label,
             imagePath: type.imagePath!,
             isSelected: selectedKey == key,
+              isFromMyCloset: isFromMyCloset,
             onPressed: () {
               onTap(key);
             },

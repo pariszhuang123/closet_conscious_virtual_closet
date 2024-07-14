@@ -10,10 +10,10 @@ class NavigationTypeButton extends TypeButton {
     required this.selectedLabel,
     required super.onPressed,
     required super.imagePath,
+    required super.isFromMyCloset,
     super.isSelected,
     super.isHorizontal,
     super.isAsset,
-    super.isCloset,
     super.key,
   });
 

@@ -130,24 +130,28 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
                     selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_sold'),
                     imagePath: declutterSellOptions[0].imagePath!,
+                    isFromMyCloset: widget.isFromMyCloset, // Pass the parameter
                   ),
                   NavigationTypeButton(
                     label: declutterSwapOptions[0].getName(context),
                     selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_swapped'),
                     imagePath: declutterSwapOptions[0].imagePath!,
+                    isFromMyCloset: widget.isFromMyCloset, // Pass the parameter
                   ),
                   NavigationTypeButton(
                     label: declutterGiftOptions[0].getName(context),
                     selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_gifted'),
                     imagePath: declutterGiftOptions[0].imagePath!,
+                    isFromMyCloset: widget.isFromMyCloset, // Pass the parameter
                   ),
                   NavigationTypeButton(
                     label: declutterThrowOptions[0].getName(context),
                     selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_thrown'),
                     imagePath: declutterThrowOptions[0].imagePath!,
+                    isFromMyCloset: widget.isFromMyCloset, // Pass the parameter
                   ),
                 ],
               ),

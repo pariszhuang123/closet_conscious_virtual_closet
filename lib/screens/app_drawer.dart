@@ -83,6 +83,7 @@ class AppDrawer extends StatelessWidget {
         child: NavigationTypeButton(
           label: item.getName(context),
           selectedLabel: '',
+          isFromMyCloset: isFromMyCloset,
           onPressed: () async {
             final navigator = Navigator.of(context);
             navigator.pop(); // Close the drawer

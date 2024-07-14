@@ -317,6 +317,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                               selectedItemType = dataKey;
                                             }),
                                             context,
+                                            true, // Pass the isFromMyCloset parameter
                                           ),
                                         ),
                                       ),
@@ -334,6 +335,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                               selectedOccasion = dataKey;
                                             }),
                                             context,
+                                            true, // Pass the isFromMyCloset parameter
                                           ),
                                         ),
                                       ),
@@ -363,6 +365,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                               selectedSeason = dataKey;
                                             }),
                                             context,
+                                            true, // Pass the isFromMyCloset parameter
                                           ),
                                         ),
                                       ),
@@ -381,6 +384,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                                 selectedSpecificType = dataKey;
                                               }),
                                               context,
+                                              true, // Pass the isFromMyCloset parameter
                                             ),
                                           ),
                                         ),
@@ -399,6 +403,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                                 selectedSpecificType = dataKey;
                                               }),
                                               context,
+                                              true, // Pass the isFromMyCloset parameter
                                             ),
                                           ),
                                         ),
@@ -417,6 +422,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                                 selectedSpecificType = dataKey;
                                               }),
                                               context,
+                                              true, // Pass the isFromMyCloset parameter
                                             ),
                                           ),
                                         ),
@@ -434,6 +440,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                                 selectedClothingLayer = dataKey;
                                               }),
                                               context,
+                                              true, // Pass the isFromMyCloset parameter
                                             ),
                                           ),
                                         ),
@@ -464,6 +471,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                               selectedColour = dataKey;
                                             }),
                                             context,
+                                            true, // Pass the isFromMyCloset parameter
                                           ),
                                         ),
                                       ),
@@ -482,6 +490,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                                 selectedColourVariation = dataKey;
                                               }),
                                               context,
+                                              true, // Pass the isFromMyCloset parameter
                                             ),
                                           ),
                                         ),
@@ -516,4 +525,3 @@ class _UploadItemPageState extends State<UploadItemPage> {
     );
   }
 }
-

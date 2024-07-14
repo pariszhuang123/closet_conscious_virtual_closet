@@ -260,6 +260,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         context.read<EditItemBloc>().add(ItemTypeChangedEvent(dataKey));
                                       },
                                       context,
+                                      true, // Pass the isFromMyCloset parameter
                                     ),
                                     const SizedBox(height: 12),
                                     Text(
@@ -276,6 +277,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         context.read<EditItemBloc>().add(OccasionChangedEvent(dataKey));
                                       },
                                       context,
+                                      true, // Pass the isFromMyCloset parameter
                                     ),
                                     const SizedBox(height: 12),
                                     Text(
@@ -292,6 +294,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         context.read<EditItemBloc>().add(SeasonChangedEvent(dataKey));
                                       },
                                       context,
+                                      true, // Pass the isFromMyCloset parameter
                                     ),
                                     const SizedBox(height: 12),
                                     if (selectedItemType == 'Shoes') ...[
@@ -309,6 +312,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                           context.read<EditItemBloc>().add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
+                                        true, // Pass the isFromMyCloset parameter
                                       ),
                                     ],
                                     if (selectedItemType == 'Accessory') ...[
@@ -326,6 +330,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                           context.read<EditItemBloc>().add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
+                                        true, // Pass the isFromMyCloset parameter
                                       ),
                                     ],
                                     if (selectedItemType == 'Clothing') ...[
@@ -343,6 +348,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                           context.read<EditItemBloc>().add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
+                                        true, // Pass the isFromMyCloset parameter
                                       ),
                                       const SizedBox(height: 12),
                                       Text(
@@ -359,6 +365,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                           context.read<EditItemBloc>().add(ClothingLayerChangedEvent(dataKey));
                                         },
                                         context,
+                                        true, // Pass the isFromMyCloset parameter
                                       ),
                                     ],
                                     const SizedBox(height: 12),
@@ -376,6 +383,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         context.read<EditItemBloc>().add(ColourChangedEvent(dataKey));
                                       },
                                       context,
+                                      true, // Pass the isFromMyCloset parameter
                                     ),
                                     if (selectedColour != 'Black' &&
                                         selectedColour != 'White' &&
@@ -395,6 +403,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                           context.read<EditItemBloc>().add(ColourVariationChangedEvent(dataKey));
                                         },
                                         context,
+                                        true, // Pass the isFromMyCloset parameter
                                       ),
                                     ],
                                   ],

@@ -8,7 +8,7 @@ class TypeButton extends StatelessWidget {
   final bool isAsset;
   final bool isSelected;
   final bool isHorizontal;
-  final bool isCloset;
+  final bool isFromMyCloset;
 
   const TypeButton({
     super.key,
@@ -17,7 +17,7 @@ class TypeButton extends StatelessWidget {
     this.isAsset = false,
     this.isSelected = false,
     this.isHorizontal = false,
-    this.isCloset = true,
+    required this.isFromMyCloset,
   });
 
   @override
@@ -72,7 +72,7 @@ class TypeButton extends StatelessWidget {
     if (isAsset) {
       return ThemedSvg(
         assetName: imagePath,
-        isCloset: isCloset,
+        isFromMyCloset: isFromMyCloset,
       );
     } else {
       if (imagePath.endsWith('.svg')) {

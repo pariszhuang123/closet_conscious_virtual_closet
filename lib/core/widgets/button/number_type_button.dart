@@ -9,7 +9,7 @@ class NumberTypeButton extends TypeButton {
     required this.count,
     required super.imagePath,
     required super.isAsset,
-    required super.isCloset,
+    required super.isFromMyCloset,
     super.isSelected,
     super.isHorizontal,
   }) : super(
