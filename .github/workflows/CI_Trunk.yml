@@ -182,11 +182,11 @@ jobs:
       - name: Run tests
         run: flutter test
 
-      - name: Build APK for production
-        run: flutter build apk --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV --target-platform android-arm64
+      - name: Build AAB for production
+        run: flutter build appbundle --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV
 
-      - name: Upload production APK
+      - name: Upload production AAB
         uses: actions/upload-artifact@v4
         with:
-          name: prod-apk
-          path: build/app/outputs/flutter-apk/app-prod-release.apk
+          name: prod-aab
+          path: build/app/outputs/bundle/release/app-release.aab
