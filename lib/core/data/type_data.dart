@@ -127,25 +127,25 @@ class TypeDataList {
 
   static List<TypeData> declutterOptionsSell(BuildContext context) {
     return [
-      TypeData('Sell', (context) => S.of(context).Sell, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png'),
+      TypeData('Sell', (context) => S.of(context).Sell, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Declutter/sell.png'),
     ];
   }
 
   static List<TypeData> declutterOptionsSwap(BuildContext context) {
     return [
-      TypeData('Swap', (context) => S.of(context).Swap, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Main/Items_uploaded.svg'),
+      TypeData('Swap', (context) => S.of(context).Swap, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Declutter/swap.png'),
     ];
   }
 
   static List<TypeData> declutterOptionsGift(BuildContext context) {
     return [
-      TypeData('Gift', (context) => S.of(context).Gift, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Main/Closet_plus.svg'),
+      TypeData('Gift', (context) => S.of(context).Gift, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Declutter/pay_it_forward.png'),
     ];
   }
 
   static List<TypeData> declutterOptionsThrow(BuildContext context) {
     return [
-      TypeData('Throw', (context) => S.of(context).Throw, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Occasion/hiking.png'),
+      TypeData('Throw', (context) => S.of(context).Throw, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Declutter/throw.png'),
     ];
   }
 
