@@ -110,6 +110,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Colour field is not filled."),
         "colourVariationFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Colour Variation field is not filled."),
+        "confirmUpload":
+            MessageLookupByLibrary.simpleMessage("Confirm Achievement"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
         "currentStreakTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows your current streak of no purchase"),
@@ -215,6 +217,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Unexpected response format. Please try again later or contact support if the issue persists."),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),
+        "uploadConfirmationDescription": MessageLookupByLibrary.simpleMessage(
+            "Have you finished uploading all your existing items to your closet? Once confirmed, any new uploads with price will be marked as new additions to your wardrobe."),
+        "uploadConfirmationTitle":
+            MessageLookupByLibrary.simpleMessage("Confirm Closet Completion"),
         "upload_failed": m0,
         "upload_successful":
             MessageLookupByLibrary.simpleMessage("Upload successful!"),

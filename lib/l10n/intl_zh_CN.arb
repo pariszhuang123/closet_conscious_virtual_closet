@@ -138,5 +138,8 @@
   "declutterFeatureTitle": "整理您的衣柜",
   "declutterFeatureDescription": "轻松整理和清理您的衣柜，移除不需要的物品。简化您的衣橱，为新的风格腾出空间。",
   "unexpectedResponseFormat": "响应格式异常。请稍后再试，或联系支持团队以获取帮助。",
-  "unexpectedErrorOccurred": "发生意外错误。请稍后再试，或联系支持团队以获取帮助。"
+  "unexpectedErrorOccurred": "发生意外错误。请稍后再试，或联系支持团队以获取帮助。",
+  "uploadConfirmationTitle": "确认衣橱完成",
+  "uploadConfirmationDescription": "您是否已将所有现有物品上传到您的衣橱？一旦确认，任何带有价格的新上传物品都将被标记为您的新衣物。",
+  "confirmUpload": "确认成就"
 }

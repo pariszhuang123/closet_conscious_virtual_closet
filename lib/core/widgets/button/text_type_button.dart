@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'type_button.dart';
+import 'base_button/type_button.dart';
+import 'base_button/button_utility.dart';
 
 class TextTypeButton extends TypeButton {
   final String dataKey;
@@ -14,6 +15,7 @@ class TextTypeButton extends TypeButton {
     required super.imagePath,
     required super.onPressed,
     required super.isFromMyCloset,
+    required super.buttonType,
     super.isSelected,
     super.isHorizontal,
     super.isAsset,
@@ -24,10 +26,12 @@ class TextTypeButton extends TypeButton {
   @override
   Widget buildContent(BuildContext context) {
     final theme = Theme.of(context);
+    final textColor = ButtonUtils.getTextColor(theme, buttonType, isSelected);
+
     return Text(
       label[0].toUpperCase() + label.substring(1),
       style: theme.textTheme.labelSmall?.copyWith(
-        color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
+        color: textColor,
       ),
     );
   }

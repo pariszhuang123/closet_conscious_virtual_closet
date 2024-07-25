@@ -101,6 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("颜色字段未填写。"),
         "colourVariationFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("颜色变化字段未填写。"),
+        "confirmUpload": MessageLookupByLibrary.simpleMessage("确认成就"),
         "contactUs": MessageLookupByLibrary.simpleMessage("联系我们"),
         "currentStreakTooltip":
             MessageLookupByLibrary.simpleMessage("这显示了您当前的不购买连续天数"),
@@ -193,6 +194,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("响应格式异常。请稍后再试，或联系支持团队以获取帮助。"),
         "update": MessageLookupByLibrary.simpleMessage("更新"),
         "upload": MessageLookupByLibrary.simpleMessage("上传"),
+        "uploadConfirmationDescription": MessageLookupByLibrary.simpleMessage(
+            "您是否已将所有现有物品上传到您的衣橱？一旦确认，任何带有价格的新上传物品都将被标记为您的新衣物。"),
+        "uploadConfirmationTitle":
+            MessageLookupByLibrary.simpleMessage("确认衣橱完成"),
         "upload_failed": m0,
         "upload_successful": MessageLookupByLibrary.simpleMessage("上传成功"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("上传"),

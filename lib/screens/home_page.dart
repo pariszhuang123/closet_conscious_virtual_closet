@@ -5,8 +5,6 @@ import 'dart:async';
 import '../user_management/authentication/presentation/bloc/authentication_bloc.dart';
 import '../user_management/authentication/presentation/pages/login_screen.dart';
 import '../core/utilities/routes.dart';
-import '../core/connectivity/presentation/blocs/connectivity_bloc.dart';
-import '../core/connectivity/pages/no_internet_page.dart';
 
 class HomePage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -19,33 +17,11 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  late final ConnectivityBloc connectivityBloc;
-  late StreamSubscription connectivitySubscription;
 
   @override
   void initState() {
     super.initState();
     context.read<AuthBloc>().add(CheckAuthStatusEvent());
-
-    // Initialize the ConnectivityBloc
-    connectivityBloc = context.read<ConnectivityBloc>();
-
-    // Listen for connectivity changes
-    connectivitySubscription = connectivityBloc.stream.listen((state) {
-      if (state is ConnectivityOnline) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Connected to the internet')),
-        );
-      } else if (state is ConnectivityOffline) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const NoInternetPage()),
-        );
-      }
-    });
-
-    // Trigger initial connectivity check
-    connectivityBloc.add(ConnectivityStarted());
   }
 
   @override
@@ -70,13 +46,5 @@ class HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    // Cancel the connectivity subscription when the widget is disposed
-    connectivitySubscription.cancel();
-    connectivityBloc.close();
-    super.dispose();
   }
 }

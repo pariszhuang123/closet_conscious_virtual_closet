@@ -40,7 +40,7 @@ class CreateOutfitPageState extends State<CreateOutfitPage> {
             child: AppBar(
               title: Text(S.of(context).myOutfitTitle, style: widget.myOutfitTheme.textTheme.titleMedium),
               automaticallyImplyLeading: true, // Ensure no back button
-              backgroundColor: widget.myOutfitTheme.colorScheme.secondary,
+              backgroundColor: widget.myOutfitTheme.appBarTheme.backgroundColor,
             ),
           ),
           drawer: AppDrawer(isFromMyCloset: false), // Include the AppDrawer here
@@ -106,7 +106,8 @@ class CreateOutfitPageState extends State<CreateOutfitPage> {
               ),
             ],
             currentIndex: _selectedIndex,
-            backgroundColor: widget.myOutfitTheme.colorScheme.secondary,
+            selectedItemColor: widget.myOutfitTheme.bottomNavigationBarTheme.selectedItemColor,
+            backgroundColor: widget.myOutfitTheme.bottomNavigationBarTheme.backgroundColor,
             onTap: _onItemTapped,
           ),
         ),

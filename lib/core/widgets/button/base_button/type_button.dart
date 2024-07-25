@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../theme/themed_svg.dart';
+import '../../../theme/themed_svg.dart';
+
 
 class TypeButton extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -9,6 +10,7 @@ class TypeButton extends StatelessWidget {
   final bool isSelected;
   final bool isHorizontal;
   final bool isFromMyCloset;
+  final ButtonType buttonType;
 
   const TypeButton({
     super.key,
@@ -18,6 +20,7 @@ class TypeButton extends StatelessWidget {
     this.isSelected = false,
     this.isHorizontal = false,
     required this.isFromMyCloset,
+    this.buttonType = ButtonType.primary,
   });
 
   @override
@@ -26,7 +29,7 @@ class TypeButton extends StatelessWidget {
 
     Widget content = Container(
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
+        color: theme.colorScheme.onPrimary,
         borderRadius: BorderRadius.circular(12),
         border: isSelected ? Border.all(color: theme.colorScheme.primary, width: 3) : null,
       ),
@@ -73,6 +76,8 @@ class TypeButton extends StatelessWidget {
       return ThemedSvg(
         assetName: imagePath,
         isFromMyCloset: isFromMyCloset,
+        isSelected: isSelected,
+        buttonType: buttonType,// Pass the isSelected parameter
       );
     } else {
       if (imagePath.endsWith('.svg')) {

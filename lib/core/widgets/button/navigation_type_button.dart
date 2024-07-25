@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'type_button.dart';
+import 'base_button/type_button.dart';
+import 'base_button/button_utility.dart';
 
 class NavigationTypeButton extends TypeButton {
   final String label;
@@ -14,20 +15,21 @@ class NavigationTypeButton extends TypeButton {
     super.isSelected,
     super.isHorizontal,
     super.isAsset,
+    required super.buttonType,
     super.key,
   });
 
   @override
   Widget buildContent(BuildContext context) {
     final theme = Theme.of(context);
+    final textColor = ButtonUtils.getTextColor(theme, buttonType, isSelected);
 
     return Text(
       isSelected ? selectedLabel : label,
       style: theme.textTheme.labelSmall?.copyWith(
-        color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
+        color: textColor,
       ),
       textAlign: TextAlign.center,
     );
   }
 }
-

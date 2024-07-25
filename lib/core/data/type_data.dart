@@ -103,25 +103,25 @@ class TypeDataList {
 
   static List<TypeData> upload(BuildContext context) {
     return [
-      TypeData('upload_upload', (context) => S.of(context).upload_upload, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Main/upload_item.svg'),
+      TypeData('upload_upload', (context) => S.of(context).upload_upload, 'assets/icons/my_closet/additional_features/upload_item.svg', isAsset: true),
     ];
   }
 
   static List<TypeData> filter(BuildContext context) {
     return [
-      TypeData('filter_filter', (context) => S.of(context).filter_filter, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Main/filter_search.svg'),
+      TypeData('filter_filter', (context) => S.of(context).filter_filter, 'assets/icons/my_closet/additional_features/filter_search.svg', isAsset: true),
     ];
   }
 
   static List<TypeData> addCloset(BuildContext context) {
     return [
-      TypeData('addCloset_addCloset', (context) => S.of(context).addCloset_addCloset, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Main/Closet_plus.svg'),
+      TypeData('addCloset_addCloset', (context) => S.of(context).addCloset_addCloset, 'assets/icons/my_closet/additional_features/add_closet.svg', isAsset: true),
     ];
   }
 
   static List<TypeData> itemUploaded(BuildContext context) {
     return [
-      TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'assets/icons/my_closet/Items_uploaded.svg', isAsset: true),
+      TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'assets/icons/my_closet/additional_features/apparel.svg', isAsset: true),
     ];
   }
 

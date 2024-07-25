@@ -97,7 +97,7 @@ flutter:
   assets:
     - config/
     - assets/images/SVG_CC_Logo.svg
-    - assets/icons/my_closet/
+    - assets/icons/my_closet/additional_features/
     - assets/icons/drawer/
 
   #   - images/a_dot_burr.jpeg

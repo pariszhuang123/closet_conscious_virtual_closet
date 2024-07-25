@@ -8,40 +8,16 @@ final ThemeData myClosetTheme = ThemeData(
     primary: Colors.teal.shade800, // Closest to #366D59
     onPrimary: Colors.white,
     primaryContainer: Colors.teal.shade900, // Closest to #255743
-    secondary: Colors.teal.shade100, // Closest to #A0D6B4
+    secondary: Colors.teal.shade400, // Closest to #A0D6B4
     onSecondary: Colors.black,
     secondaryContainer: Colors.green.shade500,
     surface: Colors.white,
-    onSurface: Colors.black,
+    onSurface: Colors.teal.shade800,
     error: Colors.red.shade200,
     onError: Colors.white,
   ),
   dividerColor: Colors.teal.shade800,
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ButtonStyle(
-      backgroundColor: WidgetStateProperty.resolveWith<Color?>(
-            (Set<WidgetState> states) {
-          if (states.contains(WidgetState.pressed) || states.contains(WidgetState.selected)) {
-            return Colors.teal.shade800; // Closest to #255743
-          }
-          return Colors.teal.shade400; // Closest to #366D59
-        },
-      ),
-      foregroundColor: WidgetStateProperty.resolveWith<Color?>(
-            (Set<WidgetState> states) {
-          return Colors.white; // Always white text for better visibility
-        },
-      ),
-      textStyle: WidgetStateProperty.resolveWith<TextStyle?>(
-            (Set<WidgetState> states) {
-          if (states.contains(WidgetState.pressed) || states.contains(WidgetState.selected)) {
-            return const TextStyle(fontWeight: FontWeight.bold);
-          }
-          return const TextStyle(fontWeight: FontWeight.normal);
-        },
-      ),
-    ),
-  ),
+
   textTheme: const TextTheme(
     bodyLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black), // Larger body text
     bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black), // Medium body text
@@ -65,7 +41,7 @@ final ThemeData myClosetTheme = ThemeData(
     brightness: Brightness.light,
   ),
   appBarTheme: AppBarTheme(
-    backgroundColor: Colors.teal.shade800,  // Closest to #A0D6B4
+    backgroundColor: Colors.teal.shade100,  // Closest to #A0D6B4
     foregroundColor: Colors.black,
   ),
   drawerTheme: DrawerThemeData(
@@ -73,7 +49,7 @@ final ThemeData myClosetTheme = ThemeData(
     elevation: 16.0,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: Colors.greenAccent.shade100, // Closest to #A0D6B4
+    backgroundColor: Colors.teal.shade100, // Closest to #A0D6B4
     selectedItemColor: Colors.teal.shade800, // Closest to #255743
     unselectedItemColor: Colors.grey,
   ),
@@ -85,5 +61,16 @@ final ThemeData myClosetTheme = ThemeData(
     backgroundColor: Colors.teal.shade100,
     titleTextStyle: TextStyle(color: Colors.teal.shade900, fontWeight: FontWeight.bold),
     contentTextStyle: TextStyle(color: Colors.teal.shade800),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.pressed)) {
+          return Colors.teal.shade900; // closest to #255743
+        }
+        return Colors.teal.shade800; // closest to #366D59
+      }),
+      foregroundColor: WidgetStateProperty.all<Color>(Colors.white), // text color
+    ),
   ),
 );

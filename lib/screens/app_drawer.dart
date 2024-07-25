@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/widgets/button/navigation_type_button.dart';
+import '../../core/theme/themed_svg.dart';
 import '../../core/data/type_data.dart';
 import '../core/config/supabase_config.dart';
 import '../generated/l10n.dart';
@@ -84,6 +85,7 @@ class AppDrawer extends StatelessWidget {
           label: item.getName(context),
           selectedLabel: '',
           isFromMyCloset: isFromMyCloset,
+          buttonType: ButtonType.primary,
           onPressed: () async {
             final navigator = Navigator.of(context);
             navigator.pop(); // Close the drawer

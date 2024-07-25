@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../theme/themed_svg.dart';
 import '../widgets/button/text_type_button.dart';
 import '../data/type_data.dart';
 
@@ -30,6 +32,7 @@ List<Widget> buildIconRows(
             imagePath: type.imagePath!,
             isSelected: selectedKey == key,
               isFromMyCloset: isFromMyCloset,
+            buttonType: ButtonType.primary,
             onPressed: () {
               onTap(key);
             },

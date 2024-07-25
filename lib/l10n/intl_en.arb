@@ -138,5 +138,8 @@
   "declutterFeatureTitle": "Declutter Your Closet",
   "declutterFeatureDescription": "Easily organize and clean up your closet by removing unwanted items. Simplify your wardrobe and make room for new styles.",
   "unexpectedResponseFormat": "Unexpected response format. Please try again later or contact support if the issue persists.",
-  "unexpectedErrorOccurred": "An unexpected error occurred. Please try again later or contact support if the issue persists."
+  "unexpectedErrorOccurred": "An unexpected error occurred. Please try again later or contact support if the issue persists.",
+  "uploadConfirmationTitle": "Confirm Closet Completion",
+  "uploadConfirmationDescription": "Have you finished uploading all your existing items to your closet? Once confirmed, any new uploads with price will be marked as new additions to your wardrobe.",
+  "confirmUpload": "Confirm Achievement"
 }

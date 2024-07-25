@@ -7,13 +7,14 @@ import '../item_management/core/data/models/closet_item_minimal.dart';
 import '../item_management/view_items/widget/item_grid.dart';
 import '../core/data/services/supabase/fetch_service.dart';
 import '../core/widgets/button/number_type_button.dart';
+import '../core/theme/themed_svg.dart';
 import '../core/data/type_data.dart';
 import '../generated/l10n.dart';
 import '../core/widgets/bottom_sheet/filter_premium_bottom_sheet.dart';
 import '../core/widgets/bottom_sheet/multi_closet_premium_bottom_sheet.dart';
+import '../item_management/upload_item/widgets/upload_confirmation_bottom_sheet.dart';
 import '../screens/app_drawer.dart';
 import '../core/theme/ui_constant.dart';
-
 
 class MyClosetPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -65,6 +66,15 @@ class MyClosetPageState extends State<MyClosetPage> {
       context: context,
       builder: (BuildContext context) {
         return const MultiClosetFeatureBottomSheet(isFromMyCloset: true);
+      },
+    );
+  }
+
+  void _onUploadCompletedButtonPressed() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const UploadConfirmationBottomSheet(isFromMyCloset: true);
       },
     );
   }
@@ -142,7 +152,7 @@ class MyClosetPageState extends State<MyClosetPage> {
             child: AppBar(
               title: Text(S.of(context).myClosetTitle, style: widget.myClosetTheme.textTheme.titleMedium),
               automaticallyImplyLeading: true, // Ensure no back button
-              backgroundColor: widget.myClosetTheme.colorScheme.secondary,
+              backgroundColor: widget.myClosetTheme.appBarTheme.backgroundColor,
             ),
           ),
           drawer: AppDrawer(isFromMyCloset: true), // Include the AppDrawer here
@@ -176,21 +186,27 @@ class MyClosetPageState extends State<MyClosetPage> {
                               selectedLabel: '',
                               onPressed: _onUploadButtonPressed,
                               imagePath: uploadList[0].imagePath!,
+                              isAsset: true,
                               isFromMyCloset: true,
+                              buttonType: ButtonType.primary,
                             ),
                             NavigationTypeButton(
                               label: filterList[0].getName(context),
                               selectedLabel: '',
                               onPressed: _onFilterButtonPressed,
                               imagePath: filterList[0].imagePath!,
+                              isAsset: true,
                               isFromMyCloset: true,
+                              buttonType: ButtonType.secondary,
                             ),
                             NavigationTypeButton(
                               label: addClosetList[0].getName(context),
                               selectedLabel: '',
                               onPressed: _onMultiClosetButtonPressed,
                               imagePath: addClosetList[0].imagePath!,
+                              isAsset: true,
                               isFromMyCloset: true,
+                              buttonType: ButtonType.secondary,
                             ),
                           ],
                         ),
@@ -202,6 +218,7 @@ class MyClosetPageState extends State<MyClosetPage> {
                           isAsset: true,
                             isFromMyCloset: true,
                             isHorizontal: false,
+                            buttonType: ButtonType.secondary,
                           ),
                         ),
                       ],
@@ -217,7 +234,8 @@ class MyClosetPageState extends State<MyClosetPage> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _onUploadCompletedButtonPressed,
+                  style: widget.myClosetTheme.elevatedButtonTheme.style,
                   child: Text(S.of(context).closetUploadComplete, style: widget.myClosetTheme.textTheme.labelLarge),
                 ),
               ],
@@ -235,8 +253,8 @@ class MyClosetPageState extends State<MyClosetPage> {
               ),
             ],
             currentIndex: _selectedIndex,
-            selectedItemColor: widget.myClosetTheme.colorScheme.primary,
-            backgroundColor: widget.myClosetTheme.colorScheme.secondary, // Set the background color
+            selectedItemColor: widget.myClosetTheme.bottomNavigationBarTheme.selectedItemColor,
+            backgroundColor: widget.myClosetTheme.bottomNavigationBarTheme.backgroundColor,
             onTap: _onItemTapped,
           ),
         ),

@@ -1439,6 +1439,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Confirm Closet Completion`
+  String get uploadConfirmationTitle {
+    return Intl.message(
+      'Confirm Closet Completion',
+      name: 'uploadConfirmationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Have you finished uploading all your existing items to your closet? Once confirmed, any new uploads with price will be marked as new additions to your wardrobe.`
+  String get uploadConfirmationDescription {
+    return Intl.message(
+      'Have you finished uploading all your existing items to your closet? Once confirmed, any new uploads with price will be marked as new additions to your wardrobe.',
+      name: 'uploadConfirmationDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Achievement`
+  String get confirmUpload {
+    return Intl.message(
+      'Confirm Achievement',
+      name: 'confirmUpload',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

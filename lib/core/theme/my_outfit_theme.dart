@@ -5,43 +5,19 @@ final ThemeData myOutfitTheme = ThemeData(
     primarySwatch: Colors.blue,
     accentColor: Colors.blueAccent,
   ).copyWith(
-    primary: Colors.blue.shade700, // Dark blue for primary
+    primary: Colors.blue.shade800, // Dark blue for primary
     onPrimary: Colors.white,
     primaryContainer: Colors.blue.shade800, // Darker blue for primary container
     secondary: Colors.lightBlue.shade100, // Light blue for secondary
     onSecondary: Colors.black,
     secondaryContainer: Colors.blueAccent.shade700,
     surface: Colors.white,
-    onSurface: Colors.black,
+    onSurface: Colors.blue.shade800,
     error: Colors.red,
     onError: Colors.white,
   ),
   dividerColor: Colors.teal.shade800,
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ButtonStyle(
-      backgroundColor: WidgetStateProperty.resolveWith<Color?>(
-            (Set<WidgetState> states) {
-          if (states.contains(WidgetState.pressed) || states.contains(WidgetState.selected)) {
-            return Colors.blue.shade800; // Darker blue when pressed
-          }
-          return Colors.blue.shade700; // Dark blue for default state
-        },
-      ),
-      foregroundColor: WidgetStateProperty.resolveWith<Color?>(
-            (Set<WidgetState> states) {
-          return Colors.white; // Always white text for better visibility
-        },
-      ),
-      textStyle: WidgetStateProperty.resolveWith<TextStyle?>(
-            (Set<WidgetState> states) {
-          if (states.contains(WidgetState.pressed) || states.contains(WidgetState.selected)) {
-            return const TextStyle(fontWeight: FontWeight.bold);
-          }
-          return const TextStyle(fontWeight: FontWeight.normal);
-        },
-      ),
-    ),
-  ),
+
   textTheme: const TextTheme(
     bodyLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black), // Larger body text
     bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black), // Medium body text
@@ -85,5 +61,16 @@ final ThemeData myOutfitTheme = ThemeData(
     backgroundColor: Colors.lightBlue.shade100,
     titleTextStyle: TextStyle(color: Colors.blue.shade900, fontWeight: FontWeight.bold),
     contentTextStyle: TextStyle(color: Colors.blue.shade800),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.pressed)) {
+          return Colors.teal.shade900; // closest to #255743
+        }
+        return Colors.teal.shade800; // closest to #366D59
+      }),
+      foregroundColor: WidgetStateProperty.all<Color>(Colors.white), // text color
+    ),
   ),
 );
