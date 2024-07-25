@@ -8,7 +8,7 @@ import '../../../../core/theme/my_outfit_theme.dart';
 import '../../../../core/theme/themed_svg.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/utilities/logger.dart';
-import '../../../../core/widgets/Feedback/custom_alert_dialog.dart'; // Import the custom alert dialog
+import '../../../../core/widgets/feedback/custom_alert_dialog.dart'; // Import the custom alert dialog
 import '../../../../core/utilities/routes.dart';
 import '../../../../core/data/type_data.dart'; // Import the type_data.dart file
 

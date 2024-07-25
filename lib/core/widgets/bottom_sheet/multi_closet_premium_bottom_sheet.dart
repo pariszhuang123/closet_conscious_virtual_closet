@@ -6,7 +6,7 @@ import '../../../../generated/l10n.dart';
 import '../../theme/my_closet_theme.dart';
 import '../../theme/my_outfit_theme.dart';
 import '../../utilities/logger.dart';
-import '../Feedback/custom_alert_dialog.dart'; // Import the custom alert dialog
+import '../feedback/custom_alert_dialog.dart'; // Import the custom alert dialog
 
 class MultiClosetFeatureBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
