@@ -9,7 +9,7 @@ import '../../../core/data/type_data.dart';
 import '../../../generated/l10n.dart';
 import '../../../core/widgets/icon_row_builder.dart';
 import '../presentation/bloc/upload_bloc.dart';
-import '../../../core/widgets/Feedback/custom_snack_bar.dart';
+import '../../../core/widgets/feedback/custom_snack_bar.dart';
 
 class UploadItemPage extends StatefulWidget {
   final ThemeData myClosetTheme;
