@@ -81,7 +81,7 @@ class AppRoutes {
         }
         return _errorRoute(settings.name);
       case infoHub:
-        return MaterialPageRoute(builder: (_) => const WebViewScreen(url: 'https://inky-twill-3ab.notion.site/8bca4fd6945f4f808a32cbb5ad28400c?v=ce98e22a2fdd40b0a5c02b33c8a563a1&pvs=74'));
+        return MaterialPageRoute(builder: (_) => const WebViewScreen(url: 'https://inky-twill-3ab.notion.site/8bca4fd6945f4f808a32cbb5ad28400c?v=ce98e22a2fdd40b0a5c02b33c8a563a1&pvs=74', isFromMyCloset: true));
       case achievementPage:
         if (settings.arguments is AchievementsPageArguments) {
           final args = settings.arguments as AchievementsPageArguments;

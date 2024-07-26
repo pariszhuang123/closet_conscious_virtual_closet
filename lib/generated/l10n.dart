@@ -1469,6 +1469,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Current streak for number of days you have not bought any clothing`
+  String get currentStreak {
+    return Intl.message(
+      'Current streak for number of days you have not bought any clothing',
+      name: 'currentStreak',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Highest streak for number of days you have not bought any clothing`
+  String get highestStreak {
+    return Intl.message(
+      'Highest streak for number of days you have not bought any clothing',
+      name: 'highestStreak',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cost of the new items you have purchased`
+  String get costOfNewItems {
+    return Intl.message(
+      'Cost of the new items you have purchased',
+      name: 'costOfNewItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Number of new items you have purchased`
+  String get numberOfNewItems {
+    return Intl.message(
+      'Number of new items you have purchased',
+      name: 'numberOfNewItems',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

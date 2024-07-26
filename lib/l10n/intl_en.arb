@@ -141,5 +141,9 @@
   "unexpectedErrorOccurred": "An unexpected error occurred. Please try again later or contact support if the issue persists.",
   "uploadConfirmationTitle": "Confirm Closet Completion",
   "uploadConfirmationDescription": "Have you finished uploading all your existing items to your closet? Once confirmed, any new uploads with price will be marked as new additions to your wardrobe.",
-  "confirmUpload": "Confirm Achievement"
+  "confirmUpload": "Confirm Achievement",
+  "currentStreak": "Current streak for number of days you have not bought any clothing",
+  "highestStreak": "Highest streak for number of days you have not bought any clothing",
+  "costOfNewItems": "Cost of the new items you have purchased",
+  "numberOfNewItems": "Number of new items you have purchased"
 }

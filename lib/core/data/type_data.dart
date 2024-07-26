@@ -101,83 +101,77 @@ class TypeDataList {
     ];
   }
 
-  static List<TypeData> upload(BuildContext context) {
-    return [
-      TypeData('upload_upload', (context) => S.of(context).upload_upload, 'assets/icons/my_closet/additional_features/upload_item.svg', isAsset: true),
-    ];
+  static TypeData upload(BuildContext context) {
+    return TypeData('upload_upload', (context) => S.of(context).upload_upload, 'assets/icons/my_closet/additional_features/upload_item.svg', isAsset: true);
   }
 
-  static List<TypeData> filter(BuildContext context) {
-    return [
-      TypeData('filter_filter', (context) => S.of(context).filter_filter, 'assets/icons/my_closet/additional_features/filter_search.svg', isAsset: true),
-    ];
+  static TypeData filter(BuildContext context) {
+    return
+      TypeData('filter_filter', (context) => S.of(context).filter_filter, 'assets/icons/my_closet/additional_features/filter_search.svg', isAsset: true);
   }
 
-  static List<TypeData> addCloset(BuildContext context) {
-    return [
-      TypeData('addCloset_addCloset', (context) => S.of(context).addCloset_addCloset, 'assets/icons/my_closet/additional_features/add_closet.svg', isAsset: true),
-    ];
+  static TypeData addCloset(BuildContext context) {
+    return
+      TypeData('addCloset_addCloset', (context) => S.of(context).addCloset_addCloset, 'assets/icons/my_closet/additional_features/add_closet.svg', isAsset: true);
   }
 
-  static List<TypeData> itemUploaded(BuildContext context) {
-    return [
-      TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'assets/icons/my_closet/additional_features/apparel.svg', isAsset: true),
-    ];
+  static TypeData itemUploaded(BuildContext context) {
+    return TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'assets/icons/my_closet/additional_features/apparel.svg', isAsset: true);
   }
 
-  static List<TypeData> declutterOptionsSell(BuildContext context) {
-    return [
-      TypeData('Sell', (context) => S.of(context).Sell, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Declutter/sell.png'),
-    ];
+  static TypeData declutterOptionsSell(BuildContext context) {
+    return TypeData('Sell', (context) => S.of(context).Sell, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Declutter/sell.png');
   }
 
-  static List<TypeData> declutterOptionsSwap(BuildContext context) {
-    return [
-      TypeData('Swap', (context) => S.of(context).Swap, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Declutter/swap.png'),
-    ];
+  static TypeData declutterOptionsSwap(BuildContext context) {
+    return TypeData('Swap', (context) => S.of(context).Swap, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Declutter/swap.png');
   }
 
-  static List<TypeData> declutterOptionsGift(BuildContext context) {
-    return [
-      TypeData('Gift', (context) => S.of(context).Gift, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Declutter/pay_it_forward.png'),
-    ];
+  static TypeData declutterOptionsGift(BuildContext context) {
+    return TypeData('Gift', (context) => S.of(context).Gift, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Declutter/pay_it_forward.png');
   }
 
-  static List<TypeData> declutterOptionsThrow(BuildContext context) {
-    return [
-      TypeData('Throw', (context) => S.of(context).Throw, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Declutter/throw.png'),
-    ];
+  static TypeData declutterOptionsThrow(BuildContext context) {
+    return TypeData('Throw', (context) => S.of(context).Throw, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Declutter/throw.png');
   }
 
-  static List<TypeData> drawerAchievements(BuildContext context) {
-    return [
-      TypeData('Achievements', (context) => S.of(context).achievements, 'assets/icons/drawer/achievements.svg', isAsset: true),
-    ];
+  static TypeData drawerAchievements(BuildContext context) {
+    return TypeData('Achievements', (context) => S.of(context).achievements, 'assets/icons/drawer/achievements.svg', isAsset: true);
   }
 
-  static List<TypeData> drawerInsights(BuildContext context) {
-    return [
-      TypeData('UsageInsights', (context) => S.of(context).usageInsights, 'assets/icons/drawer/analytics.svg', isAsset: true),
-    ];
+  static TypeData drawerInsights(BuildContext context) {
+    return TypeData('UsageInsights', (context) => S.of(context).usageInsights, 'assets/icons/drawer/analytics.svg', isAsset: true);
   }
-  static List<TypeData> drawerInfoHub(BuildContext context) {
-    return [
-      TypeData('Policy', (context) => S.of(context).infoHub, 'assets/icons/drawer/info_hub.svg', isAsset: true),
-    ];
+
+  static TypeData drawerInfoHub(BuildContext context) {
+    return TypeData('Policy', (context) => S.of(context).infoHub, 'assets/icons/drawer/info_hub.svg', isAsset: true);
   }
-  static List<TypeData> drawerContactUs(BuildContext context) {
-    return [
-      TypeData('ContactUs', (context) => S.of(context).contactUs, 'assets/icons/drawer/contact_us.svg', isAsset: true),
-    ];
+
+  static TypeData drawerContactUs(BuildContext context) {
+    return TypeData('ContactUs', (context) => S.of(context).contactUs, 'assets/icons/drawer/contact_us.svg', isAsset: true);
   }
-  static List<TypeData> drawerDeleteAccount(BuildContext context) {
-    return [
-      TypeData('DeleteAccount', (context) => S.of(context).deleteAccount, 'assets/icons/drawer/delete_account.svg', isAsset: true),
-    ];
+
+  static TypeData drawerDeleteAccount(BuildContext context) {
+    return TypeData('DeleteAccount', (context) => S.of(context).deleteAccount, 'assets/icons/drawer/delete_account.svg', isAsset: true);
   }
-  static List<TypeData> drawerLogOut(BuildContext context) {
-    return [
-      TypeData('LogOut', (context) => S.of(context).logOut, 'assets/icons/drawer/logout.svg', isAsset: true),
-    ];
+
+  static TypeData drawerLogOut(BuildContext context) {
+    return TypeData('LogOut', (context) => S.of(context).logOut, 'assets/icons/drawer/logout.svg', isAsset: true);
+  }
+
+  static TypeData currentStreak(BuildContext context) {
+    return TypeData('currentStreak', (context) => S.of(context).currentStreak, 'assets/icons/my_closet/gamification/closet_completed/current_no_purchase_streak.svg', isAsset: true);
+  }
+
+  static TypeData highestStreak(BuildContext context) {
+    return TypeData('highestStreak', (context) => S.of(context).highestStreak, 'assets/icons/my_closet/gamification/closet_completed/highest_no_purchase_streak.svg', isAsset: true);
+  }
+
+  static TypeData costOfNewItems(BuildContext context) {
+    return TypeData('costOfNewItems', (context) => S.of(context).costOfNewItems, 'assets/icons/my_closet/gamification/closet_completed/money.svg', isAsset: true);
+  }
+
+  static TypeData numberOfNewItems(BuildContext context) {
+    return TypeData('numberOfNewItems', (context) => S.of(context).numberOfNewItems, 'assets/icons/my_closet/gamification/closet_completed/new_clothing_purchase.svg', isAsset: true);
   }
 }

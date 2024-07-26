@@ -141,5 +141,9 @@
   "unexpectedErrorOccurred": "发生意外错误。请稍后再试，或联系支持团队以获取帮助。",
   "uploadConfirmationTitle": "确认衣橱完成",
   "uploadConfirmationDescription": "您是否已将所有现有物品上传到您的衣橱？一旦确认，任何带有价格的新上传物品都将被标记为您的新衣物。",
-  "confirmUpload": "确认成就"
+  "confirmUpload": "确认成就",
+  "currentStreak": "当前未购买任何衣物的连续天数",
+  "highestStreak": "未购买任何衣物的最长连续天数",
+  "costOfNewItems": "您购买新物品的费用",
+  "numberOfNewItems": "您购买的新物品数量"
 }

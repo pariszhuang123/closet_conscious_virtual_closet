@@ -99,6 +99,7 @@ flutter:
     - assets/images/SVG_CC_Logo.svg
     - assets/icons/my_closet/additional_features/
     - assets/icons/drawer/
+    - assets/icons/my_closet/gamification/closet_completed/
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

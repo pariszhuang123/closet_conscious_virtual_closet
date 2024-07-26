@@ -113,6 +113,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirmUpload":
             MessageLookupByLibrary.simpleMessage("Confirm Achievement"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
+        "costOfNewItems": MessageLookupByLibrary.simpleMessage(
+            "Cost of the new items you have purchased"),
+        "currentStreak": MessageLookupByLibrary.simpleMessage(
+            "Current streak for number of days you have not bought any clothing"),
         "currentStreakTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows your current streak of no purchase"),
         "dataInsertedSuccessfully":
@@ -140,6 +144,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "filterSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Filter & Search Premium Feature"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
+        "highestStreak": MessageLookupByLibrary.simpleMessage(
+            "Highest streak for number of days you have not bought any clothing"),
         "highestStreakTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows your highest score of no purchase"),
         "infoHub": MessageLookupByLibrary.simpleMessage("Info Hub"),
@@ -167,6 +173,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "newItemsTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows how many new items you have purchased"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
+        "numberOfNewItems": MessageLookupByLibrary.simpleMessage(
+            "Number of new items you have purchased"),
         "occasionFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Occasion field is not filled."),
         "offlineStatus":

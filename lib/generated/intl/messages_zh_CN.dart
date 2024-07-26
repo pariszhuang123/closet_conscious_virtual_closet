@@ -103,6 +103,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("颜色变化字段未填写。"),
         "confirmUpload": MessageLookupByLibrary.simpleMessage("确认成就"),
         "contactUs": MessageLookupByLibrary.simpleMessage("联系我们"),
+        "costOfNewItems": MessageLookupByLibrary.simpleMessage("您购买新物品的费用"),
+        "currentStreak": MessageLookupByLibrary.simpleMessage("当前未购买任何衣物的连续天数"),
         "currentStreakTooltip":
             MessageLookupByLibrary.simpleMessage("这显示了您当前的不购买连续天数"),
         "dataInsertedSuccessfully":
@@ -127,6 +129,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "filterSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("筛选和搜索高级功能"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("筛选"),
+        "highestStreak": MessageLookupByLibrary.simpleMessage("未购买任何衣物的最长连续天数"),
         "highestStreakTooltip":
             MessageLookupByLibrary.simpleMessage("这显示了您最高的不购买连续天数"),
         "infoHub": MessageLookupByLibrary.simpleMessage("信息中心"),
@@ -153,6 +156,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "newItemsTooltip":
             MessageLookupByLibrary.simpleMessage("这显示了您购买的新物品数量"),
         "next": MessageLookupByLibrary.simpleMessage("下一步"),
+        "numberOfNewItems": MessageLookupByLibrary.simpleMessage("您购买的新物品数量"),
         "occasionFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("场合字段未填写。"),
         "offlineStatus": MessageLookupByLibrary.simpleMessage("您当前处于离线状态"),

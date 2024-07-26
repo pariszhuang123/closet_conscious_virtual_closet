@@ -127,34 +127,34 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   NavigationTypeButton(
-                    label: declutterSellOptions[0].getName(context),
+                    label: declutterSellOptions.getName(context),
                     selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_sold'),
-                    imagePath: declutterSellOptions[0].imagePath!,
+                    imagePath: declutterSellOptions.imagePath ?? '', // Ensure non-nullable
                     isFromMyCloset: widget.isFromMyCloset,
                     buttonType: ButtonType.primary,
                   ),
                   NavigationTypeButton(
-                    label: declutterSwapOptions[0].getName(context),
+                    label: declutterSwapOptions.getName(context),
                     selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_swapped'),
-                    imagePath: declutterSwapOptions[0].imagePath!,
+                    imagePath: declutterSwapOptions.imagePath ?? '', // Ensure non-nullable
                     isFromMyCloset: widget.isFromMyCloset,
                     buttonType: ButtonType.primary,
                   ),
                   NavigationTypeButton(
-                    label: declutterGiftOptions[0].getName(context),
+                    label: declutterGiftOptions.getName(context),
                     selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_gifted'),
-                    imagePath: declutterGiftOptions[0].imagePath!,
+                    imagePath: declutterGiftOptions.imagePath ?? '', // Ensure non-nullable
                     isFromMyCloset: widget.isFromMyCloset,
                     buttonType: ButtonType.primary,
                   ),
                   NavigationTypeButton(
-                    label: declutterThrowOptions[0].getName(context),
+                    label: declutterThrowOptions.getName(context),
                     selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_thrown'),
-                    imagePath: declutterThrowOptions[0].imagePath!,
+                    imagePath: declutterThrowOptions.imagePath ?? '', // Ensure non-nullable
                     isFromMyCloset: widget.isFromMyCloset,
                     buttonType: ButtonType.primary,
                   ),

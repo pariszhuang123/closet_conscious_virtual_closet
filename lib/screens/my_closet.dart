@@ -35,6 +35,10 @@ class MyClosetPageState extends State<MyClosetPage> {
   bool _hasMore = true;
   int _currentPage = 0;
   int apparelCount = 0;
+  int currentStreakCount = 0;
+  int highestStreakCount = 0;
+  int newItemsCost = 0;
+  int newItemsCount = 0;
   bool _isUploadCompleted = false; // Add this state variable
   final CustomLogger logger = CustomLogger('MyClosetPage');
 
@@ -45,6 +49,10 @@ class MyClosetPageState extends State<MyClosetPage> {
     super.initState();
     _fetchItems();
     _fetchApparelCount();
+    _fetchCurrentStreakCount();
+    _fetchHighestStreakCount();
+    _fetchNewItemsCost();
+    _fetchNewItemsCount();
     _checkUploadCompletedStatus(); // Check upload completed status on init
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && _hasMore && !_isLoading) {
@@ -63,6 +71,58 @@ class MyClosetPageState extends State<MyClosetPage> {
       }
     } catch (e) {
       logger.e('Error fetching apparel count: $e');
+    }
+  }
+
+  Future<void> _fetchCurrentStreakCount() async {
+    try {
+      final count = await fetchCurrentStreakCount();
+      if (mounted) {
+        setState(() {
+          currentStreakCount = count;
+        });
+      }
+    } catch (e) {
+      logger.e('Error fetching current streak count: $e');
+    }
+  }
+
+  Future<void> _fetchHighestStreakCount() async {
+    try {
+      final count = await fetchHighestStreakCount();
+      if (mounted) {
+        setState(() {
+          highestStreakCount = count;
+        });
+      }
+    } catch (e) {
+      logger.e('Error fetching highest streak count: $e');
+    }
+  }
+
+  Future<void> _fetchNewItemsCost() async {
+    try {
+      final count = await fetchNewItemsCost();
+      if (mounted) {
+        setState(() {
+          newItemsCost = count;
+        });
+      }
+    } catch (e) {
+      logger.e('Error fetching new item cost: $e');
+    }
+  }
+
+  Future<void> _fetchNewItemsCount() async {
+    try {
+      final count = await fetchNewItemsCount();
+      if (mounted) {
+        setState(() {
+          newItemsCount = count;
+        });
+      }
+    } catch (e) {
+      logger.e('Error fetching new items count: $e');
     }
   }
 
@@ -160,10 +220,14 @@ class MyClosetPageState extends State<MyClosetPage> {
 
   @override
   Widget build(BuildContext context) {
-    final uploadList = TypeDataList.upload(context);
-    final filterList = TypeDataList.filter(context);
-    final addClosetList = TypeDataList.addCloset(context);
-    final itemUploadedList = TypeDataList.itemUploaded(context);
+    final itemUploadData = TypeDataList.itemUploaded(context);
+    final uploadData = TypeDataList.upload(context);
+    final filterData = TypeDataList.filter(context);
+    final addClosetData = TypeDataList.addCloset(context);
+    final currentStreakData = TypeDataList.currentStreak(context);
+    final highestStreakData = TypeDataList.highestStreak(context);
+    final costOfNewItemsData = TypeDataList.costOfNewItems(context);
+    final numberOfNewItemsData = TypeDataList.numberOfNewItems(context);
 
     return PopScope(
       canPop: false, // Disable back navigation
@@ -205,28 +269,28 @@ class MyClosetPageState extends State<MyClosetPage> {
                         Row(
                           children: [
                             NavigationTypeButton(
-                              label: uploadList[0].getName(context),
+                              label: uploadData.getName(context),
                               selectedLabel: '',
                               onPressed: _onUploadButtonPressed,
-                              imagePath: uploadList[0].imagePath!,
+                              imagePath: uploadData.imagePath!,
                               isAsset: true,
                               isFromMyCloset: true,
                               buttonType: ButtonType.primary,
                             ),
                             NavigationTypeButton(
-                              label: filterList[0].getName(context),
+                              label: filterData.getName(context),
                               selectedLabel: '',
                               onPressed: _onFilterButtonPressed,
-                              imagePath: filterList[0].imagePath!,
+                              imagePath: filterData.imagePath ?? '', // Ensure non-nullable
                               isAsset: true,
                               isFromMyCloset: true,
                               buttonType: ButtonType.secondary,
                             ),
                             NavigationTypeButton(
-                              label: addClosetList[0].getName(context),
+                              label: addClosetData.getName(context),
                               selectedLabel: '',
                               onPressed: _onMultiClosetButtonPressed,
-                              imagePath: addClosetList[0].imagePath!,
+                              imagePath: addClosetData.imagePath ?? '', // Ensure non-nullable
                               isAsset: true,
                               isFromMyCloset: true,
                               buttonType: ButtonType.secondary,
@@ -235,17 +299,87 @@ class MyClosetPageState extends State<MyClosetPage> {
                         ),
                         if (!_isUploadCompleted)
                           Tooltip(
-                            message: S.of(context).itemsUploadedTooltip,
+                            message: itemUploadData.getName(context),
                             child: NumberTypeButton(
                               count: apparelCount,
-                              imagePath: itemUploadedList[0].imagePath!,
-                              isAsset: true,
+                              imagePath: itemUploadData.imagePath ?? '', // Ensure non-nullable
+                              isAsset: itemUploadData.isAsset,
                               isFromMyCloset: true,
                               isHorizontal: false,
                               buttonType: ButtonType.secondary,
                             ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: _isUploadCompleted,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    decoration: BoxDecoration(
+                      color: widget.myClosetTheme.colorScheme.surface,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: widget.myClosetTheme.shadowColor.withOpacity(0.1),
+                          spreadRadius: 5,
+                          blurRadius: 10,
+                          offset: const Offset(0, 3),
                         ),
                       ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Tooltip(
+                            message: currentStreakData.getName(context),
+                            child: NumberTypeButton(
+                              count: currentStreakCount,
+                              imagePath: currentStreakData.imagePath ?? '', // Ensure non-nullable
+                              isAsset: currentStreakData.isAsset,
+                              isFromMyCloset: true,
+                              isHorizontal: true,
+                              buttonType: ButtonType.secondary,
+                            ),
+                          ),
+                          Tooltip(
+                            message: highestStreakData.getName(context),
+                            child: NumberTypeButton(
+                              count: highestStreakCount,
+                              imagePath: highestStreakData.imagePath ?? '', // Ensure non-nullable
+                              isAsset: highestStreakData.isAsset,
+                              isFromMyCloset: true,
+                              isHorizontal: true,
+                              buttonType: ButtonType.secondary,
+                            ),
+                          ),
+                          Tooltip(
+                            message: costOfNewItemsData.getName(context),
+                            child: NumberTypeButton(
+                              count: newItemsCost,
+                              imagePath: costOfNewItemsData.imagePath ?? '', // Ensure non-nullable
+                              isAsset: costOfNewItemsData.isAsset,
+                              isFromMyCloset: true,
+                              isHorizontal: true,
+                              buttonType: ButtonType.secondary,
+                            ),
+                          ),
+                          Tooltip(
+                            message: numberOfNewItemsData.getName(context),
+                            child: NumberTypeButton(
+                              count: newItemsCount,
+                              imagePath: numberOfNewItemsData.imagePath ?? '', // Ensure non-nullable
+                              isAsset: numberOfNewItemsData.isAsset,
+                              isFromMyCloset: true,
+                              isHorizontal: true,
+                              buttonType: ButtonType.secondary,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -20,12 +20,12 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final achievementsList = TypeDataList.drawerAchievements(context);
-    final insightsList = TypeDataList.drawerInsights(context);
-    final infoHubList = TypeDataList.drawerInfoHub(context);
-    final contactUsList = TypeDataList.drawerContactUs(context);
-    final deleteAccountList = TypeDataList.drawerDeleteAccount(context);
-    final logOutList = TypeDataList.drawerLogOut(context);
+    final achievementsItem = TypeDataList.drawerAchievements(context);
+    final insightsItem = TypeDataList.drawerInsights(context);
+    final infoHubItem = TypeDataList.drawerInfoHub(context);
+    final contactUsItem = TypeDataList.drawerContactUs(context);
+    final deleteAccountItem = TypeDataList.drawerDeleteAccount(context);
+    final logOutItem = TypeDataList.drawerLogOut(context);
 
     return Drawer(
       child: Column(
@@ -54,22 +54,22 @@ class AppDrawer extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 children: <Widget>[
                   _buildNavigationButton(
-                      context, achievementsList[0], null, _navigateToAchievementsPage),
+                      context, achievementsItem, null, _navigateToAchievementsPage),
                   _buildVerticalSpacing(),
                   _buildNavigationButton(
-                      context, insightsList[0], null, (ctx) => _showUsageInsightsBottomSheet(ctx, isFromMyCloset)),
+                      context, insightsItem, null, (ctx) => _showUsageInsightsBottomSheet(ctx, isFromMyCloset)),
                   _buildVerticalSpacing(),
                   _buildNavigationButton(
-                      context, infoHubList[0], '/info_hub', null),
+                      context, infoHubItem, '/info_hub', null),
                   _buildVerticalSpacing(),
                   _buildNavigationButton(
-                      context, contactUsList[0], '/contact_us', null),
+                      context, contactUsItem, '/contact_us', null),
                   _buildVerticalSpacing(),
                   _buildNavigationButton(
-                      context, deleteAccountList[0], null, _showDeleteAccountDialog),
+                      context, deleteAccountItem, null, _showDeleteAccountDialog),
                   _buildVerticalSpacing(),
                   _buildNavigationButton(
-                      context, logOutList[0], null, _logOut),
+                      context, logOutItem, null, _logOut),
                 ],
               ),
             ),
@@ -79,7 +79,7 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildNavigationButton(BuildContext context, dynamic item, String? route, void Function(BuildContext)? customAction) {
+  Widget _buildNavigationButton(BuildContext context, TypeData item, String? route, void Function(BuildContext)? customAction) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
@@ -99,11 +99,10 @@ class AppDrawer extends StatelessWidget {
               customAction(context);
             }
           },
-          imagePath: item.imagePath!,
+          imagePath: item.imagePath ?? '', // Ensure non-nullable
           isSelected: false,
           isAsset: true,
           isHorizontal: true,
-
         ),
       ),
     );

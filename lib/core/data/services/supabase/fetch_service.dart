@@ -121,6 +121,87 @@ Future<int> fetchApparelCount() async {
   }
 }
 
+Future<int> fetchCurrentStreakCount() async {
+  try {
+    final data = await Supabase.instance.client
+        .from('user_high_freq_stats')
+        .select('no_buy_streak')
+        .single();
+
+    // Check if data is valid and contains the 'current_streak' field
+    if (data['no_buy_streak'] != null) {
+      logger.i('Fetched current streak count: ${data['no_buy_streak']}');
+      return data['no_buy_streak'];
+    } else {
+      throw Exception('Failed to fetch current streak count');
+    }
+  } catch (error) {
+    logger.e('Error fetching current streak count: $error');
+    return 0; // Return a default value or handle as needed
+  }
+}
+
+Future<int> fetchHighestStreakCount() async {
+  try {
+    final data = await Supabase.instance.client
+        .from('user_high_freq_stats')
+        .select('no_buy_highest_streak')
+        .single();
+
+    // Check if data is valid and contains the 'highest_streak' field
+    if (data['no_buy_highest_streak'] != null) {
+      logger.i('Fetched highest streak count: ${data['no_buy_highest_streak']}');
+      return data['no_buy_highest_streak'];
+    } else {
+      throw Exception('Failed to fetch highest streak count');
+    }
+  } catch (error) {
+    logger.e('Error fetching highest streak count: $error');
+    return 0; // Return a default value or handle as needed
+  }
+}
+
+Future<int> fetchNewItemsCost() async {
+  try {
+    final data = await Supabase.instance.client
+        .from('user_low_freq_stats')
+        .select('new_items_value')
+        .single();
+
+    // Check if data is valid and contains the 'new_items_cost' field
+    if (data['new_items_value'] != null) {
+      logger.i('Fetched new items value: ${data['new_items_value']}');
+      return data['new_items_value'];
+    } else {
+      throw Exception('Failed to fetch new items value');
+    }
+  } catch (error) {
+    logger.e('Error fetching new items value: $error');
+    return 0; // Return a default value or handle as needed
+  }
+}
+
+Future<int> fetchNewItemsCount() async {
+  try {
+    final data = await Supabase.instance.client
+        .from('user_low_freq_stats')
+        .select('new_items')
+        .single();
+
+    // Check if data is valid and contains the 'new_items' field
+    if (data['new_items'] != null) {
+      logger.i('Fetched new items: ${data['new_items']}');
+      return data['new_items'];
+    } else {
+      throw Exception('Failed to fetch new items');
+    }
+  } catch (error) {
+    logger.e('Error fetching new items: $error');
+    return 0; // Return a default value or handle as needed
+  }
+}
+
+
 Future<List<String>> fetchUserAchievements(String userId) async {
   try {
     logger.d('Fetching achievements for user: $userId');
