@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../core/widgets/button/navigation_type_button.dart';
 import '../core/utilities/routes.dart';
@@ -34,56 +35,17 @@ class MyClosetPageState extends State<MyClosetPage> {
   bool _hasMore = true;
   int _currentPage = 0;
   int apparelCount = 0;
+  bool _isUploadCompleted = false; // Add this state variable
   final CustomLogger logger = CustomLogger('MyClosetPage');
 
-  static const int _batchSize =  1;
-
-  void _onItemTapped(int index) {
-    if (index == 1) {
-      Navigator.pushReplacementNamed(context, '/create_outfit');
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
-  }
-
-  void _onUploadButtonPressed() {
-    Navigator.pushReplacementNamed(context, AppRoutes.uploadItem);
-  }
-
-  void _onFilterButtonPressed() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return const PremiumFilterBottomSheet(isFromMyCloset: true);
-      },
-    );
-  }
-
-  void _onMultiClosetButtonPressed() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return const MultiClosetFeatureBottomSheet(isFromMyCloset: true);
-      },
-    );
-  }
-
-  void _onUploadCompletedButtonPressed() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return const UploadConfirmationBottomSheet(isFromMyCloset: true);
-      },
-    );
-  }
+  static const int _batchSize = 1;
 
   @override
   void initState() {
     super.initState();
     _fetchItems();
     _fetchApparelCount();
+    _checkUploadCompletedStatus(); // Check upload completed status on init
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && _hasMore && !_isLoading) {
         _fetchItems();
@@ -133,6 +95,67 @@ class MyClosetPageState extends State<MyClosetPage> {
         });
       }
     }
+  }
+
+  Future<void> _checkUploadCompletedStatus() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    if (user != null) {
+      final data = await Supabase.instance.client
+          .from('user_achievements')
+          .select('achievement_name')
+          .eq('user_id', user.id)
+          .eq('achievement_name', 'closet_uploaded');
+
+      if (data.isNotEmpty) {
+        setState(() {
+          _isUploadCompleted = true;
+        });
+      }
+    }
+  }
+
+  void _onItemTapped(int index) {
+    if (index == 1) {
+      Navigator.pushReplacementNamed(context, '/create_outfit');
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+  }
+
+  void _onUploadButtonPressed() {
+    Navigator.pushReplacementNamed(context, AppRoutes.uploadItem);
+  }
+
+  void _onFilterButtonPressed() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const PremiumFilterBottomSheet(isFromMyCloset: true);
+      },
+    );
+  }
+
+  void _onMultiClosetButtonPressed() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const MultiClosetFeatureBottomSheet(isFromMyCloset: true);
+      },
+    );
+  }
+
+  void _onUploadCompletedButtonPressed() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const UploadConfirmationBottomSheet(isFromMyCloset: true);
+      },
+    );
+    setState(() {
+      _isUploadCompleted = true; // Update the state to hide the button
+    });
   }
 
   @override
@@ -210,16 +233,17 @@ class MyClosetPageState extends State<MyClosetPage> {
                             ),
                           ],
                         ),
-                        Tooltip(
-                          message: S.of(context).itemsUploadedTooltip,
-                          child: NumberTypeButton(
-                          count: apparelCount,
-                          imagePath: itemUploadedList[0].imagePath!,
-                          isAsset: true,
-                            isFromMyCloset: true,
-                            isHorizontal: false,
-                            buttonType: ButtonType.secondary,
-                          ),
+                        if (!_isUploadCompleted)
+                          Tooltip(
+                            message: S.of(context).itemsUploadedTooltip,
+                            child: NumberTypeButton(
+                              count: apparelCount,
+                              imagePath: itemUploadedList[0].imagePath!,
+                              isAsset: true,
+                              isFromMyCloset: true,
+                              isHorizontal: false,
+                              buttonType: ButtonType.secondary,
+                            ),
                         ),
                       ],
                     ),
@@ -233,11 +257,12 @@ class MyClosetPageState extends State<MyClosetPage> {
                     logger: logger,
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: _onUploadCompletedButtonPressed,
-                  style: widget.myClosetTheme.elevatedButtonTheme.style,
-                  child: Text(S.of(context).closetUploadComplete, style: widget.myClosetTheme.textTheme.labelLarge),
-                ),
+                if (!_isUploadCompleted)
+                  ElevatedButton(
+                    onPressed: _onUploadCompletedButtonPressed,
+                    style: widget.myClosetTheme.elevatedButtonTheme.style,
+                    child: Text(S.of(context).closetUploadComplete, style: widget.myClosetTheme.textTheme.labelLarge),
+                  ),
               ],
             ),
           ),

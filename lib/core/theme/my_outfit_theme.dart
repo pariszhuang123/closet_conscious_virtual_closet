@@ -41,7 +41,7 @@ final ThemeData myOutfitTheme = ThemeData(
     brightness: Brightness.light,
   ),
   appBarTheme: AppBarTheme(
-    backgroundColor: Colors.blueAccent.shade100, // Light blue for AppBar
+    backgroundColor: Colors.blue.shade100, // Light blue for AppBar
     foregroundColor: Colors.black,
   ),
   drawerTheme: DrawerThemeData(
@@ -49,7 +49,7 @@ final ThemeData myOutfitTheme = ThemeData(
     elevation: 16.0,
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: Colors.blueAccent.shade100, // Light blue for BottomNavigationBar
+    backgroundColor: Colors.blue.shade100, // Light blue for BottomNavigationBar
     selectedItemColor: Colors.blue.shade800, // Darker blue for selected item
     unselectedItemColor: Colors.grey,
   ),
@@ -66,9 +66,9 @@ final ThemeData myOutfitTheme = ThemeData(
     style: ButtonStyle(
       backgroundColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
         if (states.contains(WidgetState.pressed)) {
-          return Colors.teal.shade900; // closest to #255743
+          return Colors.blue.shade900; // closest to #255743
         }
-        return Colors.teal.shade800; // closest to #366D59
+        return Colors.blue.shade800; // closest to #366D59
       }),
       foregroundColor: WidgetStateProperty.all<Color>(Colors.white), // text color
     ),

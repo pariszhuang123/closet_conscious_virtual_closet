@@ -7,6 +7,9 @@ import '../generated/l10n.dart';
 import '../core/utilities/logger.dart';
 import '../core/theme/ui_constant.dart';
 import '../core/widgets/bottom_sheet/analytics_premium_bottom_sheet.dart';
+import '../core/utilities/routes.dart';
+import '../user_management/achievements/data/models/achievements_page_argument.dart';
+import '../user_management/achievements/data/models/achievement_model.dart';
 
 class AppDrawer extends StatelessWidget {
   final bool isFromMyCloset;
@@ -51,7 +54,7 @@ class AppDrawer extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 children: <Widget>[
                   _buildNavigationButton(
-                      context, achievementsList[0], '/achievements', null),
+                      context, achievementsList[0], null, _navigateToAchievementsPage),
                   _buildVerticalSpacing(),
                   _buildNavigationButton(
                       context, insightsList[0], null, (ctx) => _showUsageInsightsBottomSheet(ctx, isFromMyCloset)),
@@ -108,6 +111,18 @@ class AppDrawer extends StatelessWidget {
 
   Widget _buildVerticalSpacing() {
     return const SizedBox(height: 16.0);
+  }
+
+  void _navigateToAchievementsPage(BuildContext context) {
+    final List<Achievement> achievements = [];
+    Navigator.pushNamed(
+      context,
+      AppRoutes.achievementPage,
+      arguments: AchievementsPageArguments(
+        isFromMyCloset: isFromMyCloset,
+        achievements: achievements,
+      ),
+    );
   }
 
   void _showUsageInsightsBottomSheet(BuildContext context, bool isFromMyCloset) {

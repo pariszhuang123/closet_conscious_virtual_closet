@@ -7,7 +7,7 @@ import '../../../core/theme/my_closet_theme.dart';
 import '../../../core/theme/my_outfit_theme.dart';
 import '../../../core/utilities/logger.dart';
 import '../../../core/widgets/feedback/custom_alert_dialog.dart';
-import '../../../core/screens/achievement_screen.dart'; // Import the achievement screen
+import '../../../core/screens/achievement_completed_screen.dart'; // Import the achievement screen
 
 class UploadConfirmationBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;

@@ -120,3 +120,20 @@ Future<int> fetchApparelCount() async {
     return 0; // Return a default value or handle as needed
   }
 }
+
+Future<List<String>> fetchUserAchievements(String userId) async {
+  try {
+    logger.d('Fetching achievements for user: $userId');
+
+    final data = await Supabase.instance.client
+        .from('user_achievements')
+        .select('achievements (badge_url)')
+        .eq('user_id', userId);
+
+    logger.i('Fetched ${data.length} achievements');
+    return data.map<String>((item) => item['achievements']['badge_url'] as String).toList();
+  } catch (error) {
+    logger.e('Error fetching achievements: $error');
+    rethrow;
+  }
+}
