@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/widgets/button/navigation_type_button.dart';
 import '../../core/theme/themed_svg.dart';
 import '../../core/data/type_data.dart';
-import '../core/config/supabase_config.dart';
+import '../user_management/authentication/presentation/bloc/authentication_bloc.dart';
 import '../generated/l10n.dart';
 import '../core/utilities/logger.dart';
 import '../core/theme/ui_constant.dart';
@@ -160,20 +161,8 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Future<void> _logOut(BuildContext context) async {
-    // Navigate to the login screen first
-    Navigator.pushReplacementNamed(context, '/');
-
-    // Perform log out action, e.g., Supabase sign out
-    try {
-      logger.i("Logging out...");
-
-      await SupabaseConfig.client.auth.signOut();
-
-      logger.i("Logged out successfully.");
-    } catch (e) {
-      // Handle errors if needed
-      logger.e("Logout failed: $e");
-    }
+  void _logOut(BuildContext context) {
+    // Dispatch the sign out event to AuthBloc
+    context.read<AuthBloc>().add(SignOutEvent());
   }
 }
