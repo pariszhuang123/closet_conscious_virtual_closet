@@ -8,7 +8,7 @@ final ThemeData myOutfitTheme = ThemeData(
     primary: Colors.blue.shade800, // Dark blue for primary
     onPrimary: Colors.white,
     primaryContainer: Colors.blue.shade800, // Darker blue for primary container
-    secondary: Colors.lightBlue.shade100, // Light blue for secondary
+    secondary: Colors.lightBlue.shade400, // Light blue for secondary
     onSecondary: Colors.black,
     secondaryContainer: Colors.blueAccent.shade700,
     surface: Colors.white,
@@ -16,7 +16,7 @@ final ThemeData myOutfitTheme = ThemeData(
     error: Colors.red,
     onError: Colors.white,
   ),
-  dividerColor: Colors.teal.shade800,
+  dividerColor: Colors.blue.shade800,
 
   textTheme: const TextTheme(
     bodyLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black), // Larger body text
@@ -54,7 +54,7 @@ final ThemeData myOutfitTheme = ThemeData(
     unselectedItemColor: Colors.grey,
   ),
   snackBarTheme: SnackBarThemeData(
-    backgroundColor: Colors.blue.shade700, // Set the background color for SnackBar
+    backgroundColor: Colors.blue.shade100, // Set the background color for SnackBar
     contentTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold), // Set the text color and style
   ),
   dialogTheme: DialogTheme(

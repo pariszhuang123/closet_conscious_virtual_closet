@@ -6,20 +6,20 @@ import '../../../../generated/l10n.dart';
 import '../../theme/my_closet_theme.dart';
 import '../../theme/my_outfit_theme.dart';
 import '../../utilities/logger.dart';
-import '../feedback/custom_alert_dialog.dart'; // Import the custom alert dialog
+import '../feedback/custom_alert_dialog.dart';
 
-class PremiumFilterBottomSheet extends StatefulWidget {
+class PremiumCalendarBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
 
-  const PremiumFilterBottomSheet({super.key, required this.isFromMyCloset});
+  const PremiumCalendarBottomSheet({super.key, required this.isFromMyCloset});
 
   @override
-  PremiumFilterBottomSheetState createState() => PremiumFilterBottomSheetState();
+  PremiumCalendarBottomSheetState createState() => PremiumCalendarBottomSheetState();
 }
 
-class PremiumFilterBottomSheetState extends State<PremiumFilterBottomSheet> {
+class PremiumCalendarBottomSheetState extends State<PremiumCalendarBottomSheet> {
   bool _isButtonDisabled = false;
-  final logger = CustomLogger('FilterRequest');
+  final logger = CustomLogger('CalendarRequest');
 
   Future<void> _handleButtonPress() async {
     setState(() {
@@ -27,7 +27,7 @@ class PremiumFilterBottomSheetState extends State<PremiumFilterBottomSheet> {
     });
 
     try {
-      final response = await Supabase.instance.client.rpc('increment_filter_request').single();
+      final response = await Supabase.instance.client.rpc('increment_calendar_request').single();
 
       logger.i('Full response: ${jsonEncode(response)}');
 
@@ -92,7 +92,7 @@ class PremiumFilterBottomSheetState extends State<PremiumFilterBottomSheet> {
               children: [
                 Flexible(
                   child: Text(
-                    S.of(context).filterSearchPremiumFeature,
+                    S.of(context).calendarPremiumFeature,
                     style: theme.textTheme.titleMedium,
                   ),
                 ),
@@ -104,7 +104,7 @@ class PremiumFilterBottomSheetState extends State<PremiumFilterBottomSheet> {
             ),
             const SizedBox(height: 8.0),
             Text(
-              S.of(context).quicklyFindItems,
+              S.of(context).reviewOutfitsInCalendar,
               style: theme.textTheme.bodyMedium,
             ),
             const SizedBox(height: 16.0),

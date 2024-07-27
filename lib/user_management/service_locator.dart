@@ -9,6 +9,7 @@ import 'authentication/domain/repositories/authentication_repository.dart';
 import 'authentication/application/usecases/sign_in_with_google.dart';
 import 'authentication/application/usecases/get_current_user.dart';
 import 'authentication/application/usecases/sign_out.dart';
+import 'authentication/application/usecases/delete_user_account.dart';
 
 import 'authentication/presentation/bloc/authentication_bloc.dart';
 
@@ -30,11 +31,12 @@ void setupUserManagementLocator() {
   locator.registerLazySingleton(() => SignInWithGoogle(locator()));
   locator.registerLazySingleton(() => GetCurrentUser(locator()));
   locator.registerLazySingleton(() => SignOut(locator()));
-
+  locator.registerLazySingleton(() => DeleteUserAccount(locator()));
   // Blocs
   locator.registerFactory(() => AuthBloc(
     signInWithGoogle: locator(),
     getCurrentUser: locator(),
     signOut: locator(),
+    deleteUserAccount: locator(),
   ));
 }

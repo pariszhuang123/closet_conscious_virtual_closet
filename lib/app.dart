@@ -4,14 +4,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'generated/l10n.dart';
 import 'user_management/service_locator.dart' as user_management_locator;
-
-import 'screens/home_page.dart';
-import '../core/utilities/routes.dart';
-
+import 'user_management/authentication/presentation/pages/auth_wrapper.dart';
 import 'user_management/authentication/presentation/bloc/authentication_bloc.dart';
 
 import 'core/theme/my_closet_theme.dart';
 import 'core/theme/my_outfit_theme.dart';
+import 'core/utilities/routes.dart';
+
+void main() {
+  user_management_locator.setupUserManagementLocator();
+  runApp(const MainApp());
+}
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -37,7 +40,7 @@ class MainApp extends StatelessWidget {
         initialRoute: AppRoutes.home, // Set initial route
         onGenerateRoute: (settings) => AppRoutes.generateRoute(settings, myClosetTheme, myOutfitTheme),
         theme: myClosetTheme, // Default theme
-        home: HomePage(myClosetTheme: myClosetTheme, myOutfitTheme: myOutfitTheme),
+        home: AuthWrapper(myClosetTheme: myClosetTheme, myOutfitTheme: myOutfitTheme), // Set AuthWrapper as the home
       ),
     );
   }

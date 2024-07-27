@@ -1080,6 +1080,26 @@ class S {
     );
   }
 
+  /// `Register for Calendar Premium Feature`
+  String get calendarPremiumFeature {
+    return Intl.message(
+      'Register for Calendar Premium Feature',
+      name: 'calendarPremiumFeature',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Review your previous outfits in a calendar view. Pair it with the multi-closet premium feature to organize outfits into one closet.`
+  String get reviewOutfitsInCalendar {
+    return Intl.message(
+      'Review your previous outfits in a calendar view. Pair it with the multi-closet premium feature to organize outfits into one closet.',
+      name: 'reviewOutfitsInCalendar',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Thank You!`
   String get thankYou {
     return Intl.message(
@@ -1170,16 +1190,6 @@ class S {
     );
   }
 
-  /// `This shows the number of items you have uploaded`
-  String get outfitsUploadedTooltip {
-    return Intl.message(
-      'This shows the number of items you have uploaded',
-      name: 'outfitsUploadedTooltip',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `This shows your current streak of no purchase`
   String get currentStreakTooltip {
     return Intl.message(
@@ -1245,6 +1255,26 @@ class S {
     return Intl.message(
       'Usage Insights',
       name: 'usageInsights',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calendar`
+  String get calendar {
+    return Intl.message(
+      'Calendar',
+      name: 'calendar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This shows the number of outfits you have uploaded`
+  String get outfits_upload {
+    return Intl.message(
+      'This shows the number of outfits you have uploaded',
+      name: 'outfits_upload',
       desc: '',
       args: [],
     );
@@ -1505,6 +1535,56 @@ class S {
     return Intl.message(
       'Number of new items you have purchased',
       name: 'numberOfNewItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Account`
+  String get deleteAccountTitle {
+    return Intl.message(
+      'Delete Account',
+      name: 'deleteAccountTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warning: Deleting your account is irreversible.`
+  String get deleteAccountImpact {
+    return Intl.message(
+      'Warning: Deleting your account is irreversible.',
+      name: 'deleteAccountImpact',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete your account? All your data will be permanently removed.`
+  String get deleteAccountConfirmation {
+    return Intl.message(
+      'Are you sure you want to delete your account? All your data will be permanently removed.',
+      name: 'deleteAccountConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message(
+      'Delete',
+      name: 'delete',
       desc: '',
       args: [],
     );

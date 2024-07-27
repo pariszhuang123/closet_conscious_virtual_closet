@@ -93,6 +93,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
         "appInformationSection": MessageLookupByLibrary.simpleMessage("应用信息"),
         "becomeAmbassador": MessageLookupByLibrary.simpleMessage("成为大使"),
+        "calendar": MessageLookupByLibrary.simpleMessage("日历"),
+        "calendarPremiumFeature":
+            MessageLookupByLibrary.simpleMessage("注册日历高级功能"),
+        "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("衣橱"),
         "closetUploadComplete": MessageLookupByLibrary.simpleMessage("衣橱上传完成"),
         "clothingLayerFieldNotFilled":
@@ -118,7 +122,13 @@ class MessageLookup extends MessageLookupByLibrary {
             "轻松整理和清理您的衣柜，移除不需要的物品。简化您的衣橱，为新的风格腾出空间。"),
         "declutterFeatureTitle": MessageLookupByLibrary.simpleMessage("整理您的衣柜"),
         "declutterOptions": MessageLookupByLibrary.simpleMessage("你想做什么？"),
+        "delete": MessageLookupByLibrary.simpleMessage("删除"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("删除账户"),
+        "deleteAccountConfirmation":
+            MessageLookupByLibrary.simpleMessage("您确定要删除您的账户吗？所有数据将被永久删除。"),
+        "deleteAccountImpact":
+            MessageLookupByLibrary.simpleMessage("警告：删除您的账户是不可逆的。"),
+        "deleteAccountTitle": MessageLookupByLibrary.simpleMessage("删除账户"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("编辑项目"),
         "enterAmountSpentHint": MessageLookupByLibrary.simpleMessage("输入花费金额"),
         "error": MessageLookupByLibrary.simpleMessage("错误"),
@@ -162,8 +172,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "offlineStatus": MessageLookupByLibrary.simpleMessage("您当前处于离线状态"),
         "ok": MessageLookupByLibrary.simpleMessage("好的"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("穿搭"),
-        "outfitsUploadedTooltip":
-            MessageLookupByLibrary.simpleMessage("这显示了您上传的穿搭数量"),
+        "outfits_upload": MessageLookupByLibrary.simpleMessage("这显示了您上传的穿搭数量"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
         "please_enter_valid_amount":
             MessageLookupByLibrary.simpleMessage("请输入一个有效的金额（0或更大）。"),
@@ -171,6 +180,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "通过筛选和搜索选项快速找到物品，节省时间并保持井井有条。"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("重试"),
+        "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
+            "在日历视图中查看您之前的服装搭配。将其与多衣橱高级功能配对，将喜欢的搭配整理到一个衣橱中。"),
         "seasonFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("季节字段未填写。"),
         "selectAccessoryType": MessageLookupByLibrary.simpleMessage("选择配饰类型"),

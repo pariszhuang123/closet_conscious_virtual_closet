@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../core/widgets/button/navigation_type_button.dart';
 import '../core/utilities/routes.dart';
 import '../core/utilities/logger.dart';
 import '../item_management/core/data/models/closet_item_minimal.dart';
 import '../item_management/view_items/widget/item_grid.dart';
 import '../core/data/services/supabase/fetch_service.dart';
-import '../core/widgets/button/number_type_button.dart';
-import '../core/theme/themed_svg.dart';
+import '../item_management/view_items/widget/my_closet_container.dart';
 import '../core/data/type_data.dart';
 import '../generated/l10n.dart';
 import '../core/widgets/bottom_sheet/filter_premium_bottom_sheet.dart';
@@ -19,9 +17,8 @@ import '../core/theme/ui_constant.dart';
 
 class MyClosetPage extends StatefulWidget {
   final ThemeData myClosetTheme;
-  final ThemeData myOutfitTheme;
 
-  const MyClosetPage({super.key, required this.myClosetTheme, required this.myOutfitTheme});
+  const MyClosetPage({super.key, required this.myClosetTheme});
 
   @override
   MyClosetPageState createState() => MyClosetPageState();
@@ -248,140 +245,25 @@ class MyClosetPageState extends State<MyClosetPage> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: widget.myClosetTheme.colorScheme.surface,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: widget.myClosetTheme.shadowColor.withOpacity(0.1),
-                        spreadRadius: 5,
-                        blurRadius: 10,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            NavigationTypeButton(
-                              label: uploadData.getName(context),
-                              selectedLabel: '',
-                              onPressed: _onUploadButtonPressed,
-                              imagePath: uploadData.imagePath!,
-                              isAsset: true,
-                              isFromMyCloset: true,
-                              buttonType: ButtonType.primary,
-                            ),
-                            NavigationTypeButton(
-                              label: filterData.getName(context),
-                              selectedLabel: '',
-                              onPressed: _onFilterButtonPressed,
-                              imagePath: filterData.imagePath ?? '', // Ensure non-nullable
-                              isAsset: true,
-                              isFromMyCloset: true,
-                              buttonType: ButtonType.secondary,
-                            ),
-                            NavigationTypeButton(
-                              label: addClosetData.getName(context),
-                              selectedLabel: '',
-                              onPressed: _onMultiClosetButtonPressed,
-                              imagePath: addClosetData.imagePath ?? '', // Ensure non-nullable
-                              isAsset: true,
-                              isFromMyCloset: true,
-                              buttonType: ButtonType.secondary,
-                            ),
-                          ],
-                        ),
-                        if (!_isUploadCompleted)
-                          Tooltip(
-                            message: itemUploadData.getName(context),
-                            child: NumberTypeButton(
-                              count: apparelCount,
-                              imagePath: itemUploadData.imagePath ?? '', // Ensure non-nullable
-                              isAsset: itemUploadData.isAsset,
-                              isFromMyCloset: true,
-                              isHorizontal: false,
-                              buttonType: ButtonType.secondary,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: _isUploadCompleted,
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 8.0),
-                    decoration: BoxDecoration(
-                      color: widget.myClosetTheme.colorScheme.surface,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: widget.myClosetTheme.shadowColor.withOpacity(0.1),
-                          spreadRadius: 5,
-                          blurRadius: 10,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Tooltip(
-                            message: currentStreakData.getName(context),
-                            child: NumberTypeButton(
-                              count: currentStreakCount,
-                              imagePath: currentStreakData.imagePath ?? '', // Ensure non-nullable
-                              isAsset: currentStreakData.isAsset,
-                              isFromMyCloset: true,
-                              isHorizontal: true,
-                              buttonType: ButtonType.secondary,
-                            ),
-                          ),
-                          Tooltip(
-                            message: highestStreakData.getName(context),
-                            child: NumberTypeButton(
-                              count: highestStreakCount,
-                              imagePath: highestStreakData.imagePath ?? '', // Ensure non-nullable
-                              isAsset: highestStreakData.isAsset,
-                              isFromMyCloset: true,
-                              isHorizontal: true,
-                              buttonType: ButtonType.secondary,
-                            ),
-                          ),
-                          Tooltip(
-                            message: costOfNewItemsData.getName(context),
-                            child: NumberTypeButton(
-                              count: newItemsCost,
-                              imagePath: costOfNewItemsData.imagePath ?? '', // Ensure non-nullable
-                              isAsset: costOfNewItemsData.isAsset,
-                              isFromMyCloset: true,
-                              isHorizontal: true,
-                              buttonType: ButtonType.secondary,
-                            ),
-                          ),
-                          Tooltip(
-                            message: numberOfNewItemsData.getName(context),
-                            child: NumberTypeButton(
-                              count: newItemsCount,
-                              imagePath: numberOfNewItemsData.imagePath ?? '', // Ensure non-nullable
-                              isAsset: numberOfNewItemsData.isAsset,
-                              isFromMyCloset: true,
-                              isHorizontal: true,
-                              buttonType: ButtonType.secondary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                MyClosetContainer(
+                  theme: widget.myClosetTheme,
+                  uploadData: uploadData,
+                  filterData: filterData,
+                  addClosetData: addClosetData,
+                  itemUploadData: itemUploadData,
+                  currentStreakData: currentStreakData,
+                  highestStreakData: highestStreakData,
+                  costOfNewItemsData: costOfNewItemsData,
+                  numberOfNewItemsData: numberOfNewItemsData,
+                  apparelCount: apparelCount,
+                  currentStreakCount: currentStreakCount,
+                  highestStreakCount: highestStreakCount,
+                  newItemsCost: newItemsCost,
+                  newItemsCount: newItemsCount,
+                  isUploadCompleted: _isUploadCompleted,
+                  onUploadButtonPressed: _onUploadButtonPressed,
+                  onFilterButtonPressed: _onFilterButtonPressed,
+                  onMultiClosetButtonPressed: _onMultiClosetButtonPressed,
                 ),
                 Expanded(
                   child: ItemGrid(
@@ -403,11 +285,11 @@ class MyClosetPageState extends State<MyClosetPage> {
           bottomNavigationBar: BottomNavigationBar(
             items: [
               BottomNavigationBarItem(
-                icon: const Icon(Icons.checkroom),
+                icon: const Icon(Icons.dry_cleaning_outlined),
                 label: S.of(context).closetLabel,
               ),
               BottomNavigationBarItem(
-                icon: const Icon(Icons.apartment),
+                icon: const Icon(Icons.wc_outlined),
                 label: S.of(context).outfitLabel,
               ),
             ],

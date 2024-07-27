@@ -17,6 +17,13 @@ class SupabaseService {
 
   Future<void> signOut() async {
     await supabaseClient.auth.signOut();
+  }
 
-    }
+  User? getCurrentUser() {
+    return supabaseClient.auth.currentUser;
+  }
+
+  Future<PostgrestResponse> deleteUserFolderAndAccount(String userId) async {
+    return await supabaseClient.rpc('delete_user_folder_and_account', params: {'user_id': userId});
+  }
 }

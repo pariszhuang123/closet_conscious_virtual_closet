@@ -11,6 +11,8 @@ import '../core/widgets/bottom_sheet/analytics_premium_bottom_sheet.dart';
 import '../core/utilities/routes.dart';
 import '../user_management/achievements/data/models/achievements_page_argument.dart';
 import '../user_management/achievements/data/models/achievement_model.dart';
+import '../core/utilities/launch_email.dart';
+import '../core/data/models/arguments.dart';
 
 class AppDrawer extends StatelessWidget {
   final bool isFromMyCloset;
@@ -61,10 +63,10 @@ class AppDrawer extends StatelessWidget {
                       context, insightsItem, null, (ctx) => _showUsageInsightsBottomSheet(ctx, isFromMyCloset)),
                   _buildVerticalSpacing(),
                   _buildNavigationButton(
-                      context, infoHubItem, '/info_hub', null),
+                      context, infoHubItem, null, _navigateToInfoHub),
                   _buildVerticalSpacing(),
                   _buildNavigationButton(
-                      context, contactUsItem, '/contact_us', null),
+                      context, contactUsItem, null, (ctx) => launchEmail()),
                   _buildVerticalSpacing(),
                   _buildNavigationButton(
                       context, deleteAccountItem, null, _showDeleteAccountDialog),
@@ -109,6 +111,7 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
+
   Widget _buildVerticalSpacing() {
     return const SizedBox(height: 16.0);
   }
@@ -121,6 +124,17 @@ class AppDrawer extends StatelessWidget {
       arguments: AchievementsPageArguments(
         isFromMyCloset: isFromMyCloset,
         achievements: achievements,
+      ),
+    );
+  }
+
+  void _navigateToInfoHub(BuildContext context) {
+    Navigator.pushNamed(
+      context,
+      AppRoutes.infoHub,
+      arguments: InfoHubArguments(
+        'https://inky-twill-3ab.notion.site/8bca4fd6945f4f808a32cbb5ad28400c?v=ce98e22a2fdd40b0a5c02b33c8a563a1&pvs=74',
+        isFromMyCloset,
       ),
     );
   }
@@ -139,19 +153,41 @@ class AppDrawer extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Delete Account'),
-          content: const Text('Are you sure you want to delete your account?'),
+          title: Text(S.of(context).deleteAccountTitle),
+          content: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: S.of(context).deleteAccountImpact,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const WidgetSpan(
+                  child: SizedBox(width: 10),
+                ),
+                TextSpan(
+                  text: S.of(context).deleteAccountConfirmation,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                  ),
+                ),
+              ],
+            ),
+          ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel'),
+              child: Text(S.of(context).cancel),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
             TextButton(
-              child: const Text('Delete'),
+              child: Text(S.of(context).delete),
               onPressed: () {
-                // Perform delete account action
+                // Dispatch the delete account event to AuthBloc
+                context.read<AuthBloc>().add(DeleteAccountEvent());
                 Navigator.pop(context);
               },
             ),

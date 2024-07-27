@@ -48,4 +48,10 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> signOut() async {
     await _supabaseService.signOut();
   }
+
+  @override
+  Future<void> deleteUserFolderAndAccount(String userId) async {
+    await _supabaseService.deleteUserFolderAndAccount(userId);
+  }
+
 }

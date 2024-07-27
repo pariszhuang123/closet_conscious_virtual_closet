@@ -12,6 +12,7 @@ import '../../item_management/edit_item/data/edit_item_arguments.dart';
 import '../../item_management/edit_item/presentation/bloc/edit_item_bloc.dart';
 import '../widgets/webview_screen.dart';
 import '../../user_management/achievements/data/models/achievements_page_argument.dart';
+import '../../core/data/models/arguments.dart';
 
 class AppRoutes {
   static const String login = '/';
@@ -32,11 +33,11 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => HomePage(myClosetTheme: myClosetTheme, myOutfitTheme: myOutfitTheme));
       case myCloset:
         return MaterialPageRoute(
-          builder: (_) => MyClosetPage(myClosetTheme: myClosetTheme, myOutfitTheme: myOutfitTheme),
+          builder: (_) => MyClosetPage(myClosetTheme: myClosetTheme),
         );
       case createOutfit:
         return MaterialPageRoute(
-          builder: (_) => CreateOutfitPage(myOutfitTheme: myOutfitTheme, myClosetTheme: myClosetTheme),
+          builder: (_) => CreateOutfitPage(myOutfitTheme: myOutfitTheme),
         );
       case uploadItem:
         return MaterialPageRoute(
@@ -81,7 +82,10 @@ class AppRoutes {
         }
         return _errorRoute(settings.name);
       case infoHub:
-        return MaterialPageRoute(builder: (_) => const WebViewScreen(url: 'https://inky-twill-3ab.notion.site/8bca4fd6945f4f808a32cbb5ad28400c?v=ce98e22a2fdd40b0a5c02b33c8a563a1&pvs=74', isFromMyCloset: true));
+        final args = settings.arguments as InfoHubArguments;
+        return MaterialPageRoute(
+          builder: (_) => WebViewScreen(url: args.url, isFromMyCloset: args.isFromMyCloset),
+        );
       case achievementPage:
         if (settings.arguments is AchievementsPageArguments) {
           final args = settings.arguments as AchievementsPageArguments;

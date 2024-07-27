@@ -7,7 +7,7 @@ class ClosetItemDetailed {
   final String occasion;
   final String season;
   final String colour;
-  final String colourVariations;
+  final String? colourVariations;
   final DateTime updatedAt;
   final String? clothingType;
   final String? clothingLayer;
@@ -23,7 +23,7 @@ class ClosetItemDetailed {
     required this.occasion,
     required this.season,
     required this.colour,
-    required this.colourVariations,
+    this.colourVariations,
     required this.updatedAt,
     this.clothingType,
     this.clothingLayer,
@@ -41,7 +41,7 @@ class ClosetItemDetailed {
       occasion: json['occasion'],
       season: json['season'],
       colour: json['colour'],
-      colourVariations: json['colour_variations'] ?? [],
+      colourVariations: json['colour_variations'],
       clothingType: json['items_clothing_basic'] != null
           ? json['items_clothing_basic']['clothing_type']
           : null,

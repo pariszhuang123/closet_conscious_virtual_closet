@@ -110,13 +110,23 @@ class TypeDataList {
       TypeData('filter_filter', (context) => S.of(context).filter_filter, 'assets/icons/my_closet/additional_features/filter_search.svg', isAsset: true);
   }
 
+  static TypeData outfitsUpload(BuildContext context) {
+    return
+      TypeData('outfits_upload', (context) => S.of(context).outfits_upload, 'assets/icons/my_outfit/additional_features/outfits_uploaded.svg', isAsset: true);
+  }
+
+  static TypeData calendar(BuildContext context) {
+    return
+      TypeData('calendar', (context) => S.of(context).calendar, 'assets/icons/my_outfit/additional_features/calendar.svg', isAsset: true);
+  }
+
   static TypeData addCloset(BuildContext context) {
     return
       TypeData('addCloset_addCloset', (context) => S.of(context).addCloset_addCloset, 'assets/icons/my_closet/additional_features/add_closet.svg', isAsset: true);
   }
 
   static TypeData itemUploaded(BuildContext context) {
-    return TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'assets/icons/my_closet/additional_features/apparel.svg', isAsset: true);
+    return TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'assets/icons/my_closet/additional_features/calendar.svg', isAsset: true);
   }
 
   static TypeData declutterOptionsSell(BuildContext context) {
@@ -174,4 +184,17 @@ class TypeDataList {
   static TypeData numberOfNewItems(BuildContext context) {
     return TypeData('numberOfNewItems', (context) => S.of(context).numberOfNewItems, 'assets/icons/my_closet/gamification/closet_completed/new_clothing_purchase.svg', isAsset: true);
   }
+
+  static TypeData outfitClothingType(BuildContext context) {
+    return TypeData('Clothing', (context) => S.of(context).Clothing, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Item%20General%20Type/shirt.png');
+  }
+
+  static TypeData outfitAccessoryType(BuildContext context) {
+    return TypeData('Accessory', (context) => S.of(context).Accessory, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Item%20General%20Type/Accessory.png');
+  }
+
+  static TypeData outfitShoesType(BuildContext context) {
+    return TypeData('Shoes', (context) => S.of(context).Shoes, 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/Closet/Upload/Item%20General%20Type/Shoe.png');
+  }
+
 }

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import '../../../core/utilities/logger.dart';
 import '../widget/achievement_grid.dart';
 import '../data/models/achievement_model.dart';
+import '../../../core/theme/my_closet_theme.dart';
+import '../../../core/theme/my_outfit_theme.dart';
+
+final CustomLogger logger = CustomLogger('AchievementsPage');
 
 class AchievementsPage extends StatefulWidget {
   final bool isFromMyCloset;
@@ -35,17 +39,23 @@ class AchievementsPageState extends State<AchievementsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Achievements'),
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : AchievementGrid(
-        achievements: widget.achievements,
-        scrollController: _scrollController,
-        logger: _logger,
+    final theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
+    logger.d('Building AchievementsGrid');
+
+    return Theme(
+      data: theme,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Achievements'),
+          backgroundColor: theme.appBarTheme.backgroundColor,
+        ),
+        body: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : AchievementGrid(
+          achievements: widget.achievements,
+          scrollController: _scrollController,
+          logger: _logger,
+        ),
       ),
     );
   }

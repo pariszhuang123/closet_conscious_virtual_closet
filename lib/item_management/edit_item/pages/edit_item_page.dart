@@ -101,7 +101,20 @@ class _EditItemPageState extends State<EditItemPage> {
 
   void _handleUpdate() {
     if (_formKey.currentState?.validate() ?? false) {
-      context.read<EditItemBloc>().add(const SubmitFormEvent()); // Dispatch SubmitFormEvent
+      // Ensure the form is validated before dispatching the event
+      context.read<EditItemBloc>().add(SubmitFormEvent(
+        itemId: widget.itemId,
+        name: _itemNameController.text,
+        amountSpent: double.tryParse(_amountSpentController.text) ?? widget.initialAmountSpent,
+        imageUrl: _imageUrl,
+        itemType: selectedItemType,
+        specificType: selectedSpecificType,
+        clothingLayer: selectedClothingLayer,
+        occasion: selectedOccasion,
+        season: selectedSeason,
+        colour: selectedColour,
+        colourVariation: selectedColourVariation,
+      )); // Dispatch SubmitFormEvent with form data
     }
   }
 
@@ -170,7 +183,7 @@ class _EditItemPageState extends State<EditItemPage> {
                   backgroundColor: widget.myClosetTheme.colorScheme.surface,
                   appBar: AppBar(
                     title: Text(S.of(context).editPageTitle, style: widget.myClosetTheme.textTheme.titleMedium),
-                    backgroundColor: widget.myClosetTheme.colorScheme.secondary,
+                    backgroundColor: widget.myClosetTheme.appBarTheme.backgroundColor,
                     leading: _isChanged
                         ? null
                         : IconButton(

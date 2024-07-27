@@ -95,6 +95,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   void _onSubmitForm(SubmitFormEvent event, Emitter<EditItemState> emit) {
     if (_isChanged) {
+      // Dispatch ValidateAndUpdateEvent with the necessary parameters
       add(ValidateAndUpdateEvent(
         itemNameController: itemNameController,
         amountSpentController: amountSpentController,
@@ -104,10 +105,10 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     }
   }
 
-
   void _onValidateAndUpdate(ValidateAndUpdateEvent event, Emitter<EditItemState> emit) {
     emit(EditItemValidation());
     if (_isFormValid(event.itemNameController, event.amountSpentController)) {
+      // Dispatch UpdateItemEvent with the necessary parameters
       add(UpdateItemEvent(
         itemNameController: event.itemNameController,
         amountSpentController: event.amountSpentController,

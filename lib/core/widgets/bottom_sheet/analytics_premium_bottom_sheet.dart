@@ -113,10 +113,7 @@ class PremiumAnalyticsBottomSheetState extends State<PremiumAnalyticsBottomSheet
               Center(
                 child: ElevatedButton(
                   onPressed: _isButtonDisabled ? null : _handleButtonPress,
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: colorScheme.onPrimary,
-                    backgroundColor: colorScheme.primary,
-                  ),
+                  style: theme.elevatedButtonTheme.style,
                   child: Text(S.of(context).interested, style: theme.textTheme.labelLarge),
                 ),
               ),

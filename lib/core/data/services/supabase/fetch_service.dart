@@ -1,3 +1,4 @@
+import 'package:closet_conscious/user_management/achievements/data/models/achievement_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../../item_management/core/data/models/closet_item_detailed.dart';
@@ -97,6 +98,63 @@ Future<bool> isAccessoryItem(String itemId) async {
     return data.isNotEmpty;
   } catch (error) {
     logger.e('Error checking if item is accessory: $error');
+    rethrow;
+  }
+}
+
+Future<List<ClosetItemMinimal>> fetchItemsClothing(int currentPage, int batchSize) async {
+  try {
+    logger.d('Fetching items for page: $currentPage with batch size: $batchSize');
+    final data = await Supabase.instance.client
+        .from('items')
+        .select('item_id, image_url, name, item_type, updated_at')
+        .eq('status', 'active')
+        .eq('item_type', 'Clothing')
+        .order('updated_at', ascending: false)
+        .range(currentPage * batchSize, (currentPage + 1) * batchSize - 1);
+
+    logger.i('Fetched ${data.length} items');
+    return data.map<ClosetItemMinimal>((item) => ClosetItemMinimal.fromMap(item)).toList();
+  } catch (error) {
+    logger.e('Error fetching items: $error');
+    rethrow;
+  }
+}
+
+Future<List<ClosetItemMinimal>> fetchItemsShoes(int currentPage, int batchSize) async {
+  try {
+    logger.d('Fetching items for page: $currentPage with batch size: $batchSize');
+    final data = await Supabase.instance.client
+        .from('items')
+        .select('item_id, image_url, name, item_type, updated_at')
+        .eq('status', 'active')
+        .eq('item_type', 'Shoes')
+        .order('updated_at', ascending: false)
+        .range(currentPage * batchSize, (currentPage + 1) * batchSize - 1);
+
+    logger.i('Fetched ${data.length} items');
+    return data.map<ClosetItemMinimal>((item) => ClosetItemMinimal.fromMap(item)).toList();
+  } catch (error) {
+    logger.e('Error fetching items: $error');
+    rethrow;
+  }
+}
+
+Future<List<ClosetItemMinimal>> fetchItemsAccessory(int currentPage, int batchSize) async {
+  try {
+    logger.d('Fetching items for page: $currentPage with batch size: $batchSize');
+    final data = await Supabase.instance.client
+        .from('items')
+        .select('item_id, image_url, name, item_type, updated_at')
+        .eq('status', 'active')
+        .eq('item_type', 'Accessory')
+        .order('updated_at', ascending: false)
+        .range(currentPage * batchSize, (currentPage + 1) * batchSize - 1);
+
+    logger.i('Fetched ${data.length} items');
+    return data.map<ClosetItemMinimal>((item) => ClosetItemMinimal.fromMap(item)).toList();
+  } catch (error) {
+    logger.e('Error fetching items: $error');
     rethrow;
   }
 }
@@ -202,17 +260,20 @@ Future<int> fetchNewItemsCount() async {
 }
 
 
-Future<List<String>> fetchUserAchievements(String userId) async {
+Future<List<Achievement>> fetchUserAchievements(String userId) async {
   try {
     logger.d('Fetching achievements for user: $userId');
 
     final data = await Supabase.instance.client
         .from('user_achievements')
-        .select('achievements (badge_url)')
+        .select('achievement_name, achievements (achievement_name, badge_url)')
         .eq('user_id', userId);
 
     logger.i('Fetched ${data.length} achievements');
-    return data.map<String>((item) => item['achievements']['badge_url'] as String).toList();
+    return data.map((item) {
+      final achievementData = item['achievements'];
+      return Achievement.fromJson(achievementData);
+    }).toList();
   } catch (error) {
     logger.e('Error fetching achievements: $error');
     rethrow;

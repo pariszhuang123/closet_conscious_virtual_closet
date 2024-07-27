@@ -103,6 +103,8 @@
   "multiClosetFeatureDescription": "Manage multiple closets effortlessly with our upcoming multi-closet feature. Interested?",
   "AnalyticsSearchPremiumFeature": "Register for Style Analytics Premium Feature",
   "trackAnalyticsDescription": "Gain deep insights into your wardrobe, helping you optimize usage, track spending, and discover your personal style.",
+  "calendarPremiumFeature": "Register for Calendar Premium Feature",
+  "reviewOutfitsInCalendar": "Review your previous outfits in a calendar view. Pair it with the multi-closet premium feature to organize outfits into one closet.",
   "thankYou": "Thank You!",
   "interestAcknowledged": "Your interest has been noted. Stay tuned for updates.",
   "ok": "OK",
@@ -112,7 +114,6 @@
   "Throw": "Throw",
   "declutterOptions" : "What would you like to do?",
   "itemsUploadedTooltip": "This shows the number of items you have uploaded",
-  "outfitsUploadedTooltip": "This shows the number of items you have uploaded",
   "currentStreakTooltip": "This shows your current streak of no purchase",
   "highestStreakTooltip": "This shows your highest score of no purchase",
   "spendingTooltip": "This shows how much you have spent on new items",
@@ -120,6 +121,8 @@
   "profileSection": "Profile",
   "achievements": "Achievements",
   "usageInsights": "Usage Insights",
+  "calendar": "Calendar",
+  "outfits_upload": "This shows the number of outfits you have uploaded",
   "appInformationSection": "App Information",
   "infoHub": "Info Hub",
   "supportAssistanceSection": "Support & Assistance",
@@ -145,5 +148,11 @@
   "currentStreak": "Current streak for number of days you have not bought any clothing",
   "highestStreak": "Highest streak for number of days you have not bought any clothing",
   "costOfNewItems": "Cost of the new items you have purchased",
-  "numberOfNewItems": "Number of new items you have purchased"
+  "numberOfNewItems": "Number of new items you have purchased",
+  "deleteAccountTitle": "Delete Account",
+  "deleteAccountImpact": "Warning: Deleting your account is irreversible.",
+  "deleteAccountConfirmation": "Are you sure you want to delete your account? All your data will be permanently removed.",
+  "cancel": "Cancel",
+  "delete": "Delete"
+
 }

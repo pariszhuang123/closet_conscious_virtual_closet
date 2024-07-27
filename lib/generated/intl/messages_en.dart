@@ -101,6 +101,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("App Information"),
         "becomeAmbassador":
             MessageLookupByLibrary.simpleMessage("Become an Ambassador"),
+        "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
+        "calendarPremiumFeature": MessageLookupByLibrary.simpleMessage(
+            "Register for Calendar Premium Feature"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("Closet"),
         "closetUploadComplete":
             MessageLookupByLibrary.simpleMessage("Closet Upload Complete"),
@@ -132,7 +136,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Declutter Your Closet"),
         "declutterOptions":
             MessageLookupByLibrary.simpleMessage("What would you like to do?"),
+        "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
+        "deleteAccountConfirmation": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete your account? All your data will be permanently removed."),
+        "deleteAccountImpact": MessageLookupByLibrary.simpleMessage(
+            "Warning: Deleting your account is irreversible."),
+        "deleteAccountTitle":
+            MessageLookupByLibrary.simpleMessage("Delete Account"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("Edit Item"),
         "enterAmountSpentHint":
             MessageLookupByLibrary.simpleMessage("Enter amount spent"),
@@ -181,8 +192,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("You are currently offline"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("Outfit"),
-        "outfitsUploadedTooltip": MessageLookupByLibrary.simpleMessage(
-            "This shows the number of items you have uploaded"),
+        "outfits_upload": MessageLookupByLibrary.simpleMessage(
+            "This shows the number of outfits you have uploaded"),
         "pleaseEnterItemName":
             MessageLookupByLibrary.simpleMessage("Please enter an item name"),
         "please_enter_valid_amount": MessageLookupByLibrary.simpleMessage(
@@ -191,6 +202,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "Quickly find items with filter and search options, saving time and staying organized."),
         "retryConnection": MessageLookupByLibrary.simpleMessage("Retry"),
+        "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
+            "Review your previous outfits in a calendar view. Pair it with the multi-closet premium feature to organize outfits into one closet."),
         "seasonFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("Season field is not filled."),
         "selectAccessoryType":

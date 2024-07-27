@@ -145,8 +145,45 @@ class ColourVariationChangedEvent extends EditItemEvent {
 class DeclutterOptionsEvent extends EditItemEvent {}
 
 class SubmitFormEvent extends EditItemEvent {
-  const SubmitFormEvent();
+  final String itemId;
+  final String name;
+  final double amountSpent;
+  final String? imageUrl;
+  final String? itemType;
+  final String? specificType;
+  final String? clothingLayer;
+  final String? occasion;
+  final String? season;
+  final String? colour;
+  final String? colourVariation;
+
+  const SubmitFormEvent({
+    required this.itemId,
+    required this.name,
+    required this.amountSpent,
+    this.imageUrl,
+    this.itemType,
+    this.specificType,
+    this.clothingLayer,
+    this.occasion,
+    this.season,
+    this.colour,
+    this.colourVariation,
+  });
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [
+    itemId,
+    name,
+    amountSpent,
+    imageUrl,
+    itemType,
+    specificType,
+    clothingLayer,
+    occasion,
+    season,
+    colour,
+    colourVariation,
+  ];
 }
+

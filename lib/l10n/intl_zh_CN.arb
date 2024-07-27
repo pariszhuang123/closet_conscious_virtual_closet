@@ -103,6 +103,8 @@
   "editPageTitle": "编辑项目",
   "multiClosetFeatureTitle": "发现我们的新多衣橱功能",
   "multiClosetFeatureDescription": "通过即将推出的多衣橱功能轻松管理多个衣橱。感兴趣吗？",
+  "calendarPremiumFeature": "注册日历高级功能",
+  "reviewOutfitsInCalendar": "在日历视图中查看您之前的服装搭配。将其与多衣橱高级功能配对，将喜欢的搭配整理到一个衣橱中。",
   "thankYou": "谢谢！",
   "interestAcknowledged": "您的兴趣已被记录。请关注更新。",
   "ok": "好的",
@@ -112,7 +114,6 @@
   "Throw": "扔掉",
   "declutterOptions" : "你想做什么？",
   "itemsUploadedTooltip": "这显示了您上传的物品数量",
-  "outfitsUploadedTooltip": "这显示了您上传的穿搭数量",
   "currentStreakTooltip": "这显示了您当前的不购买连续天数",
   "highestStreakTooltip": "这显示了您最高的不购买连续天数",
   "spendingTooltip": "这显示了您在新物品上的花费",
@@ -120,6 +121,8 @@
   "profileSection": "个人资料",
   "achievements": "成就",
   "usageInsights": "使用洞察",
+  "calendar": "日历",
+  "outfits_upload": "这显示了您上传的穿搭数量",
   "appInformationSection": "应用信息",
   "infoHub": "信息中心",
   "supportAssistanceSection": "支持与协助",
@@ -145,5 +148,10 @@
   "currentStreak": "当前未购买任何衣物的连续天数",
   "highestStreak": "未购买任何衣物的最长连续天数",
   "costOfNewItems": "您购买新物品的费用",
-  "numberOfNewItems": "您购买的新物品数量"
+  "numberOfNewItems": "您购买的新物品数量",
+  "deleteAccountTitle": "删除账户",
+  "deleteAccountImpact": "警告：删除您的账户是不可逆的。",
+  "deleteAccountConfirmation": "您确定要删除您的账户吗？所有数据将被永久删除。",
+  "cancel": "取消",
+  "delete": "删除"
 }
