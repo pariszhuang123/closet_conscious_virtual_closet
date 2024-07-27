@@ -16,6 +16,12 @@ class AchievementGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.d('AchievementGrid: Received ${achievements.length} achievements');
+    if (achievements.isEmpty) {
+      logger.d('AchievementGrid: No achievements to display');
+      return const Center(child: Text('No achievements found'));
+    }
+
     return GridView.builder(
       controller: scrollController,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -25,6 +31,8 @@ class AchievementGrid extends StatelessWidget {
       itemCount: achievements.length,
       itemBuilder: (context, index) {
         final achievement = achievements[index];
+        logger.d('AchievementGrid: Rendering achievement ${achievement.achievementName}');
+
         return Container(
           color: Colors.transparent,
           child: Column(
@@ -35,7 +43,14 @@ class AchievementGrid extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15.0),
                   child: AspectRatio(
                     aspectRatio: 1.0, // Ensures the box is square
-                    child: Image.network(achievement.badgeUrl, fit: BoxFit.cover),
+                    child: Image.network(
+                      achievement.badgeUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        logger.e('AchievementGrid: Error loading image for ${achievement.achievementName}');
+                        return const Icon(Icons.error);
+                      },
+                    ),
                   ),
                 ),
               ),

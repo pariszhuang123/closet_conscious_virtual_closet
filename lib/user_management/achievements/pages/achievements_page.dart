@@ -29,6 +29,7 @@ class AchievementsPageState extends State<AchievementsPage> {
   @override
   void initState() {
     super.initState();
+    logger.d('initState: achievements list contains ${widget.achievements.length} items');
     // Simulate data loading
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {

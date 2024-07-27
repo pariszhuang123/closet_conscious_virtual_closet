@@ -37,6 +37,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   String? initialColourVariation;
   bool _isChanged = false;
 
+  final CustomLogger logger = CustomLogger('EditItemBloc'); // Create an instance of CustomLogger
+
   EditItemBloc({
     required this.itemNameController,
     required this.amountSpentController,
@@ -53,6 +55,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     this.initialColourVariation,
   }) : super(EditItemInitial()) {
     on<DeclutterOptionsEvent>((event, emit) {
+      logger.d('DeclutterOptionsEvent triggered');
       emit(EditItemDeclutterOptions());
     });
 
@@ -61,10 +64,12 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<UpdateItemEvent>(_onUpdateItem);
 
     on<UpdateSuccessEvent>((event, emit) {
+      logger.d('UpdateSuccessEvent triggered');
       emit(EditItemUpdateSuccess());
     });
 
     on<UpdateFailureEvent>((event, emit) {
+      logger.e('UpdateFailureEvent triggered with error: ${event.error}');
       emit(EditItemUpdateFailure(event.error));
     });
 
@@ -94,8 +99,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   void _onSubmitForm(SubmitFormEvent event, Emitter<EditItemState> emit) {
+    logger.d('SubmitFormEvent triggered with isChanged: $_isChanged');
     if (_isChanged) {
-      // Dispatch ValidateAndUpdateEvent with the necessary parameters
       add(ValidateAndUpdateEvent(
         itemNameController: itemNameController,
         amountSpentController: amountSpentController,
@@ -106,9 +111,9 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   void _onValidateAndUpdate(ValidateAndUpdateEvent event, Emitter<EditItemState> emit) {
+    logger.d('ValidateAndUpdateEvent triggered');
     emit(EditItemValidation());
     if (_isFormValid(event.itemNameController, event.amountSpentController)) {
-      // Dispatch UpdateItemEvent with the necessary parameters
       add(UpdateItemEvent(
         itemNameController: event.itemNameController,
         amountSpentController: event.amountSpentController,
@@ -119,6 +124,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   Future<void> _onUpdateItem(UpdateItemEvent event, Emitter<EditItemState> emit) async {
+    logger.d('UpdateItemEvent triggered with isChanged: $_isChanged');
     if (!_isChanged) {
       emit(EditItemUpdateSuccess());
       return;
@@ -129,11 +135,13 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       await _updateItemData(event.itemNameController.text, double.tryParse(event.amountSpentController.text));
       emit(EditItemUpdateSuccess());
     } catch (e) {
+      logger.e('Error in _onUpdateItem: $e');
       emit(EditItemUpdateFailure(e.toString()));
     }
   }
 
   Future<void> _onFetchItemDetails(FetchItemDetailsEvent event, Emitter<EditItemState> emit) async {
+    logger.d('FetchItemDetailsEvent triggered');
     emit(EditItemLoading());
     try {
       final item = await fetchItemDetails(event.itemId);
@@ -161,20 +169,25 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         selectedColour: item.colour,
         selectedColourVariation: item.colourVariations,
       ));
+      logger.i('Fetched item details successfully');
     } catch (e) {
+      logger.e('Error in _onFetchItemDetails: $e');
       emit(EditItemUpdateFailure(e.toString()));
     }
   }
 
   void _onShowSpecificErrorMessages(ShowSpecificErrorMessagesEvent event, Emitter<EditItemState> emit) {
+    logger.d('ShowSpecificErrorMessagesEvent triggered');
     _showSpecificErrorMessages(event.context, event.itemNameController, event.amountSpentController);
   }
 
   void _onFieldChanged(FieldChangedEvent event, Emitter<EditItemState> emit) {
+    logger.d('FieldChangedEvent triggered');
     _isChanged = true;
   }
 
   void _onUpdateImage(UpdateImageEvent event, Emitter<EditItemState> emit) {
+    logger.d('UpdateImageEvent triggered');
     imageFile = event.imageFile;
     _isChanged = true;
     emit(EditItemUpdated(
@@ -189,6 +202,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   void _onItemTypeChanged(ItemTypeChangedEvent event, Emitter<EditItemState> emit) {
+    logger.d('ItemTypeChangedEvent triggered with itemType: ${event.itemType}');
     selectedItemType = event.itemType;
     _isChanged = true;
     emit(EditItemUpdated(
@@ -203,6 +217,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   void _onOccasionChanged(OccasionChangedEvent event, Emitter<EditItemState> emit) {
+    logger.d('OccasionChangedEvent triggered with occasion: ${event.occasion}');
     selectedOccasion = event.occasion;
     _isChanged = true;
     emit(EditItemUpdated(
@@ -217,6 +232,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   void _onSeasonChanged(SeasonChangedEvent event, Emitter<EditItemState> emit) {
+    logger.d('SeasonChangedEvent triggered with season: ${event.season}');
     selectedSeason = event.season;
     _isChanged = true;
     emit(EditItemUpdated(
@@ -231,6 +247,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   void _onSpecificTypeChanged(SpecificTypeChangedEvent event, Emitter<EditItemState> emit) {
+    logger.d('SpecificTypeChangedEvent triggered with specificType: ${event.specificType}');
     selectedSpecificType = event.specificType;
     _isChanged = true;
     emit(EditItemUpdated(
@@ -245,6 +262,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   void _onClothingLayerChanged(ClothingLayerChangedEvent event, Emitter<EditItemState> emit) {
+    logger.d('ClothingLayerChangedEvent triggered with clothingLayer: ${event.clothingLayer}');
     selectedClothingLayer = event.clothingLayer;
     _isChanged = true;
     emit(EditItemUpdated(
@@ -259,6 +277,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   void _onColourChanged(ColourChangedEvent event, Emitter<EditItemState> emit) {
+    logger.d('ColourChangedEvent triggered with colour: ${event.colour}');
     selectedColour = event.colour;
     _isChanged = true;
     emit(EditItemUpdated(
@@ -273,6 +292,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   void _onColourVariationChanged(ColourVariationChangedEvent event, Emitter<EditItemState> emit) {
+    logger.d('ColourVariationChangedEvent triggered with colourVariation: ${event.colourVariation}');
     selectedColourVariation = event.colourVariation;
     _isChanged = true;
     emit(EditItemUpdated(
@@ -329,7 +349,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
     _setColourVariationToNullIfBlackOrWhite();
 
-    final logger = CustomLogger('EditPage');
     String? finalImageUrl = imageUrl;
 
     if (imageFile != null) {
@@ -399,6 +418,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   void _showSpecificErrorMessages(BuildContext context, TextEditingController itemNameController, TextEditingController amountSpentController) {
+    logger.d('Showing specific error messages');
     if (itemNameController.text.isEmpty) {
       _showErrorMessage(S.of(context).itemNameFieldNotFilled, context);
     } else if (amountSpentController.text.isEmpty) {
@@ -421,6 +441,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   void _showErrorMessage(String message, BuildContext context) {
+    logger.e('Showing error message: $message');
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 }

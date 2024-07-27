@@ -10,6 +10,7 @@ import '../../../generated/l10n.dart';
 import '../../../core/widgets/icon_row_builder.dart';
 import '../presentation/bloc/edit_item_bloc.dart';
 import '../../declutter_items/presentation/widgets/declutter_options_bottom_sheet.dart';
+import '../../../core/utilities/logger.dart';
 
 class EditItemPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -62,6 +63,8 @@ class _EditItemPageState extends State<EditItemPage> {
 
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
+
+  final CustomLogger logger = CustomLogger('EditItemPage'); // Create an instance of CustomLogger
 
   @override
   void initState() {
@@ -170,9 +173,12 @@ class _EditItemPageState extends State<EditItemPage> {
                   selectedColour = state.selectedColour;
                   selectedColourVariation = state.selectedColourVariation;
                 });
+                logger.i('EditItemLoaded state: $state'); // Use logger
               }
             },
             builder: (context, state) {
+              logger.d('Current state: $state'); // Use logger
+
               if (state is EditItemLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
