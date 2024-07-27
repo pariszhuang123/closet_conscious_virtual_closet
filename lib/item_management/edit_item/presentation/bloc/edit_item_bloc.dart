@@ -6,7 +6,7 @@ import 'dart:io';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/config/supabase_config.dart';
 import '../../../../generated/l10n.dart';
-import '../../../../core/data/services/supabase/fetch_service.dart';
+import '../../../core/data/services/item_fetch_service.dart';
 
 part 'edit_item_event.dart';
 part 'edit_item_state.dart';

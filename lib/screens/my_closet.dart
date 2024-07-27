@@ -5,7 +5,7 @@ import '../core/utilities/routes.dart';
 import '../core/utilities/logger.dart';
 import '../item_management/core/data/models/closet_item_minimal.dart';
 import '../item_management/view_items/widget/item_grid.dart';
-import '../core/data/services/supabase/fetch_service.dart';
+import '../item_management/core/data/services/item_fetch_service.dart';
 import '../item_management/view_items/widget/my_closet_container.dart';
 import '../core/data/type_data.dart';
 import '../generated/l10n.dart';
