@@ -1,6 +1,7 @@
 -- Function to increment outfits created and update no-buy streaks
 CREATE OR REPLACE FUNCTION increment_outfit_created(current_user_id UUID)
 RETURNS VOID
+SET search_path = ''
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -15,6 +16,7 @@ $$;
 -- Function to increment usage of items and update item stats
 CREATE OR REPLACE FUNCTION increment_items_usage(p_selected_items UUID[])
 RETURNS VOID
+SET search_path = ''
 LANGUAGE plpgsql
 AS $$
 BEGIN
@@ -39,6 +41,7 @@ $$;
 -- Main function to save outfit items and update related stats
 CREATE OR REPLACE FUNCTION save_outfit_items(p_selected_items UUID[])
 RETURNS JSON
+SET search_path = ''
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -46,9 +49,6 @@ DECLARE
   new_outfit_id UUID;
   result JSON;
 BEGIN
-  -- Start a transaction
-  BEGIN TRANSACTION;
-
   -- Insert a new outfit and get the generated outfit_id
   INSERT INTO public.outfits (user_id)
   VALUES (current_user_id)
@@ -62,9 +62,6 @@ BEGIN
   PERFORM increment_outfit_created(current_user_id);
   PERFORM increment_items_usage(p_selected_items);
 
-  -- Commit the transaction
-  COMMIT;
-
   -- Return success result
   result := json_build_object(
     'status', 'success',
@@ -76,7 +73,6 @@ BEGIN
 EXCEPTION
   -- Rollback the transaction in case of any error
   WHEN OTHERS THEN
-    ROLLBACK;
     result := json_build_object(
       'status', 'error',
       'message', SQLERRM
