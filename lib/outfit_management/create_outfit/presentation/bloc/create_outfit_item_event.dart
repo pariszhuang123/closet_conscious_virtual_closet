@@ -1,6 +1,6 @@
 part of 'create_outfit_item_bloc.dart';
 
-enum OutfitItemCategory { Clothing, Accessory, Shoes }
+enum OutfitItemCategory { clothing, accessory, shoes }
 
 class CreateOutfitItemEvent extends Equatable {
   @override

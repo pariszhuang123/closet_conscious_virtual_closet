@@ -36,7 +36,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
   }
 
   Future<void> _fetchInitialItems() async {
-    final items = await fetchCreateOutfitItems(OutfitItemCategory.Clothing, 0, 1); // Fetch the first 10 items
+    final items = await fetchCreateOutfitItems(OutfitItemCategory.clothing, 0, 1); // Fetch the first 10 items
     setState(() {
       _fetchedItems = items;
     });
@@ -45,13 +45,13 @@ class MyOutfitViewState extends State<MyOutfitView> {
   Future<void> _onClothesPressed() async {
     logger.i('Clothes container clicked');
     final currentContext = context;
-    final items = await fetchCreateOutfitItems(OutfitItemCategory.Clothing, 0, 1); // Fetch the first 10 items
+    final items = await fetchCreateOutfitItems(OutfitItemCategory.clothing, 0, 1); // Fetch the first 10 items
     setState(() {
       _fetchedItems = items;
     });
     if (currentContext.mounted) {
       for (var item in items) {
-        currentContext.read<CreateOutfitItemBloc>().add(SelectItemEvent(OutfitItemCategory.Clothing, item.itemId, 0, 1));
+        currentContext.read<CreateOutfitItemBloc>().add(SelectItemEvent(OutfitItemCategory.clothing, item.itemId, 0, 1));
       }
     }
   }
@@ -59,13 +59,13 @@ class MyOutfitViewState extends State<MyOutfitView> {
   Future<void> _onAccessoriesPressed() async {
     logger.i('Accessories container clicked');
     final currentContext = context;
-    final items = await fetchCreateOutfitItems(OutfitItemCategory.Accessory, 0, 1); // Fetch the first 10 items
+    final items = await fetchCreateOutfitItems(OutfitItemCategory.accessory, 0, 1); // Fetch the first 10 items
     setState(() {
       _fetchedItems = items;
     });
     if (currentContext.mounted) {
       for (var item in items) {
-        currentContext.read<CreateOutfitItemBloc>().add(SelectItemEvent(OutfitItemCategory.Accessory, item.itemId, 0, 1));
+        currentContext.read<CreateOutfitItemBloc>().add(SelectItemEvent(OutfitItemCategory.accessory, item.itemId, 0, 1));
       }
     }
   }
@@ -73,13 +73,13 @@ class MyOutfitViewState extends State<MyOutfitView> {
   Future<void> _onShoesPressed() async {
     logger.i('Shoes container clicked');
     final currentContext = context;
-    final items = await fetchCreateOutfitItems(OutfitItemCategory.Shoes, 0, 1); // Fetch the first 10 items
+    final items = await fetchCreateOutfitItems(OutfitItemCategory.shoes, 0, 1); // Fetch the first 10 items
     setState(() {
       _fetchedItems = items;
     });
     if (currentContext.mounted) {
       for (var item in items) {
-        currentContext.read<CreateOutfitItemBloc>().add(SelectItemEvent(OutfitItemCategory.Shoes, item.itemId, 0, 1));
+        currentContext.read<CreateOutfitItemBloc>().add(SelectItemEvent(OutfitItemCategory.shoes, item.itemId, 0, 1));
       }
     }
   }

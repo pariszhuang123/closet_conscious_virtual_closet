@@ -191,440 +191,440 @@ class S {
   }
 
   /// `Spring`
-  String get Spring {
+  String get spring {
     return Intl.message(
       'Spring',
-      name: 'Spring',
+      name: 'spring',
       desc: '',
       args: [],
     );
   }
 
   /// `Summer`
-  String get Summer {
+  String get summer {
     return Intl.message(
       'Summer',
-      name: 'Summer',
+      name: 'summer',
       desc: '',
       args: [],
     );
   }
 
   /// `Autumn`
-  String get Autumn {
+  String get autumn {
     return Intl.message(
       'Autumn',
-      name: 'Autumn',
+      name: 'autumn',
       desc: '',
       args: [],
     );
   }
 
   /// `Winter`
-  String get Winter {
+  String get winter {
     return Intl.message(
       'Winter',
-      name: 'Winter',
+      name: 'winter',
       desc: '',
       args: [],
     );
   }
 
   /// `Multi`
-  String get Multi {
+  String get multi {
     return Intl.message(
       'Multi',
-      name: 'Multi',
+      name: 'multi',
       desc: '',
       args: [],
     );
   }
 
   /// `Top`
-  String get Top {
+  String get top {
     return Intl.message(
       'Top',
-      name: 'Top',
+      name: 'top',
       desc: '',
       args: [],
     );
   }
 
   /// `Bottom`
-  String get Bottom {
+  String get bottom {
     return Intl.message(
       'Bottom',
-      name: 'Bottom',
+      name: 'bottom',
       desc: '',
       args: [],
     );
   }
 
   /// `One Piece`
-  String get OnePiece {
+  String get onePiece {
     return Intl.message(
       'One Piece',
-      name: 'OnePiece',
+      name: 'onePiece',
       desc: '',
       args: [],
     );
   }
 
   /// `Base`
-  String get Base {
+  String get base {
     return Intl.message(
       'Base',
-      name: 'Base',
+      name: 'base',
       desc: '',
       args: [],
     );
   }
 
   /// `Mid`
-  String get Mid {
+  String get mid {
     return Intl.message(
       'Mid',
-      name: 'Mid',
+      name: 'mid',
       desc: '',
       args: [],
     );
   }
 
   /// `Outer`
-  String get Outer {
+  String get outer {
     return Intl.message(
       'Outer',
-      name: 'Outer',
+      name: 'outer',
       desc: '',
       args: [],
     );
   }
 
   /// `Red`
-  String get Red {
+  String get red {
     return Intl.message(
       'Red',
-      name: 'Red',
+      name: 'red',
       desc: '',
       args: [],
     );
   }
 
   /// `Blue`
-  String get Blue {
+  String get blue {
     return Intl.message(
       'Blue',
-      name: 'Blue',
+      name: 'blue',
       desc: '',
       args: [],
     );
   }
 
   /// `Green`
-  String get Green {
+  String get green {
     return Intl.message(
       'Green',
-      name: 'Green',
+      name: 'green',
       desc: '',
       args: [],
     );
   }
 
   /// `Yellow`
-  String get Yellow {
+  String get yellow {
     return Intl.message(
       'Yellow',
-      name: 'Yellow',
+      name: 'yellow',
       desc: '',
       args: [],
     );
   }
 
   /// `Brown`
-  String get Brown {
+  String get brown {
     return Intl.message(
       'Brown',
-      name: 'Brown',
+      name: 'brown',
       desc: '',
       args: [],
     );
   }
 
   /// `Grey`
-  String get Grey {
+  String get grey {
     return Intl.message(
       'Grey',
-      name: 'Grey',
+      name: 'grey',
       desc: '',
       args: [],
     );
   }
 
   /// `Rainbow`
-  String get Rainbow {
+  String get rainbow {
     return Intl.message(
       'Rainbow',
-      name: 'Rainbow',
+      name: 'rainbow',
       desc: '',
       args: [],
     );
   }
 
   /// `Black`
-  String get Black {
+  String get black {
     return Intl.message(
       'Black',
-      name: 'Black',
+      name: 'black',
       desc: '',
       args: [],
     );
   }
 
   /// `White`
-  String get White {
+  String get white {
     return Intl.message(
       'White',
-      name: 'White',
+      name: 'white',
       desc: '',
       args: [],
     );
   }
 
   /// `Light`
-  String get Light {
+  String get light {
     return Intl.message(
       'Light',
-      name: 'Light',
+      name: 'light',
       desc: '',
       args: [],
     );
   }
 
   /// `Medium`
-  String get Medium {
+  String get medium {
     return Intl.message(
       'Medium',
-      name: 'Medium',
+      name: 'medium',
       desc: '',
       args: [],
     );
   }
 
   /// `Dark`
-  String get Dark {
+  String get dark {
     return Intl.message(
       'Dark',
-      name: 'Dark',
+      name: 'dark',
       desc: '',
       args: [],
     );
   }
 
   /// `Bag`
-  String get Bag {
+  String get bag {
     return Intl.message(
       'Bag',
-      name: 'Bag',
+      name: 'bag',
       desc: '',
       args: [],
     );
   }
 
   /// `Belt`
-  String get Belt {
+  String get belt {
     return Intl.message(
       'Belt',
-      name: 'Belt',
+      name: 'belt',
       desc: '',
       args: [],
     );
   }
 
   /// `Eyewear`
-  String get Eyewear {
+  String get eyewear {
     return Intl.message(
       'Eyewear',
-      name: 'Eyewear',
+      name: 'eyewear',
       desc: '',
       args: [],
     );
   }
 
   /// `Gloves`
-  String get Gloves {
+  String get gloves {
     return Intl.message(
       'Gloves',
-      name: 'Gloves',
+      name: 'gloves',
       desc: '',
       args: [],
     );
   }
 
   /// `Hat`
-  String get Hat {
+  String get hat {
     return Intl.message(
       'Hat',
-      name: 'Hat',
+      name: 'hat',
       desc: '',
       args: [],
     );
   }
 
   /// `Jewellery`
-  String get Jewellery {
+  String get jewellery {
     return Intl.message(
       'Jewellery',
-      name: 'Jewellery',
+      name: 'jewellery',
       desc: '',
       args: [],
     );
   }
 
   /// `Scarf`
-  String get Scarf {
+  String get scarf {
     return Intl.message(
       'Scarf',
-      name: 'Scarf',
+      name: 'scarf',
       desc: '',
       args: [],
     );
   }
 
   /// `Tie`
-  String get Tie {
+  String get tie {
     return Intl.message(
       'Tie',
-      name: 'Tie',
+      name: 'tie',
       desc: '',
       args: [],
     );
   }
 
   /// `Clothing`
-  String get Clothing {
+  String get clothing {
     return Intl.message(
       'Clothing',
-      name: 'Clothing',
+      name: 'clothing',
       desc: '',
       args: [],
     );
   }
 
   /// `Shoes`
-  String get Shoes {
+  String get shoes {
     return Intl.message(
       'Shoes',
-      name: 'Shoes',
+      name: 'shoes',
       desc: '',
       args: [],
     );
   }
 
   /// `Accessory`
-  String get Accessory {
+  String get accessory {
     return Intl.message(
       'Accessory',
-      name: 'Accessory',
+      name: 'accessory',
       desc: '',
       args: [],
     );
   }
 
   /// `Boots`
-  String get Boots {
+  String get boots {
     return Intl.message(
       'Boots',
-      name: 'Boots',
+      name: 'boots',
       desc: '',
       args: [],
     );
   }
 
   /// `Everyday`
-  String get Everyday {
+  String get everyday {
     return Intl.message(
       'Everyday',
-      name: 'Everyday',
+      name: 'everyday',
       desc: '',
       args: [],
     );
   }
 
   /// `Athletic`
-  String get Athletic {
+  String get athletic {
     return Intl.message(
       'Athletic',
-      name: 'Athletic',
+      name: 'athletic',
       desc: '',
       args: [],
     );
   }
 
   /// `Formal`
-  String get Formal {
+  String get formal {
     return Intl.message(
       'Formal',
-      name: 'Formal',
+      name: 'formal',
       desc: '',
       args: [],
     );
   }
 
   /// `Niche`
-  String get Niche {
+  String get niche {
     return Intl.message(
       'Niche',
-      name: 'Niche',
+      name: 'niche',
       desc: '',
       args: [],
     );
   }
 
   /// `Active`
-  String get Active {
+  String get active {
     return Intl.message(
       'Active',
-      name: 'Active',
+      name: 'active',
       desc: '',
       args: [],
     );
   }
 
   /// `Casual`
-  String get Casual {
+  String get casual {
     return Intl.message(
       'Casual',
-      name: 'Casual',
+      name: 'casual',
       desc: '',
       args: [],
     );
   }
 
   /// `Workplace`
-  String get Workplace {
+  String get workplace {
     return Intl.message(
       'Workplace',
-      name: 'Workplace',
+      name: 'workplace',
       desc: '',
       args: [],
     );
   }
 
   /// `Social`
-  String get Social {
+  String get social {
     return Intl.message(
       'Social',
-      name: 'Social',
+      name: 'social',
       desc: '',
       args: [],
     );
   }
 
   /// `Event`
-  String get Event {
+  String get event {
     return Intl.message(
       'Event',
-      name: 'Event',
+      name: 'event',
       desc: '',
       args: [],
     );
@@ -1131,30 +1131,30 @@ class S {
   }
 
   /// `Sell`
-  String get Sell {
+  String get sell {
     return Intl.message(
       'Sell',
-      name: 'Sell',
+      name: 'sell',
       desc: '',
       args: [],
     );
   }
 
   /// `Swap`
-  String get Swap {
+  String get swap {
     return Intl.message(
       'Swap',
-      name: 'Swap',
+      name: 'swap',
       desc: '',
       args: [],
     );
   }
 
   /// `Pay It Forward`
-  String get Gift {
+  String get gift {
     return Intl.message(
       'Pay It Forward',
-      name: 'Gift',
+      name: 'gift',
       desc: '',
       args: [],
     );

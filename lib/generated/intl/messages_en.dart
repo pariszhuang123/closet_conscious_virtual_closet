@@ -24,36 +24,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "Accessory": MessageLookupByLibrary.simpleMessage("Accessory"),
-        "Active": MessageLookupByLibrary.simpleMessage("Active"),
         "AmountHint": MessageLookupByLibrary.simpleMessage(
             "\'How much did the item cost?"),
         "AmountLabel": MessageLookupByLibrary.simpleMessage("Amount"),
         "AnalyticsSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Register for Style Analytics Premium Feature"),
         "AppName": MessageLookupByLibrary.simpleMessage("ClosetConscious"),
-        "Athletic": MessageLookupByLibrary.simpleMessage("Athletic"),
-        "Autumn": MessageLookupByLibrary.simpleMessage("Autumn"),
-        "Bag": MessageLookupByLibrary.simpleMessage("Bag"),
-        "Base": MessageLookupByLibrary.simpleMessage("Base"),
-        "Belt": MessageLookupByLibrary.simpleMessage("Belt"),
-        "Black": MessageLookupByLibrary.simpleMessage("Black"),
-        "Blue": MessageLookupByLibrary.simpleMessage("Blue"),
-        "Boots": MessageLookupByLibrary.simpleMessage("Boots"),
-        "Bottom": MessageLookupByLibrary.simpleMessage("Bottom"),
-        "Brown": MessageLookupByLibrary.simpleMessage("Brown"),
-        "Casual": MessageLookupByLibrary.simpleMessage("Casual"),
-        "Clothing": MessageLookupByLibrary.simpleMessage("Clothing"),
-        "Dark": MessageLookupByLibrary.simpleMessage("Dark"),
-        "Event": MessageLookupByLibrary.simpleMessage("Event"),
-        "Everyday": MessageLookupByLibrary.simpleMessage("Everyday"),
-        "Eyewear": MessageLookupByLibrary.simpleMessage("Eyewear"),
-        "Formal": MessageLookupByLibrary.simpleMessage("Formal"),
-        "Gift": MessageLookupByLibrary.simpleMessage("Pay It Forward"),
-        "Gloves": MessageLookupByLibrary.simpleMessage("Gloves"),
-        "Green": MessageLookupByLibrary.simpleMessage("Green"),
-        "Grey": MessageLookupByLibrary.simpleMessage("Grey"),
-        "Hat": MessageLookupByLibrary.simpleMessage("Hat"),
         "ItemClothingLayerLabel":
             MessageLookupByLibrary.simpleMessage("Clothing Layer"),
         "ItemClothingTypeLabel":
@@ -66,31 +42,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "ItemNameLabel": MessageLookupByLibrary.simpleMessage("Name"),
         "ItemOccasionLabel": MessageLookupByLibrary.simpleMessage("Occassion"),
         "ItemSeasonLabel": MessageLookupByLibrary.simpleMessage("Season"),
-        "Jewellery": MessageLookupByLibrary.simpleMessage("Jewellery"),
-        "Light": MessageLookupByLibrary.simpleMessage("Light"),
-        "Medium": MessageLookupByLibrary.simpleMessage("Medium"),
-        "Mid": MessageLookupByLibrary.simpleMessage("Mid"),
-        "Multi": MessageLookupByLibrary.simpleMessage("Multi"),
-        "Niche": MessageLookupByLibrary.simpleMessage("Niche"),
-        "OnePiece": MessageLookupByLibrary.simpleMessage("One Piece"),
-        "Outer": MessageLookupByLibrary.simpleMessage("Outer"),
-        "Rainbow": MessageLookupByLibrary.simpleMessage("Rainbow"),
-        "Red": MessageLookupByLibrary.simpleMessage("Red"),
-        "Scarf": MessageLookupByLibrary.simpleMessage("Scarf"),
-        "Sell": MessageLookupByLibrary.simpleMessage("Sell"),
-        "Shoes": MessageLookupByLibrary.simpleMessage("Shoes"),
-        "Social": MessageLookupByLibrary.simpleMessage("Social"),
-        "Spring": MessageLookupByLibrary.simpleMessage("Spring"),
-        "Summer": MessageLookupByLibrary.simpleMessage("Summer"),
-        "Swap": MessageLookupByLibrary.simpleMessage("Swap"),
         "Throw": MessageLookupByLibrary.simpleMessage("Throw"),
-        "Tie": MessageLookupByLibrary.simpleMessage("Tie"),
-        "Top": MessageLookupByLibrary.simpleMessage("Top"),
-        "White": MessageLookupByLibrary.simpleMessage("White"),
-        "Winter": MessageLookupByLibrary.simpleMessage("Winter"),
-        "Workplace": MessageLookupByLibrary.simpleMessage("Workplace"),
-        "Yellow": MessageLookupByLibrary.simpleMessage("Yellow"),
+        "accessory": MessageLookupByLibrary.simpleMessage("Accessory"),
         "achievements": MessageLookupByLibrary.simpleMessage("Achievements"),
+        "active": MessageLookupByLibrary.simpleMessage("Active"),
         "addCloset_addCloset":
             MessageLookupByLibrary.simpleMessage("Add Closet"),
         "amountSpentFieldNotFilled": MessageLookupByLibrary.simpleMessage(
@@ -99,15 +54,27 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Amount Spent"),
         "appInformationSection":
             MessageLookupByLibrary.simpleMessage("App Information"),
+        "athletic": MessageLookupByLibrary.simpleMessage("Athletic"),
+        "autumn": MessageLookupByLibrary.simpleMessage("Autumn"),
+        "bag": MessageLookupByLibrary.simpleMessage("Bag"),
+        "base": MessageLookupByLibrary.simpleMessage("Base"),
         "becomeAmbassador":
             MessageLookupByLibrary.simpleMessage("Become an Ambassador"),
+        "belt": MessageLookupByLibrary.simpleMessage("Belt"),
+        "black": MessageLookupByLibrary.simpleMessage("Black"),
+        "blue": MessageLookupByLibrary.simpleMessage("Blue"),
+        "boots": MessageLookupByLibrary.simpleMessage("Boots"),
+        "bottom": MessageLookupByLibrary.simpleMessage("Bottom"),
+        "brown": MessageLookupByLibrary.simpleMessage("Brown"),
         "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "calendarPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Register for Calendar Premium Feature"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "casual": MessageLookupByLibrary.simpleMessage("Casual"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("Closet"),
         "closetUploadComplete":
             MessageLookupByLibrary.simpleMessage("Closet Upload Complete"),
+        "clothing": MessageLookupByLibrary.simpleMessage("Clothing"),
         "clothingLayerFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Clothing Layer field is not filled."),
         "colourFieldNotFilled":
@@ -123,6 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Current streak for number of days you have not bought any clothing"),
         "currentStreakTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows your current streak of no purchase"),
+        "dark": MessageLookupByLibrary.simpleMessage("Dark"),
         "dataInsertedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Your data has been saved"),
         "dataUpdatedSuccessfully":
@@ -152,9 +120,18 @@ class MessageLookup extends MessageLookupByLibrary {
             "We are sorry, we can\'t declutter your closet"),
         "errorIncrement": MessageLookupByLibrary.simpleMessage(
             "We are sorry, we can\'t record your interest"),
+        "event": MessageLookupByLibrary.simpleMessage("Event"),
+        "everyday": MessageLookupByLibrary.simpleMessage("Everyday"),
+        "eyewear": MessageLookupByLibrary.simpleMessage("Eyewear"),
         "filterSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Filter & Search Premium Feature"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
+        "formal": MessageLookupByLibrary.simpleMessage("Formal"),
+        "gift": MessageLookupByLibrary.simpleMessage("Pay It Forward"),
+        "gloves": MessageLookupByLibrary.simpleMessage("Gloves"),
+        "green": MessageLookupByLibrary.simpleMessage("Green"),
+        "grey": MessageLookupByLibrary.simpleMessage("Grey"),
+        "hat": MessageLookupByLibrary.simpleMessage("Hat"),
         "highestStreak": MessageLookupByLibrary.simpleMessage(
             "Highest streak for number of days you have not bought any clothing"),
         "highestStreakTooltip": MessageLookupByLibrary.simpleMessage(
@@ -173,7 +150,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "item_name": MessageLookupByLibrary.simpleMessage("Item Name"),
         "itemsUploadedTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows the number of items you have uploaded"),
+        "jewellery": MessageLookupByLibrary.simpleMessage("Jewellery"),
+        "light": MessageLookupByLibrary.simpleMessage("Light"),
         "logOut": MessageLookupByLibrary.simpleMessage("Log Out"),
+        "medium": MessageLookupByLibrary.simpleMessage("Medium"),
+        "mid": MessageLookupByLibrary.simpleMessage("Mid"),
+        "multi": MessageLookupByLibrary.simpleMessage("Multi"),
         "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "Manage multiple closets effortlessly with our upcoming multi-closet feature. Interested?"),
         "multiClosetFeatureTitle": MessageLookupByLibrary.simpleMessage(
@@ -184,6 +166,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "newItemsTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows how many new items you have purchased"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
+        "niche": MessageLookupByLibrary.simpleMessage("Niche"),
         "numberOfNewItems": MessageLookupByLibrary.simpleMessage(
             "Number of new items you have purchased"),
         "occasionFieldNotFilled": MessageLookupByLibrary.simpleMessage(
@@ -191,6 +174,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "offlineStatus":
             MessageLookupByLibrary.simpleMessage("You are currently offline"),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
+        "onePiece": MessageLookupByLibrary.simpleMessage("One Piece"),
+        "outer": MessageLookupByLibrary.simpleMessage("Outer"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("Outfit"),
         "outfits_upload": MessageLookupByLibrary.simpleMessage(
             "This shows the number of outfits you have uploaded"),
@@ -201,9 +186,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "profileSection": MessageLookupByLibrary.simpleMessage("Profile"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "Quickly find items with filter and search options, saving time and staying organized."),
+        "rainbow": MessageLookupByLibrary.simpleMessage("Rainbow"),
+        "red": MessageLookupByLibrary.simpleMessage("Red"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("Retry"),
         "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
             "Review your previous outfits in a calendar view. Pair it with the multi-closet premium feature to organize outfits into one closet."),
+        "scarf": MessageLookupByLibrary.simpleMessage("Scarf"),
         "seasonFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("Season field is not filled."),
         "selectAccessoryType":
@@ -222,14 +210,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectSeason": MessageLookupByLibrary.simpleMessage("Select Season"),
         "selectShoeType":
             MessageLookupByLibrary.simpleMessage("Select Shoe Type"),
+        "sell": MessageLookupByLibrary.simpleMessage("Sell"),
+        "shoes": MessageLookupByLibrary.simpleMessage("Shoes"),
+        "social": MessageLookupByLibrary.simpleMessage("Social"),
         "specificTypeFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Specific Type field is not filled."),
         "spendingTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows how much you have spent on new items"),
+        "spring": MessageLookupByLibrary.simpleMessage("Spring"),
+        "summer": MessageLookupByLibrary.simpleMessage("Summer"),
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("Support & Assistance"),
+        "swap": MessageLookupByLibrary.simpleMessage("Swap"),
         "tagline": MessageLookupByLibrary.simpleMessage("ShopYourCloset"),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
+        "tie": MessageLookupByLibrary.simpleMessage("Tie"),
+        "top": MessageLookupByLibrary.simpleMessage("Top"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "Gain deep insights into your wardrobe, helping you optimize usage, track spending, and discover your personal style."),
         "unexpectedErrorOccurred": MessageLookupByLibrary.simpleMessage(
@@ -246,6 +242,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "upload_successful":
             MessageLookupByLibrary.simpleMessage("Upload successful!"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("Upload"),
-        "usageInsights": MessageLookupByLibrary.simpleMessage("Usage Insights")
+        "usageInsights": MessageLookupByLibrary.simpleMessage("Usage Insights"),
+        "white": MessageLookupByLibrary.simpleMessage("White"),
+        "winter": MessageLookupByLibrary.simpleMessage("Winter"),
+        "workplace": MessageLookupByLibrary.simpleMessage("Workplace"),
+        "yellow": MessageLookupByLibrary.simpleMessage("Yellow")
       };
 }
