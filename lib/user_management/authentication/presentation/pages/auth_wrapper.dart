@@ -4,38 +4,44 @@ import '../bloc/authentication_bloc.dart';
 import '../../../../core/utilities/routes.dart';
 import '../../../../screens/home_page.dart';
 import 'login_screen.dart';
+import '../../../../core/utilities/logger.dart';
 
-/// [AuthWrapper] is responsible for managing the authentication state of the user.
-/// It listens to changes in the [AuthBloc] and navigates the user to the appropriate screen.
-///
-/// If the user is authenticated, they stay on the current screen.
-/// If the user is unauthenticated, they are navigated to the login screen.
-class AuthWrapper extends StatelessWidget {
+class AuthWrapper extends StatefulWidget {
   final ThemeData myClosetTheme;
   final ThemeData myOutfitTheme;
 
   const AuthWrapper({super.key, required this.myClosetTheme, required this.myOutfitTheme});
 
-  void _navigateBasedOnState(BuildContext context, AuthState state) {
-    if (state is Unauthenticated) {
-      Navigator.of(context).pushReplacementNamed(AppRoutes.login);
-    }
-  }
+  @override
+  AuthWrapperState createState() => AuthWrapperState();
+}
+
+class AuthWrapperState extends State<AuthWrapper> {
+  final CustomLogger logger = CustomLogger('AuthWrapper');
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _navigateBasedOnState(context, state);
-        });
+        if (state is Unauthenticated) {
+          logger.i('Navigating to login screen');
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).pushReplacementNamed(AppRoutes.login);
+          });
+        } else if (state is Authenticated) {
+          logger.i('Navigating to myCloset');
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).pushReplacementNamed(AppRoutes.myCloset);
+          });
+        }
       },
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
+          logger.d('Building UI for state: $state');
           if (state is Authenticated) {
-            return HomePage(myClosetTheme: myClosetTheme, myOutfitTheme: myOutfitTheme);
+            return HomePage(myClosetTheme: widget.myClosetTheme, myOutfitTheme: widget.myOutfitTheme);
           } else if (state is Unauthenticated) {
-            return LoginScreen(myClosetTheme: myClosetTheme);
+            return LoginScreen(myClosetTheme: widget.myClosetTheme);
           } else {
             return Container(
               color: Colors.white,

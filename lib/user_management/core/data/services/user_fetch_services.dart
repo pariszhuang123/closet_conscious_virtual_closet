@@ -1,6 +1,6 @@
-import 'package:closet_conscious/user_management/achievements/data/models/achievement_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/utilities/logger.dart';
+import '../../../achievements/data/models/achievement_model.dart';
 
 final logger = CustomLogger('UserFetchSupabaseService');
 

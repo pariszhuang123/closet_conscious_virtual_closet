@@ -6,7 +6,6 @@ import '../../application/usecases/delete_user_account.dart';
 import '../../domain/entities/user.dart';
 import '../../../../core/utilities/logger.dart';
 
-
 abstract class AuthEvent {}
 
 class SignInEvent extends AuthEvent {}
@@ -45,60 +44,74 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _getCurrentUser = getCurrentUser,
         _signOut = signOut,
         _deleteUserAccount = deleteUserAccount,
-      super(Unauthenticated()) {
+        super(Unauthenticated()) {
 
-    on<SignInEvent>((event, emit) async {
-      emit(AuthLoading());
-      final user = await _signInWithGoogle();
-      if (user != null) {
-        _logger.i('User signed in: ${user.id}');
-        emit(Authenticated(user));
-      } else {
-        _logger.w('Sign in failed');
-        emit(Unauthenticated());
-      }
-    });
+    on<SignInEvent>(_onSignIn);
+    on<SignOutEvent>(_onSignOut);
+    on<CheckAuthStatusEvent>(_onCheckAuthStatus);
+    on<DeleteAccountEvent>(_onDeleteAccount);
+  }
 
-    on<SignOutEvent>((event, emit) async {
-      emit(AuthLoading());
-      await _signOut();
-      _logger.i('User signed out');
+  Future<void> _onSignIn(SignInEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    final user = await _signInWithGoogle();
+    if (user != null) {
+      _logger.i('User signed in: ${user.id}');
+      emit(Authenticated(user));
+    } else {
+      _logger.w('Sign in failed');
       emit(Unauthenticated());
-    });
+    }
+  }
 
-    on<CheckAuthStatusEvent>((event, emit) async {
-      final user = _getCurrentUser();
-      if (user != null) {
-        _logger.i('User is authenticated: ${user.id}');
-        emit(Authenticated(user));
-      } else {
-        _logger.i('User is not authenticated');
+  Future<void> _onSignOut(SignOutEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    await _signOut();
+    _logger.i('User signed out');
+    emit(Unauthenticated());
+  }
+
+  Future<void> _onCheckAuthStatus(CheckAuthStatusEvent event, Emitter<AuthState> emit) async {
+    final user = _getCurrentUser();
+    if (user != null) {
+      _logger.i('User is authenticated: ${user.id}');
+      emit(Authenticated(user));
+    } else {
+      _logger.i('User is not authenticated');
+      emit(Unauthenticated());
+    }
+  }
+
+  Future<void> _onDeleteAccount(DeleteAccountEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    final user = _getCurrentUser();
+    if (user != null) {
+      final userId = user.id;
+      try {
+        // Log out the user to invalidate the current session
+        await _signOut();
+
+        // Call the use case to delete the folder and user account
+        await _deleteUserAccount(userId);
+
+        _logger.i('User folder and account deleted successfully');
         emit(Unauthenticated());
+      } catch (e) {
+        _logger.e('Error deleting user folder and account: $e');
+        emit(Authenticated(user)); // Revert to Authenticated state
       }
-    });
+    } else {
+      _logger.i('No user logged in');
+      emit(Unauthenticated());
+    }
+  }
 
-    on<DeleteAccountEvent>((event, emit) async {
-      emit(AuthLoading());
-      final user = _getCurrentUser();
-      if (user != null) {
-        final userId = user.id;
-        try {
-          // Log out the user to invalidate the current session
-          await signOut();
-
-          // Call the use case to delete the folder and user account
-          await _deleteUserAccount(userId);
-
-          _logger.i('User folder and account deleted successfully');
-          emit(Unauthenticated());
-        } catch (e) {
-          _logger.e('Error deleting user folder and account: $e');
-          emit(Authenticated(user)); // Revert to Authenticated state
-        }
-      } else {
-        _logger.i('No user logged in');
-        emit(Unauthenticated());
-      }
-    });
+  // Getter to expose the user ID if authenticated
+  String? get userId {
+    final state = this.state;
+    if (state is Authenticated) {
+      return state.user.id;
+    }
+    return null;
   }
 }

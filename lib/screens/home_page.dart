@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../user_management/authentication/presentation/bloc/authentication_bloc.dart';
 import '../user_management/authentication/presentation/pages/login_screen.dart';
-import '../core/utilities/routes.dart';
+import '../core/utilities/logger.dart';
+import '../screens/my_closet.dart';
+
 
 class HomePage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -16,30 +17,25 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  final CustomLogger logger = CustomLogger('HomePage');
+
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(CheckAuthStatusEvent());
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final authState = context.read<AuthBloc>().state;
-      if (authState is Authenticated) {
-        Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
-      } else if (authState is Unauthenticated) {
-        Navigator.pushReplacementNamed(context, AppRoutes.login);
-      }
-    });
+    logger.i('HomePage initState');
   }
 
   @override
   Widget build(BuildContext context) {
+    logger.d('Building HomePage');
     return Scaffold(
       backgroundColor: widget.myClosetTheme.colorScheme.surface,
       body: Center(
         child: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
-            if (state is Authenticated || state is Unauthenticated) {
-              return const CircularProgressIndicator();
+            logger.d('Auth state in builder: $state');
+            if (state is Authenticated) {
+              return MyClosetPage(myClosetTheme: widget.myClosetTheme);
             } else if (state is Unauthenticated) {
               return LoginScreen(myClosetTheme: widget.myClosetTheme);
             } else {

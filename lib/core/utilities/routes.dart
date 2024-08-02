@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../screens/home_page.dart';
 import '../../screens/my_closet.dart';
-import '../../screens/my_outfit.dart';
+import '../../screens/outfit/my_outfit_screen.dart';
 import '../../user_management/achievements/pages/achievements_page.dart';
 import '../../user_management/authentication/presentation/pages/login_screen.dart';
 import '../../item_management/upload_item/pages/upload_item_page.dart';
@@ -37,7 +37,7 @@ class AppRoutes {
         );
       case createOutfit:
         return MaterialPageRoute(
-          builder: (_) => CreateOutfitPage(myOutfitTheme: myOutfitTheme),
+          builder: (_) => MyOutfitScreen(myOutfitTheme: myOutfitTheme),
         );
       case uploadItem:
         return MaterialPageRoute(
@@ -92,7 +92,7 @@ class AppRoutes {
           return MaterialPageRoute(
             builder: (_) => AchievementsPage(
               isFromMyCloset: args.isFromMyCloset,
-              achievements: args.achievements,
+              userId: args.userId,
             ),
           );
         }

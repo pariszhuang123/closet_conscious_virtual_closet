@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/utilities/logger.dart';
 import '../widget/achievement_grid.dart';
 import '../data/models/achievement_model.dart';
+import '../../core/data/services/user_fetch_services.dart';
 import '../../../core/theme/my_closet_theme.dart';
 import '../../../core/theme/my_outfit_theme.dart';
 
@@ -9,12 +10,12 @@ final CustomLogger logger = CustomLogger('AchievementsPage');
 
 class AchievementsPage extends StatefulWidget {
   final bool isFromMyCloset;
-  final List<Achievement> achievements;
+  final String userId;
 
   const AchievementsPage({
     super.key,
     required this.isFromMyCloset,
-    required this.achievements,
+    required this.userId,
   });
 
   @override
@@ -24,24 +25,19 @@ class AchievementsPage extends StatefulWidget {
 class AchievementsPageState extends State<AchievementsPage> {
   final ScrollController _scrollController = ScrollController();
   final CustomLogger _logger = CustomLogger('AchievementsPage');
-  bool _isLoading = true;
+  late Future<List<Achievement>> _futureAchievements;
 
   @override
   void initState() {
     super.initState();
-    logger.d('initState: achievements list contains ${widget.achievements.length} items');
-    // Simulate data loading
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _isLoading = false;
-      });
-    });
+    _logger.d('initState: Fetching achievements for user ${widget.userId}');
+    _futureAchievements = fetchUserAchievements(widget.userId);
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
-    logger.d('Building AchievementsGrid');
+    _logger.d('Building AchievementsGrid');
 
     return Theme(
       data: theme,
@@ -50,12 +46,29 @@ class AchievementsPageState extends State<AchievementsPage> {
           title: const Text('Achievements'),
           backgroundColor: theme.appBarTheme.backgroundColor,
         ),
-        body: _isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : AchievementGrid(
-          achievements: widget.achievements,
-          scrollController: _scrollController,
-          logger: _logger,
+        body: Container(
+          color: Colors.white,
+          child: FutureBuilder<List<Achievement>>(
+            future: _futureAchievements,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                _logger.e('Error fetching achievements: ${snapshot.error}');
+                return const Center(child: Text('Error loading achievements'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                _logger.d('No achievements to display');
+                return const Center(child: Text('No achievements found'));
+              } else {
+                final achievements = snapshot.data!;
+                return AchievementGrid(
+                  achievements: achievements,
+                  scrollController: _scrollController,
+                  logger: _logger,
+                );
+              }
+            },
+          ),
         ),
       ),
     );

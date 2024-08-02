@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
-import 'dart:io';
 
 import '../../../../core/config/supabase_config.dart';
 import '../../../../core/utilities/logger.dart';
@@ -13,13 +13,13 @@ part 'upload_event.dart';
 part 'upload_state.dart';
 
 class UploadBloc extends Bloc<UploadEvent, UploadState> {
-  UploadBloc() : super(UploadInitial()) {
+  final String userId;
+
+  UploadBloc({required this.userId}) : super(UploadInitial()) {
     on<StartUpload>(_onStartUpload);
   }
 
-  Future<void> _onStartUpload(StartUpload event,
-      Emitter<UploadState> emit) async {
-    emit(Uploading());
+  Future<void> _onStartUpload(StartUpload event, Emitter<UploadState> emit) async {
     emit(Uploading());
     try {
       final result = await _saveData(
@@ -45,7 +45,8 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     }
   }
 
-  Future<String?> _saveData(String itemName,
+  Future<String?> _saveData(
+      String itemName,
       double amountSpent,
       File? imageFile,
       String? imageUrl,
@@ -55,9 +56,9 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
       String? selectedOccasion,
       String? selectedSeason,
       String? selectedColour,
-      String? selectedColourVariation,) async {
+      String? selectedColourVariation,
+      ) async {
     final logger = CustomLogger('UploadItemPage');
-    final userId = SupabaseConfig.client.auth.currentUser!.id;
     String? finalImageUrl = imageUrl;
 
     if (imageFile != null) {
@@ -76,13 +77,9 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
         );
 
         finalImageUrl =
-            SupabaseConfig.client.storage.from('item_pics').getPublicUrl(
-                imagePath);
+            SupabaseConfig.client.storage.from('item_pics').getPublicUrl(imagePath);
         finalImageUrl = Uri.parse(finalImageUrl).replace(queryParameters: {
-          't': DateTime
-              .now()
-              .millisecondsSinceEpoch
-              .toString()
+          't': DateTime.now().millisecondsSinceEpoch.toString()
         }).toString();
       } catch (e) {
         logger.e('Error uploading image: $e');

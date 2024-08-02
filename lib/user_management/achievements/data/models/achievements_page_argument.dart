@@ -1,11 +1,10 @@
-import 'achievement_model.dart';
-
 class AchievementsPageArguments {
   final bool isFromMyCloset;
-  final List<Achievement> achievements;
+  final String userId;
 
   AchievementsPageArguments({
     required this.isFromMyCloset,
-    required this.achievements,
+    required this.userId,
   });
 }
+

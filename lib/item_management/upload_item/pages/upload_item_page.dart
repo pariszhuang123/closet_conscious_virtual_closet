@@ -9,7 +9,9 @@ import '../../../core/data/type_data.dart';
 import '../../../generated/l10n.dart';
 import '../../../core/widgets/icon_row_builder.dart';
 import '../presentation/bloc/upload_bloc.dart';
+import '../../../user_management/authentication/presentation/bloc/authentication_bloc.dart';
 import '../../../core/widgets/feedback/custom_snack_bar.dart';
+
 
 class UploadItemPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -222,8 +224,15 @@ class _UploadItemPageState extends State<UploadItemPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authBloc = context.read<AuthBloc>();
+    final userId = authBloc.userId;
+
+    if (userId == null) {
+      return const Center(child: Text('User not authenticated'));
+    }
+
     return BlocProvider(
-      create: (context) => UploadBloc(),
+      create: (context) => UploadBloc(userId: userId),
       child: BlocConsumer<UploadBloc, UploadState>(
         listener: (context, state) {
           if (state is UploadSuccess) {

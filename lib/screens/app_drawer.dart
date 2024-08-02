@@ -10,7 +10,6 @@ import '../core/theme/ui_constant.dart';
 import '../core/widgets/bottom_sheet/analytics_premium_bottom_sheet.dart';
 import '../core/utilities/routes.dart';
 import '../user_management/achievements/data/models/achievements_page_argument.dart';
-import '../user_management/achievements/data/models/achievement_model.dart';
 import '../core/utilities/launch_email.dart';
 import '../core/data/models/arguments.dart';
 
@@ -111,21 +110,26 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-
   Widget _buildVerticalSpacing() {
     return const SizedBox(height: 16.0);
   }
 
   void _navigateToAchievementsPage(BuildContext context) {
-    final List<Achievement> achievements = [];
-    Navigator.pushNamed(
-      context,
-      AppRoutes.achievementPage,
-      arguments: AchievementsPageArguments(
-        isFromMyCloset: isFromMyCloset,
-        achievements: achievements,
-      ),
-    );
+    final authState = context.read<AuthBloc>().state;
+    if (authState is Authenticated) {
+      final String userId = authState.user.id;
+      Navigator.pushNamed(
+        context,
+        AppRoutes.achievementPage,
+        arguments: AchievementsPageArguments(
+          isFromMyCloset: isFromMyCloset,
+          userId: userId,
+        ),
+      );
+    } else {
+      logger.e('No user ID found. User might not be authenticated.');
+      // Handle the case where user ID is not available
+    }
   }
 
   void _navigateToInfoHub(BuildContext context) {
