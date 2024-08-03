@@ -7,12 +7,8 @@ import '../../outfit_management/view_outfit/widgets/my_outfit_container.dart';
 import '../../core/widgets/bottom_sheet/calendar_premium_bottom_sheet.dart';
 import '../../core/widgets/bottom_sheet/filter_premium_bottom_sheet.dart';
 import '../../core/data/type_data.dart';
-import '../../../../core/widgets/button/navigation_type_button.dart';
-import '../../../../core/theme/themed_svg.dart';
 import '../../generated/l10n.dart';
 import '../../outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
-import '../../outfit_management/core/data/services/outfits_fetch_service.dart';
-import '../../item_management/core/data/models/closet_item_minimal.dart';
 
 class MyOutfitView extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -27,72 +23,24 @@ class MyOutfitViewState extends State<MyOutfitView> {
   int _selectedIndex = 1;
   final CustomLogger logger = CustomLogger('OutfitPage');
   int outfitCount = 0;
-  List<ClosetItemMinimal> _fetchedItems = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchInitialItems();
-  }
-
-  Future<void> _fetchInitialItems() async {
-    final items = await fetchCreateOutfitItems(OutfitItemCategory.clothing, 0, 1); // Fetch the first 10 items
-    setState(() {
-      _fetchedItems = items;
-    });
-  }
-
-  Future<void> _onClothesPressed() async {
+  void _onClothesPressed() {
     logger.i('Clothes container clicked');
-    final currentContext = context;
-    final items = await fetchCreateOutfitItems(OutfitItemCategory.clothing, 0, 1); // Fetch the first 10 items
-    setState(() {
-      _fetchedItems = items;
-    });
-    if (currentContext.mounted) {
-      for (var item in items) {
-        currentContext.read<CreateOutfitItemBloc>().add(SelectItemEvent(OutfitItemCategory.clothing, item.itemId, 0, 1));
-      }
-    }
+    context.read<CreateOutfitItemBloc>().add(const SelectCategoryEvent(OutfitItemCategory.clothing));
   }
 
-  Future<void> _onAccessoriesPressed() async {
+  void _onAccessoriesPressed() {
     logger.i('Accessories container clicked');
-    final currentContext = context;
-    final items = await fetchCreateOutfitItems(OutfitItemCategory.accessory, 0, 1); // Fetch the first 10 items
-    setState(() {
-      _fetchedItems = items;
-    });
-    if (currentContext.mounted) {
-      for (var item in items) {
-        currentContext.read<CreateOutfitItemBloc>().add(SelectItemEvent(OutfitItemCategory.accessory, item.itemId, 0, 1));
-      }
-    }
+    context.read<CreateOutfitItemBloc>().add(const SelectCategoryEvent(OutfitItemCategory.accessory));
   }
 
-  Future<void> _onShoesPressed() async {
+  void _onShoesPressed() {
     logger.i('Shoes container clicked');
-    final currentContext = context;
-    final items = await fetchCreateOutfitItems(OutfitItemCategory.shoes, 0, 1); // Fetch the first 10 items
-    setState(() {
-      _fetchedItems = items;
-    });
-    if (currentContext.mounted) {
-      for (var item in items) {
-        currentContext.read<CreateOutfitItemBloc>().add(SelectItemEvent(OutfitItemCategory.shoes, item.itemId, 0, 1));
-      }
-    }
+    context.read<CreateOutfitItemBloc>().add(const SelectCategoryEvent(OutfitItemCategory.shoes));
   }
 
-  Future<void> _onSaveOutfit() async {
-    final currentContext = context;
-    final bloc = currentContext.read<CreateOutfitItemBloc>();
-    final selectedItemIds = bloc.state.selectedItemIds;
-    bloc.add(SaveOutfitEvent(selectedItemIds));
-    if (currentContext.mounted) {
-      // Show confirmation
-      ScaffoldMessenger.of(currentContext).showSnackBar(const SnackBar(content: Text('Outfit of the Day saved!')));
-    }
+  void _onSaveOutfit() {
+    context.read<CreateOutfitItemBloc>().add(const SaveOutfitEvent());
   }
 
   void _onFilterButtonPressed() {
@@ -124,7 +72,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
   }
 
   void _onItemSelected(String itemId, OutfitItemCategory category) {
-    context.read<CreateOutfitItemBloc>().add(SelectItemEvent(category, itemId, 0, 1));
+    context.read<CreateOutfitItemBloc>().add(SelectItemEvent(category, itemId));
   }
 
   @override
@@ -133,6 +81,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
     final filterData = TypeDataList.filter(context);
     final calendarData = TypeDataList.calendar(context);
 
+    // Define the types
     final outfitClothingType = TypeDataList.outfitClothingType(context);
     final outfitAccessoryType = TypeDataList.outfitAccessoryType(context);
     final outfitShoesType = TypeDataList.outfitShoesType(context);
@@ -164,81 +113,56 @@ class MyOutfitViewState extends State<MyOutfitView> {
                   outfitCount: outfitCount,
                   onFilterButtonPressed: _onFilterButtonPressed,
                   onCalendarButtonPressed: _onCalendarButtonPressed,
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    NavigationTypeButton(
-                      label: outfitClothingType.getName(context),
-                      selectedLabel: '',
-                      onPressed: _onClothesPressed,
-                      imagePath: outfitClothingType.imagePath!,
-                      isAsset: false,
-                      isFromMyCloset: false,
-                      buttonType: ButtonType.primary,
-                    ),
-                    NavigationTypeButton(
-                      label: outfitAccessoryType.getName(context),
-                      selectedLabel: '',
-                      onPressed: _onAccessoriesPressed,
-                      imagePath: outfitAccessoryType.imagePath!,
-                      isAsset: false,
-                      isFromMyCloset: false,
-                      buttonType: ButtonType.primary,
-                    ),
-                    NavigationTypeButton(
-                      label: outfitShoesType.getName(context),
-                      selectedLabel: '',
-                      onPressed: _onShoesPressed,
-                      imagePath: outfitShoesType.imagePath!,
-                      isAsset: false,
-                      isFromMyCloset: false,
-                      buttonType: ButtonType.primary,
-                    ),
-                  ],
+                  onClothesPressed: _onClothesPressed,
+                  onAccessoriesPressed: _onAccessoriesPressed,
+                  onShoesPressed: _onShoesPressed,
+                  outfitClothingType: outfitClothingType,
+                  outfitAccessoryType: outfitAccessoryType,
+                  outfitShoesType: outfitShoesType,
                 ),
                 const SizedBox(height: 16),
                 Expanded(
                   child: BlocBuilder<CreateOutfitItemBloc, CreateOutfitItemState>(
                     builder: (context, state) {
-                      if (state.selectedItemIds.isEmpty) {
+                      if (state.saveStatus == SaveStatus.inProgress) {
                         return const Center(child: CircularProgressIndicator());
+                      }
+
+                      final items = state.items;
+                      if (items.isEmpty) {
+                        return const Center(child: Text('No items found'));
                       }
 
                       return GridView.builder(
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                         ),
-                        itemCount: state.selectedItemIds.length,
+                        itemCount: items.length,
                         itemBuilder: (context, index) {
-                          final category = state.selectedItemIds.keys.elementAt(index);
-                          final items = state.selectedItemIds[category]!;
-                          return Column(
-                            children: items.map((itemId) {
-                              final item = _fetchedItems.firstWhere((item) => item.itemId == itemId);
-                              final isSelected = state.selectedItemIds[category]?.contains(itemId) ?? false;
-                              return GestureDetector(
-                                onTap: () {
-                                  _onItemSelected(itemId, category);
-                                },
-                                child: Card(
-                                  shape: isSelected
-                                      ? RoundedRectangleBorder(
-                                    side: const BorderSide(color: Colors.green, width: 2.0),
-                                    borderRadius: BorderRadius.circular(4.0),
-                                  )
-                                      : null,
-                                  child: Column(
-                                    children: [
-                                      Image.network(item.imageUrl),
-                                      Text(item.name),
-                                      // Add other item details here
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }).toList(),
+                          final item = items[index];
+                          final category = state.currentCategory;
+                          final isSelected = state.selectedItemIds[category]?.contains(item.itemId) ?? false;
+
+                          return GestureDetector(
+                            onTap: () {
+                              if (category != null) {
+                                _onItemSelected(item.itemId, category);
+                              }
+                            },
+                            child: Card(
+                              shape: isSelected
+                                  ? RoundedRectangleBorder(
+                                side: const BorderSide(color: Colors.green, width: 2.0),
+                                borderRadius: BorderRadius.circular(4.0),
+                              )
+                                  : null,
+                              child: Column(
+                                children: [
+                                  Image.network(item.imageUrl),
+                                  Text(item.name),
+                                ],
+                              ),
+                            ),
                           );
                         },
                       );
@@ -248,7 +172,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                    onPressed: _onSaveOutfit,
+                    onPressed: () => _onSaveOutfit(),
                     child: const Text('Outfit of the Day'),
                   ),
                 ),

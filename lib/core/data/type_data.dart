@@ -126,7 +126,7 @@ class TypeDataList {
   }
 
   static TypeData itemUploaded(BuildContext context) {
-    return TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'assets/icons/my_closet/additional_features/calendar.svg', isAsset: true);
+    return TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'assets/icons/my_closet/additional_features/apparel.svg', isAsset: true);
   }
 
   static TypeData declutterOptionsSell(BuildContext context) {

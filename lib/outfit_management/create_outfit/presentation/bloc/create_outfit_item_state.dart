@@ -1,10 +1,10 @@
 part of 'create_outfit_item_bloc.dart';
 
-enum SaveStatus { initial, success, failure }
+enum SaveStatus { initial, success, failure, inProgress }
 
 class CreateOutfitItemState extends Equatable {
   final Map<OutfitItemCategory, List<String>> selectedItemIds;
-  final List<Item> items;
+  final List<ClosetItemMinimal> items;
   final OutfitItemCategory? currentCategory;
   final SaveStatus saveStatus;
 
@@ -17,7 +17,7 @@ class CreateOutfitItemState extends Equatable {
 
   CreateOutfitItemState copyWith({
     Map<OutfitItemCategory, List<String>>? selectedItemIds,
-    List<Item>? items,
+    List<ClosetItemMinimal>? items,
     OutfitItemCategory? currentCategory,
     SaveStatus? saveStatus,
   }) {
@@ -31,15 +31,4 @@ class CreateOutfitItemState extends Equatable {
 
   @override
   List<Object?> get props => [selectedItemIds, items, currentCategory, saveStatus];
-}
-
-class Item extends Equatable {
-  final String itemId;
-  final String imageUrl;
-  final String name;
-
-  const Item({required this.itemId, required this.imageUrl, required this.name});
-
-  @override
-  List<Object?> get props => [itemId, imageUrl, name];
 }

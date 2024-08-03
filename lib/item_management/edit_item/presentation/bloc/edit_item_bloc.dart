@@ -150,20 +150,31 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       initialAmountSpent = item.amountSpent;
       initialImageUrl = item.imageUrl;
       initialItemType = item.itemType;
-      initialSpecificType = item.itemType == 'Clothing' ? item.clothingType : item.itemType == 'Shoes' ? item.shoesType : item.accessoryType;
-      initialClothingLayer = item.itemType == 'Clothing' ? item.clothingLayer : null;
+      initialSpecificType = item.itemType == 'clothing' ? item.clothingType : item.itemType == 'shoes' ? item.shoesType : item.accessoryType;
+      initialClothingLayer = item.itemType == 'clothing' ? item.clothingLayer : null;
       initialOccasion = item.occasion;
       initialSeason = item.season;
       initialColour = item.colour;
       initialColourVariation = item.colourVariations;
+
+      itemNameController.text = item.name;
+      amountSpentController.text = item.amountSpent.toString();
+      selectedItemType = item.itemType;
+      selectedSpecificType = item.itemType == 'clothing' ? item.clothingType : item.itemType == 'shoes' ? item.shoesType : item.accessoryType;
+      selectedClothingLayer = item.itemType == 'clothing' ? item.clothingLayer : null;
+      selectedOccasion = item.occasion;
+      selectedSeason = item.season;
+      selectedColour = item.colour;
+      selectedColourVariation = item.colourVariations;
+      imageUrl = item.imageUrl;
 
       emit(EditItemLoaded(
         itemName: item.name,
         amountSpent: item.amountSpent,
         imageUrl: item.imageUrl,
         selectedItemType: item.itemType,
-        selectedSpecificType: item.itemType == 'Clothing' ? item.clothingType : item.itemType == 'Shoes' ? item.shoesType : item.accessoryType,
-        selectedClothingLayer: item.itemType == 'Clothing' ? item.clothingLayer : null,
+        selectedSpecificType: item.itemType == 'clothing' ? item.clothingType : item.itemType == 'shoes' ? item.shoesType : item.accessoryType,
+        selectedClothingLayer: item.itemType == 'clothing' ? item.clothingLayer : null,
         selectedOccasion: item.occasion,
         selectedSeason: item.season,
         selectedColour: item.colour,
@@ -184,126 +195,189 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   void _onFieldChanged(FieldChangedEvent event, Emitter<EditItemState> emit) {
     logger.d('FieldChangedEvent triggered');
     _isChanged = true;
+    if (state is EditItemLoaded) {
+      emit(EditItemChanged(
+        itemName: itemNameController.text.isEmpty ? initialName! : itemNameController.text,
+        amountSpent: amountSpentController.text.isEmpty ? initialAmountSpent : double.tryParse(amountSpentController.text) ?? initialAmountSpent,
+        imageUrl: imageUrl ?? initialImageUrl,
+        selectedItemType: selectedItemType ?? initialItemType,
+        selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+        selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+        selectedOccasion: selectedOccasion ?? initialOccasion,
+        selectedSeason: selectedSeason ?? initialSeason,
+        selectedColour: selectedColour ?? initialColour,
+        selectedColourVariation: selectedColourVariation ?? initialColourVariation,
+        imageFile: imageFile,
+      ));
+    }
   }
 
   void _onUpdateImage(UpdateImageEvent event, Emitter<EditItemState> emit) {
     logger.d('UpdateImageEvent triggered');
     imageFile = event.imageFile;
     _isChanged = true;
-    emit(EditItemUpdated(
-      selectedItemType: selectedItemType ?? initialItemType,
-      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
-      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
-      selectedOccasion: selectedOccasion ?? initialOccasion,
-      selectedSeason: selectedSeason ?? initialSeason,
-      selectedColour: selectedColour ?? initialColour,
-      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
-    ));
+    if (state is EditItemLoaded) {
+      emit(EditItemChanged(
+        itemName: itemNameController.text.isEmpty ? initialName! : itemNameController.text,
+        amountSpent: amountSpentController.text.isEmpty ? initialAmountSpent : double.tryParse(amountSpentController.text) ?? initialAmountSpent,
+        imageUrl: imageUrl ?? initialImageUrl,
+        selectedItemType: selectedItemType ?? initialItemType,
+        selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+        selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+        selectedOccasion: selectedOccasion ?? initialOccasion,
+        selectedSeason: selectedSeason ?? initialSeason,
+        selectedColour: selectedColour ?? initialColour,
+        selectedColourVariation: selectedColourVariation ?? initialColourVariation,
+        imageFile: imageFile,
+      ));
+    }
   }
 
   void _onItemTypeChanged(ItemTypeChangedEvent event, Emitter<EditItemState> emit) {
     logger.d('ItemTypeChangedEvent triggered with itemType: ${event.itemType}');
     selectedItemType = event.itemType;
     _isChanged = true;
-    emit(EditItemUpdated(
-      selectedItemType: selectedItemType,
-      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
-      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
-      selectedOccasion: selectedOccasion ?? initialOccasion,
-      selectedSeason: selectedSeason ?? initialSeason,
-      selectedColour: selectedColour ?? initialColour,
-      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
-    ));
+    if (state is EditItemLoaded) {
+      emit(EditItemChanged(
+        itemName: itemNameController.text.isEmpty ? initialName! : itemNameController.text,
+        amountSpent: amountSpentController.text.isEmpty ? initialAmountSpent : double.tryParse(amountSpentController.text) ?? initialAmountSpent,
+        imageUrl: imageUrl ?? initialImageUrl,
+        selectedItemType: selectedItemType ?? initialItemType,
+        selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+        selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+        selectedOccasion: selectedOccasion ?? initialOccasion,
+        selectedSeason: selectedSeason ?? initialSeason,
+        selectedColour: selectedColour ?? initialColour,
+        selectedColourVariation: selectedColourVariation ?? initialColourVariation,
+        imageFile: imageFile,
+      ));
+    }
   }
 
   void _onOccasionChanged(OccasionChangedEvent event, Emitter<EditItemState> emit) {
     logger.d('OccasionChangedEvent triggered with occasion: ${event.occasion}');
     selectedOccasion = event.occasion;
     _isChanged = true;
-    emit(EditItemUpdated(
-      selectedItemType: selectedItemType ?? initialItemType,
-      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
-      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
-      selectedOccasion: selectedOccasion,
-      selectedSeason: selectedSeason ?? initialSeason,
-      selectedColour: selectedColour ?? initialColour,
-      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
-    ));
+    if (state is EditItemLoaded) {
+      emit(EditItemChanged(
+        itemName: itemNameController.text.isEmpty ? initialName! : itemNameController.text,
+        amountSpent: amountSpentController.text.isEmpty ? initialAmountSpent : double.tryParse(amountSpentController.text) ?? initialAmountSpent,
+        imageUrl: imageUrl ?? initialImageUrl,
+        selectedItemType: selectedItemType ?? initialItemType,
+        selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+        selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+        selectedOccasion: selectedOccasion ?? initialOccasion,
+        selectedSeason: selectedSeason ?? initialSeason,
+        selectedColour: selectedColour ?? initialColour,
+        selectedColourVariation: selectedColourVariation ?? initialColourVariation,
+        imageFile: imageFile,
+      ));
+    }
   }
 
   void _onSeasonChanged(SeasonChangedEvent event, Emitter<EditItemState> emit) {
     logger.d('SeasonChangedEvent triggered with season: ${event.season}');
     selectedSeason = event.season;
     _isChanged = true;
-    emit(EditItemUpdated(
-      selectedItemType: selectedItemType ?? initialItemType,
-      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
-      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
-      selectedOccasion: selectedOccasion ?? initialOccasion,
-      selectedSeason: selectedSeason,
-      selectedColour: selectedColour ?? initialColour,
-      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
-    ));
+    if (state is EditItemLoaded) {
+      emit(EditItemChanged(
+        itemName: itemNameController.text.isEmpty ? initialName! : itemNameController.text,
+        amountSpent: amountSpentController.text.isEmpty ? initialAmountSpent : double.tryParse(amountSpentController.text) ?? initialAmountSpent,
+        imageUrl: imageUrl ?? initialImageUrl,
+        selectedItemType: selectedItemType ?? initialItemType,
+        selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+        selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+        selectedOccasion: selectedOccasion ?? initialOccasion,
+        selectedSeason: selectedSeason ?? initialSeason,
+        selectedColour: selectedColour ?? initialColour,
+        selectedColourVariation: selectedColourVariation ?? initialColourVariation,
+        imageFile: imageFile,
+      ));
+    }
   }
 
   void _onSpecificTypeChanged(SpecificTypeChangedEvent event, Emitter<EditItemState> emit) {
     logger.d('SpecificTypeChangedEvent triggered with specificType: ${event.specificType}');
     selectedSpecificType = event.specificType;
     _isChanged = true;
-    emit(EditItemUpdated(
-      selectedItemType: selectedItemType ?? initialItemType,
-      selectedSpecificType: selectedSpecificType,
-      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
-      selectedOccasion: selectedOccasion ?? initialOccasion,
-      selectedSeason: selectedSeason ?? initialSeason,
-      selectedColour: selectedColour ?? initialColour,
-      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
-    ));
+    if (state is EditItemLoaded) {
+      emit(EditItemChanged(
+        itemName: itemNameController.text.isEmpty ? initialName! : itemNameController.text,
+        amountSpent: amountSpentController.text.isEmpty ? initialAmountSpent : double.tryParse(amountSpentController.text) ?? initialAmountSpent,
+        imageUrl: imageUrl ?? initialImageUrl,
+        selectedItemType: selectedItemType ?? initialItemType,
+        selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+        selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+        selectedOccasion: selectedOccasion ?? initialOccasion,
+        selectedSeason: selectedSeason ?? initialSeason,
+        selectedColour: selectedColour ?? initialColour,
+        selectedColourVariation: selectedColourVariation ?? initialColourVariation,
+        imageFile: imageFile,
+      ));
+    }
   }
 
   void _onClothingLayerChanged(ClothingLayerChangedEvent event, Emitter<EditItemState> emit) {
     logger.d('ClothingLayerChangedEvent triggered with clothingLayer: ${event.clothingLayer}');
     selectedClothingLayer = event.clothingLayer;
     _isChanged = true;
-    emit(EditItemUpdated(
-      selectedItemType: selectedItemType ?? initialItemType,
-      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
-      selectedClothingLayer: selectedClothingLayer,
-      selectedOccasion: selectedOccasion ?? initialOccasion,
-      selectedSeason: selectedSeason ?? initialSeason,
-      selectedColour: selectedColour ?? initialColour,
-      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
-    ));
+    if (state is EditItemLoaded) {
+      emit(EditItemChanged(
+        itemName: itemNameController.text.isEmpty ? initialName! : itemNameController.text,
+        amountSpent: amountSpentController.text.isEmpty ? initialAmountSpent : double.tryParse(amountSpentController.text) ?? initialAmountSpent,
+        imageUrl: imageUrl ?? initialImageUrl,
+        selectedItemType: selectedItemType ?? initialItemType,
+        selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+        selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+        selectedOccasion: selectedOccasion ?? initialOccasion,
+        selectedSeason: selectedSeason ?? initialSeason,
+        selectedColour: selectedColour ?? initialColour,
+        selectedColourVariation: selectedColourVariation ?? initialColourVariation,
+        imageFile: imageFile,
+      ));
+    }
   }
 
   void _onColourChanged(ColourChangedEvent event, Emitter<EditItemState> emit) {
     logger.d('ColourChangedEvent triggered with colour: ${event.colour}');
     selectedColour = event.colour;
     _isChanged = true;
-    emit(EditItemUpdated(
-      selectedItemType: selectedItemType ?? initialItemType,
-      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
-      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
-      selectedOccasion: selectedOccasion ?? initialOccasion,
-      selectedSeason: selectedSeason ?? initialSeason,
-      selectedColour: selectedColour,
-      selectedColourVariation: selectedColourVariation ?? initialColourVariation,
-    ));
+    if (state is EditItemLoaded) {
+      emit(EditItemChanged(
+        itemName: itemNameController.text.isEmpty ? initialName! : itemNameController.text,
+        amountSpent: amountSpentController.text.isEmpty ? initialAmountSpent : double.tryParse(amountSpentController.text) ?? initialAmountSpent,
+        imageUrl: imageUrl ?? initialImageUrl,
+        selectedItemType: selectedItemType ?? initialItemType,
+        selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+        selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+        selectedOccasion: selectedOccasion ?? initialOccasion,
+        selectedSeason: selectedSeason ?? initialSeason,
+        selectedColour: selectedColour ?? initialColour,
+        selectedColourVariation: selectedColourVariation ?? initialColourVariation,
+        imageFile: imageFile,
+      ));
+    }
   }
 
   void _onColourVariationChanged(ColourVariationChangedEvent event, Emitter<EditItemState> emit) {
     logger.d('ColourVariationChangedEvent triggered with colourVariation: ${event.colourVariation}');
     selectedColourVariation = event.colourVariation;
     _isChanged = true;
-    emit(EditItemUpdated(
-      selectedItemType: selectedItemType ?? initialItemType,
-      selectedSpecificType: selectedSpecificType ?? initialSpecificType,
-      selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
-      selectedOccasion: selectedOccasion ?? initialOccasion,
-      selectedSeason: selectedSeason ?? initialSeason,
-      selectedColour: selectedColour ?? initialColour,
-      selectedColourVariation: selectedColourVariation,
-    ));
+    if (state is EditItemLoaded) {
+      emit(EditItemChanged(
+        itemName: itemNameController.text.isEmpty ? initialName! : itemNameController.text,
+        amountSpent: amountSpentController.text.isEmpty ? initialAmountSpent : double.tryParse(amountSpentController.text) ?? initialAmountSpent,
+        imageUrl: imageUrl ?? initialImageUrl,
+        selectedItemType: selectedItemType ?? initialItemType,
+        selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+        selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+        selectedOccasion: selectedOccasion ?? initialOccasion,
+        selectedSeason: selectedSeason ?? initialSeason,
+        selectedColour: selectedColour ?? initialColour,
+        selectedColourVariation: selectedColourVariation ?? initialColourVariation,
+        imageFile: imageFile,
+      ));
+    }
   }
 
   bool _validateAmountSpent(TextEditingController amountSpentController) {
@@ -324,7 +398,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   void _setColourVariationToNullIfBlackOrWhite() {
-    if (selectedColour == 'Black' || selectedColour == 'White') {
+    if (selectedColour == 'black' || selectedColour == 'white') {
       selectedColourVariation = null;
     }
   }
@@ -338,9 +412,9 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     if (selectedOccasion == null) return false;
     if (selectedSeason == null) return false;
     if (selectedSpecificType == null) return false;
-    if (selectedItemType == 'Clothing' && selectedClothingLayer == null) return false;
+    if (selectedItemType == 'clothing' && selectedClothingLayer == null) return false;
     if (selectedColour == null) return false;
-    if (selectedColour != 'Black' && selectedColour != 'White' && selectedColourVariation == null) return false;
+    if (selectedColour != 'black' && selectedColour != 'White' && selectedColourVariation == null) return false;
     return true;
   }
 
@@ -390,17 +464,17 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     if (selectedItemType == 'Clothing') {
       if (selectedSpecificType != initialSpecificType) params['_clothing_type'] = selectedSpecificType;
       if (selectedClothingLayer != initialClothingLayer) params['_clothing_layer'] = selectedClothingLayer;
-    } else if (selectedItemType == 'Shoes') {
+    } else if (selectedItemType == 'shoes') {
       if (selectedSpecificType != initialSpecificType) params['_shoes_type'] = selectedSpecificType;
-    } else if (selectedItemType == 'Accessory') {
+    } else if (selectedItemType == 'accessory') {
       if (selectedSpecificType != initialSpecificType) params['_accessory_type'] = selectedSpecificType;
     }
 
     try {
       final response = await SupabaseConfig.client.rpc(
-        selectedItemType == 'Clothing'
+        selectedItemType == 'clothing'
             ? 'update_clothing_metadata'
-            : selectedItemType == 'Shoes'
+            : selectedItemType == 'shoes'
             ? 'update_shoes_metadata'
             : 'update_accessory_metadata',
         params: params,
@@ -431,11 +505,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       _showErrorMessage(S.of(context).seasonFieldNotFilled, context);
     } else if (selectedSpecificType == null) {
       _showErrorMessage(S.of(context).specificTypeFieldNotFilled, context);
-    } else if (selectedItemType == 'Clothing' && selectedClothingLayer == null) {
+    } else if (selectedItemType == 'clothing' && selectedClothingLayer == null) {
       _showErrorMessage(S.of(context).clothingLayerFieldNotFilled, context);
     } else if (selectedColour == null) {
       _showErrorMessage(S.of(context).colourFieldNotFilled, context);
-    } else if (selectedColour != 'Black' && selectedColour != 'White' && selectedColourVariation == null) {
+    } else if (selectedColour != 'black' && selectedColour != 'white' && selectedColourVariation == null) {
       _showErrorMessage(S.of(context).colourVariationFieldNotFilled, context);
     }
   }

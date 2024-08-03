@@ -59,12 +59,12 @@ class _EditItemPageState extends State<EditItemPage> {
   String? selectedSeason;
   String? selectedColour;
   String? selectedColourVariation;
-  bool _isChanged = false; // Updated to manage state change tracking
+  bool _isChanged = false;
 
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
 
-  final CustomLogger logger = CustomLogger('EditItemPage'); // Create an instance of CustomLogger
+  final CustomLogger logger = CustomLogger('EditItemPage');
 
   @override
   void initState() {
@@ -90,34 +90,27 @@ class _EditItemPageState extends State<EditItemPage> {
 
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
-    if (pickedFile != null) {
+    if (pickedFile != null && mounted) {
       final file = File(pickedFile.path);
-      setState(() {
-        _imageFile = file;
-        _isChanged = true; // Update the change tracking flag
-      });
-      if (mounted) {
-        context.read<EditItemBloc>().add(UpdateImageEvent(file));
-      }
+      context.read<EditItemBloc>().add(UpdateImageEvent(file));
     }
   }
 
   void _handleUpdate() {
     if (_formKey.currentState?.validate() ?? false) {
-      // Ensure the form is validated before dispatching the event
       context.read<EditItemBloc>().add(SubmitFormEvent(
         itemId: widget.itemId,
         name: _itemNameController.text,
         amountSpent: double.tryParse(_amountSpentController.text) ?? widget.initialAmountSpent,
         imageUrl: _imageUrl,
-        itemType: selectedItemType,
-        specificType: selectedSpecificType,
-        clothingLayer: selectedClothingLayer,
-        occasion: selectedOccasion,
-        season: selectedSeason,
-        colour: selectedColour,
-        colourVariation: selectedColourVariation,
-      )); // Dispatch SubmitFormEvent with form data
+        itemType: context.read<EditItemBloc>().selectedItemType,
+        specificType: context.read<EditItemBloc>().selectedSpecificType,
+        clothingLayer: context.read<EditItemBloc>().selectedClothingLayer,
+        occasion: context.read<EditItemBloc>().selectedOccasion,
+        season: context.read<EditItemBloc>().selectedSeason,
+        colour: context.read<EditItemBloc>().selectedColour,
+        colourVariation: context.read<EditItemBloc>().selectedColourVariation,
+      ));
     }
   }
 
@@ -159,21 +152,15 @@ class _EditItemPageState extends State<EditItemPage> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(state.error)),
                 );
-              } else if (state is EditItemLoaded) {
-                // Update the controller values when the state is loaded
-                _itemNameController.text = state.itemName;
-                _amountSpentController.text = state.amountSpent.toString();
-                setState(() {
+              } else if (state is EditItemLoaded || state is EditItemChanged) {
+                // Update the controller values when the state is loaded or changed
+                if (state is EditItemLoaded) {
+                  _itemNameController.text = state.itemName;
+                  _amountSpentController.text = state.amountSpent.toString();
                   _imageUrl = state.imageUrl;
-                  selectedItemType = state.selectedItemType;
-                  selectedSpecificType = state.selectedSpecificType;
-                  selectedClothingLayer = state.selectedClothingLayer;
-                  selectedOccasion = state.selectedOccasion;
-                  selectedSeason = state.selectedSeason;
-                  selectedColour = state.selectedColour;
-                  selectedColourVariation = state.selectedColourVariation;
-                });
-                logger.i('EditItemLoaded state: $state'); // Use logger
+                }
+                _isChanged = true;
+                logger.i('Current state: $state'); // Use logger
               }
             },
             builder: (context, state) {
@@ -182,6 +169,8 @@ class _EditItemPageState extends State<EditItemPage> {
               if (state is EditItemLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
+
+              final bloc = context.read<EditItemBloc>();
 
               return Theme(
                 data: widget.myClosetTheme,
@@ -241,10 +230,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         return null;
                                       },
                                       onChanged: (value) {
-                                        setState(() {
-                                          _isChanged = true; // Update the change tracking flag
-                                        });
-                                        context.read<EditItemBloc>().add(FieldChangedEvent());
+                                        bloc.add(FieldChangedEvent());
                                       },
                                     ),
                                     const SizedBox(height: 12),
@@ -258,10 +244,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                       ),
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
-                                        setState(() {
-                                          _isChanged = true; // Update the change tracking flag
-                                        });
-                                        context.read<EditItemBloc>().add(FieldChangedEvent());
+                                        bloc.add(FieldChangedEvent());
                                       },
                                     ),
                                     const SizedBox(height: 12),
@@ -271,12 +254,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                     ),
                                     ...buildIconRows(
                                       TypeDataList.itemGeneralTypes(context),
-                                      selectedItemType,
+                                      bloc.selectedItemType,
                                           (dataKey) {
-                                        setState(() {
-                                          _isChanged = true; // Update the change tracking flag
-                                        });
-                                        context.read<EditItemBloc>().add(ItemTypeChangedEvent(dataKey));
+                                        bloc.add(ItemTypeChangedEvent(dataKey));
                                       },
                                       context,
                                       true, // Pass the isFromMyCloset parameter
@@ -288,12 +268,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                     ),
                                     ...buildIconRows(
                                       TypeDataList.occasions(context),
-                                      selectedOccasion,
+                                      bloc.selectedOccasion,
                                           (dataKey) {
-                                        setState(() {
-                                          _isChanged = true; // Update the change tracking flag
-                                        });
-                                        context.read<EditItemBloc>().add(OccasionChangedEvent(dataKey));
+                                        bloc.add(OccasionChangedEvent(dataKey));
                                       },
                                       context,
                                       true, // Pass the isFromMyCloset parameter
@@ -305,66 +282,54 @@ class _EditItemPageState extends State<EditItemPage> {
                                     ),
                                     ...buildIconRows(
                                       TypeDataList.seasons(context),
-                                      selectedSeason,
+                                      bloc.selectedSeason,
                                           (dataKey) {
-                                        setState(() {
-                                          _isChanged = true; // Update the change tracking flag
-                                        });
-                                        context.read<EditItemBloc>().add(SeasonChangedEvent(dataKey));
+                                        bloc.add(SeasonChangedEvent(dataKey));
                                       },
                                       context,
                                       true, // Pass the isFromMyCloset parameter
                                     ),
                                     const SizedBox(height: 12),
-                                    if (selectedItemType == 'Shoes') ...[
+                                    if (bloc.selectedItemType == 'shoes') ...[
                                       Text(
                                         S.of(context).selectShoeType,
                                         style: widget.myClosetTheme.textTheme.bodyMedium,
                                       ),
                                       ...buildIconRows(
                                         TypeDataList.shoeTypes(context),
-                                        selectedSpecificType,
+                                        bloc.selectedSpecificType,
                                             (dataKey) {
-                                          setState(() {
-                                            _isChanged = true; // Update the change tracking flag
-                                          });
-                                          context.read<EditItemBloc>().add(SpecificTypeChangedEvent(dataKey));
+                                          bloc.add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
                                         true, // Pass the isFromMyCloset parameter
                                       ),
                                     ],
-                                    if (selectedItemType == 'Accessory') ...[
+                                    if (bloc.selectedItemType == 'accessory') ...[
                                       Text(
                                         S.of(context).selectAccessoryType,
                                         style: widget.myClosetTheme.textTheme.bodyMedium,
                                       ),
                                       ...buildIconRows(
                                         TypeDataList.accessoryTypes(context),
-                                        selectedSpecificType,
+                                        bloc.selectedSpecificType,
                                             (dataKey) {
-                                          setState(() {
-                                            _isChanged = true; // Update the change tracking flag
-                                          });
-                                          context.read<EditItemBloc>().add(SpecificTypeChangedEvent(dataKey));
+                                          bloc.add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
                                         true, // Pass the isFromMyCloset parameter
                                       ),
                                     ],
-                                    if (selectedItemType == 'Clothing') ...[
+                                    if (bloc.selectedItemType == 'clothing') ...[
                                       Text(
                                         S.of(context).selectClothingType,
                                         style: widget.myClosetTheme.textTheme.bodyMedium,
                                       ),
                                       ...buildIconRows(
                                         TypeDataList.clothingTypes(context),
-                                        selectedSpecificType,
+                                        bloc.selectedSpecificType,
                                             (dataKey) {
-                                          setState(() {
-                                            _isChanged = true; // Update the change tracking flag
-                                          });
-                                          context.read<EditItemBloc>().add(SpecificTypeChangedEvent(dataKey));
+                                          bloc.add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
                                         true, // Pass the isFromMyCloset parameter
@@ -376,12 +341,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                       ),
                                       ...buildIconRows(
                                         TypeDataList.clothingLayers(context),
-                                        selectedClothingLayer,
+                                        bloc.selectedClothingLayer,
                                             (dataKey) {
-                                          setState(() {
-                                            _isChanged = true; // Update the change tracking flag
-                                          });
-                                          context.read<EditItemBloc>().add(ClothingLayerChangedEvent(dataKey));
+                                          bloc.add(ClothingLayerChangedEvent(dataKey));
                                         },
                                         context,
                                         true, // Pass the isFromMyCloset parameter
@@ -394,19 +356,16 @@ class _EditItemPageState extends State<EditItemPage> {
                                     ),
                                     ...buildIconRows(
                                       TypeDataList.colors(context),
-                                      selectedColour,
+                                      bloc.selectedColour,
                                           (dataKey) {
-                                        setState(() {
-                                          _isChanged = true; // Update the change tracking flag
-                                        });
-                                        context.read<EditItemBloc>().add(ColourChangedEvent(dataKey));
+                                        bloc.add(ColourChangedEvent(dataKey));
                                       },
                                       context,
                                       true, // Pass the isFromMyCloset parameter
                                     ),
-                                    if (selectedColour != 'Black' &&
-                                        selectedColour != 'White' &&
-                                        selectedColour != null) ...[
+                                    if (bloc.selectedColour != 'black' &&
+                                        bloc.selectedColour != 'white' &&
+                                        bloc.selectedColour != null) ...[
                                       const SizedBox(height: 12),
                                       Text(
                                         S.of(context).selectColourVariation,
@@ -414,12 +373,9 @@ class _EditItemPageState extends State<EditItemPage> {
                                       ),
                                       ...buildIconRows(
                                         TypeDataList.colorVariations(context),
-                                        selectedColourVariation,
+                                        bloc.selectedColourVariation,
                                             (dataKey) {
-                                          setState(() {
-                                            _isChanged = true; // Update the change tracking flag
-                                          });
-                                          context.read<EditItemBloc>().add(ColourVariationChangedEvent(dataKey));
+                                          bloc.add(ColourVariationChangedEvent(dataKey));
                                         },
                                         context,
                                         true, // Pass the isFromMyCloset parameter

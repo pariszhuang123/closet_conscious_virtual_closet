@@ -59,14 +59,14 @@ class _UploadItemPageState extends State<UploadItemPage> {
   bool get _isFormValidPage2 {
     return selectedSeason != null &&
         selectedSpecificType != null &&
-        (selectedItemType != 'Clothing' || selectedClothingLayer != null);
+        (selectedItemType != 'clothing' || selectedClothingLayer != null);
   }
 
   bool get _isFormValidPage3 {
     if (selectedColour == null) {
       return false;
     }
-    if (selectedColour != 'Black' && selectedColour != 'White' &&
+    if (selectedColour != 'black' && selectedColour != 'white' &&
         selectedColourVariation == null) {
       return false;
     }
@@ -202,7 +202,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
       _showErrorMessage(S.of(context).seasonFieldNotFilled);
     } else if (selectedSpecificType == null) {
       _showErrorMessage(S.of(context).specificTypeFieldNotFilled);
-    } else if (selectedItemType == 'Clothing' && selectedClothingLayer == null) {
+    } else if (selectedItemType == 'clothing' && selectedClothingLayer == null) {
       _showErrorMessage(S.of(context).clothingLayerFieldNotFilled);
     }
   }
@@ -210,7 +210,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
   void _showSpecificErrorMessagesPage3() {
     if (selectedColour == null) {
       _showErrorMessage(S.of(context).colourFieldNotFilled);
-    } else if (selectedColour != 'Black' && selectedColour != 'White' && selectedColourVariation == null) {
+    } else if (selectedColour != 'black' && selectedColour != 'white' && selectedColourVariation == null) {
       _showErrorMessage(S.of(context).colourVariationFieldNotFilled);
     }
   }
@@ -379,7 +379,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                         ),
                                       ),
                                       const SizedBox(height: 12),
-                                      if (selectedItemType == 'Shoes') ...[
+                                      if (selectedItemType == 'shoes') ...[
                                         Text(
                                           S.of(context).selectShoeType,
                                           style: widget.myClosetTheme.textTheme.bodyMedium,
@@ -398,7 +398,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                           ),
                                         ),
                                       ],
-                                      if (selectedItemType == 'Accessory') ...[
+                                      if (selectedItemType == 'accessory') ...[
                                         Text(
                                           S.of(context).selectAccessoryType,
                                           style: widget.myClosetTheme.textTheme.bodyMedium,
@@ -417,7 +417,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                           ),
                                         ),
                                       ],
-                                      if (selectedItemType == 'Clothing') ...[
+                                      if (selectedItemType == 'clothing') ...[
                                         Text(
                                           S.of(context).selectClothingType,
                                           style: widget.myClosetTheme.textTheme.bodyMedium,
@@ -484,7 +484,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                           ),
                                         ),
                                       ),
-                                      if (selectedColour != 'Black' && selectedColour != 'White' && selectedColour != null) ...[
+                                      if (selectedColour != 'black' && selectedColour != 'white' && selectedColour != null) ...[
                                         const SizedBox(height: 12),
                                         Text(
                                           S.of(context).selectColourVariation,

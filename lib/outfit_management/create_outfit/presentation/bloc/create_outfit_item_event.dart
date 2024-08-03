@@ -2,7 +2,9 @@ part of 'create_outfit_item_bloc.dart';
 
 enum OutfitItemCategory { clothing, accessory, shoes }
 
-class CreateOutfitItemEvent extends Equatable {
+abstract class CreateOutfitItemEvent extends Equatable {
+  const CreateOutfitItemEvent();
+
   @override
   List<Object?> get props => [];
 }
@@ -10,20 +12,25 @@ class CreateOutfitItemEvent extends Equatable {
 class SelectItemEvent extends CreateOutfitItemEvent {
   final OutfitItemCategory category;
   final String itemId;
-  final int position;
-  final int limit;
 
-  SelectItemEvent(this.category, this.itemId, this.position, this.limit);
+  const SelectItemEvent(this.category, this.itemId);
 
   @override
-  List<Object?> get props => [category, itemId, position, limit];
+  List<Object?> get props => [category, itemId];
 }
 
 class SaveOutfitEvent extends CreateOutfitItemEvent {
-  final Map<OutfitItemCategory, List<String>> selectedItemIds;
-
-  SaveOutfitEvent(this.selectedItemIds);
+  const SaveOutfitEvent();
 
   @override
-  List<Object?> get props => [selectedItemIds];
+  List<Object?> get props => [];
+}
+
+class SelectCategoryEvent extends CreateOutfitItemEvent {
+  final OutfitItemCategory category;
+
+  const SelectCategoryEvent(this.category);
+
+  @override
+  List<Object?> get props => [category];
 }

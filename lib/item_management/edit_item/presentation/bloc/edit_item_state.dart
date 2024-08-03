@@ -39,6 +39,7 @@ class EditItemLoaded extends EditItemState {
   final String? selectedSeason;
   final String? selectedColour;
   final String? selectedColourVariation;
+  final File? imageFile;
 
   const EditItemLoaded({
     required this.itemName,
@@ -51,6 +52,7 @@ class EditItemLoaded extends EditItemState {
     this.selectedSeason,
     this.selectedColour,
     this.selectedColourVariation,
+    this.imageFile,
   });
 
   @override
@@ -65,10 +67,42 @@ class EditItemLoaded extends EditItemState {
     selectedSeason,
     selectedColour,
     selectedColourVariation,
+    imageFile,
   ];
+
+  EditItemLoaded copyWith({
+    String? itemName,
+    double? amountSpent,
+    String? imageUrl,
+    String? selectedItemType,
+    String? selectedSpecificType,
+    String? selectedClothingLayer,
+    String? selectedOccasion,
+    String? selectedSeason,
+    String? selectedColour,
+    String? selectedColourVariation,
+    File? imageFile,
+  }) {
+    return EditItemLoaded(
+      itemName: itemName ?? this.itemName,
+      amountSpent: amountSpent ?? this.amountSpent,
+      imageUrl: imageUrl ?? this.imageUrl,
+      selectedItemType: selectedItemType ?? this.selectedItemType,
+      selectedSpecificType: selectedSpecificType ?? this.selectedSpecificType,
+      selectedClothingLayer: selectedClothingLayer ?? this.selectedClothingLayer,
+      selectedOccasion: selectedOccasion ?? this.selectedOccasion,
+      selectedSeason: selectedSeason ?? this.selectedSeason,
+      selectedColour: selectedColour ?? this.selectedColour,
+      selectedColourVariation: selectedColourVariation ?? this.selectedColourVariation,
+      imageFile: imageFile ?? this.imageFile,
+    );
+  }
 }
 
-class EditItemUpdated extends EditItemState {
+class EditItemChanged extends EditItemState {
+  final String itemName;
+  final double amountSpent;
+  final String? imageUrl;
   final String? selectedItemType;
   final String? selectedSpecificType;
   final String? selectedClothingLayer;
@@ -76,8 +110,12 @@ class EditItemUpdated extends EditItemState {
   final String? selectedSeason;
   final String? selectedColour;
   final String? selectedColourVariation;
+  final File? imageFile;
 
-  const EditItemUpdated({
+  const EditItemChanged({
+    required this.itemName,
+    required this.amountSpent,
+    this.imageUrl,
     this.selectedItemType,
     this.selectedSpecificType,
     this.selectedClothingLayer,
@@ -85,10 +123,14 @@ class EditItemUpdated extends EditItemState {
     this.selectedSeason,
     this.selectedColour,
     this.selectedColourVariation,
+    this.imageFile,
   });
 
   @override
   List<Object?> get props => [
+    itemName,
+    amountSpent,
+    imageUrl,
     selectedItemType,
     selectedSpecificType,
     selectedClothingLayer,
@@ -96,5 +138,47 @@ class EditItemUpdated extends EditItemState {
     selectedSeason,
     selectedColour,
     selectedColourVariation,
+    imageFile,
   ];
+
+  EditItemChanged copyWith({
+    String? itemName,
+    double? amountSpent,
+    String? imageUrl,
+    String? selectedItemType,
+    String? selectedSpecificType,
+    String? selectedClothingLayer,
+    String? selectedOccasion,
+    String? selectedSeason,
+    String? selectedColour,
+    String? selectedColourVariation,
+    File? imageFile,
+  }) {
+    return EditItemChanged(
+      itemName: itemName ?? this.itemName,
+      amountSpent: amountSpent ?? this.amountSpent,
+      imageUrl: imageUrl ?? this.imageUrl,
+      selectedItemType: selectedItemType ?? this.selectedItemType,
+      selectedSpecificType: selectedSpecificType ?? this.selectedSpecificType,
+      selectedClothingLayer: selectedClothingLayer ?? this.selectedClothingLayer,
+      selectedOccasion: selectedOccasion ?? this.selectedOccasion,
+      selectedSeason: selectedSeason ?? this.selectedSeason,
+      selectedColour: selectedColour ?? this.selectedColour,
+      selectedColourVariation: selectedColourVariation ?? this.selectedColourVariation,
+      imageFile: imageFile ?? this.imageFile,
+    );
+  }
+}
+
+class EditItemDecluttering extends EditItemState {}
+
+class EditItemDeclutterSuccess extends EditItemState {}
+
+class EditItemDeclutterFailure extends EditItemState {
+  final String error;
+
+  const EditItemDeclutterFailure(this.error);
+
+  @override
+  List<Object?> get props => [error];
 }

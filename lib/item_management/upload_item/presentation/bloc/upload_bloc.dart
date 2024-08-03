@@ -98,20 +98,20 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
       '_colour_variations': selectedColourVariation,
     };
 
-    if (selectedItemType == 'Clothing') {
+    if (selectedItemType == 'clothing') {
       params['_clothing_type'] = selectedSpecificType;
       params['_clothing_layer'] = selectedClothingLayer;
-    } else if (selectedItemType == 'Shoes') {
+    } else if (selectedItemType == 'shoes') {
       params['_shoes_type'] = selectedSpecificType;
-    } else if (selectedItemType == 'Accessory') {
+    } else if (selectedItemType == 'accessory') {
       params['_accessory_type'] = selectedSpecificType;
     }
 
     try {
       final response = await SupabaseConfig.client.rpc(
-        selectedItemType == 'Clothing'
+        selectedItemType == 'clothing'
             ? 'upload_clothing_metadata'
-            : selectedItemType == 'Shoes'
+            : selectedItemType == 'shoes'
             ? 'upload_shoes_metadata'
             : 'upload_accessory_metadata',
         params: params,
