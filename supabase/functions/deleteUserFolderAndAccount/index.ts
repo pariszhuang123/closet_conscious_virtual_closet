@@ -1,6 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from 'supabase-js';
 
-// Function to load configuration based on the environment
 async function loadConfig(environment) {
   try {
     const configFilePath = `./config/app_config_${environment}.json`;
@@ -12,17 +11,12 @@ async function loadConfig(environment) {
   }
 }
 
-// Determine the environment (could be passed as a command line argument or set in some other way)
 const environment = Deno.env.get('ENVIRONMENT') || 'dev';
-
-// Load the configuration
 const config = await loadConfig(environment);
 
-// Get Supabase URL and Service Role Key from the configuration
 const supabaseUrl = config.SUPABASE_URL;
 const supabaseServiceRoleKey = config.SUPABASE_SERVICE_ROLE_KEY;
 
-// Create Supabase client
 const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 
 async function deleteUserFiles(userId) {
