@@ -26,7 +26,7 @@ jobs:
       # Deploy Supabase Function
       - name: Deploy Supabase Function
         run:
-          supabase functions deploy deleteUserFolderAndAccount --project-ref $SUPABASE_PROJECT_ID --api-key $SUPABASE_SERVICE_ROLE_KEY
+          supabase functions deploy deleteUserFolderAndAccount --project-ref $SUPABASE_PROJECT_ID
 
   deploy_dev_ui:
     needs: deploy_dev_supabase
@@ -131,7 +131,7 @@ jobs:
       # Deploy Supabase Function
       - name: Deploy Supabase Function
         run:
-          supabase functions deploy deleteUserFolderAndAccount --project-ref $SUPABASE_PROJECT_ID --api-key $SUPABASE_SERVICE_ROLE_KEY
+          supabase functions deploy deleteUserFolderAndAccount --project-ref $SUPABASE_PROJECT_ID
 
   deploy_prod_ui:
     needs: deploy_prod_supabase
