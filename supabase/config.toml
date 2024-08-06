@@ -172,5 +172,5 @@ s3_secret_key = "env(S3_SECRET_KEY)"
 
 # Add the functions section
 [functions]
-deleteUserFolderAndAccount = { import_map = "./supabase/functions/deleteUserFolderAndAccount/import_map.json" }
+deleteUserFolderAndAccount = { import_map = "./supabase/functions/import_map.json" }
 
