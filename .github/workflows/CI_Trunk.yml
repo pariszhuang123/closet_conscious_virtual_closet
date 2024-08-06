@@ -12,6 +12,7 @@ jobs:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       SUPABASE_DB_PASSWORD: ${{ secrets.DEV_DB_PASSWORD }}
       SUPABASE_PROJECT_ID: ${{ secrets.DEV_PROJECT_ID }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
     steps:
       - uses: actions/checkout@v4
@@ -22,6 +23,11 @@ jobs:
       - run: supabase link --project-ref $SUPABASE_PROJECT_ID
       - run: supabase db push
 
+      # Deploy Supabase Function
+      - name: Deploy Supabase Function
+        run:
+          supabase functions deploy deleteUserFolderAndAccount --project-ref $SUPABASE_PROJECT_ID --api-key $SUPABASE_SERVICE_ROLE_KEY
+
   deploy_dev_ui:
     needs: deploy_dev_supabase
     runs-on: ubuntu-latest
@@ -29,6 +35,7 @@ jobs:
       ENV: dev
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       WEB_CLIENT_ID: ${{ secrets.WEB_CLIENT_ID }}
       IOS_CLIENT_ID: ${{ secrets.IOS_CLIENT_ID }}
 
@@ -72,6 +79,7 @@ jobs:
           echo '{
             "SUPABASE_URL": "${{ secrets.SUPABASE_URL }}",
             "SUPABASE_ANON_KEY": "${{ secrets.SUPABASE_ANON_KEY }}",
+            "SUPABASE_SERVICE_ROLE_KEY": "${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}",
             "webClientId": "${{ secrets.WEB_CLIENT_ID }}",
             "iosClientId": "${{ secrets.IOS_CLIENT_ID }}"
           }' > config/app_config_dev.json
@@ -109,6 +117,7 @@ jobs:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       SUPABASE_DB_PASSWORD: ${{ secrets.PROD_DB_PASSWORD }}
       SUPABASE_PROJECT_ID: ${{ secrets.PROD_PROJECT_ID }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
 
     steps:
       - uses: actions/checkout@v4
@@ -119,6 +128,11 @@ jobs:
       - run: supabase link --project-ref $SUPABASE_PROJECT_ID
       - run: supabase db push
 
+      # Deploy Supabase Function
+      - name: Deploy Supabase Function
+        run:
+          supabase functions deploy deleteUserFolderAndAccount --project-ref $SUPABASE_PROJECT_ID --api-key $SUPABASE_SERVICE_ROLE_KEY
+
   deploy_prod_ui:
     needs: deploy_prod_supabase
     runs-on: ubuntu-latest
@@ -126,6 +140,7 @@ jobs:
       ENV: prod
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       WEB_CLIENT_ID: ${{ secrets.WEB_CLIENT_ID }}
       IOS_CLIENT_ID: ${{ secrets.IOS_CLIENT_ID }}
 
@@ -169,6 +184,7 @@ jobs:
           echo '{
             "SUPABASE_URL": "${{ secrets.SUPABASE_URL }}",
             "SUPABASE_ANON_KEY": "${{ secrets.SUPABASE_ANON_KEY }}",
+            "SUPABASE_SERVICE_ROLE_KEY": "${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}",
             "webClientId": "${{ secrets.WEB_CLIENT_ID }}",
             "iosClientId": "${{ secrets.IOS_CLIENT_ID }}"
           }' > config/app_config_prod.json
