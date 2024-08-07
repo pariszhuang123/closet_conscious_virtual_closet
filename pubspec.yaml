@@ -119,6 +119,7 @@ flutter:
     - assets/icons/my_closet/upload/general_type/
     - assets/icons/my_closet/upload/occasion/
     - assets/icons/my_closet/upload/season/
+    - assets/icons/my_closet/upload/seasonal/
     - assets/icons/my_closet/upload/shoes_type/
 
     - assets/icons/my_outfit/additional_features/
