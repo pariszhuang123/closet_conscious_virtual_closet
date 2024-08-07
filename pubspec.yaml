@@ -105,10 +105,12 @@ flutter:
     - assets/icons/drawer/analytics/
 
     - assets/icons/general/
+    - assets/icons/general/filter/
+    - assets/icons/general/multi_closet/
 
-    - assets/icons/my_closet/additional_features/
     - assets/icons/my_closet/declutter/
-    - assets/icons/my_closet/gamification/closet_completed/
+    - assets/icons/my_closet/stats/
+    - assets/icons/my_closet/upload/
     - assets/icons/my_closet/upload/accessory_type/
     - assets/icons/my_closet/upload/clothing_layer/
     - assets/icons/my_closet/upload/clothing_type/

@@ -110,12 +110,12 @@ class TypeDataList {
   }
 
   static TypeData upload(BuildContext context) {
-    return TypeData('upload_upload', (context) => S.of(context).upload_upload, 'assets/icons/my_closet/additional_features/upload_item.svg', false);
+    return TypeData('upload_upload', (context) => S.of(context).upload_upload, 'assets/icons/my_closet/upload/upload_item.svg', false);
   }
 
   static TypeData filter(BuildContext context) {
     return
-      TypeData('filter_filter', (context) => S.of(context).filter_filter, 'assets/icons/my_closet/additional_features/filter_search.svg', false);
+      TypeData('filter_filter', (context) => S.of(context).filter_filter, 'assets/icons/my_closet/general/filter_search.svg', false);
   }
 
   static TypeData outfitsUpload(BuildContext context) {
@@ -130,11 +130,11 @@ class TypeDataList {
 
   static TypeData addCloset(BuildContext context) {
     return
-      TypeData('addCloset_addCloset', (context) => S.of(context).addCloset_addCloset, 'assets/icons/my_closet/additional_features/add_closet.svg', false);
+      TypeData('addCloset_addCloset', (context) => S.of(context).addCloset_addCloset, 'assets/icons/my_closet/general/add_closet.svg', false);
   }
 
   static TypeData itemUploaded(BuildContext context) {
-    return TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'assets/icons/my_closet/additional_features/apparel.svg', false);
+    return TypeData('itemUploaded_itemUploaded', (context) => S.of(context).itemUploaded_itemUploaded, 'assets/icons/my_closet/stats/apparel.svg', false);
   }
 
   static TypeData declutterOptionsSell(BuildContext context) {
@@ -178,19 +178,19 @@ class TypeDataList {
   }
 
   static TypeData currentStreak(BuildContext context) {
-    return TypeData('currentStreak', (context) => S.of(context).currentStreak, 'assets/icons/my_closet/gamification/closet_completed/current_no_purchase_streak.svg', false);
+    return TypeData('currentStreak', (context) => S.of(context).currentStreak, 'assets/icons/my_closet/gamification/stats/current_no_purchase_streak.svg', false);
   }
 
   static TypeData highestStreak(BuildContext context) {
-    return TypeData('highestStreak', (context) => S.of(context).highestStreak, 'assets/icons/my_closet/gamification/closet_completed/highest_no_purchase_streak.svg', false);
+    return TypeData('highestStreak', (context) => S.of(context).highestStreak, 'assets/icons/my_closet/gamification/stats/highest_no_purchase_streak.svg', false);
   }
 
   static TypeData costOfNewItems(BuildContext context) {
-    return TypeData('costOfNewItems', (context) => S.of(context).costOfNewItems, 'assets/icons/my_closet/gamification/closet_completed/money.svg', false);
+    return TypeData('costOfNewItems', (context) => S.of(context).costOfNewItems, 'assets/icons/my_closet/gamification/stats/money.svg', false);
   }
 
   static TypeData numberOfNewItems(BuildContext context) {
-    return TypeData('numberOfNewItems', (context) => S.of(context).numberOfNewItems, 'assets/icons/my_closet/gamification/closet_completed/new_clothing_purchase.svg', false);
+    return TypeData('numberOfNewItems', (context) => S.of(context).numberOfNewItems, 'assets/icons/my_closet/gamification/stats/new_clothing_purchase.svg', false);
   }
 
   static TypeData outfitClothingType(BuildContext context) {
