@@ -10,14 +10,14 @@ class NavigationTypeButton extends TypeButton {
     required this.label,
     required this.selectedLabel,
     required super.onPressed,
-    required super.imagePath,
+    required super.assetPath,
     required super.isFromMyCloset,
+    required super.usePredefinedColor,
     super.isSelected,
     super.isHorizontal,
-    super.isAsset,
     required super.buttonType,
     super.key,
-  });
+   });
 
   @override
   Widget buildContent(BuildContext context) {

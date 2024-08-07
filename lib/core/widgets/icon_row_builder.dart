@@ -29,10 +29,11 @@ List<Widget> buildIconRows(
             dataKey: key,
             selectedKey: selectedKey ?? '',
             label: label,
-            imagePath: type.imagePath!,
+            assetPath: type.assetPath!,
             isSelected: selectedKey == key,
               isFromMyCloset: isFromMyCloset,
             buttonType: ButtonType.primary,
+            usePredefinedColor: type.usePredefinedColor,
             onPressed: () {
               onTap(key);
             },

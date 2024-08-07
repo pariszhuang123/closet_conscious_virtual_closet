@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../theme/themed_svg.dart';
-
 
 class TypeButton extends StatelessWidget {
   final VoidCallback? onPressed;
-  final String imagePath;
-  final bool isAsset;
+  final String assetPath;
   final bool isSelected;
   final bool isHorizontal;
   final bool isFromMyCloset;
   final ButtonType buttonType;
+  final bool usePredefinedColor;
 
   const TypeButton({
     super.key,
     this.onPressed,
-    required this.imagePath,
-    this.isAsset = false,
+    required this.assetPath,
     this.isSelected = false,
     this.isHorizontal = false,
     required this.isFromMyCloset,
     this.buttonType = ButtonType.primary,
+    required this.usePredefinedColor,
   });
 
   @override
@@ -72,32 +70,13 @@ class TypeButton extends StatelessWidget {
   }
 
   Widget buildImage() {
-    if (isAsset) {
-      return ThemedSvg(
-        assetName: imagePath,
-        isFromMyCloset: isFromMyCloset,
-        isSelected: isSelected,
-        buttonType: buttonType,// Pass the isSelected parameter
-      );
-    } else {
-      if (imagePath.endsWith('.svg')) {
-        return SvgPicture.network(
-          imagePath,
-          width: 25,
-          height: 25,
-          placeholderBuilder: (BuildContext context) => const CircularProgressIndicator(),
-        );
-      } else {
-        return Image.network(
-          imagePath,
-          width: 25,
-          height: 25,
-          errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-            return const Icon(Icons.error);
-          },
-        );
-      }
-    }
+    return ThemedSvg(
+      assetName: assetPath,
+      isFromMyCloset: isFromMyCloset,
+      isSelected: isSelected,
+      buttonType: buttonType,
+      usePredefinedColor: usePredefinedColor,
+    );
   }
 
   Widget buildContent(BuildContext context) {

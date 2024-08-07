@@ -161,6 +161,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
         "please_enter_valid_amount":
             MessageLookupByLibrary.simpleMessage("请输入一个有效的金额（0或更大）。"),
+        "please_select_the_category_above":
+            MessageLookupByLibrary.simpleMessage("请选择上面的类别"),
         "profileSection": MessageLookupByLibrary.simpleMessage("个人资料"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "通过筛选和搜索选项快速找到物品，节省时间并保持井井有条。"),

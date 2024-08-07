@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/utilities/logger.dart';
 import '../data/models/achievement_model.dart';
+import '../../../core/widgets/base_grid.dart';
 
 class AchievementGrid extends StatelessWidget {
   final List<Achievement> achievements;
@@ -16,23 +17,14 @@ class AchievementGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('AchievementGrid: Received ${achievements.length} achievements');
-    if (achievements.isEmpty) {
-      logger.d('AchievementGrid: No achievements to display');
-      return const Center(child: Text('No achievements found'));
-    }
-
-    return GridView.builder(
-      controller: scrollController,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 3 / 4,
-      ),
-      itemCount: achievements.length,
-      itemBuilder: (context, index) {
-        final achievement = achievements[index];
+    return BaseGrid<Achievement>(
+      items: achievements,
+      scrollController: scrollController,
+      logger: logger,
+      crossAxisCount: 3,
+      childAspectRatio: 3 / 4,
+      itemBuilder: (context, achievement, index) {
         logger.d('AchievementGrid: Rendering achievement ${achievement.achievementName}');
-
         return Container(
           color: Colors.transparent,
           child: Column(

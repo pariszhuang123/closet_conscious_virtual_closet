@@ -153,5 +153,7 @@
   "deleteAccountImpact": "警告：删除您的账户是不可逆的。",
   "deleteAccountConfirmation": "您确定要删除您的账户吗？所有数据将被永久删除。",
   "cancel": "取消",
-  "delete": "删除"
+  "delete": "删除",
+  "please_select_the_category_above": "请选择上面的类别"
+
 }

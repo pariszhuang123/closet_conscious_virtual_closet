@@ -13,7 +13,7 @@ Future<List<ClosetItemMinimal>> fetchCreateOutfitItems(OutfitItemCategory catego
         .select('item_id, image_url, name, item_type, updated_at')
         .eq('status', 'active')
         .eq('item_type', category.toString().split('.').last)
-        .order('updated_at', ascending: false)
+        .order('updated_at', ascending: true)
         .range(currentPage * batchSize, (currentPage + 1) * batchSize - 1);
 
     logger.i('Fetched ${data.length} items');

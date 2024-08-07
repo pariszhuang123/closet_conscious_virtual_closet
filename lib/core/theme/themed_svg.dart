@@ -13,6 +13,7 @@ class ThemedSvg extends StatelessWidget {
   final double height;
   final ButtonType buttonType;
   final bool isSelected;
+  final bool usePredefinedColor;
 
   const ThemedSvg({
     super.key,
@@ -20,6 +21,7 @@ class ThemedSvg extends StatelessWidget {
     required this.isFromMyCloset,
     required this.isSelected,
     required this.buttonType,
+    required this.usePredefinedColor,
     this.width = 25,
     this.height = 25,
   });
@@ -33,7 +35,7 @@ class ThemedSvg extends StatelessWidget {
       assetName,
       width: width,
       height: height,
-      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+      colorFilter: usePredefinedColor ? null : ColorFilter.mode(color, BlendMode.srcIn),
       placeholderBuilder: (BuildContext context) => const CircularProgressIndicator(),
     );
   }

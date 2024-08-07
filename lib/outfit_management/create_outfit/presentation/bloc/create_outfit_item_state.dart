@@ -15,6 +15,15 @@ class CreateOutfitItemState extends Equatable {
     this.saveStatus = SaveStatus.initial,
   });
 
+  factory CreateOutfitItemState.initial() {
+    return const CreateOutfitItemState(
+      selectedItemIds: {},
+      items: [],
+      currentCategory: OutfitItemCategory.clothing, // Set default category if needed
+      saveStatus: SaveStatus.initial,
+    );
+  }
+
   CreateOutfitItemState copyWith({
     Map<OutfitItemCategory, List<String>>? selectedItemIds,
     List<ClosetItemMinimal>? items,

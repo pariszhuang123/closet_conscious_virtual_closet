@@ -34,9 +34,10 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
 
       if (!mounted) return;
 
-      if (response.containsKey('status')) {
-        if (response['status'] == 'success') {
-          final achievementUrl = response['badge_url'];
+      // Check if the response is a Map
+      if (response.containsKey('status') && response['status'] == 'success') {
+        final achievementUrl = response['badge_url'];
+        if (achievementUrl != null) {
           _showAchievementScreen(context, achievementUrl);
         } else {
           _showCustomDialog(S.of(context).error, S.of(context).unexpectedResponseFormat);
@@ -44,7 +45,7 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
       } else {
         _showCustomDialog(S.of(context).error, S.of(context).unexpectedResponseFormat);
       }
-    } catch (e) {
+        } catch (e) {
       logger.e('Unexpected error: $e');
       if (mounted) {
         _showCustomDialog(S.of(context).error, S.of(context).unexpectedErrorOccurred);
@@ -77,6 +78,8 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
   }
 
   void _showAchievementScreen(BuildContext context, String achievementUrl) {
+    logger.i('Navigating to AchievementScreen with URL: $achievementUrl');
+
     Navigator.push(
       context,
       MaterialPageRoute(

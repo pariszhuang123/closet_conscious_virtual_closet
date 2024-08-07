@@ -48,6 +48,7 @@ dependencies:
   package_info_plus: ^8.0.0
   flutter_dotenv: ^5.1.0
   provider: ^6.1.2
+  lottie: ^3.1.2
   webview_flutter: ^4.8.0
   meta: ^1.11.0
   bloc: ^8.1.4
@@ -81,7 +82,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -97,12 +98,29 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - config/
-    - assets/images/SVG_CC_Logo.svg
-    - assets/icons/my_closet/additional_features/
+    - assets/images/
+    - assets/lottie/
+
     - assets/icons/drawer/
+    - assets/icons/drawer/analytics/
+
+    - assets/icons/general/
+
+    - assets/icons/my_closet/additional_features/
+    - assets/icons/my_closet/declutter/
     - assets/icons/my_closet/gamification/closet_completed/
-    - assets/icons/my_outfit/outfit_review/
+    - assets/icons/my_closet/upload/accessory_type/
+    - assets/icons/my_closet/upload/clothing_layer/
+    - assets/icons/my_closet/upload/clothing_type/
+    - assets/icons/my_closet/upload/colour/
+    - assets/icons/my_closet/upload/colour_variation/
+    - assets/icons/my_closet/upload/general_type/
+    - assets/icons/my_closet/upload/occasion/
+    - assets/icons/my_closet/upload/season/
+    - assets/icons/my_closet/upload/shoes_type/
+
     - assets/icons/my_outfit/additional_features/
+    - assets/icons/my_outfit/outfit_review/
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

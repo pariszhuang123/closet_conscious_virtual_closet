@@ -3,6 +3,7 @@ import '../../../core/utilities/routes.dart';
 import '../../../core/utilities/logger.dart';
 import '../../core/data/models/closet_item_minimal.dart';
 import '../../edit_item/data/edit_item_arguments.dart';
+import '../../../core/widgets/base_grid.dart';
 
 class ItemGrid extends StatelessWidget {
   final List<ClosetItemMinimal> items;
@@ -20,15 +21,13 @@ class ItemGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      controller: scrollController,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 3 / 4,
-      ),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        final item = items[index];
+    return BaseGrid<ClosetItemMinimal>(
+      items: items,
+      scrollController: scrollController,
+      logger: logger,
+      crossAxisCount: 3,
+      childAspectRatio: 3 / 4,
+      itemBuilder: (context, item, index) {
         return GestureDetector(
           onTap: () {
             logger.i('Grid item clicked: ${item.itemId}');
@@ -63,13 +62,14 @@ class ItemGrid extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
                     child: AspectRatio(
-                      aspectRatio: 1.0, // Ensures the box is square
+                      aspectRatio: 1.0,
                       child: Image.network(item.imageUrl, fit: BoxFit.cover),
                     ),
                   ),
                 ),
                 const SizedBox(height: 8.0),
-                Text(item.name,
+                Text(
+                  item.name,
                   style: myClosetTheme.textTheme.labelSmall,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,

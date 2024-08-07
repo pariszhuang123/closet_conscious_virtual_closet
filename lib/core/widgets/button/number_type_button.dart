@@ -9,10 +9,10 @@ class NumberTypeButton extends TypeButton {
   const NumberTypeButton({
     super.key,
     required this.count,
-    required super.imagePath,
-    required super.isAsset,
+    required super.assetPath,
     required super.isFromMyCloset,
     required super.buttonType,
+    required super.usePredefinedColor,
     super.isSelected,
     super.isHorizontal,
   }) : super(

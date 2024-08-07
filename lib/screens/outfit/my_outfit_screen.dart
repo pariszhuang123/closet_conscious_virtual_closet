@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
 import 'my_outfit_view.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 
 class MyOutfitScreen extends StatelessWidget {
@@ -13,7 +12,7 @@ class MyOutfitScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CreateOutfitItemBloc(Supabase.instance.client),
+      create: (context) => CreateOutfitItemBloc(),
       child: MyOutfitView(myOutfitTheme: myOutfitTheme),
     );
   }

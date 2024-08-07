@@ -69,6 +69,7 @@ class _EditItemPageState extends State<EditItemPage> {
   @override
   void initState() {
     super.initState();
+    logger.d('initState called');
     _itemNameController = TextEditingController(text: widget.initialName);
     _amountSpentController = TextEditingController(text: widget.initialAmountSpent.toString());
     _imageUrl = widget.initialImageUrl;
@@ -83,6 +84,7 @@ class _EditItemPageState extends State<EditItemPage> {
 
   @override
   void dispose() {
+    logger.d('dispose called');
     _itemNameController.dispose();
     _amountSpentController.dispose();
     super.dispose();
@@ -91,13 +93,21 @@ class _EditItemPageState extends State<EditItemPage> {
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
     if (pickedFile != null && mounted) {
+      logger.d('Image picked: ${pickedFile.path}');
       final file = File(pickedFile.path);
       context.read<EditItemBloc>().add(UpdateImageEvent(file));
+      setState(() {
+        _imageFile = file;
+        _isChanged = true;
+      });
+    } else {
+      logger.d('Image picker cancelled or failed');
     }
   }
 
   void _handleUpdate() {
     if (_formKey.currentState?.validate() ?? false) {
+      logger.d('Form validated successfully, submitting update');
       context.read<EditItemBloc>().add(SubmitFormEvent(
         itemId: widget.itemId,
         name: _itemNameController.text,
@@ -111,10 +121,13 @@ class _EditItemPageState extends State<EditItemPage> {
         colour: context.read<EditItemBloc>().selectedColour,
         colourVariation: context.read<EditItemBloc>().selectedColourVariation,
       ));
+    } else {
+      logger.d('Form validation failed');
     }
   }
 
   void _openDeclutterSheet() {
+    logger.d('Opening declutter bottom sheet');
     showModalBottomSheet(
       context: context,
       builder: (context) => DeclutterBottomSheet(
@@ -146,25 +159,36 @@ class _EditItemPageState extends State<EditItemPage> {
         builder: (context) {
           return BlocConsumer<EditItemBloc, EditItemState>(
             listener: (context, state) {
+              logger.d('State changed: $state');
               if (state is EditItemUpdateSuccess) {
+                logger.d('Update success, navigating to myCloset');
                 Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
               } else if (state is EditItemUpdateFailure) {
+                logger.e('Update failed: ${state.error}');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(state.error)),
                 );
-              } else if (state is EditItemLoaded || state is EditItemChanged) {
-                // Update the controller values when the state is loaded or changed
-                if (state is EditItemLoaded) {
-                  _itemNameController.text = state.itemName;
-                  _amountSpentController.text = state.amountSpent.toString();
-                  _imageUrl = state.imageUrl;
-                }
-                _isChanged = true;
-                logger.i('Current state: $state'); // Use logger
+              } else if (state is EditItemLoaded) {
+                // Update the controller values when the state is loaded
+                logger.d('Item loaded: ${state.itemName}');
+                _itemNameController.text = state.itemName;
+                _amountSpentController.text = state.amountSpent.toString();
+                _imageUrl = state.imageUrl;
+                selectedItemType = state.selectedItemType;
+                selectedSpecificType = state.selectedSpecificType;
+                selectedClothingLayer = state.selectedClothingLayer;
+                selectedOccasion = state.selectedOccasion;
+                selectedSeason = state.selectedSeason;
+                selectedColour = state.selectedColour;
+                selectedColourVariation = state.selectedColourVariation;
+                _isChanged = false; // Reset to false as no changes yet
+              } else if (state is EditItemChanged) {
+                logger.d('Item state changed');
+                _isChanged = true; // Set to true when state is changed
               }
             },
             builder: (context, state) {
-              logger.d('Current state: $state'); // Use logger
+              logger.d('Building UI for state: $state');
 
               if (state is EditItemLoading) {
                 return const Center(child: CircularProgressIndicator());
@@ -182,8 +206,9 @@ class _EditItemPageState extends State<EditItemPage> {
                     leading: _isChanged
                         ? null
                         : IconButton(
-                      icon: Icon(Icons.arrow_back, color: widget.myClosetTheme.colorScheme.onPrimary),
+                      icon: Icon(Icons.arrow_back, color: widget.myClosetTheme.colorScheme.onSurface),
                       onPressed: () {
+                        logger.d('Back button pressed');
                         Navigator.pop(context);
                       },
                     ),
@@ -225,11 +250,13 @@ class _EditItemPageState extends State<EditItemPage> {
                                       ),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
+                                          logger.d('Item name validation failed');
                                           return S.of(context).pleaseEnterItemName;
                                         }
                                         return null;
                                       },
                                       onChanged: (value) {
+                                        logger.d('Item name changed: $value');
                                         bloc.add(FieldChangedEvent());
                                       },
                                     ),
@@ -244,6 +271,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                       ),
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
+                                        logger.d('Amount spent changed: $value');
                                         bloc.add(FieldChangedEvent());
                                       },
                                     ),
@@ -256,6 +284,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                       TypeDataList.itemGeneralTypes(context),
                                       bloc.selectedItemType,
                                           (dataKey) {
+                                        logger.d('Item type changed: $dataKey');
                                         bloc.add(ItemTypeChangedEvent(dataKey));
                                       },
                                       context,
@@ -270,6 +299,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                       TypeDataList.occasions(context),
                                       bloc.selectedOccasion,
                                           (dataKey) {
+                                        logger.d('Occasion changed: $dataKey');
                                         bloc.add(OccasionChangedEvent(dataKey));
                                       },
                                       context,
@@ -284,6 +314,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                       TypeDataList.seasons(context),
                                       bloc.selectedSeason,
                                           (dataKey) {
+                                        logger.d('Season changed: $dataKey');
                                         bloc.add(SeasonChangedEvent(dataKey));
                                       },
                                       context,
@@ -299,6 +330,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         TypeDataList.shoeTypes(context),
                                         bloc.selectedSpecificType,
                                             (dataKey) {
+                                          logger.d('Shoe type changed: $dataKey');
                                           bloc.add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
@@ -314,6 +346,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         TypeDataList.accessoryTypes(context),
                                         bloc.selectedSpecificType,
                                             (dataKey) {
+                                          logger.d('Accessory type changed: $dataKey');
                                           bloc.add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
@@ -329,6 +362,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         TypeDataList.clothingTypes(context),
                                         bloc.selectedSpecificType,
                                             (dataKey) {
+                                          logger.d('Clothing type changed: $dataKey');
                                           bloc.add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
@@ -343,6 +377,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         TypeDataList.clothingLayers(context),
                                         bloc.selectedClothingLayer,
                                             (dataKey) {
+                                          logger.d('Clothing layer changed: $dataKey');
                                           bloc.add(ClothingLayerChangedEvent(dataKey));
                                         },
                                         context,
@@ -358,6 +393,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                       TypeDataList.colors(context),
                                       bloc.selectedColour,
                                           (dataKey) {
+                                        logger.d('Colour changed: $dataKey');
                                         bloc.add(ColourChangedEvent(dataKey));
                                       },
                                       context,
@@ -375,6 +411,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         TypeDataList.colorVariations(context),
                                         bloc.selectedColourVariation,
                                             (dataKey) {
+                                          logger.d('Colour variation changed: $dataKey');
                                           bloc.add(ColourVariationChangedEvent(dataKey));
                                         },
                                         context,

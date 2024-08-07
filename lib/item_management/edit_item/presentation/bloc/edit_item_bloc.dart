@@ -37,7 +37,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   String? initialColourVariation;
   bool _isChanged = false;
 
-  final CustomLogger logger = CustomLogger('EditItemBloc'); // Create an instance of CustomLogger
+  final CustomLogger logger = CustomLogger('EditItemBloc');
 
   EditItemBloc({
     required this.itemNameController,
@@ -60,41 +60,26 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     });
 
     on<ValidateAndUpdateEvent>(_onValidateAndUpdate);
-
     on<UpdateItemEvent>(_onUpdateItem);
-
     on<UpdateSuccessEvent>((event, emit) {
       logger.d('UpdateSuccessEvent triggered');
       emit(EditItemUpdateSuccess());
     });
-
     on<UpdateFailureEvent>((event, emit) {
       logger.e('UpdateFailureEvent triggered with error: ${event.error}');
       emit(EditItemUpdateFailure(event.error));
     });
-
     on<FetchItemDetailsEvent>(_onFetchItemDetails);
-
     on<ShowSpecificErrorMessagesEvent>(_onShowSpecificErrorMessages);
-
     on<FieldChangedEvent>(_onFieldChanged);
-
     on<UpdateImageEvent>(_onUpdateImage);
-
     on<ItemTypeChangedEvent>(_onItemTypeChanged);
-
     on<OccasionChangedEvent>(_onOccasionChanged);
-
     on<SeasonChangedEvent>(_onSeasonChanged);
-
     on<SpecificTypeChangedEvent>(_onSpecificTypeChanged);
-
     on<ClothingLayerChangedEvent>(_onClothingLayerChanged);
-
     on<ColourChangedEvent>(_onColourChanged);
-
     on<ColourVariationChangedEvent>(_onColourVariationChanged);
-
     on<SubmitFormEvent>(_onSubmitForm);
   }
 
@@ -134,6 +119,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     try {
       await _updateItemData(event.itemNameController.text, double.tryParse(event.amountSpentController.text));
       emit(EditItemUpdateSuccess());
+      _isChanged = false; // Reset isChanged after successful update
     } catch (e) {
       logger.e('Error in _onUpdateItem: $e');
       emit(EditItemUpdateFailure(e.toString()));
@@ -146,6 +132,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     try {
       final item = await fetchItemDetails(event.itemId);
 
+      // Update initial values to current state
       initialName = item.name;
       initialAmountSpent = item.amountSpent;
       initialImageUrl = item.imageUrl;
@@ -157,6 +144,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       initialColour = item.colour;
       initialColourVariation = item.colourVariations;
 
+      // Update controllers and selected values to current state
       itemNameController.text = item.name;
       amountSpentController.text = item.amountSpent.toString();
       selectedItemType = item.itemType;
@@ -242,7 +230,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         itemName: itemNameController.text.isEmpty ? initialName! : itemNameController.text,
         amountSpent: amountSpentController.text.isEmpty ? initialAmountSpent : double.tryParse(amountSpentController.text) ?? initialAmountSpent,
         imageUrl: imageUrl ?? initialImageUrl,
-        selectedItemType: selectedItemType ?? initialItemType,
+        selectedItemType: event.itemType, // Ensure using event.itemType
         selectedSpecificType: selectedSpecificType ?? initialSpecificType,
         selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
         selectedOccasion: selectedOccasion ?? initialOccasion,
@@ -266,7 +254,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         selectedItemType: selectedItemType ?? initialItemType,
         selectedSpecificType: selectedSpecificType ?? initialSpecificType,
         selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
-        selectedOccasion: selectedOccasion ?? initialOccasion,
+        selectedOccasion: event.occasion, // Ensure using event.occasion
         selectedSeason: selectedSeason ?? initialSeason,
         selectedColour: selectedColour ?? initialColour,
         selectedColourVariation: selectedColourVariation ?? initialColourVariation,
@@ -288,7 +276,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         selectedSpecificType: selectedSpecificType ?? initialSpecificType,
         selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
         selectedOccasion: selectedOccasion ?? initialOccasion,
-        selectedSeason: selectedSeason ?? initialSeason,
+        selectedSeason: event.season, // Ensure using event.season
         selectedColour: selectedColour ?? initialColour,
         selectedColourVariation: selectedColourVariation ?? initialColourVariation,
         imageFile: imageFile,
@@ -306,7 +294,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         amountSpent: amountSpentController.text.isEmpty ? initialAmountSpent : double.tryParse(amountSpentController.text) ?? initialAmountSpent,
         imageUrl: imageUrl ?? initialImageUrl,
         selectedItemType: selectedItemType ?? initialItemType,
-        selectedSpecificType: selectedSpecificType ?? initialSpecificType,
+        selectedSpecificType: event.specificType, // Ensure using event.specificType
         selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
         selectedOccasion: selectedOccasion ?? initialOccasion,
         selectedSeason: selectedSeason ?? initialSeason,
@@ -328,7 +316,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         imageUrl: imageUrl ?? initialImageUrl,
         selectedItemType: selectedItemType ?? initialItemType,
         selectedSpecificType: selectedSpecificType ?? initialSpecificType,
-        selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
+        selectedClothingLayer: event.clothingLayer, // Ensure using event.clothingLayer
         selectedOccasion: selectedOccasion ?? initialOccasion,
         selectedSeason: selectedSeason ?? initialSeason,
         selectedColour: selectedColour ?? initialColour,
@@ -352,7 +340,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         selectedClothingLayer: selectedClothingLayer ?? initialClothingLayer,
         selectedOccasion: selectedOccasion ?? initialOccasion,
         selectedSeason: selectedSeason ?? initialSeason,
-        selectedColour: selectedColour ?? initialColour,
+        selectedColour: event.colour, // Ensure using event.colour
         selectedColourVariation: selectedColourVariation ?? initialColourVariation,
         imageFile: imageFile,
       ));
@@ -374,7 +362,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         selectedOccasion: selectedOccasion ?? initialOccasion,
         selectedSeason: selectedSeason ?? initialSeason,
         selectedColour: selectedColour ?? initialColour,
-        selectedColourVariation: selectedColourVariation ?? initialColourVariation,
+        selectedColourVariation: event.colourVariation, // Ensure using event.colourVariation
         imageFile: imageFile,
       ));
     }
@@ -390,6 +378,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     final amountSpent = double.tryParse(amountSpentText);
     if (amountSpent == null || amountSpent < 0) {
       amountSpentError = 'Please enter a valid amount';
+      logger.e('Amount spent validation failed: $amountSpentText');
       return false;
     }
 
@@ -400,6 +389,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   void _setColourVariationToNullIfBlackOrWhite() {
     if (selectedColour == 'black' || selectedColour == 'white') {
       selectedColourVariation = null;
+      logger.d('Colour variation set to null for black or white colour');
     }
   }
 
@@ -414,7 +404,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     if (selectedSpecificType == null) return false;
     if (selectedItemType == 'clothing' && selectedClothingLayer == null) return false;
     if (selectedColour == null) return false;
-    if (selectedColour != 'black' && selectedColour != 'White' && selectedColourVariation == null) return false;
+    if (selectedColour != 'black' && selectedColour != 'white' && selectedColourVariation == null) return false;
     return true;
   }
 
@@ -444,6 +434,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         finalImageUrl = Uri.parse(finalImageUrl).replace(queryParameters: {
           't': DateTime.now().millisecondsSinceEpoch.toString()
         }).toString();
+        logger.i('Image uploaded successfully, final image URL: $finalImageUrl');
       } catch (e) {
         logger.e('Error uploading image: $e');
         return;
@@ -461,7 +452,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       if (selectedColourVariation != initialColourVariation) '_colour_variations': selectedColourVariation,
     };
 
-    if (selectedItemType == 'Clothing') {
+    if (selectedItemType == 'clothing') {
       if (selectedSpecificType != initialSpecificType) params['_clothing_type'] = selectedSpecificType;
       if (selectedClothingLayer != initialClothingLayer) params['_clothing_layer'] = selectedClothingLayer;
     } else if (selectedItemType == 'shoes') {

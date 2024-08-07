@@ -183,6 +183,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter an item name"),
         "please_enter_valid_amount": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid amount (0 or greater)."),
+        "please_select_the_category_above":
+            MessageLookupByLibrary.simpleMessage(
+                "Please select the category above"),
         "profileSection": MessageLookupByLibrary.simpleMessage("Profile"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "Quickly find items with filter and search options, saving time and staying organized."),

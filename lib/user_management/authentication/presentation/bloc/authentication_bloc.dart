@@ -1,3 +1,6 @@
+import 'dart:convert';
+// ignore: depend_on_referenced_packages
+import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../application/usecases/sign_in_with_google.dart';
 import '../../application/usecases/get_current_user.dart';
@@ -5,6 +8,7 @@ import '../../application/usecases/sign_out.dart';
 import '../../application/usecases/delete_user_account.dart';
 import '../../domain/entities/user.dart';
 import '../../../../core/utilities/logger.dart';
+import '../../../../core/config/supabase_config.dart';
 
 abstract class AuthEvent {}
 
@@ -32,7 +36,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignInWithGoogle _signInWithGoogle;
   final GetCurrentUser _getCurrentUser;
   final SignOut _signOut;
-  final DeleteUserAccount _deleteUserAccount;
   final CustomLogger _logger = CustomLogger('AuthBloc');
 
   AuthBloc({
@@ -43,9 +46,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   })  : _signInWithGoogle = signInWithGoogle,
         _getCurrentUser = getCurrentUser,
         _signOut = signOut,
-        _deleteUserAccount = deleteUserAccount,
         super(Unauthenticated()) {
-
     on<SignInEvent>(_onSignIn);
     on<SignOutEvent>(_onSignOut);
     on<CheckAuthStatusEvent>(_onCheckAuthStatus);
@@ -88,11 +89,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (user != null) {
       final userId = user.id;
       try {
+        // Call the HTTP function to delete the folder and user account
+        await _deleteUserAccountFromServer(userId);
+
         // Log out the user to invalidate the current session
         await _signOut();
-
-        // Call the use case to delete the folder and user account
-        await _deleteUserAccount(userId);
 
         _logger.i('User folder and account deleted successfully');
         emit(Unauthenticated());
@@ -103,6 +104,45 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else {
       _logger.i('No user logged in');
       emit(Unauthenticated());
+    }
+  }
+
+  Future<void> _deleteUserAccountFromServer(String userId) async {
+    final url = Uri.parse('https://nfzsvyypwbbwsutqfhuy.supabase.co/functions/v1/deleteUserFolderAndAccount');
+
+    final session = SupabaseConfig.client.auth.currentSession;
+    _logger.i('Current session: ${session?.toJson()}');
+
+    final accessToken = session?.accessToken;
+
+    if (accessToken == null) {
+      _logger.e('No access token available');
+      throw Exception('No access token available');
+    }
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken', // Use Supabase access token
+        },
+        body: jsonEncode({'userId': userId}),
+      );
+
+      _logger.i('Response status code: ${response.statusCode}');
+      _logger.i('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        _logger.i('User folder and account deleted successfully');
+      } else {
+        final error = jsonDecode(response.body)['error'];
+        _logger.e('Failed to delete user folder and account: $error');
+        throw Exception('Failed to delete user folder and account: $error');
+      }
+    } catch (e) {
+      _logger.e('Exception caught while deleting user folder and account: $e');
+      throw Exception('Failed to delete user folder and account: $e');
     }
   }
 

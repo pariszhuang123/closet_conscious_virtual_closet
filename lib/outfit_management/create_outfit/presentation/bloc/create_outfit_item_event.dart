@@ -19,6 +19,16 @@ class SelectItemEvent extends CreateOutfitItemEvent {
   List<Object?> get props => [category, itemId];
 }
 
+class DeselectItemEvent extends CreateOutfitItemEvent {
+  final OutfitItemCategory category;
+  final String itemId;
+
+  const DeselectItemEvent(this.category, this.itemId);
+
+  @override
+  List<Object?> get props => [category, itemId];
+}
+
 class SaveOutfitEvent extends CreateOutfitItemEvent {
   const SaveOutfitEvent();
 

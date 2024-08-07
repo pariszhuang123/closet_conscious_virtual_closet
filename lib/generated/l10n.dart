@@ -1589,6 +1589,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please select the category above`
+  String get please_select_the_category_above {
+    return Intl.message(
+      'Please select the category above',
+      name: 'please_select_the_category_above',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

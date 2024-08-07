@@ -50,7 +50,7 @@ class MyClosetPageState extends State<MyClosetPage> {
     _fetchHighestStreakCount();
     _fetchNewItemsCost();
     _fetchNewItemsCount();
-    _checkUploadCompletedStatus(); // Check upload completed status on init
+    _checkUploadCompletedStatus();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && _hasMore && !_isLoading) {
         _fetchItems();

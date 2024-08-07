@@ -67,11 +67,25 @@ class AppDrawer extends StatelessWidget {
                   _buildNavigationButton(
                       context, contactUsItem, null, (ctx) => launchEmail()),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(
-                      context, deleteAccountItem, null, _showDeleteAccountDialog),
+                  BlocListener<AuthBloc, AuthState>(
+                    listener: (context, state) {
+                      if (state is Unauthenticated) {
+                        Navigator.of(context).pushReplacementNamed('/');
+                      }
+                    },
+                    child: _buildNavigationButton(
+                        context, deleteAccountItem, null, _showDeleteAccountDialog),
+                  ),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(
-                      context, logOutItem, null, _logOut),
+                  BlocListener<AuthBloc, AuthState>(
+                    listener: (context, state) {
+                      if (state is Unauthenticated) {
+                        Navigator.of(context).pushReplacementNamed('/');
+                      }
+                    },
+                    child: _buildNavigationButton(
+                        context, logOutItem, null, _logOut),
+                  ),
                 ],
               ),
             ),
@@ -91,6 +105,7 @@ class AppDrawer extends StatelessWidget {
           selectedLabel: '',
           isFromMyCloset: isFromMyCloset,
           buttonType: ButtonType.primary,
+          usePredefinedColor: false,
           onPressed: () async {
             final navigator = Navigator.of(context);
             navigator.pop(); // Close the drawer
@@ -101,9 +116,8 @@ class AppDrawer extends StatelessWidget {
               customAction(context);
             }
           },
-          imagePath: item.imagePath ?? '', // Ensure non-nullable
+          assetPath: item.assetPath ?? '', // Ensure non-nullable
           isSelected: false,
-          isAsset: true,
           isHorizontal: true,
         ),
       ),

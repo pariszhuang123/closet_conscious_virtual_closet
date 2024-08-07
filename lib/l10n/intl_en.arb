@@ -153,6 +153,6 @@
   "deleteAccountImpact": "Warning: Deleting your account is irreversible.",
   "deleteAccountConfirmation": "Are you sure you want to delete your account? All your data will be permanently removed.",
   "cancel": "Cancel",
-  "delete": "Delete"
-
+  "delete": "Delete",
+  "please_select_the_category_above": "Please select the category above"
 }

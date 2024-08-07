@@ -12,13 +12,13 @@ class TextTypeButton extends TypeButton {
     required this.dataKey, // This is your custom key for selection logic
     required this.selectedKey,
     required this.label,
-    required super.imagePath,
+    required super.assetPath,
     required super.onPressed,
     required super.isFromMyCloset,
     required super.buttonType,
+    required super.usePredefinedColor,
     super.isSelected,
     super.isHorizontal,
-    super.isAsset,
 
   });
 
