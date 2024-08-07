@@ -18,7 +18,7 @@ BEGIN
     -- Update the swap_request count for the current user
     UPDATE public.user_low_freq_stats
     SET
-        swap_request = swap_request + 1
+        swap_request = swap_request + 1,
         updated_at = now()
     WHERE user_id = current_user_id;
 
