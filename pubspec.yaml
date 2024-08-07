@@ -113,12 +113,10 @@ flutter:
     - assets/icons/my_closet/upload/accessory_type/
     - assets/icons/my_closet/upload/clothing_layer/
     - assets/icons/my_closet/upload/clothing_type/
-    - assets/icons/my_closet/upload/colour/
     - assets/icons/my_closet/upload/colouring/
     - assets/icons/my_closet/upload/colour_variation/
     - assets/icons/my_closet/upload/general_type/
     - assets/icons/my_closet/upload/occasion/
-    - assets/icons/my_closet/upload/season/
     - assets/icons/my_closet/upload/seasonal/
     - assets/icons/my_closet/upload/shoes_type/
 

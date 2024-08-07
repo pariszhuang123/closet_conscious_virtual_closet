@@ -22,11 +22,11 @@ class TypeData {
 class TypeDataList {
   static List<TypeData> seasons(BuildContext context) {
     return [
-      TypeData('spring', (context) => S.of(context).spring, 'assets/icons/my_closet/upload/season/spring.svg', false),
-      TypeData('summer', (context) => S.of(context).summer, 'assets/icons/my_closet/upload/season/summer.svg', false),
-      TypeData('autumn', (context) => S.of(context).autumn, 'assets/icons/my_closet/upload/season/autumn.svg', false),
-      TypeData('winter', (context) => S.of(context).winter, 'assets/icons/my_closet/upload/season/winter.svg', false),
-      TypeData('multi', (context) => S.of(context).multi, 'assets/icons/my_closet/upload/season/all_season.svg', false),
+      TypeData('spring', (context) => S.of(context).spring, 'assets/icons/my_closet/upload/seasonal/spring.svg', false),
+      TypeData('summer', (context) => S.of(context).summer, 'assets/icons/my_closet/upload/seasonal/summer.svg', false),
+      TypeData('autumn', (context) => S.of(context).autumn, 'assets/icons/my_closet/upload/seasonal/autumn.svg', false),
+      TypeData('winter', (context) => S.of(context).winter, 'assets/icons/my_closet/upload/seasonal/winter.svg', false),
+      TypeData('multi', (context) => S.of(context).multi, 'assets/icons/my_closet/upload/seasonal/all_season.svg', false),
     ];
   }
 
@@ -48,15 +48,15 @@ class TypeDataList {
 
   static List<TypeData> colors(BuildContext context) {
     return [
-      TypeData('red', (context) => S.of(context).red, 'assets/icons/my_closet/upload/colour/red.svg', true),
-      TypeData('blue', (context) => S.of(context).blue, 'assets/icons/my_closet/upload/colour/blue.svg', true),
-      TypeData('green', (context) => S.of(context).green, 'assets/icons/my_closet/upload/colour/green.svg', true),
-      TypeData('yellow', (context) => S.of(context).yellow, 'assets/icons/my_closet/upload/colour/yellow.svg', true),
-      TypeData('brown', (context) => S.of(context).brown, 'assets/icons/my_closet/upload/colour/brown.svg', true),
-      TypeData('grey', (context) => S.of(context).grey, 'assets/icons/my_closet/upload/colour/grey.svg', true),
-      TypeData('black', (context) => S.of(context).black, 'assets/icons/my_closet/upload/colour/black.svg', true),
-      TypeData('white', (context) => S.of(context).white, 'assets/icons/my_closet/upload/colour/white.svg', true),
-      TypeData('rainbow', (context) => S.of(context).rainbow, 'assets/icons/my_closet/upload/colour/rainbow.svg', true),
+      TypeData('red', (context) => S.of(context).red, 'assets/icons/my_closet/upload/colouring/red.svg', true),
+      TypeData('blue', (context) => S.of(context).blue, 'assets/icons/my_closet/upload/colouring/blue.svg', true),
+      TypeData('green', (context) => S.of(context).green, 'assets/icons/my_closet/upload/colouring/green.svg', true),
+      TypeData('yellow', (context) => S.of(context).yellow, 'assets/icons/my_closet/upload/colouring/yellow.svg', true),
+      TypeData('brown', (context) => S.of(context).brown, 'assets/icons/my_closet/upload/colouring/brown.svg', true),
+      TypeData('grey', (context) => S.of(context).grey, 'assets/icons/my_closet/upload/colouring/grey.svg', true),
+      TypeData('black', (context) => S.of(context).black, 'assets/icons/my_closet/upload/colouring/black.svg', true),
+      TypeData('white', (context) => S.of(context).white, 'assets/icons/my_closet/upload/colouring/white.svg', true),
+      TypeData('rainbow', (context) => S.of(context).rainbow, 'assets/icons/my_closet/upload/colouring/rainbow.svg', true),
     ];
   }
 
