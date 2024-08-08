@@ -149,6 +149,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("这显示了您购买的新物品数量"),
         "next": MessageLookupByLibrary.simpleMessage("下一步"),
         "niche": MessageLookupByLibrary.simpleMessage("小众鞋"),
+        "noAchievementFound": MessageLookupByLibrary.simpleMessage("未找到成就徽章"),
         "numberOfNewItems": MessageLookupByLibrary.simpleMessage("您购买的新物品数量"),
         "occasionFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("场合字段未填写。"),
@@ -195,6 +196,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("支持与协助"),
         "swap": MessageLookupByLibrary.simpleMessage("交换"),
+        "swapFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "轻松地与其他环保衣橱用户数字化交换物品，同时面对面进行实际交换。获取附近交换活动的通知。"),
+        "swapFeatureTitle": MessageLookupByLibrary.simpleMessage("交换高级功能"),
+        "swap_item": MessageLookupByLibrary.simpleMessage("交换"),
         "tagline": MessageLookupByLibrary.simpleMessage("购物你的衣橱"),
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
         "tie": MessageLookupByLibrary.simpleMessage("领带"),

@@ -650,6 +650,16 @@ class S {
     );
   }
 
+  /// `Swap`
+  String get swap_item {
+    return Intl.message(
+      'Swap',
+      name: 'swap_item',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Add Closet`
   String get addCloset_addCloset {
     return Intl.message(
@@ -1595,6 +1605,36 @@ class S {
     return Intl.message(
       'Please select the category above',
       name: 'please_select_the_category_above',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap Premium Feature`
+  String get swapFeatureTitle {
+    return Intl.message(
+      'Swap Premium Feature',
+      name: 'swapFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Easily exchange your items with other Closet Conscious users digitally while meeting face to face for the physical swap. Get notified about swap events happening nearby.`
+  String get swapFeatureDescription {
+    return Intl.message(
+      'Easily exchange your items with other Closet Conscious users digitally while meeting face to face for the physical swap. Get notified about swap events happening nearby.',
+      name: 'swapFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No achievement badges found`
+  String get noAchievementFound {
+    return Intl.message(
+      'No achievement badges found',
+      name: 'noAchievementFound',
       desc: '',
       args: [],
     );

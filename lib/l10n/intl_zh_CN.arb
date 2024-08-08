@@ -60,6 +60,7 @@
   "event": "活动",
   "upload_upload": "上传",
   "filter_filter": "筛选",
+  "swap_item": "交换",
   "addCloset_addCloset": "添加衣橱",
   "itemUploaded_itemUploaded": "物品已上传",
   "myClosetTitle": "我的衣橱",
@@ -154,6 +155,8 @@
   "deleteAccountConfirmation": "您确定要删除您的账户吗？所有数据将被永久删除。",
   "cancel": "取消",
   "delete": "删除",
-  "please_select_the_category_above": "请选择上面的类别"
-
+  "please_select_the_category_above": "请选择上面的类别",
+  "swapFeatureTitle": "交换高级功能",
+  "swapFeatureDescription": "轻松地与其他环保衣橱用户数字化交换物品，同时面对面进行实际交换。获取附近交换活动的通知。",
+  "noAchievementFound": "未找到成就徽章"
 }

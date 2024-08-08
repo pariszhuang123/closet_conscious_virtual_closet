@@ -167,6 +167,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "This shows how many new items you have purchased"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "niche": MessageLookupByLibrary.simpleMessage("Niche"),
+        "noAchievementFound":
+            MessageLookupByLibrary.simpleMessage("No achievement badges found"),
         "numberOfNewItems": MessageLookupByLibrary.simpleMessage(
             "Number of new items you have purchased"),
         "occasionFieldNotFilled": MessageLookupByLibrary.simpleMessage(
@@ -225,6 +227,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("Support & Assistance"),
         "swap": MessageLookupByLibrary.simpleMessage("Swap"),
+        "swapFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "Easily exchange your items with other Closet Conscious users digitally while meeting face to face for the physical swap. Get notified about swap events happening nearby."),
+        "swapFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("Swap Premium Feature"),
+        "swap_item": MessageLookupByLibrary.simpleMessage("Swap"),
         "tagline": MessageLookupByLibrary.simpleMessage("ShopYourCloset"),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "tie": MessageLookupByLibrary.simpleMessage("Tie"),

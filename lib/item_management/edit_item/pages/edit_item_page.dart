@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:closet_conscious/core/widgets/bottom_sheet/swap_premium_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,6 +12,8 @@ import '../../../core/widgets/icon_row_builder.dart';
 import '../presentation/bloc/edit_item_bloc.dart';
 import '../../declutter_items/presentation/widgets/declutter_options_bottom_sheet.dart';
 import '../../../core/utilities/logger.dart';
+import '../../../core/widgets/button/navigation_type_button.dart';
+import '../../../core/theme/themed_svg.dart';
 
 class EditItemPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -132,13 +135,28 @@ class _EditItemPageState extends State<EditItemPage> {
       context: context,
       builder: (context) => DeclutterBottomSheet(
         currentItemId: widget.itemId,
-        isFromMyCloset: true, // Set this based on your requirements
+        isFromMyCloset: true,
       ),
     );
   }
 
+  void _openSwapSheet() {
+    logger.d('Opening swap bottom sheet');
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) => const SwapFeatureBottomSheet(
+        isFromMyCloset: true,
+      ),
+    );
+    setState(() {
+      _isChanged = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final swapData = TypeDataList.swapItem(context);
+
     return BlocProvider(
       create: (_) => EditItemBloc(
         itemNameController: _itemNameController,
@@ -169,7 +187,6 @@ class _EditItemPageState extends State<EditItemPage> {
                   SnackBar(content: Text(state.error)),
                 );
               } else if (state is EditItemLoaded) {
-                // Update the controller values when the state is loaded
                 logger.d('Item loaded: ${state.itemName}');
                 _itemNameController.text = state.itemName;
                 _amountSpentController.text = state.amountSpent.toString();
@@ -181,10 +198,10 @@ class _EditItemPageState extends State<EditItemPage> {
                 selectedSeason = state.selectedSeason;
                 selectedColour = state.selectedColour;
                 selectedColourVariation = state.selectedColourVariation;
-                _isChanged = false; // Reset to false as no changes yet
+                _isChanged = false;
               } else if (state is EditItemChanged) {
                 logger.d('Item state changed');
-                _isChanged = true; // Set to true when state is changed
+                _isChanged = true;
               }
             },
             builder: (context, state) {
@@ -213,27 +230,47 @@ class _EditItemPageState extends State<EditItemPage> {
                       },
                     ),
                   ),
-                  body: SafeArea(
-                    child: Column(
-                      children: [
-                        // Top Section: Image Display
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.25,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: GestureDetector(
-                              onTap: _pickImage,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(16.0),
-                                child: ImageDisplayWidget(
-                                  imageUrl: _imageUrl,
-                                  file: _imageFile,
-                                ),
+                    body: SafeArea(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.25,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Stack(
+                                children: [
+                                  Center(
+                                    child: GestureDetector(
+                                      onTap: _pickImage,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(16.0),
+                                        child: ImageDisplayWidget(
+                                          imageUrl: _imageUrl,
+                                          file: _imageFile,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  if (!_isChanged)
+                                    Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      bottom: 0,
+                                      child: NavigationTypeButton(
+                                        label: swapData.getName(context),
+                                        selectedLabel: '',
+                                        onPressed: _openSwapSheet,
+                                        assetPath: swapData.assetPath!,
+                                        isFromMyCloset: true,
+                                        buttonType: ButtonType.secondary,
+                                        usePredefinedColor: false,
+                                      ),
+                                    ),
+                                ],
                               ),
                             ),
                           ),
-                        ),
-                        // Metadata Section
+
                         Expanded(
                           child: SingleChildScrollView(
                             child: Padding(
@@ -288,7 +325,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         bloc.add(ItemTypeChangedEvent(dataKey));
                                       },
                                       context,
-                                      true, // Pass the isFromMyCloset parameter
+                                      true,
                                     ),
                                     const SizedBox(height: 12),
                                     Text(
@@ -303,7 +340,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         bloc.add(OccasionChangedEvent(dataKey));
                                       },
                                       context,
-                                      true, // Pass the isFromMyCloset parameter
+                                      true,
                                     ),
                                     const SizedBox(height: 12),
                                     Text(
@@ -318,7 +355,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         bloc.add(SeasonChangedEvent(dataKey));
                                       },
                                       context,
-                                      true, // Pass the isFromMyCloset parameter
+                                      true,
                                     ),
                                     const SizedBox(height: 12),
                                     if (bloc.selectedItemType == 'shoes') ...[
@@ -334,7 +371,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                           bloc.add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
-                                        true, // Pass the isFromMyCloset parameter
+                                        true,
                                       ),
                                     ],
                                     if (bloc.selectedItemType == 'accessory') ...[
@@ -350,7 +387,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                           bloc.add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
-                                        true, // Pass the isFromMyCloset parameter
+                                        true,
                                       ),
                                     ],
                                     if (bloc.selectedItemType == 'clothing') ...[
@@ -366,7 +403,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                           bloc.add(SpecificTypeChangedEvent(dataKey));
                                         },
                                         context,
-                                        true, // Pass the isFromMyCloset parameter
+                                        true,
                                       ),
                                       const SizedBox(height: 12),
                                       Text(
@@ -381,7 +418,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                           bloc.add(ClothingLayerChangedEvent(dataKey));
                                         },
                                         context,
-                                        true, // Pass the isFromMyCloset parameter
+                                        true,
                                       ),
                                     ],
                                     const SizedBox(height: 12),
@@ -397,7 +434,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         bloc.add(ColourChangedEvent(dataKey));
                                       },
                                       context,
-                                      true, // Pass the isFromMyCloset parameter
+                                      true,
                                     ),
                                     if (bloc.selectedColour != 'black' &&
                                         bloc.selectedColour != 'white' &&
@@ -415,7 +452,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                           bloc.add(ColourVariationChangedEvent(dataKey));
                                         },
                                         context,
-                                        true, // Pass the isFromMyCloset parameter
+                                        true,
                                       ),
                                     ],
                                   ],
@@ -424,14 +461,21 @@ class _EditItemPageState extends State<EditItemPage> {
                             ),
                           ),
                         ),
-                        // Bottom Section: Button
                         Padding(
                           padding: const EdgeInsets.only(
                               top: 10.0, bottom: 70.0, left: 16.0, right: 16.0),
-                          child: ElevatedButton(
-                            onPressed: _isChanged ? _handleUpdate : _openDeclutterSheet,
+                          child: _isChanged
+                              ? ElevatedButton(
+                            onPressed: _handleUpdate,
                             child: Text(
-                              _isChanged ? S.of(context).update : S.of(context).declutter,
+                              S.of(context).update,
+                              style: widget.myClosetTheme.textTheme.labelLarge,
+                            ),
+                          )
+                              : ElevatedButton(
+                            onPressed: _openDeclutterSheet,
+                            child: Text(
+                              S.of(context).declutter,
                               style: widget.myClosetTheme.textTheme.labelLarge,
                             ),
                           ),

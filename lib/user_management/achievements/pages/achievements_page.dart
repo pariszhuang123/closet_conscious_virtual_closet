@@ -5,6 +5,7 @@ import '../data/models/achievement_model.dart';
 import '../../core/data/services/user_fetch_services.dart';
 import '../../../core/theme/my_closet_theme.dart';
 import '../../../core/theme/my_outfit_theme.dart';
+import '../../../../generated/l10n.dart';
 
 final CustomLogger logger = CustomLogger('AchievementsPage');
 
@@ -58,7 +59,8 @@ class AchievementsPageState extends State<AchievementsPage> {
                 return const Center(child: Text('Error loading achievements'));
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 _logger.d('No achievements to display');
-                return const Center(child: Text('No achievements found'));
+                return Center(child: Text(S.of(context).noAchievementFound,
+                ));
               } else {
                 final achievements = snapshot.data!;
                 return AchievementGrid(

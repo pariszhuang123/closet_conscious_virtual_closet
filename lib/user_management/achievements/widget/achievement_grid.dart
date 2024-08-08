@@ -46,13 +46,6 @@ class AchievementGrid extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 8.0),
-              Text(
-                achievement.achievementName,
-                style: Theme.of(context).textTheme.labelSmall,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
             ],
           ),
         );

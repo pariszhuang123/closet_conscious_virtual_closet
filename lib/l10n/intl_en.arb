@@ -60,6 +60,7 @@
   "event": "Event",
   "upload_upload": "Upload",
   "filter_filter": "Filter",
+  "swap_item": "Swap",
   "addCloset_addCloset": "Add Closet",
   "itemUploaded_itemUploaded": "Item Uploaded",
   "myClosetTitle": "My Closet",
@@ -154,5 +155,8 @@
   "deleteAccountConfirmation": "Are you sure you want to delete your account? All your data will be permanently removed.",
   "cancel": "Cancel",
   "delete": "Delete",
-  "please_select_the_category_above": "Please select the category above"
+  "please_select_the_category_above": "Please select the category above",
+  "swapFeatureTitle": "Swap Premium Feature",
+  "swapFeatureDescription": "Easily exchange your items with other Closet Conscious users digitally while meeting face to face for the physical swap. Get notified about swap events happening nearby.",
+  "noAchievementFound": "No achievement badges found"
 }
