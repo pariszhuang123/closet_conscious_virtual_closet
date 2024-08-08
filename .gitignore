@@ -9,6 +9,7 @@ build/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -49,3 +50,9 @@ debug.keystore
 
 # Dart generated files
 .dart_tool/
+
+# Node modules
+node_modules/
+
+# Supabase branches
+supabase/.branches/
