@@ -19,10 +19,18 @@ class EnhancedUserPhoto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        color: Colors.transparent,
+        decoration: BoxDecoration(
+          color: theme.colorScheme.onPrimary,
+          borderRadius: BorderRadius.circular(12),
+          border: isSelected
+              ? Border.all(color: theme.colorScheme.primary, width: 3)
+              : null,
+        ),
         child: Column(
           children: [
             Padding(

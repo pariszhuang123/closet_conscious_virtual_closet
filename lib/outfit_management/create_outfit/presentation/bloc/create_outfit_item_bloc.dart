@@ -11,7 +11,6 @@ part 'create_outfit_item_state.dart';
 
 class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemState> {
   final SupabaseClient supabaseClient = SupabaseConfig.client;
-
   final CustomLogger logger = CustomLogger('CreateOutfitItemBloc');
 
   CreateOutfitItemBloc() : super(CreateOutfitItemState.initial()) {
@@ -46,27 +45,26 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
   Future<void> _onSaveOutfit(SaveOutfitEvent event, Emitter<CreateOutfitItemState> emit) async {
     emit(state.copyWith(saveStatus: SaveStatus.inProgress));
     try {
-      final allSelectedItems = state.selectedItemIds.values.expand((i) => i).toList();
+      // Collect all selected item IDs
+      final allSelectedItemIds = state.selectedItemIds.values.expand((i) => i).toList();
 
-      // Log the allSelectedItems for debugging
-      logger.i('All selected item IDs: $allSelectedItems');
+      // Log the selected item IDs for debugging
+      logger.i('All selected item IDs: $allSelectedItemIds');
 
+      // Send only the item IDs to the Supabase function
       final response = await supabaseClient.rpc(
         'save_outfit_items',
         params: {
-          'p_selected_items': allSelectedItems,
+          'p_selected_items': allSelectedItemIds,  // Sending only item IDs
         },
       );
 
-      // Log the response data for debugging
-      logger.i('Response data: ${response.data}');
-
-      final responseData = response.data as Map<String, dynamic>;
-
-      if (responseData['status'] == 'error') {
-        throw responseData['message'];
+      // Handle the response correctly
+      if (response.error != null) {
+        throw response.error!.message;
       }
 
+      // Assume successful response if there's no error
       emit(state.copyWith(saveStatus: SaveStatus.success));
     } catch (error) {
       logger.e('Error saving selected items: $error');
