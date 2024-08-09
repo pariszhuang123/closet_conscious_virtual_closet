@@ -21,35 +21,26 @@ class EnhancedUserPhoto extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final double width = constraints.maxWidth;
-          final double height = constraints.maxHeight;
-          final Border border = isSelected
-              ? Border.all(color: Theme.of(context).primaryColor, width: 2.0)
-              : Border.all(color: Colors.transparent, width: 0.0);
-
-          return Column(
-            children: [
-              Container(
-                width: width,
-                height: height - 20, // Adjust height for the text below
-                decoration: BoxDecoration(
-                  border: border,
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
+      child: Container(
+        color: Colors.transparent,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: AspectRatio(
+                aspectRatio: 1.0, // Ensures the image is square
                 child: UserPhoto(imageUrl: imageUrl),
               ),
-              const SizedBox(height: 8.0),
-              Text(
-                itemName,
-                style: Theme.of(context).textTheme.labelSmall,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-            ],
-          );
-        },
+            ),
+            const SizedBox(height: 8.0),
+            Text(
+              itemName,
+              style: Theme.of(context).textTheme.labelSmall,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+          ],
+        ),
       ),
     );
   }

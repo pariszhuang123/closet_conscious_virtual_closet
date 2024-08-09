@@ -33,7 +33,7 @@ class OutfitTypeContainerState extends State<OutfitTypeContainer> {
           children: [
             NavigationTypeButton(
               label: widget.outfitClothingType.getName(context),
-              selectedLabel: '',
+              selectedLabel: widget.outfitClothingType.getName(context),
               onPressed: () {
                 context.read<CreateOutfitItemBloc>().add(const SelectCategoryEvent(OutfitItemCategory.clothing));
               },
@@ -45,7 +45,7 @@ class OutfitTypeContainerState extends State<OutfitTypeContainer> {
             ),
             NavigationTypeButton(
               label: widget.outfitAccessoryType.getName(context),
-              selectedLabel: '',
+              selectedLabel: widget.outfitAccessoryType.getName(context),
               onPressed: () {
                 context.read<CreateOutfitItemBloc>().add(const SelectCategoryEvent(OutfitItemCategory.accessory));
               },
@@ -57,7 +57,7 @@ class OutfitTypeContainerState extends State<OutfitTypeContainer> {
             ),
             NavigationTypeButton(
               label: widget.outfitShoesType.getName(context),
-              selectedLabel: '',
+              selectedLabel: widget.outfitShoesType.getName(context),
               onPressed: () {
                 context.read<CreateOutfitItemBloc>().add(const SelectCategoryEvent(OutfitItemCategory.shoes));
               },

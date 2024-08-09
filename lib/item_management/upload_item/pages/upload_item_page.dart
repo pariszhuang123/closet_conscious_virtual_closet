@@ -11,6 +11,9 @@ import '../../../core/widgets/icon_row_builder.dart';
 import '../presentation/bloc/upload_bloc.dart';
 import '../../../user_management/authentication/presentation/bloc/authentication_bloc.dart';
 import '../../../core/widgets/feedback/custom_snack_bar.dart';
+import '../../../core/widgets/bottom_sheet/metadata_premium_bottom_sheet.dart';
+import '../../../core/theme/themed_svg.dart';
+import '../../../core/widgets/button/navigation_type_button.dart';
 
 
 class UploadItemPage extends StatefulWidget {
@@ -222,10 +225,22 @@ class _UploadItemPageState extends State<UploadItemPage> {
     ).show(context);
   }
 
+  void _openMetdataSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) => const MetadataFeatureBottomSheet(
+        isFromMyCloset: true,
+      ),
+    );
+    setState(() {
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final authBloc = context.read<AuthBloc>();
     final userId = authBloc.userId;
+    final metadataData = TypeDataList.metadata(context);
 
     if (userId == null) {
       return const Center(child: Text('User not authenticated'));
@@ -249,10 +264,13 @@ class _UploadItemPageState extends State<UploadItemPage> {
           }
         },
         builder: (context, state) {
-          return PopScope(
+          return PopScope<Object?>(
             canPop: false,
-            onPopInvoked: (popDisposition) async {
-              return Future.value();
+            onPopInvokedWithResult: (bool didPop, Object? result) {
+              // Simply do nothing to prevent back navigation
+              if (didPop) {
+                // Do nothing, effectively preventing the back action
+              }
             },
             child: Theme(
               data: widget.myClosetTheme,
@@ -261,14 +279,32 @@ class _UploadItemPageState extends State<UploadItemPage> {
                 body: SafeArea(
                   child: Column(
                     children: [
-                      // Top Section: Image Display
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        // Adjust the padding as needed
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.25,
-                          child: ImageDisplayWidget(
-                            imageUrl: _imageUrl,
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Stack(
+                            children: [
+                              Center(
+                                child: ImageDisplayWidget(
+                                  imageUrl: _imageUrl,
+                                ),
+                              ),
+                              Positioned(
+                                right: 0,
+                                top: 0,
+                                bottom: 0,
+                                child: NavigationTypeButton(
+                                  label: metadataData.getName(context),
+                                  selectedLabel: '',
+                                  onPressed: _openMetdataSheet,
+                                  assetPath: metadataData.assetPath!,
+                                  isFromMyCloset: true,
+                                  buttonType: ButtonType.secondary,
+                                  usePredefinedColor: false,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

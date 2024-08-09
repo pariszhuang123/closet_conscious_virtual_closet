@@ -7,7 +7,7 @@ import '../../../core/theme/my_closet_theme.dart';
 import '../../../core/theme/my_outfit_theme.dart';
 import '../../../core/utilities/logger.dart';
 import '../../../core/widgets/feedback/custom_alert_dialog.dart';
-import '../../../core/screens/achievement_completed_screen.dart'; // Import the achievement screen
+import '../../../core/screens/achievement_completed_screen.dart';
 
 class UploadConfirmationBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
@@ -45,7 +45,7 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
       } else {
         _showCustomDialog(S.of(context).error, S.of(context).unexpectedResponseFormat);
       }
-        } catch (e) {
+    } catch (e) {
       logger.e('Unexpected error: $e');
       if (mounted) {
         _showCustomDialog(S.of(context).error, S.of(context).unexpectedErrorOccurred);
@@ -83,14 +83,15 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AchievementScreen(achievementUrl: achievementUrl),
+        builder: (context) => Theme(
+          data: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
+          child: AchievementScreen(
+            achievementUrl: achievementUrl,
+            isFromMyCloset: widget.isFromMyCloset,
+          ),
+        ),
       ),
     );
-
-    // Navigate back to the original screen after some time
-    Future.delayed(const Duration(seconds: 5), () {
-      Navigator.popUntil(context, (route) => route.isFirst);
-    });
   }
 
   @override

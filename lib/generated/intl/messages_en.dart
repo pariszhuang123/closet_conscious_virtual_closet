@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "\'How much did the item cost?"),
         "AmountLabel": MessageLookupByLibrary.simpleMessage("Amount"),
         "AnalyticsSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
-            "Register for Style Analytics Premium Feature"),
+            "Interested in Usage Analytics?"),
         "AppName": MessageLookupByLibrary.simpleMessage("ClosetConscious"),
         "ItemClothingLayerLabel":
             MessageLookupByLibrary.simpleMessage("Clothing Layer"),
@@ -42,8 +42,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "ItemNameLabel": MessageLookupByLibrary.simpleMessage("Name"),
         "ItemOccasionLabel": MessageLookupByLibrary.simpleMessage("Occassion"),
         "ItemSeasonLabel": MessageLookupByLibrary.simpleMessage("Season"),
+        "OutfitDay": MessageLookupByLibrary.simpleMessage("Outfit of the Day"),
         "Throw": MessageLookupByLibrary.simpleMessage("Throw"),
         "accessory": MessageLookupByLibrary.simpleMessage("Accessory"),
+        "achievementMessage":
+            MessageLookupByLibrary.simpleMessage("Here is your achievement:"),
         "achievements": MessageLookupByLibrary.simpleMessage("Achievements"),
         "active": MessageLookupByLibrary.simpleMessage("Active"),
         "addCloset_addCloset":
@@ -68,7 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "brown": MessageLookupByLibrary.simpleMessage("Brown"),
         "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "calendarPremiumFeature": MessageLookupByLibrary.simpleMessage(
-            "Register for Calendar Premium Feature"),
+            "Interested in Calendar View?"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "casual": MessageLookupByLibrary.simpleMessage("Casual"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("Closet"),
@@ -83,6 +86,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Colour Variation field is not filled."),
         "confirmUpload":
             MessageLookupByLibrary.simpleMessage("Confirm Achievement"),
+        "congratulations":
+            MessageLookupByLibrary.simpleMessage("Congratulations!"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
         "costOfNewItems": MessageLookupByLibrary.simpleMessage(
             "Cost of the new items you have purchased"),
@@ -123,8 +128,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "event": MessageLookupByLibrary.simpleMessage("Event"),
         "everyday": MessageLookupByLibrary.simpleMessage("Everyday"),
         "eyewear": MessageLookupByLibrary.simpleMessage("Eyewear"),
+        "failedToLoadItems":
+            MessageLookupByLibrary.simpleMessage("Failed to load items"),
         "filterSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
-            "Filter & Search Premium Feature"),
+            "Interested in Advanced Filters?"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "formal": MessageLookupByLibrary.simpleMessage("Formal"),
         "gift": MessageLookupByLibrary.simpleMessage("Pay It Forward"),
@@ -154,12 +161,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "light": MessageLookupByLibrary.simpleMessage("Light"),
         "logOut": MessageLookupByLibrary.simpleMessage("Log Out"),
         "medium": MessageLookupByLibrary.simpleMessage("Medium"),
+        "metadata": MessageLookupByLibrary.simpleMessage("More"),
+        "metadataFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "We\'re considering adding a premium feature to add detailed metadata to your items."),
+        "metadataFeatureTitle": MessageLookupByLibrary.simpleMessage(
+            "Interested in Enhanced Metadata?"),
         "mid": MessageLookupByLibrary.simpleMessage("Mid"),
         "multi": MessageLookupByLibrary.simpleMessage("Multi"),
         "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "Manage multiple closets effortlessly with our upcoming multi-closet feature. Interested?"),
-        "multiClosetFeatureTitle": MessageLookupByLibrary.simpleMessage(
-            "Discover Our New Multi-Closet Feature"),
+            "We\'re considering adding a premium feature to create multiple closets, including temporary and disappearing closets."),
+        "multiClosetFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("Interested in Multi-Closet?"),
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("My Closet"),
         "myOutfitTitle":
             MessageLookupByLibrary.simpleMessage("Create My Outfit"),
@@ -169,13 +181,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "niche": MessageLookupByLibrary.simpleMessage("Niche"),
         "noAchievementFound":
             MessageLookupByLibrary.simpleMessage("No achievement badges found"),
+        "noItemsInCategory": MessageLookupByLibrary.simpleMessage(
+            "Please upload your items in my closet"),
         "numberOfNewItems": MessageLookupByLibrary.simpleMessage(
             "Number of new items you have purchased"),
         "occasionFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Occasion field is not filled."),
         "offlineStatus":
             MessageLookupByLibrary.simpleMessage("You are currently offline"),
-        "ok": MessageLookupByLibrary.simpleMessage("OK"),
+        "ok": MessageLookupByLibrary.simpleMessage("Interested"),
         "onePiece": MessageLookupByLibrary.simpleMessage("One Piece"),
         "outer": MessageLookupByLibrary.simpleMessage("Outer"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("Outfit"),
@@ -190,12 +204,12 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Please select the category above"),
         "profileSection": MessageLookupByLibrary.simpleMessage("Profile"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
-            "Quickly find items with filter and search options, saving time and staying organized."),
+            "We\'re considering adding a premium feature to filter different metadata."),
         "rainbow": MessageLookupByLibrary.simpleMessage("Rainbow"),
         "red": MessageLookupByLibrary.simpleMessage("Red"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("Retry"),
         "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
-            "Review your previous outfits in a calendar view. Pair it with the multi-closet premium feature to organize outfits into one closet."),
+            "We\'re considering adding a premium feature to view previous outfits in a calendar format and integrate with multi-closet."),
         "scarf": MessageLookupByLibrary.simpleMessage("Scarf"),
         "seasonFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("Season field is not filled."),
@@ -218,6 +232,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "sell": MessageLookupByLibrary.simpleMessage("Sell"),
         "shoes": MessageLookupByLibrary.simpleMessage("Shoes"),
         "social": MessageLookupByLibrary.simpleMessage("Social"),
+        "somethingWentWrong":
+            MessageLookupByLibrary.simpleMessage("Something went wrong!"),
         "specificTypeFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Specific Type field is not filled."),
         "spendingTooltip": MessageLookupByLibrary.simpleMessage(
@@ -228,16 +244,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Support & Assistance"),
         "swap": MessageLookupByLibrary.simpleMessage("Swap"),
         "swapFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "Easily exchange your items with other Closet Conscious users digitally while meeting face to face for the physical swap. Get notified about swap events happening nearby."),
-        "swapFeatureTitle":
-            MessageLookupByLibrary.simpleMessage("Swap Premium Feature"),
-        "swap_item": MessageLookupByLibrary.simpleMessage("Swap"),
+            "We\'re considering adding a premium feature for digitally swapping items and getting notified about nearby swap events."),
+        "swapFeatureTitle": MessageLookupByLibrary.simpleMessage(
+            "Interested in Swapping Items?"),
+        "swap_item": MessageLookupByLibrary.simpleMessage("Swap QR"),
         "tagline": MessageLookupByLibrary.simpleMessage("ShopYourCloset"),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "tie": MessageLookupByLibrary.simpleMessage("Tie"),
         "top": MessageLookupByLibrary.simpleMessage("Top"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
-            "Gain deep insights into your wardrobe, helping you optimize usage, track spending, and discover your personal style."),
+            "We\'re considering adding a premium feature for analyzing your usage data for items and outfits."),
         "unexpectedErrorOccurred": MessageLookupByLibrary.simpleMessage(
             "An unexpected error occurred. Please try again later or contact support if the issue persists."),
         "unexpectedResponseFormat": MessageLookupByLibrary.simpleMessage(

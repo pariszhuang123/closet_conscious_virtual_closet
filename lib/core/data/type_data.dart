@@ -123,6 +123,11 @@ class TypeDataList {
       TypeData('swap_item', (context) => S.of(context).swap_item, 'assets/icons/general/qr_code.svg', false);
   }
 
+  static TypeData metadata(BuildContext context) {
+    return
+      TypeData('metadata', (context) => S.of(context).metadata, 'assets/icons/my_closet/upload/more.svg', false);
+  }
+
   static TypeData outfitsUpload(BuildContext context) {
     return
       TypeData('outfits_upload', (context) => S.of(context).outfits_upload, 'assets/icons/my_outfit/additional_features/outfits_uploaded.svg', false);

@@ -80,7 +80,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
               preferredSize: const Size.fromHeight(appBarHeight),
               child: AppBar(
                 title: Text(S.of(context).myOutfitTitle, style: widget.myOutfitTheme.textTheme.titleMedium),
-                automaticallyImplyLeading: true, // Ensure no back button
+                automaticallyImplyLeading: true,
                 backgroundColor: widget.myOutfitTheme.appBarTheme.backgroundColor,
               ),
             ),
@@ -112,11 +112,11 @@ class MyOutfitViewState extends State<MyOutfitView> {
                       logger: logger,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: _onSaveOutfit,
-                      child: const Text('Outfit of the Day'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: _onSaveOutfit,
+                  child: Text(S.of(context).OutfitDay),
                     ),
                   ),
                 ],

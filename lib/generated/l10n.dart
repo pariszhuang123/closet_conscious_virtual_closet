@@ -650,11 +650,21 @@ class S {
     );
   }
 
-  /// `Swap`
+  /// `Swap QR`
   String get swap_item {
     return Intl.message(
-      'Swap',
+      'Swap QR',
       name: 'swap_item',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `More`
+  String get metadata {
+    return Intl.message(
+      'More',
+      name: 'metadata',
       desc: '',
       args: [],
     );
@@ -1010,26 +1020,6 @@ class S {
     );
   }
 
-  /// `Filter & Search Premium Feature`
-  String get filterSearchPremiumFeature {
-    return Intl.message(
-      'Filter & Search Premium Feature',
-      name: 'filterSearchPremiumFeature',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Quickly find items with filter and search options, saving time and staying organized.`
-  String get quicklyFindItems {
-    return Intl.message(
-      'Quickly find items with filter and search options, saving time and staying organized.',
-      name: 'quicklyFindItems',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Interested`
   String get interested {
     return Intl.message(
@@ -1050,66 +1040,6 @@ class S {
     );
   }
 
-  /// `Discover Our New Multi-Closet Feature`
-  String get multiClosetFeatureTitle {
-    return Intl.message(
-      'Discover Our New Multi-Closet Feature',
-      name: 'multiClosetFeatureTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Manage multiple closets effortlessly with our upcoming multi-closet feature. Interested?`
-  String get multiClosetFeatureDescription {
-    return Intl.message(
-      'Manage multiple closets effortlessly with our upcoming multi-closet feature. Interested?',
-      name: 'multiClosetFeatureDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Register for Style Analytics Premium Feature`
-  String get AnalyticsSearchPremiumFeature {
-    return Intl.message(
-      'Register for Style Analytics Premium Feature',
-      name: 'AnalyticsSearchPremiumFeature',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Gain deep insights into your wardrobe, helping you optimize usage, track spending, and discover your personal style.`
-  String get trackAnalyticsDescription {
-    return Intl.message(
-      'Gain deep insights into your wardrobe, helping you optimize usage, track spending, and discover your personal style.',
-      name: 'trackAnalyticsDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Register for Calendar Premium Feature`
-  String get calendarPremiumFeature {
-    return Intl.message(
-      'Register for Calendar Premium Feature',
-      name: 'calendarPremiumFeature',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Review your previous outfits in a calendar view. Pair it with the multi-closet premium feature to organize outfits into one closet.`
-  String get reviewOutfitsInCalendar {
-    return Intl.message(
-      'Review your previous outfits in a calendar view. Pair it with the multi-closet premium feature to organize outfits into one closet.',
-      name: 'reviewOutfitsInCalendar',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Thank You!`
   String get thankYou {
     return Intl.message(
@@ -1125,16 +1055,6 @@ class S {
     return Intl.message(
       'Your interest has been noted. Stay tuned for updates.',
       name: 'interestAcknowledged',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `OK`
-  String get ok {
-    return Intl.message(
-      'OK',
-      name: 'ok',
       desc: '',
       args: [],
     );
@@ -1610,31 +1530,201 @@ class S {
     );
   }
 
-  /// `Swap Premium Feature`
+  /// `No achievement badges found`
+  String get noAchievementFound {
+    return Intl.message(
+      'No achievement badges found',
+      name: 'noAchievementFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Congratulations!`
+  String get congratulations {
+    return Intl.message(
+      'Congratulations!',
+      name: 'congratulations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Here is your achievement:`
+  String get achievementMessage {
+    return Intl.message(
+      'Here is your achievement:',
+      name: 'achievementMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interested in Usage Analytics?`
+  String get AnalyticsSearchPremiumFeature {
+    return Intl.message(
+      'Interested in Usage Analytics?',
+      name: 'AnalyticsSearchPremiumFeature',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We're considering adding a premium feature for analyzing your usage data for items and outfits.`
+  String get trackAnalyticsDescription {
+    return Intl.message(
+      'We\'re considering adding a premium feature for analyzing your usage data for items and outfits.',
+      name: 'trackAnalyticsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interested in Calendar View?`
+  String get calendarPremiumFeature {
+    return Intl.message(
+      'Interested in Calendar View?',
+      name: 'calendarPremiumFeature',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We're considering adding a premium feature to view previous outfits in a calendar format and integrate with multi-closet.`
+  String get reviewOutfitsInCalendar {
+    return Intl.message(
+      'We\'re considering adding a premium feature to view previous outfits in a calendar format and integrate with multi-closet.',
+      name: 'reviewOutfitsInCalendar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interested in Advanced Filters?`
+  String get filterSearchPremiumFeature {
+    return Intl.message(
+      'Interested in Advanced Filters?',
+      name: 'filterSearchPremiumFeature',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We're considering adding a premium feature to filter different metadata.`
+  String get quicklyFindItems {
+    return Intl.message(
+      'We\'re considering adding a premium feature to filter different metadata.',
+      name: 'quicklyFindItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interested in Enhanced Metadata?`
+  String get metadataFeatureTitle {
+    return Intl.message(
+      'Interested in Enhanced Metadata?',
+      name: 'metadataFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We're considering adding a premium feature to add detailed metadata to your items.`
+  String get metadataFeatureDescription {
+    return Intl.message(
+      'We\'re considering adding a premium feature to add detailed metadata to your items.',
+      name: 'metadataFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interested in Multi-Closet?`
+  String get multiClosetFeatureTitle {
+    return Intl.message(
+      'Interested in Multi-Closet?',
+      name: 'multiClosetFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We're considering adding a premium feature to create multiple closets, including temporary and disappearing closets.`
+  String get multiClosetFeatureDescription {
+    return Intl.message(
+      'We\'re considering adding a premium feature to create multiple closets, including temporary and disappearing closets.',
+      name: 'multiClosetFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interested in Swapping Items?`
   String get swapFeatureTitle {
     return Intl.message(
-      'Swap Premium Feature',
+      'Interested in Swapping Items?',
       name: 'swapFeatureTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Easily exchange your items with other Closet Conscious users digitally while meeting face to face for the physical swap. Get notified about swap events happening nearby.`
+  /// `We're considering adding a premium feature for digitally swapping items and getting notified about nearby swap events.`
   String get swapFeatureDescription {
     return Intl.message(
-      'Easily exchange your items with other Closet Conscious users digitally while meeting face to face for the physical swap. Get notified about swap events happening nearby.',
+      'We\'re considering adding a premium feature for digitally swapping items and getting notified about nearby swap events.',
       name: 'swapFeatureDescription',
       desc: '',
       args: [],
     );
   }
 
-  /// `No achievement badges found`
-  String get noAchievementFound {
+  /// `Interested`
+  String get ok {
     return Intl.message(
-      'No achievement badges found',
-      name: 'noAchievementFound',
+      'Interested',
+      name: 'ok',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Outfit of the Day`
+  String get OutfitDay {
+    return Intl.message(
+      'Outfit of the Day',
+      name: 'OutfitDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please upload your items in my closet`
+  String get noItemsInCategory {
+    return Intl.message(
+      'Please upload your items in my closet',
+      name: 'noItemsInCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong!`
+  String get somethingWentWrong {
+    return Intl.message(
+      'Something went wrong!',
+      name: 'somethingWentWrong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load items`
+  String get failedToLoadItems {
+    return Intl.message(
+      'Failed to load items',
+      name: 'failedToLoadItems',
       desc: '',
       args: [],
     );

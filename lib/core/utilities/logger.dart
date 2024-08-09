@@ -11,7 +11,6 @@ class CustomLogger {
       lineLength: 120,
       colors: true,
       printEmojis: true,
-      dateTimeFormat: (dateTime) => dateTime.toIso8601String(), // Correct the type
     ),
   );
 

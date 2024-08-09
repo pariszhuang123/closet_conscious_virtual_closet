@@ -63,6 +63,7 @@ class _EditItemPageState extends State<EditItemPage> {
   String? selectedColour;
   String? selectedColourVariation;
   bool _isChanged = false;
+  bool _isImageChanged = false;
 
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
@@ -102,6 +103,7 @@ class _EditItemPageState extends State<EditItemPage> {
       setState(() {
         _imageFile = file;
         _isChanged = true;
+        _isImageChanged = true;
       });
     } else {
       logger.d('Image picker cancelled or failed');
@@ -213,23 +215,34 @@ class _EditItemPageState extends State<EditItemPage> {
 
               final bloc = context.read<EditItemBloc>();
 
-              return Theme(
-                data: widget.myClosetTheme,
-                child: Scaffold(
-                  backgroundColor: widget.myClosetTheme.colorScheme.surface,
-                  appBar: AppBar(
-                    title: Text(S.of(context).editPageTitle, style: widget.myClosetTheme.textTheme.titleMedium),
-                    backgroundColor: widget.myClosetTheme.appBarTheme.backgroundColor,
-                    leading: _isChanged
-                        ? null
-                        : IconButton(
-                      icon: Icon(Icons.arrow_back, color: widget.myClosetTheme.colorScheme.onSurface),
-                      onPressed: () {
-                        logger.d('Back button pressed');
-                        Navigator.pop(context);
-                      },
+              return PopScope<Object?>(
+                canPop: false,
+                onPopInvokedWithResult: (bool didPop, Object? result) {
+                  // Prevent back navigation only if the image has been changed
+                  if (_isImageChanged) {
+                    // Do nothing to prevent the back action
+                  } else {
+                    // Allow back navigation by calling Navigator.pop() if necessary
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Theme(
+                  data: widget.myClosetTheme,
+                  child: Scaffold(
+                    backgroundColor: widget.myClosetTheme.colorScheme.surface,
+                    appBar: AppBar(
+                      title: Text(S.of(context).editPageTitle, style: widget.myClosetTheme.textTheme.titleMedium),
+                      backgroundColor: widget.myClosetTheme.appBarTheme.backgroundColor,
+                      leading: _isImageChanged
+                          ? null
+                          : IconButton(
+                        icon: Icon(Icons.arrow_back, color: widget.myClosetTheme.colorScheme.onSurface),
+                        onPressed: () {
+                          logger.d('Back button pressed');
+                          Navigator.pop(context);
+                        },
+                      ),
                     ),
-                  ),
                     body: SafeArea(
                       child: Column(
                         children: [
@@ -270,217 +283,217 @@ class _EditItemPageState extends State<EditItemPage> {
                               ),
                             ),
                           ),
-
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Form(
-                                key: _formKey,
-                                child: Column(
-                                  children: [
-                                    TextFormField(
-                                      controller: _itemNameController,
-                                      decoration: InputDecoration(
-                                        labelText: S.of(context).item_name,
-                                        labelStyle: widget.myClosetTheme.textTheme.bodyMedium,
-                                      ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          logger.d('Item name validation failed');
-                                          return S.of(context).pleaseEnterItemName;
-                                        }
-                                        return null;
-                                      },
-                                      onChanged: (value) {
-                                        logger.d('Item name changed: $value');
-                                        bloc.add(FieldChangedEvent());
-                                      },
-                                    ),
-                                    const SizedBox(height: 12),
-                                    TextFormField(
-                                      controller: _amountSpentController,
-                                      decoration: InputDecoration(
-                                        labelText: S.of(context).amountSpentLabel,
-                                        hintText: S.of(context).enterAmountSpentHint,
-                                        errorText: _amountSpentError,
-                                        labelStyle: widget.myClosetTheme.textTheme.bodyMedium,
-                                      ),
-                                      keyboardType: TextInputType.number,
-                                      onChanged: (value) {
-                                        logger.d('Amount spent changed: $value');
-                                        bloc.add(FieldChangedEvent());
-                                      },
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Text(
-                                      S.of(context).selectItemType,
-                                      style: widget.myClosetTheme.textTheme.bodyMedium,
-                                    ),
-                                    ...buildIconRows(
-                                      TypeDataList.itemGeneralTypes(context),
-                                      bloc.selectedItemType,
-                                          (dataKey) {
-                                        logger.d('Item type changed: $dataKey');
-                                        bloc.add(ItemTypeChangedEvent(dataKey));
-                                      },
-                                      context,
-                                      true,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Text(
-                                      S.of(context).selectOccasion,
-                                      style: widget.myClosetTheme.textTheme.bodyMedium,
-                                    ),
-                                    ...buildIconRows(
-                                      TypeDataList.occasions(context),
-                                      bloc.selectedOccasion,
-                                          (dataKey) {
-                                        logger.d('Occasion changed: $dataKey');
-                                        bloc.add(OccasionChangedEvent(dataKey));
-                                      },
-                                      context,
-                                      true,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Text(
-                                      S.of(context).selectSeason,
-                                      style: widget.myClosetTheme.textTheme.bodyMedium,
-                                    ),
-                                    ...buildIconRows(
-                                      TypeDataList.seasons(context),
-                                      bloc.selectedSeason,
-                                          (dataKey) {
-                                        logger.d('Season changed: $dataKey');
-                                        bloc.add(SeasonChangedEvent(dataKey));
-                                      },
-                                      context,
-                                      true,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    if (bloc.selectedItemType == 'shoes') ...[
-                                      Text(
-                                        S.of(context).selectShoeType,
-                                        style: widget.myClosetTheme.textTheme.bodyMedium,
-                                      ),
-                                      ...buildIconRows(
-                                        TypeDataList.shoeTypes(context),
-                                        bloc.selectedSpecificType,
-                                            (dataKey) {
-                                          logger.d('Shoe type changed: $dataKey');
-                                          bloc.add(SpecificTypeChangedEvent(dataKey));
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    children: [
+                                      TextFormField(
+                                        controller: _itemNameController,
+                                        decoration: InputDecoration(
+                                          labelText: S.of(context).item_name,
+                                          labelStyle: widget.myClosetTheme.textTheme.bodyMedium,
+                                        ),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            logger.d('Item name validation failed');
+                                            return S.of(context).pleaseEnterItemName;
+                                          }
+                                          return null;
                                         },
-                                        context,
-                                        true,
-                                      ),
-                                    ],
-                                    if (bloc.selectedItemType == 'accessory') ...[
-                                      Text(
-                                        S.of(context).selectAccessoryType,
-                                        style: widget.myClosetTheme.textTheme.bodyMedium,
-                                      ),
-                                      ...buildIconRows(
-                                        TypeDataList.accessoryTypes(context),
-                                        bloc.selectedSpecificType,
-                                            (dataKey) {
-                                          logger.d('Accessory type changed: $dataKey');
-                                          bloc.add(SpecificTypeChangedEvent(dataKey));
+                                        onChanged: (value) {
+                                          logger.d('Item name changed: $value');
+                                          bloc.add(FieldChangedEvent());
                                         },
-                                        context,
-                                        true,
                                       ),
-                                    ],
-                                    if (bloc.selectedItemType == 'clothing') ...[
+                                      const SizedBox(height: 12),
+                                      TextFormField(
+                                        controller: _amountSpentController,
+                                        decoration: InputDecoration(
+                                          labelText: S.of(context).amountSpentLabel,
+                                          hintText: S.of(context).enterAmountSpentHint,
+                                          errorText: _amountSpentError,
+                                          labelStyle: widget.myClosetTheme.textTheme.bodyMedium,
+                                        ),
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (value) {
+                                          logger.d('Amount spent changed: $value');
+                                          bloc.add(FieldChangedEvent());
+                                        },
+                                      ),
+                                      const SizedBox(height: 12),
                                       Text(
-                                        S.of(context).selectClothingType,
+                                        S.of(context).selectItemType,
                                         style: widget.myClosetTheme.textTheme.bodyMedium,
                                       ),
                                       ...buildIconRows(
-                                        TypeDataList.clothingTypes(context),
-                                        bloc.selectedSpecificType,
+                                        TypeDataList.itemGeneralTypes(context),
+                                        bloc.selectedItemType,
                                             (dataKey) {
-                                          logger.d('Clothing type changed: $dataKey');
-                                          bloc.add(SpecificTypeChangedEvent(dataKey));
+                                          logger.d('Item type changed: $dataKey');
+                                          bloc.add(ItemTypeChangedEvent(dataKey));
                                         },
                                         context,
                                         true,
                                       ),
                                       const SizedBox(height: 12),
                                       Text(
-                                        S.of(context).selectClothingLayer,
+                                        S.of(context).selectOccasion,
                                         style: widget.myClosetTheme.textTheme.bodyMedium,
                                       ),
                                       ...buildIconRows(
-                                        TypeDataList.clothingLayers(context),
-                                        bloc.selectedClothingLayer,
+                                        TypeDataList.occasions(context),
+                                        bloc.selectedOccasion,
                                             (dataKey) {
-                                          logger.d('Clothing layer changed: $dataKey');
-                                          bloc.add(ClothingLayerChangedEvent(dataKey));
+                                          logger.d('Occasion changed: $dataKey');
+                                          bloc.add(OccasionChangedEvent(dataKey));
                                         },
                                         context,
                                         true,
                                       ),
-                                    ],
-                                    const SizedBox(height: 12),
-                                    Text(
-                                      S.of(context).selectColour,
-                                      style: widget.myClosetTheme.textTheme.bodyMedium,
-                                    ),
-                                    ...buildIconRows(
-                                      TypeDataList.colors(context),
-                                      bloc.selectedColour,
-                                          (dataKey) {
-                                        logger.d('Colour changed: $dataKey');
-                                        bloc.add(ColourChangedEvent(dataKey));
-                                      },
-                                      context,
-                                      true,
-                                    ),
-                                    if (bloc.selectedColour != 'black' &&
-                                        bloc.selectedColour != 'white' &&
-                                        bloc.selectedColour != null) ...[
                                       const SizedBox(height: 12),
                                       Text(
-                                        S.of(context).selectColourVariation,
+                                        S.of(context).selectSeason,
                                         style: widget.myClosetTheme.textTheme.bodyMedium,
                                       ),
                                       ...buildIconRows(
-                                        TypeDataList.colorVariations(context),
-                                        bloc.selectedColourVariation,
+                                        TypeDataList.seasons(context),
+                                        bloc.selectedSeason,
                                             (dataKey) {
-                                          logger.d('Colour variation changed: $dataKey');
-                                          bloc.add(ColourVariationChangedEvent(dataKey));
+                                          logger.d('Season changed: $dataKey');
+                                          bloc.add(SeasonChangedEvent(dataKey));
                                         },
                                         context,
                                         true,
                                       ),
+                                      const SizedBox(height: 12),
+                                      if (bloc.selectedItemType == 'shoes') ...[
+                                        Text(
+                                          S.of(context).selectShoeType,
+                                          style: widget.myClosetTheme.textTheme.bodyMedium,
+                                        ),
+                                        ...buildIconRows(
+                                          TypeDataList.shoeTypes(context),
+                                          bloc.selectedSpecificType,
+                                              (dataKey) {
+                                            logger.d('Shoe type changed: $dataKey');
+                                            bloc.add(SpecificTypeChangedEvent(dataKey));
+                                          },
+                                          context,
+                                          true,
+                                        ),
+                                      ],
+                                      if (bloc.selectedItemType == 'accessory') ...[
+                                        Text(
+                                          S.of(context).selectAccessoryType,
+                                          style: widget.myClosetTheme.textTheme.bodyMedium,
+                                        ),
+                                        ...buildIconRows(
+                                          TypeDataList.accessoryTypes(context),
+                                          bloc.selectedSpecificType,
+                                              (dataKey) {
+                                            logger.d('Accessory type changed: $dataKey');
+                                            bloc.add(SpecificTypeChangedEvent(dataKey));
+                                          },
+                                          context,
+                                          true,
+                                        ),
+                                      ],
+                                      if (bloc.selectedItemType == 'clothing') ...[
+                                        Text(
+                                          S.of(context).selectClothingType,
+                                          style: widget.myClosetTheme.textTheme.bodyMedium,
+                                        ),
+                                        ...buildIconRows(
+                                          TypeDataList.clothingTypes(context),
+                                          bloc.selectedSpecificType,
+                                              (dataKey) {
+                                            logger.d('Clothing type changed: $dataKey');
+                                            bloc.add(SpecificTypeChangedEvent(dataKey));
+                                          },
+                                          context,
+                                          true,
+                                        ),
+                                        const SizedBox(height: 12),
+                                        Text(
+                                          S.of(context).selectClothingLayer,
+                                          style: widget.myClosetTheme.textTheme.bodyMedium,
+                                        ),
+                                        ...buildIconRows(
+                                          TypeDataList.clothingLayers(context),
+                                          bloc.selectedClothingLayer,
+                                              (dataKey) {
+                                            logger.d('Clothing layer changed: $dataKey');
+                                            bloc.add(ClothingLayerChangedEvent(dataKey));
+                                          },
+                                          context,
+                                          true,
+                                        ),
+                                      ],
+                                      const SizedBox(height: 12),
+                                      Text(
+                                        S.of(context).selectColour,
+                                        style: widget.myClosetTheme.textTheme.bodyMedium,
+                                      ),
+                                      ...buildIconRows(
+                                        TypeDataList.colors(context),
+                                        bloc.selectedColour,
+                                            (dataKey) {
+                                          logger.d('Colour changed: $dataKey');
+                                          bloc.add(ColourChangedEvent(dataKey));
+                                        },
+                                        context,
+                                        true,
+                                      ),
+                                      if (bloc.selectedColour != 'black' &&
+                                          bloc.selectedColour != 'white' &&
+                                          bloc.selectedColour != null) ...[
+                                        const SizedBox(height: 12),
+                                        Text(
+                                          S.of(context).selectColourVariation,
+                                          style: widget.myClosetTheme.textTheme.bodyMedium,
+                                        ),
+                                        ...buildIconRows(
+                                          TypeDataList.colorVariations(context),
+                                          bloc.selectedColourVariation,
+                                              (dataKey) {
+                                            logger.d('Colour variation changed: $dataKey');
+                                            bloc.add(ColourVariationChangedEvent(dataKey));
+                                          },
+                                          context,
+                                          true,
+                                        ),
+                                      ],
                                     ],
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 10.0, bottom: 70.0, left: 16.0, right: 16.0),
-                          child: _isChanged
-                              ? ElevatedButton(
-                            onPressed: _handleUpdate,
-                            child: Text(
-                              S.of(context).update,
-                              style: widget.myClosetTheme.textTheme.labelLarge,
-                            ),
-                          )
-                              : ElevatedButton(
-                            onPressed: _openDeclutterSheet,
-                            child: Text(
-                              S.of(context).declutter,
-                              style: widget.myClosetTheme.textTheme.labelLarge,
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10.0, bottom: 70.0, left: 16.0, right: 16.0),
+                            child: _isChanged
+                                ? ElevatedButton(
+                              onPressed: _handleUpdate,
+                              child: Text(
+                                S.of(context).update,
+                                style: widget.myClosetTheme.textTheme.labelLarge,
+                              ),
+                            )
+                                : ElevatedButton(
+                              onPressed: _openDeclutterSheet,
+                              child: Text(
+                                S.of(context).declutter,
+                                style: widget.myClosetTheme.textTheme.labelLarge,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

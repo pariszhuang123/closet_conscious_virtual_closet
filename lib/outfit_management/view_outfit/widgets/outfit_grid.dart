@@ -5,6 +5,7 @@ import '../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
 import '../../../core/widgets/base_grid.dart';
 import '../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../core/widgets/user_photo/enhanced_user_photo.dart';
+import '../../../generated/l10n.dart';
 
 class OutfitGrid extends StatelessWidget {
   final ScrollController scrollController;
@@ -21,9 +22,9 @@ class OutfitGrid extends StatelessWidget {
     return BlocBuilder<CreateOutfitItemBloc, CreateOutfitItemState>(
       builder: (context, state) {
         if (state.saveStatus == SaveStatus.failure) {
-          return const Center(child: Text('Failed to load items'));
+          return Center(child: Text(S.of(context).failedToLoadItems));
         } else if (state.saveStatus == SaveStatus.initial || state.items.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(child: Text(S.of(context).noItemsInCategory));
         } else {
           final selectedCategory = state.currentCategory;
           final items = state.items.where((item) {
@@ -64,7 +65,7 @@ class OutfitGrid extends StatelessWidget {
                 itemId: item.itemId,
               );
             },
-            crossAxisCount: 2,
+            crossAxisCount: 4,
             childAspectRatio: 2 / 3,
           );
         }
