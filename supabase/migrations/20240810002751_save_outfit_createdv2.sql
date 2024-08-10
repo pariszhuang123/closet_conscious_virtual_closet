@@ -65,13 +65,13 @@ $$;
 
 -- Main function to save outfit items and update related stats
 CREATE OR REPLACE FUNCTION public.save_outfit_items(p_selected_items UUID[])
-RETURNS JSONB
+RETURNS JSON
 LANGUAGE plpgsql
 AS $$
 DECLARE
     current_user_id UUID := auth.uid();
     new_outfit_id UUID;
-    result JSONB;
+    result JSON;
 BEGIN
     -- Insert a new outfit and get the generated outfit_id
     INSERT INTO public.outfits (user_id)
@@ -87,7 +87,7 @@ BEGIN
     CALL public.increment_items_usage(p_selected_items);
 
     -- Return success result
-    result := jsonb_build_object(
+    result := json_build_object(
         'status', 'success',
         'message', 'Outfit items saved and counters updated'
     );
@@ -97,7 +97,7 @@ BEGIN
 EXCEPTION
     -- Rollback the transaction in case of any error
     WHEN OTHERS THEN
-        result := jsonb_build_object(
+        result := json_build_object(
             'status', 'error',
             'message', SQLERRM
         );
