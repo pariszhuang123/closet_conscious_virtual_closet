@@ -1,5 +1,4 @@
 CREATE OR REPLACE FUNCTION public.get_outfit_items(outfit_id UUID)
-SET search_path = ''
 RETURNS TABLE(item_id UUID, image_url text, name text) AS $$
 
 BEGIN
