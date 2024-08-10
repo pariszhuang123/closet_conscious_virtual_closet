@@ -9,24 +9,14 @@ abstract class CreateOutfitItemEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class SelectItemEvent extends CreateOutfitItemEvent {
+class ToggleSelectItemEvent extends CreateOutfitItemEvent {
   final OutfitItemCategory category;
   final String itemId;
 
-  const SelectItemEvent(this.category, this.itemId);
+  const ToggleSelectItemEvent(this.category, this.itemId);
 
   @override
-  List<Object?> get props => [category, itemId];
-}
-
-class DeselectItemEvent extends CreateOutfitItemEvent {
-  final OutfitItemCategory category;
-  final String itemId;
-
-  const DeselectItemEvent(this.category, this.itemId);
-
-  @override
-  List<Object?> get props => [category, itemId];
+  List<Object> get props => [category, itemId];
 }
 
 class SaveOutfitEvent extends CreateOutfitItemEvent {

@@ -36,16 +36,16 @@ class AchievementScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               SizedBox(
+                height: 50,
+                child: Lottie.asset('assets/lottie/tasty.json'),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
                 height: 100,
                 child: Image.network(
                   achievementUrl,
                   fit: BoxFit.contain,
                 ),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                height: 100,
-                child: Lottie.asset('assets/lottie/tasty.json'),
               ),
             ],
           ),

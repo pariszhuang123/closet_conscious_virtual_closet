@@ -12,7 +12,7 @@ class MyOutfitScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CreateOutfitItemBloc(),
+      create: (context) => CreateOutfitItemBloc()..add(const SelectCategoryEvent(OutfitItemCategory.clothing)),
       child: MyOutfitView(myOutfitTheme: myOutfitTheme),
     );
   }

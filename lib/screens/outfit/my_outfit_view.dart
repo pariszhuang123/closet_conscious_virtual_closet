@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/utilities/logger.dart';
 import '../app_drawer.dart';
-import '../../../../core/theme/ui_constant.dart';
-import '../../outfit_management/view_outfit/widgets/outfit_feature_container.dart';
-import '../../core/widgets/bottom_sheet/calendar_premium_bottom_sheet.dart';
-import '../../core/widgets/bottom_sheet/filter_premium_bottom_sheet.dart';
-import '../../core/data/type_data.dart';
-import '../../generated/l10n.dart';
-import '../../outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
-import '../../outfit_management/view_outfit/widgets/outfit_grid.dart';
-import '../../outfit_management/view_outfit/widgets/outfit_type_container.dart';
+import '../../../../../core/theme/ui_constant.dart';
+import '../../outfit_management/create_outfit/presentation/widgets/outfit_feature_container.dart';
+import '../../../../core/widgets/bottom_sheet/calendar_premium_bottom_sheet.dart';
+import '../../../core/widgets/bottom_sheet/filter_premium_bottom_sheet.dart';
+import '../../../core/data/type_data.dart';
+import '../../../generated/l10n.dart';
+import '../../../outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
+import '../../outfit_management/create_outfit/presentation/widgets/outfit_grid.dart';
+import '../../outfit_management/create_outfit/presentation/widgets/outfit_type_container.dart';
 
 class MyOutfitView extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -69,75 +69,72 @@ class MyOutfitViewState extends State<MyOutfitView> {
     final outfitAccessoryType = TypeDataList.outfitAccessoryType(context);
     final outfitShoesType = TypeDataList.outfitShoesType(context);
 
-    return BlocProvider(
-      create: (context) => CreateOutfitItemBloc()..add(const SelectCategoryEvent(OutfitItemCategory.clothing)), // Initial fetch
-      child: PopScope(
-        canPop: false, // Disable back navigation
-        child: Theme(
-          data: widget.myOutfitTheme,
-          child: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(appBarHeight),
-              child: AppBar(
-                title: Text(S.of(context).myOutfitTitle, style: widget.myOutfitTheme.textTheme.titleMedium),
-                automaticallyImplyLeading: true,
-                backgroundColor: widget.myOutfitTheme.appBarTheme.backgroundColor,
-              ),
+    return PopScope(
+      canPop: false, // Disable back navigation
+      child: Theme(
+        data: widget.myOutfitTheme,
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(appBarHeight),
+            child: AppBar(
+              title: Text(S.of(context).myOutfitTitle, style: widget.myOutfitTheme.textTheme.titleMedium),
+              automaticallyImplyLeading: true,
+              backgroundColor: widget.myOutfitTheme.appBarTheme.backgroundColor,
             ),
-            drawer: AppDrawer(isFromMyCloset: false),
-            backgroundColor: widget.myOutfitTheme.colorScheme.surface,
-            body: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  OutfitFeatureContainer(
-                    theme: widget.myOutfitTheme,
-                    filterData: filterData,
-                    calendarData: calendarData,
-                    outfitsUploadData: outfitsUploadData,
-                    outfitCount: outfitCount,
-                    onFilterButtonPressed: _onFilterButtonPressed,
-                    onCalendarButtonPressed: _onCalendarButtonPressed,
-                  ),
-                  const SizedBox(height: 15),
-                  OutfitTypeContainer(
-                    outfitClothingType: outfitClothingType,
-                    outfitAccessoryType: outfitAccessoryType,
-                    outfitShoesType: outfitShoesType,
-                  ),
-                  const SizedBox(height: 16),
-                  Expanded(
-                    child: OutfitGrid(
-                      scrollController: _scrollController,
-                      logger: logger,
-                    ),
-                  ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: _onSaveOutfit,
-                  child: Text(S.of(context).OutfitDay),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              items: [
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.dry_cleaning_outlined),
-                  label: S.of(context).closetLabel,
+          ),
+          drawer: AppDrawer(isFromMyCloset: false),
+          backgroundColor: widget.myOutfitTheme.colorScheme.surface,
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                OutfitFeatureContainer(
+                  theme: widget.myOutfitTheme,
+                  filterData: filterData,
+                  calendarData: calendarData,
+                  outfitsUploadData: outfitsUploadData,
+                  outfitCount: outfitCount,
+                  onFilterButtonPressed: _onFilterButtonPressed,
+                  onCalendarButtonPressed: _onCalendarButtonPressed,
                 ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.wc_outlined),
-                  label: S.of(context).outfitLabel,
+                const SizedBox(height: 15),
+                OutfitTypeContainer(
+                  outfitClothingType: outfitClothingType,
+                  outfitAccessoryType: outfitAccessoryType,
+                  outfitShoesType: outfitShoesType,
+                ),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: OutfitGrid(
+                    scrollController: _scrollController,
+                    logger: logger,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: _onSaveOutfit,
+                    child: Text(S.of(context).OutfitDay),
+                  ),
                 ),
               ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: widget.myOutfitTheme.bottomNavigationBarTheme.selectedItemColor,
-              backgroundColor: widget.myOutfitTheme.bottomNavigationBarTheme.backgroundColor,
-              onTap: _onItemTapped,
             ),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            items: [
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.dry_cleaning_outlined),
+                label: S.of(context).closetLabel,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.wc_outlined),
+                label: S.of(context).outfitLabel,
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: widget.myOutfitTheme.bottomNavigationBarTheme.selectedItemColor,
+            backgroundColor: widget.myOutfitTheme.bottomNavigationBarTheme.backgroundColor,
+            onTap: _onItemTapped,
           ),
         ),
       ),

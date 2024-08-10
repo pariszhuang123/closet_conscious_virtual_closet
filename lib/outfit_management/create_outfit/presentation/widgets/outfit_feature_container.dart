@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../core/widgets/base_container.dart';
-import '../../../core/widgets/button/navigation_type_button.dart';
-import '../../../core/widgets/button/number_type_button.dart';
-import '../../../core/theme/themed_svg.dart';
+import '../../../../core/widgets/base_container.dart';
+import '../../../../core/widgets/button/navigation_type_button.dart';
+import '../../../../core/widgets/button/number_type_button.dart';
+import '../../../../core/theme/themed_svg.dart';
 
 class OutfitFeatureContainer extends StatelessWidget {
   final ThemeData theme;

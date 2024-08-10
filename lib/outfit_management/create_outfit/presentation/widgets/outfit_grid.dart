@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/utilities/logger.dart';
-import '../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
-import '../../../core/widgets/base_grid.dart';
-import '../../../item_management/core/data/models/closet_item_minimal.dart';
-import '../../../core/widgets/user_photo/enhanced_user_photo.dart';
-import '../../../generated/l10n.dart';
+import '../../../../core/utilities/logger.dart';
+import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
+import '../../../../core/widgets/base_grid.dart';
+import '../../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../../core/widgets/user_photo/enhanced_user_photo.dart';
+import '../../../../generated/l10n.dart';
 
 class OutfitGrid extends StatelessWidget {
   final ScrollController scrollController;
@@ -55,17 +55,13 @@ class OutfitGrid extends StatelessWidget {
                 imageUrl: item.imageUrl,
                 isSelected: isSelected,
                 onPressed: () {
-                  if (isSelected) {
-                    context.read<CreateOutfitItemBloc>().add(DeselectItemEvent(selectedCategory!, item.itemId));
-                  } else {
-                    context.read<CreateOutfitItemBloc>().add(SelectItemEvent(selectedCategory!, item.itemId));
-                  }
+                  context.read<CreateOutfitItemBloc>().add(ToggleSelectItemEvent(selectedCategory!, item.itemId));
                 },
                 itemName: item.name,
                 itemId: item.itemId,
               );
             },
-            crossAxisCount: 4,
+            crossAxisCount: 3,
             childAspectRatio: 2 / 3,
           );
         }
