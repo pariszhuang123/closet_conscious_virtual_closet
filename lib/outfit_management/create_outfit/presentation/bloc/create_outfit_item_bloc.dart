@@ -60,21 +60,22 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
         },
       );
 
-      // Directly use response.data as it's already a Map<String, dynamic>
-      final Map<String, dynamic> responseData = response as Map<String, dynamic>;
+      // Check if response contains 'status' and is 'success'
+      if (response.containsKey('status') && response['status'] == 'success') {
+        final outfitId = response['outfit_id'];
+        logger.d('Successfully saved outfit with ID: $outfitId');
 
-      // Log the response for debugging
-      logger.d('Supabase RPC response: $responseData');
+        // Emit the success state with outfitId
+        emit(state.copyWith(saveStatus: SaveStatus.success, outfitId: outfitId));
 
-      if (responseData['status'] == 'error') {
+        // You no longer navigate here
+      } else if (response.containsKey('status') && response['status'] == 'error') {
         // Handle the error case
-        throw responseData['message'];
-      } else if (responseData['status'] == 'success') {
-        // Handle the success case
-        emit(state.copyWith(saveStatus: SaveStatus.success));
+        logger.e('Error in response: ${response['message']}');
+        emit(state.copyWith(saveStatus: SaveStatus.failure));
       } else {
         // Handle unexpected response structure
-        logger.e('Unexpected response format: $responseData');
+        logger.e('Unexpected response format: $response');
         emit(state.copyWith(saveStatus: SaveStatus.failure));
       }
     } catch (error) {

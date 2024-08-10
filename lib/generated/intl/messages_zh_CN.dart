@@ -87,6 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("您的数据已保存"),
         "dataUpdatedSuccessfully":
             MessageLookupByLibrary.simpleMessage("您的数据已更新"),
+        "date": MessageLookupByLibrary.simpleMessage("日期"),
         "declutter": MessageLookupByLibrary.simpleMessage("整理"),
         "declutterAcknowledged":
             MessageLookupByLibrary.simpleMessage("您的衣橱已整理！"),
@@ -152,11 +153,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "multiClosetFeatureTitle":
             MessageLookupByLibrary.simpleMessage("有兴趣使用多衣橱功能吗？"),
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("我的衣橱"),
+        "myOutfitOfTheDay": MessageLookupByLibrary.simpleMessage("今日穿搭"),
         "myOutfitTitle": MessageLookupByLibrary.simpleMessage("创建我的装扮"),
         "newItemsTooltip": MessageLookupByLibrary.simpleMessage("显示您购买的新物品数量"),
         "next": MessageLookupByLibrary.simpleMessage("下一步"),
         "niche": MessageLookupByLibrary.simpleMessage("小众"),
         "noAchievementFound": MessageLookupByLibrary.simpleMessage("未找到成就徽章"),
+        "noItemsFound": MessageLookupByLibrary.simpleMessage("未找到物品"),
         "noItemsInCategory":
             MessageLookupByLibrary.simpleMessage("请上传您的物品到我的衣橱"),
         "numberOfNewItems": MessageLookupByLibrary.simpleMessage("您购买的新物品数量"),
@@ -202,6 +205,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "spendingTooltip":
             MessageLookupByLibrary.simpleMessage("显示您在新物品上花费的金额"),
         "spring": MessageLookupByLibrary.simpleMessage("春"),
+        "styleOn": MessageLookupByLibrary.simpleMessage("风格搭配"),
         "summer": MessageLookupByLibrary.simpleMessage("夏"),
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("支持与帮助"),

@@ -7,12 +7,14 @@ class CreateOutfitItemState extends Equatable {
   final List<ClosetItemMinimal> items;
   final OutfitItemCategory? currentCategory;
   final SaveStatus saveStatus;
+  final String? outfitId;
 
   const CreateOutfitItemState({
     this.selectedItemIds = const {},
     this.items = const [],
     this.currentCategory,
     this.saveStatus = SaveStatus.initial,
+    this.outfitId,
   });
 
   factory CreateOutfitItemState.initial() {
@@ -21,6 +23,7 @@ class CreateOutfitItemState extends Equatable {
       items: [],
       currentCategory: OutfitItemCategory.clothing, // Set default category if needed
       saveStatus: SaveStatus.initial,
+      outfitId: null,
     );
   }
 
@@ -29,15 +32,17 @@ class CreateOutfitItemState extends Equatable {
     List<ClosetItemMinimal>? items,
     OutfitItemCategory? currentCategory,
     SaveStatus? saveStatus,
+    String? outfitId, // Add outfitId to the copyWith method
   }) {
     return CreateOutfitItemState(
       selectedItemIds: selectedItemIds ?? this.selectedItemIds,
       items: items ?? this.items,
       currentCategory: currentCategory ?? this.currentCategory,
       saveStatus: saveStatus ?? this.saveStatus,
+      outfitId: outfitId ?? this.outfitId, // Assign the new outfitId if provided
     );
   }
 
   @override
-  List<Object?> get props => [selectedItemIds, items, currentCategory, saveStatus];
+  List<Object?> get props => [selectedItemIds, items, currentCategory, saveStatus, outfitId];
 }

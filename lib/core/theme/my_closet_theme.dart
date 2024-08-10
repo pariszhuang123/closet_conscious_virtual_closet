@@ -23,7 +23,7 @@ final ThemeData myClosetTheme = ThemeData(
     bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black), // Medium body text
     displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black), // Largest headline
     displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black), // Second largest headline
-    titleMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black), // Medium-emphasis text
+    titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black), // Medium-emphasis text
     titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black), // Smaller medium-emphasis text
     bodySmall: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black), // Caption text
     labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white), // Text for buttons

@@ -167,5 +167,9 @@
   "OutfitDay": "Outfit of the Day",
   "noItemsInCategory": "Please upload your items in my closet",
   "somethingWentWrong": "Something went wrong!",
-  "failedToLoadItems": "Failed to load items"
+  "failedToLoadItems": "Failed to load items",
+  "myOutfitOfTheDay": "My Outfit of the Day",
+  "date": "Date",
+  "noItemsFound": "No items found",
+  "styleOn": "Style On"
 }

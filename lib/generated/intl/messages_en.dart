@@ -100,6 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Your data has been saved"),
         "dataUpdatedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Your data has been updated"),
+        "date": MessageLookupByLibrary.simpleMessage("Date"),
         "declutter": MessageLookupByLibrary.simpleMessage("Declutter"),
         "declutterAcknowledged": MessageLookupByLibrary.simpleMessage(
             "Your closet has being decluttered!"),
@@ -173,6 +174,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "multiClosetFeatureTitle":
             MessageLookupByLibrary.simpleMessage("Interested in Multi-Closet?"),
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("My Closet"),
+        "myOutfitOfTheDay":
+            MessageLookupByLibrary.simpleMessage("My Outfit of the Day"),
         "myOutfitTitle":
             MessageLookupByLibrary.simpleMessage("Create My Outfit"),
         "newItemsTooltip": MessageLookupByLibrary.simpleMessage(
@@ -181,6 +184,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "niche": MessageLookupByLibrary.simpleMessage("Niche"),
         "noAchievementFound":
             MessageLookupByLibrary.simpleMessage("No achievement badges found"),
+        "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
         "noItemsInCategory": MessageLookupByLibrary.simpleMessage(
             "Please upload your items in my closet"),
         "numberOfNewItems": MessageLookupByLibrary.simpleMessage(
@@ -239,6 +243,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "spendingTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows how much you have spent on new items"),
         "spring": MessageLookupByLibrary.simpleMessage("Spring"),
+        "styleOn": MessageLookupByLibrary.simpleMessage("Style On"),
         "summer": MessageLookupByLibrary.simpleMessage("Summer"),
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("Support & Assistance"),

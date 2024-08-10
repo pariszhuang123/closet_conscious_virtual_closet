@@ -166,5 +166,10 @@
   "OutfitDay": "今日穿搭",
   "noItemsInCategory": "请上传您的物品到我的衣橱",
   "somethingWentWrong": "出现了问题！",
-  "failedToLoadItems": "加载项目失败"
+  "failedToLoadItems": "加载项目失败",
+  "myOutfitOfTheDay": "今日穿搭",
+  "date": "日期",
+  "noItemsFound": "未找到物品",
+  "styleOn": "风格搭配"
+
 }

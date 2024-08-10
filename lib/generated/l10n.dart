@@ -1729,6 +1729,46 @@ class S {
       args: [],
     );
   }
+
+  /// `My Outfit of the Day`
+  String get myOutfitOfTheDay {
+    return Intl.message(
+      'My Outfit of the Day',
+      name: 'myOutfitOfTheDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date`
+  String get date {
+    return Intl.message(
+      'Date',
+      name: 'date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No items found`
+  String get noItemsFound {
+    return Intl.message(
+      'No items found',
+      name: 'noItemsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Style On`
+  String get styleOn {
+    return Intl.message(
+      'Style On',
+      name: 'styleOn',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

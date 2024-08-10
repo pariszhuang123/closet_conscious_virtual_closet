@@ -1,4 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
@@ -24,3 +25,28 @@ Future<List<ClosetItemMinimal>> fetchCreateOutfitItems(OutfitItemCategory catego
   }
 }
 
+Future<List<OutfitItemMinimal>> fetchOutfitItems(String outfitId) async {
+  try {
+    final response = await Supabase.instance.client
+        .rpc('get_outfit_items', params: {'outfit_id': outfitId});
+
+    // Handle the case where the response is actually the data
+    if (response is List<dynamic>) {
+      final List<dynamic> data = response;
+      final List<OutfitItemMinimal> items = data.map((item) => OutfitItemMinimal(
+        itemId: item['item_id'],
+        imageUrl: item['image_url'],
+        name: item['name'],
+      )).toList();
+      return items;
+    } else {
+      // If response.data is not a list, log and return an empty list
+      logger.e('Unexpected data format for outfit $outfitId.');
+      return [];
+    }
+  } catch (error) {
+    // Handle any unexpected errors
+    logger.e('Unexpected error fetching items for outfit $outfitId: $error');
+    return [];
+  }
+}
