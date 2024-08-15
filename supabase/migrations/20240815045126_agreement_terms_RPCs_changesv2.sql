@@ -1,10 +1,3 @@
--- Add the 'policy_version' column to user_low_freq_stats
-ALTER TABLE public.user_low_freq_stats ADD COLUMN policy_version TEXT NOT NULL DEFAULT '1.0.0';
-COMMENT ON COLUMN public.user_low_freq_stats.policy_version IS 'The privacy and terms policy version that the user has currently agreed to.';
-
-ALTER TABLE public.user_low_freq_stats ADD COLUMN policy_acceptance TIMESTAMPTZ NOT NULL DEFAULT now();
-COMMENT ON COLUMN public.user_low_freq_stats.policy_acceptance IS 'The privacy and terms policy date that the user has agreed to.';
-
 -- Increment share requests
 CREATE OR REPLACE FUNCTION public.increment_share_request()
 RETURNS json
