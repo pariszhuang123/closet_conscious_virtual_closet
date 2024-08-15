@@ -1,6 +1,3 @@
-ALTER TABLE public.outfits
-RENAME COLUMN outfits_image_url TO outfit_image_url;
-
 -- Add the 'policy_version' column to user_low_freq_stats
 ALTER TABLE public.user_low_freq_stats ADD COLUMN policy_version TEXT NOT NULL DEFAULT '1.0.0';
 COMMENT ON COLUMN public.user_low_freq_stats.policy_version IS 'The privacy and terms policy version that the user has currently agreed to.';
