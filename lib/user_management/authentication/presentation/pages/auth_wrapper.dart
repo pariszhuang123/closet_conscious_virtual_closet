@@ -44,9 +44,9 @@ class AuthWrapperState extends State<AuthWrapper> {
         } else if (state is Authenticated) {
           logger.i('Navigating to myCloset');
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (currentRoute != AppRoutes.myCloset) {
+            if (currentRoute != AppRoutes.reviewOutfit) {
               logger.i('Performing navigation to myCloset');
-              Navigator.of(context).pushReplacementNamed(AppRoutes.myCloset);
+              Navigator.of(context).pushReplacementNamed(AppRoutes.reviewOutfit);
             }
           });
         }

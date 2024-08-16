@@ -4,7 +4,7 @@ import '../../../review_outfit/presentation/bloc/outfit_review_bloc.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/theme/themed_svg.dart';
 import '../../../../core/data/type_data.dart';
-import '../../../../core/widgets/container/base_container.dart';
+import '../../../../core/widgets/container/base_container_no_format.dart';
 
 class OutfitReviewContainer extends StatefulWidget {
   final ThemeData theme;
@@ -29,7 +29,7 @@ class OutfitReviewContainerState extends State<OutfitReviewContainer> {
   Widget build(BuildContext context) {
     final selectedFeedback = context.select((OutfitReviewBloc bloc) => bloc.state.currentFeedback) ?? OutfitReviewFeedback.like;
 
-    return BaseContainer(
+    return BaseContainerNoFormat(
       theme: widget.theme,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/utilities/routes.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/widgets/base_grid.dart';
 import '../../../../core/widgets/user_photo/enhanced_user_photo.dart';
-import '../../../../core/utilities/routes.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/widgets/container/logo_text_container.dart';
 import '../../../../core/theme/themed_svg.dart';
@@ -76,7 +76,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
                     } else if (state is OutfitReviewEmpty) {
                       // Navigate to /my_closet.dart
                       WidgetsBinding.instance.addPostFrameCallback((_) {
-                        Navigator.pushReplacementNamed(context, '/my_closet');
+                        Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
                       });
                       return Container();
                     } else if (state is OutfitReviewImage) {
@@ -133,7 +133,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
                         itemIds: currentState.selectedItemIds,
                         comments: _commentController.text,
                       ));
-                      Navigator.of(context).pushNamed(AppRoutes.createOutfit);
+                      Navigator.of(context).pushReplacementNamed(AppRoutes.reviewOutfit);
                     }
                   },
                   child: Text(S.of(context).styleOn),

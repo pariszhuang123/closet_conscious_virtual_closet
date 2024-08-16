@@ -33,7 +33,7 @@ void setupUserManagementLocator() {
   locator.registerLazySingleton(() => SignOut(locator()));
   locator.registerLazySingleton(() => DeleteUserAccount(locator()));
   // Blocs
-  locator.registerFactory(() => AuthBloc(
+  locator.registerLazySingleton(() => AuthBloc(
     signInWithGoogle: locator(),
     getCurrentUser: locator(),
     signOut: locator(),

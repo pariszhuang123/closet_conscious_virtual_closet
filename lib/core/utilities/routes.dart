@@ -13,12 +13,14 @@ import '../../item_management/edit_item/presentation/bloc/edit_item_bloc.dart';
 import '../widgets/webview_screen.dart';
 import '../../user_management/achievements/data/models/achievements_page_argument.dart';
 import '../../core/data/models/arguments.dart';
+import '../../outfit_management/review_outfit/presentation/page/outfit_review_provider.dart';
 
 class AppRoutes {
   static const String login = '/';
   static const String home = '/home';
   static const String myCloset = '/my_closet';
   static const String createOutfit = '/create_outfit';
+  static const String reviewOutfit = '/review_outfit';
   static const String noInternet = '/no_internet';
   static const String uploadItem = '/upload_item';
   static const String editItem = '/edit_item';
@@ -38,6 +40,10 @@ class AppRoutes {
       case createOutfit:
         return MaterialPageRoute(
           builder: (_) => MyOutfitScreen(myOutfitTheme: myOutfitTheme),
+        );
+      case reviewOutfit:
+        return MaterialPageRoute(
+          builder: (_) => OutfitReviewProvider(myOutfitTheme: myOutfitTheme),
         );
       case uploadItem:
         return MaterialPageRoute(

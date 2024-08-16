@@ -35,7 +35,8 @@ class LogoTextContainer extends StatelessWidget {
             usePredefinedColor: usePredefinedColor,
           ),
           const SizedBox(width: 8),
-          Expanded(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               text,
               style: themeData.textTheme.titleMedium,

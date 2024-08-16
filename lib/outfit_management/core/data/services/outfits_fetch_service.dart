@@ -96,14 +96,14 @@ Future<String?> fetchOutfitImageUrl() async {
 Future<List<Map<String, dynamic>>> fetchEarliestOutfitForReview(OutfitReviewFeedback feedback) async {
   final feedbackString = feedback.toFeedbackString();
 
-  final response = await Supabase.instance.client
+  final data = await Supabase.instance.client
       .rpc('fetch_latest_outfit_for_review',
     params: {'feedback': feedbackString},
   );
 
-  if (response.error != null) {
-    throw Exception('Error fetching outfit: ${response.error!.message}');
+  if (data is List) {
+    return data.map((item) => item as Map<String, dynamic>).toList();
+  } else {
+    throw Exception('Unexpected data format returned: $data');
   }
-
-  return response.data as List<Map<String, dynamic>>;
 }
