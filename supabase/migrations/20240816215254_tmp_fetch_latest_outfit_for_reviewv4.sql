@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION public.fetch_latest_outfit_for_review(feedback TEXT)
+CREATE OR REPLACE FUNCTION public.tmp_fetch_latest_outfit_for_review(feedback TEXT)
 RETURNS TABLE(item_id UUID, outfit_image_url TEXT)
 LANGUAGE plpgsql
 SET search_path = ''
