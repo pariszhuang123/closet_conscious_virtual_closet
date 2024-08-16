@@ -5,44 +5,49 @@ enum SaveStatus { initial, success, failure, inProgress }
 class CreateOutfitItemState extends Equatable {
   final Map<OutfitItemCategory, List<String>> selectedItemIds;
   final List<ClosetItemMinimal> items;
-  final OutfitItemCategory? currentCategory;
+  final OutfitItemCategory currentCategory; // Made non-nullable
   final SaveStatus saveStatus;
   final String? outfitId;
+  final bool hasSelectedItems;
 
   const CreateOutfitItemState({
     this.selectedItemIds = const {},
     this.items = const [],
-    this.currentCategory,
+    required this.currentCategory, // Required in constructor
     this.saveStatus = SaveStatus.initial,
     this.outfitId,
+    this.hasSelectedItems = false,
   });
 
   factory CreateOutfitItemState.initial() {
     return const CreateOutfitItemState(
       selectedItemIds: {},
       items: [],
-      currentCategory: OutfitItemCategory.clothing, // Set default category if needed
+      currentCategory: OutfitItemCategory.clothing, // Default value set here
       saveStatus: SaveStatus.initial,
       outfitId: null,
+      hasSelectedItems: false,
     );
   }
 
   CreateOutfitItemState copyWith({
     Map<OutfitItemCategory, List<String>>? selectedItemIds,
     List<ClosetItemMinimal>? items,
-    OutfitItemCategory? currentCategory,
+    OutfitItemCategory? currentCategory, // Allow nullable input here for convenience
     SaveStatus? saveStatus,
-    String? outfitId, // Add outfitId to the copyWith method
+    String? outfitId,
+    bool? hasSelectedItems,
   }) {
     return CreateOutfitItemState(
       selectedItemIds: selectedItemIds ?? this.selectedItemIds,
       items: items ?? this.items,
-      currentCategory: currentCategory ?? this.currentCategory,
+      currentCategory: currentCategory ?? this.currentCategory, // Default to the current value if null
       saveStatus: saveStatus ?? this.saveStatus,
-      outfitId: outfitId ?? this.outfitId, // Assign the new outfitId if provided
+      outfitId: outfitId ?? this.outfitId,
+      hasSelectedItems: hasSelectedItems ?? this.hasSelectedItems,
     );
   }
 
   @override
-  List<Object?> get props => [selectedItemIds, items, currentCategory, saveStatus, outfitId];
+  List<Object?> get props => [selectedItemIds, items, currentCategory, saveStatus, outfitId, hasSelectedItems];
 }

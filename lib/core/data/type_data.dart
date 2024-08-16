@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class TypeData {
   final String key;
   final String Function(BuildContext) getName;
-  final String? assetPath;
+  final String assetPath;
   final VoidCallback? onPressed;
   final bool usePredefinedColor;
 
@@ -215,4 +215,23 @@ class TypeDataList {
     return TypeData('shoes', (context) => S.of(context).shoes, 'assets/icons/my_closet/upload/general_type/shoes.svg', false);
   }
 
+  static TypeData outfitReviewLike(BuildContext context) {
+    return TypeData('like', (context) => S.of(context).like, 'assets/icons/my_outfit/outfit_review/like.svg', false);
+  }
+
+  static TypeData outfitReviewAlright(BuildContext context) {
+    return TypeData('alright', (context) => S.of(context).alright, 'assets/icons/my_outfit/outfit_review/alright.svg', false);
+  }
+
+  static TypeData outfitReviewDislike(BuildContext context) {
+    return TypeData('dislike', (context) => S.of(context).dislike, 'assets/icons/my_outfit/outfit_review/dislike.svg', false);
+  }
+
+  static TypeData selfie(BuildContext context) {
+    return TypeData('selfie', (context) => S.of(context).selfie, 'assets/icons/my_outfit/outfit_review/selfie.svg', false);
+  }
+
+  static TypeData share(BuildContext context) {
+    return TypeData('share', (context) => S.of(context).share, 'assets/icons/my_outfit/outfit_review/share_outfit.svg', false);
+  }
 }

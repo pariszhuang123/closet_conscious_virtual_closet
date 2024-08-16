@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../user_management/authentication/presentation/bloc/authentication_bloc.dart';
+import '../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../user_management/authentication/presentation/pages/login_screen.dart';
 import '../core/utilities/logger.dart';
 import '../screens/my_closet.dart';

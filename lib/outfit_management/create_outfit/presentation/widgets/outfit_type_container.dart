@@ -4,14 +4,17 @@ import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/theme/themed_svg.dart';
 import '../../../../core/data/type_data.dart';
+import '../../../../core/widgets/container/base_container.dart';
 
 class OutfitTypeContainer extends StatefulWidget {
+  final ThemeData theme;
   final TypeData outfitClothingType;
   final TypeData outfitAccessoryType;
   final TypeData outfitShoesType;
 
   const OutfitTypeContainer({
     super.key,
+    required this.theme,
     required this.outfitClothingType,
     required this.outfitAccessoryType,
     required this.outfitShoesType,
@@ -26,64 +29,31 @@ class OutfitTypeContainerState extends State<OutfitTypeContainer> {
   Widget build(BuildContext context) {
     final selectedCategory = context.select((CreateOutfitItemBloc bloc) => bloc.state.currentCategory);
 
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            NavigationTypeButton(
-              label: widget.outfitClothingType.getName(context),
-              selectedLabel: widget.outfitClothingType.getName(context),
-              onPressed: () {
-                context.read<CreateOutfitItemBloc>().add(const SelectCategoryEvent(OutfitItemCategory.clothing));
-              },
-              assetPath: widget.outfitClothingType.assetPath!,
-              isFromMyCloset: false,
-              buttonType: ButtonType.primary,
-              isSelected: selectedCategory == OutfitItemCategory.clothing,
-              usePredefinedColor: false,
-            ),
-            NavigationTypeButton(
-              label: widget.outfitAccessoryType.getName(context),
-              selectedLabel: widget.outfitAccessoryType.getName(context),
-              onPressed: () {
-                context.read<CreateOutfitItemBloc>().add(const SelectCategoryEvent(OutfitItemCategory.accessory));
-              },
-              assetPath: widget.outfitAccessoryType.assetPath!,
-              isFromMyCloset: false,
-              buttonType: ButtonType.primary,
-              isSelected: selectedCategory == OutfitItemCategory.accessory,
-              usePredefinedColor: false,
-            ),
-            NavigationTypeButton(
-              label: widget.outfitShoesType.getName(context),
-              selectedLabel: widget.outfitShoesType.getName(context),
-              onPressed: () {
-                context.read<CreateOutfitItemBloc>().add(const SelectCategoryEvent(OutfitItemCategory.shoes));
-              },
-              assetPath: widget.outfitShoesType.assetPath!,
-              isFromMyCloset: false,
-              buttonType: ButtonType.primary,
-              isSelected: selectedCategory == OutfitItemCategory.shoes,
-              usePredefinedColor: false,
-            ),
-          ],
-        ),
-      ],
+    return BaseContainer(
+      theme: widget.theme,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildNavigationButton(widget.outfitClothingType, OutfitItemCategory.clothing, selectedCategory),
+          _buildNavigationButton(widget.outfitAccessoryType, OutfitItemCategory.accessory, selectedCategory),
+          _buildNavigationButton(widget.outfitShoesType, OutfitItemCategory.shoes, selectedCategory),
+        ],
+      ),
     );
   }
-}
 
-class OutfitTypeData {
-  final String name;
-  final String imagePath;
-
-  OutfitTypeData({
-    required this.name,
-    required this.imagePath,
-  });
-
-  String getName(BuildContext context) {
-    return name;
+  Widget _buildNavigationButton(TypeData typeData, OutfitItemCategory category, OutfitItemCategory selectedCategory) {
+    return NavigationTypeButton(
+      label: typeData.getName(context),
+      selectedLabel: typeData.getName(context),
+      onPressed: () {
+        context.read<CreateOutfitItemBloc>().add(SelectCategoryEvent(category));
+      },
+      assetPath: typeData.assetPath,
+      isFromMyCloset: false,
+      buttonType: ButtonType.primary,
+      isSelected: selectedCategory == category,
+      usePredefinedColor: false,
+    );
   }
 }

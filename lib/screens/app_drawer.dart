@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/widgets/button/navigation_type_button.dart';
 import '../../core/theme/themed_svg.dart';
 import '../../core/data/type_data.dart';
-import '../user_management/authentication/presentation/bloc/authentication_bloc.dart';
+import '../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../generated/l10n.dart';
 import '../core/utilities/logger.dart';
 import '../core/theme/ui_constant.dart';
@@ -116,7 +116,7 @@ class AppDrawer extends StatelessWidget {
               customAction(context);
             }
           },
-          assetPath: item.assetPath ?? '', // Ensure non-nullable
+          assetPath: item.assetPath, // Ensure non-nullable
           isSelected: false,
           isHorizontal: true,
         ),

@@ -130,7 +130,7 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
                     label: declutterSellOptions.getName(context),
                     selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_sold'),
-                    assetPath: declutterSellOptions.assetPath ?? '', // Ensure non-nullable
+                    assetPath: declutterSellOptions.assetPath, // Ensure non-nullable
                     isFromMyCloset: widget.isFromMyCloset,
                     buttonType: ButtonType.primary,
                     usePredefinedColor: false,
@@ -139,7 +139,7 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
                     label: declutterSwapOptions.getName(context),
                     selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_swapped'),
-                    assetPath: declutterSwapOptions.assetPath ?? '', // Ensure non-nullable
+                    assetPath: declutterSwapOptions.assetPath,
                     isFromMyCloset: widget.isFromMyCloset,
                     buttonType: ButtonType.primary,
                     usePredefinedColor: false,
@@ -148,7 +148,7 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
                     label: declutterGiftOptions.getName(context),
                     selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_gifted'),
-                    assetPath: declutterGiftOptions.assetPath ?? '', // Ensure non-nullable
+                    assetPath: declutterGiftOptions.assetPath,
                     isFromMyCloset: widget.isFromMyCloset,
                     buttonType: ButtonType.primary,
                     usePredefinedColor: false,
@@ -157,7 +157,7 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
                     label: declutterThrowOptions.getName(context),
                     selectedLabel: '',
                     onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_thrown'),
-                    assetPath: declutterThrowOptions.assetPath ?? '', // Ensure non-nullable
+                    assetPath: declutterThrowOptions.assetPath,
                     isFromMyCloset: widget.isFromMyCloset,
                     buttonType: ButtonType.primary,
                     usePredefinedColor: false,

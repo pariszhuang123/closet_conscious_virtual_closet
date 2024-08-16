@@ -43,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ItemOccasionLabel": MessageLookupByLibrary.simpleMessage("Occassion"),
         "ItemSeasonLabel": MessageLookupByLibrary.simpleMessage("Season"),
         "OutfitDay": MessageLookupByLibrary.simpleMessage("Outfit of the Day"),
+        "OutfitReview": MessageLookupByLibrary.simpleMessage("Outfit Review"),
         "Throw": MessageLookupByLibrary.simpleMessage("Throw"),
         "accessory": MessageLookupByLibrary.simpleMessage("Accessory"),
         "achievementMessage":
@@ -51,6 +52,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "active": MessageLookupByLibrary.simpleMessage("Active"),
         "addCloset_addCloset":
             MessageLookupByLibrary.simpleMessage("Add Closet"),
+        "addYourComments":
+            MessageLookupByLibrary.simpleMessage("Add your comments"),
+        "alright": MessageLookupByLibrary.simpleMessage("It\'s okay"),
         "amountSpentFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Amount Spent field is not filled."),
         "amountSpentLabel":
@@ -118,6 +122,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Warning: Deleting your account is irreversible."),
         "deleteAccountTitle":
             MessageLookupByLibrary.simpleMessage("Delete Account"),
+        "dislike": MessageLookupByLibrary.simpleMessage("Not for me"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("Edit Item"),
         "enterAmountSpentHint":
             MessageLookupByLibrary.simpleMessage("Enter amount spent"),
@@ -160,6 +165,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "This shows the number of items you have uploaded"),
         "jewellery": MessageLookupByLibrary.simpleMessage("Jewellery"),
         "light": MessageLookupByLibrary.simpleMessage("Light"),
+        "like": MessageLookupByLibrary.simpleMessage("love it"),
         "logOut": MessageLookupByLibrary.simpleMessage("Log Out"),
         "medium": MessageLookupByLibrary.simpleMessage("Medium"),
         "metadata": MessageLookupByLibrary.simpleMessage("More"),
@@ -233,7 +239,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectSeason": MessageLookupByLibrary.simpleMessage("Select Season"),
         "selectShoeType":
             MessageLookupByLibrary.simpleMessage("Select Shoe Type"),
+        "selfie": MessageLookupByLibrary.simpleMessage("selfie"),
         "sell": MessageLookupByLibrary.simpleMessage("Sell"),
+        "share": MessageLookupByLibrary.simpleMessage("share"),
+        "shareFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "Share your Outfit of the Day with one tap across all your social media. Elevate your style and inspire others effortlessly."),
+        "shareFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("Effortless Outfit Sharing"),
         "shoes": MessageLookupByLibrary.simpleMessage("Shoes"),
         "social": MessageLookupByLibrary.simpleMessage("Social"),
         "somethingWentWrong":

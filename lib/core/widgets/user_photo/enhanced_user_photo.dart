@@ -45,7 +45,7 @@ class EnhancedUserPhoto extends StatelessWidget {
               itemName,
               style: Theme.of(context).textTheme.labelSmall,
               overflow: TextOverflow.ellipsis,
-              maxLines: 1,
+              maxLines: 2,
             ),
           ],
         ),

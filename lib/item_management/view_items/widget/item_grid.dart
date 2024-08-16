@@ -4,6 +4,7 @@ import '../../../core/utilities/logger.dart';
 import '../../core/data/models/closet_item_minimal.dart';
 import '../../edit_item/data/edit_item_arguments.dart';
 import '../../../core/widgets/base_grid.dart';
+import '../../../core/widgets/user_photo/enhanced_user_photo.dart';
 
 class ItemGrid extends StatelessWidget {
   final List<ClosetItemMinimal> items;
@@ -28,8 +29,12 @@ class ItemGrid extends StatelessWidget {
       crossAxisCount: 3,
       childAspectRatio: 3 / 4,
       itemBuilder: (context, item, index) {
-        return GestureDetector(
-          onTap: () {
+        return EnhancedUserPhoto(
+          imageUrl: item.imageUrl,
+          itemName: item.name,
+          itemId: item.itemId,
+          isSelected: false,
+          onPressed: () {
             logger.i('Grid item clicked: ${item.itemId}');
             if (context.mounted) {
               logger.i('Navigating to edit item: ${item.itemId}');
@@ -53,30 +58,6 @@ class ItemGrid extends StatelessWidget {
               logger.w('Context not mounted. Unable to navigate.');
             }
           },
-          child: Container(
-            color: Colors.transparent,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0, right: 5.0, left: 5.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15.0),
-                    child: AspectRatio(
-                      aspectRatio: 1.0,
-                      child: Image.network(item.imageUrl, fit: BoxFit.cover),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                Text(
-                  item.name,
-                  style: myClosetTheme.textTheme.labelSmall,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-              ],
-            ),
-          ),
         );
       },
     );

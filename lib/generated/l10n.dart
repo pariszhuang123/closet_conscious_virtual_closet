@@ -1769,6 +1769,96 @@ class S {
       args: [],
     );
   }
+
+  /// `love it`
+  String get like {
+    return Intl.message(
+      'love it',
+      name: 'like',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `It's okay`
+  String get alright {
+    return Intl.message(
+      'It\'s okay',
+      name: 'alright',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not for me`
+  String get dislike {
+    return Intl.message(
+      'Not for me',
+      name: 'dislike',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `selfie`
+  String get selfie {
+    return Intl.message(
+      'selfie',
+      name: 'selfie',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `share`
+  String get share {
+    return Intl.message(
+      'share',
+      name: 'share',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Outfit Review`
+  String get OutfitReview {
+    return Intl.message(
+      'Outfit Review',
+      name: 'OutfitReview',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Effortless Outfit Sharing`
+  String get shareFeatureTitle {
+    return Intl.message(
+      'Effortless Outfit Sharing',
+      name: 'shareFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share your Outfit of the Day with one tap across all your social media. Elevate your style and inspire others effortlessly.`
+  String get shareFeatureDescription {
+    return Intl.message(
+      'Share your Outfit of the Day with one tap across all your social media. Elevate your style and inspire others effortlessly.',
+      name: 'shareFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add your comments`
+  String get addYourComments {
+    return Intl.message(
+      'Add your comments',
+      name: 'addYourComments',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -33,11 +33,19 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
     }
 
     updatedSelectedItemIds[event.category] = selectedItems;
-    emit(state.copyWith(selectedItemIds: updatedSelectedItemIds));
+
+    // Calculate if any items are selected across all categories
+    final hasSelectedItems = updatedSelectedItemIds.values.any((items) => items.isNotEmpty);
+
+    emit(state.copyWith(
+      selectedItemIds: updatedSelectedItemIds,
+      hasSelectedItems: hasSelectedItems,
+    ));
 
     // Log to ensure state update
     logger.d('Updated selected item IDs in state: ${state.selectedItemIds}');
   }
+
 
   Future<void> _onSaveOutfit(SaveOutfitEvent event, Emitter<CreateOutfitItemState> emit) async {
     emit(state.copyWith(saveStatus: SaveStatus.inProgress));

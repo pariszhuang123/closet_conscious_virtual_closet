@@ -11,7 +11,7 @@ import 'authentication/application/usecases/get_current_user.dart';
 import 'authentication/application/usecases/sign_out.dart';
 import 'authentication/application/usecases/delete_user_account.dart';
 
-import 'authentication/presentation/bloc/authentication_bloc.dart';
+import 'authentication/presentation/bloc/auth_bloc.dart';
 
 GetIt locator = GetIt.instance;
 

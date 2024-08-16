@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import '../widgets/image_display_widget.dart';
+import '../../../core/usecase/photo_capture_service.dart';
 import '../../../core/utilities/routes.dart';
 import '../../../core/data/type_data.dart';
 import '../../../generated/l10n.dart';
 import '../../../core/widgets/icon_row_builder.dart';
 import '../presentation/bloc/upload_bloc.dart';
-import '../../../user_management/authentication/presentation/bloc/authentication_bloc.dart';
+import '../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../core/widgets/bottom_sheet/metadata_premium_bottom_sheet.dart';
 import '../../../core/theme/themed_svg.dart';
@@ -91,25 +91,25 @@ class _UploadItemPageState extends State<UploadItemPage> {
   }
 
   Future<void> _capturePhoto() async {
-    final ImagePicker picker = ImagePicker();
-    final Completer<void> completer = Completer<void>();
+    final PhotoCaptureService photoCaptureService = PhotoCaptureService();
 
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
-    if (image != null) {
+    File? resizedImageFile = await photoCaptureService.captureAndResizePhoto();
+
+    if (resizedImageFile != null) {
       setState(() {
-        _imageFile = File(image.path);
+        _imageFile = resizedImageFile;
         _imageUrl = _imageFile!.path;
       });
-      completer.complete();
+
+      // Continue with any other operations like uploading the image
     } else {
       // Handle the case where the user canceled the camera
       if (mounted) {
-        completer.complete();
         Navigator.of(context).pushReplacementNamed(AppRoutes.myCloset); // Close this screen if no photo is taken
       }
     }
-    return completer.future;
   }
+
 
   bool _validateAmountSpent() {
     final amountSpentText = _amountSpentController.text;
@@ -298,7 +298,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                                   label: metadataData.getName(context),
                                   selectedLabel: '',
                                   onPressed: _openMetdataSheet,
-                                  assetPath: metadataData.assetPath!,
+                                  assetPath: metadataData.assetPath,
                                   isFromMyCloset: true,
                                   buttonType: ButtonType.secondary,
                                   usePredefinedColor: false,

@@ -55,7 +55,7 @@ class OutfitGrid extends StatelessWidget {
                 imageUrl: item.imageUrl,
                 isSelected: isSelected,
                 onPressed: () {
-                  context.read<CreateOutfitItemBloc>().add(ToggleSelectItemEvent(selectedCategory!, item.itemId));
+                  context.read<CreateOutfitItemBloc>().add(ToggleSelectItemEvent(selectedCategory, item.itemId));
                 },
                 itemName: item.name,
                 itemId: item.itemId,

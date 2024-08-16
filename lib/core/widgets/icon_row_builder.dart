@@ -29,7 +29,7 @@ List<Widget> buildIconRows(
             dataKey: key,
             selectedKey: selectedKey ?? '',
             label: label,
-            assetPath: type.assetPath!,
+            assetPath: type.assetPath,
             isSelected: selectedKey == key,
               isFromMyCloset: isFromMyCloset,
             buttonType: ButtonType.primary,

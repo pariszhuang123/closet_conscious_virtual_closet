@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'generated/l10n.dart';
-import 'user_management/service_locator.dart' as user_management_locator;
+import 'user_management/user_service_locator.dart' as user_management_locator;
 import 'user_management/authentication/presentation/pages/auth_wrapper.dart';
-import 'user_management/authentication/presentation/bloc/authentication_bloc.dart';
+import 'user_management/authentication/presentation/bloc/auth_bloc.dart';
 
 import 'core/theme/my_closet_theme.dart';
 import 'core/theme/my_outfit_theme.dart';

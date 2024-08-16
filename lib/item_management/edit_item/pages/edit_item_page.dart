@@ -273,7 +273,7 @@ class _EditItemPageState extends State<EditItemPage> {
                                         label: swapData.getName(context),
                                         selectedLabel: '',
                                         onPressed: _openSwapSheet,
-                                        assetPath: swapData.assetPath!,
+                                        assetPath: swapData.assetPath,
                                         isFromMyCloset: true,
                                         buttonType: ButtonType.secondary,
                                         usePredefinedColor: false,

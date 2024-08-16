@@ -4,6 +4,7 @@ import '../../core/utilities/logger.dart';
 import '../app_drawer.dart';
 import '../../core/theme/ui_constant.dart';
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_feature_container.dart';
+import '../../outfit_management/core/data/services/outfits_fetch_service.dart';
 import '../../core/widgets/bottom_sheet/calendar_premium_bottom_sheet.dart';
 import '../../core/widgets/bottom_sheet/filter_premium_bottom_sheet.dart';
 import '../../core/data/type_data.dart';
@@ -11,7 +12,8 @@ import '../../generated/l10n.dart';
 import '../../outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_grid.dart';
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_type_container.dart';
-import '../../outfit_management/wear_outfit/presentation/page/outfit_wear_page.dart';
+import '../../outfit_management/wear_outfit/presentation/page/outfit_wear_provider.dart';
+import '../../core/theme/my_outfit_theme.dart';
 
 class MyOutfitView extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -26,7 +28,13 @@ class MyOutfitViewState extends State<MyOutfitView> {
   int _selectedIndex = 1;
   final CustomLogger logger = CustomLogger('OutfitPage');
   final ScrollController _scrollController = ScrollController();
-  int outfitCount = 0;
+  int newOutfitCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchOutfitsCount();
+  }
 
   void _onSaveOutfit() {
     context.read<CreateOutfitItemBloc>().add(const SaveOutfitEvent());
@@ -48,6 +56,19 @@ class MyOutfitViewState extends State<MyOutfitView> {
         return const PremiumCalendarBottomSheet(isFromMyCloset: false);
       },
     );
+  }
+
+  Future<void> _fetchOutfitsCount() async {
+    try {
+      final count = await fetchOutfitsCount();
+      if (mounted) {
+        setState(() {
+          newOutfitCount = count;
+        });
+      }
+    } catch (e) {
+      logger.e('Error fetching new outfits count: $e');
+    }
   }
 
   void _onItemTapped(int index) {
@@ -75,7 +96,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
         if (state.saveStatus == SaveStatus.success && state.outfitId != null) {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => OutfitWearPage(
+              builder: (context) => OutfitWearProvider(
                 date: DateTime.now(),
                 outfitId: state.outfitId!,
                 myOutfitTheme: widget.myOutfitTheme,
@@ -108,7 +129,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
                     filterData: filterData,
                     calendarData: calendarData,
                     outfitsUploadData: outfitsUploadData,
-                    outfitCount: outfitCount,
+                    outfitCount: newOutfitCount,
                     onFilterButtonPressed: _onFilterButtonPressed,
                     onCalendarButtonPressed: _onCalendarButtonPressed,
                   ),
@@ -117,6 +138,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
                     outfitClothingType: outfitClothingType,
                     outfitAccessoryType: outfitAccessoryType,
                     outfitShoesType: outfitShoesType,
+                    theme: myOutfitTheme,
                   ),
                   const SizedBox(height: 16),
                   Expanded(
@@ -127,9 +149,15 @@ class MyOutfitViewState extends State<MyOutfitView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: _onSaveOutfit,
-                      child: Text(S.of(context).OutfitDay),
+                    child: BlocBuilder<CreateOutfitItemBloc, CreateOutfitItemState>(
+                      builder: (context, state) {
+                        return state.hasSelectedItems
+                            ? ElevatedButton(
+                          onPressed: _onSaveOutfit,
+                          child: Text(S.of(context).OutfitDay),
+                        )
+                            : const SizedBox.shrink();
+                      },
                     ),
                   ),
                 ],

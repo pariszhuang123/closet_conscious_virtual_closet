@@ -3,6 +3,7 @@ import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
+import '../../../review_outfit/presentation/bloc/outfit_review_bloc.dart';
 
 final logger = CustomLogger('CreateOutfitItemFetchSupabaseService');
 
@@ -49,4 +50,60 @@ Future<List<OutfitItemMinimal>> fetchOutfitItems(String outfitId) async {
     logger.e('Unexpected error fetching items for outfit $outfitId: $error');
     return [];
   }
+}
+
+Future<int> fetchOutfitsCount() async {
+  try {
+    final data = await Supabase.instance.client
+        .from('user_high_freq_stats')
+        .select('outfits_created')
+        .single();
+
+    // Check if data is valid and contains the 'new_items' field
+    if (data['outfits_created'] != null) {
+      logger.i('Fetched new outfits: ${data['outfits_created']}');
+      return data['outfits_created'];
+    } else {
+      throw Exception('Failed to fetch new outfits');
+    }
+  } catch (error) {
+    logger.e('Error fetching new outfits: $error');
+    return 0; // Return a default value or handle as needed
+  }
+}
+
+Future<String?> fetchOutfitImageUrl() async {
+  try {
+    final data = await Supabase.instance.client
+        .from('outfits')
+        .select('outfit_image_url')
+        .single();
+
+    // Check if data is valid and contains the 'outfit_image_url' field
+    if (data['outfit_image_url'] != null) {
+      logger.i('Fetched outfit_image_url: ${data['outfit_image_url']}');
+      return data['outfit_image_url'] as String?;
+    } else {
+      logger.w('Outfit image URL not found, returning null.');
+      return null;
+    }
+  } catch (error) {
+    logger.e('Error fetching outfit image URL: $error');
+    return null;
+  }
+}
+
+Future<List<Map<String, dynamic>>> fetchEarliestOutfitForReview(OutfitReviewFeedback feedback) async {
+  final feedbackString = feedback.toFeedbackString();
+
+  final response = await Supabase.instance.client
+      .rpc('fetch_latest_outfit_for_review',
+    params: {'feedback': feedbackString},
+  );
+
+  if (response.error != null) {
+    throw Exception('Error fetching outfit: ${response.error!.message}');
+  }
+
+  return response.data as List<Map<String, dynamic>>;
 }

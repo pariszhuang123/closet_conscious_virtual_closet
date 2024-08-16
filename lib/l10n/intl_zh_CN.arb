@@ -170,6 +170,14 @@
   "myOutfitOfTheDay": "今日穿搭",
   "date": "日期",
   "noItemsFound": "未找到物品",
-  "styleOn": "风格搭配"
-
+  "styleOn": "风格搭配",
+  "like": "喜欢",
+  "alright": "还行",
+  "dislike": "不适合我",
+  "selfie": "自拍",
+  "share": "分享",
+  "OutfitReview": "穿搭评价",
+  "shareFeatureTitle": "轻松分享穿搭",
+  "shareFeatureDescription": "一键分享你的每日穿搭到社交媒体。轻松提升你的风格，激发他人灵感。",
+  "addYourComments": "添加您的评论"
 }

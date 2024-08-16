@@ -1,5 +1,4 @@
 import 'dart:convert';
-// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../application/usecases/sign_in_with_google.dart';
@@ -9,28 +8,8 @@ import '../../application/usecases/delete_user_account.dart';
 import '../../domain/entities/user.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/config/supabase_config.dart';
-
-abstract class AuthEvent {}
-
-class SignInEvent extends AuthEvent {}
-
-class SignOutEvent extends AuthEvent {}
-
-class CheckAuthStatusEvent extends AuthEvent {}
-
-class DeleteAccountEvent extends AuthEvent {}
-
-abstract class AuthState {}
-
-class Authenticated extends AuthState {
-  final User user;
-
-  Authenticated(this.user);
-}
-
-class Unauthenticated extends AuthState {}
-
-class AuthLoading extends AuthState {}
+part 'auth_event.dart';
+part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignInWithGoogle _signInWithGoogle;
