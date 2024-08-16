@@ -11,7 +11,8 @@ part 'outfit_review_state.dart';
 part 'outfit_review_event.dart';
 
 class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
-  final CustomLogger _logger = GetIt.instance<CustomLogger>(instanceName: 'OutfitReviewBlocLogger');
+  final CustomLogger _logger = GetIt.instance<CustomLogger>(
+      instanceName: 'OutfitReviewBlocLogger');
   final AuthBloc _authBloc = GetIt.instance<AuthBloc>();
 
   final List<String> _selectedItemIds = [];
@@ -30,17 +31,25 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
   }
 
   // Use AuthBloc in the FetchEarliestOutfitForReview event
-  void _onFetchEarliestOutfitForReview(
-      FetchEarliestOutfitForReview event, Emitter<OutfitReviewState> emit) async {
-    _logger.i('Fetching earliest outfit for review started with feedback: ${event.feedback}');
-    emit(OutfitReviewLoading(outfitId: _outfitId, currentFeedback: _currentFeedback));
+  void _onFetchEarliestOutfitForReview(FetchEarliestOutfitForReview event,
+      Emitter<OutfitReviewState> emit) async {
+    _logger.i(
+        'Fetching earliest outfit for review started with feedback: ${event
+            .feedback}');
+    emit(OutfitReviewLoading(
+        outfitId: _outfitId, currentFeedback: _currentFeedback));
 
     try {
       // Access the authenticated user ID from AuthBloc
       final userId = _authBloc.userId;
+      // Log the userId to see what is being shown
+      _logger.d('Authenticated userId: $userId');
+
       if (userId == null) {
         _logger.w('No authenticated user found.');
-        emit(OutfitReviewError('No authenticated user found', outfitId: _outfitId, currentFeedback: _currentFeedback));
+        emit(OutfitReviewError(
+            'No authenticated user found', outfitId: _outfitId,
+            currentFeedback: _currentFeedback));
         return;
       }
 
@@ -51,7 +60,8 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
       if (items.isEmpty) {
         _logger.i('No items found for the earliest outfit.');
-        emit(OutfitReviewEmpty(outfitId: _outfitId, currentFeedback: _currentFeedback));
+        emit(OutfitReviewEmpty(
+            outfitId: _outfitId, currentFeedback: _currentFeedback));
       } else if (items.length == 1 && items.first['item_id'] == null) {
         _outfitId = items.first['outfit_id'];
         _logger.i('Single item found, loading OutfitReviewImage state.');
@@ -79,15 +89,16 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     }
   }
 
-  void _onSelectFeedbackEvent(
-      SelectFeedbackEvent event, Emitter<OutfitReviewState> emit) {
+  void _onSelectFeedbackEvent(SelectFeedbackEvent event,
+      Emitter<OutfitReviewState> emit) {
     _currentFeedback = event.feedback;
     emit(state.copyWith(currentFeedback: _currentFeedback));
 
     add(FetchEarliestOutfitForReview(_currentFeedback!));
   }
 
-  void _onToggleItemSelection(ToggleItemSelection event, Emitter<OutfitReviewState> emit) {
+  void _onToggleItemSelection(ToggleItemSelection event,
+      Emitter<OutfitReviewState> emit) {
     if (_selectedItemIds.contains(event.itemId)) {
       _selectedItemIds.remove(event.itemId);
     } else {
@@ -104,7 +115,8 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
   }
 
 
-  void _onValidateReviewSubmission(ValidateReviewSubmission event, Emitter<OutfitReviewState> emit) {
+  void _onValidateReviewSubmission(ValidateReviewSubmission event,
+      Emitter<OutfitReviewState> emit) {
     _logger.i('Validating review submission.');
 
     if (_currentFeedback == null) {
@@ -113,9 +125,12 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       return;
     }
 
-    if ((_currentFeedback == OutfitReviewFeedback.alright || _currentFeedback == OutfitReviewFeedback.dislike) && _selectedItemIds.isEmpty) {
+    if ((_currentFeedback == OutfitReviewFeedback.alright ||
+        _currentFeedback == OutfitReviewFeedback.dislike) &&
+        _selectedItemIds.isEmpty) {
       _logger.w('Validation failed: No items selected for feedback.');
-      emit(const ReviewValidationError('You must select at least one item for this feedback.'));
+      emit(const ReviewValidationError(
+          'You must select at least one item for this feedback.'));
       return;
     }
 
@@ -128,10 +143,11 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     ));
   }
 
-  Future<void> _onSubmitReview(
-      SubmitReview event, Emitter<OutfitReviewState> emit) async {
+  void _onSubmitReview(SubmitReview event,
+      Emitter<OutfitReviewState> emit) async {
     _logger.i('Submitting review for outfitId: ${event.outfitId}');
-    emit(ReviewSubmissionInProgress(outfitId: _outfitId, currentFeedback: _currentFeedback));
+    emit(ReviewSubmissionInProgress(
+        outfitId: _outfitId, currentFeedback: _currentFeedback));
 
     try {
       final result = await reviewOutfit(
@@ -145,14 +161,18 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
       if (result['status'] == 'success') {
         _logger.i('Review submission successful.');
-        emit(ReviewSubmissionSuccess(result['message'], outfitId: _outfitId, currentFeedback: _currentFeedback));
+        emit(ReviewSubmissionSuccess(result['message'], outfitId: _outfitId,
+            currentFeedback: _currentFeedback));
       } else {
-        _logger.e('Review submission failed with message: ${result['message']}');
-        emit(ReviewSubmissionFailure(result['message'], outfitId: _outfitId, currentFeedback: _currentFeedback));
+        _logger.e(
+            'Review submission failed with message: ${result['message']}');
+        emit(ReviewSubmissionFailure(result['message'], outfitId: _outfitId,
+            currentFeedback: _currentFeedback));
       }
     } catch (error) {
       _logger.e('Error during review submission: ${error.toString()}');
-      emit(ReviewSubmissionFailure(error.toString(), outfitId: _outfitId, currentFeedback: _currentFeedback));
+      emit(ReviewSubmissionFailure(error.toString(), outfitId: _outfitId,
+          currentFeedback: _currentFeedback));
     }
   }
 }
