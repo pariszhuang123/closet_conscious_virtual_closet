@@ -1,6 +1,7 @@
 {
   "@@locale": "zh_CN",
   "AppName": "环保衣橱",
+  "tagline": "在衣橱里购物",
   "offlineStatus": "您当前处于离线状态",
   "retryConnection": "重试",
   "ItemNameLabel": "名称",
@@ -179,5 +180,9 @@
   "OutfitReview": "穿搭评价",
   "shareFeatureTitle": "轻松分享穿搭",
   "shareFeatureDescription": "一键分享你的每日穿搭到社交媒体。轻松提升你的风格，激发他人灵感。",
-  "addYourComments": "添加您的评论"
+  "addYourComments": "添加您的评论",
+  "termsAcknowledgement": "我已阅读",
+  "privacyTerms": "隐私条款",
+  "and": " 和 ",
+  "termsAndConditions": "服务条款"
 }

@@ -25,7 +25,7 @@ class EnhancedUserPhoto extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         decoration: BoxDecoration(
-          color: theme.colorScheme.onPrimary,
+          color: Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           border: isSelected
               ? Border.all(color: theme.colorScheme.primary, width: 3)
@@ -34,7 +34,7 @@ class EnhancedUserPhoto extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.all(2.0),
               child: AspectRatio(
                 aspectRatio: 1.0, // Ensures the image is square
                 child: UserPhoto(imageUrl: imageUrl),

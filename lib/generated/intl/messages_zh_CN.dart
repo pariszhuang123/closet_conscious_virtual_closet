@@ -51,6 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "amountSpentFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("花费金额字段未填写。"),
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
+        "and": MessageLookupByLibrary.simpleMessage(" 和 "),
         "appInformationSection": MessageLookupByLibrary.simpleMessage("应用信息"),
         "athletic": MessageLookupByLibrary.simpleMessage("运动"),
         "autumn": MessageLookupByLibrary.simpleMessage("秋"),
@@ -181,6 +182,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("请输入有效金额（0或更大）。"),
         "please_select_the_category_above":
             MessageLookupByLibrary.simpleMessage("请在上方选择类别"),
+        "privacyTerms": MessageLookupByLibrary.simpleMessage("隐私条款"),
         "profileSection": MessageLookupByLibrary.simpleMessage("个人资料"),
         "quicklyFindItems":
             MessageLookupByLibrary.simpleMessage("我们正在考虑添加一个筛选不同元数据的高级功能。"),
@@ -224,6 +226,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "我们正在考虑添加一个高级功能，用于数字交换物品并收到附近交换活动的通知。"),
         "swapFeatureTitle": MessageLookupByLibrary.simpleMessage("有兴趣交换物品吗？"),
         "swap_item": MessageLookupByLibrary.simpleMessage("交换二维码"),
+        "tagline": MessageLookupByLibrary.simpleMessage("在衣橱里购物"),
+        "termsAcknowledgement": MessageLookupByLibrary.simpleMessage("我已阅读"),
+        "termsAndConditions": MessageLookupByLibrary.simpleMessage("服务条款"),
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
         "tie": MessageLookupByLibrary.simpleMessage("领带"),
         "top": MessageLookupByLibrary.simpleMessage("上衣"),

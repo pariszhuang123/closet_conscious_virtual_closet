@@ -4,7 +4,7 @@ import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/theme/themed_svg.dart';
 import '../../../../core/data/type_data.dart';
-import '../../../../core/widgets/container/base_container.dart';
+import '../../../../core/widgets/container/base_container_no_format.dart';
 
 class OutfitTypeContainer extends StatefulWidget {
   final ThemeData theme;
@@ -29,7 +29,7 @@ class OutfitTypeContainerState extends State<OutfitTypeContainer> {
   Widget build(BuildContext context) {
     final selectedCategory = context.select((CreateOutfitItemBloc bloc) => bloc.state.currentCategory);
 
-    return BaseContainer(
+    return BaseContainerNoFormat(
       theme: widget.theme,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

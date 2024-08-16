@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/widgets/container/base_container.dart';
+import '../../../core/widgets/container/base_container_no_format.dart';
 import '../../../core/widgets/button/navigation_type_button.dart';
 import '../../../core/widgets/button/number_type_button.dart';
 import '../../../core/theme/themed_svg.dart';
@@ -101,10 +102,10 @@ class MyClosetContainer extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 16.0),
+        const SizedBox(height: 10.0),
         Visibility(
           visible: isUploadCompleted,
-          child: BaseContainer(
+          child: BaseContainerNoFormat(
             theme: theme,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),

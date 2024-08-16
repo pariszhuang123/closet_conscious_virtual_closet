@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class BaseContainer extends StatelessWidget {
+class BaseContainerNoFormat extends StatelessWidget {
   final ThemeData theme;
   final Widget child;
 
-  const BaseContainer({
+  const BaseContainerNoFormat({
     super.key,
     required this.theme,
     required this.child,
@@ -13,8 +13,6 @@ class BaseContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 2.0, // Adjust elevation to your liking
-      borderRadius: BorderRadius.circular(12),
       child: Container(
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,

@@ -59,6 +59,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Amount Spent field is not filled."),
         "amountSpentLabel":
             MessageLookupByLibrary.simpleMessage("Amount Spent"),
+        "and": MessageLookupByLibrary.simpleMessage(" and the "),
         "appInformationSection":
             MessageLookupByLibrary.simpleMessage("App Information"),
         "athletic": MessageLookupByLibrary.simpleMessage("Athletic"),
@@ -212,6 +213,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "please_select_the_category_above":
             MessageLookupByLibrary.simpleMessage(
                 "Please select the category above"),
+        "privacyTerms": MessageLookupByLibrary.simpleMessage("Privacy Terms"),
         "profileSection": MessageLookupByLibrary.simpleMessage("Profile"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "We\'re considering adding a premium feature to filter different metadata."),
@@ -266,6 +268,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Interested in Swapping Items?"),
         "swap_item": MessageLookupByLibrary.simpleMessage("Swap QR"),
         "tagline": MessageLookupByLibrary.simpleMessage("ShopYourCloset"),
+        "termsAcknowledgement":
+            MessageLookupByLibrary.simpleMessage("I have read the "),
+        "termsAndConditions":
+            MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "tie": MessageLookupByLibrary.simpleMessage("Tie"),
         "top": MessageLookupByLibrary.simpleMessage("Top"),

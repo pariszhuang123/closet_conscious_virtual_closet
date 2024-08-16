@@ -4,15 +4,17 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import '../bloc/auth_bloc.dart';
 
 class SignInButtonGoogle extends StatelessWidget {
-  const SignInButtonGoogle({super.key});
+  final bool enabled;
+
+  const SignInButtonGoogle({super.key, required this.enabled});
 
   @override
   Widget build(BuildContext context) {
     return SignInButton(
       Buttons.Google,
-      onPressed: () {
+      onPressed: enabled ? () {
         context.read<AuthBloc>().add(SignInEvent());
-      },
+      } : () {}, // Provide an empty function when disabled
     );
   }
 }

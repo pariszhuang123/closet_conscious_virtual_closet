@@ -180,5 +180,10 @@
   "OutfitReview": "Outfit Review",
   "shareFeatureTitle": "Effortless Outfit Sharing",
   "shareFeatureDescription": "Share your Outfit of the Day with one tap across all your social media. Elevate your style and inspire others effortlessly.",
-  "addYourComments": "Add your comments"
+  "addYourComments": "Add your comments",
+  "termsAcknowledgement": "I have read the ",
+  "privacyTerms": "Privacy Terms",
+  "and": " and the ",
+  "termsAndConditions": "Terms and Conditions"
+
 }
