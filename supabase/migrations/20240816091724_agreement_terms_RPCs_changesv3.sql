@@ -142,7 +142,7 @@ BEGIN
   END IF;
 
   -- If the outfit has no image, or feedback is 'like'
-  IF outfit_image_url = 'cc_none' AND (feedback IS 'pending' OR feedback = 'like') THEN
+  IF outfit_image_url = 'cc_none' AND (feedback = 'pending' OR feedback = 'like') THEN
     RETURN QUERY
     SELECT * FROM public.get_outfit_items(outfit_id);
 
@@ -150,7 +150,7 @@ BEGIN
   END IF;
 
   -- If there's an image URL and feedback is 'like'
-  IF feedback IS 'pending' OR feedback = 'like' THEN
+  IF feedback = 'pending' OR feedback = 'like' THEN
     RETURN QUERY
     SELECT null::uuid as item_id, outfit_image_url as image_url, null::text as name;
     RETURN;
