@@ -97,7 +97,7 @@ Future<List<Map<String, dynamic>>> fetchEarliestOutfitForReview(OutfitReviewFeed
   final feedbackString = feedback.toFeedbackString();
 
   final data = await Supabase.instance.client
-      .rpc('fetch_latest_outfit_for_review',
+      .rpc('tmp_fetch_latest_outfit_for_review',
     params: {'feedback': feedbackString},
   );
 
