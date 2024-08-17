@@ -27,7 +27,13 @@ class OutfitReviewContainer extends StatefulWidget {
 class OutfitReviewContainerState extends State<OutfitReviewContainer> {
   @override
   Widget build(BuildContext context) {
-    final selectedFeedback = context.select((OutfitReviewBloc bloc) => bloc.state.currentFeedback) ?? OutfitReviewFeedback.like;
+    final selectedFeedback = context.select<OutfitReviewBloc, OutfitReviewFeedback?>((bloc) {
+      final state = bloc.state;
+      if (state is FeedbackUpdated) {
+        return state.currentFeedback;
+      }
+      return OutfitReviewFeedback.like; // Default or fallback value
+    }) ?? OutfitReviewFeedback.like;
 
     return BaseContainerNoFormat(
       theme: widget.theme,

@@ -1,11 +1,12 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:equatable/equatable.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../core/data/services/outfits_fetch_service.dart';
-import '../../../core/data/services/outfits_save_service.dart';
-import '../../../../core/utilities/logger.dart';
+import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
+import '../../../core/data/services/outfits_fetch_service.dart';
+import '../../../../core/utilities/logger.dart';
 
 part 'outfit_review_state.dart';
 part 'outfit_review_event.dart';
@@ -15,160 +16,96 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       instanceName: 'OutfitReviewBlocLogger');
   final AuthBloc _authBloc = GetIt.instance<AuthBloc>();
 
-  final List<String> _selectedItemIds = [];
-  OutfitReviewFeedback? _currentFeedback;
-  String? _comments;
-  String? _outfitId;
+  List<String> selectedItems = [];
 
-  OutfitReviewBloc() : super(const OutfitReviewInitial()) {
-    _logger.i('OutfitReviewBloc initialized with initial state.');
-
-    on<ToggleItemSelection>(_onToggleItemSelection);
-    on<ValidateReviewSubmission>(_onValidateReviewSubmission);
-    on<SubmitReview>(_onSubmitReview);
-    on<FetchEarliestOutfitForReview>(_onFetchEarliestOutfitForReview);
-    on<SelectFeedbackEvent>(_onSelectFeedbackEvent);
+  OutfitReviewBloc() : super(OutfitReviewInitial()) {
+    on<CheckAndLoadOutfit>(_onCheckAndLoadOutfit);
+    on<CheckForOutfitImageUrl>(_onCheckForOutfitImageUrl);
+    on<FeedbackSelected>(_onFeedbackSelected);
+    on<FetchOutfitItems>(_onFetchOutfitItems);
   }
 
-// Use AuthBloc in the FetchEarliestOutfitForReview event
-  void _onFetchEarliestOutfitForReview(FetchEarliestOutfitForReview event,
+  Future<void> _onCheckAndLoadOutfit(CheckAndLoadOutfit event,
       Emitter<OutfitReviewState> emit) async {
-    _logger.i(
-        'Fetching earliest outfit for review started with feedback: ${event.feedback}');
-    try {
-      // Access the authenticated user ID from AuthBloc
-      final userId = _authBloc.userId;
-      // Log the userId to see what is being shown
-      _logger.d('Authenticated userId: $userId');
+    final authState = _authBloc.state;
+    if (authState is Authenticated) {
+      emit(OutfitReviewLoading());
+      _logger.i('Starting _onCheckAndLoadOutfit');
 
-      if (userId == null) {
-        _logger.w('No authenticated user found.');
-        emit(OutfitReviewError(
-            'No authenticated user found', outfitId: _outfitId,
-            currentFeedback: _currentFeedback));
-        return;
+      final String userId = authState.user.id;
+
+
+      try {
+        _logger.i('Fetching outfit for user $userId');
+
+        final response = await Supabase.instance.client
+            .from('outfits')
+            .select('outfit_id, feedback')
+            .eq('auth_uid', userId) // Use the current user ID
+            .eq('reviewed', false)
+            .order('updated_at', ascending: true)
+            .single();
+
+        final outfitId = response['outfit_id'];
+        final feedback = response['feedback'];
+
+
+        if (feedback == 'pending' || feedback == 'like') {
+          add(CheckForOutfitImageUrl(outfitId));
+        } else {
+          add(FetchOutfitItems(outfitId));
+        }
+      } catch (e) {
+        _logger.e('Failed to load outfit: $e');
+        emit(NavigateToMyCloset());
       }
+    }
+  }
+  Future<void> _onCheckForOutfitImageUrl(CheckForOutfitImageUrl event,
+      Emitter<OutfitReviewState> emit) async {
+    _logger.i('Checking for outfit image URL for outfit ${event.outfitId}');
+    emit(OutfitReviewLoading());
 
-      // Fetch the outfit using the user ID
-      final items = await tmpFetchEarliestOutfitForReview(event.feedback);
+    try {
+      final imageUrl = await fetchOutfitImageUrl(event.outfitId);
 
-      _logger.d('Fetched items: $items');
-
-      if (items.isEmpty) {
-        _logger.i('No items found for the earliest outfit.');
-        emit(OutfitReviewEmpty(
-            outfitId: _outfitId, currentFeedback: _currentFeedback));
-      } else if (items.length == 1 ) {
-        _outfitId = items.first.itemId;
-        _logger.i('Single item found, loading OutfitReviewImage state.');
-        emit(OutfitReviewImage(
-          items.first.imageUrl,
-          outfitId: _outfitId,
-          currentFeedback: _currentFeedback,
-        ));
+      if (imageUrl != null && imageUrl != 'cc_none') {
+        _logger.i('Image URL found: $imageUrl');
+        emit(OutfitImageUrlAvailable(imageUrl));
       } else {
-        _outfitId = items.first.itemId;
-        _logger.i('Multiple items found, loading OutfitReviewLoaded state.');
-        emit(OutfitReviewLoaded(
-          items.cast<Map<String, dynamic>>(),
-          outfitId: _outfitId,
-          currentFeedback: _currentFeedback,
-        ));
+        _logger.i('No custom image, fetching items');
+        add(FetchOutfitItems(event.outfitId));
       }
     } catch (e) {
-      _logger.e('Error fetching earliest outfit for review: ${e.toString()}');
-      emit(OutfitReviewError(
-        'Failed to fetch outfit: ${e.toString()}',
-        outfitId: _outfitId,
-        currentFeedback: _currentFeedback,
-      ));
+      _logger.e('Failed to load outfit image URL: $e');
+      emit(NavigateToMyCloset());
     }
   }
 
-  void _onSelectFeedbackEvent(SelectFeedbackEvent event,
-      Emitter<OutfitReviewState> emit) {
-    _currentFeedback = event.feedback;
-    emit(state.copyWith(currentFeedback: _currentFeedback));
-
-    add(FetchEarliestOutfitForReview(_currentFeedback!));
-  }
-
-  void _onToggleItemSelection(ToggleItemSelection event,
-      Emitter<OutfitReviewState> emit) {
-    if (_selectedItemIds.contains(event.itemId)) {
-      _selectedItemIds.remove(event.itemId);
-    } else {
-      _selectedItemIds.add(event.itemId);
-    }
-
-    emit(ReviewStateUpdated(
-      selectedItemIds: _selectedItemIds,
-      feedback: _currentFeedback?.toFeedbackString(),
-      comments: _comments,
-      outfitId: _outfitId,
-      currentFeedback: _currentFeedback,
-    ));
-  }
-
-
-  void _onValidateReviewSubmission(ValidateReviewSubmission event,
-      Emitter<OutfitReviewState> emit) {
-    _logger.i('Validating review submission.');
-
-    if (_currentFeedback == null) {
-      _logger.w('Validation failed: Feedback must be chosen.');
-      emit(const ReviewValidationError('Feedback must be chosen.'));
-      return;
-    }
-
-    if ((_currentFeedback == OutfitReviewFeedback.alright ||
-        _currentFeedback == OutfitReviewFeedback.dislike) &&
-        _selectedItemIds.isEmpty) {
-      _logger.w('Validation failed: No items selected for feedback.');
-      emit(const ReviewValidationError(
-          'You must select at least one item for this feedback.'));
-      return;
-    }
-
-    _logger.i('Validation successful, proceeding to submit review.');
-    add(SubmitReview(
-      outfitId: _outfitId!,
-      feedback: _currentFeedback!.toFeedbackString(),
-      itemIds: _selectedItemIds,
-      comments: _comments,
-    ));
-  }
-
-  void _onSubmitReview(SubmitReview event,
-      Emitter<OutfitReviewState> emit) async {
-    _logger.i('Submitting review for outfitId: ${event.outfitId}');
-    emit(ReviewSubmissionInProgress(
-        outfitId: _outfitId, currentFeedback: _currentFeedback));
+  Future<void> _onFetchOutfitItems(FetchOutfitItems event, Emitter<OutfitReviewState> emit) async {
+    _logger.i('Fetching outfit items for outfit ${event.outfitId}');
+    emit(OutfitReviewLoading());
 
     try {
-      final result = await reviewOutfit(
-        outfitId: event.outfitId,
-        feedback: event.feedback,
-        itemIds: event.itemIds,
-        comments: event.comments ?? 'cc_none',
-      );
+      final selectedItems = await fetchOutfitItems(event.outfitId);
 
-      _logger.d('Review submission result: $result');
-
-      if (result['status'] == 'success') {
-        _logger.i('Review submission successful.');
-        emit(ReviewSubmissionSuccess(result['message'], outfitId: _outfitId,
-            currentFeedback: _currentFeedback));
+      if (selectedItems.isEmpty) {
+        _logger.w('No items found for outfit ${event.outfitId}');
+        emit(NoOutfitItemsFound());
       } else {
-        _logger.e(
-            'Review submission failed with message: ${result['message']}');
-        emit(ReviewSubmissionFailure(result['message'], outfitId: _outfitId,
-            currentFeedback: _currentFeedback));
+        _logger.i('Items fetched successfully for outfit ${event.outfitId}');
+        emit(OutfitItemsLoaded(selectedItems));
       }
-    } catch (error) {
-      _logger.e('Error during review submission: ${error.toString()}');
-      emit(ReviewSubmissionFailure(error.toString(), outfitId: _outfitId,
-          currentFeedback: _currentFeedback));
+    } catch (e) {
+      _logger.e('Failed to load outfit items: $e');
+      emit(const OutfitReviewError('Failed to load outfit items'));
     }
+  }
+
+  void _onFeedbackSelected(FeedbackSelected event,
+      Emitter<OutfitReviewState> emit) {
+    _logger.i('Feedback selected: ${event.feedback}');
+    emit(FeedbackUpdated(event.feedback));
+    add(CheckAndLoadOutfit());
   }
 }

@@ -13,6 +13,7 @@ import '../widgets/outfit_review_container.dart';
 import '../widgets/comment_field.dart';
 import '../../../../core/data/type_data.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
+import '../../../../core/widgets/user_photo/base/user_photo.dart';
 
 class OutfitReview extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -69,29 +70,28 @@ class OutfitReviewViewState extends State<OutfitReview> {
                   builder: (context, state) {
                     if (state is OutfitReviewInitial) {
                       // Passing default feedback to initiate fetch
-                      context.read<OutfitReviewBloc>().add(FetchEarliestOutfitForReview(OutfitReviewFeedback.like));
+                      context.read<OutfitReviewBloc>().add(CheckAndLoadOutfit());
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is OutfitReviewLoading) {
                       return const Center(child: CircularProgressIndicator());
-                    } else if (state is OutfitReviewEmpty) {
+                    } else if (state is NavigateToMyCloset) {
                       // Navigate to /my_closet.dart
                       WidgetsBinding.instance.addPostFrameCallback((_) {
                         Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
                       });
                       return Container();
-                    } else if (state is OutfitReviewImage) {
+                    } else if (state is OutfitImageUrlAvailable) {
                       // Display the image in full-screen mode
                       final outfitImageUrl = state.imageUrl;
                       return Center(
-                        child: Image.network(
-                          outfitImageUrl,
-                          fit: BoxFit.cover, // Ensure the image covers the entire space
+                        child: UserPhoto(
+                          imageUrl: outfitImageUrl,
                         ),
                       );
                     } else if (state is OutfitReviewLoaded) {
                       // Display the grid with the loaded items
                       return BaseGrid<OutfitItemMinimal>(
-                        items: state.items.map((item) => OutfitItemMinimal.fromMap(item)).toList(),
+                        items: state.items,
                         scrollController: ScrollController(),
                         logger: logger,
                         itemBuilder: (context, item, index) {
@@ -125,16 +125,6 @@ class OutfitReviewViewState extends State<OutfitReview> {
                 padding: const EdgeInsets.only(top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    final currentState = context.read<OutfitReviewBloc>().state;
-                    if (currentState is ReviewStateUpdated) {
-                      context.read<OutfitReviewBloc>().add(SubmitReview(
-                        outfitId: currentState.outfitId!,
-                        feedback: currentState.feedback!,
-                        itemIds: currentState.selectedItemIds,
-                        comments: _commentController.text,
-                      ));
-                      Navigator.of(context).pushReplacementNamed(AppRoutes.reviewOutfit);
-                    }
                   },
                   child: Text(S.of(context).styleOn),
                 ),
