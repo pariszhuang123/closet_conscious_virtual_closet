@@ -30,15 +30,11 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     on<SelectFeedbackEvent>(_onSelectFeedbackEvent);
   }
 
-  // Use AuthBloc in the FetchEarliestOutfitForReview event
+// Use AuthBloc in the FetchEarliestOutfitForReview event
   void _onFetchEarliestOutfitForReview(FetchEarliestOutfitForReview event,
       Emitter<OutfitReviewState> emit) async {
     _logger.i(
-        'Fetching earliest outfit for review started with feedback: ${event
-            .feedback}');
-    emit(OutfitReviewLoading(
-        outfitId: _outfitId, currentFeedback: _currentFeedback));
-
+        'Fetching earliest outfit for review started with feedback: ${event.feedback}');
     try {
       // Access the authenticated user ID from AuthBloc
       final userId = _authBloc.userId;
@@ -54,7 +50,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       }
 
       // Fetch the outfit using the user ID
-      final items = await fetchEarliestOutfitForReview(event.feedback);
+      final items = await tmpFetchEarliestOutfitForReview(event.feedback);
 
       _logger.d('Fetched items: $items');
 
@@ -62,19 +58,19 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
         _logger.i('No items found for the earliest outfit.');
         emit(OutfitReviewEmpty(
             outfitId: _outfitId, currentFeedback: _currentFeedback));
-      } else if (items.length == 1 && items.first['item_id'] == null) {
-        _outfitId = items.first['outfit_id'];
+      } else if (items.length == 1 ) {
+        _outfitId = items.first.itemId;
         _logger.i('Single item found, loading OutfitReviewImage state.');
         emit(OutfitReviewImage(
-          items.first['image_url'],
+          items.first.imageUrl,
           outfitId: _outfitId,
           currentFeedback: _currentFeedback,
         ));
       } else {
-        _outfitId = items.first['outfit_id'];
+        _outfitId = items.first.itemId;
         _logger.i('Multiple items found, loading OutfitReviewLoaded state.');
         emit(OutfitReviewLoaded(
-          items,
+          items.cast<Map<String, dynamic>>(),
           outfitId: _outfitId,
           currentFeedback: _currentFeedback,
         ));

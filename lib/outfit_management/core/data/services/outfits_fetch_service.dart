@@ -72,11 +72,12 @@ Future<int> fetchOutfitsCount() async {
   }
 }
 
-Future<String?> fetchOutfitImageUrl() async {
+Future<String?> fetchOutfitImageUrl(String outfitId) async {
   try {
     final data = await Supabase.instance.client
         .from('outfits')
         .select('outfit_image_url')
+        .eq('id', outfitId)
         .single();
 
     // Check if data is valid and contains the 'outfit_image_url' field
@@ -93,17 +94,26 @@ Future<String?> fetchOutfitImageUrl() async {
   }
 }
 
-Future<List<Map<String, dynamic>>> fetchEarliestOutfitForReview(OutfitReviewFeedback feedback) async {
-  final feedbackString = feedback.toFeedbackString();
+Future<List<OutfitItemMinimal>> tmpFetchEarliestOutfitForReview(OutfitReviewFeedback feedback) async {
+  try {
+    final feedbackString = feedback.toFeedbackString();
 
-  final data = await Supabase.instance.client
-      .rpc('tmp_fetch_latest_outfit_for_review',
-    params: {'feedback': feedbackString},
-  );
+    final response = await Supabase.instance.client
+        .rpc('fetch_latest_outfit_for_review', params: {'feedback': feedbackString});
 
-  if (data is List) {
-    return data.map((item) => item as Map<String, dynamic>).toList();
-  } else {
-    throw Exception('Unexpected data format returned: $data');
+    // Handle the case where the response is actually the data
+    if (response is List<dynamic>) {
+      final List<dynamic> data = response;
+      final List<OutfitItemMinimal> reviews = data.map((item) => OutfitItemMinimal.fromMap(item)).toList();
+      return reviews;
+    } else {
+      // If response.data is not a list, log and return an empty list
+      logger.e('Unexpected data format returned for feedback: $feedbackString.');
+      return [];
+    }
+  } catch (error) {
+    // Handle any unexpected errors
+    logger.e('Unexpected error fetching earliest outfit for review: $error');
+    return [];
   }
 }

@@ -6,6 +6,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/usecase/photo_capture_service.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/config/supabase_config.dart';
@@ -21,9 +22,11 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
   final CustomLogger logger;
   final AuthBloc authBloc;
   final ImagePicker picker;
+  final PhotoCaptureService photoCaptureService;
 
   OutfitWearBloc({
     required this.authBloc,
+    required this.photoCaptureService,
   })
       : supabaseClient = SupabaseConfig.client,
   // Use SupabaseConfig.client
@@ -37,31 +40,34 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
   }
 
 
-  void _onCheckForOutfitImageUrl(CheckForOutfitImageUrl event,
-      Emitter<OutfitWearState> emit) async {
+  void _onCheckForOutfitImageUrl(
+      CheckForOutfitImageUrl event, Emitter<OutfitWearState> emit) async {
     emit(OutfitWearLoading());
     logger.i('Starting _onCheckForOutfitImageUrl');
 
     try {
-      final imageUrl = await fetchOutfitImageUrl();
+      // Fetch the image URL
+      final imageUrl = await fetchOutfitImageUrl(event.outfitId);
 
-      if (imageUrl != null) {
-        logger.i('_onCheckForOutfitImageUrl: Image URL found');
-        emit(OutfitImageUrlAvailable(imageUrl));
+      // Check if imageURL is not the default 'cc_none' or any placeholder indicating no actual image
+      if (imageUrl != null && imageUrl != 'cc_none') {
+        logger.i('_onCheckForOutfitImageUrl: Custom image URL found');
+        emit(OutfitImageUrlAvailable(imageUrl)); // Emit state with the provided image URL
       } else {
-        logger.i('_onCheckForOutfitImageUrl: No image URL, fetching items');
-        final selectedItems = await fetchOutfitItems(event.outfitId);
+        logger.i('_onCheckForOutfitImageUrl: No custom image, fetching items');
+        final selectedItems = await fetchOutfitItems(event.outfitId); // Fetch outfit items
+
         if (selectedItems.isEmpty) {
           logger.w('_onCheckForOutfitImageUrl: No items found for outfit');
-          emit(const OutfitWearError('No items found for this outfit'));
+          emit(const OutfitWearError('No items found for this outfit')); // Emit error state
         } else {
           logger.i('_onCheckForOutfitImageUrl: Items fetched successfully');
-          emit(OutfitWearLoaded(selectedItems));
+          emit(OutfitWearLoaded(selectedItems)); // Emit loaded state with items
         }
       }
     } catch (e) {
       logger.e('_onCheckForOutfitImageUrl: Failed to load outfit details: $e');
-      emit(const OutfitWearError('Failed to load outfit details'));
+      emit(const OutfitWearError('Failed to load outfit details')); // Emit error state on exception
     }
   }
 
@@ -74,15 +80,15 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
       final String userId = authState.user.id;
 
       try {
-        final XFile? image = await _capturePhoto();
+        final File? imageFile = await photoCaptureService.captureAndResizePhoto();
 
-        if (image == null) {
+        if (imageFile == null) {
           logger.w('_onTakeSelfie: No image captured for user: $userId');
           emit(const OutfitWearError('No photo was taken'));
           return;
         }
 
-        final String imageUrl = await _uploadImage(userId, image);
+        final String imageUrl = await _uploadImage(userId, imageFile);
         await _processUploadedImage(imageUrl, event.outfitId);
 
         final OutfitItemMinimal selfieItem = OutfitItemMinimal(
@@ -107,20 +113,9 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
   }
 
 
-  Future<XFile?> _capturePhoto() async {
-    logger.i('Starting _capturePhoto');
-    try {
-      return await picker.pickImage(source: ImageSource.camera);
-    } catch (e) {
-      logger.e('_capturePhoto: Error capturing photo: $e');
-      throw Exception('Photo capture failed');
-    }
-  }
-
-  Future<String> _uploadImage(String userId, XFile image) async {
+  Future<String> _uploadImage(String userId, File imageFile) async {
     logger.i('Starting _uploadImage for user $userId');
     try {
-      final File imageFile = File(image.path);
       final imageBytes = await imageFile.readAsBytes();
       final String uuid = const Uuid().v4();
       final String imagePath = '/$userId/$uuid.jpg';
@@ -135,46 +130,38 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
       );
 
       logger.i('_uploadImage: Image uploaded successfully for user $userId');
-      return _generatePublicUrlWithTimestamp(imagePath);
+      final String publicUrlWithTimestamp = _generatePublicUrlWithTimestamp(imagePath);
+      return publicUrlWithTimestamp;
     } catch (e) {
-      logger.e(
-          '_uploadImage: Error uploading image for user $userId, error: $e');
+      logger.e('_uploadImage: Error uploading image for user $userId, error: $e');
       throw Exception('Image upload failed');
     }
+  }
+
+  String _generatePublicUrlWithTimestamp(String imagePath) {
+    final String url = supabaseClient.storage.from('item_pics').getPublicUrl(imagePath);
+    return Uri.parse(url).replace(queryParameters: {
+      't': DateTime.now().millisecondsSinceEpoch.toString()
+    }).toString();
   }
 
   Future<void> _processUploadedImage(String imageUrl, String outfitId) async {
     logger.i('Starting _processUploadedImage for outfit $outfitId');
     try {
-      final response = await supabaseClient.rpc('upload_outfit_image', params: {
-        'outfit_image_url': imageUrl,
-        'outfit_id': outfitId,
+      final response = await supabaseClient.rpc('upload_outfit_selfie', params: {
+        '_image_url': imageUrl,
+        '_outfit_id': outfitId,
       });
 
-      if (response is! Map<String, dynamic> ||
-          response['status'] != 'success') {
-        logger.w(
-            '_processUploadedImage: RPC call returned an unexpected response for outfit $outfitId: $response');
+      if (response is! Map<String, dynamic> || response['status'] != 'success') {
+        logger.w('_processUploadedImage: RPC call returned an unexpected response for outfit $outfitId: $response');
         throw Exception('RPC call failed');
       }
 
-      logger.i(
-          '_processUploadedImage: Image processing completed successfully for outfit $outfitId');
+      logger.i('_processUploadedImage: Image processing completed successfully for outfit $outfitId');
     } catch (e) {
-      logger.e(
-          '_processUploadedImage: Error processing uploaded image for outfit $outfitId, error: $e');
+      logger.e('_processUploadedImage: Error processing uploaded image for outfit $outfitId, error: $e');
       throw Exception('Processing uploaded image failed');
     }
-  }
-
-  String _generatePublicUrlWithTimestamp(String imagePath) {
-    final String url = supabaseClient.storage.from('item_pics').getPublicUrl(
-        imagePath);
-    return Uri.parse(url).replace(queryParameters: {
-      't': DateTime
-          .now()
-          .millisecondsSinceEpoch
-          .toString()
-    }).toString();
   }
 }

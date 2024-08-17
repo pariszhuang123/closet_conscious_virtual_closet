@@ -1,6 +1,7 @@
 import 'package:closet_conscious/core/data/type_data.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/widgets/container/base_container.dart';
+
+import '../../../../core/widgets/container/base_container_no_format.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/theme/themed_svg.dart';
 import '../../../../generated/l10n.dart';
@@ -24,32 +25,43 @@ class SelfieDateShareContainer extends StatelessWidget {
     final selfieData = TypeDataList.selfie(context);
     final shareData = TypeDataList.share(context);
 
-    return BaseContainer(
+    return BaseContainerNoFormat(
       theme: theme,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
+        // Center the buttons and text
         children: [
-          NavigationTypeButton(
-            label: selfieData.getName(context),
-            selectedLabel: '',
-            onPressed: onSelfieButtonPressed,
-            assetPath: selfieData.assetPath,
-            isFromMyCloset: false,
-            buttonType: ButtonType.primary,
-            usePredefinedColor: false,
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            // Add some gap on the right
+            child: NavigationTypeButton(
+              label: selfieData.getName(context),
+              selectedLabel: '',
+              onPressed: onSelfieButtonPressed,
+              assetPath: selfieData.assetPath,
+              isFromMyCloset: false,
+              buttonType: ButtonType.primary,
+              usePredefinedColor: false,
+            ),
           ),
           Text(
-            '${S.of(context).date}: $formattedDate',
+            '${S
+                .of(context)
+                .date}: $formattedDate',
             style: theme.textTheme.bodyMedium,
           ),
-          NavigationTypeButton(
-            label: shareData.getName(context),
-            selectedLabel: '',
-            onPressed: onShareButtonPressed,
-            assetPath: shareData.assetPath,
-            isFromMyCloset: false,
-            buttonType: ButtonType.primary,
-            usePredefinedColor: false,
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            // Add some gap on the left
+            child: NavigationTypeButton(
+              label: shareData.getName(context),
+              selectedLabel: '',
+              onPressed: onShareButtonPressed,
+              assetPath: shareData.assetPath,
+              isFromMyCloset: false,
+              buttonType: ButtonType.primary,
+              usePredefinedColor: false,
+            ),
           ),
         ],
       ),

@@ -12,7 +12,7 @@ extension OutfitReviewFeedbackExtension on OutfitReviewFeedback {
       case OutfitReviewFeedback.dislike:
         return 'dislike';
       default:
-        return '';
+        return 'pending';
     }
   }
 }
