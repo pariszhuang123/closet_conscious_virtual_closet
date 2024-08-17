@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/widgets/base_grid.dart';
 import '../../../../core/widgets/user_photo/enhanced_user_photo.dart';
+import '../../../../core/widgets/user_photo/base/user_photo.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../core/utilities/routes.dart';
 import '../../../../generated/l10n.dart';
@@ -97,9 +98,8 @@ class OutfitWearViewState extends State<OutfitWearView> {
                       logger.i('Selfie taken, displaying image');
                       final outfitImageUrl = state.items.first.imageUrl;
                       return Center(
-                        child: Image.network(
-                          outfitImageUrl,
-                          fit: BoxFit.cover,
+                        child: UserPhoto(
+                          imageUrl: outfitImageUrl,
                         ),
                       );
                     } else if (state is OutfitWearLoaded) {
