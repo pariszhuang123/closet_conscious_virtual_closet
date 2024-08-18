@@ -34,33 +34,40 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
       final String userId = authState.user.id;
 
-
       try {
         _logger.i('Fetching outfit for user $userId');
 
         final response = await Supabase.instance.client
             .from('outfits')
             .select('outfit_id, feedback')
-            .eq('auth_uid', userId) // Use the current user ID
+            .eq('user_id', userId) // Use the current user ID
             .eq('reviewed', false)
             .order('updated_at', ascending: true)
             .single();
 
+        _logger.i('Outfit fetch response: $response');
+
         final outfitId = response['outfit_id'];
         final feedback = response['feedback'];
 
+        _logger.i('Outfit ID: $outfitId, Feedback: $feedback');
 
         if (feedback == 'pending' || feedback == 'like') {
           add(CheckForOutfitImageUrl(outfitId));
         } else {
           add(FetchOutfitItems(outfitId));
         }
-      } catch (e) {
+      } catch (e, stackTrace) {
         _logger.e('Failed to load outfit: $e');
+        _logger.e('Stack trace: $stackTrace');
         emit(NavigateToMyCloset());
       }
+    } else {
+      _logger.w('User is not authenticated');
+      emit(NavigateToMyCloset());
     }
   }
+
   Future<void> _onCheckForOutfitImageUrl(CheckForOutfitImageUrl event,
       Emitter<OutfitReviewState> emit) async {
     _logger.i('Checking for outfit image URL for outfit ${event.outfitId}');
@@ -69,6 +76,8 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     try {
       final imageUrl = await fetchOutfitImageUrl(event.outfitId);
 
+      _logger.i('Fetched image URL: $imageUrl');
+
       if (imageUrl != null && imageUrl != 'cc_none') {
         _logger.i('Image URL found: $imageUrl');
         emit(OutfitImageUrlAvailable(imageUrl));
@@ -76,8 +85,9 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
         _logger.i('No custom image, fetching items');
         add(FetchOutfitItems(event.outfitId));
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
       _logger.e('Failed to load outfit image URL: $e');
+      _logger.e('Stack trace: $stackTrace');
       emit(NavigateToMyCloset());
     }
   }
@@ -89,6 +99,8 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     try {
       final selectedItems = await fetchOutfitItems(event.outfitId);
 
+      _logger.i('Fetched items: $selectedItems');
+
       if (selectedItems.isEmpty) {
         _logger.w('No items found for outfit ${event.outfitId}');
         emit(NoOutfitItemsFound());
@@ -96,8 +108,9 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
         _logger.i('Items fetched successfully for outfit ${event.outfitId}');
         emit(OutfitItemsLoaded(selectedItems));
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
       _logger.e('Failed to load outfit items: $e');
+      _logger.e('Stack trace: $stackTrace');
       emit(const OutfitReviewError('Failed to load outfit items'));
     }
   }
