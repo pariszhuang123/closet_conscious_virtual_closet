@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:equatable/equatable.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
@@ -35,27 +34,22 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       final String userId = authState.user.id;
 
       try {
-        _logger.i('Fetching outfit for user $userId');
+        final outfitId = await fetchOutfitId(userId);
 
-        final response = await Supabase.instance.client
-            .from('outfits')
-            .select('outfit_id, feedback')
-            .eq('user_id', userId) // Use the current user ID
-            .eq('reviewed', false)
-            .order('updated_at', ascending: true)
-            .single();
+        if (outfitId != null) {
+          _logger.i('Outfit ID: $outfitId');
 
-        _logger.i('Outfit fetch response: $response');
+          // Proceed with further logic based on the fetched outfit ID
+          final feedback = event.feedback;
 
-        final outfitId = response['outfit_id'];
-        final feedback = response['feedback'];
-
-        _logger.i('Outfit ID: $outfitId, Feedback: $feedback');
-
-        if (feedback == 'pending' || feedback == 'like') {
-          add(CheckForOutfitImageUrl(outfitId));
+          if (feedback == OutfitReviewFeedback.like) {
+            add(CheckForOutfitImageUrl(outfitId));
+          } else {
+            add(FetchOutfitItems(outfitId));
+          }
         } else {
-          add(FetchOutfitItems(outfitId));
+          _logger.w('No outfit ID found, navigating to My Closet.');
+          emit(NavigateToMyCloset());
         }
       } catch (e, stackTrace) {
         _logger.e('Failed to load outfit: $e');
@@ -67,6 +61,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       emit(NavigateToMyCloset());
     }
   }
+
 
   Future<void> _onCheckForOutfitImageUrl(CheckForOutfitImageUrl event,
       Emitter<OutfitReviewState> emit) async {
@@ -119,6 +114,6 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       Emitter<OutfitReviewState> emit) {
     _logger.i('Feedback selected: ${event.feedback}');
     emit(FeedbackUpdated(event.feedback));
-    add(CheckAndLoadOutfit());
+    add(CheckAndLoadOutfit(event.feedback));
   }
 }

@@ -1,6 +1,6 @@
 part of 'outfit_review_bloc.dart';
 
-enum OutfitReviewFeedback { like, alright, dislike }
+enum OutfitReviewFeedback { like, alright, dislike, pending }
 
 extension OutfitReviewFeedbackExtension on OutfitReviewFeedback {
   String toFeedbackString() {
@@ -20,8 +20,11 @@ extension OutfitReviewFeedbackExtension on OutfitReviewFeedback {
 abstract class OutfitReviewEvent {}
 
 class CheckAndLoadOutfit extends OutfitReviewEvent {
+  final OutfitReviewFeedback  feedback;
 
-  CheckAndLoadOutfit();
+  CheckAndLoadOutfit(this.feedback);
+
+  List<Object?> get props => [feedback];
 }
 
 class CheckForOutfitImageUrl extends OutfitReviewEvent {

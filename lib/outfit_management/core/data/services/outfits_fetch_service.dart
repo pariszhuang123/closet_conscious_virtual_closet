@@ -77,7 +77,7 @@ Future<String?> fetchOutfitImageUrl(String outfitId) async {
     final data = await Supabase.instance.client
         .from('outfits')
         .select('outfit_image_url')
-        .eq('id', outfitId)
+        .eq('outfit_id', outfitId)
         .single();
 
     // Check if data is valid and contains the 'outfit_image_url' field
@@ -90,6 +90,34 @@ Future<String?> fetchOutfitImageUrl(String outfitId) async {
     }
   } catch (error) {
     logger.e('Error fetching outfit image URL: $error');
+    return null;
+  }
+}
+
+
+Future<String?> fetchOutfitId(String userId) async {
+  try {
+
+    final data = await Supabase.instance.client
+      .from('outfits')
+      .select('outfit_id')
+      .eq('reviewed', false)
+      .eq('user_id', userId)
+      .order('updated_at', ascending: true)
+      .limit(1);
+
+  logger.i('Raw response: $data');
+    // Check if data is valid and contains the 'outfit_Id' field
+    if (data.isNotEmpty) {
+      final outfitId = data[0]['outfit_id'] as String?;
+      logger.i('Fetched outfit_id: $outfitId');
+      return outfitId;
+    } else {
+      logger.w('Outfit Id is not there, returning null.');
+      return null;
+    }
+  } catch (error) {
+    logger.e('Error fetching outfit Id: $error');
     return null;
   }
 }

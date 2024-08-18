@@ -19,10 +19,12 @@ class OutfitImageUrlAvailable extends OutfitReviewState {
 
 class OutfitReviewLoaded extends OutfitReviewState {
   final List<OutfitItemMinimal> items;
-  const OutfitReviewLoaded(this.items);
+  final OutfitReviewFeedback feedback;
+
+  const OutfitReviewLoaded(this.items, {this.feedback = OutfitReviewFeedback.like});
 
   @override
-  List<Object?> get props => [items];
+  List<Object?> get props => [items, feedback];
 }
 
 class OutfitReviewError extends OutfitReviewState {

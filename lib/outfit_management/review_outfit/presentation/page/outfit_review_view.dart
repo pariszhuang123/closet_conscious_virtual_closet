@@ -70,7 +70,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
                   builder: (context, state) {
                     if (state is OutfitReviewInitial) {
                       // Passing default feedback to initiate fetch
-                      context.read<OutfitReviewBloc>().add(CheckAndLoadOutfit());
+                      context.read<OutfitReviewBloc>().add(CheckAndLoadOutfit(OutfitReviewFeedback.like));
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is OutfitReviewLoading) {
                       return const Center(child: CircularProgressIndicator());
