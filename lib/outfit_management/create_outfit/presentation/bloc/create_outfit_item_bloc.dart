@@ -13,8 +13,9 @@ part 'create_outfit_item_state.dart';
 class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemState> {
   final SupabaseClient supabaseClient = SupabaseConfig.client;
   final CustomLogger logger = CustomLogger('CreateOutfitItemBloc');
+  final OutfitFetchService _outfitFetchService;
 
-  CreateOutfitItemBloc() : super(CreateOutfitItemState.initial()) {
+  CreateOutfitItemBloc(this._outfitFetchService) : super(CreateOutfitItemState.initial()) {
     on<ToggleSelectItemEvent>(_onToggleSelectItem);
     on<SaveOutfitEvent>(_onSaveOutfit);
     on<SelectCategoryEvent>(_onSelectCategory);
@@ -97,7 +98,7 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
     emit(state.copyWith(currentCategory: event.category, saveStatus: SaveStatus.inProgress));
 
     try {
-      final items = await fetchCreateOutfitItems(event.category, 0, 10); // You can adjust the batch size as needed
+      final items = await _outfitFetchService.fetchCreateOutfitItems(event.category, 0, 10); // You can adjust the batch size as needed
       emit(state.copyWith(
         items: items,
         saveStatus: SaveStatus.success,

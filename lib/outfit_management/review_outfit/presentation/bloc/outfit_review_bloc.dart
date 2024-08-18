@@ -14,14 +14,16 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
   final CustomLogger _logger = GetIt.instance<CustomLogger>(
       instanceName: 'OutfitReviewBlocLogger');
   final AuthBloc _authBloc = GetIt.instance<AuthBloc>();
+  final OutfitFetchService _outfitFetchService;
 
   List<String> selectedItems = [];
 
-  OutfitReviewBloc() : super(OutfitReviewInitial()) {
+  OutfitReviewBloc(this._outfitFetchService) : super(OutfitReviewInitial()) {
     on<CheckAndLoadOutfit>(_onCheckAndLoadOutfit);
     on<CheckForOutfitImageUrl>(_onCheckForOutfitImageUrl);
     on<FeedbackSelected>(_onFeedbackSelected);
     on<FetchOutfitItems>(_onFetchOutfitItems);
+    on<ToggleItemSelection>(_onToggleItemSelection);
   }
 
   Future<void> _onCheckAndLoadOutfit(CheckAndLoadOutfit event,
@@ -34,7 +36,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       final String userId = authState.user.id;
 
       try {
-        final outfitId = await fetchOutfitId(userId);
+        final outfitId = await _outfitFetchService.fetchOutfitId(userId);
 
         if (outfitId != null) {
           _logger.i('Outfit ID: $outfitId');
@@ -69,7 +71,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     emit(OutfitReviewLoading());
 
     try {
-      final imageUrl = await fetchOutfitImageUrl(event.outfitId);
+      final imageUrl = await _outfitFetchService.fetchOutfitImageUrl(event.outfitId);
 
       _logger.i('Fetched image URL: $imageUrl');
 
@@ -87,21 +89,24 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     }
   }
 
-  Future<void> _onFetchOutfitItems(FetchOutfitItems event, Emitter<OutfitReviewState> emit) async {
-    _logger.i('Fetching outfit items for outfit ${event.outfitId}');
+  Future<void> _onFetchOutfitItems(FetchOutfitItems event,
+      Emitter<OutfitReviewState> emit) async {
+    _logger.i('Handling FetchOutfitItems event');
     emit(OutfitReviewLoading());
 
     try {
-      final selectedItems = await fetchOutfitItems(event.outfitId);
+      final selectedItems = await _outfitFetchService.fetchOutfitItems(event.outfitId);
 
       _logger.i('Fetched items: $selectedItems');
 
       if (selectedItems.isEmpty) {
-        _logger.w('No items found for outfit ${event.outfitId}');
+        _logger.w('No items found for the outfit');
         emit(NoOutfitItemsFound());
       } else {
-        _logger.i('Items fetched successfully for outfit ${event.outfitId}');
-        emit(OutfitItemsLoaded(selectedItems));
+        for (var item in selectedItems) {
+          _logger.i('Fetched item - ID: ${item.itemId}, Name: ${item.name}, Image URL: ${item.imageUrl}');
+        }
+        emit(OutfitReviewItemsLoaded(selectedItems));
       }
     } catch (e, stackTrace) {
       _logger.e('Failed to load outfit items: $e');
@@ -112,8 +117,55 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
   void _onFeedbackSelected(FeedbackSelected event,
       Emitter<OutfitReviewState> emit) {
-    _logger.i('Feedback selected: ${event.feedback}');
-    emit(FeedbackUpdated(event.feedback));
-    add(CheckAndLoadOutfit(event.feedback));
+    final selectedFeedback = event.feedback;
+
+    // Determine if item selection should be enabled based on feedback
+    final canSelectItems = selectedFeedback == OutfitReviewFeedback.alright ||
+        selectedFeedback == OutfitReviewFeedback.dislike;
+
+    // Emit the new state with updated feedback and canSelectItems, while keeping the selectedItemIds the same
+    emit(state.copyWith(
+      feedback: selectedFeedback,
+      canSelectItems: canSelectItems,
+    ));
+
+    // Log to ensure state update
+    _logger.d('Selected feedback: ${selectedFeedback.toFeedbackString()}');
+    _logger.d('Item selection enabled: $canSelectItems');
+  }
+
+  void _onToggleItemSelection(ToggleItemSelection event,
+      Emitter<OutfitReviewState> emit) {
+    if (!state.canSelectItems) {
+      // Ignore item selection if it's not allowed
+      return;
+    }
+
+    final updatedSelectedItemIds = Map<OutfitReviewFeedback, List<String>>.from(
+        state.selectedItemIds);
+    final selectedItems = List<String>.from(
+        updatedSelectedItemIds[state.feedback] ?? []);
+
+    if (selectedItems.contains(event.itemId)) {
+      selectedItems.remove(event.itemId);
+      _logger.d('Deselected item ID: ${event.itemId}');
+    } else {
+      selectedItems.add(event.itemId);
+      _logger.d('Selected item ID: ${event.itemId}');
+    }
+
+    updatedSelectedItemIds[state.feedback] = selectedItems;
+
+    // Calculate if any items are selected across all categories
+    final hasSelectedItems = updatedSelectedItemIds.values.any((items) =>
+    items.isNotEmpty);
+
+    emit(state.copyWith(
+      selectedItemIds: updatedSelectedItemIds,
+      hasSelectedItems: hasSelectedItems,
+    ));
+
+    // Log to ensure state update
+    _logger.d('Updated selected item IDs in state: ${state.selectedItemIds}');
   }
 }

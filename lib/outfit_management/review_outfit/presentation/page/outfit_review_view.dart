@@ -88,16 +88,17 @@ class OutfitReviewViewState extends State<OutfitReview> {
                           imageUrl: outfitImageUrl,
                         ),
                       );
-                    } else if (state is OutfitReviewLoaded) {
+                    } else if (state is OutfitReviewItemsLoaded) {
                       // Display the grid with the loaded items
                       return BaseGrid<OutfitItemMinimal>(
                         items: state.items,
                         scrollController: ScrollController(),
                         logger: logger,
                         itemBuilder: (context, item, index) {
+                          final isSelected = state.selectedItemIds[state.feedback]?.contains(item.itemId) ?? false;
                           return EnhancedUserPhoto(
                             imageUrl: item.imageUrl,
-                            isSelected: false,
+                            isSelected: isSelected,
                             onPressed: () {
                               context.read<OutfitReviewBloc>().add(ToggleItemSelection(item.itemId));
                             },
@@ -125,6 +126,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
                 padding: const EdgeInsets.only(top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
                 child: ElevatedButton(
                   onPressed: () {
+                    // Handle the "styleOn" action here
                   },
                   child: Text(S.of(context).styleOn),
                 ),

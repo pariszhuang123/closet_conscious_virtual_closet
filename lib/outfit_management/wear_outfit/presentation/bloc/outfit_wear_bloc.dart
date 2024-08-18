@@ -23,10 +23,12 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
   final AuthBloc authBloc;
   final ImagePicker picker;
   final PhotoCaptureService photoCaptureService;
+  final OutfitFetchService _outfitFetchService;
 
   OutfitWearBloc({
     required this.authBloc,
     required this.photoCaptureService,
+    required OutfitFetchService outfitFetchService, // Inject the service here
   })
       : supabaseClient = SupabaseConfig.client,
   // Use SupabaseConfig.client
@@ -34,7 +36,8 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
             instanceName: 'OutfitWearBlocLogger'),
   // Pre-tagged logger
         picker = ImagePicker(),
-        super(OutfitWearInitial()) {
+        _outfitFetchService = outfitFetchService, // Assign the injected service here
+      super(OutfitWearInitial()) {
     on<CheckForOutfitImageUrl>(_onCheckForOutfitImageUrl);
     on<TakeSelfie>(_onTakeSelfie);
   }
@@ -47,7 +50,7 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
 
     try {
       // Fetch the image URL
-      final imageUrl = await fetchOutfitImageUrl(event.outfitId);
+      final imageUrl = await _outfitFetchService.fetchOutfitImageUrl(event.outfitId);
 
       // Check if imageURL is not the default 'cc_none' or any placeholder indicating no actual image
       if (imageUrl != null && imageUrl != 'cc_none') {
@@ -55,7 +58,7 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
         emit(OutfitImageUrlAvailable(imageUrl)); // Emit state with the provided image URL
       } else {
         logger.i('_onCheckForOutfitImageUrl: No custom image, fetching items');
-        final selectedItems = await fetchOutfitItems(event.outfitId); // Fetch outfit items
+        final selectedItems = await _outfitFetchService.fetchOutfitItems(event.outfitId); // Fetch outfit items
 
         if (selectedItems.isEmpty) {
           logger.w('_onCheckForOutfitImageUrl: No items found for outfit');

@@ -30,7 +30,7 @@ class OutfitReviewContainerState extends State<OutfitReviewContainer> {
     final selectedFeedback = context.select<OutfitReviewBloc, OutfitReviewFeedback?>((bloc) {
       final state = bloc.state;
       if (state is FeedbackUpdated) {
-        return state.currentFeedback;
+        return state.feedback;
       }
       return OutfitReviewFeedback.like; // Default or fallback value
     }) ?? OutfitReviewFeedback.like;
@@ -53,7 +53,7 @@ class OutfitReviewContainerState extends State<OutfitReviewContainer> {
       label: typeData.getName(context),
       selectedLabel: typeData.getName(context),
       onPressed: () {
-        context.read<OutfitReviewBloc>().add(SelectFeedbackEvent(feedback));
+        context.read<OutfitReviewBloc>().add(FeedbackSelected(feedback));
       },
       assetPath: typeData.assetPath,
       isFromMyCloset: false,

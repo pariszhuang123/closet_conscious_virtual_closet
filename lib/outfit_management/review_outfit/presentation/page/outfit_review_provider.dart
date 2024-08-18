@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../core/data/services/outfits_fetch_service.dart';
 import '../bloc/outfit_review_bloc.dart';
 import 'outfit_review_view.dart';
+import 'package:get_it/get_it.dart';
 
 class OutfitReviewProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -14,7 +16,9 @@ class OutfitReviewProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OutfitReviewBloc(),
+      create: (context) => OutfitReviewBloc(
+        GetIt.instance<OutfitFetchService>(), // Pass the OutfitFetchService instance here
+      ),
       child: OutfitReview(
         myOutfitTheme: myOutfitTheme,
       ),

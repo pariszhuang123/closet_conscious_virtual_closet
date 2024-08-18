@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import '../../core/utilities/logger.dart';
 import '../app_drawer.dart';
 import '../../core/theme/ui_constant.dart';
@@ -15,6 +16,7 @@ import '../../outfit_management/create_outfit/presentation/widgets/outfit_type_c
 import '../../outfit_management/wear_outfit/presentation/page/outfit_wear_provider.dart';
 import '../../core/theme/my_outfit_theme.dart';
 
+
 class MyOutfitView extends StatefulWidget {
   final ThemeData myOutfitTheme;
 
@@ -29,6 +31,8 @@ class MyOutfitViewState extends State<MyOutfitView> {
   final CustomLogger logger = CustomLogger('OutfitPage');
   final ScrollController _scrollController = ScrollController();
   int newOutfitCount = 0;
+
+  final OutfitFetchService _outfitFetchService = GetIt.instance<OutfitFetchService>();
 
   @override
   void initState() {
@@ -60,7 +64,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
 
   Future<void> _fetchOutfitsCount() async {
     try {
-      final count = await fetchOutfitsCount();
+      final count = await _outfitFetchService.fetchOutfitsCount();
       if (mounted) {
         setState(() {
           newOutfitCount = count;
