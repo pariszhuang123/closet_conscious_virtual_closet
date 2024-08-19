@@ -239,35 +239,57 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
           .map((item) => item.itemId)
           .toList();
 
-      // Logging feedback and disliked items
+      // Log feedback and disliked items
       _logger.i('event.feedback: ${event.feedback}');
-      _logger.i('Expected feedback for like: ${OutfitReviewFeedback.like
-          .toFeedbackString()}');
       _logger.i('Disliked Item IDs: $dislikedItemIds');
+      _logger.i(
+          'Non-empty disliked items check: ${dislikedItemIds.isNotEmpty}');
 
-      // Use direct enum comparison
-      if (event.feedback == OutfitReviewFeedback.like.toFeedbackString() ||
-          (dislikedItemIds.isNotEmpty &&
-              (event.feedback == OutfitReviewFeedback.dislike.toFeedbackString() ||
-                  event.feedback == OutfitReviewFeedback.alright.toFeedbackString()))) {
+      // Simplified conditional logic
+      final feedback = event.feedback;
+
+      // If feedback is 'like', submission is always valid
+      if (feedback == OutfitReviewFeedback.like.toFeedbackString()) {
         emit(ReviewSubmissionInProgress());
         _logger.i('Submission in progress');
 
         try {
           await reviewOutfit(
             outfitId: event.outfitId,
-            feedback: event.feedback,
+            feedback: feedback,
             itemIds: dislikedItemIds,
             comments: event.comments,
           );
-
           emit(ReviewSubmissionSuccess());
           _logger.i('Review submission success');
         } catch (error) {
           emit(ReviewSubmissionFailure(error.toString()));
           _logger.e('Review submission failed: $error');
         }
-      } else {
+      }
+      // If feedback is 'dislike' or 'alright', disliked items must be non-empty
+      else if ((feedback == OutfitReviewFeedback.dislike.toFeedbackString() ||
+          feedback == OutfitReviewFeedback.alright.toFeedbackString()) &&
+          dislikedItemIds.isNotEmpty) {
+        emit(ReviewSubmissionInProgress());
+        _logger.i('Submission in progress');
+
+        try {
+          await reviewOutfit(
+            outfitId: event.outfitId,
+            feedback: feedback,
+            itemIds: dislikedItemIds,
+            comments: event.comments,
+          );
+          emit(ReviewSubmissionSuccess());
+          _logger.i('Review submission success');
+        } catch (error) {
+          emit(ReviewSubmissionFailure(error.toString()));
+          _logger.e('Review submission failed: $error');
+        }
+      }
+      // If feedback is 'dislike' or 'alright' but no items are disliked, invalid submission
+      else {
         emit(InvalidReviewSubmission(
           outfitId: loadedState.outfitId,
           message: "Please select at least one item you didn't like if your feedback is 'dislike' or 'alright'.",
