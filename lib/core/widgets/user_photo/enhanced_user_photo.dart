@@ -23,14 +23,15 @@ class EnhancedUserPhoto extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    final bool showBorder = isSelected || isDisliked;
+
     return GestureDetector(
       onTap: onPressed,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(12),
-          border:
-          isSelected || isDisliked
+          border: showBorder
               ? Border.all(color: theme.colorScheme.primary, width: 3)
               : null,
         ),

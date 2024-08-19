@@ -109,7 +109,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
                             return EnhancedUserPhoto(
                               imageUrl: item.imageUrl,
                               isSelected: false,
-                              isDisliked: false,
+                              isDisliked: item.isDisliked,
                               onPressed: () {
                                 logger.i('Item tapped: ${item.itemId}, current isDisliked: ${item.isDisliked}');
                                 context.read<OutfitReviewBloc>().add(ToggleItemSelection(item.itemId, state.feedback));
