@@ -198,6 +198,12 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     if (state is OutfitReviewItemsLoaded) {
       final loadedState = state as OutfitReviewItemsLoaded;
 
+      // Check if the current feedback is "like"
+      if (loadedState.feedback == OutfitReviewFeedback.like) {
+        _logger.d('Item selection is disabled when feedback is "like".');
+        return; // Exit the method early to prevent toggling
+      }
+
       // Find the index of the item to be updated
       final itemIndex = loadedState.items.indexWhere((item) =>
       item.itemId == event.itemId);
@@ -214,7 +220,8 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
         emit(loadedState.copyWith(items: updatedItems));
 
         // Log the updated items with their disliked status
-        _logger.d('Updated disliked items: ${updatedItems.where((item) => item.isDisliked).map((item) => item.itemId).toList()}');
+        _logger.d('Updated disliked items: ${updatedItems.where((item) => item
+            .isDisliked).map((item) => item.itemId).toList()}');
       }
     }
   }

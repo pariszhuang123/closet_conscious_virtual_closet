@@ -48,6 +48,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addCloset_addCloset": MessageLookupByLibrary.simpleMessage("添加衣橱"),
         "addYourComments": MessageLookupByLibrary.simpleMessage("添加您的评论"),
         "alright": MessageLookupByLibrary.simpleMessage("还行"),
+        "alright_feedback_sentence":
+            MessageLookupByLibrary.simpleMessage("选择你觉得还可以的物品。"),
         "amountSpentFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("花费金额字段未填写。"),
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
@@ -107,6 +109,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("警告：删除账户是不可逆的。"),
         "deleteAccountTitle": MessageLookupByLibrary.simpleMessage("删除账户"),
         "dislike": MessageLookupByLibrary.simpleMessage("不适合我"),
+        "dislike_feedback_sentence":
+            MessageLookupByLibrary.simpleMessage("选择你觉得不适合的物品。"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("编辑物品"),
         "enterAmountSpentHint": MessageLookupByLibrary.simpleMessage("输入花费金额"),
         "error": MessageLookupByLibrary.simpleMessage("错误"),

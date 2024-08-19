@@ -55,6 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addYourComments":
             MessageLookupByLibrary.simpleMessage("Add your comments"),
         "alright": MessageLookupByLibrary.simpleMessage("It\'s okay"),
+        "alright_feedback_sentence": MessageLookupByLibrary.simpleMessage(
+            "Select the item you feel is alright."),
         "amountSpentFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Amount Spent field is not filled."),
         "amountSpentLabel":
@@ -124,6 +126,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteAccountTitle":
             MessageLookupByLibrary.simpleMessage("Delete Account"),
         "dislike": MessageLookupByLibrary.simpleMessage("Not for me"),
+        "dislike_feedback_sentence": MessageLookupByLibrary.simpleMessage(
+            "Select the item you feel is not your type."),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("Edit Item"),
         "enterAmountSpentHint":
             MessageLookupByLibrary.simpleMessage("Enter amount spent"),

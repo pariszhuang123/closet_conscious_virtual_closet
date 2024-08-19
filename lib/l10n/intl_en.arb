@@ -184,6 +184,8 @@
   "termsAcknowledgement": "I have read the ",
   "privacyTerms": "Privacy Terms",
   "and": " and the ",
-  "termsAndConditions": "Terms and Conditions"
+  "termsAndConditions": "Terms and Conditions",
+  "alright_feedback_sentence": "Select the item you feel is alright.",
+  "dislike_feedback_sentence": "Select the item you feel is not your type."
 
 }

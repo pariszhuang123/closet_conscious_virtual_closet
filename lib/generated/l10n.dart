@@ -1899,6 +1899,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Select the item you feel is alright.`
+  String get alright_feedback_sentence {
+    return Intl.message(
+      'Select the item you feel is alright.',
+      name: 'alright_feedback_sentence',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select the item you feel is not your type.`
+  String get dislike_feedback_sentence {
+    return Intl.message(
+      'Select the item you feel is not your type.',
+      name: 'dislike_feedback_sentence',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

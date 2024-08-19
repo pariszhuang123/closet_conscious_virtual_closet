@@ -184,5 +184,8 @@
   "termsAcknowledgement": "我已阅读",
   "privacyTerms": "隐私条款",
   "and": " 和 ",
-  "termsAndConditions": "服务条款"
+  "termsAndConditions": "服务条款",
+  "alright_feedback_sentence": "选择你觉得还可以的物品。",
+  "dislike_feedback_sentence": "选择你觉得不适合的物品。"
+
 }

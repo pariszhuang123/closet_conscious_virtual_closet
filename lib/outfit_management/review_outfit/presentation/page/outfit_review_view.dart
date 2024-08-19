@@ -74,60 +74,88 @@ class OutfitReviewViewState extends State<OutfitReview> {
                   },
                 ),
                 const SizedBox(height: 16),
-                Expanded(
-                  child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
-                    builder: (context, state) {
-                      logger.i('Building OutfitReview grid with state: $state');
-                      if (state is OutfitReviewInitial) {
-                        logger.i("Dispatching initial CheckAndLoadOutfit with feedback: like");
-                        context.read<OutfitReviewBloc>().add(CheckAndLoadOutfit(OutfitReviewFeedback.like));
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (state is OutfitReviewLoading) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (state is NavigateToMyCloset) {
-                        logger.i('Navigating to My Closet');
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
-                        });
-                        return Container();
-                      } else if (state is OutfitImageUrlAvailable) {
-                        final outfitImageUrl = state.imageUrl;
-                        logger.i("Displaying outfit image URL: $outfitImageUrl");
-                        return Center(
-                          child: UserPhoto(
-                            imageUrl: outfitImageUrl,
-                          ),
-                        );
-                      } else if (state is OutfitReviewItemsLoaded) {
-                        logger.i("Displaying outfit items. Feedback: ${state.feedback}, Items: ${state.items.length}");
-                        return BaseGrid<OutfitItemMinimal>(
-                          items: state.items,
-                          scrollController: ScrollController(),
-                          logger: logger,
-                          itemBuilder: (context, item, index) {
-                            logger.i('Rendering item: ${item.name}, isDisliked: ${item.isDisliked}');
-                            return EnhancedUserPhoto(
-                              imageUrl: item.imageUrl,
-                              isSelected: false,
-                              isDisliked: item.isDisliked,
-                              onPressed: () {
-                                logger.i('Item tapped: ${item.itemId}, current isDisliked: ${item.isDisliked}');
-                                context.read<OutfitReviewBloc>().add(ToggleItemSelection(item.itemId, state.feedback));
-                              },
-                              itemName: item.name,
-                              itemId: item.itemId,
-                            );
-                          },
-                          crossAxisCount: 3,
-                          childAspectRatio: 3 / 4,
-                        );
-                      } else if (state is OutfitReviewError) {
-                        logger.e("Error in outfit review: ${state.message}");
-                        return Center(child: Text(state.message));
+                BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
+                  builder: (context, state) {
+                    logger.i('Building OutfitReview grid with state: $state');
+
+                    // Display feedback sentence based on the feedback type
+                    if (state is OutfitReviewItemsLoaded) {
+                      String feedbackSentence = '';
+                      switch (state.feedback) {
+                        case OutfitReviewFeedback.alright:
+                          feedbackSentence = S.of(context).alright_feedback_sentence;
+                          break;
+                        case OutfitReviewFeedback.dislike:
+                          feedbackSentence = S.of(context).dislike_feedback_sentence;
+                          break;
+                        default:
+                          feedbackSentence = ''; // No sentence for 'like'
                       }
+
+                      return Expanded(
+                          child: Column(
+                            children: [
+                              if (feedbackSentence.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Text(
+                                    feedbackSentence,
+                                    style: Theme.of(context).textTheme.titleSmall,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                          Expanded(
+                            child: BaseGrid<OutfitItemMinimal>(
+                              items: state.items,
+                              scrollController: ScrollController(),
+                              logger: logger,
+                              itemBuilder: (context, item, index) {
+                                logger.i('Rendering item: ${item.name}, isDisliked: ${item.isDisliked}');
+                                return EnhancedUserPhoto(
+                                  imageUrl: item.imageUrl,
+                                  isSelected: false,
+                                  isDisliked: item.isDisliked,
+                                  onPressed: () {
+                                    logger.i('Item tapped: ${item.itemId}, current isDisliked: ${item.isDisliked}');
+                                    context.read<OutfitReviewBloc>().add(ToggleItemSelection(item.itemId, state.feedback));
+                                  },
+                                  itemName: item.name,
+                                  itemId: item.itemId,
+                                );
+                              },
+                              crossAxisCount: 3,
+                              childAspectRatio: 3 / 4,
+                            ),
+                          ),
+                        ],
+                      )
+                      );
+                    } else if (state is OutfitReviewInitial) {
+                      logger.i("Dispatching initial CheckAndLoadOutfit with feedback: like");
+                      context.read<OutfitReviewBloc>().add(CheckAndLoadOutfit(OutfitReviewFeedback.like));
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is OutfitReviewLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is NavigateToMyCloset) {
+                      logger.i('Navigating to My Closet');
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+                      });
                       return Container();
-                    },
-                  ),
+                    } else if (state is OutfitImageUrlAvailable) {
+                      final outfitImageUrl = state.imageUrl;
+                      logger.i("Displaying outfit image URL: $outfitImageUrl");
+                      return Center(
+                        child: UserPhoto(
+                          imageUrl: outfitImageUrl,
+                        ),
+                      );
+                    } else if (state is OutfitReviewError) {
+                      logger.e("Error in outfit review: ${state.message}");
+                      return Center(child: Text(state.message));
+                    }
+                    return Container();
+                  },
                 ),
                 const SizedBox(height: 16),
                 CommentField(
