@@ -4,14 +4,12 @@ abstract class OutfitReviewState extends Equatable {
   final String? outfitId;
   final OutfitReviewFeedback feedback;
   final bool canSelectItems;
-  final Map<OutfitReviewFeedback, List<String>> selectedItemIds;
   final bool hasSelectedItems;
 
   const OutfitReviewState({
     this.outfitId,
     this.feedback = OutfitReviewFeedback.like,
     this.canSelectItems = false,
-    this.selectedItemIds = const {},
     this.hasSelectedItems = false,
   });
 
@@ -19,20 +17,18 @@ abstract class OutfitReviewState extends Equatable {
     String? outfitId,
     OutfitReviewFeedback? feedback,
     bool? canSelectItems,
-    Map<OutfitReviewFeedback, List<String>>? selectedItemIds,
     bool? hasSelectedItems,
   }) {
     return _OutfitReviewState(
       outfitId: outfitId ?? this.outfitId,
       feedback: feedback ?? this.feedback,
       canSelectItems: canSelectItems ?? this.canSelectItems,
-      selectedItemIds: selectedItemIds ?? this.selectedItemIds,
       hasSelectedItems: hasSelectedItems ?? this.hasSelectedItems,
     );
   }
 
   @override
-  List<Object?> get props => [outfitId, feedback, canSelectItems, selectedItemIds, hasSelectedItems];
+  List<Object?> get props => [outfitId, feedback, canSelectItems, hasSelectedItems];
 }
 
 class _OutfitReviewState extends OutfitReviewState {
@@ -40,7 +36,6 @@ class _OutfitReviewState extends OutfitReviewState {
     required super.outfitId,
     required super.feedback,
     required super.canSelectItems,
-    required super.selectedItemIds,
     required super.hasSelectedItems,
   });
 }
@@ -68,9 +63,26 @@ class OutfitReviewItemsLoaded extends OutfitReviewState {
     super.outfitId,
     super.feedback,
     super.canSelectItems,
-    super.selectedItemIds,
     super.hasSelectedItems,
   });
+
+  @override
+  OutfitReviewItemsLoaded copyWith({
+    List<OutfitItemMinimal>? items,
+    String? outfitId,
+    OutfitReviewFeedback? feedback,
+    bool? canSelectItems,
+    bool? hasSelectedItems,
+  }) {
+    return OutfitReviewItemsLoaded(
+      items: items ?? this.items,  // This line ensures items can be copied
+      outfitId: outfitId ?? this.outfitId,
+      feedback: feedback ?? this.feedback,
+      canSelectItems: canSelectItems ?? this.canSelectItems,
+      hasSelectedItems: hasSelectedItems ?? this.hasSelectedItems,
+    );
+  }
+
 
   @override
   List<Object?> get props => [
@@ -78,7 +90,6 @@ class OutfitReviewItemsLoaded extends OutfitReviewState {
     outfitId,
     feedback,
     canSelectItems,
-    selectedItemIds,
     hasSelectedItems,
   ];
 }
@@ -99,7 +110,6 @@ class FeedbackUpdated extends OutfitReviewState {
       OutfitReviewFeedback feedback, {
         super.outfitId,
         super.canSelectItems,
-        super.selectedItemIds,
         super.hasSelectedItems,
       }) : super(
     feedback: feedback,

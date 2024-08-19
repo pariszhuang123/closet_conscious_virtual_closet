@@ -105,13 +105,14 @@ class OutfitReviewViewState extends State<OutfitReview> {
                           scrollController: ScrollController(),
                           logger: logger,
                           itemBuilder: (context, item, index) {
-                            final isSelected = state.selectedItemIds[state.feedback]?.contains(item.itemId) ?? false;
-                            logger.i('Rendering item: ${item.name}, isSelected: $isSelected');
+                            logger.i('Rendering item: ${item.name}, isDisliked: ${item.isDisliked}');
                             return EnhancedUserPhoto(
                               imageUrl: item.imageUrl,
-                              isSelected: isSelected,
+                              isSelected: false,
+                              isDisliked: false,
                               onPressed: () {
-                                context.read<OutfitReviewBloc>().add(ToggleItemSelection(item.itemId));
+                                logger.i('Item tapped: ${item.itemId}, current isDisliked: ${item.isDisliked}');
+                                context.read<OutfitReviewBloc>().add(ToggleItemSelection(item.itemId, state.feedback));
                               },
                               itemName: item.name,
                               itemId: item.itemId,

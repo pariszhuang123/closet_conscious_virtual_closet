@@ -34,6 +34,7 @@ class ItemGrid extends StatelessWidget {
           itemName: item.name,
           itemId: item.itemId,
           isSelected: false,
+          isDisliked: false,
           onPressed: () {
             logger.i('Grid item clicked: ${item.itemId}');
             if (context.mounted) {

@@ -45,8 +45,12 @@ class FeedbackSelected extends OutfitReviewEvent {
 // Event to toggle item selection
 class ToggleItemSelection extends OutfitReviewEvent {
   final String itemId;
+  final OutfitReviewFeedback feedback;
 
-  ToggleItemSelection(this.itemId);
+  ToggleItemSelection(this.itemId, this.feedback);
+
+  List<Object> get props => [itemId, feedback];
+
 }
 
 class FetchOutfitItems extends OutfitReviewEvent {

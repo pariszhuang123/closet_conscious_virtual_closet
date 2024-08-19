@@ -112,6 +112,7 @@ class OutfitWearViewState extends State<OutfitWearView> {
                           return EnhancedUserPhoto(
                             imageUrl: item.imageUrl,
                             isSelected: false,
+                            isDisliked: item.isDisliked,
                             onPressed: () {},
                             itemName: item.name,
                             itemId: item.itemId,

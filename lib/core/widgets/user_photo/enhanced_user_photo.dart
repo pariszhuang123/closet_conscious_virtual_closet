@@ -4,6 +4,7 @@ import 'base/user_photo.dart';
 class EnhancedUserPhoto extends StatelessWidget {
   final String imageUrl;
   final bool isSelected;
+  final bool isDisliked;
   final VoidCallback onPressed;
   final String itemName;
   final String itemId;
@@ -12,6 +13,7 @@ class EnhancedUserPhoto extends StatelessWidget {
     super.key,
     required this.imageUrl,
     required this.isSelected,
+    required this.isDisliked,
     required this.onPressed,
     required this.itemName,
     required this.itemId,
@@ -27,7 +29,8 @@ class EnhancedUserPhoto extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(12),
-          border: isSelected
+          border:
+          isSelected || isDisliked
               ? Border.all(color: theme.colorScheme.primary, width: 3)
               : null,
         ),

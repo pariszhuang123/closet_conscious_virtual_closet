@@ -54,6 +54,7 @@ class OutfitGrid extends StatelessWidget {
               return EnhancedUserPhoto(
                 imageUrl: item.imageUrl,
                 isSelected: isSelected,
+                isDisliked: false,
                 onPressed: () {
                   context.read<CreateOutfitItemBloc>().add(ToggleSelectItemEvent(selectedCategory, item.itemId));
                 },
