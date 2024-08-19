@@ -475,7 +475,7 @@ class _EditItemPageState extends State<EditItemPage> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(
-                                top: 10.0, bottom: 70.0, left: 16.0, right: 16.0),
+                                top: 10.0, bottom: 20.0, left: 16.0, right: 16.0),
                             child: _isChanged
                                 ? ElevatedButton(
                               onPressed: _handleUpdate,

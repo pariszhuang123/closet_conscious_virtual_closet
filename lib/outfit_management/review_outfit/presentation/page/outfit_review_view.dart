@@ -164,7 +164,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
                 ),
                 const SizedBox(height: 16),
                 Padding(
-                  padding: const EdgeInsets.only(top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
+                  padding: const EdgeInsets.only(top: 2.0, bottom: 20.0, left: 16.0, right: 16.0),
                   child: ElevatedButton(
                     onPressed: () {
                       logger.i("Submit button pressed. Comment: ${_commentController.text}");
