@@ -20,7 +20,8 @@ class OutfitReview extends StatefulWidget {
 
   const OutfitReview({
     super.key,
-    required this.myOutfitTheme});
+    required this.myOutfitTheme
+  });
 
   @override
   OutfitReviewViewState createState() => OutfitReviewViewState();
@@ -70,6 +71,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
                   builder: (context, state) {
                     if (state is OutfitReviewInitial) {
                       // Passing default feedback to initiate fetch
+                      logger.i("Dispatching initial CheckAndLoadOutfit with feedback: like");
                       context.read<OutfitReviewBloc>().add(CheckAndLoadOutfit(OutfitReviewFeedback.like));
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is OutfitReviewLoading) {
@@ -83,6 +85,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
                     } else if (state is OutfitImageUrlAvailable) {
                       // Display the image in full-screen mode
                       final outfitImageUrl = state.imageUrl;
+                      logger.i("Displaying outfit image URL: $outfitImageUrl");
                       return Center(
                         child: UserPhoto(
                           imageUrl: outfitImageUrl,
@@ -90,6 +93,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
                       );
                     } else if (state is OutfitReviewItemsLoaded) {
                       // Display the grid with the loaded items
+                      logger.i("Displaying outfit items. Feedback: ${state.feedback}");
                       return BaseGrid<OutfitItemMinimal>(
                         items: state.items,
                         scrollController: ScrollController(),
@@ -110,6 +114,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
                         childAspectRatio: 3 / 4,
                       );
                     } else if (state is OutfitReviewError) {
+                      logger.e("Error in outfit review: ${state.message}");
                       return Center(child: Text(state.message));
                     }
                     return Container();

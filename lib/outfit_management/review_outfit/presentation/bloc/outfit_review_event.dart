@@ -35,8 +35,11 @@ class CheckForOutfitImageUrl extends OutfitReviewEvent {
 
 class FeedbackSelected extends OutfitReviewEvent {
   final OutfitReviewFeedback feedback;
+  final String outfitId;
 
-  FeedbackSelected(this.feedback);
+  FeedbackSelected(this.feedback, this.outfitId);
+
+  List<Object> get props => [feedback, outfitId];
 }
 
 // Event to toggle item selection

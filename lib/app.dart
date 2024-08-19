@@ -30,6 +30,7 @@ class MainApp extends StatelessWidget {
         // Add other providers if needed
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
           S.delegate, // Add the generated delegate
           GlobalMaterialLocalizations.delegate,

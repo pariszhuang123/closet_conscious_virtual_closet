@@ -20,10 +20,9 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
   OutfitReviewBloc(this._outfitFetchService) : super(OutfitReviewInitial()) {
     on<CheckAndLoadOutfit>(_onCheckAndLoadOutfit);
-    on<CheckForOutfitImageUrl>(_onCheckForOutfitImageUrl);
-    on<FeedbackSelected>(_onFeedbackSelected);
     on<FetchOutfitItems>(_onFetchOutfitItems);
     on<ToggleItemSelection>(_onToggleItemSelection);
+    on<FeedbackSelected>(_onFeedbackSelected);
   }
 
   Future<void> _onCheckAndLoadOutfit(CheckAndLoadOutfit event,
@@ -40,15 +39,13 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
         if (outfitId != null) {
           _logger.i('Outfit ID: $outfitId');
+          emit(state.copyWith(
+            feedback: event.feedback,
+            outfitId: outfitId,
+          ));
 
-          // Proceed with further logic based on the fetched outfit ID
-          final feedback = event.feedback;
-
-          if (feedback == OutfitReviewFeedback.like) {
-            add(CheckForOutfitImageUrl(outfitId));
-          } else {
-            add(FetchOutfitItems(outfitId));
-          }
+          // Handle the feedback depending on the type
+          await _handleFeedback(event.feedback, outfitId, emit);
         } else {
           _logger.w('No outfit ID found, navigating to My Closet.');
           emit(NavigateToMyCloset());
@@ -64,28 +61,67 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     }
   }
 
-
-  Future<void> _onCheckForOutfitImageUrl(CheckForOutfitImageUrl event,
+  Future<void> _handleFeedback(OutfitReviewFeedback feedback, String outfitId,
       Emitter<OutfitReviewState> emit) async {
-    _logger.i('Checking for outfit image URL for outfit ${event.outfitId}');
-    emit(OutfitReviewLoading());
+    if (feedback == OutfitReviewFeedback.like) {
+      await _handleLikeFeedback(outfitId, emit);
+    } else {
+      await _handleOtherFeedback(feedback, outfitId, emit);
+    }
+  }
 
+  Future<void> _handleLikeFeedback(String outfitId, Emitter<OutfitReviewState> emit) async {
     try {
-      final imageUrl = await _outfitFetchService.fetchOutfitImageUrl(event.outfitId);
-
-      _logger.i('Fetched image URL: $imageUrl');
-
+      final imageUrl = await _outfitFetchService.fetchOutfitImageUrl(outfitId);
       if (imageUrl != null && imageUrl != 'cc_none') {
-        _logger.i('Image URL found: $imageUrl');
+        _logger.i('Outfit Image URL found: $imageUrl');
         emit(OutfitImageUrlAvailable(imageUrl));
       } else {
-        _logger.i('No custom image, fetching items');
-        add(FetchOutfitItems(event.outfitId));
+        _logger.w('No Outfit Image URL found, fetching outfit items.');
+
+        final outfitItems = await _outfitFetchService.fetchOutfitItems(outfitId);
+
+        emit(OutfitReviewItemsLoaded(
+          outfitItems,
+          canSelectItems: false, // Assuming items can't be selected for 'like'
+          feedback: OutfitReviewFeedback.like,
+        ));
       }
     } catch (e, stackTrace) {
       _logger.e('Failed to load outfit image URL: $e');
       _logger.e('Stack trace: $stackTrace');
       emit(NavigateToMyCloset());
+    }
+  }
+
+  Future<void> _handleOtherFeedback(OutfitReviewFeedback feedback, String outfitId,
+      Emitter<OutfitReviewState> emit) async {
+    try {
+      // Determine if item selection should be enabled based on feedback
+      final canSelectItems = feedback == OutfitReviewFeedback.alright || feedback == OutfitReviewFeedback.dislike;
+
+      final outfitItems = await _outfitFetchService.fetchOutfitItems(outfitId);
+      _logger.i('Fetched outfit items: $outfitItems');
+
+      emit(OutfitReviewItemsLoaded(
+        outfitItems,
+        canSelectItems: canSelectItems,
+        feedback: feedback,
+      ));
+    } catch (e, stackTrace) {
+      _logger.e('Failed to load outfit items: $e');
+      _logger.e('Stack trace: $stackTrace');
+      emit(const OutfitReviewError('Failed to load outfit items'));
+    }
+  }
+
+  void _onFeedbackSelected(FeedbackSelected event, Emitter<OutfitReviewState> emit) {
+    final feedback = event.feedback;
+
+    if (feedback == OutfitReviewFeedback.like) {
+      _handleLikeFeedback(event.outfitId, emit);
+    } else {
+      _handleOtherFeedback(feedback, event.outfitId, emit);
     }
   }
 
@@ -113,25 +149,6 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       _logger.e('Stack trace: $stackTrace');
       emit(const OutfitReviewError('Failed to load outfit items'));
     }
-  }
-
-  void _onFeedbackSelected(FeedbackSelected event,
-      Emitter<OutfitReviewState> emit) {
-    final selectedFeedback = event.feedback;
-
-    // Determine if item selection should be enabled based on feedback
-    final canSelectItems = selectedFeedback == OutfitReviewFeedback.alright ||
-        selectedFeedback == OutfitReviewFeedback.dislike;
-
-    // Emit the new state with updated feedback and canSelectItems, while keeping the selectedItemIds the same
-    emit(state.copyWith(
-      feedback: selectedFeedback,
-      canSelectItems: canSelectItems,
-    ));
-
-    // Log to ensure state update
-    _logger.d('Selected feedback: ${selectedFeedback.toFeedbackString()}');
-    _logger.d('Item selection enabled: $canSelectItems');
   }
 
   void _onToggleItemSelection(ToggleItemSelection event,
