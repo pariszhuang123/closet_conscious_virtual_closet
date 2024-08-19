@@ -139,18 +139,19 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     }
   }
 
-  void _onFeedbackSelected(FeedbackSelected event, Emitter<OutfitReviewState> emit) {
+  void _onFeedbackSelected(FeedbackSelected event, Emitter<OutfitReviewState> emit) async {
     final feedback = event.feedback;
 
     _logger.i('Feedback selected: $feedback for outfitId: ${event.outfitId}');
+
     emit(state.copyWith(feedback: feedback));
 
     if (feedback == OutfitReviewFeedback.like) {
       _logger.i('Handling "like" feedback');
-      _handleLikeFeedback(event.outfitId, emit);
+      await _handleLikeFeedback(event.outfitId, emit);
     } else {
       _logger.i('Handling other feedback: $feedback');
-      _handleOtherFeedback(feedback, event.outfitId, emit);
+      await _handleOtherFeedback(feedback, event.outfitId, emit);
     }
   }
 
