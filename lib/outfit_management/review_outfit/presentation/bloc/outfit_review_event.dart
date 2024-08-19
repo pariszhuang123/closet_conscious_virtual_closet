@@ -60,3 +60,19 @@ class FetchOutfitItems extends OutfitReviewEvent {
 
   List<Object> get props => [outfitId];
 }
+
+class SubmitOutfitReview extends OutfitReviewEvent {
+  final String outfitId;
+  final String feedback;
+  final List<String> itemIds;
+  final String comments;
+
+  SubmitOutfitReview({
+    required this.outfitId,
+    required this.feedback,
+    required this.itemIds,
+    this.comments = 'cc_none',
+  });
+
+  List<Object> get props => [outfitId, feedback, itemIds, comments];
+}

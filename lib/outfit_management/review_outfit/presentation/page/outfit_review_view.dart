@@ -93,42 +93,42 @@ class OutfitReviewViewState extends State<OutfitReview> {
                       }
 
                       return Expanded(
-                          child: Column(
-                            children: [
-                              if (feedbackSentence.isNotEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Text(
-                                    feedbackSentence,
-                                    style: Theme.of(context).textTheme.titleSmall,
-                                    textAlign: TextAlign.center,
-                                  ),
+                        child: Column(
+                          children: [
+                            if (feedbackSentence.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Text(
+                                  feedbackSentence,
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                  textAlign: TextAlign.center,
                                 ),
-                          Expanded(
-                            child: BaseGrid<OutfitItemMinimal>(
-                              items: state.items,
-                              scrollController: ScrollController(),
-                              logger: logger,
-                              itemBuilder: (context, item, index) {
-                                logger.i('Rendering item: ${item.name}, isDisliked: ${item.isDisliked}');
-                                return EnhancedUserPhoto(
-                                  imageUrl: item.imageUrl,
-                                  isSelected: false,
-                                  isDisliked: item.isDisliked,
-                                  onPressed: () {
-                                    logger.i('Item tapped: ${item.itemId}, current isDisliked: ${item.isDisliked}');
-                                    context.read<OutfitReviewBloc>().add(ToggleItemSelection(item.itemId, state.feedback));
-                                  },
-                                  itemName: item.name,
-                                  itemId: item.itemId,
-                                );
-                              },
-                              crossAxisCount: 3,
-                              childAspectRatio: 3 / 4,
+                              ),
+                            Expanded(
+                              child: BaseGrid<OutfitItemMinimal>(
+                                items: state.items,
+                                scrollController: ScrollController(),
+                                logger: logger,
+                                itemBuilder: (context, item, index) {
+                                  logger.i('Rendering item: ${item.name}, isDisliked: ${item.isDisliked}');
+                                  return EnhancedUserPhoto(
+                                    imageUrl: item.imageUrl,
+                                    isSelected: false,
+                                    isDisliked: item.isDisliked,
+                                    onPressed: () {
+                                      logger.i('Item tapped: ${item.itemId}, current isDisliked: ${item.isDisliked}');
+                                      context.read<OutfitReviewBloc>().add(ToggleItemSelection(item.itemId, state.feedback));
+                                    },
+                                    itemName: item.name,
+                                    itemId: item.itemId,
+                                  );
+                                },
+                                crossAxisCount: 3,
+                                childAspectRatio: 3 / 4,
+                              ),
                             ),
-                          ),
-                        ],
-                      )
+                          ],
+                        ),
                       );
                     } else if (state is OutfitReviewInitial) {
                       logger.i("Dispatching initial CheckAndLoadOutfit with feedback: like");
@@ -165,12 +165,36 @@ class OutfitReviewViewState extends State<OutfitReview> {
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.only(top: 2.0, bottom: 20.0, left: 16.0, right: 16.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      logger.i("Submit button pressed. Comment: ${_commentController.text}");
-                      // Handle the "styleOn" action here
+                  child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
+                    builder: (context, state) {
+                      return ElevatedButton(
+                        onPressed: () {
+                          if (state is OutfitReviewItemsLoaded) {
+                            final outfitId = state.outfitId ?? ""; // Ensure this is part of the state
+                            final feedback = state.feedback.toString();
+                            final comments = _commentController.text;
+                            final itemIds = state.items
+                                .where((item) => item.isDisliked)
+                                .map((item) => item.itemId)
+                                .toList();
+
+                            logger.i("Submit button pressed. Comment: $comments");
+
+                            context.read<OutfitReviewBloc>().add(
+                              SubmitOutfitReview(
+                                outfitId: outfitId,
+                                feedback: feedback,
+                                comments: comments,
+                                itemIds: itemIds,  // Pass the item IDs
+                              ),
+                            );
+                          } else {
+                            logger.e("Submit button pressed, but state is not OutfitReviewItemsLoaded");
+                          }
+                        },
+                        child: Text(S.of(context).styleOn),
+                      );
                     },
-                    child: Text(S.of(context).styleOn),
                   ),
                 ),
               ],

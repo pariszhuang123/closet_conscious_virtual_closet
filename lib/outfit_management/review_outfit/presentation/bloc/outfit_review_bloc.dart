@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../core/data/services/outfits_fetch_service.dart';
+import '../../../core/data/services/outfits_save_service.dart';
 import '../../../../core/utilities/logger.dart';
 
 part 'outfit_review_state.dart';
@@ -23,6 +24,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     on<FetchOutfitItems>(_onFetchOutfitItems);
     on<ToggleItemSelection>(_onToggleItemSelection);
     on<FeedbackSelected>(_onFeedbackSelected);
+    on<SubmitOutfitReview>(_onSubmitOutfitReview);
   }
 
   Future<void> _onCheckAndLoadOutfit(CheckAndLoadOutfit event,
@@ -220,8 +222,57 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
         emit(loadedState.copyWith(items: updatedItems));
 
         // Log the updated items with their disliked status
-        _logger.d('Updated disliked items: ${updatedItems.where((item) => item
+        _logger.d('Updated disliked items: ${updatedItems.where((item) =>
+        item
             .isDisliked).map((item) => item.itemId).toList()}');
+      }
+    }
+  }
+
+  void _onSubmitOutfitReview(SubmitOutfitReview event,
+      Emitter<OutfitReviewState> emit) async {
+    if (state is OutfitReviewItemsLoaded) {
+      final loadedState = state as OutfitReviewItemsLoaded;
+
+      final dislikedItemIds = loadedState.items
+          .where((item) => item.isDisliked)
+          .map((item) => item.itemId)
+          .toList();
+
+      // Logging feedback and disliked items
+      _logger.i('event.feedback: ${event.feedback}');
+      _logger.i('Expected feedback for like: ${OutfitReviewFeedback.like
+          .toFeedbackString()}');
+      _logger.i('Disliked Item IDs: $dislikedItemIds');
+
+      // Use direct enum comparison
+      if (event.feedback == OutfitReviewFeedback.like.toFeedbackString() ||
+          (dislikedItemIds.isNotEmpty &&
+              (event.feedback == OutfitReviewFeedback.dislike.toFeedbackString() ||
+                  event.feedback == OutfitReviewFeedback.alright.toFeedbackString()))) {
+        emit(ReviewSubmissionInProgress());
+        _logger.i('Submission in progress');
+
+        try {
+          await reviewOutfit(
+            outfitId: event.outfitId,
+            feedback: event.feedback,
+            itemIds: dislikedItemIds,
+            comments: event.comments,
+          );
+
+          emit(ReviewSubmissionSuccess());
+          _logger.i('Review submission success');
+        } catch (error) {
+          emit(ReviewSubmissionFailure(error.toString()));
+          _logger.e('Review submission failed: $error');
+        }
+      } else {
+        emit(InvalidReviewSubmission(
+          outfitId: loadedState.outfitId,
+          message: "Please select at least one item you didn't like if your feedback is 'dislike' or 'alright'.",
+        ));
+        _logger.w('Invalid review submission');
       }
     }
   }

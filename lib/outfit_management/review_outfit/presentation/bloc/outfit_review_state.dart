@@ -122,3 +122,28 @@ class FeedbackUpdated extends OutfitReviewState {
 class NoOutfitItemsFound extends OutfitReviewState {
   const NoOutfitItemsFound({super.outfitId});
 }
+
+class ReviewSubmissionInProgress extends OutfitReviewState {}
+
+class ReviewSubmissionSuccess extends OutfitReviewState {}
+
+class ReviewSubmissionFailure extends OutfitReviewState {
+  final String error;
+
+  const ReviewSubmissionFailure(this.error);
+
+  @override
+  List<Object> get props => [error];
+}
+
+class InvalidReviewSubmission extends OutfitReviewState {
+  final String message;
+
+  const InvalidReviewSubmission({
+    super.outfitId,
+    required this.message,
+  });
+
+  @override
+  List<Object?> get props => [outfitId, message];
+}
