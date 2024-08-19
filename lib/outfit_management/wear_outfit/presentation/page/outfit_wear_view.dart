@@ -69,86 +69,89 @@ class OutfitWearViewState extends State<OutfitWearView> {
 
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(width: 20),
-              LogoTextContainer(
-                themeData: widget.myOutfitTheme,
-                text: S.of(context).myOutfitOfTheDay,
-                isFromMyCloset: false,
-                buttonType: ButtonType.primary,
-                isSelected: false,
-                usePredefinedColor: true,
-              ),
-              const SizedBox(height: 15),
-              SelfieDateShareContainer(
-                formattedDate: formattedDate,
-                onSelfieButtonPressed: _onSelfieButtonPressed,
-                onShareButtonPressed: _onShareButtonPressed,
-                theme: widget.myOutfitTheme,
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: BlocBuilder<OutfitWearBloc, OutfitWearState>(
-                  builder: (context, state) {
-                    if (state is SelfieTaken) {
-                      logger.i('Selfie taken, displaying image');
-                      final outfitImageUrl = state.items.first.imageUrl;
-                      return Center(
-                        child: UserPhoto(
-                          imageUrl: outfitImageUrl,
-                        ),
-                      );
-                    } else if (state is OutfitWearLoaded) {
-                      logger.i('Outfit items loaded, displaying grid');
-                      return BaseGrid<OutfitItemMinimal>(
-                        items: state.items,
-                        scrollController: ScrollController(),
-                        logger: logger,
-                        itemBuilder: (context, item, index) {
-                          return EnhancedUserPhoto(
-                            imageUrl: item.imageUrl,
-                            isSelected: false,
-                            isDisliked: item.isDisliked,
-                            onPressed: () {},
-                            itemName: item.name,
-                            itemId: item.itemId,
-                          );
-                        },
-                        crossAxisCount: 3,
-                        childAspectRatio: 3 / 4,
-                      );
-                    } else if (state is OutfitWearError) {
-                      // Handle the error state
-                      logger.e('Error state, displaying error message');
-                      return Center(
-                        child: Text(
-                          state.message,
-                          style: const TextStyle(color: Colors.red, fontSize: 16),
-                        ),
-                      );
-                    } else {
-                      logger.i('Loading state, displaying progress indicator');
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                  },
+        body: Theme(
+          data: widget.myOutfitTheme,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(width: 20),
+                LogoTextContainer(
+                  themeData: widget.myOutfitTheme,
+                  text: S.of(context).myOutfitOfTheDay,
+                  isFromMyCloset: false,
+                  buttonType: ButtonType.primary,
+                  isSelected: false,
+                  usePredefinedColor: true,
                 ),
-              ),
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.only(top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    logger.i('Confirm button pressed, navigating to createOutfit');
-                    Navigator.of(context).pushNamed(AppRoutes.createOutfit);
-                  },
-                  child: Text(S.of(context).styleOn),
+                const SizedBox(height: 15),
+                SelfieDateShareContainer(
+                  formattedDate: formattedDate,
+                  onSelfieButtonPressed: _onSelfieButtonPressed,
+                  onShareButtonPressed: _onShareButtonPressed,
+                  theme: widget.myOutfitTheme,
                 ),
-              ),
-            ],
+                const SizedBox(height: 16),
+                Expanded(
+                  child: BlocBuilder<OutfitWearBloc, OutfitWearState>(
+                    builder: (context, state) {
+                      if (state is SelfieTaken) {
+                        logger.i('Selfie taken, displaying image');
+                        final outfitImageUrl = state.items.first.imageUrl;
+                        return Center(
+                          child: UserPhoto(
+                            imageUrl: outfitImageUrl,
+                          ),
+                        );
+                      } else if (state is OutfitWearLoaded) {
+                        logger.i('Outfit items loaded, displaying grid');
+                        return BaseGrid<OutfitItemMinimal>(
+                          items: state.items,
+                          scrollController: ScrollController(),
+                          logger: logger,
+                          itemBuilder: (context, item, index) {
+                            return EnhancedUserPhoto(
+                              imageUrl: item.imageUrl,
+                              isSelected: false,
+                              isDisliked: item.isDisliked,
+                              onPressed: () {},
+                              itemName: item.name,
+                              itemId: item.itemId,
+                            );
+                          },
+                          crossAxisCount: 3,
+                          childAspectRatio: 3 / 4,
+                        );
+                      } else if (state is OutfitWearError) {
+                        // Handle the error state
+                        logger.e('Error state, displaying error message');
+                        return Center(
+                          child: Text(
+                            state.message,
+                            style: const TextStyle(color: Colors.red, fontSize: 16),
+                          ),
+                        );
+                      } else {
+                        logger.i('Loading state, displaying progress indicator');
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.only(top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      logger.i('Confirm button pressed, navigating to createOutfit');
+                      Navigator.of(context).pushNamed(AppRoutes.createOutfit);
+                    },
+                    child: Text(S.of(context).styleOn),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

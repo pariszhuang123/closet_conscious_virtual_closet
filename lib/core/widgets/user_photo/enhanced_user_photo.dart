@@ -45,11 +45,13 @@ class EnhancedUserPhoto extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Text(
-              itemName,
-              style: Theme.of(context).textTheme.labelSmall,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
+            Flexible(
+              child: Text(
+                itemName,
+                style: Theme.of(context).textTheme.labelSmall,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
             ),
           ],
         ),
