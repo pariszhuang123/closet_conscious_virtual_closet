@@ -12,6 +12,6 @@ void setupCoreServices() {
   coreLocator.registerFactory(() => CustomLogger('OutfitReviewContainerLogger'), instanceName: 'OutfitReviewContainerLogger');
   coreLocator.registerFactory(() => CustomLogger('OutfitWearViewLogger'), instanceName: 'OutfitWearViewLogger');
   coreLocator.registerFactory(() => CustomLogger('OutfitsFetchServiceLogger'), instanceName: 'OutfitsFetchServiceLogger');
-
+  coreLocator.registerFactory(() => CustomLogger('OutfitReviewViewLogger'), instanceName: 'OutfitReviewViewLogger');
 
 }

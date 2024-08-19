@@ -14,6 +14,8 @@ import '../widgets/comment_field.dart';
 import '../../../../core/data/type_data.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../core/widgets/user_photo/base/user_photo.dart';
+import '../../../../core/core_service_locator.dart';
+
 
 class OutfitReview extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -28,7 +30,7 @@ class OutfitReview extends StatefulWidget {
 }
 
 class OutfitReviewViewState extends State<OutfitReview> {
-  final CustomLogger logger = CustomLogger('WearOutfit');
+  final CustomLogger logger = coreLocator<CustomLogger>(instanceName: 'OutfitReviewViewLogger');
   final TextEditingController _commentController = TextEditingController();
 
   @override
@@ -61,6 +63,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
               const SizedBox(height: 15),
               BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
                 builder: (context, state) {
+                  logger.i('Rendering OutfitReviewContainer with state: $state');
                   return OutfitReviewContainer(
                     outfitReviewLike: outfitReviewLike,
                     outfitReviewAlright: outfitReviewAlright,
@@ -73,21 +76,20 @@ class OutfitReviewViewState extends State<OutfitReview> {
               Expanded(
                 child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
                   builder: (context, state) {
+                    logger.i('Building OutfitReview grid with state: $state');
                     if (state is OutfitReviewInitial) {
-                      // Passing default feedback to initiate fetch
                       logger.i("Dispatching initial CheckAndLoadOutfit with feedback: like");
                       context.read<OutfitReviewBloc>().add(CheckAndLoadOutfit(OutfitReviewFeedback.like));
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is OutfitReviewLoading) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is NavigateToMyCloset) {
-                      // Navigate to /my_closet.dart
+                      logger.i('Navigating to My Closet');
                       WidgetsBinding.instance.addPostFrameCallback((_) {
                         Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
                       });
                       return Container();
                     } else if (state is OutfitImageUrlAvailable) {
-                      // Display the image in full-screen mode
                       final outfitImageUrl = state.imageUrl;
                       logger.i("Displaying outfit image URL: $outfitImageUrl");
                       return Center(
@@ -96,14 +98,14 @@ class OutfitReviewViewState extends State<OutfitReview> {
                         ),
                       );
                     } else if (state is OutfitReviewItemsLoaded) {
-                      // Display the grid with the loaded items
-                      logger.i("Displaying outfit items. Feedback: ${state.feedback}");
+                      logger.i("Displaying outfit items. Feedback: ${state.feedback}, Items: ${state.items.length}");
                       return BaseGrid<OutfitItemMinimal>(
                         items: state.items,
                         scrollController: ScrollController(),
                         logger: logger,
                         itemBuilder: (context, item, index) {
                           final isSelected = state.selectedItemIds[state.feedback]?.contains(item.itemId) ?? false;
+                          logger.i('Rendering item: ${item.name}, isSelected: $isSelected');
                           return EnhancedUserPhoto(
                             imageUrl: item.imageUrl,
                             isSelected: isSelected,
@@ -135,6 +137,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
                 padding: const EdgeInsets.only(top: 2.0, bottom: 70.0, left: 16.0, right: 16.0),
                 child: ElevatedButton(
                   onPressed: () {
+                    logger.i("Submit button pressed. Comment: ${_commentController.text}");
                     // Handle the "styleOn" action here
                   },
                   child: Text(S.of(context).styleOn),
