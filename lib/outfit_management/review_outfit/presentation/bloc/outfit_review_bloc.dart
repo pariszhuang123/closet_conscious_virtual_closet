@@ -90,7 +90,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
         // Ensure the state is only emitted if the handler hasn't completed
         if (!emit.isDone) {
           emit(OutfitReviewItemsLoaded(
-            outfitItems,
+            items: outfitItems,  // Corrected to named parameter
             canSelectItems: false, // Assuming items can't be selected for 'like'
             feedback: OutfitReviewFeedback.like,
             outfitId: outfitId,
@@ -115,12 +115,15 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
       // Await the async operation
       final outfitItems = await _outfitFetchService.fetchOutfitItems(outfitId);
-      _logger.i('Fetched outfit items: $outfitItems');
+      _logger.i('Fetched outfit items:');
+      for (var item in outfitItems) {
+        _logger.i('Item: ${item.name}, ID: ${item.itemId}, Image URL: ${item.imageUrl}');
+      }
 
       // Ensure that the emit function is only called after all async operations are complete
       if (!emit.isDone) {
         emit(OutfitReviewItemsLoaded(
-          outfitItems,
+          items: outfitItems,  // Corrected to named parameter
           canSelectItems: canSelectItems,
           feedback: feedback,
           outfitId: outfitId,
@@ -166,7 +169,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
         emit(NoOutfitItemsFound(outfitId: state.outfitId));
       } else {
         emit(OutfitReviewItemsLoaded(
-          selectedItems,
+          items: selectedItems,  // Corrected to named parameter
           outfitId: event.outfitId,
         ));
       }

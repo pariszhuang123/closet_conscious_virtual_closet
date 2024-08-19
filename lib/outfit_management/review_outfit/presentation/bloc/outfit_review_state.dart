@@ -63,17 +63,24 @@ class OutfitImageUrlAvailable extends OutfitReviewState {
 class OutfitReviewItemsLoaded extends OutfitReviewState {
   final List<OutfitItemMinimal> items;
 
-  const OutfitReviewItemsLoaded(
-      this.items, {
-        super.outfitId,
-        super.feedback,
-        super.canSelectItems,
-        super.selectedItemIds,
-        super.hasSelectedItems,
-      });
+  const OutfitReviewItemsLoaded({
+    required this.items,
+    super.outfitId,
+    super.feedback,
+    super.canSelectItems,
+    super.selectedItemIds,
+    super.hasSelectedItems,
+  });
 
   @override
-  List<Object?> get props => [items, ...super.props];
+  List<Object?> get props => [
+    items,
+    outfitId,
+    feedback,
+    canSelectItems,
+    selectedItemIds,
+    hasSelectedItems,
+  ];
 }
 
 class OutfitReviewError extends OutfitReviewState {

@@ -86,6 +86,12 @@ class MyOutfitViewState extends State<MyOutfitView> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose(); // Properly dispose of the ScrollController
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final outfitsUploadData = TypeDataList.outfitsUpload(context);
     final filterData = TypeDataList.filter(context);
