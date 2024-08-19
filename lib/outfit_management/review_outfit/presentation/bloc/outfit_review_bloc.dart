@@ -29,7 +29,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       Emitter<OutfitReviewState> emit) async {
     final authState = _authBloc.state;
     if (authState is Authenticated) {
-      emit(OutfitReviewLoading());
+      emit(OutfitReviewLoading(outfitId: state.outfitId)); // Maintain outfitId during loading state
       _logger.i('Starting _onCheckAndLoadOutfit');
 
       final String userId = authState.user.id;
@@ -39,6 +39,8 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
         if (outfitId != null) {
           _logger.i('Outfit ID: $outfitId');
+
+          // Update state with the fetched outfitId
           emit(state.copyWith(
             feedback: event.feedback,
             outfitId: outfitId,
@@ -75,43 +77,62 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       final imageUrl = await _outfitFetchService.fetchOutfitImageUrl(outfitId);
       if (imageUrl != null && imageUrl != 'cc_none') {
         _logger.i('Outfit Image URL found: $imageUrl');
-        emit(OutfitImageUrlAvailable(imageUrl));
+
+        // Ensure the state is only emitted if the handler hasn't completed
+        if (!emit.isDone) {
+          emit(OutfitImageUrlAvailable(imageUrl, outfitId: outfitId));
+        }
       } else {
         _logger.w('No Outfit Image URL found, fetching outfit items.');
 
         final outfitItems = await _outfitFetchService.fetchOutfitItems(outfitId);
 
-        emit(OutfitReviewItemsLoaded(
-          outfitItems,
-          canSelectItems: false, // Assuming items can't be selected for 'like'
-          feedback: OutfitReviewFeedback.like,
-        ));
+        // Ensure the state is only emitted if the handler hasn't completed
+        if (!emit.isDone) {
+          emit(OutfitReviewItemsLoaded(
+            outfitItems,
+            canSelectItems: false, // Assuming items can't be selected for 'like'
+            feedback: OutfitReviewFeedback.like,
+            outfitId: outfitId,
+          ));
+        }
       }
     } catch (e, stackTrace) {
       _logger.e('Failed to load outfit image URL: $e');
       _logger.e('Stack trace: $stackTrace');
-      emit(NavigateToMyCloset());
+
+      // Ensure the state is only emitted if the handler hasn't completed
+      if (!emit.isDone) {
+        emit(NavigateToMyCloset());
+      }
     }
   }
 
-  Future<void> _handleOtherFeedback(OutfitReviewFeedback feedback, String outfitId,
-      Emitter<OutfitReviewState> emit) async {
+  Future<void> _handleOtherFeedback(OutfitReviewFeedback feedback, String outfitId, Emitter<OutfitReviewState> emit) async {
     try {
       // Determine if item selection should be enabled based on feedback
       final canSelectItems = feedback == OutfitReviewFeedback.alright || feedback == OutfitReviewFeedback.dislike;
 
+      // Await the async operation
       final outfitItems = await _outfitFetchService.fetchOutfitItems(outfitId);
       _logger.i('Fetched outfit items: $outfitItems');
 
-      emit(OutfitReviewItemsLoaded(
-        outfitItems,
-        canSelectItems: canSelectItems,
-        feedback: feedback,
-      ));
+      // Ensure that the emit function is only called after all async operations are complete
+      if (!emit.isDone) {
+        emit(OutfitReviewItemsLoaded(
+          outfitItems,
+          canSelectItems: canSelectItems,
+          feedback: feedback,
+          outfitId: outfitId,
+        ));
+      }
     } catch (e, stackTrace) {
       _logger.e('Failed to load outfit items: $e');
       _logger.e('Stack trace: $stackTrace');
-      emit(const OutfitReviewError('Failed to load outfit items'));
+
+      if (!emit.isDone) {
+        emit(OutfitReviewError('Failed to load outfit items', outfitId: outfitId));
+      }
     }
   }
 
@@ -128,7 +149,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
   Future<void> _onFetchOutfitItems(FetchOutfitItems event,
       Emitter<OutfitReviewState> emit) async {
     _logger.i('Handling FetchOutfitItems event');
-    emit(OutfitReviewLoading());
+    emit(OutfitReviewLoading(outfitId: state.outfitId));
 
     try {
       final selectedItems = await _outfitFetchService.fetchOutfitItems(event.outfitId);
@@ -137,17 +158,17 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
       if (selectedItems.isEmpty) {
         _logger.w('No items found for the outfit');
-        emit(NoOutfitItemsFound());
+        emit(NoOutfitItemsFound(outfitId: state.outfitId));
       } else {
-        for (var item in selectedItems) {
-          _logger.i('Fetched item - ID: ${item.itemId}, Name: ${item.name}, Image URL: ${item.imageUrl}');
-        }
-        emit(OutfitReviewItemsLoaded(selectedItems));
+        emit(OutfitReviewItemsLoaded(
+          selectedItems,
+          outfitId: event.outfitId,
+        ));
       }
     } catch (e, stackTrace) {
       _logger.e('Failed to load outfit items: $e');
       _logger.e('Stack trace: $stackTrace');
-      emit(const OutfitReviewError('Failed to load outfit items'));
+      emit(OutfitReviewError('Failed to load outfit items', outfitId: state.outfitId));
     }
   }
 

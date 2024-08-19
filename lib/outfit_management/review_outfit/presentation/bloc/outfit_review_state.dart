@@ -1,11 +1,11 @@
 part of 'outfit_review_bloc.dart';
 
 abstract class OutfitReviewState extends Equatable {
+  final String? outfitId;
   final OutfitReviewFeedback feedback;
   final bool canSelectItems;
   final Map<OutfitReviewFeedback, List<String>> selectedItemIds;
   final bool hasSelectedItems;
-  final String? outfitId;
 
   const OutfitReviewState({
     this.outfitId,
@@ -16,14 +16,14 @@ abstract class OutfitReviewState extends Equatable {
   });
 
   OutfitReviewState copyWith({
-    String? outfitId,  // Add this parameter
+    String? outfitId,
     OutfitReviewFeedback? feedback,
     bool? canSelectItems,
     Map<OutfitReviewFeedback, List<String>>? selectedItemIds,
     bool? hasSelectedItems,
   }) {
     return _OutfitReviewState(
-      outfitId: outfitId ?? this.outfitId,  // Ensure this is included in the new state
+      outfitId: outfitId ?? this.outfitId,
       feedback: feedback ?? this.feedback,
       canSelectItems: canSelectItems ?? this.canSelectItems,
       selectedItemIds: selectedItemIds ?? this.selectedItemIds,
@@ -32,7 +32,7 @@ abstract class OutfitReviewState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [feedback, canSelectItems, selectedItemIds, hasSelectedItems, outfitId];
+  List<Object?> get props => [outfitId, feedback, canSelectItems, selectedItemIds, hasSelectedItems];
 }
 
 class _OutfitReviewState extends OutfitReviewState {
@@ -47,7 +47,9 @@ class _OutfitReviewState extends OutfitReviewState {
 
 class OutfitReviewInitial extends OutfitReviewState {}
 
-class OutfitReviewLoading extends OutfitReviewState {}
+class OutfitReviewLoading extends OutfitReviewState {
+  const OutfitReviewLoading({super.outfitId});
+}
 
 class OutfitImageUrlAvailable extends OutfitReviewState {
   final String imageUrl;
@@ -64,7 +66,7 @@ class OutfitReviewItemsLoaded extends OutfitReviewState {
   const OutfitReviewItemsLoaded(
       this.items, {
         super.outfitId,
-        super.feedback = OutfitReviewFeedback.like,
+        super.feedback,
         super.canSelectItems,
         super.selectedItemIds,
         super.hasSelectedItems,
@@ -100,4 +102,6 @@ class FeedbackUpdated extends OutfitReviewState {
   List<Object?> get props => [...super.props];
 }
 
-class NoOutfitItemsFound extends OutfitReviewState {}
+class NoOutfitItemsFound extends OutfitReviewState {
+  const NoOutfitItemsFound({super.outfitId});
+}
