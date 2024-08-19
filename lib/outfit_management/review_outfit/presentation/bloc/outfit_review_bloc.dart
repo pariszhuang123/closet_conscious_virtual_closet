@@ -139,6 +139,8 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
   void _onFeedbackSelected(FeedbackSelected event, Emitter<OutfitReviewState> emit) {
     final feedback = event.feedback;
 
+    emit(state.copyWith(feedback: feedback));
+
     if (feedback == OutfitReviewFeedback.like) {
       _handleLikeFeedback(event.outfitId, emit);
     } else {

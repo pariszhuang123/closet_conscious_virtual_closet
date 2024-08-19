@@ -41,30 +41,27 @@ class OutfitReviewContainerState extends State<OutfitReviewContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedFeedback = context.select<OutfitReviewBloc, OutfitReviewFeedback?>((bloc) {
-      final state = bloc.state;
-      if (state is FeedbackUpdated) {
-        return state.feedback;
-      }
-      return OutfitReviewFeedback.like; // Default or fallback value
-    }) ?? OutfitReviewFeedback.like;
-
     final outfitId = context.select<OutfitReviewBloc, String?>((bloc) => bloc.state.outfitId);
+    final selectedFeedback = context.select<OutfitReviewBloc, OutfitReviewFeedback>((bloc) => bloc.state.feedback);
 
     return BaseContainerNoFormat(
       theme: widget.theme,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildNavigationButton(widget.outfitReviewLike, OutfitReviewFeedback.like, selectedFeedback, outfitId),
-          _buildNavigationButton(widget.outfitReviewAlright, OutfitReviewFeedback.alright, selectedFeedback, outfitId),
-          _buildNavigationButton(widget.outfitReviewDislike, OutfitReviewFeedback.dislike, selectedFeedback, outfitId),
+          _buildNavigationButton(widget.outfitReviewLike, OutfitReviewFeedback.like, outfitId, selectedFeedback),
+          _buildNavigationButton(widget.outfitReviewAlright, OutfitReviewFeedback.alright, outfitId, selectedFeedback),
+          _buildNavigationButton(widget.outfitReviewDislike, OutfitReviewFeedback.dislike, outfitId, selectedFeedback),
         ],
       ),
     );
   }
 
-  Widget _buildNavigationButton(TypeData typeData, OutfitReviewFeedback feedback, OutfitReviewFeedback selectedFeedback, String? outfitId) {
+  Widget _buildNavigationButton(TypeData typeData, OutfitReviewFeedback feedback, String? outfitId, OutfitReviewFeedback selectedFeedback) {
+    final isSelected = selectedFeedback == feedback;
+
+    _logger.i('Button: ${typeData.getName(context)}, isSelected: $isSelected');
+
     return NavigationTypeButton(
       label: typeData.getName(context),
       selectedLabel: typeData.getName(context),
@@ -75,7 +72,7 @@ class OutfitReviewContainerState extends State<OutfitReviewContainer> {
       assetPath: typeData.assetPath,
       isFromMyCloset: false,
       buttonType: ButtonType.primary,
-      isSelected: selectedFeedback == feedback,
+      isSelected: isSelected,
       usePredefinedColor: false,
     );
   }

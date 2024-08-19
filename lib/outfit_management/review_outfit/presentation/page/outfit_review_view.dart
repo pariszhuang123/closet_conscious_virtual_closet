@@ -59,11 +59,15 @@ class OutfitReviewViewState extends State<OutfitReview> {
                 usePredefinedColor: true,
               ),
               const SizedBox(height: 15),
-              OutfitReviewContainer(
-                outfitReviewLike: outfitReviewLike,
-                outfitReviewAlright: outfitReviewAlright,
-                outfitReviewDislike: outfitReviewDislike,
-                theme: widget.myOutfitTheme,
+              BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
+                builder: (context, state) {
+                  return OutfitReviewContainer(
+                    outfitReviewLike: outfitReviewLike,
+                    outfitReviewAlright: outfitReviewAlright,
+                    outfitReviewDislike: outfitReviewDislike,
+                    theme: widget.myOutfitTheme,
+                  );
+                },
               ),
               const SizedBox(height: 16),
               Expanded(
