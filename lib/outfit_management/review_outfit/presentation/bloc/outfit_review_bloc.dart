@@ -11,6 +11,23 @@ import '../../../../core/utilities/logger.dart';
 part 'outfit_review_state.dart';
 part 'outfit_review_event.dart';
 
+enum OutfitReviewFeedback { like, dislike, alright }
+
+OutfitReviewFeedback stringToFeedback(String feedback) {
+  final feedbackValue = feedback.split('.').last;
+  switch (feedbackValue) {
+    case 'like':
+      return OutfitReviewFeedback.like;
+    case 'dislike':
+      return OutfitReviewFeedback.dislike;
+    case 'alright':
+      return OutfitReviewFeedback.alright;
+    default:
+      throw Exception('Invalid feedback string: $feedback');
+  }
+}
+
+
 class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
   final CustomLogger _logger = GetIt.instance<CustomLogger>(
       instanceName: 'OutfitReviewBlocLogger');
@@ -31,8 +48,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       Emitter<OutfitReviewState> emit) async {
     final authState = _authBloc.state;
     if (authState is Authenticated) {
-      emit(OutfitReviewLoading(
-          outfitId: state.outfitId)); // Maintain outfitId during loading state
+      emit(OutfitReviewLoading(outfitId: state.outfitId)); // Maintain outfitId during loading state
       _logger.i('Starting _onCheckAndLoadOutfit');
 
       final String userId = authState.user.id;
@@ -89,16 +105,13 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       } else {
         _logger.w('No Outfit Image URL found, fetching outfit items.');
 
-        final outfitItems = await _outfitFetchService.fetchOutfitItems(
-            outfitId);
+        final outfitItems = await _outfitFetchService.fetchOutfitItems(outfitId);
 
         // Ensure the state is only emitted if the handler hasn't completed
         if (!emit.isDone) {
           emit(OutfitReviewItemsLoaded(
             items: outfitItems,
-            // Corrected to named parameter
-            canSelectItems: false,
-            // Assuming items can't be selected for 'like'
+            canSelectItems: false, // Assuming items can't be selected for 'like'
             feedback: OutfitReviewFeedback.like,
             outfitId: outfitId,
           ));
@@ -126,14 +139,13 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       final outfitItems = await _outfitFetchService.fetchOutfitItems(outfitId);
       _logger.i('Fetched outfit items:');
       for (var item in outfitItems) {
-        _logger.i('Item: ${item.name}, ID: ${item.itemId}, Image URL: ${item
-            .imageUrl}');
+        _logger.i('Item: ${item.name}, ID: ${item.itemId}, Image URL: ${item.imageUrl}');
       }
 
       // Ensure that the emit function is only called after all async operations are complete
       if (!emit.isDone) {
         emit(OutfitReviewItemsLoaded(
-          items: outfitItems, // Corrected to named parameter
+          items: outfitItems,
           canSelectItems: canSelectItems,
           feedback: feedback,
           outfitId: outfitId,
@@ -223,46 +235,61 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
         // Log the updated items with their disliked status
         _logger.d('Updated disliked items: ${updatedItems.where((item) =>
-        item
-            .isDisliked).map((item) => item.itemId).toList()}');
+        item.isDisliked).map((item) => item.itemId).toList()}');
       }
     }
   }
 
-  void _onSubmitOutfitReview(SubmitOutfitReview event,
-      Emitter<OutfitReviewState> emit) async {
+  void _onSubmitOutfitReview(SubmitOutfitReview event, Emitter<OutfitReviewState> emit) async {
+    // Define the method to convert feedback enum to string
+    String convertFeedbackToString(OutfitReviewFeedback feedback) {
+      return feedback.toString().split('.').last; // Converts to 'like', 'dislike', or 'alright'
+    }
+
     if (state is OutfitReviewItemsLoaded) {
       final loadedState = state as OutfitReviewItemsLoaded;
 
-      final dislikedItemIds = _extractDislikedItemIds(loadedState);
-      final feedback = event.feedback;
+      // Use the enum for your logic
+      final OutfitReviewFeedback feedback = stringToFeedback(event.feedback);
 
-      _logInitialState(event, dislikedItemIds, feedback);
+      final dislikedItemIds = _extractDislikedItemIds(loadedState);
+
+      // Log or use the feedback string representation if needed
+      final String feedbackString = convertFeedbackToString(feedback);
+      _logInitialState(event, dislikedItemIds, feedbackString);
 
       emit(ReviewSubmissionInProgress());
       _logger.i('State changed to: ReviewSubmissionInProgress');
 
       try {
-        if (_isLikeFeedback(feedback)) {
-          _logger.i(
-              'Correctly identified "like" feedback, proceeding with submission.');
+        // Continue using the enum for logic
+        if (_isLikeFeedback(feedbackString)) {
+          _logger.i('Correctly identified "like" feedback, proceeding with submission.');
           await _submitReview(event, dislikedItemIds, emit);
-        } else if (_isDislikeOrAlrightFeedbackWithDislikedItems(
-            feedback, dislikedItemIds)) {
-          _logger.i(
-              'Feedback is "$feedback". Proceeding with submission since disliked items are present.');
+        } else if (_isDislikeOrAlrightFeedbackWithDislikedItems(feedbackString, dislikedItemIds)) {
+          _logger.i('Feedback is "$feedbackString". Proceeding with submission since disliked items are present.');
           await _submitReview(event, dislikedItemIds, emit);
         } else {
-          _handleInvalidSubmission(
-              feedback, dislikedItemIds, loadedState, emit);
+          _logger.e('Unexpected condition reached. Feedback: $feedbackString, disliked items: ${dislikedItemIds.isNotEmpty}');
+          _handleInvalidSubmission(feedbackString, dislikedItemIds, loadedState, emit);
         }
       } catch (error) {
         _handleSubmissionFailure(error, emit);
       }
     } else {
-      _logger.e(
-          'Invalid state: Expected OutfitReviewItemsLoaded but received $state');
+      _logger.e('Invalid state: Expected OutfitReviewItemsLoaded but received $state');
     }
+  }
+
+
+  bool _isLikeFeedback(String feedback) {
+    _logger.d('Checking if feedback is "like": $feedback == like');
+    return feedback == 'like'; // Ensure you're comparing against the string 'like'
+  }
+
+  bool _isDislikeOrAlrightFeedbackWithDislikedItems(String feedback, List<String> dislikedItemIds) {
+    _logger.d('Checking if feedback is "dislike" or "alright" with disliked items: $feedback, items present: ${dislikedItemIds.isNotEmpty}');
+    return (feedback == 'dislike' || feedback == 'alright') && dislikedItemIds.isNotEmpty;
   }
 
   List<String> _extractDislikedItemIds(OutfitReviewItemsLoaded loadedState) {
@@ -272,8 +299,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
         .toList();
   }
 
-  void _logInitialState(SubmitOutfitReview event, List<String> dislikedItemIds,
-      String feedback) {
+  void _logInitialState(SubmitOutfitReview event, List<String> dislikedItemIds, String feedback) {
     _logger.i('Event triggered: SubmitOutfitReview');
     _logger.i('Feedback received: $feedback');
     _logger.i('Disliked Item IDs: $dislikedItemIds');
@@ -281,19 +307,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     _logger.i('State before submission: $state');
   }
 
-  bool _isLikeFeedback(String feedback) {
-    return feedback == OutfitReviewFeedback.like.toFeedbackString();
-  }
-
-  bool _isDislikeOrAlrightFeedbackWithDislikedItems(String feedback,
-      List<String> dislikedItemIds) {
-    return (feedback == OutfitReviewFeedback.dislike.toFeedbackString() ||
-        feedback == OutfitReviewFeedback.alright.toFeedbackString()) &&
-        dislikedItemIds.isNotEmpty;
-  }
-
-  Future<void> _submitReview(SubmitOutfitReview event,
-      List<String> dislikedItemIds, Emitter<OutfitReviewState> emit) async {
+  Future<void> _submitReview(SubmitOutfitReview event, List<String> dislikedItemIds, Emitter<OutfitReviewState> emit) async {
     await reviewOutfit(
       outfitId: event.outfitId,
       feedback: event.feedback,
@@ -302,15 +316,11 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     );
 
     emit(ReviewSubmissionSuccess());
-    _logger.i(
-        'Review submission success. State changed to: ReviewSubmissionSuccess');
+    _logger.i('Review submission success. State changed to: ReviewSubmissionSuccess');
   }
 
-  void _handleInvalidSubmission(String feedback, List<String> dislikedItemIds,
-      OutfitReviewItemsLoaded loadedState, Emitter<OutfitReviewState> emit) {
-    _logger.w(
-        'Invalid submission detected. Feedback: $feedback, disliked items present: ${dislikedItemIds
-            .isNotEmpty}');
+  void _handleInvalidSubmission(String feedback, List<String> dislikedItemIds, OutfitReviewItemsLoaded loadedState, Emitter<OutfitReviewState> emit) {
+    _logger.w('Invalid submission detected. Feedback: $feedback, disliked items present: ${dislikedItemIds.isNotEmpty}');
 
     emit(InvalidReviewSubmission(
       outfitId: loadedState.outfitId,
@@ -319,8 +329,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     _logger.w('State changed to: InvalidReviewSubmission');
   }
 
-  void _handleSubmissionFailure(dynamic error,
-      Emitter<OutfitReviewState> emit) {
+  void _handleSubmissionFailure(dynamic error, Emitter<OutfitReviewState> emit) {
     emit(ReviewSubmissionFailure(error.toString()));
     _logger.e('Review submission failed. Error: $error');
     _logger.e('State changed to: ReviewSubmissionFailure');

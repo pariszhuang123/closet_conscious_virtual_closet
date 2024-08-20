@@ -1,21 +1,5 @@
 part of 'outfit_review_bloc.dart';
 
-enum OutfitReviewFeedback { like, alright, dislike, pending }
-
-extension OutfitReviewFeedbackExtension on OutfitReviewFeedback {
-  String toFeedbackString() {
-    switch (this) {
-      case OutfitReviewFeedback.like:
-        return 'like';
-      case OutfitReviewFeedback.alright:
-        return 'alright';
-      case OutfitReviewFeedback.dislike:
-        return 'dislike';
-      default:
-        return 'pending';
-    }
-  }
-}
 
 abstract class OutfitReviewEvent {}
 
