@@ -203,14 +203,16 @@ class OutfitReviewViewState extends State<OutfitReview> {
                       final isSubmitting = state is ReviewSubmissionInProgress;
                       return ElevatedButton(
                         onPressed: isSubmitting ? null : () {
-                          if (state is OutfitReviewItemsLoaded) {
-                            final outfitId = state.outfitId ?? ""; // Ensure this is part of the state
-                            final feedback = state.feedback.toString();
+                          if (state is OutfitReviewItemsLoaded || state is OutfitImageUrlAvailable) {
+                            final outfitId = state.outfitId ?? ""; // Ensure this is part of both states
+                            final feedback = state.feedback.toString(); // Ensure this is part of both states
                             final comments = _commentController.text;
-                            final itemIds = state.items
+                            final itemIds = state is OutfitReviewItemsLoaded
+                                ? state.items
                                 .where((item) => item.isDisliked)
                                 .map((item) => item.itemId)
-                                .toList();
+                                .toList()
+                                : <String>[]; // Empty list if state is OutfitImageUrlAvailable
 
                             logger.i("Submit button pressed. Comment: $comments");
 

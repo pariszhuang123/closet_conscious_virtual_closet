@@ -246,6 +246,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       return feedback.toString().split('.').last;
     }
 
+    // Handle OutfitReviewItemsLoaded state
     if (state is OutfitReviewItemsLoaded) {
       final loadedState = state as OutfitReviewItemsLoaded;
 
@@ -271,8 +272,27 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       } catch (error) {
         _handleSubmissionFailure(error, emit);
       }
+
+      // Handle OutfitImageUrlAvailable state
+    } else if (state is OutfitImageUrlAvailable) {
+
+      final OutfitReviewFeedback feedback = stringToFeedback(event.feedback);
+      final String feedbackString = convertFeedbackToString(feedback);
+
+      _logInitialState(event, [], feedbackString);
+
+      // Here you would also validate and handle the submission for the OutfitImageUrlAvailable state
+      emit(ReviewSubmissionInProgress());
+      _logger.i('State changed to: ReviewSubmissionInProgress');
+
+      try {
+        // Assuming you have a similar submission process
+        await _submitReview(event, [], emit);
+      } catch (error) {
+        _handleSubmissionFailure(error, emit);
+      }
     } else {
-      _logger.e('Invalid state: Expected OutfitReviewItemsLoaded but received $state');
+      _logger.e('Invalid state: Expected OutfitReviewItemsLoaded or OutfitImageUrlAvailable but received $state');
     }
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:uuid/uuid.dart';
@@ -21,7 +20,6 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
   final SupabaseClient supabaseClient;
   final CustomLogger logger;
   final AuthBloc authBloc;
-  final ImagePicker picker;
   final PhotoCaptureService photoCaptureService;
   final OutfitFetchService _outfitFetchService;
 
@@ -35,7 +33,6 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
         logger = coreLocator<CustomLogger>(
             instanceName: 'OutfitWearBlocLogger'),
   // Pre-tagged logger
-        picker = ImagePicker(),
         _outfitFetchService = outfitFetchService, // Assign the injected service here
       super(OutfitWearInitial()) {
     on<CheckForOutfitImageUrl>(_onCheckForOutfitImageUrl);
