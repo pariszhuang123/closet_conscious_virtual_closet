@@ -2,7 +2,7 @@ create or replace function public.review_outfit(
   p_outfit_id uuid,
   p_feedback text,
   p_item_ids uuid[],
-  p_comments text default "cc_none"
+  p_outfit_comments text default 'cc_none'
 )
 returns JSON
 LANGUAGE plpgsql
@@ -20,7 +20,7 @@ begin
   -- Update the outfits table with the feedback and comments
   update public.outfits
   set feedback = p_feedback,
-      comments = COALESCE(p_comments, comments),  -- Preserve existing comments if none provided
+      comments = p_outfit_comments,
       reviewed = true,
       updated_at = NOW()
   where outfit_id = p_outfit_id;
