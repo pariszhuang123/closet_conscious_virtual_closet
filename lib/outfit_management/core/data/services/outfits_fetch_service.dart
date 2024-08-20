@@ -1,17 +1,17 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
+import '../../../../core/core_service_locator.dart';
 
 class OutfitFetchService {
   final SupabaseClient client;
   final CustomLogger logger;
 
   OutfitFetchService(this.client)
-      : logger = GetIt.instance<CustomLogger>(instanceName: 'OutfitsFetchServiceLogger');
+      : logger = coreLocator<CustomLogger>(instanceName: 'OutfitsFetchServiceLogger');
 
   Future<List<ClosetItemMinimal>> fetchCreateOutfitItems(
       OutfitItemCategory category, int currentPage, int batchSize) async {

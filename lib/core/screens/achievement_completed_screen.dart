@@ -11,8 +11,7 @@ class AchievementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Start a timer to navigate to 'my_closet.dart' after 10 seconds
-    Timer(const Duration(seconds: 10), () {
+    Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, '/my_closet');
     });
 

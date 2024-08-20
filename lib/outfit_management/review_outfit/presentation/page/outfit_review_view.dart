@@ -65,20 +65,15 @@ class OutfitReviewViewState extends State<OutfitReview> {
                 ),
                 const SizedBox(height: 15),
 
-                // BlocListener listens for the specific success state
                 BlocListener<OutfitReviewBloc, OutfitReviewState>(
                   listener: (context, state) {
                     if (state is InvalidReviewSubmission) {
-                      // Use S.of(context) to get the localized message
                       final String message = S.of(context).pleaseSelectAtLeastOneItem;
-
-                      // Show custom snackbar with the localized message
                       CustomSnackbar(
                         message: message,
                         theme: widget.myOutfitTheme,
                       ).show(context);
                     } else if (state is ReviewSubmissionSuccess) {
-                      // Handle success
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -89,7 +84,6 @@ class OutfitReviewViewState extends State<OutfitReview> {
                       );
                     }
                   },
-
                   child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
                     builder: (context, state) {
                       logger.i('Rendering OutfitReviewContainer with state: $state');
@@ -109,7 +103,6 @@ class OutfitReviewViewState extends State<OutfitReview> {
                   builder: (context, state) {
                     logger.i('Building OutfitReview grid with state: $state');
 
-                    // Display feedback sentence based on the feedback type
                     if (state is OutfitReviewItemsLoaded) {
                       String feedbackSentence = '';
                       switch (state.feedback) {
@@ -165,7 +158,8 @@ class OutfitReviewViewState extends State<OutfitReview> {
                       logger.i("Dispatching initial CheckAndLoadOutfit with feedback: like");
                       context.read<OutfitReviewBloc>().add(CheckAndLoadOutfit(OutfitReviewFeedback.like));
                       return const Center(child: CircularProgressIndicator());
-                    } else if (state is OutfitReviewLoading) {
+                    } else if (state is OutfitReviewLoading || state is ReviewSubmissionInProgress) {
+                      // Show loading indicator for both loading and submission progress states
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is NavigateToMyCloset) {
                       logger.i('Navigating to My Closet');
@@ -176,9 +170,13 @@ class OutfitReviewViewState extends State<OutfitReview> {
                     } else if (state is OutfitImageUrlAvailable) {
                       final outfitImageUrl = state.imageUrl;
                       logger.i("Displaying outfit image URL: $outfitImageUrl");
-                      return Center(
-                        child: UserPhoto(
-                          imageUrl: outfitImageUrl,
+                      return Expanded(
+                        child: SingleChildScrollView(
+                          child: Center(
+                            child: UserPhoto(
+                              imageUrl: outfitImageUrl,
+                            ),
+                          ),
                         ),
                       );
                     } else if (state is OutfitReviewError) {
@@ -202,8 +200,9 @@ class OutfitReviewViewState extends State<OutfitReview> {
                   padding: const EdgeInsets.only(top: 2.0, bottom: 20.0, left: 16.0, right: 16.0),
                   child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
                     builder: (context, state) {
+                      final isSubmitting = state is ReviewSubmissionInProgress;
                       return ElevatedButton(
-                        onPressed: () {
+                        onPressed: isSubmitting ? null : () {
                           if (state is OutfitReviewItemsLoaded) {
                             final outfitId = state.outfitId ?? ""; // Ensure this is part of the state
                             final feedback = state.feedback.toString();
@@ -227,7 +226,13 @@ class OutfitReviewViewState extends State<OutfitReview> {
                             logger.e("Submit button pressed, but state is not OutfitReviewItemsLoaded");
                           }
                         },
-                        child: Text(S.of(context).styleOn),
+                        child: isSubmitting
+                            ? CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Theme.of(context).primaryColor,
+                          ),
+                        )
+                            : Text(S.of(context).styleOn),
                       );
                     },
                   ),

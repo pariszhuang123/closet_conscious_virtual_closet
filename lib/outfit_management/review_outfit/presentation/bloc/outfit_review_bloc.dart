@@ -33,10 +33,11 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       instanceName: 'OutfitReviewBlocLogger');
   final AuthBloc _authBloc = GetIt.instance<AuthBloc>();
   final OutfitFetchService _outfitFetchService;
+  final OutfitSaveService saveService;
 
   List<String> selectedItems = [];
 
-  OutfitReviewBloc(this._outfitFetchService) : super(OutfitReviewInitial()) {
+  OutfitReviewBloc(this._outfitFetchService, this.saveService) : super(OutfitReviewInitial()) {
     on<CheckAndLoadOutfit>(_onCheckAndLoadOutfit);
     on<FetchOutfitItems>(_onFetchOutfitItems);
     on<ToggleItemSelection>(_onToggleItemSelection);
@@ -302,7 +303,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
   }
 
   Future<void> _submitReview(SubmitOutfitReview event, List<String> dislikedItemIds, Emitter<OutfitReviewState> emit) async {
-    await reviewOutfit(
+    await saveService.reviewOutfit(
       outfitId: event.outfitId,
       feedback: event.feedback,
       itemIds: dislikedItemIds,
