@@ -208,6 +208,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "onePiece": MessageLookupByLibrary.simpleMessage("One Piece"),
         "outer": MessageLookupByLibrary.simpleMessage("Outer"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("Outfit"),
+        "outfitReviewContent": MessageLookupByLibrary.simpleMessage(
+            "Your outfit review has been successfully submitted!"),
+        "outfitReviewTitle":
+            MessageLookupByLibrary.simpleMessage("Outfit Review Submitted"),
         "outfits_upload": MessageLookupByLibrary.simpleMessage(
             "This shows the number of outfits you have uploaded"),
         "pleaseEnterItemName":

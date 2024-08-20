@@ -186,6 +186,8 @@
   "and": " 和 ",
   "termsAndConditions": "服务条款",
   "alright_feedback_sentence": "选择你觉得还可以的物品。",
-  "dislike_feedback_sentence": "选择你觉得不适合的物品。"
+  "dislike_feedback_sentence": "选择你觉得不适合的物品。",
+  "outfitReviewTitle": "穿搭评论已提交",
+  "outfitReviewContent": "您的穿搭评论已成功提交！"
 
 }

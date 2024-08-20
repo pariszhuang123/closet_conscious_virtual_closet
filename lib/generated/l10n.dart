@@ -1919,6 +1919,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Outfit Review Submitted`
+  String get outfitReviewTitle {
+    return Intl.message(
+      'Outfit Review Submitted',
+      name: 'outfitReviewTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your outfit review has been successfully submitted!`
+  String get outfitReviewContent {
+    return Intl.message(
+      'Your outfit review has been successfully submitted!',
+      name: 'outfitReviewContent',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

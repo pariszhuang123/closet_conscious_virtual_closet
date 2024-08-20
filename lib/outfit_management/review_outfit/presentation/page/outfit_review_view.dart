@@ -15,6 +15,7 @@ import '../../../../core/data/type_data.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../core/widgets/user_photo/base/user_photo.dart';
 import '../../../../core/core_service_locator.dart';
+import '../widgets/outfit_review_custom_dialogue.dart';
 
 class OutfitReview extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -62,18 +63,37 @@ class OutfitReviewViewState extends State<OutfitReview> {
                   usePredefinedColor: true,
                 ),
                 const SizedBox(height: 15),
-                BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
-                  builder: (context, state) {
-                    logger.i('Rendering OutfitReviewContainer with state: $state');
-                    return OutfitReviewContainer(
-                      outfitReviewLike: outfitReviewLike,
-                      outfitReviewAlright: outfitReviewAlright,
-                      outfitReviewDislike: outfitReviewDislike,
-                      theme: widget.myOutfitTheme,
-                    );
+
+                // BlocListener listens for the specific success state
+                BlocListener<OutfitReviewBloc, OutfitReviewState>(
+                  listener: (context, state) {
+                    if (state is ReviewSubmissionSuccess) {
+                      // Show the OutfitReviewCustomDialog when the review is successfully submitted
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return OutfitReviewCustomDialog(
+                            theme: widget.myOutfitTheme,
+                          );
+                        },
+                      );
+                    }
                   },
+                  child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
+                    builder: (context, state) {
+                      logger.i('Rendering OutfitReviewContainer with state: $state');
+                      return OutfitReviewContainer(
+                        outfitReviewLike: outfitReviewLike,
+                        outfitReviewAlright: outfitReviewAlright,
+                        outfitReviewDislike: outfitReviewDislike,
+                        theme: widget.myOutfitTheme,
+                      );
+                    },
+                  ),
                 ),
+
                 const SizedBox(height: 16),
+
                 BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
                   builder: (context, state) {
                     logger.i('Building OutfitReview grid with state: $state');
@@ -157,12 +177,16 @@ class OutfitReviewViewState extends State<OutfitReview> {
                     return Container();
                   },
                 ),
+
                 const SizedBox(height: 16),
+
                 CommentField(
                   controller: _commentController,
                   theme: widget.myOutfitTheme,
                 ),
+
                 const SizedBox(height: 16),
+
                 Padding(
                   padding: const EdgeInsets.only(top: 2.0, bottom: 20.0, left: 16.0, right: 16.0),
                   child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(

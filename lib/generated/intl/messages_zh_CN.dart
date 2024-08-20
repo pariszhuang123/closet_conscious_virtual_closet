@@ -180,6 +180,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "onePiece": MessageLookupByLibrary.simpleMessage("连衣裙"),
         "outer": MessageLookupByLibrary.simpleMessage("外层"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("装扮"),
+        "outfitReviewContent":
+            MessageLookupByLibrary.simpleMessage("您的穿搭评论已成功提交！"),
+        "outfitReviewTitle": MessageLookupByLibrary.simpleMessage("穿搭评论已提交"),
         "outfits_upload": MessageLookupByLibrary.simpleMessage("显示您上传的装扮数量"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
         "please_enter_valid_amount":

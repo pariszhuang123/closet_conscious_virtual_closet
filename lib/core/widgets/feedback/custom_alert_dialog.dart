@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 class CustomAlertDialog extends StatelessWidget {
   final String title;
   final String content;
-  final String buttonText;
-  final VoidCallback onPressed;
+  final String? buttonText; // Make it nullable
+  final VoidCallback? onPressed; // Make it nullable
   final ThemeData theme;
 
   const CustomAlertDialog({
     super.key,
     required this.title,
     required this.content,
-    required this.buttonText,
-    required this.onPressed,
+    this.buttonText,
+    this.onPressed,
     required this.theme,
   });
 
@@ -23,12 +23,14 @@ class CustomAlertDialog extends StatelessWidget {
       child: AlertDialog(
         title: Text(title),
         content: Text(content),
-        actions: [
+        actions: buttonText != null && onPressed != null
+            ? [
           TextButton(
             onPressed: onPressed,
-            child: Text(buttonText),
+            child: Text(buttonText!),
           ),
-        ],
+        ]
+            : null, // No button if buttonText or onPressed is null
       ),
     );
   }
