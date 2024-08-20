@@ -216,6 +216,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "This shows the number of outfits you have uploaded"),
         "pleaseEnterItemName":
             MessageLookupByLibrary.simpleMessage("Please enter an item name"),
+        "pleaseSelectAtLeastOneItem": MessageLookupByLibrary.simpleMessage(
+            "Please select at least one item you didn\'t like."),
         "please_enter_valid_amount": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid amount (0 or greater)."),
         "please_select_the_category_above":

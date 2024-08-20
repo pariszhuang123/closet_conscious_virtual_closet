@@ -241,38 +241,32 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
   }
 
   void _onSubmitOutfitReview(SubmitOutfitReview event, Emitter<OutfitReviewState> emit) async {
-    // Define the method to convert feedback enum to string
     String convertFeedbackToString(OutfitReviewFeedback feedback) {
-      return feedback.toString().split('.').last; // Converts to 'like', 'dislike', or 'alright'
+      return feedback.toString().split('.').last;
     }
 
     if (state is OutfitReviewItemsLoaded) {
       final loadedState = state as OutfitReviewItemsLoaded;
 
-      // Use the enum for your logic
       final OutfitReviewFeedback feedback = stringToFeedback(event.feedback);
-
       final dislikedItemIds = _extractDislikedItemIds(loadedState);
-
-      // Log or use the feedback string representation if needed
       final String feedbackString = convertFeedbackToString(feedback);
+
       _logInitialState(event, dislikedItemIds, feedbackString);
+
+      // Validate before proceeding
+      if (!_isLikeFeedback(feedbackString) && !_isDislikeOrAlrightFeedbackWithDislikedItems(feedbackString, dislikedItemIds)) {
+        _logger.e('Invalid submission detected. Feedback: $feedbackString, disliked items: ${dislikedItemIds.isNotEmpty}');
+
+        _handleInvalidSubmission(feedbackString, dislikedItemIds, loadedState, emit);
+        return; // Exit early to prevent submission
+      }
 
       emit(ReviewSubmissionInProgress());
       _logger.i('State changed to: ReviewSubmissionInProgress');
 
       try {
-        // Continue using the enum for logic
-        if (_isLikeFeedback(feedbackString)) {
-          _logger.i('Correctly identified "like" feedback, proceeding with submission.');
-          await _submitReview(event, dislikedItemIds, emit);
-        } else if (_isDislikeOrAlrightFeedbackWithDislikedItems(feedbackString, dislikedItemIds)) {
-          _logger.i('Feedback is "$feedbackString". Proceeding with submission since disliked items are present.');
-          await _submitReview(event, dislikedItemIds, emit);
-        } else {
-          _logger.e('Unexpected condition reached. Feedback: $feedbackString, disliked items: ${dislikedItemIds.isNotEmpty}');
-          _handleInvalidSubmission(feedbackString, dislikedItemIds, loadedState, emit);
-        }
+        await _submitReview(event, dislikedItemIds, emit);
       } catch (error) {
         _handleSubmissionFailure(error, emit);
       }
@@ -324,7 +318,6 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
     emit(InvalidReviewSubmission(
       outfitId: loadedState.outfitId,
-      message: "Please select at least one item you didn't like if your feedback is 'dislike' or 'alright'.",
     ));
     _logger.w('State changed to: InvalidReviewSubmission');
   }

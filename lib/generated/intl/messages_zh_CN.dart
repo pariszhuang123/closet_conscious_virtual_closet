@@ -185,6 +185,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "outfitReviewTitle": MessageLookupByLibrary.simpleMessage("穿搭评论已提交"),
         "outfits_upload": MessageLookupByLibrary.simpleMessage("显示您上传的装扮数量"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
+        "pleaseSelectAtLeastOneItem":
+            MessageLookupByLibrary.simpleMessage("请选择至少一件您不喜欢的物品。"),
         "please_enter_valid_amount":
             MessageLookupByLibrary.simpleMessage("请输入有效金额（0或更大）。"),
         "please_select_the_category_above":

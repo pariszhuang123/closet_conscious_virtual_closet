@@ -16,6 +16,7 @@ import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../core/widgets/user_photo/base/user_photo.dart';
 import '../../../../core/core_service_locator.dart';
 import '../widgets/outfit_review_custom_dialogue.dart';
+import '../../../../core/widgets/feedback/custom_snack_bar.dart';
 
 class OutfitReview extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -67,8 +68,17 @@ class OutfitReviewViewState extends State<OutfitReview> {
                 // BlocListener listens for the specific success state
                 BlocListener<OutfitReviewBloc, OutfitReviewState>(
                   listener: (context, state) {
-                    if (state is ReviewSubmissionSuccess) {
-                      // Show the OutfitReviewCustomDialog when the review is successfully submitted
+                    if (state is InvalidReviewSubmission) {
+                      // Use S.of(context) to get the localized message
+                      final String message = S.of(context).pleaseSelectAtLeastOneItem;
+
+                      // Show custom snackbar with the localized message
+                      CustomSnackbar(
+                        message: message,
+                        theme: widget.myOutfitTheme,
+                      ).show(context);
+                    } else if (state is ReviewSubmissionSuccess) {
+                      // Handle success
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -79,6 +89,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
                       );
                     }
                   },
+
                   child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
                     builder: (context, state) {
                       logger.i('Rendering OutfitReviewContainer with state: $state');

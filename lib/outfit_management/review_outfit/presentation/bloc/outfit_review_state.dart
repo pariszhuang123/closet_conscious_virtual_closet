@@ -137,13 +137,11 @@ class ReviewSubmissionFailure extends OutfitReviewState {
 }
 
 class InvalidReviewSubmission extends OutfitReviewState {
-  final String message;
 
   const InvalidReviewSubmission({
-    super.outfitId,
-    required this.message,
+    super.outfitId
   });
 
   @override
-  List<Object?> get props => [outfitId, message];
+  List<Object?> get props => [outfitId];
 }

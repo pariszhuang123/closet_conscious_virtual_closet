@@ -1939,6 +1939,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please select at least one item you didn't like.`
+  String get pleaseSelectAtLeastOneItem {
+    return Intl.message(
+      'Please select at least one item you didn\'t like.',
+      name: 'pleaseSelectAtLeastOneItem',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

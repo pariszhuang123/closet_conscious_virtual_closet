@@ -188,6 +188,7 @@
   "alright_feedback_sentence": "Select the item you feel is alright.",
   "dislike_feedback_sentence": "Select the item you feel is not your type.",
   "outfitReviewTitle": "Outfit Review Submitted",
-  "outfitReviewContent": "Your outfit review has been successfully submitted!"
+  "outfitReviewContent": "Your outfit review has been successfully submitted!",
+  "pleaseSelectAtLeastOneItem": "Please select at least one item you didn't like."
 
 }
