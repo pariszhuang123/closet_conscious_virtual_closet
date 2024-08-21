@@ -110,25 +110,23 @@ class OutfitFetchService {
 
   Future<String?> fetchOutfitId(String userId) async {
     try {
-      final data = await Supabase.instance.client
-          .from('outfits')
-          .select('outfit_id')
-          .eq('reviewed', false)
-          .eq('user_id', userId)
-          .order('updated_at', ascending: true)
-          .limit(1);
+      final response = await Supabase.instance.client
+          .rpc('fetch_outfitId', params: {'p_user_id': userId}).single();
 
-      logger.i('Raw response: $data');
+      logger.i('Raw response: $response');
       // Check if data is valid and contains the 'outfit_Id' field
-      if (data.isNotEmpty) {
-        final outfitId = data[0]['outfit_id'] as String?;
+      // Check if the response contains a 'status' field and if it's 'success'
+      if (response['status'] == 'success') {
+        final outfitId = response['outfit_id'] as String?;
         logger.i('Fetched outfit_id: $outfitId');
         return outfitId;
       } else {
-        logger.w('Outfit Id is not there, returning null.');
+        // Handle failure cases based on the message in the response
+        logger.w('Failed to fetch outfit Id: ${response['message']}');
         return null;
       }
     } catch (error) {
+      // Log the error if the RPC call fails
       logger.e('Error fetching outfit Id: $error');
       return null;
     }
