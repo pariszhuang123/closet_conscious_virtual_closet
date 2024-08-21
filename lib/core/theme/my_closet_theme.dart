@@ -54,7 +54,7 @@ final ThemeData myClosetTheme = ThemeData(
     unselectedItemColor: Colors.grey,
   ),
   snackBarTheme: SnackBarThemeData(
-    backgroundColor: Colors.teal.shade800, // Set the background color for SnackBar
+    backgroundColor: Colors.teal.shade400, // Set the background color for SnackBar
     contentTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold), // Set the text color and style
   ),
   dialogTheme: DialogTheme(

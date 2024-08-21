@@ -111,7 +111,7 @@ class OutfitFetchService {
   Future<String?> fetchOutfitId(String userId) async {
     try {
       final response = await Supabase.instance.client
-          .rpc('fetch_outfitId', params: {'p_user_id': userId}).single();
+          .rpc('fetch_outfitid', params: {'p_user_id': userId}).single();
 
       logger.i('Raw response: $response');
       // Check if data is valid and contains the 'outfit_Id' field

@@ -27,7 +27,7 @@ class ItemGrid extends StatelessWidget {
       scrollController: scrollController,
       logger: logger,
       crossAxisCount: 3,
-      childAspectRatio: 3 / 4,
+      childAspectRatio: 2 / 3,
       itemBuilder: (context, item, index) {
         return EnhancedUserPhoto(
           imageUrl: item.imageUrl,

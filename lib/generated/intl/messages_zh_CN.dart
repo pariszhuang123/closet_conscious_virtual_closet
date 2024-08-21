@@ -153,9 +153,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "medium": MessageLookupByLibrary.simpleMessage("中色"),
         "metadata": MessageLookupByLibrary.simpleMessage("更多"),
         "metadataFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "我们正在考虑添加一个高级功能，以添加详细的元数据到您的物品中。"),
+            "我们正在考虑推出一项高级功能，让您可以为物品添加更多详细信息。"),
         "metadataFeatureTitle":
-            MessageLookupByLibrary.simpleMessage("有兴趣使用增强的元数据功能吗？"),
+            MessageLookupByLibrary.simpleMessage("想添加更多详细信息吗？"),
         "mid": MessageLookupByLibrary.simpleMessage("中层"),
         "multi": MessageLookupByLibrary.simpleMessage("多季节"),
         "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
@@ -179,6 +179,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "ok": MessageLookupByLibrary.simpleMessage("有兴趣"),
         "onePiece": MessageLookupByLibrary.simpleMessage("连衣裙"),
         "outer": MessageLookupByLibrary.simpleMessage("外层"),
+        "outfitCreationSuccessContent":
+            MessageLookupByLibrary.simpleMessage("搭配已完成。去征服世界吧！"),
+        "outfitCreationSuccessTitle":
+            MessageLookupByLibrary.simpleMessage("准备好闪耀！"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("装扮"),
         "outfitReviewContent":
             MessageLookupByLibrary.simpleMessage("您的穿搭评论已成功提交！"),
@@ -194,7 +198,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "privacyTerms": MessageLookupByLibrary.simpleMessage("隐私条款"),
         "profileSection": MessageLookupByLibrary.simpleMessage("个人资料"),
         "quicklyFindItems":
-            MessageLookupByLibrary.simpleMessage("我们正在考虑添加一个筛选不同元数据的高级功能。"),
+            MessageLookupByLibrary.simpleMessage("我们正在考虑推出一项高级功能，帮助您更轻松地筛选物品。"),
         "rainbow": MessageLookupByLibrary.simpleMessage("彩虹"),
         "red": MessageLookupByLibrary.simpleMessage("红色"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("重试"),

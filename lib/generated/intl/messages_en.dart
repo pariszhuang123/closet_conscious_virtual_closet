@@ -145,7 +145,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Interested in Advanced Filters?"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "formal": MessageLookupByLibrary.simpleMessage("Formal"),
-        "gift": MessageLookupByLibrary.simpleMessage("Pay It Forward"),
+        "gift": MessageLookupByLibrary.simpleMessage("Gift"),
         "gloves": MessageLookupByLibrary.simpleMessage("Gloves"),
         "green": MessageLookupByLibrary.simpleMessage("Green"),
         "grey": MessageLookupByLibrary.simpleMessage("Grey"),
@@ -175,9 +175,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "medium": MessageLookupByLibrary.simpleMessage("Medium"),
         "metadata": MessageLookupByLibrary.simpleMessage("More"),
         "metadataFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "We\'re considering adding a premium feature to add detailed metadata to your items."),
-        "metadataFeatureTitle": MessageLookupByLibrary.simpleMessage(
-            "Interested in Enhanced Metadata?"),
+            "We’re thinking about offering a premium feature to let you add extra details to your items."),
+        "metadataFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("Want to Add More Details?"),
         "mid": MessageLookupByLibrary.simpleMessage("Mid"),
         "multi": MessageLookupByLibrary.simpleMessage("Multi"),
         "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
@@ -207,6 +207,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "ok": MessageLookupByLibrary.simpleMessage("Interested"),
         "onePiece": MessageLookupByLibrary.simpleMessage("One Piece"),
         "outer": MessageLookupByLibrary.simpleMessage("Outer"),
+        "outfitCreationSuccessContent": MessageLookupByLibrary.simpleMessage(
+            "Outfit ready. Go Slay the World!"),
+        "outfitCreationSuccessTitle":
+            MessageLookupByLibrary.simpleMessage("Style On!"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("Outfit"),
         "outfitReviewContent": MessageLookupByLibrary.simpleMessage(
             "Your outfit review has been successfully submitted!"),
@@ -226,7 +230,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "privacyTerms": MessageLookupByLibrary.simpleMessage("Privacy Terms"),
         "profileSection": MessageLookupByLibrary.simpleMessage("Profile"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
-            "We\'re considering adding a premium feature to filter different metadata."),
+            "We’re thinking about offering a premium feature to help you filter your items more easily."),
         "rainbow": MessageLookupByLibrary.simpleMessage("Rainbow"),
         "red": MessageLookupByLibrary.simpleMessage("Red"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("Retry"),

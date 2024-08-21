@@ -1080,10 +1080,10 @@ class S {
     );
   }
 
-  /// `Pay It Forward`
+  /// `Gift`
   String get gift {
     return Intl.message(
-      'Pay It Forward',
+      'Gift',
       name: 'gift',
       desc: '',
       args: [],
@@ -1610,30 +1610,30 @@ class S {
     );
   }
 
-  /// `We're considering adding a premium feature to filter different metadata.`
+  /// `We’re thinking about offering a premium feature to help you filter your items more easily.`
   String get quicklyFindItems {
     return Intl.message(
-      'We\'re considering adding a premium feature to filter different metadata.',
+      'We’re thinking about offering a premium feature to help you filter your items more easily.',
       name: 'quicklyFindItems',
       desc: '',
       args: [],
     );
   }
 
-  /// `Interested in Enhanced Metadata?`
+  /// `Want to Add More Details?`
   String get metadataFeatureTitle {
     return Intl.message(
-      'Interested in Enhanced Metadata?',
+      'Want to Add More Details?',
       name: 'metadataFeatureTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `We're considering adding a premium feature to add detailed metadata to your items.`
+  /// `We’re thinking about offering a premium feature to let you add extra details to your items.`
   String get metadataFeatureDescription {
     return Intl.message(
-      'We\'re considering adding a premium feature to add detailed metadata to your items.',
+      'We’re thinking about offering a premium feature to let you add extra details to your items.',
       name: 'metadataFeatureDescription',
       desc: '',
       args: [],
@@ -1945,6 +1945,26 @@ class S {
     return Intl.message(
       'Please select at least one item you didn\'t like.',
       name: 'pleaseSelectAtLeastOneItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Style On!`
+  String get outfitCreationSuccessTitle {
+    return Intl.message(
+      'Style On!',
+      name: 'outfitCreationSuccessTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Outfit ready. Go Slay the World!`
+  String get outfitCreationSuccessContent {
+    return Intl.message(
+      'Outfit ready. Go Slay the World!',
+      name: 'outfitCreationSuccessContent',
       desc: '',
       args: [],
     );

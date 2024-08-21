@@ -103,7 +103,7 @@
   "interestAcknowledged": "Your interest has been noted. Stay tuned for updates.",
   "sell": "Sell",
   "swap": "Swap",
-  "gift": "Pay It Forward",
+  "gift": "Gift",
   "Throw": "Throw",
   "declutterOptions" : "What would you like to do?",
   "itemsUploadedTooltip": "This shows the number of items you have uploaded",
@@ -156,9 +156,9 @@
   "calendarPremiumFeature": "Interested in Calendar View?",
   "reviewOutfitsInCalendar": "We're considering adding a premium feature to view previous outfits in a calendar format and integrate with multi-closet.",
   "filterSearchPremiumFeature": "Interested in Advanced Filters?",
-  "quicklyFindItems": "We're considering adding a premium feature to filter different metadata.",
-  "metadataFeatureTitle": "Interested in Enhanced Metadata?",
-  "metadataFeatureDescription": "We're considering adding a premium feature to add detailed metadata to your items.",
+  "quicklyFindItems": "We’re thinking about offering a premium feature to help you filter your items more easily.",
+  "metadataFeatureTitle": "Want to Add More Details?",
+  "metadataFeatureDescription": "We’re thinking about offering a premium feature to let you add extra details to your items.",
   "multiClosetFeatureTitle": "Interested in Multi-Closet?",
   "multiClosetFeatureDescription": "We're considering adding a premium feature to create multiple closets, including temporary and disappearing closets.",
   "swapFeatureTitle": "Interested in Swapping Items?",
@@ -189,6 +189,8 @@
   "dislike_feedback_sentence": "Select the item you feel is not your type.",
   "outfitReviewTitle": "Outfit Review Submitted",
   "outfitReviewContent": "Your outfit review has been successfully submitted!",
-  "pleaseSelectAtLeastOneItem": "Please select at least one item you didn't like."
+  "pleaseSelectAtLeastOneItem": "Please select at least one item you didn't like.",
+  "outfitCreationSuccessTitle": "Style On!",
+  "outfitCreationSuccessContent": "Outfit ready. Go Slay the World!"
 
 }

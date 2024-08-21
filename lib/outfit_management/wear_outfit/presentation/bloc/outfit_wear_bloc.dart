@@ -37,6 +37,7 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
       super(OutfitWearInitial()) {
     on<CheckForOutfitImageUrl>(_onCheckForOutfitImageUrl);
     on<TakeSelfie>(_onTakeSelfie);
+    on<ConfirmOutfitCreation>(_onConfirmOutfitCreation);
   }
 
 
@@ -164,4 +165,11 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
       throw Exception('Processing uploaded image failed');
     }
   }
+  void _onConfirmOutfitCreation(
+      ConfirmOutfitCreation event, Emitter<OutfitWearState> emit) {
+    logger.i('Outfit creation confirmed');
+    emit(OutfitCreationSuccess());
+  }
+
 }
+

@@ -156,9 +156,9 @@
   "calendarPremiumFeature": "有兴趣查看日历视图吗？",
   "reviewOutfitsInCalendar": "我们正在考虑添加一个高级功能，可以在日历格式中查看之前的装扮并与多衣橱集成。",
   "filterSearchPremiumFeature": "有兴趣使用高级筛选功能吗？",
-  "quicklyFindItems": "我们正在考虑添加一个筛选不同元数据的高级功能。",
-  "metadataFeatureTitle": "有兴趣使用增强的元数据功能吗？",
-  "metadataFeatureDescription": "我们正在考虑添加一个高级功能，以添加详细的元数据到您的物品中。",
+  "quicklyFindItems": "我们正在考虑推出一项高级功能，帮助您更轻松地筛选物品。",
+  "metadataFeatureTitle": "想添加更多详细信息吗？",
+  "metadataFeatureDescription": "我们正在考虑推出一项高级功能，让您可以为物品添加更多详细信息。",
   "multiClosetFeatureTitle": "有兴趣使用多衣橱功能吗？",
   "multiClosetFeatureDescription": "我们正在考虑添加一个高级功能，以创建多个衣橱，包括临时和消失的衣橱。",
   "swapFeatureTitle": "有兴趣交换物品吗？",
@@ -189,6 +189,8 @@
   "dislike_feedback_sentence": "选择你觉得不适合的物品。",
   "outfitReviewTitle": "穿搭评论已提交",
   "outfitReviewContent": "您的穿搭评论已成功提交！",
-  "pleaseSelectAtLeastOneItem": "请选择至少一件您不喜欢的物品。"
+  "pleaseSelectAtLeastOneItem": "请选择至少一件您不喜欢的物品。",
+  "outfitCreationSuccessTitle": "准备好闪耀！",
+  "outfitCreationSuccessContent": "搭配已完成。去征服世界吧！"
 
 }

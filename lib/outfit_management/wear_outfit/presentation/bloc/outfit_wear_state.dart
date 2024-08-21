@@ -45,3 +45,5 @@ class OutfitImageUrlAvailable extends OutfitWearState {
   @override
   List<Object> get props => [imageUrl];
 }
+
+class OutfitCreationSuccess extends OutfitWearState {}

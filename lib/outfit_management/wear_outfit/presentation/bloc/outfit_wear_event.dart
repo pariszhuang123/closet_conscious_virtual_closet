@@ -31,3 +31,4 @@ class CheckForOutfitImageUrl extends OutfitWearEvent {
   List<Object> get props => [outfitId];
 }
 
+class ConfirmOutfitCreation extends OutfitWearEvent {}
