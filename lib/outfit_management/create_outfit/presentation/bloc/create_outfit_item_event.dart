@@ -34,3 +34,27 @@ class SelectCategoryEvent extends CreateOutfitItemEvent {
   @override
   List<Object?> get props => [category];
 }
+
+class TriggerNpsSurveyEvent extends CreateOutfitItemEvent {
+  final String userId;
+
+  const TriggerNpsSurveyEvent(this.userId);
+
+  @override
+  List<Object> get props => [userId];
+}
+
+class SaveNpsSurveyResultEvent extends CreateOutfitItemEvent {
+  final String userId;
+  final int score;
+  final int milestone;
+
+  const SaveNpsSurveyResultEvent({
+    required this.userId,
+    required this.score,
+    required this.milestone,
+  });
+
+  @override
+  List<Object> get props => [userId, score, milestone];
+}

@@ -15,28 +15,36 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
   final CustomLogger logger = CustomLogger('CreateOutfitItemBloc');
   final OutfitFetchService _outfitFetchService;
 
-  CreateOutfitItemBloc(this._outfitFetchService) : super(CreateOutfitItemState.initial()) {
+  CreateOutfitItemBloc(this._outfitFetchService)
+      : super(CreateOutfitItemState.initial()) {
     on<ToggleSelectItemEvent>(_onToggleSelectItem);
     on<SaveOutfitEvent>(_onSaveOutfit);
     on<SelectCategoryEvent>(_onSelectCategory);
+    on<TriggerNpsSurveyEvent>(_onTriggerNpsSurvey);
   }
 
-  void _onToggleSelectItem(ToggleSelectItemEvent event, Emitter<CreateOutfitItemState> emit) {
-    final updatedSelectedItemIds = Map<OutfitItemCategory, List<String>>.from(state.selectedItemIds);
-    final selectedItems = List<String>.from(updatedSelectedItemIds[event.category] ?? []);
+  void _onToggleSelectItem(ToggleSelectItemEvent event,
+      Emitter<CreateOutfitItemState> emit) {
+    final updatedSelectedItemIds = Map<OutfitItemCategory, List<String>>.from(
+        state.selectedItemIds);
+    final selectedItems = List<String>.from(
+        updatedSelectedItemIds[event.category] ?? []);
 
     if (selectedItems.contains(event.itemId)) {
       selectedItems.remove(event.itemId);
-      logger.d('Deselected item ID: ${event.itemId} in category: ${event.category}');
+      logger.d(
+          'Deselected item ID: ${event.itemId} in category: ${event.category}');
     } else {
       selectedItems.add(event.itemId);
-      logger.d('Selected item ID: ${event.itemId} in category: ${event.category}');
+      logger.d(
+          'Selected item ID: ${event.itemId} in category: ${event.category}');
     }
 
     updatedSelectedItemIds[event.category] = selectedItems;
 
     // Calculate if any items are selected across all categories
-    final hasSelectedItems = updatedSelectedItemIds.values.any((items) => items.isNotEmpty);
+    final hasSelectedItems = updatedSelectedItemIds.values.any((items) =>
+    items.isNotEmpty);
 
     emit(state.copyWith(
       selectedItemIds: updatedSelectedItemIds,
@@ -48,12 +56,15 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
   }
 
 
-  Future<void> _onSaveOutfit(SaveOutfitEvent event, Emitter<CreateOutfitItemState> emit) async {
+  Future<void> _onSaveOutfit(SaveOutfitEvent event,
+      Emitter<CreateOutfitItemState> emit) async {
     emit(state.copyWith(saveStatus: SaveStatus.inProgress));
 
-    final allSelectedItemIds = state.selectedItemIds.values.expand((i) => i).toList();
+    final allSelectedItemIds = state.selectedItemIds.values.expand((i) => i)
+        .toList();
 
-    logger.i('All selected item IDs being sent to Supabase: $allSelectedItemIds');
+    logger.i(
+        'All selected item IDs being sent to Supabase: $allSelectedItemIds');
 
     if (allSelectedItemIds.isEmpty) {
       logger.e('No items selected, cannot save outfit.');
@@ -75,10 +86,12 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
         logger.d('Successfully saved outfit with ID: $outfitId');
 
         // Emit the success state with outfitId
-        emit(state.copyWith(saveStatus: SaveStatus.success, outfitId: outfitId));
+        emit(
+            state.copyWith(saveStatus: SaveStatus.success, outfitId: outfitId));
 
         // You no longer navigate here
-      } else if (response.containsKey('status') && response['status'] == 'error') {
+      } else
+      if (response.containsKey('status') && response['status'] == 'error') {
         // Handle the error case
         logger.e('Error in response: ${response['message']}');
         emit(state.copyWith(saveStatus: SaveStatus.failure));
@@ -94,11 +107,14 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
   }
 
 
-  Future<void> _onSelectCategory(SelectCategoryEvent event, Emitter<CreateOutfitItemState> emit) async {
-    emit(state.copyWith(currentCategory: event.category, saveStatus: SaveStatus.inProgress));
+  Future<void> _onSelectCategory(SelectCategoryEvent event,
+      Emitter<CreateOutfitItemState> emit) async {
+    emit(state.copyWith(
+        currentCategory: event.category, saveStatus: SaveStatus.inProgress));
 
     try {
-      final items = await _outfitFetchService.fetchCreateOutfitItems(event.category, 0, 10); // You can adjust the batch size as needed
+      final items = await _outfitFetchService.fetchCreateOutfitItems(
+          event.category, 0, 10); // You can adjust the batch size as needed
       emit(state.copyWith(
         items: items,
         saveStatus: SaveStatus.success,
@@ -109,4 +125,24 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
       emit(state.copyWith(saveStatus: SaveStatus.failure));
     }
   }
+
+  Future<void> _onTriggerNpsSurvey(TriggerNpsSurveyEvent event,
+      Emitter<CreateOutfitItemState> emit) async {
+    try {
+      // Fetch the count of outfits created by the user
+      int outfitCount = await _outfitFetchService.fetchOutfitsCount();
+
+      // Check if the count matches any of the milestones
+      if (outfitCount == 30 || outfitCount == 60 || outfitCount == 120 ||
+          outfitCount == 180 || outfitCount == 240) {
+        emit(NpsSurveyTriggered(milestone: outfitCount)); // Trigger NPS survey
+      } else {
+        logger.i(
+            'Outfit count: $outfitCount does not match any NPS milestones.');
+      }
+    } catch (error) {
+      logger.e('Error triggering NPS survey: $error');
+    }
+  }
+
 }
