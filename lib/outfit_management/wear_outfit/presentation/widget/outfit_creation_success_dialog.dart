@@ -30,11 +30,14 @@ class OutfitCreationSuccessDialogState extends State<OutfitCreationSuccessDialog
 
   @override
   Widget build(BuildContext context) {
-    // Show the custom dialog
-    return CustomAlertDialog(
-      title: S.of(context).outfitCreationSuccessTitle,  // E.g., "Style On!"
-      content: S.of(context).outfitCreationSuccessContent,  // E.g., "Outfit ready. Go Slay the World!"
-      theme: widget.theme,
+    // Disable interactions and show the custom dialog
+    return AbsorbPointer(
+      absorbing: true, // Absorb all interactions
+      child: CustomAlertDialog(
+        title: S.of(context).outfitCreationSuccessTitle,  // E.g., "Style On!"
+        content: S.of(context).outfitCreationSuccessContent,  // E.g., "Outfit ready. Go Slay the World!"
+        theme: widget.theme,
+      ),
     );
   }
 }

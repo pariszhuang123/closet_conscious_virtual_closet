@@ -14,6 +14,7 @@ import '../../declutter_items/presentation/widgets/declutter_options_bottom_shee
 import '../../../core/utilities/logger.dart';
 import '../../../core/widgets/button/navigation_type_button.dart';
 import '../../../core/theme/themed_svg.dart';
+import '../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 
 class EditItemPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -210,7 +211,9 @@ class _EditItemPageState extends State<EditItemPage> {
               logger.d('Building UI for state: $state');
 
               if (state is EditItemLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                    child: ClosetProgressIndicator(color: Colors.teal))
+                ;
               }
 
               final bloc = context.read<EditItemBloc>();

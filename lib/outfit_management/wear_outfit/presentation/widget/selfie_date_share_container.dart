@@ -11,6 +11,7 @@ class SelfieDateShareContainer extends StatelessWidget {
   final VoidCallback onSelfieButtonPressed;
   final VoidCallback onShareButtonPressed;
   final ThemeData theme;
+  final bool isSelfieTaken;
 
   const SelfieDateShareContainer({
     super.key,
@@ -18,6 +19,7 @@ class SelfieDateShareContainer extends StatelessWidget {
     required this.onSelfieButtonPressed,
     required this.onShareButtonPressed,
     required this.theme,
+    required this.isSelfieTaken,
   });
 
   @override
@@ -31,19 +33,19 @@ class SelfieDateShareContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         // Center the buttons and text
         children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            // Add some gap on the right
-            child: NavigationTypeButton(
-              label: selfieData.getName(context),
-              selectedLabel: '',
-              onPressed: onSelfieButtonPressed,
-              assetPath: selfieData.assetPath,
-              isFromMyCloset: false,
-              buttonType: ButtonType.primary,
-              usePredefinedColor: false,
+          if (!isSelfieTaken) // Conditionally render the selfie button
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: NavigationTypeButton(
+                label: selfieData.getName(context),
+                selectedLabel: '',
+                onPressed: onSelfieButtonPressed,
+                assetPath: selfieData.assetPath,
+                isFromMyCloset: false,
+                buttonType: ButtonType.primary,
+                usePredefinedColor: false,
+              ),
             ),
-          ),
           Text(
             '${S
                 .of(context)

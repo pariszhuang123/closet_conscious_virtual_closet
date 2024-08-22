@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../core/utilities/logger.dart';
+import '../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../core/widgets/base_grid.dart';
 import '../../../../core/widgets/user_photo/enhanced_user_photo.dart';
 import '../../../../core/widgets/user_photo/base/user_photo.dart';
@@ -99,11 +100,17 @@ class OutfitWearViewState extends State<OutfitWearView> {
                     usePredefinedColor: true,
                   ),
                   const SizedBox(height: 15),
-                  SelfieDateShareContainer(
-                    formattedDate: formattedDate,
-                    onSelfieButtonPressed: _onSelfieButtonPressed,
-                    onShareButtonPressed: _onShareButtonPressed,
-                    theme: widget.myOutfitTheme,
+                  BlocBuilder<OutfitWearBloc, OutfitWearState>(
+                    builder: (context, state) {
+                      final isSelfieTaken = state is SelfieTaken;
+                      return SelfieDateShareContainer(
+                        formattedDate: formattedDate,
+                        onSelfieButtonPressed: _onSelfieButtonPressed,
+                        onShareButtonPressed: _onShareButtonPressed,
+                        theme: widget.myOutfitTheme,
+                        isSelfieTaken: isSelfieTaken,
+                      );
+                    },
                   ),
                   const SizedBox(height: 16),
                   Expanded(
@@ -147,7 +154,11 @@ class OutfitWearViewState extends State<OutfitWearView> {
                           );
                         } else {
                           logger.i('Loading state, displaying progress indicator');
-                          return const Center(child: CircularProgressIndicator());
+                          return  Center(child: OutfitProgressIndicator(
+                            color: widget.myOutfitTheme.colorScheme.onPrimary,
+                            size: 36.0,
+                          ),
+                          );
                         }
                       },
                     ),

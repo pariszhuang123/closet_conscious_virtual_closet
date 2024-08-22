@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utilities/routes.dart';
 import '../../../../core/utilities/logger.dart';
+import '../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../core/widgets/base_grid.dart';
 import '../../../../core/widgets/user_photo/enhanced_user_photo.dart';
 import '../../../../generated/l10n.dart';
@@ -243,9 +244,12 @@ class OutfitReviewViewState extends State<OutfitReview> {
                           }
                         },
                         child: isSubmitting
-                            ? CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            Theme.of(context).primaryColor,
+                            ? SizedBox(
+                          width: 36.0,
+                          height: 36.0,
+                          child: OutfitProgressIndicator(
+                            color: widget.myOutfitTheme.colorScheme.onPrimary,
+                            size: 36.0,
                           ),
                         )
                             : Text(S.of(context).styleOn),

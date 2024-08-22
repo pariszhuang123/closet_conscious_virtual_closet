@@ -107,7 +107,7 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
 
     try {
       final items = await outfitFetchService.fetchCreateOutfitItems(
-          event.category, 0, 10); // You can adjust the batch size as needed
+          event.category, 0, 9); // You can adjust the batch size as needed
       emit(state.copyWith(
         items: items,
         saveStatus: SaveStatus.success,
