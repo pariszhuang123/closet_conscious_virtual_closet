@@ -360,10 +360,10 @@ class S {
     );
   }
 
-  /// `Rainbow`
+  /// `Multicolour`
   String get rainbow {
     return Intl.message(
-      'Rainbow',
+      'Multicolour',
       name: 'rainbow',
       desc: '',
       args: [],
@@ -1430,20 +1430,20 @@ class S {
     );
   }
 
-  /// `Current streak for number of days you have not bought any clothing`
+  /// `Your current record of days without buying clothes.`
   String get currentStreak {
     return Intl.message(
-      'Current streak for number of days you have not bought any clothing',
+      'Your current record of days without buying clothes.',
       name: 'currentStreak',
       desc: '',
       args: [],
     );
   }
 
-  /// `Highest streak for number of days you have not bought any clothing`
+  /// `Your top record of days without buying clothes.`
   String get highestStreak {
     return Intl.message(
-      'Highest streak for number of days you have not bought any clothing',
+      'Your top record of days without buying clothes.',
       name: 'highestStreak',
       desc: '',
       args: [],
@@ -1760,10 +1760,10 @@ class S {
     );
   }
 
-  /// `Style On`
+  /// `Review Outfit`
   String get styleOn {
     return Intl.message(
-      'Style On',
+      'Review Outfit',
       name: 'styleOn',
       desc: '',
       args: [],
@@ -1900,20 +1900,20 @@ class S {
     );
   }
 
-  /// `Select the item you feel is alright.`
+  /// `Tap the items that don't quite fit this outfit.`
   String get alright_feedback_sentence {
     return Intl.message(
-      'Select the item you feel is alright.',
+      'Tap the items that don\'t quite fit this outfit.',
       name: 'alright_feedback_sentence',
       desc: '',
       args: [],
     );
   }
 
-  /// `Select the item you feel is not your type.`
+  /// `Tap the items that didn't work in this outfit.`
   String get dislike_feedback_sentence {
     return Intl.message(
-      'Select the item you feel is not your type.',
+      'Tap the items that didn\'t work in this outfit.',
       name: 'dislike_feedback_sentence',
       desc: '',
       args: [],

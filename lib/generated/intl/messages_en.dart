@@ -56,7 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Add your comments"),
         "alright": MessageLookupByLibrary.simpleMessage("It\'s okay"),
         "alright_feedback_sentence": MessageLookupByLibrary.simpleMessage(
-            "Select the item you feel is alright."),
+            "Tap the items that don\'t quite fit this outfit."),
         "amountSpentFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Amount Spent field is not filled."),
         "amountSpentLabel":
@@ -99,7 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "costOfNewItems": MessageLookupByLibrary.simpleMessage(
             "Cost of the new items you have purchased"),
         "currentStreak": MessageLookupByLibrary.simpleMessage(
-            "Current streak for number of days you have not bought any clothing"),
+            "Your current record of days without buying clothes."),
         "currentStreakTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows your current streak of no purchase"),
         "dark": MessageLookupByLibrary.simpleMessage("Dark"),
@@ -127,7 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Delete Account"),
         "dislike": MessageLookupByLibrary.simpleMessage("Not for me"),
         "dislike_feedback_sentence": MessageLookupByLibrary.simpleMessage(
-            "Select the item you feel is not your type."),
+            "Tap the items that didn\'t work in this outfit."),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("Edit Item"),
         "enterAmountSpentHint":
             MessageLookupByLibrary.simpleMessage("Enter amount spent"),
@@ -151,7 +151,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "grey": MessageLookupByLibrary.simpleMessage("Grey"),
         "hat": MessageLookupByLibrary.simpleMessage("Hat"),
         "highestStreak": MessageLookupByLibrary.simpleMessage(
-            "Highest streak for number of days you have not bought any clothing"),
+            "Your top record of days without buying clothes."),
         "highestStreakTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows your highest score of no purchase"),
         "infoHub": MessageLookupByLibrary.simpleMessage("Info Hub"),
@@ -231,7 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "profileSection": MessageLookupByLibrary.simpleMessage("Profile"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "We’re thinking about offering a premium feature to help you filter your items more easily."),
-        "rainbow": MessageLookupByLibrary.simpleMessage("Rainbow"),
+        "rainbow": MessageLookupByLibrary.simpleMessage("Multicolour"),
         "red": MessageLookupByLibrary.simpleMessage("Red"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("Retry"),
         "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
@@ -271,7 +271,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "spendingTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows how much you have spent on new items"),
         "spring": MessageLookupByLibrary.simpleMessage("Spring"),
-        "styleOn": MessageLookupByLibrary.simpleMessage("Style On"),
+        "styleOn": MessageLookupByLibrary.simpleMessage("Review Outfit"),
         "summer": MessageLookupByLibrary.simpleMessage("Summer"),
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("Support & Assistance"),

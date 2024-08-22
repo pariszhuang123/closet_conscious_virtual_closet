@@ -1,22 +1,23 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:get_it/get_it.dart';
 
-import '../../../../core/config/supabase_config.dart';
 import '../../../../core/utilities/logger.dart';
-import '../../../../../outfit_management/core/data/services/outfits_fetch_service.dart';
+import '../../../core/data/services/outfits_fetch_service.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../core/data/services/outfits_save_service.dart';
 
 part 'create_outfit_item_event.dart';
 part 'create_outfit_item_state.dart';
 
 class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemState> {
-  final SupabaseClient supabaseClient = SupabaseConfig.client;
-  final CustomLogger logger = CustomLogger('CreateOutfitItemBloc');
-  final OutfitFetchService _outfitFetchService;
+  final CustomLogger logger;
+  final OutfitFetchService outfitFetchService;
+  final OutfitSaveService outfitSaveService;
 
-  CreateOutfitItemBloc(this._outfitFetchService)
-      : super(CreateOutfitItemState.initial()) {
+  CreateOutfitItemBloc(this.outfitFetchService, this.outfitSaveService)
+      : logger = GetIt.instance<CustomLogger>(instanceName: 'CreateOutfitItemBlocLogger'),
+   super(CreateOutfitItemState.initial()) {
     on<ToggleSelectItemEvent>(_onToggleSelectItem);
     on<SaveOutfitEvent>(_onSaveOutfit);
     on<SelectCategoryEvent>(_onSelectCategory);
@@ -73,30 +74,22 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
     }
 
     try {
-      final response = await supabaseClient.rpc(
-        'save_outfit_items',
-        params: {
-          'p_selected_items': allSelectedItemIds,
-        },
+      final response = await outfitSaveService.saveOutfitItems(
+        allSelectedItemIds: allSelectedItemIds,
       );
 
-      // Check if response contains 'status' and is 'success'
-      if (response.containsKey('status') && response['status'] == 'success') {
+      if (response['status'] == 'success') {
         final outfitId = response['outfit_id'];
         logger.d('Successfully saved outfit with ID: $outfitId');
 
-        // Emit the success state with outfitId
         emit(
-            state.copyWith(saveStatus: SaveStatus.success, outfitId: outfitId));
+          state.copyWith(saveStatus: SaveStatus.success, outfitId: outfitId),
+        );
 
-        // You no longer navigate here
-      } else
-      if (response.containsKey('status') && response['status'] == 'error') {
-        // Handle the error case
+      } else if (response['status'] == 'error') {
         logger.e('Error in response: ${response['message']}');
         emit(state.copyWith(saveStatus: SaveStatus.failure));
       } else {
-        // Handle unexpected response structure
         logger.e('Unexpected response format: $response');
         emit(state.copyWith(saveStatus: SaveStatus.failure));
       }
@@ -113,7 +106,7 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
         currentCategory: event.category, saveStatus: SaveStatus.inProgress));
 
     try {
-      final items = await _outfitFetchService.fetchCreateOutfitItems(
+      final items = await outfitFetchService.fetchCreateOutfitItems(
           event.category, 0, 10); // You can adjust the batch size as needed
       emit(state.copyWith(
         items: items,
@@ -130,7 +123,7 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
       Emitter<CreateOutfitItemState> emit) async {
     try {
       // Fetch the count of outfits created by the user
-      int outfitCount = await _outfitFetchService.fetchOutfitsCount();
+      int outfitCount = await outfitFetchService.fetchOutfitsCount();
 
       // Check if the count matches any of the milestones
       if (outfitCount == 30 || outfitCount == 60 || outfitCount == 120 ||

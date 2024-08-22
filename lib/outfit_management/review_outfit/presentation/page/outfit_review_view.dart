@@ -117,38 +117,52 @@ class OutfitReviewViewState extends State<OutfitReview> {
                       }
 
                       return Expanded(
-                        child: Column(
+                        child: Stack(
                           children: [
                             if (feedbackSentence.isNotEmpty)
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Text(
-                                  feedbackSentence,
-                                  style: Theme.of(context).textTheme.titleSmall,
-                                  textAlign: TextAlign.center,
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                                  margin: const EdgeInsets.only(bottom: 8.0),
+                                  color: Theme.of(context).cardColor,
+                                  child: Text(
+                                    feedbackSentence,
+                                    style: Theme.of(context).textTheme.titleSmall,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
-                            Expanded(
+                            Positioned(
+                              top: feedbackSentence.isNotEmpty ? 48.0 : 0.0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
                               child: BaseGrid<OutfitItemMinimal>(
                                 items: state.items,
                                 scrollController: ScrollController(),
                                 logger: logger,
                                 itemBuilder: (context, item, index) {
                                   logger.i('Rendering item: ${item.name}, isDisliked: ${item.isDisliked}');
-                                  return EnhancedUserPhoto(
-                                    imageUrl: item.imageUrl,
-                                    isSelected: false,
-                                    isDisliked: item.isDisliked,
-                                    onPressed: () {
-                                      logger.i('Item tapped: ${item.itemId}, current isDisliked: ${item.isDisliked}');
-                                      context.read<OutfitReviewBloc>().add(ToggleItemSelection(item.itemId, state.feedback));
-                                    },
-                                    itemName: item.name,
-                                    itemId: item.itemId,
+                                  return Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: EnhancedUserPhoto(
+                                      imageUrl: item.imageUrl,
+                                      isSelected: false,
+                                      isDisliked: item.isDisliked,
+                                      onPressed: () {
+                                        logger.i('Item tapped: ${item.itemId}, current isDisliked: ${item.isDisliked}');
+                                        context.read<OutfitReviewBloc>().add(ToggleItemSelection(item.itemId, state.feedback));
+                                      },
+                                      itemName: item.name,
+                                      itemId: item.itemId,
+                                    ),
                                   );
                                 },
                                 crossAxisCount: 3,
-                                childAspectRatio: 3 / 4,
+                                childAspectRatio: 2 / 3,
                               ),
                             ),
                           ],

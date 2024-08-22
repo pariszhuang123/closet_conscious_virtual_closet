@@ -54,7 +54,7 @@ final ThemeData myOutfitTheme = ThemeData(
     unselectedItemColor: Colors.grey,
   ),
   snackBarTheme: SnackBarThemeData(
-    backgroundColor: Colors.blue.shade400, // Set the background color for SnackBar
+    backgroundColor: Colors.blue.shade200, // Set the background color for SnackBar
     contentTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold), // Set the text color and style
   ),
   dialogTheme: DialogTheme(

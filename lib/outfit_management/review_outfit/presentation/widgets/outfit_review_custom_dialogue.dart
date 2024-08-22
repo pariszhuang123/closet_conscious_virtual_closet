@@ -30,11 +30,14 @@ class OutfitReviewCustomDialogState extends State<OutfitReviewCustomDialog> {
 
   @override
   Widget build(BuildContext context) {
-    // Show the custom dialog
-    return CustomAlertDialog(
-      title: S.of(context).outfitReviewTitle,
-      content: S.of(context).outfitReviewContent,
-      theme: widget.theme,
+    // Disable interactions and show the custom dialog
+    return AbsorbPointer(
+      absorbing: true, // Absorb all interactions
+      child: CustomAlertDialog(
+        title: S.of(context).outfitReviewTitle,
+        content: S.of(context).outfitReviewContent,
+        theme: widget.theme,
+      ),
     );
   }
 }

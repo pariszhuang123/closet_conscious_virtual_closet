@@ -49,7 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addYourComments": MessageLookupByLibrary.simpleMessage("添加您的评论"),
         "alright": MessageLookupByLibrary.simpleMessage("还行"),
         "alright_feedback_sentence":
-            MessageLookupByLibrary.simpleMessage("选择你觉得还可以的物品。"),
+            MessageLookupByLibrary.simpleMessage("点击不太适合这套搭配的单品。"),
         "amountSpentFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("花费金额字段未填写。"),
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
@@ -84,8 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "congratulations": MessageLookupByLibrary.simpleMessage("恭喜！"),
         "contactUs": MessageLookupByLibrary.simpleMessage("联系我们"),
         "costOfNewItems": MessageLookupByLibrary.simpleMessage("您购买的新物品花费金额"),
-        "currentStreak":
-            MessageLookupByLibrary.simpleMessage("您当前未购买任何服装的连续天数"),
+        "currentStreak": MessageLookupByLibrary.simpleMessage("您当前不买衣服的天数记录"),
         "currentStreakTooltip":
             MessageLookupByLibrary.simpleMessage("显示您当前的无购买连续天数"),
         "dark": MessageLookupByLibrary.simpleMessage("深色"),
@@ -110,7 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteAccountTitle": MessageLookupByLibrary.simpleMessage("删除账户"),
         "dislike": MessageLookupByLibrary.simpleMessage("不适合我"),
         "dislike_feedback_sentence":
-            MessageLookupByLibrary.simpleMessage("选择你觉得不适合的物品。"),
+            MessageLookupByLibrary.simpleMessage("点击让这套搭配不太合适的单品。"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("编辑物品"),
         "enterAmountSpentHint": MessageLookupByLibrary.simpleMessage("输入花费金额"),
         "error": MessageLookupByLibrary.simpleMessage("错误"),
@@ -129,7 +128,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "green": MessageLookupByLibrary.simpleMessage("绿色"),
         "grey": MessageLookupByLibrary.simpleMessage("灰色"),
         "hat": MessageLookupByLibrary.simpleMessage("帽子"),
-        "highestStreak": MessageLookupByLibrary.simpleMessage("您最高的无购买服装连续天数"),
+        "highestStreak": MessageLookupByLibrary.simpleMessage("您不买衣服的最高天数记录"),
         "highestStreakTooltip":
             MessageLookupByLibrary.simpleMessage("显示您的最高无购买记录"),
         "infoHub": MessageLookupByLibrary.simpleMessage("信息中心"),
@@ -199,7 +198,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "profileSection": MessageLookupByLibrary.simpleMessage("个人资料"),
         "quicklyFindItems":
             MessageLookupByLibrary.simpleMessage("我们正在考虑推出一项高级功能，帮助您更轻松地筛选物品。"),
-        "rainbow": MessageLookupByLibrary.simpleMessage("彩虹"),
+        "rainbow": MessageLookupByLibrary.simpleMessage("多色"),
         "red": MessageLookupByLibrary.simpleMessage("红色"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("重试"),
         "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
@@ -230,7 +229,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "spendingTooltip":
             MessageLookupByLibrary.simpleMessage("显示您在新物品上花费的金额"),
         "spring": MessageLookupByLibrary.simpleMessage("春"),
-        "styleOn": MessageLookupByLibrary.simpleMessage("风格搭配"),
+        "styleOn": MessageLookupByLibrary.simpleMessage("评价搭配"),
         "summer": MessageLookupByLibrary.simpleMessage("夏"),
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("支持与帮助"),

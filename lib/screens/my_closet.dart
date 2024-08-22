@@ -39,7 +39,7 @@ class MyClosetPageState extends State<MyClosetPage> {
   bool _isUploadCompleted = false; // Add this state variable
   final CustomLogger logger = CustomLogger('MyClosetPage');
 
-  static const int _batchSize = 1;
+  static const int _batchSize = 9;
 
   @override
   void initState() {

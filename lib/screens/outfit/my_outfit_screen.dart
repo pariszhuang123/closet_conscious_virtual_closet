@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import '../../outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
 import '../../outfit_management/core/data/services/outfits_fetch_service.dart'; // Ensure this import is correct
+import '../../outfit_management/core/data/services/outfits_save_service.dart'; // Ensure this import is correct
 import 'my_outfit_view.dart';
 
 class MyOutfitScreen extends StatelessWidget {
@@ -16,9 +17,10 @@ class MyOutfitScreen extends StatelessWidget {
       create: (context) {
         // Retrieve the required service from GetIt
         final outfitFetchService = GetIt.instance<OutfitFetchService>();
+        final outfitSaveService = GetIt.instance<OutfitSaveService>();
 
         // Pass the service to the BLoC
-        return CreateOutfitItemBloc(outfitFetchService)
+        return CreateOutfitItemBloc(outfitFetchService, outfitSaveService)
           ..add(const SelectCategoryEvent(OutfitItemCategory.clothing));
       },
       child: MyOutfitView(myOutfitTheme: myOutfitTheme),

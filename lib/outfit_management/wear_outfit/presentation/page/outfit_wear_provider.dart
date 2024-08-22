@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/outfit_wear_bloc.dart';
 import 'outfit_wear_view.dart';
 import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../../core/usecase/photo_capture_service.dart';
 import 'package:get_it/get_it.dart';
+import '../bloc/outfit_wear_bloc.dart';
 import '../../../core/data/services/outfits_fetch_service.dart';
+import '../../../core/data/services/outfits_save_service.dart';
 
 class OutfitWearProvider extends StatelessWidget {
   final DateTime date;
@@ -32,11 +33,15 @@ class OutfitWearProvider extends StatelessWidget {
         // Retrieve the OutfitFetchService from GetIt
         final outfitFetchService = GetIt.instance<OutfitFetchService>();
 
-        // Pass the authBloc, photoCaptureService, and outfitFetchService to the OutfitWearBloc
+        // Retrieve the OutfitSaveService from GetIt
+        final outfitSaveService = GetIt.instance<OutfitSaveService>();  // Add this line
+
+        // Pass the authBloc, photoCaptureService, outfitFetchService, and outfitSaveService to the OutfitWearBloc
         return OutfitWearBloc(
           authBloc: authBloc,
           photoCaptureService: photoCaptureService,
-          outfitFetchService: outfitFetchService, // Provide the required argument
+          outfitFetchService: outfitFetchService,
+          outfitSaveService: outfitSaveService,  // Provide the required argument
         );
       },
       child: OutfitWearView(

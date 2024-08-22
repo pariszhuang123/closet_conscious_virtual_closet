@@ -14,6 +14,7 @@ import '../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../core/widgets/bottom_sheet/metadata_premium_bottom_sheet.dart';
 import '../../../core/theme/themed_svg.dart';
 import '../../../core/widgets/button/navigation_type_button.dart';
+import '../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 
 
 class UploadItemPage extends StatefulWidget {
@@ -553,8 +554,13 @@ class _UploadItemPageState extends State<UploadItemPage> {
                         child: ElevatedButton(
                           onPressed: state is Uploading ? null : () => _handleNext(context),
                           child: state is Uploading
-                              ? CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(widget.myClosetTheme.colorScheme.onPrimary),
+                              ? SizedBox(
+                            width: 36.0,
+                            height: 36.0,
+                            child: ClosetProgressIndicator(
+                              color: widget.myClosetTheme.colorScheme.onPrimary,
+                              size: 36.0,
+                            ),
                           )
                               : Text(_currentPage == 2 ? S.of(context).upload : S.of(context).next),
                         ),
