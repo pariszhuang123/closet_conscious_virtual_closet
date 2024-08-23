@@ -198,6 +198,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
         "noItemsInCategory": MessageLookupByLibrary.simpleMessage(
             "Please upload your items in my closet"),
+        "npsReviewEmailBody": MessageLookupByLibrary.simpleMessage(
+            "Could you please share more details on how we can improve?"),
+        "npsReviewEmailSubject":
+            MessageLookupByLibrary.simpleMessage("We will Love Your Feedback"),
         "numberOfNewItems": MessageLookupByLibrary.simpleMessage(
             "Number of new items you have purchased"),
         "occasionFieldNotFilled": MessageLookupByLibrary.simpleMessage(
@@ -275,6 +279,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "summer": MessageLookupByLibrary.simpleMessage("Summer"),
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("Support & Assistance"),
+        "supportEmailBody":
+            MessageLookupByLibrary.simpleMessage("Describe your issue here"),
+        "supportEmailSubject":
+            MessageLookupByLibrary.simpleMessage("Support Request"),
         "swap": MessageLookupByLibrary.simpleMessage("Swap"),
         "swapFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "We\'re considering adding a premium feature for digitally swapping items and getting notified about nearby swap events."),

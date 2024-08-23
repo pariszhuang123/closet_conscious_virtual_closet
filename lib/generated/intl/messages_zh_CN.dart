@@ -171,6 +171,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("未找到物品"),
         "noItemsInCategory":
             MessageLookupByLibrary.simpleMessage("请上传您的物品到我的衣橱"),
+        "npsReviewEmailBody":
+            MessageLookupByLibrary.simpleMessage("请告诉我们如何改进？"),
+        "npsReviewEmailSubject":
+            MessageLookupByLibrary.simpleMessage("我们期待您的反馈"),
         "numberOfNewItems": MessageLookupByLibrary.simpleMessage("您购买的新物品数量"),
         "occasionFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("场合字段未填写。"),
@@ -233,6 +237,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "summer": MessageLookupByLibrary.simpleMessage("夏"),
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("支持与帮助"),
+        "supportEmailBody": MessageLookupByLibrary.simpleMessage("请在此描述您的问题"),
+        "supportEmailSubject": MessageLookupByLibrary.simpleMessage("支持请求"),
         "swap": MessageLookupByLibrary.simpleMessage("交换"),
         "swapFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "我们正在考虑添加一个高级功能，用于数字交换物品并收到附近交换活动的通知。"),

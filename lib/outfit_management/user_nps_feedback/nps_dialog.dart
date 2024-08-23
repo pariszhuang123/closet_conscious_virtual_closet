@@ -46,7 +46,7 @@ class NpsDialog extends StatelessWidget {
     if (success) {
       logger.i('NPS score successfully recorded.');
       if (score <= 8) {
-        launchEmail(); // Trigger email feedback for scores 0-8
+        launchEmail(context, EmailType.npsReview); // Trigger email feedback for scores 0-8
       } else {
         _showThankYouDialog(context); // Show a thank you dialog for scores 9-10
       }
@@ -61,7 +61,6 @@ class NpsDialog extends StatelessWidget {
       ));
     }
   }
-
 
   void _showThankYouDialog(BuildContext context) {
     showDialog(
@@ -86,41 +85,44 @@ class NpsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: myOutfitTheme.dialogTheme.backgroundColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "How likely will you recommend Closet Conscious to a friend?",
-              style: myOutfitTheme.textTheme.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16.0),
-            GridView.builder(
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4, // 4 buttons per row
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 8.0,
-                childAspectRatio: 2, // Adjust button size as needed
+    return PopScope(
+      canPop: false, // Prevent back button dismissal
+      child: Dialog(
+        backgroundColor: myOutfitTheme.dialogTheme.backgroundColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "How likely will you recommend Closet Conscious to a friend?",
+                style: myOutfitTheme.textTheme.titleMedium,
+                textAlign: TextAlign.center,
               ),
-              itemCount: 11, // Buttons 0 to 10
-              itemBuilder: (context, index) {
-                return ElevatedButton(
-                  onPressed: () => _sendNpsScore(context, index),
-                  style: myOutfitTheme.elevatedButtonTheme.style,
-                  child: Text(
-                    index.toString(),
-                    style: myOutfitTheme.textTheme.labelLarge,
-                  ),
-                );
-              },
-            ),
-          ],
+              const SizedBox(height: 16.0),
+              GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4, // 4 buttons per row
+                  crossAxisSpacing: 6.0,
+                  mainAxisSpacing: 12.0,
+                  childAspectRatio: 2, // Adjust button size as needed
+                ),
+                itemCount: 11, // Buttons 0 to 10
+                itemBuilder: (context, index) {
+                  return ElevatedButton(
+                    onPressed: () => _sendNpsScore(context, index),
+                    style: myOutfitTheme.elevatedButtonTheme.style,
+                    child: Text(
+                      index.toString(),
+                      style: myOutfitTheme.textTheme.labelLarge,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -130,6 +132,7 @@ class NpsDialog extends StatelessWidget {
 void showNpsDialog(BuildContext context, int milestone) {
   showDialog(
     context: context,
+    barrierDismissible: false, // Prevent dismissal by tapping outside
     builder: (BuildContext context) {
       return NpsDialog(milestone: milestone);
     },

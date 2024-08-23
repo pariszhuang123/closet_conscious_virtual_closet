@@ -191,6 +191,10 @@
   "outfitReviewContent": "Your outfit review has been successfully submitted!",
   "pleaseSelectAtLeastOneItem": "Please select at least one item you didn't like.",
   "outfitCreationSuccessTitle": "Style On!",
-  "outfitCreationSuccessContent": "Outfit ready. Go Slay the World!"
+  "outfitCreationSuccessContent": "Outfit ready. Go Slay the World!",
+  "supportEmailSubject": "Support Request",
+  "supportEmailBody": "Describe your issue here",
+  "npsReviewEmailSubject": "We will Love Your Feedback",
+  "npsReviewEmailBody": "Could you please share more details on how we can improve?"
 
 }

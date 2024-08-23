@@ -65,7 +65,7 @@ class AppDrawer extends StatelessWidget {
                       context, infoHubItem, null, _navigateToInfoHub),
                   _buildVerticalSpacing(),
                   _buildNavigationButton(
-                      context, contactUsItem, null, (ctx) => launchEmail()),
+                      context, contactUsItem, null, (ctx) => launchEmail(context, EmailType.support)),
                   _buildVerticalSpacing(),
                   BlocListener<AuthBloc, AuthState>(
                     listener: (context, state) {

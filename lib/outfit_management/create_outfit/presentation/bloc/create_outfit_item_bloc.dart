@@ -46,9 +46,13 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
       if (newItems.isEmpty) {
         emit(state.copyWith(hasReachedMax: true));
       } else {
+        // Handle case where fewer items are fetched than batch size
+        final hasReachedMax = newItems.length < 9;
+
         emit(state.copyWith(
           items: List.of(state.items)..addAll(newItems),
           currentPage: currentPage,
+          hasReachedMax: hasReachedMax,
           saveStatus: SaveStatus.success,
         ));
       }

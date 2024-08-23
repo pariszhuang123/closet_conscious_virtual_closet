@@ -1969,6 +1969,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Support Request`
+  String get supportEmailSubject {
+    return Intl.message(
+      'Support Request',
+      name: 'supportEmailSubject',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Describe your issue here`
+  String get supportEmailBody {
+    return Intl.message(
+      'Describe your issue here',
+      name: 'supportEmailBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We will Love Your Feedback`
+  String get npsReviewEmailSubject {
+    return Intl.message(
+      'We will Love Your Feedback',
+      name: 'npsReviewEmailSubject',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could you please share more details on how we can improve?`
+  String get npsReviewEmailBody {
+    return Intl.message(
+      'Could you please share more details on how we can improve?',
+      name: 'npsReviewEmailBody',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
