@@ -1,4 +1,3 @@
--- Function to update the NPS review based on user input
 create or replace function public.update_nps_review(
   p_user_id uuid,
   p_nps_score int,
@@ -19,7 +18,7 @@ BEGIN
   result := json_build_object(
     'status', 'success',
     'message', 'NPS review updated successfully',
-    'nps_score', p_nps_score,
+    'nps_score', p_nps_score
   );
   RETURN result;
 
