@@ -72,8 +72,8 @@ class LoginScreenState extends State<LoginScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const WebViewScreen(
-                                    url: 'https://www.notion.so/Privacy-Policy-9f21c7664efe4b03a8965252495dc1a6',
+                                  builder: (context) => WebViewScreen(
+                                    url: S.of(context).privacyTermsUrl,
                                     isFromMyCloset: true,
                                   ),
                                 ),
@@ -91,8 +91,8 @@ class LoginScreenState extends State<LoginScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const WebViewScreen(
-                                    url: 'https://www.notion.so/Service-Term-1a1b8f68ebba48158c0f42e19a135c6e',
+                                  builder: (context) => WebViewScreen(
+                                    url: S.of(context).termsAndConditionsUrl,
                                     isFromMyCloset: true,
                                   ),
                                 ),

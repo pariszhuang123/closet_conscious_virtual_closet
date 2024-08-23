@@ -147,11 +147,13 @@ class AppDrawer extends StatelessWidget {
   }
 
   void _navigateToInfoHub(BuildContext context) {
+    final String infoHubUrl = S.of(context).infoHubUrl;
+
     Navigator.pushNamed(
       context,
       AppRoutes.infoHub,
       arguments: InfoHubArguments(
-        'https://inky-twill-3ab.notion.site/8bca4fd6945f4f808a32cbb5ad28400c?v=ce98e22a2fdd40b0a5c02b33c8a563a1&pvs=74',
+        infoHubUrl,
         isFromMyCloset,
       ),
     );

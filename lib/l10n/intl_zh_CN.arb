@@ -195,6 +195,10 @@
   "supportEmailSubject": "支持请求",
   "supportEmailBody": "请在此描述您的问题",
   "npsReviewEmailSubject": "我们期待您的反馈",
-  "npsReviewEmailBody": "请告诉我们如何改进？"
+  "npsReviewEmailBody": "请告诉我们如何改进？",
+  "infoHubUrl": "https://inky-twill-3ab.notion.site/dc4dd32378b0478daf36fca24e00d0c8",
+  "privacyTermsUrl": "https://inky-twill-3ab.notion.site/5c881235e92240d9a008e0fe6bb80f0b",
+  "termsAndConditionsUrl": "https://www.notion.so/4d657b804aed4a30a9e5fa71ba0afc78"
+
 
 }
