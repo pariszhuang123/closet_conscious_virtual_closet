@@ -146,9 +146,6 @@ class OutfitSaveService {
       if (response != null && response['status'] == 'success') {
         logger.i('Successfully recorded NPS review for user ID: $userId');
         return true;
-      } else if (response.error != null) {
-        logger.e('Error in response: ${response.error.message}');
-        return false;
       } else {
         logger.e('Unexpected response format: $response');
         return false;

@@ -4,7 +4,7 @@ class OutfitProgressIndicator extends StatefulWidget {
   final Color color;
   final double size;
 
-  const OutfitProgressIndicator({super.key, required this.color, this.size = 36.0});
+  const OutfitProgressIndicator({super.key, required this.color, this.size = 24.0});
 
   @override
   OutfitProgressIndicatorState createState() => OutfitProgressIndicatorState();
