@@ -9,6 +9,9 @@ class CreateOutfitItemState extends Equatable {
   final SaveStatus saveStatus;
   final String? outfitId;
   final bool hasSelectedItems;
+  final bool hasReachedMax;
+  final int currentPage;
+
 
   const CreateOutfitItemState({
     this.selectedItemIds = const {},
@@ -17,6 +20,9 @@ class CreateOutfitItemState extends Equatable {
     this.saveStatus = SaveStatus.initial,
     this.outfitId,
     this.hasSelectedItems = false,
+    required this.hasReachedMax,
+    required this.currentPage,
+
   });
 
   factory CreateOutfitItemState.initial() {
@@ -27,6 +33,8 @@ class CreateOutfitItemState extends Equatable {
       saveStatus: SaveStatus.initial,
       outfitId: null,
       hasSelectedItems: false,
+      hasReachedMax: false,
+      currentPage: 0,
     );
   }
 
@@ -37,6 +45,9 @@ class CreateOutfitItemState extends Equatable {
     SaveStatus? saveStatus,
     String? outfitId,
     bool? hasSelectedItems,
+    bool? hasReachedMax,
+    int? currentPage,
+
   }) {
     return CreateOutfitItemState(
       selectedItemIds: selectedItemIds ?? this.selectedItemIds,
@@ -45,11 +56,13 @@ class CreateOutfitItemState extends Equatable {
       saveStatus: saveStatus ?? this.saveStatus,
       outfitId: outfitId ?? this.outfitId,
       hasSelectedItems: hasSelectedItems ?? this.hasSelectedItems,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      currentPage: currentPage ?? this.currentPage,
     );
   }
 
   @override
-  List<Object?> get props => [selectedItemIds, items, currentCategory, saveStatus, outfitId, hasSelectedItems];
+  List<Object?> get props => [selectedItemIds, items, currentCategory, saveStatus, outfitId, hasSelectedItems, hasReachedMax, currentPage];
 }
 
 class NpsSurveyTriggered extends CreateOutfitItemState {
@@ -64,5 +77,9 @@ class NpsSurveyTriggered extends CreateOutfitItemState {
     saveStatus: SaveStatus.initial,
     outfitId: null,
     hasSelectedItems: false,
+    hasReachedMax: false,
+    currentPage: 0
   );
+  @override
+  List<Object?> get props => [milestone];
 }

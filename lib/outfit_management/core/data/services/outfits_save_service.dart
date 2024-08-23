@@ -53,34 +53,6 @@ class OutfitSaveService {
     }
   }
 
-  Future<bool> recordUserReview({
-    required String userId,
-    required int score,
-    required int milestone,
-  }) async {
-    try {
-      final response = await client.rpc('update_nps_review', params: {
-        'p_user_id': userId,
-        'p_nps_score': score,
-        'p_milestone_triggered': milestone,
-      });
-
-      if (response != null && response['status'] == 'success') {
-        logger.i('Successfully recorded NPS review for user ID: $userId');
-        return true;
-      } else if (response.error != null) {
-        logger.e('Error in response: ${response.error.message}');
-        return false;
-      } else {
-        logger.e('Unexpected response format: $response');
-        return false;
-      }
-    } catch (error) {
-      logger.e('Error during RPC call: $error');
-      return false;
-    }
-  }
-
   Future<Map<String, dynamic>> saveOutfitItems({
     required List<String> allSelectedItemIds,
   }) async {
@@ -158,4 +130,33 @@ class OutfitSaveService {
       throw Exception('Processing uploaded image failed');
     }
   }
+
+  Future<bool> recordUserReview({
+    required String userId,
+    required int score,
+    required int milestone,
+  }) async {
+    try {
+      final response = await client.rpc('update_nps_review', params: {
+        'p_user_id': userId,
+        'p_nps_score': score,
+        'p_milestone_triggered': milestone,
+      });
+
+      if (response != null && response['status'] == 'success') {
+        logger.i('Successfully recorded NPS review for user ID: $userId');
+        return true;
+      } else if (response.error != null) {
+        logger.e('Error in response: ${response.error.message}');
+        return false;
+      } else {
+        logger.e('Unexpected response format: $response');
+        return false;
+      }
+    } catch (error) {
+      logger.e('Error during RPC call: $error');
+      return false;
+    }
+  }
 }
+

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/utilities/logger.dart';
 import '../widget/achievement_grid.dart';
 import '../data/models/achievement_model.dart';
-import '../../core/data/services/user_fetch_services.dart';
+import '../../core/data/services/user_fetch_service.dart';
 import '../../../core/theme/my_closet_theme.dart';
 import '../../../core/theme/my_outfit_theme.dart';
 import '../../../../generated/l10n.dart';

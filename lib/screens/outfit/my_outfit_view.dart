@@ -15,7 +15,7 @@ import '../../outfit_management/create_outfit/presentation/widgets/outfit_grid.d
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_type_container.dart';
 import '../../outfit_management/wear_outfit/presentation/page/outfit_wear_provider.dart';
 import '../../core/theme/my_outfit_theme.dart';
-
+import '../../outfit_management/user_nps_feedback/nps_dialog.dart';
 
 class MyOutfitView extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -38,10 +38,24 @@ class MyOutfitViewState extends State<MyOutfitView> {
   void initState() {
     super.initState();
     _fetchOutfitsCount();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        _fetchMoreItems();
+      }
+    });
+  }
+
+  void _fetchMoreItems() {
+    context.read<CreateOutfitItemBloc>().add(FetchMoreItemsEvent());
   }
 
   void _onSaveOutfit() {
     context.read<CreateOutfitItemBloc>().add(const SaveOutfitEvent());
+  }
+
+  void _triggerNpsSurveyIfNeeded() {
+    logger.i('Checking if NPS survey should be triggered for outfit count: $newOutfitCount');
+    context.read<CreateOutfitItemBloc>().add(TriggerNpsSurveyEvent(newOutfitCount));
   }
 
   void _onFilterButtonPressed() {
@@ -65,10 +79,12 @@ class MyOutfitViewState extends State<MyOutfitView> {
   Future<void> _fetchOutfitsCount() async {
     try {
       final count = await _outfitFetchService.fetchOutfitsCount();
+
       if (mounted) {
         setState(() {
           newOutfitCount = count;
         });
+        _triggerNpsSurveyIfNeeded();  // Call the method after setting the outfit count
       }
     } catch (e) {
       logger.e('Error fetching new outfits count: $e');
@@ -103,7 +119,11 @@ class MyOutfitViewState extends State<MyOutfitView> {
 
     return BlocListener<CreateOutfitItemBloc, CreateOutfitItemState>(
       listener: (context, state) {
+        logger.i('BlocListener is active, received state: $state');
+
         if (state.saveStatus == SaveStatus.success && state.outfitId != null) {
+          logger.i('Navigating to OutfitWearProvider for outfitId: ${state.outfitId}');
+
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => OutfitWearProvider(
@@ -114,7 +134,12 @@ class MyOutfitViewState extends State<MyOutfitView> {
             ),
           );
         }
+        if (state is NpsSurveyTriggered) {
+          logger.i('NPS Survey triggered for milestone: ${state.milestone}');
+          showNpsDialog(context, state.milestone);
+        }
       },
+
       child: PopScope(
         canPop: false, // Disable back navigation
         child: Theme(
@@ -152,9 +177,20 @@ class MyOutfitViewState extends State<MyOutfitView> {
                   ),
                   const SizedBox(height: 16),
                   Expanded(
-                    child: OutfitGrid(
-                      scrollController: _scrollController,
-                      logger: logger,
+                    child: BlocBuilder<CreateOutfitItemBloc, CreateOutfitItemState>(
+                      builder: (context, state) {
+                        if (state.saveStatus == SaveStatus.failure) {
+                          return Center(child: Text(S.of(context).failedToLoadItems));
+                        } else if (state.items.isEmpty) {
+                          return Center(child: Text(S.of(context).noItemsInCategory));
+                        } else {
+                          return OutfitGrid(
+                            scrollController: _scrollController,
+                            logger: logger,
+                            items: state.items,  // Use the items from the state
+                          );
+                        }
+                      },
                     ),
                   ),
                   Padding(

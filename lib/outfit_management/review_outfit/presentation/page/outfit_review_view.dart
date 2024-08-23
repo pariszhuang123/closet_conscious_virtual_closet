@@ -175,7 +175,11 @@ class OutfitReviewViewState extends State<OutfitReview> {
                       return const Center(child: CircularProgressIndicator());
                     } else if (state is OutfitReviewLoading || state is ReviewSubmissionInProgress) {
                       // Show loading indicator for both loading and submission progress states
-                      return const Center(child: CircularProgressIndicator());
+                      return  Center(child: OutfitProgressIndicator(
+                          color: widget.myOutfitTheme.colorScheme.onPrimary,
+                          size: 36.0,
+                      ),
+                      );
                     } else if (state is NavigateToMyCloset) {
                       logger.i('Navigating to My Closet');
                       WidgetsBinding.instance.addPostFrameCallback((_) {

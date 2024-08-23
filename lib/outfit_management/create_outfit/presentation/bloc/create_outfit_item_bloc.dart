@@ -7,6 +7,7 @@ import '../../../core/data/services/outfits_fetch_service.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../core/data/services/outfits_save_service.dart';
 
+
 part 'create_outfit_item_event.dart';
 part 'create_outfit_item_state.dart';
 
@@ -18,13 +19,46 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
   CreateOutfitItemBloc(this.outfitFetchService, this.outfitSaveService)
       : logger = GetIt.instance<CustomLogger>(instanceName: 'CreateOutfitItemBlocLogger'),
    super(CreateOutfitItemState.initial()) {
+    on<FetchMoreItemsEvent>(_onFetchMoreItems);
     on<ToggleSelectItemEvent>(_onToggleSelectItem);
     on<SaveOutfitEvent>(_onSaveOutfit);
     on<SelectCategoryEvent>(_onSelectCategory);
     on<TriggerNpsSurveyEvent>(_onTriggerNpsSurvey);
   }
 
-  void _onToggleSelectItem(ToggleSelectItemEvent event,
+  Future<void> _onFetchMoreItems(FetchMoreItemsEvent event,
+      Emitter<CreateOutfitItemState> emit) async {
+    if (state.hasReachedMax) {
+      logger.d('No more items to fetch. Reached max limit.');
+      return;
+    }
+
+    final currentPage = state.currentPage + 1;
+    logger.d('Fetching more items for category: ${state.currentCategory}, page: $currentPage');
+
+    try {
+      final newItems = await outfitFetchService.fetchCreateOutfitItems(
+        state.currentCategory,
+        currentPage,
+        9, // Adjust batch size as needed
+      );
+
+      if (newItems.isEmpty) {
+        emit(state.copyWith(hasReachedMax: true));
+      } else {
+        emit(state.copyWith(
+          items: List.of(state.items)..addAll(newItems),
+          currentPage: currentPage,
+          saveStatus: SaveStatus.success,
+        ));
+      }
+    } catch (error) {
+      logger.e('Error fetching more items: $error');
+      emit(state.copyWith(saveStatus: SaveStatus.failure));
+    }
+  }
+
+void _onToggleSelectItem(ToggleSelectItemEvent event,
       Emitter<CreateOutfitItemState> emit) {
     final updatedSelectedItemIds = Map<OutfitItemCategory, List<String>>.from(
         state.selectedItemIds);
@@ -118,16 +152,16 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
       emit(state.copyWith(saveStatus: SaveStatus.failure));
     }
   }
-
   Future<void> _onTriggerNpsSurvey(TriggerNpsSurveyEvent event,
       Emitter<CreateOutfitItemState> emit) async {
     try {
       // Fetch the count of outfits created by the user
       int outfitCount = await outfitFetchService.fetchOutfitsCount();
+      logger.i('Fetched outfit count: $outfitCount of type ${outfitCount.runtimeType}');
 
       // Check if the count matches any of the milestones
-      if (outfitCount == 30 || outfitCount == 60 || outfitCount == 120 ||
-          outfitCount == 180 || outfitCount == 240) {
+      if ([30, 60, 120, 180, 240].contains(outfitCount)) {
+        logger.i('Outfit count matches milestone: $outfitCount');
         emit(NpsSurveyTriggered(milestone: outfitCount)); // Trigger NPS survey
       } else {
         logger.i(

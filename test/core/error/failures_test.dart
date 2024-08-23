@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:closet_conscious/core/error/failures.dart';
+import 'package:closet_conscious/core/errors/failures.dart';
 
 void main() {
   group('Failure Tests', () {

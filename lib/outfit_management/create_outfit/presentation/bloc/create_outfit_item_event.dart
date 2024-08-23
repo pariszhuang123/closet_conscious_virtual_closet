@@ -19,6 +19,8 @@ class ToggleSelectItemEvent extends CreateOutfitItemEvent {
   List<Object> get props => [category, itemId];
 }
 
+class FetchMoreItemsEvent extends CreateOutfitItemEvent {}
+
 class SaveOutfitEvent extends CreateOutfitItemEvent {
   const SaveOutfitEvent();
 
@@ -36,12 +38,12 @@ class SelectCategoryEvent extends CreateOutfitItemEvent {
 }
 
 class TriggerNpsSurveyEvent extends CreateOutfitItemEvent {
-  final String userId;
+  final int milestone;
 
-  const TriggerNpsSurveyEvent(this.userId);
+  const TriggerNpsSurveyEvent(this.milestone);
 
   @override
-  List<Object> get props => [userId];
+  List<Object> get props => [milestone];
 }
 
 class SaveNpsSurveyResultEvent extends CreateOutfitItemEvent {
