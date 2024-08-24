@@ -201,5 +201,8 @@
   "termsAndConditionsUrl": "https://www.notion.so/4d657b804aed4a30a9e5fa71ba0afc78",
   "unableToRetrieveUserId": "无法获取用户 ID。请重新登录。",
   "failedToSubmitScore": "提交分数失败。",
-  "recommendClosetConscious": "您有多大可能向朋友推荐环保衣橱 (Closet Conscious)?"
+  "recommendClosetConscious": "您有多大可能向朋友推荐环保衣橱 (Closet Conscious)?",
+  "androidAppStoreUrl": "https://play.google.com/store/apps/details?id=com.looko.acloset&hl=zh_cn",
+  "iosAppStoreUrl": "https://apps.apple.com/cn/app/id1542311809"
+
 }

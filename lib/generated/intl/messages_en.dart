@@ -62,6 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "amountSpentLabel":
             MessageLookupByLibrary.simpleMessage("Amount Spent"),
         "and": MessageLookupByLibrary.simpleMessage(" and the "),
+        "androidAppStoreUrl": MessageLookupByLibrary.simpleMessage(
+            "https://play.google.com/store/apps/details?id=com.looko.acloset&hl=en"),
         "appInformationSection":
             MessageLookupByLibrary.simpleMessage("App Information"),
         "athletic": MessageLookupByLibrary.simpleMessage("Athletic"),
@@ -162,6 +164,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "interestAcknowledged": MessageLookupByLibrary.simpleMessage(
             "Your interest has been noted. Stay tuned for updates."),
         "interested": MessageLookupByLibrary.simpleMessage("Interested"),
+        "iosAppStoreUrl": MessageLookupByLibrary.simpleMessage(
+            "https://apps.apple.com/us/app/acloset-ai-fashion-assistant/id1542311809"),
         "itemNameFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Item Name field is not filled."),
         "itemNameLabel": MessageLookupByLibrary.simpleMessage("Item Name"),

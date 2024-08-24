@@ -13,6 +13,7 @@ import 'app_store_review.dart';
 import '../../../core/widgets/feedback/custom_alert_dialog.dart';
 import '../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../generated/l10n.dart';
+import '../../../core/utilities/routes.dart';
 
 class NpsDialog extends StatelessWidget {
   final int milestone;
@@ -59,6 +60,9 @@ class NpsDialog extends StatelessWidget {
         await appStoreReview.tryInAppReview(context);
       } else {
         launchEmail(context, EmailType.npsReview);
+        if (context.mounted) {
+          Navigator.of(context).pushReplacementNamed(AppRoutes.createOutfit);
+        }
       }
     } else {
       logger.e('Failed to record NPS score.');
