@@ -201,9 +201,5 @@
   "termsAndConditionsUrl": "https://www.notion.so/Service-Term-1a1b8f68ebba48158c0f42e19a135c6e",
   "unableToRetrieveUserId": "Unable to retrieve user ID. Please sign in again.",
   "failedToSubmitScore": "Failed to submit score.",
-  "recommendClosetConscious": "How likely will you recommend Closet Conscious to a friend?",
-  "androidAppStoreUrl": "https://play.google.com/store/apps/details?id=com.looko.acloset&hl=en",
-  "iosAppStoreUrl": "https://apps.apple.com/us/app/acloset-ai-fashion-assistant/id1542311809",
-  "androidAppStoreTitle": "Review Closet Conscious",
-  "iosAppStoreTitle": "Review Closet Conscious"
+  "recommendClosetConscious": "How likely will you recommend Closet Conscious to a friend?"
 }

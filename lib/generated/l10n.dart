@@ -2069,46 +2069,6 @@ class S {
       args: [],
     );
   }
-
-  /// `https://play.google.com/store/apps/details?id=com.looko.acloset&hl=en`
-  String get androidAppStoreUrl {
-    return Intl.message(
-      'https://play.google.com/store/apps/details?id=com.looko.acloset&hl=en',
-      name: 'androidAppStoreUrl',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `https://apps.apple.com/us/app/acloset-ai-fashion-assistant/id1542311809`
-  String get iosAppStoreUrl {
-    return Intl.message(
-      'https://apps.apple.com/us/app/acloset-ai-fashion-assistant/id1542311809',
-      name: 'iosAppStoreUrl',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Review Closet Conscious`
-  String get androidAppStoreTitle {
-    return Intl.message(
-      'Review Closet Conscious',
-      name: 'androidAppStoreTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Review Closet Conscious`
-  String get iosAppStoreTitle {
-    return Intl.message(
-      'Review Closet Conscious',
-      name: 'iosAppStoreTitle',
-      desc: '',
-      args: [],
-    );
-  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

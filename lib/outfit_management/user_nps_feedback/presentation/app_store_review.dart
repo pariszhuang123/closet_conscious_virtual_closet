@@ -3,7 +3,6 @@ import 'dart:io' show Platform;
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
 
 import '../../../core/utilities/logger.dart';
-import '../../../generated/l10n.dart'; // Import localization
 import '../../../core/utilities/routes.dart'; // Import your app routes
 
 class AppStoreReview {
@@ -32,7 +31,7 @@ class AppStoreReview {
       uri = Uri.parse(
           "https://play.google.com/store/apps/details?id=com.looko.acloset&hl=en");
     } else if (Platform.isIOS) {
-      uri = Uri.parse(S.of(context).iosAppStoreUrl); // Ensure this is a valid iOS App Store URL
+      uri = Uri.parse("https://apps.apple.com/us/app/id1542311809");
     } else {
       logger.w('Unsupported platform for store review redirection.');
       return;
