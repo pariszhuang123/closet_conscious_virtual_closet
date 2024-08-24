@@ -141,7 +141,7 @@ class OutfitWearViewState extends State<OutfitWearView> {
                               );
                             },
                             crossAxisCount: 3,
-                            childAspectRatio: 3 / 4,
+                            childAspectRatio: 2 / 3,
                           );
                         } else if (state is OutfitWearError) {
                           // Handle the error state

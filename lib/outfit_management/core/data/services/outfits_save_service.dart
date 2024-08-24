@@ -2,10 +2,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
 
-import '../../../../core/core_service_locator.dart';
 import '../../../../core/utilities/logger.dart';
-
-
 
 class OutfitSaveService {
   final SupabaseClient client;
@@ -13,8 +10,8 @@ class OutfitSaveService {
 
   OutfitSaveService({
     required this.client,
-  }) : logger = coreLocator<CustomLogger>(
-      instanceName: 'OutfitSaveServiceLogger');
+    CustomLogger? logger,
+  }) : logger = logger ?? CustomLogger('OutfitSaveServiceLogger');
 
   Future<bool> reviewOutfit({
     required String outfitId,
