@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:in_app_review/in_app_review.dart';
-
 import '../../../core/core_service_locator.dart';
 import '../../../core/utilities/logger.dart';
 import '../../../user_management/user_service_locator.dart';
@@ -19,13 +17,9 @@ class NpsDialog extends StatelessWidget {
   final int milestone;
   final CustomLogger logger = coreLocator.get<CustomLogger>(instanceName: 'OutfitReviewViewLogger');
   final OutfitSaveService outfitSaveService = getIt<OutfitSaveService>();
-  final AppStoreReview appStoreReview;
+  final AppStoreReview appStoreReview = AppStoreReview(); // Updated to use the new AppStoreReview class
 
-  NpsDialog({super.key, required this.milestone})
-      : appStoreReview = AppStoreReview(
-    inAppReview: InAppReview.instance,
-    logger: coreLocator.get<CustomLogger>(instanceName: 'OutfitReviewViewLogger'),
-  );
+  NpsDialog({super.key, required this.milestone});
 
   Future<void> _sendNpsScore(BuildContext context, int score) async {
     final AuthBloc authBloc = locator<AuthBloc>();
@@ -57,7 +51,7 @@ class NpsDialog extends StatelessWidget {
     if (success) {
       logger.i('NPS score successfully recorded.');
       if (score >= 9) {
-        await appStoreReview.tryInAppReview(context);
+        await appStoreReview.startReviewFlow(context); // Updated to use startReviewFlow
       } else {
         launchEmail(context, EmailType.npsReview);
         if (context.mounted) {
@@ -77,17 +71,16 @@ class NpsDialog extends StatelessWidget {
   void showNpsDialog(BuildContext context) {
     CustomAlertDialog.showCustomDialog(
       context: context,
-        title: S.of(context).recommendClosetConscious,
-      content: _buildDialogContent(context), // This will be fixed below
+      title: S.of(context).recommendClosetConscious,
+      content: _buildDialogContent(context),
       theme: myOutfitTheme,
       barrierDismissible: false,
     );
   }
 
-  // Fixing the type issue
   Widget _buildDialogContent(BuildContext context) {
     return SizedBox(
-      width: 300,  // Set a fixed width
+      width: 300, // Set a fixed width
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -95,7 +88,7 @@ class NpsDialog extends StatelessWidget {
           GridView.builder(
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, // 4 buttons per row
+              crossAxisCount: 3, // 3 buttons per row
               crossAxisSpacing: 10,
               mainAxisSpacing: 20.0,
               childAspectRatio: 2.5, // Adjust button size as needed
