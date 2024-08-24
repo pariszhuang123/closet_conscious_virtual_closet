@@ -79,30 +79,32 @@ class NpsDialog extends StatelessWidget {
 
   Widget _buildDialogContent(BuildContext context) {
     return SizedBox(
-      width: 300, // Set a fixed width
+      width: 300, // Maintain the fixed width
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 16.0),
-          GridView.builder(
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, // 3 buttons per row
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 20.0,
-              childAspectRatio: 2.5, // Adjust button size as needed
+          Flexible(
+            child: GridView.builder(
+              shrinkWrap: true, // Ensures the GridView only takes up the space it needs
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, // 3 buttons per row
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 20.0,
+                childAspectRatio: 2.5, // Adjust button size as needed
+              ),
+              itemCount: 11, // Fixed number of buttons
+              itemBuilder: (context, index) {
+                return ElevatedButton(
+                  onPressed: () => _sendNpsScore(context, index),
+                  style: myOutfitTheme.elevatedButtonTheme.style,
+                  child: Text(
+                    index.toString(),
+                    style: myOutfitTheme.textTheme.labelLarge,
+                  ),
+                );
+              },
             ),
-            itemCount: 11, // Buttons 0 to 10
-            itemBuilder: (context, index) {
-              return ElevatedButton(
-                onPressed: () => _sendNpsScore(context, index),
-                style: myOutfitTheme.elevatedButtonTheme.style,
-                child: Text(
-                  index.toString(),
-                  style: myOutfitTheme.textTheme.labelLarge,
-                ),
-              );
-            },
           ),
         ],
       ),
