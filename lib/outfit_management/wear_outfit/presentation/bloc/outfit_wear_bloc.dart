@@ -9,7 +9,6 @@ import '../../../../core/utilities/logger.dart';
 import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../core/data/services/outfits_fetch_service.dart';
 import '../../../core/data/services/outfits_save_service.dart';
-import '../../../../core/core_service_locator.dart';
 
 part 'outfit_wear_event.dart';
 part 'outfit_wear_state.dart';
@@ -26,7 +25,7 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
     required this.photoCaptureService,
     required this.outfitFetchService,
     required this.outfitSaveService,
-  }) : logger = coreLocator<CustomLogger>(instanceName: 'OutfitWearBlocLogger'),
+  }) : logger = CustomLogger('OutfitWearBlocLogger'),
         super(OutfitWearInitial()) {
     on<CheckForOutfitImageUrl>(_onCheckForOutfitImageUrl);
     on<TakeSelfie>(_onTakeSelfie);

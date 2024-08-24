@@ -43,7 +43,7 @@ class CustomAlertDialog extends StatelessWidget {
     String? buttonText,
     VoidCallback? onPressed,
     required ThemeData theme,
-    bool barrierDismissible = false, // Default is true, set to false if needed
+    bool barrierDismissible = true, // Default is true, set to false if needed
   }) async {
     return showDialog(
       context: context,

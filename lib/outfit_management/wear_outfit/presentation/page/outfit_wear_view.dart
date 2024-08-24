@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
@@ -40,7 +39,7 @@ class OutfitWearViewState extends State<OutfitWearView> {
   void initState() {
     super.initState();
     // Retrieving the logger from the service locator
-    logger = GetIt.instance<CustomLogger>(instanceName: 'OutfitWearViewLogger');
+    logger = CustomLogger('OutfitWearViewLogger');
     logger.i('Initializing OutfitWearView with outfitId: ${widget.outfitId}');
 
     // Dispatching the event to check for the outfit image URL

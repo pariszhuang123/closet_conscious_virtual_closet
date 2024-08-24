@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../core/core_service_locator.dart';
 import '../../../core/utilities/logger.dart';
 import '../../../user_management/user_service_locator.dart';
 import '../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
@@ -15,7 +14,7 @@ import '../../../core/utilities/routes.dart';
 
 class NpsDialog extends StatelessWidget {
   final int milestone;
-  final CustomLogger logger = coreLocator.get<CustomLogger>(instanceName: 'OutfitReviewViewLogger');
+  final CustomLogger logger = CustomLogger('NPSDialogLogger');
   final OutfitSaveService outfitSaveService = getIt<OutfitSaveService>();
   final AppStoreReview appStoreReview = AppStoreReview(); // Updated to use the new AppStoreReview class
 

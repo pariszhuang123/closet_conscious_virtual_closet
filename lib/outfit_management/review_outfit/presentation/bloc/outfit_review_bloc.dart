@@ -29,8 +29,7 @@ OutfitReviewFeedback stringToFeedback(String feedback) {
 
 
 class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
-  final CustomLogger _logger = GetIt.instance<CustomLogger>(
-      instanceName: 'OutfitReviewBlocLogger');
+  final CustomLogger _logger = CustomLogger('OutfitReviewBlocLogger');
   final AuthBloc _authBloc = GetIt.instance<AuthBloc>();
   final OutfitFetchService _outfitFetchService;
   final OutfitSaveService saveService;

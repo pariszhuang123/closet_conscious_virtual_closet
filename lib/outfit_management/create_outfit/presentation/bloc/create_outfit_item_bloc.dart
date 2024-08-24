@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../../../core/utilities/logger.dart';
 import '../../../core/data/services/outfits_fetch_service.dart';
@@ -17,7 +16,7 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
   final OutfitSaveService outfitSaveService;
 
   CreateOutfitItemBloc(this.outfitFetchService, this.outfitSaveService)
-      : logger = GetIt.instance<CustomLogger>(instanceName: 'CreateOutfitItemBlocLogger'),
+      : logger = CustomLogger('CreateOutfitItemBlocLogger'),
    super(CreateOutfitItemState.initial()) {
     on<FetchMoreItemsEvent>(_onFetchMoreItems);
     on<ToggleSelectItemEvent>(_onToggleSelectItem);

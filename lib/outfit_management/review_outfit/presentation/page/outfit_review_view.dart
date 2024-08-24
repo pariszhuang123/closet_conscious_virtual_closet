@@ -15,7 +15,6 @@ import '../widgets/comment_field.dart';
 import '../../../../core/data/type_data.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../core/widgets/user_photo/base/user_photo.dart';
-import '../../../../core/core_service_locator.dart';
 import '../widgets/outfit_review_custom_dialogue.dart';
 import '../../../../core/widgets/feedback/custom_snack_bar.dart';
 
@@ -32,7 +31,7 @@ class OutfitReview extends StatefulWidget {
 }
 
 class OutfitReviewViewState extends State<OutfitReview> {
-  final CustomLogger logger = coreLocator<CustomLogger>(instanceName: 'OutfitReviewViewLogger');
+  final CustomLogger logger = CustomLogger('OutfitReviewViewLogger');
   final TextEditingController _commentController = TextEditingController();
 
   @override

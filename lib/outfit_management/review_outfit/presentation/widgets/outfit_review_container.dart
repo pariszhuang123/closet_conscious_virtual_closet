@@ -5,7 +5,6 @@ import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/theme/themed_svg.dart';
 import '../../../../core/data/type_data.dart';
 import '../../../../core/widgets/container/base_container_no_format.dart';
-import '../../../../core/core_service_locator.dart';
 import '../../../../core/utilities/logger.dart';
 
 class OutfitReviewContainer extends StatefulWidget {
@@ -27,7 +26,7 @@ class OutfitReviewContainer extends StatefulWidget {
 }
 
 class OutfitReviewContainerState extends State<OutfitReviewContainer> {
-  final CustomLogger _logger = coreLocator<CustomLogger>(instanceName: 'OutfitReviewContainerLogger');
+  final CustomLogger _logger = CustomLogger('OutfitReviewContainerLogger');
 
   void _onFeedbackButtonPressed(OutfitReviewFeedback feedback, String? outfitId) {
     _logger.i('Feedback button pressed: $feedback, outfitId: $outfitId');

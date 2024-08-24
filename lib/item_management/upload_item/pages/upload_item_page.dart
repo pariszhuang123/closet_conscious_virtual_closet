@@ -559,7 +559,7 @@ class _UploadItemPageState extends State<UploadItemPage> {
                             height: 36.0,
                             child: ClosetProgressIndicator(
                               color: widget.myClosetTheme.colorScheme.onPrimary,
-                              size: 36.0,
+                              size: 24.0,
                             ),
                           )
                               : Text(_currentPage == 2 ? S.of(context).upload : S.of(context).next),

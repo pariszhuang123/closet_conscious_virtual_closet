@@ -3,13 +3,11 @@ import 'dart:io' show Platform;
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
 
 import '../../../core/utilities/logger.dart';
-import '../../../core/core_service_locator.dart'; // Import the core service locator
 import '../../../generated/l10n.dart'; // Import localization
 import '../../../core/utilities/routes.dart'; // Import your app routes
 
 class AppStoreReview {
-  final CustomLogger logger = coreLocator.get<CustomLogger>(
-      instanceName: 'AppStoreReviewLogger');
+  final CustomLogger logger = CustomLogger('AppStoreReviewLogger');
 
   AppStoreReview();
 

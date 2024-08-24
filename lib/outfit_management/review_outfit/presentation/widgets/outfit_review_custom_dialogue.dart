@@ -32,7 +32,7 @@ class OutfitReviewCustomDialogState extends State<OutfitReviewCustomDialog> {
   Widget build(BuildContext context) {
     // Disable interactions and show the custom dialog
     return AbsorbPointer(
-      absorbing: true, // Absorb all interactions
+      absorbing: false, // Absorb all interactions
       child: CustomAlertDialog(
         title: S.of(context).outfitReviewTitle,
         content: Text(S.of(context).outfitReviewContent),
