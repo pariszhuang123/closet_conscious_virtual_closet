@@ -1,145 +1,121 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
-import '../../../../core/core_service_locator.dart';
 
 class OutfitFetchService {
   final SupabaseClient client;
   final CustomLogger logger;
 
-  OutfitFetchService(this.client)
-      : logger = coreLocator<CustomLogger>(instanceName: 'OutfitsFetchServiceLogger');
+  OutfitFetchService({
+    required this.client,
+    CustomLogger? logger,
+  }) : logger = logger ?? CustomLogger('OutfitFetchServiceLogger');
 
   Future<List<ClosetItemMinimal>> fetchCreateOutfitItems(
       OutfitItemCategory category, int currentPage, int batchSize) async {
-    try {
-      logger.d(
-          'Fetching items for page: $currentPage with batch size: $batchSize and category: $category');
-      final data = await Supabase.instance.client
+    if (currentPage < 0 || batchSize <= 0) {
+      throw ArgumentError('Invalid pagination parameters: currentPage: $currentPage, batchSize: $batchSize');
+    }
+    return _executeQuery(
+          () => client
           .from('items')
           .select('item_id, image_url, name, item_type, updated_at')
           .eq('status', 'active')
-          .eq('item_type', category
-          .toString()
-          .split('.')
-          .last)
+          .eq('item_type', category.toString().split('.').last)
           .order('updated_at', ascending: true)
-          .range(currentPage * batchSize, (currentPage + 1) * batchSize - 1);
-
-      logger.i('Fetched ${data.length} items');
-      return data.map<ClosetItemMinimal>((item) =>
-          ClosetItemMinimal.fromMap(item)).toList();
-    } catch (error) {
-      logger.e('Error fetching items: $error');
-      rethrow;
-    }
+          .range(currentPage * batchSize, (currentPage + 1) * batchSize - 1)
+          .then((data) => data.map<ClosetItemMinimal>((item) => ClosetItemMinimal.fromMap(item)).toList()),
+      'fetchCreateOutfitItems - Fetching items for category $category, page $currentPage, batch size $batchSize',
+    );
   }
 
   Future<List<OutfitItemMinimal>> fetchOutfitItems(String outfitId) async {
-    try {
-      final response = await Supabase.instance.client
-          .rpc('get_outfit_items', params: {'outfit_id': outfitId});
+    final response = await _executeQuery(
+          () => client.rpc('get_outfit_items', params: {'outfit_id': outfitId}),
+      'fetchOutfitItems - Fetching items for outfit $outfitId',
+    );
 
-      // Handle the case where the response is actually the data
-      if (response is List<dynamic>) {
-        final List<dynamic> data = response;
-        final List<OutfitItemMinimal> items = data.map((item) =>
-            OutfitItemMinimal(
-              itemId: item['item_id'],
-              imageUrl: item['image_url'],
-              name: item['name'],
-            )).toList();
-        return items;
-      } else {
-        // If response.data is not a list, log and return an empty list
-        logger.e('Unexpected data format for outfit $outfitId.');
-        return [];
-      }
-    } catch (error) {
-      // Handle any unexpected errors
-      logger.e('Unexpected error fetching items for outfit $outfitId: $error');
+    if (response is List<dynamic>) {
+      return response.map((item) =>
+          OutfitItemMinimal(
+            itemId: item['item_id'],
+            imageUrl: item['image_url'],
+            name: item['name'],
+          )).toList();
+    } else {
+      logger.e('fetchOutfitItems - Unexpected data format for outfit $outfitId.');
       return [];
     }
   }
 
   Future<Map<String, dynamic>> fetchOutfitsCountAndNPS() async {
-    try {
-      // Call the RPC function
-      final data = await Supabase.instance.client
-          .rpc('check_nps_trigger')
-          .select()
-          .single();
+    final data = await _executeQuery(
+          () => client.rpc('check_nps_trigger').select().single(),
+      'fetchOutfitsCountAndNPS - Fetching outfits count and NPS status',
+    );
 
-      // Check if the data is valid
-      if (data['outfits_created'] != null && data['milestone_triggered'] != null) {
-        int outfitsCreated = data['outfits_created'];
-        bool shouldShowNPS = data['milestone_triggered'];
-
-        logger.i('Fetched outfits count: $outfitsCreated, NPS triggered: $shouldShowNPS');
-        return {
-          'outfits_created': outfitsCreated,
-          'milestone_triggered': shouldShowNPS,
-        };
-      } else {
-        throw Exception('Failed to fetch outfits count or NPS status');
-      }
-    } catch (error) {
-      logger.e('Error fetching outfits count or NPS status: $error');
+    if (data['outfits_created'] != null && data['milestone_triggered'] != null) {
       return {
-        'outfits_created': 0, // Return default value or handle as needed
-        'milestone_triggered': false, // Default NPS status
+        'outfits_created': data['outfits_created'],
+        'milestone_triggered': data['milestone_triggered'],
       };
+    } else {
+      throw OutfitFetchException('Failed to fetch outfits count or NPS status');
     }
   }
 
   Future<String?> fetchOutfitImageUrl(String outfitId) async {
-    try {
-      final data = await Supabase.instance.client
+    final data = await _executeQuery(
+          () => client
           .from('outfits')
           .select('outfit_image_url')
           .eq('outfit_id', outfitId)
-          .single();
+          .single(),
+      'fetchOutfitImageUrl - Fetching image URL for outfit $outfitId',
+    );
 
-      // Check if data is valid and contains the 'outfit_image_url' field
-      if (data['outfit_image_url'] != null) {
-        logger.i('Fetched outfit_image_url: ${data['outfit_image_url']}');
-        return data['outfit_image_url'] as String?;
-      } else {
-        logger.w('Outfit image URL not found, returning null.');
-        return null;
-      }
-    } catch (error) {
-      logger.e('Error fetching outfit image URL: $error');
+    if (data['outfit_image_url'] != null) {
+      logger.i('fetchOutfitImageUrl - Fetched image URL for outfit $outfitId: ${data['outfit_image_url']}');
+      return data['outfit_image_url'] as String?;
+    } else {
+      logger.w('fetchOutfitImageUrl - Outfit image URL not found for outfit $outfitId.');
       return null;
     }
   }
-
 
   Future<String?> fetchOutfitId(String userId) async {
-    try {
-      final response = await Supabase.instance.client
-          .rpc('fetch_outfitid', params: {'p_user_id': userId}).single();
+    final response = await _executeQuery(
+          () => client.rpc('fetch_outfitid', params: {'p_user_id': userId}).single(),
+      'fetchOutfitId - Fetching outfit ID for user $userId',
+    );
 
-      logger.i('Raw response: $response');
-      // Check if data is valid and contains the 'outfit_Id' field
-      // Check if the response contains a 'status' field and if it's 'success'
-      if (response['status'] == 'success') {
-        final outfitId = response['outfit_id'] as String?;
-        logger.i('Fetched outfit_id: $outfitId');
-        return outfitId;
-      } else {
-        // Handle failure cases based on the message in the response
-        logger.w('Failed to fetch outfit Id: ${response['message']}');
-        return null;
-      }
-    } catch (error) {
-      // Log the error if the RPC call fails
-      logger.e('Error fetching outfit Id: $error');
+    if (response['status'] == 'success') {
+      return response['outfit_id'] as String?;
+    } else {
+      logger.w('fetchOutfitId - Failed to fetch outfit ID for user $userId: ${response['message']}');
       return null;
     }
   }
 
+  Future<T> _executeQuery<T>(Future<T> Function() query, String logMessage) async {
+    try {
+      logger.d(logMessage);
+      final result = await query();
+      logger.i('Query successful: $logMessage');
+      return result;
+    } catch (error) {
+      logger.e('Error during $logMessage: $error');
+      throw OutfitFetchException('Error during $logMessage: $error');
+    }
+  }
+}
+
+class OutfitFetchException implements Exception {
+  final String message;
+  OutfitFetchException(this.message);
+
+  @override
+  String toString() => 'OutfitFetchException: $message';
 }

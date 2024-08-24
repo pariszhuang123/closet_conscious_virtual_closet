@@ -9,6 +9,12 @@ void setupLocator() {
   final SupabaseClient supabaseClient = Supabase.instance.client;
 
   getIt.registerLazySingleton<SupabaseClient>(() => supabaseClient);
-  getIt.registerLazySingleton<OutfitFetchService>(() => OutfitFetchService(supabaseClient));
-  getIt.registerLazySingleton<OutfitSaveService>(() => OutfitSaveService(client: supabaseClient));  // Use named parameter
+
+  // Fix: Use named parameter syntax for OutfitFetchService
+  getIt.registerLazySingleton<OutfitFetchService>(
+          () => OutfitFetchService(client: supabaseClient));
+
+  // This one is already correct
+  getIt.registerLazySingleton<OutfitSaveService>(
+          () => OutfitSaveService(client: supabaseClient));
 }
