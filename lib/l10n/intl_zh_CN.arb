@@ -203,6 +203,8 @@
   "failedToSubmitScore": "提交分数失败。",
   "recommendClosetConscious": "您有多大可能向朋友推荐环保衣橱 (Closet Conscious)?",
   "androidAppStoreUrl": "https://play.google.com/store/apps/details?id=com.looko.acloset&hl=zh_cn",
-  "iosAppStoreUrl": "https://apps.apple.com/cn/app/id1542311809"
+  "iosAppStoreUrl": "https://apps.apple.com/cn/app/id1542311809",
+  "androidAppStoreTitle": "评审环保衣橱",
+  "iosAppStoreTitle": "评审环保衣橱"
 
 }

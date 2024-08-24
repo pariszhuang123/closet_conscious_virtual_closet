@@ -62,31 +62,37 @@ class AppStoreReview {
 
   void _redirectToStoreReview(BuildContext context) {
     String url;
+    String title;
+
     if (Platform.isAndroid) {
       url = S.of(context).androidAppStoreUrl;
+      title = S.of(context).androidAppStoreTitle;
     } else if (Platform.isIOS) {
-      // Fetch the localized App Store URL using S.of(context)
+      // Fetch the localized App Store URL and title using S.of(context)
       url = S.of(context).iosAppStoreUrl;
+      title = S.of(context).iosAppStoreTitle;
     } else {
       logger.w('Unsupported platform for store review redirection.');
       return;
     }
 
     logger.i('Opening store review in WebView with URL: $url');
-    _openWebView(context, url);
+    _openWebView(context, url, title);
   }
 
-  void _openWebView(BuildContext context, String url) {
+  void _openWebView(BuildContext context, String url, String title) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => WebViewScreen(
           url: url,
           isFromMyCloset: false, // or true, depending on your logic
+          title: title, // Pass the title to the WebViewScreen
         ),
       ),
-    ).then((_) {
+    ).then((result) {
+      // This block should only execute after the WebView is closed by the user
       if (context.mounted) {
-        logger.i('Store review finished, navigating back to createOutfit.');
+        logger.i('User closed the store review WebView, navigating back to createOutfit.');
         _navigateToCreateOutfit(context);
       }
     }).catchError((error) {

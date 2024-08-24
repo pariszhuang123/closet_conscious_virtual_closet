@@ -2089,6 +2089,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Review Closet Conscious`
+  String get androidAppStoreTitle {
+    return Intl.message(
+      'Review Closet Conscious',
+      name: 'androidAppStoreTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Review Closet Conscious`
+  String get iosAppStoreTitle {
+    return Intl.message(
+      'Review Closet Conscious',
+      name: 'iosAppStoreTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

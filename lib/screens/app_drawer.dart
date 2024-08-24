@@ -148,6 +148,7 @@ class AppDrawer extends StatelessWidget {
 
   void _navigateToInfoHub(BuildContext context) {
     final String infoHubUrl = S.of(context).infoHubUrl;
+    final String infoHubTitle = S.of(context).infoHub;
 
     Navigator.pushNamed(
       context,
@@ -155,6 +156,7 @@ class AppDrawer extends StatelessWidget {
       arguments: InfoHubArguments(
         infoHubUrl,
         isFromMyCloset,
+        infoHubTitle,
       ),
     );
   }

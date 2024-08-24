@@ -54,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("花费金额字段未填写。"),
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
         "and": MessageLookupByLibrary.simpleMessage(" 和 "),
+        "androidAppStoreTitle": MessageLookupByLibrary.simpleMessage("评审环保衣橱"),
         "androidAppStoreUrl": MessageLookupByLibrary.simpleMessage(
             "https://play.google.com/store/apps/details?id=com.looko.acloset&hl=zh_cn"),
         "appInformationSection": MessageLookupByLibrary.simpleMessage("应用信息"),
@@ -140,6 +141,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "interestAcknowledged":
             MessageLookupByLibrary.simpleMessage("您的兴趣已被记录。请关注我们的更新。"),
         "interested": MessageLookupByLibrary.simpleMessage("有兴趣"),
+        "iosAppStoreTitle": MessageLookupByLibrary.simpleMessage("评审环保衣橱"),
         "iosAppStoreUrl": MessageLookupByLibrary.simpleMessage(
             "https://apps.apple.com/cn/app/id1542311809"),
         "itemNameFieldNotFilled":

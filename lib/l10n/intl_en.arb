@@ -203,5 +203,7 @@
   "failedToSubmitScore": "Failed to submit score.",
   "recommendClosetConscious": "How likely will you recommend Closet Conscious to a friend?",
   "androidAppStoreUrl": "https://play.google.com/store/apps/details?id=com.looko.acloset&hl=en",
-  "iosAppStoreUrl": "https://apps.apple.com/us/app/acloset-ai-fashion-assistant/id1542311809"
+  "iosAppStoreUrl": "https://apps.apple.com/us/app/acloset-ai-fashion-assistant/id1542311809",
+  "androidAppStoreTitle": "Review Closet Conscious",
+  "iosAppStoreTitle": "Review Closet Conscious"
 }

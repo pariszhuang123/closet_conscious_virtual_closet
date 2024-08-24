@@ -90,7 +90,11 @@ class AppRoutes {
       case infoHub:
         final args = settings.arguments as InfoHubArguments;
         return MaterialPageRoute(
-          builder: (_) => WebViewScreen(url: args.url, isFromMyCloset: args.isFromMyCloset),
+          builder: (_) => WebViewScreen(
+              url: args.url,
+              isFromMyCloset: args.isFromMyCloset,
+            title: args.title,
+          ),
         );
       case achievementPage:
         if (settings.arguments is AchievementsPageArguments) {

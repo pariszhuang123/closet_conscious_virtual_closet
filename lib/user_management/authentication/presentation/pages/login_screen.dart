@@ -75,6 +75,7 @@ class LoginScreenState extends State<LoginScreen> {
                                   builder: (context) => WebViewScreen(
                                     url: S.of(context).privacyTermsUrl,
                                     isFromMyCloset: true,
+                                      title: S.of(context).privacyTerms
                                   ),
                                 ),
                               );
@@ -94,6 +95,7 @@ class LoginScreenState extends State<LoginScreen> {
                                   builder: (context) => WebViewScreen(
                                     url: S.of(context).termsAndConditionsUrl,
                                     isFromMyCloset: true,
+                                    title: S.of(context).termsAndConditions
                                   ),
                                 ),
                               );

@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../../generated/l10n.dart';
 import '../../core/theme/my_closet_theme.dart';
 import '../../core/theme/my_outfit_theme.dart';
 
 class WebViewScreen extends StatelessWidget {
   final String url;
   final bool isFromMyCloset;
+  final String title;
 
-  const WebViewScreen({super.key, required this.url, required this.isFromMyCloset});
+  const WebViewScreen({
+    super.key,
+    required this.url,
+    required this.isFromMyCloset,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +21,14 @@ class WebViewScreen extends StatelessWidget {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..loadRequest(Uri.parse(url));
 
+    // Determine the theme based on the isFromMyCloset flag
+    final theme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
+
     return Theme(
-      data: isFromMyCloset ? myClosetTheme : myOutfitTheme,
+      data: theme,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(S.of(context).infoHub),
+          title: Text(title),
         ),
         body: WebViewWidget(controller: controller),
       ),
