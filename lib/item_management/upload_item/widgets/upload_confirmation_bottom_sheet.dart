@@ -40,15 +40,18 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
         if (achievementUrl != null) {
           _showAchievementScreen(context, achievementUrl);
         } else {
-          _showCustomDialog(S.of(context).error, S.of(context).unexpectedResponseFormat);
+          _showCustomDialog(S.of(context).error,
+              Text(S.of(context).unexpectedResponseFormat));
         }
       } else {
-        _showCustomDialog(S.of(context).error, S.of(context).unexpectedResponseFormat);
+        _showCustomDialog(S.of(context).error,
+            Text(S.of(context).unexpectedResponseFormat));
       }
     } catch (e) {
       logger.e('Unexpected error: $e');
       if (mounted) {
-        _showCustomDialog(S.of(context).error, S.of(context).unexpectedErrorOccurred);
+        _showCustomDialog(S.of(context).error,
+            Text(S.of(context).unexpectedErrorOccurred));
       }
     } finally {
       if (mounted) {
@@ -59,7 +62,7 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
     }
   }
 
-  void _showCustomDialog(String title, String content) {
+  void _showCustomDialog(String title, Widget content) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

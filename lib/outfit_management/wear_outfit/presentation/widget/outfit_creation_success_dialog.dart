@@ -35,7 +35,7 @@ class OutfitCreationSuccessDialogState extends State<OutfitCreationSuccessDialog
       absorbing: true, // Absorb all interactions
       child: CustomAlertDialog(
         title: S.of(context).outfitCreationSuccessTitle,  // E.g., "Style On!"
-        content: S.of(context).outfitCreationSuccessContent,  // E.g., "Outfit ready. Go Slay the World!"
+        content: Text(S.of(context).outfitCreationSuccessContent),  // E.g., "Outfit ready. Go Slay the World!"
         theme: widget.theme,
       ),
     );

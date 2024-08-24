@@ -43,15 +43,18 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
 
       if (response.containsKey('status')) {
         if (response['status'] == 'success') {
-          _showCustomDialog(S.of(context).thankYou, S.of(context).declutterAcknowledged);
+          _showCustomDialog(S.of(context).thankYou,
+              Text(S.of(context).declutterAcknowledged));
         } else {
-          _showCustomDialog(S.of(context).error, S.of(context).unexpectedResponseFormat);
+          _showCustomDialog(S.of(context).error,
+              Text(S.of(context).unexpectedResponseFormat));
         }
       }
     } catch (e) {
       logger.e('Unexpected error: $e');
       if (mounted) {
-        _showCustomDialog(S.of(context).error, S.of(context).unexpectedErrorOccurred);
+        _showCustomDialog(S.of(context).error,
+            Text(S.of(context).unexpectedErrorOccurred));
       }
     } finally {
       if (mounted) {
@@ -62,7 +65,7 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
     }
   }
 
-  void _showCustomDialog(String title, String content) {
+  void _showCustomDialog(String title, Widget content) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

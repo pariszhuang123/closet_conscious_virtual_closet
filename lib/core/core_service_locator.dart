@@ -22,5 +22,6 @@ void setupCoreServices() {
   coreLocator.registerFactory(() => CustomLogger('OutfitWearViewLogger'), instanceName: 'OutfitWearViewLogger');
 
   coreLocator.registerFactory(() => CustomLogger('UserSaveServiceLogger'), instanceName: 'UserSaveServiceLogger');
+  coreLocator.registerFactory(() => CustomLogger('AppStoreReviewLogger'), instanceName: 'AppStoreReviewLogger');
 
 }

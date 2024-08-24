@@ -65,23 +65,33 @@ class OutfitFetchService {
     }
   }
 
-  Future<int> fetchOutfitsCount() async {
+  Future<Map<String, dynamic>> fetchOutfitsCountAndNPS() async {
     try {
+      // Call the RPC function
       final data = await Supabase.instance.client
-          .from('user_high_freq_stats')
-          .select('outfits_created')
+          .rpc('check_nps_trigger')
+          .select()
           .single();
 
-      // Check if data is valid and contains the 'new_items' field
-      if (data['outfits_created'] != null) {
-        logger.i('Fetched new outfits: ${data['outfits_created']}');
-        return data['outfits_created'];
+      // Check if the data is valid
+      if (data['outfits_created'] != null && data['milestone_triggered'] != null) {
+        int outfitsCreated = data['outfits_created'];
+        bool shouldShowNPS = data['milestone_triggered'];
+
+        logger.i('Fetched outfits count: $outfitsCreated, NPS triggered: $shouldShowNPS');
+        return {
+          'outfits_created': outfitsCreated,
+          'milestone_triggered': shouldShowNPS,
+        };
       } else {
-        throw Exception('Failed to fetch new outfits');
+        throw Exception('Failed to fetch outfits count or NPS status');
       }
     } catch (error) {
-      logger.e('Error fetching new outfits: $error');
-      return 0; // Return a default value or handle as needed
+      logger.e('Error fetching outfits count or NPS status: $error');
+      return {
+        'outfits_created': 0, // Return default value or handle as needed
+        'milestone_triggered': false, // Default NPS status
+      };
     }
   }
 

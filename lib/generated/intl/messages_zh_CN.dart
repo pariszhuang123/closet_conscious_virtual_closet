@@ -119,6 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "everyday": MessageLookupByLibrary.simpleMessage("日常"),
         "eyewear": MessageLookupByLibrary.simpleMessage("眼镜"),
         "failedToLoadItems": MessageLookupByLibrary.simpleMessage("加载项目失败"),
+        "failedToSubmitScore": MessageLookupByLibrary.simpleMessage("提交分数失败。"),
         "filterSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("有兴趣使用高级筛选功能吗？"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("筛选"),
@@ -132,6 +133,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "highestStreakTooltip":
             MessageLookupByLibrary.simpleMessage("显示您的最高无购买记录"),
         "infoHub": MessageLookupByLibrary.simpleMessage("信息中心"),
+        "infoHubUrl": MessageLookupByLibrary.simpleMessage(
+            "https://inky-twill-3ab.notion.site/dc4dd32378b0478daf36fca24e00d0c8"),
         "interestAcknowledged":
             MessageLookupByLibrary.simpleMessage("您的兴趣已被记录。请关注我们的更新。"),
         "interested": MessageLookupByLibrary.simpleMessage("有兴趣"),
@@ -199,10 +202,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "please_select_the_category_above":
             MessageLookupByLibrary.simpleMessage("请在上方选择类别"),
         "privacyTerms": MessageLookupByLibrary.simpleMessage("隐私条款"),
+        "privacyTermsUrl": MessageLookupByLibrary.simpleMessage(
+            "https://inky-twill-3ab.notion.site/5c881235e92240d9a008e0fe6bb80f0b"),
         "profileSection": MessageLookupByLibrary.simpleMessage("个人资料"),
         "quicklyFindItems":
             MessageLookupByLibrary.simpleMessage("我们正在考虑推出一项高级功能，帮助您更轻松地筛选物品。"),
         "rainbow": MessageLookupByLibrary.simpleMessage("多色"),
+        "recommendClosetConscious": MessageLookupByLibrary.simpleMessage(
+            "您有多大可能向朋友推荐环保衣橱 (Closet Conscious)?"),
         "red": MessageLookupByLibrary.simpleMessage("红色"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("重试"),
         "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
@@ -247,11 +254,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "tagline": MessageLookupByLibrary.simpleMessage("在衣橱里购物"),
         "termsAcknowledgement": MessageLookupByLibrary.simpleMessage("我已阅读"),
         "termsAndConditions": MessageLookupByLibrary.simpleMessage("服务条款"),
+        "termsAndConditionsUrl": MessageLookupByLibrary.simpleMessage(
+            "https://www.notion.so/4d657b804aed4a30a9e5fa71ba0afc78"),
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
         "tie": MessageLookupByLibrary.simpleMessage("领带"),
         "top": MessageLookupByLibrary.simpleMessage("上衣"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "我们正在考虑添加一个分析您物品和装扮使用数据的高级功能。"),
+        "unableToRetrieveUserId":
+            MessageLookupByLibrary.simpleMessage("无法获取用户 ID。请重新登录。"),
         "unexpectedErrorOccurred":
             MessageLookupByLibrary.simpleMessage("发生意外错误。请稍后再试或联系支持以获取帮助。"),
         "unexpectedResponseFormat":

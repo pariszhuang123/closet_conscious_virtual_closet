@@ -198,5 +198,8 @@
   "npsReviewEmailBody": "Could you please share more details on how we can improve?",
   "infoHubUrl": "https://inky-twill-3ab.notion.site/8bca4fd6945f4f808a32cbb5ad28400c",
   "privacyTermsUrl": "https://www.notion.so/Privacy-Policy-9f21c7664efe4b03a8965252495dc1a6",
-  "termsAndConditionsUrl": "https://www.notion.so/Service-Term-1a1b8f68ebba48158c0f42e19a135c6e"
+  "termsAndConditionsUrl": "https://www.notion.so/Service-Term-1a1b8f68ebba48158c0f42e19a135c6e",
+  "unableToRetrieveUserId": "Unable to retrieve user ID. Please sign in again.",
+  "failedToSubmitScore": "Failed to submit score.",
+  "recommendClosetConscious": "How likely will you recommend Closet Conscious to a friend?"
 }

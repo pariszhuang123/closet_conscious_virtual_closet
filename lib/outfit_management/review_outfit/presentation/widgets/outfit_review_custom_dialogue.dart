@@ -35,7 +35,7 @@ class OutfitReviewCustomDialogState extends State<OutfitReviewCustomDialog> {
       absorbing: true, // Absorb all interactions
       child: CustomAlertDialog(
         title: S.of(context).outfitReviewTitle,
-        content: S.of(context).outfitReviewContent,
+        content: Text(S.of(context).outfitReviewContent),
         theme: widget.theme,
       ),
     );

@@ -141,6 +141,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "eyewear": MessageLookupByLibrary.simpleMessage("Eyewear"),
         "failedToLoadItems":
             MessageLookupByLibrary.simpleMessage("Failed to load items"),
+        "failedToSubmitScore":
+            MessageLookupByLibrary.simpleMessage("Failed to submit score."),
         "filterSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Interested in Advanced Filters?"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
@@ -155,6 +157,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "highestStreakTooltip": MessageLookupByLibrary.simpleMessage(
             "This shows your highest score of no purchase"),
         "infoHub": MessageLookupByLibrary.simpleMessage("Info Hub"),
+        "infoHubUrl": MessageLookupByLibrary.simpleMessage(
+            "https://inky-twill-3ab.notion.site/8bca4fd6945f4f808a32cbb5ad28400c"),
         "interestAcknowledged": MessageLookupByLibrary.simpleMessage(
             "Your interest has been noted. Stay tuned for updates."),
         "interested": MessageLookupByLibrary.simpleMessage("Interested"),
@@ -232,10 +236,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Please select the category above"),
         "privacyTerms": MessageLookupByLibrary.simpleMessage("Privacy Terms"),
+        "privacyTermsUrl": MessageLookupByLibrary.simpleMessage(
+            "https://www.notion.so/Privacy-Policy-9f21c7664efe4b03a8965252495dc1a6"),
         "profileSection": MessageLookupByLibrary.simpleMessage("Profile"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "We’re thinking about offering a premium feature to help you filter your items more easily."),
         "rainbow": MessageLookupByLibrary.simpleMessage("Multicolour"),
+        "recommendClosetConscious": MessageLookupByLibrary.simpleMessage(
+            "How likely will you recommend Closet Conscious to a friend?"),
         "red": MessageLookupByLibrary.simpleMessage("Red"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("Retry"),
         "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
@@ -294,11 +302,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("I have read the "),
         "termsAndConditions":
             MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
+        "termsAndConditionsUrl": MessageLookupByLibrary.simpleMessage(
+            "https://www.notion.so/Service-Term-1a1b8f68ebba48158c0f42e19a135c6e"),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "tie": MessageLookupByLibrary.simpleMessage("Tie"),
         "top": MessageLookupByLibrary.simpleMessage("Top"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "We\'re considering adding a premium feature for analyzing your usage data for items and outfits."),
+        "unableToRetrieveUserId": MessageLookupByLibrary.simpleMessage(
+            "Unable to retrieve user ID. Please sign in again."),
         "unexpectedErrorOccurred": MessageLookupByLibrary.simpleMessage(
             "An unexpected error occurred. Please try again later or contact support if the issue persists."),
         "unexpectedResponseFormat": MessageLookupByLibrary.simpleMessage(

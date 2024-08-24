@@ -15,7 +15,7 @@ import '../../outfit_management/create_outfit/presentation/widgets/outfit_grid.d
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_type_container.dart';
 import '../../outfit_management/wear_outfit/presentation/page/outfit_wear_provider.dart';
 import '../../core/theme/my_outfit_theme.dart';
-import '../../outfit_management/user_nps_feedback/nps_dialog.dart';
+import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
 
 class MyOutfitView extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -78,7 +78,9 @@ class MyOutfitViewState extends State<MyOutfitView> {
 
   Future<void> _fetchOutfitsCount() async {
     try {
-      final count = await _outfitFetchService.fetchOutfitsCount();
+      // Fetch the count of outfits created and ignore the NPS status
+      final result = await _outfitFetchService.fetchOutfitsCountAndNPS();
+      final count = result['outfits_created'];
 
       if (mounted) {
         setState(() {
@@ -136,7 +138,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
         }
         if (state is NpsSurveyTriggered) {
           logger.i('NPS Survey triggered for milestone: ${state.milestone}');
-          showNpsDialog(context, state.milestone);
+          NpsDialog(milestone: state.milestone).showNpsDialog(context); // Correct usage
         }
       },
 

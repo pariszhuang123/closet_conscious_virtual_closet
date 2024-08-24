@@ -2009,6 +2009,66 @@ class S {
       args: [],
     );
   }
+
+  /// `https://inky-twill-3ab.notion.site/8bca4fd6945f4f808a32cbb5ad28400c`
+  String get infoHubUrl {
+    return Intl.message(
+      'https://inky-twill-3ab.notion.site/8bca4fd6945f4f808a32cbb5ad28400c',
+      name: 'infoHubUrl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `https://www.notion.so/Privacy-Policy-9f21c7664efe4b03a8965252495dc1a6`
+  String get privacyTermsUrl {
+    return Intl.message(
+      'https://www.notion.so/Privacy-Policy-9f21c7664efe4b03a8965252495dc1a6',
+      name: 'privacyTermsUrl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `https://www.notion.so/Service-Term-1a1b8f68ebba48158c0f42e19a135c6e`
+  String get termsAndConditionsUrl {
+    return Intl.message(
+      'https://www.notion.so/Service-Term-1a1b8f68ebba48158c0f42e19a135c6e',
+      name: 'termsAndConditionsUrl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to retrieve user ID. Please sign in again.`
+  String get unableToRetrieveUserId {
+    return Intl.message(
+      'Unable to retrieve user ID. Please sign in again.',
+      name: 'unableToRetrieveUserId',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to submit score.`
+  String get failedToSubmitScore {
+    return Intl.message(
+      'Failed to submit score.',
+      name: 'failedToSubmitScore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How likely will you recommend Closet Conscious to a friend?`
+  String get recommendClosetConscious {
+    return Intl.message(
+      'How likely will you recommend Closet Conscious to a friend?',
+      name: 'recommendClosetConscious',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

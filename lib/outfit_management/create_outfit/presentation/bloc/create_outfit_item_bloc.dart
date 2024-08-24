@@ -43,19 +43,34 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
         9, // Adjust batch size as needed
       );
 
+      logger.d('Fetched ${newItems.length} items for page $currentPage');
+
       if (newItems.isEmpty) {
+        logger.d('No items returned, setting hasReachedMax to true.');
         emit(state.copyWith(hasReachedMax: true));
       } else {
-        // Handle case where fewer items are fetched than batch size
-        final hasReachedMax = newItems.length < 9;
+        // Check for duplicates in the fetched items
+        final filteredNewItems = newItems.where((newItem) =>
+        !state.items.any((existingItem) => existingItem.itemId == newItem.itemId)).toList();
 
-        emit(state.copyWith(
-          items: List.of(state.items)..addAll(newItems),
-          currentPage: currentPage,
-          hasReachedMax: hasReachedMax,
-          saveStatus: SaveStatus.success,
-        ));
+        if (filteredNewItems.isEmpty) {
+          logger.d('All fetched items were duplicates, not appending any new items.');
+        } else {
+          logger.d('Appending ${filteredNewItems.length} new items to the existing list.');
+          emit(state.copyWith(
+            items: List.of(state.items)..addAll(filteredNewItems),
+            currentPage: currentPage,
+            hasReachedMax: filteredNewItems.length < 9,
+            saveStatus: SaveStatus.success,
+          ));
+        }
+
+        if (filteredNewItems.length < 9) {
+          logger.d('Fetched the last batch of items. No more items to load.');
+          emit(state.copyWith(hasReachedMax: true));
+        }
       }
+
     } catch (error) {
       logger.e('Error fetching more items: $error');
       emit(state.copyWith(saveStatus: SaveStatus.failure));
@@ -159,17 +174,20 @@ void _onToggleSelectItem(ToggleSelectItemEvent event,
   Future<void> _onTriggerNpsSurvey(TriggerNpsSurveyEvent event,
       Emitter<CreateOutfitItemState> emit) async {
     try {
-      // Fetch the count of outfits created by the user
-      int outfitCount = await outfitFetchService.fetchOutfitsCount();
-      logger.i('Fetched outfit count: $outfitCount of type ${outfitCount.runtimeType}');
+      // Fetch the count of outfits created and the NPS status using the new service
+      final result = await outfitFetchService.fetchOutfitsCountAndNPS();
+      int outfitCount = result['outfits_created'];
+      bool shouldShowNPS = result['milestone_triggered'];
 
-      // Check if the count matches any of the milestones
-      if ([30, 60, 120, 180, 240].contains(outfitCount)) {
-        logger.i('Outfit count matches milestone: $outfitCount');
+      logger.i('Fetched outfit count: $outfitCount, should show NPS: $shouldShowNPS');
+
+      // Check if the NPS dialog should be shown
+      if (shouldShowNPS) {
+        logger.i('NPS survey triggered for milestone: $outfitCount');
         emit(NpsSurveyTriggered(milestone: outfitCount)); // Trigger NPS survey
       } else {
         logger.i(
-            'Outfit count: $outfitCount does not match any NPS milestones.');
+            'Outfit count: $outfitCount does not require NPS survey.');
       }
     } catch (error) {
       logger.e('Error triggering NPS survey: $error');

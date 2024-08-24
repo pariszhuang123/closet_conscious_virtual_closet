@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomAlertDialog extends StatelessWidget {
   final String title;
-  final String content;
+  final Widget content;
   final String? buttonText; // Make it nullable
   final VoidCallback? onPressed; // Make it nullable
   final ThemeData theme;
@@ -22,7 +22,7 @@ class CustomAlertDialog extends StatelessWidget {
       data: theme,
       child: AlertDialog(
         title: Text(title),
-        content: Text(content),
+        content: content,
         actions: buttonText != null && onPressed != null
             ? [
           TextButton(
@@ -32,6 +32,31 @@ class CustomAlertDialog extends StatelessWidget {
         ]
             : null, // No button if buttonText or onPressed is null
       ),
+    );
+  }
+
+  // Static method to show the CustomAlertDialog
+  static Future<void> showCustomDialog({
+    required BuildContext context,
+    required String title,
+    required Widget content,
+    String? buttonText,
+    VoidCallback? onPressed,
+    required ThemeData theme,
+    bool barrierDismissible = false, // Default is true, set to false if needed
+  }) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: barrierDismissible, // Control outside touch dismissal
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+          title: title,
+          content: content,
+          buttonText: buttonText,
+          onPressed: onPressed,
+          theme: theme,
+        );
+      },
     );
   }
 }
