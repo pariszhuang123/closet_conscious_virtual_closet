@@ -1,4 +1,6 @@
-class ClosetItemMinimal {
+import 'package:equatable/equatable.dart';
+
+class ClosetItemMinimal extends Equatable {
   final String itemId;
   final String imageUrl;
   final String name;
@@ -6,7 +8,7 @@ class ClosetItemMinimal {
   final double amountSpent;
   final DateTime updatedAt;
 
-  ClosetItemMinimal({
+  const ClosetItemMinimal({
     required this.itemId,
     required this.imageUrl,
     required this.name,
@@ -24,4 +26,7 @@ class ClosetItemMinimal {
       updatedAt: DateTime.parse(map['updated_at'] as String),
     );
   }
+
+  @override
+  List<Object?> get props => [itemId, imageUrl, name, itemType, amountSpent, updatedAt];
 }
