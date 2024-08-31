@@ -1,5 +1,5 @@
 -- Function to upload_clothing_metadata
-create or replace function upload_clothing_metadata(
+create or replace function public.upload_clothing_metadata(
   _item_type text,
   _image_url text,
   _name text,
@@ -12,8 +12,8 @@ create or replace function upload_clothing_metadata(
   _clothing_layer text
 )
 returns json
-SET search_path = ''
 language plpgsql
+SET search_path = ''
 as $$
 declare
   items_item_id uuid;
@@ -74,7 +74,7 @@ begin
 end;
 
 -- Function to upload_accessory_metadata
-create or replace function upload_accessory_metadata(
+create or replace function public.upload_accessory_metadata(
   _item_type text,
   _image_url text,
   _name text,
@@ -86,8 +86,8 @@ create or replace function upload_accessory_metadata(
   _accessory_type text
 )
 returns json
-SET search_path = ''
 language plpgsql
+SET search_path = ''
 as $$
 declare
   items_item_id uuid;
@@ -149,7 +149,7 @@ end;
 $$;
 
 -- Function to upload_shoes_metadata
-create or replace function upload_shoes_metadata(
+create or replace function public.upload_shoes_metadata(
   _item_type text,
   _image_url text,
   _name text,
@@ -161,8 +161,8 @@ create or replace function upload_shoes_metadata(
   _shoes_type text
   )
 returns json
-SET search_path = ''
 language plpgsql
+SET search_path = ''
 as $$
 declare
   items_item_id uuid;
