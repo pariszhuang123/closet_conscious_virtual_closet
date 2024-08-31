@@ -72,6 +72,7 @@ begin
   -- Return success response with a custom message
   return json_build_object('status', 'success', 'message', 'You have successfully uploaded your item.');
 end;
+$$;
 
 -- Function to upload_accessory_metadata
 create or replace function public.upload_accessory_metadata(
