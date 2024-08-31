@@ -202,6 +202,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
         "noItemsInCategory": MessageLookupByLibrary.simpleMessage(
             "Please upload your items in my closet"),
+        "npsExplanation": MessageLookupByLibrary.simpleMessage(
+            "On a scale from 0 to 10:\n0: Not at all likely\n10: Extremely likely"),
         "npsReviewEmailBody": MessageLookupByLibrary.simpleMessage(
             "Could you please share more details on how we can improve?"),
         "npsReviewEmailSubject":
@@ -214,6 +216,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("You are currently offline"),
         "ok": MessageLookupByLibrary.simpleMessage("Interested"),
         "onePiece": MessageLookupByLibrary.simpleMessage("One Piece"),
+        "other": MessageLookupByLibrary.simpleMessage("Other"),
         "outer": MessageLookupByLibrary.simpleMessage("Outer"),
         "outfitCreationSuccessContent": MessageLookupByLibrary.simpleMessage(
             "Outfit ready. Go Slay the World!"),
@@ -226,6 +229,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Outfit Review Submitted"),
         "outfits_upload": MessageLookupByLibrary.simpleMessage(
             "This shows the number of outfits you have uploaded"),
+        "perfume": MessageLookupByLibrary.simpleMessage("Perfume"),
         "pleaseEnterItemName":
             MessageLookupByLibrary.simpleMessage("Please enter an item name"),
         "pleaseSelectAtLeastOneItem": MessageLookupByLibrary.simpleMessage(
@@ -298,6 +302,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Interested in Swapping Items?"),
         "swap_item": MessageLookupByLibrary.simpleMessage("Swap QR"),
         "tagline": MessageLookupByLibrary.simpleMessage("ShopYourCloset"),
+        "tech": MessageLookupByLibrary.simpleMessage("Tech"),
         "termsAcknowledgement":
             MessageLookupByLibrary.simpleMessage("I have read the "),
         "termsAndConditions":
@@ -305,7 +310,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "termsAndConditionsUrl": MessageLookupByLibrary.simpleMessage(
             "https://www.notion.so/Service-Term-1a1b8f68ebba48158c0f42e19a135c6e"),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
-        "tie": MessageLookupByLibrary.simpleMessage("Tie"),
         "top": MessageLookupByLibrary.simpleMessage("Top"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "We\'re considering adding a premium feature for analyzing your usage data for items and outfits."),

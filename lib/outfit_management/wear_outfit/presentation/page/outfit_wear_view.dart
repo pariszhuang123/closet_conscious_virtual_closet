@@ -155,7 +155,7 @@ class OutfitWearViewState extends State<OutfitWearView> {
                           logger.i('Loading state, displaying progress indicator');
                           return  Center(child: OutfitProgressIndicator(
                             color: widget.myOutfitTheme.colorScheme.onPrimary,
-                            size: 36.0,
+                            size: 24.0,
                           ),
                           );
                         }

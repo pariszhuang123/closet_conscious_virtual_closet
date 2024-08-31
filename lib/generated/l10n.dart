@@ -490,11 +490,31 @@ class S {
     );
   }
 
-  /// `Tie`
-  String get tie {
+  /// `Tech`
+  String get tech {
     return Intl.message(
-      'Tie',
-      name: 'tie',
+      'Tech',
+      name: 'tech',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get other {
+    return Intl.message(
+      'Other',
+      name: 'other',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Perfume`
+  String get perfume {
+    return Intl.message(
+      'Perfume',
+      name: 'perfume',
       desc: '',
       args: [],
     );
@@ -2065,6 +2085,16 @@ class S {
     return Intl.message(
       'How likely will you recommend Closet Conscious to a friend?',
       name: 'recommendClosetConscious',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `On a scale from 0 to 10:\n0: Not at all likely\n10: Extremely likely`
+  String get npsExplanation {
+    return Intl.message(
+      'On a scale from 0 to 10:\n0: Not at all likely\n10: Extremely likely',
+      name: 'npsExplanation',
       desc: '',
       args: [],
     );

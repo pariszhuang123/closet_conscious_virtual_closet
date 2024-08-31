@@ -44,7 +44,9 @@
   "hat": "帽子",
   "jewellery": "珠宝",
   "scarf": "围巾",
-  "tie": "领带",
+  "tech": "科技",
+  "other": "其他",
+  "perfume": "香水",
   "clothing": "服装",
   "shoes": "鞋子",
   "accessory": "配饰",
@@ -201,5 +203,6 @@
   "termsAndConditionsUrl": "https://www.notion.so/4d657b804aed4a30a9e5fa71ba0afc78",
   "unableToRetrieveUserId": "无法获取用户 ID。请重新登录。",
   "failedToSubmitScore": "提交分数失败。",
-  "recommendClosetConscious": "您有多大可能向朋友推荐环保衣橱 (Closet Conscious)?"
+  "recommendClosetConscious": "您有多大可能向朋友推荐环保衣橱 (Closet Conscious)?",
+  "npsExplanation": "在 0 到 10 的范围内打分：\n0：完全不推荐\n10：非常推荐"
 }

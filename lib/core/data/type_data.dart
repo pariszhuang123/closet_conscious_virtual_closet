@@ -77,7 +77,9 @@ class TypeDataList {
       TypeData('hat', (context) => S.of(context).hat, 'assets/icons/my_closet/upload/accessory_type/hat.svg', false),
       TypeData('jewellery', (context) => S.of(context).jewellery, 'assets/icons/my_closet/upload/accessory_type/jewelery.svg', false),
       TypeData('scarf', (context) => S.of(context).scarf, 'assets/icons/my_closet/upload/accessory_type/scarf.svg', false),
-      TypeData('tie', (context) => S.of(context).tie, 'assets/icons/my_closet/upload/accessory_type/tie.svg', false),
+      TypeData('tech', (context) => S.of(context).tech, 'assets/icons/my_closet/upload/accessory_type/tech.svg', false),
+      TypeData('perfume', (context) => S.of(context).perfume, 'assets/icons/my_closet/upload/accessory_type/perfume.svg', false),
+      TypeData('other', (context) => S.of(context).other, 'assets/icons/my_closet/upload/accessory_type/other.svg', false),
     ];
   }
 

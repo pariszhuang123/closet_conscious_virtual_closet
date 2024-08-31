@@ -174,6 +174,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("未找到物品"),
         "noItemsInCategory":
             MessageLookupByLibrary.simpleMessage("请上传您的物品到我的衣橱"),
+        "npsExplanation": MessageLookupByLibrary.simpleMessage(
+            "在 0 到 10 的范围内打分：\n0：完全不推荐\n10：非常推荐"),
         "npsReviewEmailBody":
             MessageLookupByLibrary.simpleMessage("请告诉我们如何改进？"),
         "npsReviewEmailSubject":
@@ -184,6 +186,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "offlineStatus": MessageLookupByLibrary.simpleMessage("您当前处于离线状态"),
         "ok": MessageLookupByLibrary.simpleMessage("有兴趣"),
         "onePiece": MessageLookupByLibrary.simpleMessage("连衣裙"),
+        "other": MessageLookupByLibrary.simpleMessage("其他"),
         "outer": MessageLookupByLibrary.simpleMessage("外层"),
         "outfitCreationSuccessContent":
             MessageLookupByLibrary.simpleMessage("搭配已完成。去征服世界吧！"),
@@ -194,6 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("您的穿搭评论已成功提交！"),
         "outfitReviewTitle": MessageLookupByLibrary.simpleMessage("穿搭评论已提交"),
         "outfits_upload": MessageLookupByLibrary.simpleMessage("显示您上传的装扮数量"),
+        "perfume": MessageLookupByLibrary.simpleMessage("香水"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
         "pleaseSelectAtLeastOneItem":
             MessageLookupByLibrary.simpleMessage("请选择至少一件您不喜欢的物品。"),
@@ -252,12 +256,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "swapFeatureTitle": MessageLookupByLibrary.simpleMessage("有兴趣交换物品吗？"),
         "swap_item": MessageLookupByLibrary.simpleMessage("交换二维码"),
         "tagline": MessageLookupByLibrary.simpleMessage("在衣橱里购物"),
+        "tech": MessageLookupByLibrary.simpleMessage("科技"),
         "termsAcknowledgement": MessageLookupByLibrary.simpleMessage("我已阅读"),
         "termsAndConditions": MessageLookupByLibrary.simpleMessage("服务条款"),
         "termsAndConditionsUrl": MessageLookupByLibrary.simpleMessage(
             "https://www.notion.so/4d657b804aed4a30a9e5fa71ba0afc78"),
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
-        "tie": MessageLookupByLibrary.simpleMessage("领带"),
         "top": MessageLookupByLibrary.simpleMessage("上衣"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "我们正在考虑添加一个分析您物品和装扮使用数据的高级功能。"),

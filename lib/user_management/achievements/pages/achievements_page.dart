@@ -44,7 +44,7 @@ class AchievementsPageState extends State<AchievementsPage> {
       data: theme,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Achievements'),
+          title: Text(S.of(context).achievements),
           backgroundColor: theme.appBarTheme.backgroundColor,
         ),
         body: Container(

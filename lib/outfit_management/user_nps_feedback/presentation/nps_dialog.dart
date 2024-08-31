@@ -82,7 +82,14 @@ class NpsDialog extends StatelessWidget {
       width: 300, // Maintain the fixed width
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 16.0),
+          Text(
+            S.of(context).npsExplanation,
+            style: myOutfitTheme.textTheme.labelMedium, // Adjust style as needed
+            textAlign: TextAlign.left,
+          ),
           const SizedBox(height: 16.0),
           Flexible(
             child: GridView.builder(

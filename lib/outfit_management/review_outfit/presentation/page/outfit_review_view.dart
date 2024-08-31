@@ -176,7 +176,7 @@ class OutfitReviewViewState extends State<OutfitReview> {
                       // Show loading indicator for both loading and submission progress states
                       return  Center(child: OutfitProgressIndicator(
                           color: widget.myOutfitTheme.colorScheme.onPrimary,
-                          size: 36.0,
+                          size: 24.0,
                       ),
                       );
                     } else if (state is NavigateToMyCloset) {

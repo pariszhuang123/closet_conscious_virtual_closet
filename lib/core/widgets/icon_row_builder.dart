@@ -20,23 +20,26 @@ List<Widget> buildIconRows(
 
     rows.add(
       Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: rowIcons.map((type) {
           final key = type.key;
           final label = type.getName(context);
-          return TextTypeButton(
-            key: UniqueKey(), // Use a unique key for each button instance
-            dataKey: key,
-            selectedKey: selectedKey ?? '',
-            label: label,
-            assetPath: type.assetPath,
-            isSelected: selectedKey == key,
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0), // Add horizontal padding
+            child: TextTypeButton(
+              key: UniqueKey(), // Use a unique key for each button instance
+              dataKey: key,
+              selectedKey: selectedKey ?? '',
+              label: label,
+              assetPath: type.assetPath,
+              isSelected: selectedKey == key,
               isFromMyCloset: isFromMyCloset,
-            buttonType: ButtonType.primary,
-            usePredefinedColor: type.usePredefinedColor,
-            onPressed: () {
-              onTap(key);
-            },
+              buttonType: ButtonType.primary,
+              usePredefinedColor: type.usePredefinedColor,
+              onPressed: () {
+                onTap(key);
+              },
+            ),
           );
         }).toList(),
       ),
