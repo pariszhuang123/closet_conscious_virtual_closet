@@ -4,6 +4,7 @@ import '../../../../core/config/config_reader.dart';
 class GoogleSignInService {
   final GoogleSignIn _googleSignIn;
 
+
   GoogleSignInService()
       : _googleSignIn = GoogleSignIn(
     clientId: ConfigReader.getIosClientId(),

@@ -309,6 +309,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
         "termsAndConditionsUrl": MessageLookupByLibrary.simpleMessage(
             "https://www.notion.so/Service-Term-1a1b8f68ebba48158c0f42e19a135c6e"),
+        "termsNotAcceptedMessage": MessageLookupByLibrary.simpleMessage(
+            "You need to accept the terms and conditions before signing in."),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "top": MessageLookupByLibrary.simpleMessage("Top"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
@@ -319,6 +321,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "An unexpected error occurred. Please try again later or contact support if the issue persists."),
         "unexpectedResponseFormat": MessageLookupByLibrary.simpleMessage(
             "Unexpected response format. Please try again later or contact support if the issue persists."),
+        "unknownError": MessageLookupByLibrary.simpleMessage(
+            "Something went wrong. Please try again later."),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "uploadConfirmationDescription": MessageLookupByLibrary.simpleMessage(

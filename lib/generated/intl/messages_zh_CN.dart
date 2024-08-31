@@ -261,6 +261,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "termsAndConditions": MessageLookupByLibrary.simpleMessage("服务条款"),
         "termsAndConditionsUrl": MessageLookupByLibrary.simpleMessage(
             "https://www.notion.so/4d657b804aed4a30a9e5fa71ba0afc78"),
+        "termsNotAcceptedMessage":
+            MessageLookupByLibrary.simpleMessage("您需要接受条款和条件才能登录。"),
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
         "top": MessageLookupByLibrary.simpleMessage("上衣"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
@@ -271,6 +273,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("发生意外错误。请稍后再试或联系支持以获取帮助。"),
         "unexpectedResponseFormat":
             MessageLookupByLibrary.simpleMessage("响应格式出乎意料。请稍后再试或联系支持以获取帮助。"),
+        "unknownError": MessageLookupByLibrary.simpleMessage("出现问题，请稍后再试。"),
         "update": MessageLookupByLibrary.simpleMessage("更新"),
         "upload": MessageLookupByLibrary.simpleMessage("上传"),
         "uploadConfirmationDescription": MessageLookupByLibrary.simpleMessage(

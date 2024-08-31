@@ -4,6 +4,8 @@ import 'package:flutter/gestures.dart';
 import '../widgets/sign_in_button_google.dart';
 import '../../../../generated/l10n.dart';
 import '../.././../../core/widgets/webview_screen.dart';
+import '../.././../../core/widgets/feedback/custom_snack_bar.dart';
+
 
 class LoginScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -16,6 +18,13 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   bool _isTermsAccepted = false;
+
+  void _showTermsSnackbar() {
+    CustomSnackbar(
+      message: S.of(context).termsNotAcceptedMessage, // Localized message
+      theme: Theme.of(context), // Use the inherited myClosetTheme
+    ).show(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +52,15 @@ class LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 24),
 
             // Google Sign-In Button, only enabled when terms are accepted
-            SignInButtonGoogle(enabled: _isTermsAccepted),
+            SignInButtonGoogle(
+              enabled: _isTermsAccepted,
+              onDisabledPressed: _showTermsSnackbar, // Show snackbar if disabled
+            ),
             const SizedBox(height: 16),
 
             // Checkbox and Terms
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Checkbox(
                   value: _isTermsAccepted,
@@ -62,11 +74,11 @@ class LoginScreenState extends State<LoginScreen> {
                   child: RichText(
                     text: TextSpan(
                       text: S.of(context).termsAcknowledgement,
-                      style: DefaultTextStyle.of(context).style,
-                      children: <TextSpan>[
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        children: <TextSpan>[
                         TextSpan(
                           text: S.of(context).privacyTerms,
-                          style: const TextStyle(color: Colors.blue),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.blue),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Navigator.push(
@@ -86,7 +98,7 @@ class LoginScreenState extends State<LoginScreen> {
                         ),
                         TextSpan(
                           text: S.of(context).termsAndConditions,
-                          style: const TextStyle(color: Colors.blue),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.blue),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Navigator.push(

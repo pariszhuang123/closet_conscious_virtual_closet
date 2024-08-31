@@ -6,7 +6,7 @@ import '../../screens/my_closet.dart';
 import '../../screens/outfit/my_outfit_screen.dart';
 import '../../user_management/achievements/pages/achievements_page.dart';
 import '../../user_management/authentication/presentation/pages/login_screen.dart';
-import '../../item_management/upload_item/pages/upload_item_page.dart';
+import '../../item_management/upload_item/pages/upload_item_provider.dart';
 import '../../item_management/edit_item/pages/edit_item_page.dart';
 import '../../item_management/edit_item/data/edit_item_arguments.dart';
 import '../../item_management/edit_item/presentation/bloc/edit_item_bloc.dart';
@@ -47,7 +47,7 @@ class AppRoutes {
         );
       case uploadItem:
         return MaterialPageRoute(
-          builder: (_) => UploadItemPage(myClosetTheme: myClosetTheme),
+          builder: (_) => UploadItemProvider(myClosetTheme: myClosetTheme),
         );
       case editItem:
         if (settings.arguments is EditItemArguments) {

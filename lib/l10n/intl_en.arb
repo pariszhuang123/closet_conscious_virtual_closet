@@ -204,5 +204,8 @@
   "unableToRetrieveUserId": "Unable to retrieve user ID. Please sign in again.",
   "failedToSubmitScore": "Failed to submit score.",
   "recommendClosetConscious": "How likely will you recommend Closet Conscious to a friend?",
-  "npsExplanation": "On a scale from 0 to 10:\n0: Not at all likely\n10: Extremely likely"
+  "npsExplanation": "On a scale from 0 to 10:\n0: Not at all likely\n10: Extremely likely",
+  "termsNotAcceptedMessage": "You need to accept the terms and conditions before signing in.",
+  "unknownError": "Something went wrong. Please try again later."
+
 }

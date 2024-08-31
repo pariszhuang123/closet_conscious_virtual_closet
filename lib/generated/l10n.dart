@@ -2099,6 +2099,26 @@ class S {
       args: [],
     );
   }
+
+  /// `You need to accept the terms and conditions before signing in.`
+  String get termsNotAcceptedMessage {
+    return Intl.message(
+      'You need to accept the terms and conditions before signing in.',
+      name: 'termsNotAcceptedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong. Please try again later.`
+  String get unknownError {
+    return Intl.message(
+      'Something went wrong. Please try again later.',
+      name: 'unknownError',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

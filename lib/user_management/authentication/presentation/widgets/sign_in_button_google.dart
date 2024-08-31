@@ -5,8 +5,12 @@ import '../bloc/auth_bloc.dart';
 
 class SignInButtonGoogle extends StatelessWidget {
   final bool enabled;
+  final VoidCallback onDisabledPressed;
 
-  const SignInButtonGoogle({super.key, required this.enabled});
+  const SignInButtonGoogle({
+    super.key,
+    required this.enabled,
+    required this.onDisabledPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,7 @@ class SignInButtonGoogle extends StatelessWidget {
       Buttons.Google,
       onPressed: enabled ? () {
         context.read<AuthBloc>().add(SignInEvent());
-      } : () {}, // Provide an empty function when disabled
+      } : onDisabledPressed  // Provide an empty function when disabled
     );
   }
 }
