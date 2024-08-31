@@ -38,6 +38,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   bool _isChanged = false;
 
   final CustomLogger logger = CustomLogger('EditItemBloc');
+  final ItemFetchService _itemFetchService = ItemFetchService();
 
   EditItemBloc({
     required this.itemNameController,
@@ -130,7 +131,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     logger.d('FetchItemDetailsEvent triggered');
     emit(EditItemLoading());
     try {
-      final item = await fetchItemDetails(event.itemId);
+      final item = await _itemFetchService.fetchItemDetails(event.itemId);
 
       // Update initial values to current state
       initialName = item.name;

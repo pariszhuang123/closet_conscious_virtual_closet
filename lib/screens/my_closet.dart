@@ -39,6 +39,9 @@ class MyClosetPageState extends State<MyClosetPage> {
   bool _isUploadCompleted = false; // Add this state variable
   final CustomLogger logger = CustomLogger('MyClosetPage');
 
+  // Create an instance of ItemFetchService
+  final ItemFetchService _itemFetchService = ItemFetchService();
+
   static const int _batchSize = 9;
 
   @override
@@ -60,7 +63,7 @@ class MyClosetPageState extends State<MyClosetPage> {
 
   Future<void> _fetchApparelCount() async {
     try {
-      final count = await fetchApparelCount();
+      final count = await _itemFetchService.fetchApparelCount();
       if (mounted) {
         setState(() {
           apparelCount = count;
@@ -73,7 +76,7 @@ class MyClosetPageState extends State<MyClosetPage> {
 
   Future<void> _fetchCurrentStreakCount() async {
     try {
-      final count = await fetchCurrentStreakCount();
+      final count = await _itemFetchService.fetchCurrentStreakCount();
       if (mounted) {
         setState(() {
           currentStreakCount = count;
@@ -86,7 +89,7 @@ class MyClosetPageState extends State<MyClosetPage> {
 
   Future<void> _fetchHighestStreakCount() async {
     try {
-      final count = await fetchHighestStreakCount();
+      final count = await _itemFetchService.fetchHighestStreakCount();
       if (mounted) {
         setState(() {
           highestStreakCount = count;
@@ -99,7 +102,7 @@ class MyClosetPageState extends State<MyClosetPage> {
 
   Future<void> _fetchNewItemsCost() async {
     try {
-      final count = await fetchNewItemsCost();
+      final count = await _itemFetchService.fetchNewItemsCost();
       if (mounted) {
         setState(() {
           newItemsCost = count;
@@ -112,7 +115,7 @@ class MyClosetPageState extends State<MyClosetPage> {
 
   Future<void> _fetchNewItemsCount() async {
     try {
-      final count = await fetchNewItemsCount();
+      final count = await _itemFetchService.fetchNewItemsCount();
       if (mounted) {
         setState(() {
           newItemsCount = count;
@@ -132,7 +135,7 @@ class MyClosetPageState extends State<MyClosetPage> {
     }
 
     try {
-      final items = await fetchItems(_currentPage, _batchSize);
+      final items = await _itemFetchService.fetchItems(_currentPage, _batchSize);
       if (mounted) {
         setState(() {
           _items.addAll(items);
