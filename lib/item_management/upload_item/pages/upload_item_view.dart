@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import '../../../core/data/type_data.dart';
 import '../widgets/image_display_widget.dart';
 import '../../../core/usecase/photo_capture_service.dart';
@@ -13,6 +15,8 @@ import '../../../core/widgets/bottom_sheet/metadata_premium_bottom_sheet.dart';
 import '../../../core/theme/themed_svg.dart';
 import '../../../core/widgets/button/navigation_type_button.dart';
 import '../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../../core/utilities/permission_service.dart';
+import '../../../core/widgets/feedback/custom_alert_dialog.dart';
 import 'metadata/metadata_first_page.dart';
 import 'metadata/metadata_second_page.dart';
 import 'metadata/metadata_third_page.dart';
@@ -42,12 +46,62 @@ class _UploadItemViewState extends State<UploadItemView> {
   String? selectedColourVariation;
 
   final PageController _pageController = PageController();
+  final PermissionService _permissionService = PermissionService();
+
   int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
-    _capturePhoto();
+    context.read<UploadBloc>().add(CheckCameraPermission());
+  }
+
+  void _showOpenSettingsDialog(BuildContext context, Permission permission) {
+    CustomAlertDialog.showCustomDialog(
+      context: context,
+      title: "", // Localized title
+      content: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 40.0), // Adjust the padding if needed
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  S.of(context).camera_permission_needed, // Localized title manually handled here
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(height: 8.0), // Add some space between title and explanation
+                Text(_permissionService.getPermissionExplanation(context, permission)), // Localized explanation
+                const SizedBox(height: 16.0),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      openAppSettings();
+                    },
+                    child: Text(S.of(context).open_settings),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: IconButton(
+              icon: Icon(Icons.close, color: widget.myClosetTheme.colorScheme.onSurface),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                Navigator.pushReplacementNamed(context, AppRoutes.myCloset); // Navigate to myCloset
+              },
+            ),
+          ),
+        ],
+      ),
+      theme: widget.myClosetTheme,
+      barrierDismissible: false, // Optional: Set to false to prevent dismissal by tapping outside
+    );
   }
 
   @override
@@ -57,6 +111,7 @@ class _UploadItemViewState extends State<UploadItemView> {
     _pageController.dispose();
     super.dispose();
   }
+
 
   Future<void> _capturePhoto() async {
     final PhotoCaptureService photoCaptureService = PhotoCaptureService();
@@ -173,7 +228,29 @@ class _UploadItemViewState extends State<UploadItemView> {
   Widget build(BuildContext context) {
     return BlocConsumer<UploadBloc, UploadState>(
       listener: (context, state) {
-        if (state is UploadSuccess) {
+        final uploadBloc = context.read<UploadBloc>();
+
+        if (state is CameraPermissionDenied) {
+          CustomSnackbar(
+            message: _permissionService.getPermissionExplanation(context, Permission.camera),
+            theme: widget.myClosetTheme,
+          ).show(context);
+
+          // Re-ask for the same permission after showing the snackbar
+          Future.delayed(const Duration(seconds: 3), () {
+            if (mounted) {
+              uploadBloc.add(RequestCameraPermission());
+            }
+          });
+        } else if (state is CameraPermissionGranted) {
+          _capturePhoto();  // Assuming this is a camera permission
+        } else if (state is CameraPermissionPermanentlyDenied) {
+          CustomSnackbar(
+            message: _permissionService.getPermissionExplanation(context, Permission.camera),
+            theme: widget.myClosetTheme,
+          ).show(context);
+          _showOpenSettingsDialog(context, Permission.camera);  // Correct method call
+        } else if (state is UploadSuccess) {
           CustomSnackbar(
             message: S.of(context).upload_successful,
             theme: widget.myClosetTheme,
@@ -184,7 +261,7 @@ class _UploadItemViewState extends State<UploadItemView> {
             message: S.of(context).upload_failed(state.error),
             theme: widget.myClosetTheme,
           ).show(context);
-        } else if (state is FormValidPage1) {
+        }  else if (state is FormValidPage1) {
           _pageController.nextPage(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,

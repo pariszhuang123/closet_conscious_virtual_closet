@@ -79,6 +79,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "calendarPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Interested in Calendar View?"),
+        "camera_permission_explanation": MessageLookupByLibrary.simpleMessage(
+            "We need access to your camera to take photos of your items for easy organization."),
+        "camera_permission_needed":
+            MessageLookupByLibrary.simpleMessage("Camera Permission Needed"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "casual": MessageLookupByLibrary.simpleMessage("Casual"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("Closet"),
@@ -147,6 +151,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Interested in Advanced Filters?"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "formal": MessageLookupByLibrary.simpleMessage("Formal"),
+        "general_permission_explanation": MessageLookupByLibrary.simpleMessage(
+            "This permission is required for the app to function properly."),
         "gift": MessageLookupByLibrary.simpleMessage("Gift"),
         "gloves": MessageLookupByLibrary.simpleMessage("Gloves"),
         "green": MessageLookupByLibrary.simpleMessage("Green"),
@@ -216,6 +222,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("You are currently offline"),
         "ok": MessageLookupByLibrary.simpleMessage("Interested"),
         "onePiece": MessageLookupByLibrary.simpleMessage("One Piece"),
+        "open_settings": MessageLookupByLibrary.simpleMessage("Open Settings"),
         "other": MessageLookupByLibrary.simpleMessage("Other"),
         "outer": MessageLookupByLibrary.simpleMessage("Outer"),
         "outfitCreationSuccessContent": MessageLookupByLibrary.simpleMessage(

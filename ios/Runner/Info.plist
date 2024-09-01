@@ -58,8 +58,6 @@
         </array>
       </dict>
     </array>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Need to access the photo library</string>
     <key>NSCameraUsageDescription</key>
     <string>Need to access the camera to upload items.</string>
 </dict>

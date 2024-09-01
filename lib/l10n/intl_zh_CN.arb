@@ -206,5 +206,10 @@
   "recommendClosetConscious": "您有多大可能向朋友推荐环保衣橱 (Closet Conscious)?",
   "npsExplanation": "在 0 到 10 的范围内打分：\n0：完全不推荐\n10：非常推荐",
   "termsNotAcceptedMessage": "您需要接受条款和条件才能登录。",
-  "unknownError": "出现问题，请稍后再试。"
+  "unknownError": "出现问题，请稍后再试。",
+  "camera_permission_needed": "需要相机权限",
+  "camera_permission_explanation": "我们需要访问您的相机以拍摄物品照片，便于组织。",
+  "general_permission_explanation": "应用程序正常运行需要此权限。",
+  "open_settings": "打开设置"
+
 }

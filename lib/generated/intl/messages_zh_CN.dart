@@ -69,6 +69,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "calendar": MessageLookupByLibrary.simpleMessage("日历"),
         "calendarPremiumFeature":
             MessageLookupByLibrary.simpleMessage("有兴趣查看日历视图吗？"),
+        "camera_permission_explanation":
+            MessageLookupByLibrary.simpleMessage("我们需要访问您的相机以拍摄物品照片，便于组织。"),
+        "camera_permission_needed":
+            MessageLookupByLibrary.simpleMessage("需要相机权限"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "casual": MessageLookupByLibrary.simpleMessage("休闲"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("衣橱"),
@@ -124,6 +128,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("有兴趣使用高级筛选功能吗？"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("筛选"),
         "formal": MessageLookupByLibrary.simpleMessage("正式"),
+        "general_permission_explanation":
+            MessageLookupByLibrary.simpleMessage("应用程序正常运行需要此权限。"),
         "gift": MessageLookupByLibrary.simpleMessage("传递"),
         "gloves": MessageLookupByLibrary.simpleMessage("手套"),
         "green": MessageLookupByLibrary.simpleMessage("绿色"),
@@ -186,6 +192,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "offlineStatus": MessageLookupByLibrary.simpleMessage("您当前处于离线状态"),
         "ok": MessageLookupByLibrary.simpleMessage("有兴趣"),
         "onePiece": MessageLookupByLibrary.simpleMessage("连衣裙"),
+        "open_settings": MessageLookupByLibrary.simpleMessage("打开设置"),
         "other": MessageLookupByLibrary.simpleMessage("其他"),
         "outer": MessageLookupByLibrary.simpleMessage("外层"),
         "outfitCreationSuccessContent":

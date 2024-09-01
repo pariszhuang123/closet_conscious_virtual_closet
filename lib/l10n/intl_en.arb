@@ -206,6 +206,9 @@
   "recommendClosetConscious": "How likely will you recommend Closet Conscious to a friend?",
   "npsExplanation": "On a scale from 0 to 10:\n0: Not at all likely\n10: Extremely likely",
   "termsNotAcceptedMessage": "You need to accept the terms and conditions before signing in.",
-  "unknownError": "Something went wrong. Please try again later."
-
+  "unknownError": "Something went wrong. Please try again later.",
+  "camera_permission_needed": "Camera Permission Needed",
+  "camera_permission_explanation": "We need access to your camera to take photos of your items for easy organization.",
+  "general_permission_explanation": "This permission is required for the app to function properly.",
+  "open_settings": "Open Settings"
 }

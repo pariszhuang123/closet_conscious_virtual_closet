@@ -7,6 +7,13 @@ abstract class UploadEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+
+class CheckCameraPermission extends UploadEvent {}
+
+class RequestCameraPermission extends UploadEvent {}
+
+class AppResumed extends UploadEvent {}
+
 // Event to validate form on page 1
 class ValidateFormPage1 extends UploadEvent {
   final String itemName;

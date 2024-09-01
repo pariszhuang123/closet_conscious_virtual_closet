@@ -2119,6 +2119,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Camera Permission Needed`
+  String get camera_permission_needed {
+    return Intl.message(
+      'Camera Permission Needed',
+      name: 'camera_permission_needed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We need access to your camera to take photos of your items for easy organization.`
+  String get camera_permission_explanation {
+    return Intl.message(
+      'We need access to your camera to take photos of your items for easy organization.',
+      name: 'camera_permission_explanation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This permission is required for the app to function properly.`
+  String get general_permission_explanation {
+    return Intl.message(
+      'This permission is required for the app to function properly.',
+      name: 'general_permission_explanation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Settings`
+  String get open_settings {
+    return Intl.message(
+      'Open Settings',
+      name: 'open_settings',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

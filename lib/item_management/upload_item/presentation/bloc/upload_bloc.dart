@@ -1,7 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
+
 import '../../../core/data/services/item_save_service.dart';
+import '../../../../core/utilities/permission_service.dart';
 
 part 'upload_event.dart';
 part 'upload_state.dart';
@@ -9,14 +12,54 @@ part 'upload_state.dart';
 class UploadBloc extends Bloc<UploadEvent, UploadState> {
   final String userId;
   final ItemSaveService _itemSaveService;
+  final PermissionService _permissionService;
 
-  UploadBloc({required this.userId})
+
+  UploadBloc({required this.userId, required PermissionService permissionService})
       : _itemSaveService = ItemSaveService(userId),
-        super(UploadInitial()) {
+        _permissionService = permissionService,
+      super(UploadInitial()) {
     on<StartUpload>(_onStartUpload);
     on<ValidateFormPage1>(_onValidateFormPage1);
     on<ValidateFormPage2>(_onValidateFormPage2);
     on<ValidateFormPage3>(_onValidateFormPage3);
+    on<CheckCameraPermission>(_onCheckCameraPermission);
+    on<RequestCameraPermission>(_onRequestCameraPermission);
+    on<AppResumed>(_onAppResumed);
+  }
+
+  Future<void> _onCheckCameraPermission(CheckCameraPermission event, Emitter<UploadState> emit) async {
+    var status = await _permissionService.checkPermission(Permission.camera);
+
+    if (status.isGranted) {
+      emit(CameraPermissionGranted());
+    } else {
+      emit(CameraPermissionDenied());
+    }
+  }
+
+  Future<void> _onRequestCameraPermission(RequestCameraPermission event, Emitter<UploadState> emit) async {
+    var status = await _permissionService.requestPermission(Permission.camera);
+
+    if (status.isGranted) {
+      emit(CameraPermissionGranted());
+    } else if (status.isPermanentlyDenied) {
+      emit(CameraPermissionPermanentlyDenied());
+    } else {
+      emit(CameraPermissionDenied());
+    }
+  }
+
+  void _onAppResumed(AppResumed event, Emitter<UploadState> emit) async {
+    final status = await Permission.camera.status;
+
+    if (status.isGranted) {
+      emit(CameraPermissionGranted());
+    } else if (status.isPermanentlyDenied) {
+      emit(CameraPermissionPermanentlyDenied());
+    } else {
+      emit(CameraPermissionDenied());
+    }
   }
 
   void _onValidateFormPage1(ValidateFormPage1 event, Emitter<UploadState> emit) {

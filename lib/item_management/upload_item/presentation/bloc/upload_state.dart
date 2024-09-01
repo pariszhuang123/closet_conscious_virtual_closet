@@ -7,6 +7,12 @@ abstract class UploadState extends Equatable {
   List<Object> get props => [];
 }
 
+class CameraPermissionDenied extends UploadState {}
+
+class CameraPermissionGranted extends UploadState {}
+
+class CameraPermissionPermanentlyDenied extends UploadState {}
+
 // State indicating that the form on Page 1 is valid
 class FormValidPage1 extends UploadState {}
 
