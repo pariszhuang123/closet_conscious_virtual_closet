@@ -16,6 +16,8 @@ import '../../outfit_management/create_outfit/presentation/widgets/outfit_grid.d
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_type_container.dart';
 import '../../outfit_management/wear_outfit/presentation/page/outfit_wear_provider.dart';
 import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
+import '../../outfit_management/review_outfit/presentation/page/outfit_review_provider.dart';
+import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 
 class MyOutfitView extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -37,20 +39,36 @@ class MyOutfitViewState extends State<MyOutfitView> {
   @override
   void initState() {
     super.initState();
+    logger.i('MyOutfitView initialized');
     _fetchOutfitsCount();
+    _checkNavigationToReview(context);
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        logger.i('Reached the end of the list, fetching more items...');
         _fetchMoreItems();
       }
     });
   }
 
   void _fetchMoreItems() {
+    logger.i('Fetching more items...');
     context.read<CreateOutfitItemBloc>().add(FetchMoreItemsEvent());
   }
 
   void _onSaveOutfit() {
+    logger.i('Save outfit button pressed');
     context.read<CreateOutfitItemBloc>().add(const SaveOutfitEvent());
+  }
+
+  void _checkNavigationToReview(BuildContext context) {
+    final userId = GetIt.instance<AuthBloc>().userId;  // Access userId from AuthBloc
+
+    if (userId != null) {
+      logger.i('Attempting to check navigation to review page with userId: $userId');
+      context.read<NavigateOutfitBloc>().add(CheckNavigationToReviewEvent(userId: userId));
+    } else {
+      logger.e('Error: userId is null. Cannot check navigation to review.');
+    }
   }
 
   void _triggerNpsSurveyIfNeeded() {
@@ -59,6 +77,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
   }
 
   void _onFilterButtonPressed() {
+    logger.i('Filter button pressed, showing filter options...');
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -68,6 +87,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
   }
 
   void _onCalendarButtonPressed() {
+    logger.i('Calendar button pressed, showing calendar...');
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -77,14 +97,18 @@ class MyOutfitViewState extends State<MyOutfitView> {
   }
 
   Future<void> _fetchOutfitsCount() async {
+    logger.i('Fetching outfits count...');
     try {
       final result = await _outfitFetchService.fetchOutfitsCountAndNPS();
       final count = result['outfits_created'];
+
+      logger.i('Outfits count fetched: $count');
 
       if (mounted) {
         setState(() {
           newOutfitCount = count;
         });
+        logger.i('New outfit count set to $newOutfitCount');
         _triggerNpsSurveyIfNeeded();  // Call the method after setting the outfit count
       }
     } catch (e) {
@@ -93,7 +117,9 @@ class MyOutfitViewState extends State<MyOutfitView> {
   }
 
   void _onItemTapped(int index) {
+    logger.i('Bottom navigation item tapped, index: $index');
     if (index == 0) {
+      logger.i('Navigating to My Closet screen');
       Navigator.pushReplacementNamed(context, '/my_closet');
     } else {
       setState(() {
@@ -104,12 +130,15 @@ class MyOutfitViewState extends State<MyOutfitView> {
 
   @override
   void dispose() {
+    logger.i('Disposing MyOutfitView...');
     _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    logger.i('Building MyOutfitView...');
+
     final outfitsUploadData = TypeDataList.outfitsUpload(context);
     final filterData = TypeDataList.filter(context);
     final calendarData = TypeDataList.calendar(context);
@@ -120,9 +149,28 @@ class MyOutfitViewState extends State<MyOutfitView> {
 
     return MultiBlocListener(
       listeners: [
+        BlocListener<NavigateOutfitBloc, NavigateOutfitState>(
+          listener: (context, state) {
+            logger.i('NavigateOutfitBloc listener triggered with state: $state');
+            if (state is NpsSurveyTriggeredState) {
+              logger.i('NPS Survey triggered for milestone: ${state.milestone}');
+              NpsDialog(milestone: state.milestone).showNpsDialog(context);
+            }
+            if (state is NavigateToReviewPageState) {
+              logger.i('Navigating to OutfitReviewProvider for outfitId: ${state.outfitId}');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => OutfitReviewProvider(
+                    myOutfitTheme: widget.myOutfitTheme,
+                  ),
+                ),
+              );
+            }
+          },
+        ),
         BlocListener<CreateOutfitItemBloc, CreateOutfitItemState>(
           listener: (context, state) {
-            logger.i('CreateOutfitItemBloc Listener active, received state: $state');
+            logger.i('CreateOutfitItemBloc listener triggered with state: $state');
 
             if (state.saveStatus == SaveStatus.success && state.outfitId != null) {
               logger.i('Navigating to OutfitWearProvider for outfitId: ${state.outfitId}');
@@ -135,14 +183,6 @@ class MyOutfitViewState extends State<MyOutfitView> {
                   ),
                 ),
               );
-            }
-          },
-        ),
-        BlocListener<NavigateOutfitBloc, NavigateOutfitState>(
-          listener: (context, state) {
-            if (state is NpsSurveyTriggeredState) {
-              logger.i('NPS Survey triggered for milestone: ${state.milestone}');
-              NpsDialog(milestone: state.milestone).showNpsDialog(context);
             }
           },
         ),
@@ -186,6 +226,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
                   Expanded(
                     child: BlocBuilder<CreateOutfitItemBloc, CreateOutfitItemState>(
                       builder: (context, state) {
+                        logger.i('CreateOutfitItemBloc builder triggered with state: $state');
                         if (state.saveStatus == SaveStatus.failure) {
                           return Center(child: Text(S.of(context).failedToLoadItems));
                         } else if (state.items.isEmpty) {
@@ -204,6 +245,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
                     padding: const EdgeInsets.all(8.0),
                     child: BlocBuilder<CreateOutfitItemBloc, CreateOutfitItemState>(
                       builder: (context, state) {
+                        logger.i('CreateOutfitItemBloc bottom button builder triggered with state: $state');
                         return state.hasSelectedItems
                             ? ElevatedButton(
                           onPressed: _onSaveOutfit,
