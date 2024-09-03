@@ -67,19 +67,19 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
     super.dispose();
   }
 
-  void _navigateToMyCloset(BuildContext context) {
-    _disposeResources(); // Call a method to dispose of any resources
-
-    // Navigate to My Closet and replace the current view
-    Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
-  }
-
   void _disposeResources() {
     _itemNameController.dispose();
     _amountSpentController.dispose();
     _pageController.dispose();
     WidgetsBinding.instance.removeObserver(this); // Remove the observer
-    // Dispose any other resources if necessary
+
+  }
+
+  void _navigateToMyCloset(BuildContext context) {
+    if (mounted) {
+      _disposeResources(); // Dispose safely
+      Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+    }
   }
 
   @override

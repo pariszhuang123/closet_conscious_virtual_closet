@@ -212,5 +212,6 @@
   "camera_selfie_permission_explanation": "我们需要访问您的相机，以便您拍摄自拍照片，查看它们在您身上的效果。",
   "camera_permission_explanation": "我们需要访问您的相机来拍照。",
   "general_permission_explanation": "需要此权限才能使用此功能。",
-  "open_settings": "打开设置"
+  "open_settings": "打开设置",
+  "noImage": "没有图片"
 }

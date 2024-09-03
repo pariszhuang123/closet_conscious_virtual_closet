@@ -7,10 +7,10 @@ final ThemeData myClosetTheme = ThemeData(
   ).copyWith(
     primary: Colors.teal.shade800, // Closest to #366D59
     onPrimary: Colors.white,
-    primaryContainer: Colors.teal.shade900, // Closest to #255743
+    primaryContainer: Colors.teal.shade100, // Closest to #255743
     secondary: Colors.teal.shade400, // Closest to #A0D6B4
     onSecondary: Colors.black,
-    secondaryContainer: Colors.green.shade500,
+    secondaryContainer: Colors.teal.shade100,
     surface: Colors.white,
     onSurface: Colors.teal.shade800,
     error: Colors.red.shade200,
@@ -25,12 +25,12 @@ final ThemeData myClosetTheme = ThemeData(
     displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black), // Second largest headline
     titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black), // Medium-emphasis text
     titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black), // Smaller medium-emphasis text
-    bodySmall: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black), // Caption text
+    bodySmall: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black, fontStyle: FontStyle.italic), // Caption text
     labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white), // Text for buttons
     labelSmall: TextStyle(fontSize: 13, fontWeight: FontWeight.normal, color: Colors.black), // Overline text
   ),
   chipTheme: ChipThemeData(
-    backgroundColor: Colors.grey.shade200,
+    backgroundColor: Colors.grey.shade100,
     selectedColor: Colors.teal.shade800, // Closest to #366D59
     disabledColor: Colors.grey,
     secondarySelectedColor: Colors.teal.shade400, // Closest to #88B69C
@@ -54,12 +54,12 @@ final ThemeData myClosetTheme = ThemeData(
     unselectedItemColor: Colors.grey,
   ),
   snackBarTheme: SnackBarThemeData(
-    backgroundColor: Colors.teal.shade200, // Set the background color for SnackBar
+    backgroundColor: Colors.teal.shade100, // Set the background color for SnackBar
     contentTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold), // Set the text color and style
   ),
   dialogTheme: DialogTheme(
     backgroundColor: Colors.teal.shade100,
-    titleTextStyle: TextStyle(color: Colors.teal.shade900, fontWeight: FontWeight.bold),
+    titleTextStyle: TextStyle(color: Colors.teal.shade800, fontWeight: FontWeight.bold),
     contentTextStyle: TextStyle(color: Colors.teal.shade800),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(

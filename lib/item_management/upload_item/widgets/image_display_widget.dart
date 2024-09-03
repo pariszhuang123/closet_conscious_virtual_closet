@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import '../../../core/theme/my_closet_theme.dart';
+import '../../../generated/l10n.dart';
 
 class ImageDisplayWidget extends StatelessWidget {
   const ImageDisplayWidget({
@@ -35,9 +36,9 @@ class ImageDisplayWidget extends StatelessWidget {
           fit: BoxFit.cover,
         ))
             : Container(
-          color: myClosetTheme.colorScheme.secondary,
-          child: const Center(
-            child: Text('No Image'),
+          color: myClosetTheme.colorScheme.secondaryContainer,
+          child: Center(
+            child: Text(S.of(context).noImage), // Removed `const` keyword here
           ),
         ),
       ),

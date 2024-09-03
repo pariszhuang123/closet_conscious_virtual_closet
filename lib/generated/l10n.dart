@@ -2179,6 +2179,16 @@ class S {
       args: [],
     );
   }
+
+  /// `No Image`
+  String get noImage {
+    return Intl.message(
+      'No Image',
+      name: 'noImage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

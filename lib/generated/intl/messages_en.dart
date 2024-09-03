@@ -208,6 +208,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "niche": MessageLookupByLibrary.simpleMessage("Niche"),
         "noAchievementFound":
             MessageLookupByLibrary.simpleMessage("No achievement badges found"),
+        "noImage": MessageLookupByLibrary.simpleMessage("No Image"),
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
         "noItemsInCategory": MessageLookupByLibrary.simpleMessage(
             "Please upload your items in my closet"),

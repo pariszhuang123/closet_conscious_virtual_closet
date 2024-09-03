@@ -180,6 +180,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "next": MessageLookupByLibrary.simpleMessage("下一步"),
         "niche": MessageLookupByLibrary.simpleMessage("小众"),
         "noAchievementFound": MessageLookupByLibrary.simpleMessage("未找到成就徽章"),
+        "noImage": MessageLookupByLibrary.simpleMessage("没有图片"),
         "noItemsFound": MessageLookupByLibrary.simpleMessage("未找到物品"),
         "noItemsInCategory":
             MessageLookupByLibrary.simpleMessage("请上传您的物品到我的衣橱"),

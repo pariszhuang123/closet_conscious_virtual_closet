@@ -212,5 +212,6 @@
   "camera_selfie_permission_explanation": "We need access to your camera to allow you take your selfie photos to review how it looks on you.",
   "camera_permission_explanation": "We need access to your camera to take photos.",
   "general_permission_explanation": "This permission is needed to use this feature.",
-  "open_settings": "Open Settings"
+  "open_settings": "Open Settings",
+  "noImage": "No Image"
 }

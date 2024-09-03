@@ -13,49 +13,33 @@ class SettingsDialog {
   }) {
     CustomAlertDialog.showCustomDialog(
       context: context,
-      title: "", // Localized title
-      content: Stack(
+      title: S.of(context).permission_needed, // Centralized localized title
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 40.0), // Adjust the padding if needed
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  S.of(context).permission_needed, // Localized title
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const SizedBox(height: 8.0), // Add some space between title and explanation
-                Text(explanation), // Dynamic explanation based on permission type
-                const SizedBox(height: 16.0),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      openAppSettings();
-                    },
-                    child: Text(S.of(context).open_settings),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: IconButton(
-              icon: Icon(Icons.close, color: theme.colorScheme.onSurface),
+          Text(explanation), // Dynamic explanation based on permission type
+          const SizedBox(height: 16.0),
+          Align(
+            alignment: Alignment.centerRight,
+            child: ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-                if (onClose != null) {
-                  onClose(); // Execute the callback if provided
-                }
+                openAppSettings();
               },
+              child: Text(S.of(context).open_settings),
             ),
           ),
         ],
       ),
       theme: theme,
+      iconButton: IconButton(
+        icon: Icon(Icons.close, color: theme.colorScheme.onSurface),
+        onPressed: () {
+          Navigator.of(context).pop(); // Close the dialog
+          if (onClose != null) {
+            onClose(); // Execute the callback if provided
+          }
+        },
+      ),
       barrierDismissible: false, // Optional: Set to false to prevent dismissal by tapping outside
     );
   }

@@ -25,7 +25,7 @@ class CameraItemPermissionHelper {
           permission: Permission.camera,
           theme: theme,
           explanation: explanation,
-            onClose: navigateToMyCloset,
+          onClose: navigateToMyCloset,
         );
       }
     }

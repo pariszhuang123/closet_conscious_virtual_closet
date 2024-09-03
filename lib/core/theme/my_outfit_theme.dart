@@ -10,7 +10,7 @@ final ThemeData myOutfitTheme = ThemeData(
     primaryContainer: Colors.blue.shade800, // Darker blue for primary container
     secondary: Colors.lightBlue.shade400, // Light blue for secondary
     onSecondary: Colors.black,
-    secondaryContainer: Colors.blueAccent.shade700,
+    secondaryContainer: Colors.blueAccent.shade100,
     surface: Colors.white,
     onSurface: Colors.blue.shade800,
     error: Colors.red,
@@ -25,15 +25,15 @@ final ThemeData myOutfitTheme = ThemeData(
     displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black), // Second largest headline
     titleMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black), // Medium-emphasis text
     titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black), // Smaller medium-emphasis text
-    bodySmall: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black), // Caption text
+    bodySmall: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black, fontStyle: FontStyle.italic), // Caption text
     labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white), // Text for buttons
     labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black), // Overline text
   ),
   chipTheme: ChipThemeData(
-    backgroundColor: Colors.grey.shade200,
-    selectedColor: Colors.blue.shade700, // Dark blue for selected chip
+    backgroundColor: Colors.grey.shade100,
+    selectedColor: Colors.blue.shade800, // Dark blue for selected chip
     disabledColor: Colors.grey,
-    secondarySelectedColor: Colors.blueAccent.shade700, // Darker light blue for secondary selected chip
+    secondarySelectedColor: Colors.blueAccent.shade400, // Darker light blue for secondary selected chip
     padding: const EdgeInsets.all(4.0),
     shape: const StadiumBorder(),
     labelStyle: const TextStyle(color: Colors.black),
@@ -54,7 +54,7 @@ final ThemeData myOutfitTheme = ThemeData(
     unselectedItemColor: Colors.grey,
   ),
   snackBarTheme: SnackBarThemeData(
-    backgroundColor: Colors.blue.shade200, // Set the background color for SnackBar
+    backgroundColor: Colors.blue.shade100, // Set the background color for SnackBar
     contentTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold), // Set the text color and style
   ),
   dialogTheme: DialogTheme(

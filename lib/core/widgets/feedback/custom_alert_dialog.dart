@@ -6,6 +6,7 @@ class CustomAlertDialog extends StatelessWidget {
   final String? buttonText; // Make it nullable
   final VoidCallback? onPressed; // Make it nullable
   final ThemeData theme;
+  final Widget? iconButton; // Optional icon button
 
   const CustomAlertDialog({
     super.key,
@@ -14,6 +15,7 @@ class CustomAlertDialog extends StatelessWidget {
     this.buttonText,
     this.onPressed,
     required this.theme,
+    this.iconButton, // Add iconButton parameter
   });
 
   @override
@@ -21,7 +23,27 @@ class CustomAlertDialog extends StatelessWidget {
     return Theme(
       data: theme,
       child: AlertDialog(
-        title: Text(title),
+        titlePadding: EdgeInsets.zero, // Remove default padding
+        title: Stack(
+          children: [
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 8.0), // Adjust padding to avoid clash
+                child: Text(
+                  title,
+                  style: theme.textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            if (iconButton != null)
+              Positioned(
+                top: 8.0,  // Adjust position slightly if needed
+                right: 8.0,
+                child: iconButton!,
+              ),
+          ],
+        ),
         content: content,
         actions: buttonText != null && onPressed != null
             ? [
@@ -43,6 +65,7 @@ class CustomAlertDialog extends StatelessWidget {
     String? buttonText,
     VoidCallback? onPressed,
     required ThemeData theme,
+    Widget? iconButton, // Add optional iconButton parameter
     bool barrierDismissible = true, // Default is true, set to false if needed
   }) async {
     return showDialog(
@@ -55,6 +78,7 @@ class CustomAlertDialog extends StatelessWidget {
           buttonText: buttonText,
           onPressed: onPressed,
           theme: theme,
+          iconButton: iconButton, // Pass the icon button to the dialog
         );
       },
     );

@@ -84,10 +84,9 @@ class NpsDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 16.0),
           Text(
             S.of(context).npsExplanation,
-            style: myOutfitTheme.textTheme.labelMedium, // Adjust style as needed
+            style: myOutfitTheme.textTheme.bodySmall, // Adjust style as needed
             textAlign: TextAlign.left,
           ),
           const SizedBox(height: 16.0),
