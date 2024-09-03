@@ -65,21 +65,3 @@ class CreateOutfitItemState extends Equatable {
   List<Object?> get props => [selectedItemIds, items, currentCategory, saveStatus, outfitId, hasSelectedItems, hasReachedMax, currentPage];
 }
 
-class NpsSurveyTriggered extends CreateOutfitItemState {
-  final int milestone;
-
-  const NpsSurveyTriggered({
-    required this.milestone,
-  }) : super(
-    currentCategory: OutfitItemCategory.clothing, // Use default value
-    selectedItemIds: const {},
-    items: const [],
-    saveStatus: SaveStatus.initial,
-    outfitId: null,
-    hasSelectedItems: false,
-    hasReachedMax: false,
-    currentPage: 0
-  );
-  @override
-  List<Object?> get props => [milestone];
-}

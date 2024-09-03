@@ -11,10 +11,10 @@ import '../../core/widgets/bottom_sheet/filter_premium_bottom_sheet.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
 import '../../outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
+import '../../outfit_management/navigate_outfit/presentation/bloc/navigate_outfit_bloc.dart';
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_grid.dart';
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_type_container.dart';
 import '../../outfit_management/wear_outfit/presentation/page/outfit_wear_provider.dart';
-import '../../core/theme/my_outfit_theme.dart';
 import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
 
 class MyOutfitView extends StatefulWidget {
@@ -55,7 +55,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
 
   void _triggerNpsSurveyIfNeeded() {
     logger.i('Checking if NPS survey should be triggered for outfit count: $newOutfitCount');
-    context.read<CreateOutfitItemBloc>().add(TriggerNpsSurveyEvent(newOutfitCount));
+    context.read<NavigateOutfitBloc>().add(TriggerNpsSurveyEvent(newOutfitCount));
   }
 
   void _onFilterButtonPressed() {
@@ -78,7 +78,6 @@ class MyOutfitViewState extends State<MyOutfitView> {
 
   Future<void> _fetchOutfitsCount() async {
     try {
-      // Fetch the count of outfits created and ignore the NPS status
       final result = await _outfitFetchService.fetchOutfitsCountAndNPS();
       final count = result['outfits_created'];
 
@@ -105,7 +104,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
 
   @override
   void dispose() {
-    _scrollController.dispose(); // Properly dispose of the ScrollController
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -119,31 +118,37 @@ class MyOutfitViewState extends State<MyOutfitView> {
     final outfitAccessoryType = TypeDataList.outfitAccessoryType(context);
     final outfitShoesType = TypeDataList.outfitShoesType(context);
 
-    return BlocListener<CreateOutfitItemBloc, CreateOutfitItemState>(
-      listener: (context, state) {
-        logger.i('BlocListener is active, received state: $state');
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<CreateOutfitItemBloc, CreateOutfitItemState>(
+          listener: (context, state) {
+            logger.i('CreateOutfitItemBloc Listener active, received state: $state');
 
-        if (state.saveStatus == SaveStatus.success && state.outfitId != null) {
-          logger.i('Navigating to OutfitWearProvider for outfitId: ${state.outfitId}');
-
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => OutfitWearProvider(
-                date: DateTime.now(),
-                outfitId: state.outfitId!,
-                myOutfitTheme: widget.myOutfitTheme,
-              ),
-            ),
-          );
-        }
-        if (state is NpsSurveyTriggered) {
-          logger.i('NPS Survey triggered for milestone: ${state.milestone}');
-          NpsDialog(milestone: state.milestone).showNpsDialog(context); // Correct usage
-        }
-      },
-
+            if (state.saveStatus == SaveStatus.success && state.outfitId != null) {
+              logger.i('Navigating to OutfitWearProvider for outfitId: ${state.outfitId}');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => OutfitWearProvider(
+                    date: DateTime.now(),
+                    outfitId: state.outfitId!,
+                    myOutfitTheme: widget.myOutfitTheme,
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+        BlocListener<NavigateOutfitBloc, NavigateOutfitState>(
+          listener: (context, state) {
+            if (state is NpsSurveyTriggeredState) {
+              logger.i('NPS Survey triggered for milestone: ${state.milestone}');
+              NpsDialog(milestone: state.milestone).showNpsDialog(context);
+            }
+          },
+        ),
+      ],
       child: PopScope(
-        canPop: false, // Disable back navigation
+        canPop: false,
         child: Theme(
           data: widget.myOutfitTheme,
           child: Scaffold(
@@ -175,7 +180,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
                     outfitClothingType: outfitClothingType,
                     outfitAccessoryType: outfitAccessoryType,
                     outfitShoesType: outfitShoesType,
-                    theme: myOutfitTheme,
+                    theme: widget.myOutfitTheme,
                   ),
                   const SizedBox(height: 16),
                   Expanded(
@@ -189,7 +194,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
                           return OutfitGrid(
                             scrollController: _scrollController,
                             logger: logger,
-                            items: state.items,  // Use the items from the state
+                            items: state.items,
                           );
                         }
                       },

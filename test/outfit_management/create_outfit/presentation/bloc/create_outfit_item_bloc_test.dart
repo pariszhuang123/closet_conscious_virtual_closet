@@ -195,28 +195,5 @@ void main() {
       ],
     );
 
-    blocTest<CreateOutfitItemBloc, CreateOutfitItemState>(
-      'emits NpsSurveyTriggered when TriggerNpsSurveyEvent is added and milestone is reached',
-      build: () {
-        when(() => mockOutfitFetchService.fetchOutfitsCountAndNPS())
-            .thenAnswer((_) async => {'outfits_created': 10, 'milestone_triggered': true});
-        return bloc;
-      },
-      act: (bloc) => bloc.add(const TriggerNpsSurveyEvent(9)),
-      expect: () => [
-        const NpsSurveyTriggered(milestone: 10),
-      ],
-    );
-
-    blocTest<CreateOutfitItemBloc, CreateOutfitItemState>(
-      'does not emit NpsSurveyTriggered when TriggerNpsSurveyEvent is added and milestone is not reached',
-      build: () {
-        when(() => mockOutfitFetchService.fetchOutfitsCountAndNPS())
-            .thenAnswer((_) async => {'outfits_created': 9, 'milestone_triggered': false});
-        return bloc;
-      },
-      act: (bloc) => bloc.add(const TriggerNpsSurveyEvent(9)),
-      expect: () => [],
-    );
   });
 }

@@ -6,7 +6,6 @@ import '../../../core/data/services/outfits_fetch_service.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../core/data/services/outfits_save_service.dart';
 
-
 part 'create_outfit_item_event.dart';
 part 'create_outfit_item_state.dart';
 
@@ -17,8 +16,7 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
 
   CreateOutfitItemBloc(this.outfitFetchService, this.outfitSaveService)
       : logger = CustomLogger('CreateOutfitItemBlocLogger'),
-   super(CreateOutfitItemState.initial()) {
-    on<TriggerNpsSurveyEvent>(_onTriggerNpsSurvey);
+        super(CreateOutfitItemState.initial()) {
     on<FetchMoreItemsEvent>(_onFetchMoreItems);
     on<ToggleSelectItemEvent>(_onToggleSelectItem);
     on<SaveOutfitEvent>(_onSaveOutfit);
@@ -76,7 +74,7 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
     }
   }
 
-void _onToggleSelectItem(ToggleSelectItemEvent event,
+  void _onToggleSelectItem(ToggleSelectItemEvent event,
       Emitter<CreateOutfitItemState> emit) {
     final updatedSelectedItemIds = Map<OutfitItemCategory, List<String>>.from(
         state.selectedItemIds);
@@ -107,7 +105,6 @@ void _onToggleSelectItem(ToggleSelectItemEvent event,
     // Log to ensure state update
     logger.d('Updated selected item IDs in state: ${state.selectedItemIds}');
   }
-
 
   Future<void> _onSaveOutfit(SaveOutfitEvent event,
       Emitter<CreateOutfitItemState> emit) async {
@@ -151,7 +148,6 @@ void _onToggleSelectItem(ToggleSelectItemEvent event,
     }
   }
 
-
   Future<void> _onSelectCategory(SelectCategoryEvent event,
       Emitter<CreateOutfitItemState> emit) async {
     emit(state.copyWith(
@@ -170,27 +166,4 @@ void _onToggleSelectItem(ToggleSelectItemEvent event,
       emit(state.copyWith(saveStatus: SaveStatus.failure));
     }
   }
-  Future<void> _onTriggerNpsSurvey(TriggerNpsSurveyEvent event,
-      Emitter<CreateOutfitItemState> emit) async {
-    try {
-      // Fetch the count of outfits created and the NPS status using the new service
-      final result = await outfitFetchService.fetchOutfitsCountAndNPS();
-      int outfitCount = result['outfits_created'];
-      bool shouldShowNPS = result['milestone_triggered'];
-
-      logger.i('Fetched outfit count: $outfitCount, should show NPS: $shouldShowNPS');
-
-      // Check if the NPS dialog should be shown
-      if (shouldShowNPS) {
-        logger.i('NPS survey triggered for milestone: $outfitCount');
-        emit(NpsSurveyTriggered(milestone: outfitCount)); // Trigger NPS survey
-      } else {
-        logger.i(
-            'Outfit count: $outfitCount does not require NPS survey.');
-      }
-    } catch (error) {
-      logger.e('Error triggering NPS survey: $error');
-    }
-  }
-
 }
