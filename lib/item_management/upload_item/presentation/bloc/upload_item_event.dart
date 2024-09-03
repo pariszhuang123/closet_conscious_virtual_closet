@@ -1,21 +1,21 @@
-part of 'upload_bloc.dart';
+part of 'upload_item_bloc.dart';
 
-abstract class UploadEvent extends Equatable {
-  const UploadEvent();
+abstract class UploadItemEvent extends Equatable {
+  const UploadItemEvent();
 
   @override
   List<Object?> get props => [];
 }
 
 
-class CheckCameraPermission extends UploadEvent {}
+class CheckCameraPermission extends UploadItemEvent {}
 
-class RequestCameraPermission extends UploadEvent {}
+class RequestCameraPermission extends UploadItemEvent {}
 
-class AppResumed extends UploadEvent {}
+class AppResumed extends UploadItemEvent {}
 
 // Event to validate form on page 1
-class ValidateFormPage1 extends UploadEvent {
+class ValidateFormPage1 extends UploadItemEvent {
   final String itemName;
   final String amountSpentText;
   final String? selectedItemType;
@@ -33,7 +33,7 @@ class ValidateFormPage1 extends UploadEvent {
 }
 
 // Event to validate form on page 2
-class ValidateFormPage2 extends UploadEvent {
+class ValidateFormPage2 extends UploadItemEvent {
   final String? selectedSeason;
   final String? selectedSpecificType;
   final String? selectedItemType;
@@ -51,7 +51,7 @@ class ValidateFormPage2 extends UploadEvent {
 }
 
 // Event to validate form on page 3
-class ValidateFormPage3 extends UploadEvent {
+class ValidateFormPage3 extends UploadItemEvent {
   final String? selectedColour;
   final String? selectedColourVariation;
 
@@ -64,7 +64,7 @@ class ValidateFormPage3 extends UploadEvent {
   List<Object?> get props => [selectedColour, selectedColourVariation];
 }
 
-class StartUpload extends UploadEvent {
+class StartUploadItem extends UploadItemEvent {
   final String itemName;
   final double amountSpent;
   final File? imageFile;
@@ -77,7 +77,7 @@ class StartUpload extends UploadEvent {
   final String? selectedColour;
   final String? selectedColourVariation;
 
-  const StartUpload({
+  const StartUploadItem({
     required this.itemName,
     required this.amountSpent,
     required this.imageFile,

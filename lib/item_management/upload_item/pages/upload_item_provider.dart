@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../presentation/bloc/upload_bloc.dart';
+import '../presentation/bloc/upload_item_bloc.dart';
 import '../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import 'upload_item_view.dart';
 import '../../../core/utilities/permission/permission_service.dart';
@@ -21,7 +21,7 @@ class UploadItemProvider extends StatelessWidget {
     }
 
     return BlocProvider(
-      create: (context) => UploadBloc(
+      create: (context) => UploadItemBloc(
           userId: userId,
           permissionService: permissionService,),
       child: UploadItemView(myClosetTheme: myClosetTheme),

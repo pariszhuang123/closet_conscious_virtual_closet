@@ -9,7 +9,7 @@ import '../widgets/image_display_widget.dart';
 import '../../../core/usecase/photo_capture_service.dart';
 import '../../../core/utilities/routes.dart';
 import '../../../generated/l10n.dart';
-import '../presentation/bloc/upload_bloc.dart';
+import '../presentation/bloc/upload_item_bloc.dart';
 import '../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../core/widgets/bottom_sheet/metadata_premium_bottom_sheet.dart';
 import '../../../core/theme/themed_svg.dart';
@@ -56,7 +56,7 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
   void initState() {
     super.initState();
     _logger.i('UploadItemView initialized');
-    context.read<UploadBloc>().add(CheckCameraPermission());
+    context.read<UploadItemBloc>().add(CheckCameraPermission());
     WidgetsBinding.instance.addObserver(this); // Add observer for lifecycle events
   }
 
@@ -87,7 +87,7 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
     _logger.i('App lifecycle state changed: $state');
     if (state == AppLifecycleState.resumed) {
       _logger.i('App resumed, checking camera permission');
-      context.read<UploadBloc>().add(CheckCameraPermission()); // Re-check permission on resume
+      context.read<UploadItemBloc>().add(CheckCameraPermission()); // Re-check permission on resume
     }
   }
 
@@ -113,7 +113,7 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
 
   void _handleNext(BuildContext context) {
     _logger.i('Handling next button press, current page: $_currentPage');
-    final uploadBloc = context.read<UploadBloc>();
+    final uploadBloc = context.read<UploadItemBloc>();
 
     if (_currentPage == 0) {
       _logger.i('Validating form on page 1');
@@ -142,7 +142,7 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
 
   void _handleUpload(BuildContext context) {
     _logger.i('Handling upload');
-    context.read<UploadBloc>().add(StartUpload(
+    context.read<UploadItemBloc>().add(StartUploadItem(
       itemName: _itemNameController.text.trim(),
       amountSpent: double.tryParse(_amountSpentController.text) ?? 0.0,
       imageFile: _imageFile,
@@ -215,10 +215,10 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
   @override
   Widget build(BuildContext context) {
     _logger.i('Building UploadItemView');
-    return BlocConsumer<UploadBloc, UploadState>(
+    return BlocConsumer<UploadItemBloc, UploadItemState>(
       listener: (context, state) {
         _logger.i('Bloc state changed: $state');
-        final uploadBloc = context.read<UploadBloc>();
+        final uploadBloc = context.read<UploadItemBloc>();
 
         if (state is CameraPermissionDenied) {
           _logger.w('Camera permission denied');
@@ -249,14 +249,14 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
             widget.myClosetTheme,
                 () => _navigateToMyCloset(context),
           );
-        } else if (state is UploadSuccess) {
+        } else if (state is UploadItemSuccess) {
           _logger.i('Upload successful');
           CustomSnackbar(
             message: S.of(context).upload_successful,
             theme: widget.myClosetTheme,
           ).show(context);
           _navigateToMyCloset(context);
-        } else if (state is UploadFailure) {
+        } else if (state is UploadItemFailure) {
           _logger.e('Upload failed with error: ${state.error}');
           CustomSnackbar(
             message: S.of(context).upload_failed(state.error),
@@ -391,8 +391,8 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
                     Padding(
                       padding: const EdgeInsets.only(top: 2.0, bottom: 20.0, left: 16.0, right: 16.0),
                       child: ElevatedButton(
-                        onPressed: state is Uploading ? null : () => _handleNext(context),
-                        child: state is Uploading
+                        onPressed: state is UploadingItem ? null : () => _handleNext(context),
+                        child: state is UploadingItem
                             ? SizedBox(
                           width: 36.0,
                           height: 36.0,

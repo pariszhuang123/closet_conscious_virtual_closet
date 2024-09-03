@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/data/type_data.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/widgets/icon_row_builder.dart';
-import '../../presentation/bloc/upload_bloc.dart';
+import '../../presentation/bloc/upload_item_bloc.dart';
 
 class MetadataFirstPage extends StatelessWidget {
   final TextEditingController itemNameController;
@@ -52,7 +52,7 @@ class MetadataFirstPage extends StatelessWidget {
               ),
               keyboardType: TextInputType.number,
               onChanged: (value) {
-                context.read<UploadBloc>().add(ValidateFormPage1(
+                context.read<UploadItemBloc>().add(ValidateFormPage1(
                   itemName: itemNameController.text.trim(),
                   amountSpentText: value,
                   selectedItemType: selectedItemType,

@@ -1,23 +1,23 @@
-part of 'upload_bloc.dart';
+part of 'upload_item_bloc.dart';
 
-abstract class UploadState extends Equatable {
-  const UploadState();
+abstract class UploadItemState extends Equatable {
+  const UploadItemState();
 
   @override
   List<Object> get props => [];
 }
 
-class CameraPermissionDenied extends UploadState {}
+class CameraPermissionDenied extends UploadItemState {}
 
-class CameraPermissionGranted extends UploadState {}
+class CameraPermissionGranted extends UploadItemState {}
 
-class CameraPermissionPermanentlyDenied extends UploadState {}
+class CameraPermissionPermanentlyDenied extends UploadItemState {}
 
 // State indicating that the form on Page 1 is valid
-class FormValidPage1 extends UploadState {}
+class FormValidPage1 extends UploadItemState {}
 
 // State indicating that the form on Page 1 is invalid
-class FormInvalidPage1 extends UploadState {
+class FormInvalidPage1 extends UploadItemState {
   final String errorMessage;
 
   const FormInvalidPage1(this.errorMessage);
@@ -27,10 +27,10 @@ class FormInvalidPage1 extends UploadState {
 }
 
 // State indicating that the form on Page 2 is valid
-class FormValidPage2 extends UploadState {}
+class FormValidPage2 extends UploadItemState {}
 
 // State indicating that the form on Page 2 is invalid
-class FormInvalidPage2 extends UploadState {
+class FormInvalidPage2 extends UploadItemState {
   final String errorMessage;
 
   const FormInvalidPage2(this.errorMessage);
@@ -40,10 +40,10 @@ class FormInvalidPage2 extends UploadState {
 }
 
 // State indicating that the form on Page 3 is valid
-class FormValidPage3 extends UploadState {}
+class FormValidPage3 extends UploadItemState {}
 
 // State indicating that the form on Page 3 is invalid
-class FormInvalidPage3 extends UploadState {
+class FormInvalidPage3 extends UploadItemState {
   final String errorMessage;
 
   const FormInvalidPage3(this.errorMessage);
@@ -52,16 +52,16 @@ class FormInvalidPage3 extends UploadState {
   List<Object> get props => [errorMessage];
 }
 
-class UploadInitial extends UploadState {}
+class UploadItemInitial extends UploadItemState {}
 
-class Uploading extends UploadState {}
+class UploadingItem extends UploadItemState {}
 
-class UploadSuccess extends UploadState {}
+class UploadItemSuccess extends UploadItemState {}
 
-class UploadFailure extends UploadState {
+class UploadItemFailure extends UploadItemState {
   final String error;
 
-  const UploadFailure(this.error);
+  const UploadItemFailure(this.error);
 
   @override
   List<Object> get props => [error];

@@ -7,20 +7,20 @@ import '../../../core/data/services/item_save_service.dart';
 import '../../../../core/utilities/permission/permission_service.dart';
 import '../../../../core/utilities/logger.dart';
 
-part 'upload_event.dart';
-part 'upload_state.dart';
+part 'upload_item_event.dart';
+part 'upload_item_state.dart';
 
-class UploadBloc extends Bloc<UploadEvent, UploadState> {
+class UploadItemBloc extends Bloc<UploadItemEvent, UploadItemState> {
   final String userId;
   final ItemSaveService _itemSaveService;
   final PermissionService _permissionService;
   final CustomLogger _logger = CustomLogger('ItemUploadBloc');
 
-  UploadBloc({required this.userId, required PermissionService permissionService})
+  UploadItemBloc({required this.userId, required PermissionService permissionService})
       : _itemSaveService = ItemSaveService(userId),
         _permissionService = permissionService,
-        super(UploadInitial()) {
-    on<StartUpload>(_onStartUpload);
+        super(UploadItemInitial()) {
+    on<StartUploadItem>(_onStartUpload);
     on<ValidateFormPage1>(_onValidateFormPage1);
     on<ValidateFormPage2>(_onValidateFormPage2);
     on<ValidateFormPage3>(_onValidateFormPage3);
@@ -29,7 +29,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     on<AppResumed>(_onAppResumed);
   }
 
-  Future<void> _onCheckCameraPermission(CheckCameraPermission event, Emitter<UploadState> emit) async {
+  Future<void> _onCheckCameraPermission(CheckCameraPermission event, Emitter<UploadItemState> emit) async {
     _logger.i('Checking camera permission');
     var status = await _permissionService.checkPermission(Permission.camera);
 
@@ -42,7 +42,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     }
   }
 
-  Future<void> _onRequestCameraPermission(RequestCameraPermission event, Emitter<UploadState> emit) async {
+  Future<void> _onRequestCameraPermission(RequestCameraPermission event, Emitter<UploadItemState> emit) async {
     _logger.i('Requesting camera permission');
     var status = await _permissionService.requestPermission(Permission.camera);
 
@@ -58,7 +58,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     }
   }
 
-  void _onAppResumed(AppResumed event, Emitter<UploadState> emit) async {
+  void _onAppResumed(AppResumed event, Emitter<UploadItemState> emit) async {
     _logger.i('App resumed, checking camera permission');
     final status = await _permissionService.checkPermission(Permission.camera);
 
@@ -74,7 +74,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     }
   }
 
-  void _onValidateFormPage1(ValidateFormPage1 event, Emitter<UploadState> emit) {
+  void _onValidateFormPage1(ValidateFormPage1 event, Emitter<UploadItemState> emit) {
     _logger.i('Validating form page 1: $event');
     final amountSpent = double.tryParse(event.amountSpentText);
 
@@ -96,7 +96,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     }
   }
 
-  void _onValidateFormPage2(ValidateFormPage2 event, Emitter<UploadState> emit) {
+  void _onValidateFormPage2(ValidateFormPage2 event, Emitter<UploadItemState> emit) {
     _logger.i('Validating form page 2: $event');
     if (event.selectedSeason == null) {
       _logger.w('Form page 2 validation failed: season required');
@@ -113,7 +113,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     }
   }
 
-  void _onValidateFormPage3(ValidateFormPage3 event, Emitter<UploadState> emit) {
+  void _onValidateFormPage3(ValidateFormPage3 event, Emitter<UploadItemState> emit) {
     _logger.i('Validating form page 3: $event');
     if (event.selectedColour == null) {
       _logger.w('Form page 3 validation failed: color required');
@@ -127,9 +127,9 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     }
   }
 
-  Future<void> _onStartUpload(StartUpload event, Emitter<UploadState> emit) async {
+  Future<void> _onStartUpload(StartUploadItem event, Emitter<UploadItemState> emit) async {
     _logger.i('Starting upload: ${event.itemName}');
-    emit(Uploading());
+    emit(UploadingItem());
     try {
       final result = await _itemSaveService.saveData(
         event.itemName,
@@ -146,14 +146,14 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
       );
       if (result == null) {
         _logger.i('Upload successful');
-        emit(UploadSuccess());
+        emit(UploadItemSuccess());
       } else {
         _logger.e('Upload failed: $result');
-        emit(UploadFailure(result));
+        emit(UploadItemFailure(result));
       }
     } catch (e) {
       _logger.e('Upload failed with exception: $e');
-      emit(UploadFailure(e.toString()));
+      emit(UploadItemFailure(e.toString()));
     }
   }
 }
