@@ -9,6 +9,11 @@ abstract class CreateOutfitItemEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class CheckNavigationToReviewEvent extends CreateOutfitItemEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class ToggleSelectItemEvent extends CreateOutfitItemEvent {
   final OutfitItemCategory category;
   final String itemId;

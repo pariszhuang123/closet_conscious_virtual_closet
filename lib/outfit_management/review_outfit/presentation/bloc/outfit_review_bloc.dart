@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../core/data/models/outfit_item_minimal.dart';
+import '../../../../user_management/user_service_locator.dart';
 import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../core/data/services/outfits_fetch_service.dart';
 import '../../../core/data/services/outfits_save_service.dart';
@@ -30,7 +30,7 @@ OutfitReviewFeedback stringToFeedback(String feedback) {
 
 class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
   final CustomLogger _logger = CustomLogger('OutfitReviewBlocLogger');
-  final AuthBloc _authBloc = GetIt.instance<AuthBloc>();
+  final AuthBloc _authBloc = locator<AuthBloc>();
   final OutfitFetchService _outfitFetchService;
   final OutfitSaveService saveService;
 

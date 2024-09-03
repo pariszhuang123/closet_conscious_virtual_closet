@@ -18,11 +18,11 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
   CreateOutfitItemBloc(this.outfitFetchService, this.outfitSaveService)
       : logger = CustomLogger('CreateOutfitItemBlocLogger'),
    super(CreateOutfitItemState.initial()) {
+    on<TriggerNpsSurveyEvent>(_onTriggerNpsSurvey);
     on<FetchMoreItemsEvent>(_onFetchMoreItems);
     on<ToggleSelectItemEvent>(_onToggleSelectItem);
     on<SaveOutfitEvent>(_onSaveOutfit);
     on<SelectCategoryEvent>(_onSelectCategory);
-    on<TriggerNpsSurveyEvent>(_onTriggerNpsSurvey);
   }
 
   Future<void> _onFetchMoreItems(FetchMoreItemsEvent event,

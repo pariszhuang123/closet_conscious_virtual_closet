@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../core/usecase/photo_capture_service.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../core/utilities/logger.dart';
+import '../../../../user_management/user_service_locator.dart';
 import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../core/data/services/outfits_fetch_service.dart';
 import '../../../core/data/services/outfits_save_service.dart';
@@ -21,11 +22,12 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
   final OutfitSaveService outfitSaveService;
 
   OutfitWearBloc({
-    required this.authBloc,
     required this.photoCaptureService,
     required this.outfitFetchService,
     required this.outfitSaveService,
-  }) : logger = CustomLogger('OutfitWearBlocLogger'),
+  }) :
+        authBloc = locator<AuthBloc>(),
+        logger = CustomLogger('OutfitWearBlocLogger'),
         super(OutfitWearInitial()) {
     on<CheckForOutfitImageUrl>(_onCheckForOutfitImageUrl);
     on<TakeSelfie>(_onTakeSelfie);

@@ -196,7 +196,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ok": MessageLookupByLibrary.simpleMessage("有兴趣"),
         "onePiece": MessageLookupByLibrary.simpleMessage("连衣裙"),
         "open_settings": MessageLookupByLibrary.simpleMessage("打开设置"),
-        "other": MessageLookupByLibrary.simpleMessage("其他"),
+        "other": MessageLookupByLibrary.simpleMessage("杂项"),
         "outer": MessageLookupByLibrary.simpleMessage("外层"),
         "outfitCreationSuccessContent":
             MessageLookupByLibrary.simpleMessage("搭配已完成。去征服世界吧！"),

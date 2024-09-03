@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'outfit_wear_view.dart';
-import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../../core/usecase/photo_capture_service.dart';
 import 'package:get_it/get_it.dart';
 import '../bloc/outfit_wear_bloc.dart';
@@ -25,8 +24,6 @@ class OutfitWearProvider extends StatelessWidget {
     return BlocProvider(
       create: (context) {
         // Retrieve the existing AuthBloc from the context
-        final authBloc = BlocProvider.of<AuthBloc>(context);
-
         // Initialize PhotoCaptureService correctly
         final photoCaptureService = PhotoCaptureService();
 
@@ -38,7 +35,6 @@ class OutfitWearProvider extends StatelessWidget {
 
         // Pass the authBloc, photoCaptureService, outfitFetchService, and outfitSaveService to the OutfitWearBloc
         return OutfitWearBloc(
-          authBloc: authBloc,
           photoCaptureService: photoCaptureService,
           outfitFetchService: outfitFetchService,
           outfitSaveService: outfitSaveService,  // Provide the required argument

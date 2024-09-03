@@ -226,7 +226,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ok": MessageLookupByLibrary.simpleMessage("Interested"),
         "onePiece": MessageLookupByLibrary.simpleMessage("One Piece"),
         "open_settings": MessageLookupByLibrary.simpleMessage("Open Settings"),
-        "other": MessageLookupByLibrary.simpleMessage("Other"),
+        "other": MessageLookupByLibrary.simpleMessage("Misc"),
         "outer": MessageLookupByLibrary.simpleMessage("Outer"),
         "outfitCreationSuccessContent": MessageLookupByLibrary.simpleMessage(
             "Outfit ready. Go Slay the World!"),
