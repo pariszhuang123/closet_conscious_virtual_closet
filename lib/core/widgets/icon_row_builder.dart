@@ -24,22 +24,19 @@ List<Widget> buildIconRows(
         children: rowIcons.map((type) {
           final key = type.key;
           final label = type.getName(context);
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0.0), // Add horizontal padding
-            child: TextTypeButton(
-              key: UniqueKey(), // Use a unique key for each button instance
-              dataKey: key,
-              selectedKey: selectedKey ?? '',
-              label: label,
-              assetPath: type.assetPath,
-              isSelected: selectedKey == key,
-              isFromMyCloset: isFromMyCloset,
-              buttonType: ButtonType.primary,
-              usePredefinedColor: type.usePredefinedColor,
-              onPressed: () {
-                onTap(key);
-              },
-            ),
+          return TextTypeButton(
+            key: UniqueKey(), // Use a unique key for each button instance
+            dataKey: key,
+            selectedKey: selectedKey ?? '',
+            label: label,
+            assetPath: type.assetPath,
+            isSelected: selectedKey == key,
+            isFromMyCloset: isFromMyCloset,
+            buttonType: ButtonType.primary,
+            usePredefinedColor: type.usePredefinedColor,
+            onPressed: () {
+              onTap(key);
+            },
           );
         }).toList(),
       ),

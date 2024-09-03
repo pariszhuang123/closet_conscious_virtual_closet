@@ -69,10 +69,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "calendar": MessageLookupByLibrary.simpleMessage("日历"),
         "calendarPremiumFeature":
             MessageLookupByLibrary.simpleMessage("有兴趣查看日历视图吗？"),
+        "camera_item_permission_explanation":
+            MessageLookupByLibrary.simpleMessage("我们需要访问您的相机以拍摄物品照片，方便管理。"),
         "camera_permission_explanation":
-            MessageLookupByLibrary.simpleMessage("我们需要访问您的相机以拍摄物品照片，便于组织。"),
-        "camera_permission_needed":
-            MessageLookupByLibrary.simpleMessage("需要相机权限"),
+            MessageLookupByLibrary.simpleMessage("我们需要访问您的相机来拍照。"),
+        "camera_selfie_permission_explanation":
+            MessageLookupByLibrary.simpleMessage(
+                "我们需要访问您的相机，以便您拍摄自拍照片，查看它们在您身上的效果。"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "casual": MessageLookupByLibrary.simpleMessage("休闲"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("衣橱"),
@@ -129,7 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "filter_filter": MessageLookupByLibrary.simpleMessage("筛选"),
         "formal": MessageLookupByLibrary.simpleMessage("正式"),
         "general_permission_explanation":
-            MessageLookupByLibrary.simpleMessage("应用程序正常运行需要此权限。"),
+            MessageLookupByLibrary.simpleMessage("需要此权限才能使用此功能。"),
         "gift": MessageLookupByLibrary.simpleMessage("传递"),
         "gloves": MessageLookupByLibrary.simpleMessage("手套"),
         "green": MessageLookupByLibrary.simpleMessage("绿色"),
@@ -205,6 +208,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "outfitReviewTitle": MessageLookupByLibrary.simpleMessage("穿搭评论已提交"),
         "outfits_upload": MessageLookupByLibrary.simpleMessage("显示您上传的装扮数量"),
         "perfume": MessageLookupByLibrary.simpleMessage("香水"),
+        "permission_needed":
+            MessageLookupByLibrary.simpleMessage("应用需要此权限才能正常运行。"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
         "pleaseSelectAtLeastOneItem":
             MessageLookupByLibrary.simpleMessage("请选择至少一件您不喜欢的物品。"),
@@ -273,7 +278,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
         "top": MessageLookupByLibrary.simpleMessage("上衣"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
-            "我们正在考虑添加一个分析您物品和装扮使用数据的高级功能。"),
+            "我们正在探索一项高级功能，可以分析您物品的每次穿着成本，并提供个性化的搭配洞察。"),
         "unableToRetrieveUserId":
             MessageLookupByLibrary.simpleMessage("无法获取用户 ID。请重新登录。"),
         "unexpectedErrorOccurred":

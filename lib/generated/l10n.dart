@@ -690,10 +690,10 @@ class S {
     );
   }
 
-  /// `Add Closet`
+  /// `Multi Closet`
   String get addCloset_addCloset {
     return Intl.message(
-      'Add Closet',
+      'Multi Closet',
       name: 'addCloset_addCloset',
       desc: '',
       args: [],
@@ -1590,10 +1590,10 @@ class S {
     );
   }
 
-  /// `We're considering adding a premium feature for analyzing your usage data for items and outfits.`
+  /// `We're exploring a premium feature to analyze your items' cost per wear and provide personalized outfit insights.`
   String get trackAnalyticsDescription {
     return Intl.message(
-      'We\'re considering adding a premium feature for analyzing your usage data for items and outfits.',
+      'We\'re exploring a premium feature to analyze your items\' cost per wear and provide personalized outfit insights.',
       name: 'trackAnalyticsDescription',
       desc: '',
       args: [],
@@ -2120,30 +2120,50 @@ class S {
     );
   }
 
-  /// `Camera Permission Needed`
-  String get camera_permission_needed {
+  /// `This permission is required for the app to function properly.`
+  String get permission_needed {
     return Intl.message(
-      'Camera Permission Needed',
-      name: 'camera_permission_needed',
+      'This permission is required for the app to function properly.',
+      name: 'permission_needed',
       desc: '',
       args: [],
     );
   }
 
   /// `We need access to your camera to take photos of your items for easy organization.`
-  String get camera_permission_explanation {
+  String get camera_item_permission_explanation {
     return Intl.message(
       'We need access to your camera to take photos of your items for easy organization.',
+      name: 'camera_item_permission_explanation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We need access to your camera to allow you take your selfie photos to review how it looks on you.`
+  String get camera_selfie_permission_explanation {
+    return Intl.message(
+      'We need access to your camera to allow you take your selfie photos to review how it looks on you.',
+      name: 'camera_selfie_permission_explanation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We need access to your camera to take photos.`
+  String get camera_permission_explanation {
+    return Intl.message(
+      'We need access to your camera to take photos.',
       name: 'camera_permission_explanation',
       desc: '',
       args: [],
     );
   }
 
-  /// `This permission is required for the app to function properly.`
+  /// `This permission is needed to use this feature.`
   String get general_permission_explanation {
     return Intl.message(
-      'This permission is required for the app to function properly.',
+      'This permission is needed to use this feature.',
       name: 'general_permission_explanation',
       desc: '',
       args: [],

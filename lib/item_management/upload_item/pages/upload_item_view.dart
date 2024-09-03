@@ -15,8 +15,9 @@ import '../../../core/widgets/bottom_sheet/metadata_premium_bottom_sheet.dart';
 import '../../../core/theme/themed_svg.dart';
 import '../../../core/widgets/button/navigation_type_button.dart';
 import '../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
-import '../../../core/utilities/permission_service.dart';
-import '../../../core/widgets/feedback/custom_alert_dialog.dart';
+import '../../../core/utilities/permission/permission_service.dart';
+import '../../../core/utilities/permission/camera/camera_item_permission_helper.dart';
+import '../../../core/utilities/logger.dart';
 import 'metadata/metadata_first_page.dart';
 import 'metadata/metadata_second_page.dart';
 import 'metadata/metadata_third_page.dart';
@@ -30,7 +31,7 @@ class UploadItemView extends StatefulWidget {
   State<UploadItemView> createState() => _UploadItemViewState();
 }
 
-class _UploadItemViewState extends State<UploadItemView> {
+class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObserver {
   final _itemNameController = TextEditingController();
   final _amountSpentController = TextEditingController();
   File? _imageFile;
@@ -47,93 +48,75 @@ class _UploadItemViewState extends State<UploadItemView> {
 
   final PageController _pageController = PageController();
   final PermissionService _permissionService = PermissionService();
+  final CustomLogger _logger = CustomLogger('UploadItemView'); // Initialize CustomLogger
 
   int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
+    _logger.i('UploadItemView initialized');
     context.read<UploadBloc>().add(CheckCameraPermission());
-  }
-
-  void _showOpenSettingsDialog(BuildContext context, Permission permission) {
-    CustomAlertDialog.showCustomDialog(
-      context: context,
-      title: "", // Localized title
-      content: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 40.0), // Adjust the padding if needed
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  S.of(context).camera_permission_needed, // Localized title manually handled here
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const SizedBox(height: 8.0), // Add some space between title and explanation
-                Text(_permissionService.getPermissionExplanation(context, permission)), // Localized explanation
-                const SizedBox(height: 16.0),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      openAppSettings();
-                    },
-                    child: Text(S.of(context).open_settings),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: IconButton(
-              icon: Icon(Icons.close, color: widget.myClosetTheme.colorScheme.onSurface),
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-                Navigator.pushReplacementNamed(context, AppRoutes.myCloset); // Navigate to myCloset
-              },
-            ),
-          ),
-        ],
-      ),
-      theme: widget.myClosetTheme,
-      barrierDismissible: false, // Optional: Set to false to prevent dismissal by tapping outside
-    );
+    WidgetsBinding.instance.addObserver(this); // Add observer for lifecycle events
   }
 
   @override
   void dispose() {
-    _itemNameController.dispose();
-    _amountSpentController.dispose();
-    _pageController.dispose();
+    _logger.i('Disposing UploadItemView');
+    _disposeResources(); // Ensure resources are cleaned up
     super.dispose();
   }
 
+  void _navigateToMyCloset(BuildContext context) {
+    _disposeResources(); // Call a method to dispose of any resources
+
+    // Navigate to My Closet and replace the current view
+    Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+  }
+
+  void _disposeResources() {
+    _itemNameController.dispose();
+    _amountSpentController.dispose();
+    _pageController.dispose();
+    WidgetsBinding.instance.removeObserver(this); // Remove the observer
+    // Dispose any other resources if necessary
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _logger.i('App lifecycle state changed: $state');
+    if (state == AppLifecycleState.resumed) {
+      _logger.i('App resumed, checking camera permission');
+      context.read<UploadBloc>().add(CheckCameraPermission()); // Re-check permission on resume
+    }
+  }
 
   Future<void> _capturePhoto() async {
+    _logger.i('Capturing photo');
     final PhotoCaptureService photoCaptureService = PhotoCaptureService();
 
     File? resizedImageFile = await photoCaptureService.captureAndResizePhoto();
 
     if (resizedImageFile != null) {
+      _logger.i('Photo captured and resized successfully');
       setState(() {
         _imageFile = resizedImageFile;
         _imageUrl = _imageFile!.path;
       });
     } else {
+      _logger.w('Photo capture failed or was canceled');
       if (mounted) {
-        Navigator.of(context).pushReplacementNamed(AppRoutes.myCloset);
+        _navigateToMyCloset(context);
       }
     }
   }
 
   void _handleNext(BuildContext context) {
+    _logger.i('Handling next button press, current page: $_currentPage');
     final uploadBloc = context.read<UploadBloc>();
 
     if (_currentPage == 0) {
+      _logger.i('Validating form on page 1');
       uploadBloc.add(ValidateFormPage1(
         itemName: _itemNameController.text.trim(),
         amountSpentText: _amountSpentController.text,
@@ -141,6 +124,7 @@ class _UploadItemViewState extends State<UploadItemView> {
         selectedOccasion: selectedOccasion,
       ));
     } else if (_currentPage == 1) {
+      _logger.i('Validating form on page 2');
       uploadBloc.add(ValidateFormPage2(
         selectedSeason: selectedSeason,
         selectedSpecificType: selectedSpecificType,
@@ -148,6 +132,7 @@ class _UploadItemViewState extends State<UploadItemView> {
         selectedClothingLayer: selectedClothingLayer,
       ));
     } else if (_currentPage == 2) {
+      _logger.i('Validating form on page 3');
       uploadBloc.add(ValidateFormPage3(
         selectedColour: selectedColour,
         selectedColourVariation: selectedColourVariation,
@@ -156,6 +141,7 @@ class _UploadItemViewState extends State<UploadItemView> {
   }
 
   void _handleUpload(BuildContext context) {
+    _logger.i('Handling upload');
     context.read<UploadBloc>().add(StartUpload(
       itemName: _itemNameController.text.trim(),
       amountSpent: double.tryParse(_amountSpentController.text) ?? 0.0,
@@ -173,6 +159,7 @@ class _UploadItemViewState extends State<UploadItemView> {
 
   /// This method maps error keys to localized error messages
   void _showErrorMessage(String errorKey) {
+    _logger.w('Showing error message for key: $errorKey');
     String errorMessage;
 
     switch (errorKey) {
@@ -214,7 +201,8 @@ class _UploadItemViewState extends State<UploadItemView> {
     ).show(context);
   }
 
-  void _openMetdataSheet() {
+  void _openMetadataSheet() {
+    _logger.i('Opening metadata sheet');
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) => const MetadataFeatureBottomSheet(
@@ -226,11 +214,14 @@ class _UploadItemViewState extends State<UploadItemView> {
 
   @override
   Widget build(BuildContext context) {
+    _logger.i('Building UploadItemView');
     return BlocConsumer<UploadBloc, UploadState>(
       listener: (context, state) {
+        _logger.i('Bloc state changed: $state');
         final uploadBloc = context.read<UploadBloc>();
 
         if (state is CameraPermissionDenied) {
+          _logger.w('Camera permission denied');
           CustomSnackbar(
             message: _permissionService.getPermissionExplanation(context, Permission.camera),
             theme: widget.myClosetTheme,
@@ -243,25 +234,36 @@ class _UploadItemViewState extends State<UploadItemView> {
             }
           });
         } else if (state is CameraPermissionGranted) {
+          _logger.i('Camera permission granted');
           _capturePhoto();  // Assuming this is a camera permission
         } else if (state is CameraPermissionPermanentlyDenied) {
+          _logger.w('Camera permission permanently denied');
           CustomSnackbar(
             message: _permissionService.getPermissionExplanation(context, Permission.camera),
             theme: widget.myClosetTheme,
           ).show(context);
-          _showOpenSettingsDialog(context, Permission.camera);  // Correct method call
+
+          // Pass the _navigateToMyCloset method to the CameraItemPermissionHelper
+          CameraItemPermissionHelper().checkAndRequestPermission(
+            context,
+            widget.myClosetTheme,
+                () => _navigateToMyCloset(context),
+          );
         } else if (state is UploadSuccess) {
+          _logger.i('Upload successful');
           CustomSnackbar(
             message: S.of(context).upload_successful,
             theme: widget.myClosetTheme,
           ).show(context);
-          Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+          _navigateToMyCloset(context);
         } else if (state is UploadFailure) {
+          _logger.e('Upload failed with error: ${state.error}');
           CustomSnackbar(
             message: S.of(context).upload_failed(state.error),
             theme: widget.myClosetTheme,
           ).show(context);
-        }  else if (state is FormValidPage1) {
+        } else if (state is FormValidPage1) {
+          _logger.i('Form page 1 valid');
           _pageController.nextPage(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
@@ -270,8 +272,10 @@ class _UploadItemViewState extends State<UploadItemView> {
             _currentPage = 1;
           });
         } else if (state is FormInvalidPage1) {
+          _logger.w('Form page 1 invalid: ${state.errorMessage}');
           _showErrorMessage(state.errorMessage);
         } else if (state is FormValidPage2) {
+          _logger.i('Form page 2 valid');
           _pageController.nextPage(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
@@ -280,14 +284,18 @@ class _UploadItemViewState extends State<UploadItemView> {
             _currentPage = 2;
           });
         } else if (state is FormInvalidPage2) {
+          _logger.w('Form page 2 invalid: ${state.errorMessage}');
           _showErrorMessage(state.errorMessage);
         } else if (state is FormValidPage3) {
+          _logger.i('Form page 3 valid');
           _handleUpload(context);
         } else if (state is FormInvalidPage3) {
+          _logger.w('Form page 3 invalid: ${state.errorMessage}');
           _showErrorMessage(state.errorMessage);
         }
       },
       builder: (context, state) {
+        _logger.i('Building UI based on state: $state');
         return PopScope<Object?>(
           canPop: false,
           onPopInvokedWithResult: (bool didPop, Object? result) {
@@ -320,7 +328,7 @@ class _UploadItemViewState extends State<UploadItemView> {
                               child: NavigationTypeButton(
                                 label: TypeDataList.metadata(context).getName(context),
                                 selectedLabel: '',
-                                onPressed: _openMetdataSheet,
+                                onPressed: _openMetadataSheet,
                                 assetPath: TypeDataList.metadata(context).assetPath,
                                 isFromMyCloset: true,
                                 buttonType: ButtonType.secondary,

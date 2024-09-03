@@ -51,7 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "achievements": MessageLookupByLibrary.simpleMessage("Achievements"),
         "active": MessageLookupByLibrary.simpleMessage("Active"),
         "addCloset_addCloset":
-            MessageLookupByLibrary.simpleMessage("Add Closet"),
+            MessageLookupByLibrary.simpleMessage("Multi Closet"),
         "addYourComments":
             MessageLookupByLibrary.simpleMessage("Add your comments"),
         "alright": MessageLookupByLibrary.simpleMessage("It\'s okay"),
@@ -79,10 +79,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "calendarPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Interested in Calendar View?"),
-        "camera_permission_explanation": MessageLookupByLibrary.simpleMessage(
+        "camera_item_permission_explanation": MessageLookupByLibrary.simpleMessage(
             "We need access to your camera to take photos of your items for easy organization."),
-        "camera_permission_needed":
-            MessageLookupByLibrary.simpleMessage("Camera Permission Needed"),
+        "camera_permission_explanation": MessageLookupByLibrary.simpleMessage(
+            "We need access to your camera to take photos."),
+        "camera_selfie_permission_explanation":
+            MessageLookupByLibrary.simpleMessage(
+                "We need access to your camera to allow you take your selfie photos to review how it looks on you."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "casual": MessageLookupByLibrary.simpleMessage("Casual"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("Closet"),
@@ -152,7 +155,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "formal": MessageLookupByLibrary.simpleMessage("Formal"),
         "general_permission_explanation": MessageLookupByLibrary.simpleMessage(
-            "This permission is required for the app to function properly."),
+            "This permission is needed to use this feature."),
         "gift": MessageLookupByLibrary.simpleMessage("Gift"),
         "gloves": MessageLookupByLibrary.simpleMessage("Gloves"),
         "green": MessageLookupByLibrary.simpleMessage("Green"),
@@ -237,6 +240,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "outfits_upload": MessageLookupByLibrary.simpleMessage(
             "This shows the number of outfits you have uploaded"),
         "perfume": MessageLookupByLibrary.simpleMessage("Perfume"),
+        "permission_needed": MessageLookupByLibrary.simpleMessage(
+            "This permission is required for the app to function properly."),
         "pleaseEnterItemName":
             MessageLookupByLibrary.simpleMessage("Please enter an item name"),
         "pleaseSelectAtLeastOneItem": MessageLookupByLibrary.simpleMessage(
@@ -321,7 +326,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "top": MessageLookupByLibrary.simpleMessage("Top"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
-            "We\'re considering adding a premium feature for analyzing your usage data for items and outfits."),
+            "We\'re exploring a premium feature to analyze your items\' cost per wear and provide personalized outfit insights."),
         "unableToRetrieveUserId": MessageLookupByLibrary.simpleMessage(
             "Unable to retrieve user ID. Please sign in again."),
         "unexpectedErrorOccurred": MessageLookupByLibrary.simpleMessage(

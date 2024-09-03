@@ -154,7 +154,7 @@
   "congratulations": "恭喜！",
   "achievementMessage": "这是您的成就：",
   "AnalyticsSearchPremiumFeature": "有兴趣使用分析功能吗？",
-  "trackAnalyticsDescription": "我们正在考虑添加一个分析您物品和装扮使用数据的高级功能。",
+  "trackAnalyticsDescription": "我们正在探索一项高级功能，可以分析您物品的每次穿着成本，并提供个性化的搭配洞察。",
   "calendarPremiumFeature": "有兴趣查看日历视图吗？",
   "reviewOutfitsInCalendar": "我们正在考虑添加一个高级功能，可以在日历格式中查看之前的装扮并与多衣橱集成。",
   "filterSearchPremiumFeature": "有兴趣使用高级筛选功能吗？",
@@ -207,9 +207,10 @@
   "npsExplanation": "在 0 到 10 的范围内打分：\n0：完全不推荐\n10：非常推荐",
   "termsNotAcceptedMessage": "您需要接受条款和条件才能登录。",
   "unknownError": "出现问题，请稍后再试。",
-  "camera_permission_needed": "需要相机权限",
-  "camera_permission_explanation": "我们需要访问您的相机以拍摄物品照片，便于组织。",
-  "general_permission_explanation": "应用程序正常运行需要此权限。",
+  "permission_needed": "应用需要此权限才能正常运行。",
+  "camera_item_permission_explanation": "我们需要访问您的相机以拍摄物品照片，方便管理。",
+  "camera_selfie_permission_explanation": "我们需要访问您的相机，以便您拍摄自拍照片，查看它们在您身上的效果。",
+  "camera_permission_explanation": "我们需要访问您的相机来拍照。",
+  "general_permission_explanation": "需要此权限才能使用此功能。",
   "open_settings": "打开设置"
-
 }
