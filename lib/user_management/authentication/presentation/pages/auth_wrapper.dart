@@ -42,11 +42,11 @@ class AuthWrapperState extends State<AuthWrapper> {
             }
           });
         } else if (state is Authenticated) {
-          logger.i('Navigating to OutfitReview');
+          logger.i('Navigating to myCloset');
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (currentRoute != AppRoutes.reviewOutfit) {
-              logger.i('Performing navigation to OutfitReview');
-              Navigator.of(context).pushReplacementNamed(AppRoutes.reviewOutfit);
+            if (currentRoute != AppRoutes.myCloset) {
+              logger.i('Performing navigation to myCloset');
+              Navigator.of(context).pushReplacementNamed(AppRoutes.myCloset);
             }
           });
         }

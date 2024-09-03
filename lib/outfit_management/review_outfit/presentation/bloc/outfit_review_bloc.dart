@@ -69,16 +69,16 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
           await _handleFeedback(event.feedback, outfitId, emit);
         } else {
           _logger.w('No outfit ID found, navigating to My Closet.');
-          emit(NavigateToMyCloset());
+          emit(NavigateToMyOutfit());
         }
       } catch (e, stackTrace) {
         _logger.e('Failed to load outfit: $e');
         _logger.e('Stack trace: $stackTrace');
-        emit(NavigateToMyCloset());
+        emit(NavigateToMyOutfit());
       }
     } else {
       _logger.w('User is not authenticated');
-      emit(NavigateToMyCloset());
+      emit(NavigateToMyOutfit());
     }
   }
 
@@ -123,7 +123,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
       // Ensure the state is only emitted if the handler hasn't completed
       if (!emit.isDone) {
-        emit(NavigateToMyCloset());
+        emit(NavigateToMyOutfit());
       }
     }
   }

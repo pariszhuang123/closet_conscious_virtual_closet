@@ -103,7 +103,7 @@ class OutfitReviewError extends OutfitReviewState {
   List<Object?> get props => [message, ...super.props];
 }
 
-class NavigateToMyCloset extends OutfitReviewState {}
+class NavigateToMyOutfit extends OutfitReviewState {}
 
 class FeedbackUpdated extends OutfitReviewState {
   const FeedbackUpdated(

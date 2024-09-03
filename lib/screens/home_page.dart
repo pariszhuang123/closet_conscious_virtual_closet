@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../user_management/authentication/presentation/pages/login_screen.dart';
 import '../core/utilities/logger.dart';
-import '../outfit_management/review_outfit/presentation/page/outfit_review_provider.dart';
+import '../screens/my_closet.dart';
 
 class HomePage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -34,7 +34,7 @@ class HomePageState extends State<HomePage> {
           builder: (context, state) {
             logger.d('Auth state in builder: $state');
             if (state is Authenticated) {
-              return OutfitReviewProvider(myOutfitTheme: widget.myOutfitTheme);
+              return MyClosetPage(myClosetTheme: widget.myClosetTheme);
             } else if (state is Unauthenticated) {
               return LoginScreen(myClosetTheme: widget.myClosetTheme);
             } else {
