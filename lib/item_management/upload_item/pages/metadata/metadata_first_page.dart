@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/data/type_data.dart';
 import '../../../../generated/l10n.dart';
-import '../../../../core/widgets/icon_row_builder.dart';
+import '../../../../core/widgets/layout/icon_row_builder.dart';
 import '../../presentation/bloc/upload_item_bloc.dart';
 
 class MetadataFirstPage extends StatelessWidget {

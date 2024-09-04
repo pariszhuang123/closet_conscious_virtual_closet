@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
-import '../../../../core/widgets/base_grid.dart';
+import '../../../../core/widgets/layout/base_grid.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
-import '../../../../core/widgets/user_photo/enhanced_user_photo.dart';
+import '../../../../core/photo/presentation/widgets/user_photo/enhanced_user_photo.dart';
 import '../../../../generated/l10n.dart';
 
 class OutfitGrid extends StatelessWidget {

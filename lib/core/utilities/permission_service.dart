@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart'; // Use material.dart instead of cupertino.dart
 import 'package:permission_handler/permission_handler.dart';
-import '../../../generated/l10n.dart';
+import '../../generated/l10n.dart';
 
 enum CameraPermissionContext {
   item,

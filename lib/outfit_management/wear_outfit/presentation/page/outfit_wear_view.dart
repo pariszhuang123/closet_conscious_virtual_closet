@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
-import '../../../../core/widgets/base_grid.dart';
-import '../../../../core/widgets/user_photo/enhanced_user_photo.dart';
-import '../../../../core/widgets/user_photo/base/user_photo.dart';
+import '../../../../core/widgets/layout/base_grid.dart';
+import '../../../../core/photo/presentation/widgets/user_photo/enhanced_user_photo.dart';
+import '../../../../core/photo/presentation/widgets/user_photo/base/user_photo.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../generated/l10n.dart';
 import '../widget/selfie_date_share_container.dart';

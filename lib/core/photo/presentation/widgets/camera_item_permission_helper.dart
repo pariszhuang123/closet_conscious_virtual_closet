@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../permission_service.dart';
+import '../../../utilities/permission_service.dart';
 import '../../../widgets/permission_dialogs/settings_dialog.dart';
 
 class CameraItemPermissionHelper {

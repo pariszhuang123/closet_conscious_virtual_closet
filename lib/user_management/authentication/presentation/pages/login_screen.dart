@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/gestures.dart';
 import '../widgets/sign_in_button_google.dart';
 import '../../../../generated/l10n.dart';
-import '../.././../../core/widgets/webview_screen.dart';
+import '../../../../core/screens/webview_screen.dart';
 import '../.././../../core/widgets/feedback/custom_snack_bar.dart';
 
 

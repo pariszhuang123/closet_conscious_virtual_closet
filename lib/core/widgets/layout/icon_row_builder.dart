@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../theme/themed_svg.dart';
-import '../widgets/button/text_type_button.dart';
-import '../data/type_data.dart';
+import '../../theme/themed_svg.dart';
+import '../button/text_type_button.dart';
+import '../../data/type_data.dart';
 
 List<Widget> buildIconRows(
     List<TypeData> typeDataList,

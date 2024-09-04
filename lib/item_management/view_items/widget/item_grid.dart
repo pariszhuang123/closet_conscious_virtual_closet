@@ -3,8 +3,8 @@ import '../../../core/utilities/routes.dart';
 import '../../../core/utilities/logger.dart';
 import '../../core/data/models/closet_item_minimal.dart';
 import '../../edit_item/data/edit_item_arguments.dart';
-import '../../../core/widgets/base_grid.dart';
-import '../../../core/widgets/user_photo/enhanced_user_photo.dart';
+import '../../../core/widgets/layout/base_grid.dart';
+import '../../../core/photo/presentation/widgets/user_photo/enhanced_user_photo.dart';
 
 class ItemGrid extends StatelessWidget {
   final List<ClosetItemMinimal> items;

@@ -6,9 +6,9 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../core/data/type_data.dart';
 import '../../../core/utilities/routes.dart';
-import '../../upload_item/widgets/image_display_widget.dart';
+import '../../../core/photo/presentation/widgets/image_display_widget.dart';
 import '../../../generated/l10n.dart';
-import '../../../core/widgets/icon_row_builder.dart';
+import '../../../core/widgets/layout/icon_row_builder.dart';
 import '../presentation/bloc/edit_item_bloc.dart';
 import '../../declutter_items/presentation/widgets/declutter_options_bottom_sheet.dart';
 import '../../../core/utilities/logger.dart';

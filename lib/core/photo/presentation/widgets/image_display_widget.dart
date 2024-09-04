@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import '../../../core/theme/my_closet_theme.dart';
-import '../../../generated/l10n.dart';
+import '../../../theme/my_closet_theme.dart';
+import '../../../../generated/l10n.dart';
 
 class ImageDisplayWidget extends StatelessWidget {
   const ImageDisplayWidget({

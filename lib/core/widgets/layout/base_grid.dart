@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/utilities/logger.dart';
+import '../../../../core/utilities/logger.dart';
 
 typedef ItemBuilder<T> = Widget Function(BuildContext context, T item, int index);
 

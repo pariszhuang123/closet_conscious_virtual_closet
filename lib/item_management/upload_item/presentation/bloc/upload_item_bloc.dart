@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../core/data/services/item_save_service.dart';
-import '../../../../core/utilities/permission/permission_service.dart';
+import '../../../../core/utilities/permission_service.dart';
 import '../../../../core/utilities/logger.dart';
 
 part 'upload_item_event.dart';

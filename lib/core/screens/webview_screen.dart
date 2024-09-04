@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../../core/theme/my_closet_theme.dart';
-import '../../core/theme/my_outfit_theme.dart';
+import '../theme/my_closet_theme.dart';
+import '../theme/my_outfit_theme.dart';
 
 class WebViewScreen extends StatelessWidget {
   final String url;
