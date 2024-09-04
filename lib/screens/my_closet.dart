@@ -185,7 +185,7 @@ class MyClosetPageState extends State<MyClosetPage> {
   }
 
   void _onUploadButtonPressed() {
-    Navigator.pushReplacementNamed(context, AppRoutes.uploadItem);
+    Navigator.pushReplacementNamed(context, AppRoutes.uploadItemPhoto);
   }
 
   void _onFilterButtonPressed() {

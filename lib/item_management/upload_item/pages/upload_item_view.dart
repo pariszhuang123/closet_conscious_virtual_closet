@@ -1,12 +1,8 @@
-import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../core/data/type_data.dart';
 import '../../../core/photo/presentation/widgets/image_display_widget.dart';
-import '../../../core/usecase/photo_capture_service.dart';
 import '../../../core/utilities/routes.dart';
 import '../../../generated/l10n.dart';
 import '../presentation/bloc/upload_item_bloc.dart';
@@ -15,8 +11,6 @@ import '../../../core/widgets/bottom_sheet/metadata_premium_bottom_sheet.dart';
 import '../../../core/theme/themed_svg.dart';
 import '../../../core/widgets/button/navigation_type_button.dart';
 import '../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
-import '../../../core/utilities/permission_service.dart';
-import '../../../core/photo/presentation/widgets/camera_item_permission_helper.dart';
 import '../../../core/utilities/logger.dart';
 import 'metadata/metadata_first_page.dart';
 import 'metadata/metadata_second_page.dart';
@@ -34,7 +28,6 @@ class UploadItemView extends StatefulWidget {
 class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObserver {
   final _itemNameController = TextEditingController();
   final _amountSpentController = TextEditingController();
-  File? _imageFile;
   String? _imageUrl;
   String? selectedItemType;
   String? selectedSpecificType;
@@ -47,7 +40,6 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
   String? selectedColourVariation;
 
   final PageController _pageController = PageController();
-  final PermissionService _permissionService = PermissionService();
   final CustomLogger _logger = CustomLogger('UploadItemView'); // Initialize CustomLogger
 
   int _currentPage = 0;
@@ -56,8 +48,6 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
   void initState() {
     super.initState();
     _logger.i('UploadItemView initialized');
-    context.read<UploadItemBloc>().add(CheckCameraPermission());
-    WidgetsBinding.instance.addObserver(this); // Add observer for lifecycle events
   }
 
   @override
@@ -71,43 +61,12 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
     _itemNameController.dispose();
     _amountSpentController.dispose();
     _pageController.dispose();
-    WidgetsBinding.instance.removeObserver(this); // Remove the observer
-
   }
 
   void _navigateToMyCloset(BuildContext context) {
     if (mounted) {
       _disposeResources(); // Dispose safely
       Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
-    }
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    _logger.i('App lifecycle state changed: $state');
-    if (state == AppLifecycleState.resumed) {
-      _logger.i('App resumed, checking camera permission');
-      context.read<UploadItemBloc>().add(CheckCameraPermission()); // Re-check permission on resume
-    }
-  }
-
-  Future<void> _capturePhoto() async {
-    _logger.i('Capturing photo');
-    final PhotoCaptureService photoCaptureService = PhotoCaptureService();
-
-    File? resizedImageFile = await photoCaptureService.captureAndResizePhoto();
-
-    if (resizedImageFile != null) {
-      _logger.i('Photo captured and resized successfully');
-      setState(() {
-        _imageFile = resizedImageFile;
-        _imageUrl = _imageFile!.path;
-      });
-    } else {
-      _logger.w('Photo capture failed or was canceled');
-      if (mounted) {
-        _navigateToMyCloset(context);
-      }
     }
   }
 
@@ -145,7 +104,6 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
     context.read<UploadItemBloc>().add(StartUploadItem(
       itemName: _itemNameController.text.trim(),
       amountSpent: double.tryParse(_amountSpentController.text) ?? 0.0,
-      imageFile: _imageFile,
       imageUrl: _imageUrl,
       selectedItemType: selectedItemType,
       selectedSpecificType: selectedSpecificType,
@@ -218,38 +176,7 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
     return BlocConsumer<UploadItemBloc, UploadItemState>(
       listener: (context, state) {
         _logger.i('Bloc state changed: $state');
-        final uploadBloc = context.read<UploadItemBloc>();
-
-        if (state is CameraPermissionDenied) {
-          _logger.w('Camera permission denied');
-          CustomSnackbar(
-            message: _permissionService.getPermissionExplanation(context, Permission.camera),
-            theme: widget.myClosetTheme,
-          ).show(context);
-
-          // Re-ask for the same permission after showing the snackbar
-          Future.delayed(const Duration(seconds: 3), () {
-            if (mounted) {
-              uploadBloc.add(RequestCameraPermission());
-            }
-          });
-        } else if (state is CameraPermissionGranted) {
-          _logger.i('Camera permission granted');
-          _capturePhoto();  // Assuming this is a camera permission
-        } else if (state is CameraPermissionPermanentlyDenied) {
-          _logger.w('Camera permission permanently denied');
-          CustomSnackbar(
-            message: _permissionService.getPermissionExplanation(context, Permission.camera),
-            theme: widget.myClosetTheme,
-          ).show(context);
-
-          // Pass the _navigateToMyCloset method to the CameraItemPermissionHelper
-          CameraItemPermissionHelper().checkAndRequestPermission(
-            context,
-            widget.myClosetTheme,
-                () => _navigateToMyCloset(context),
-          );
-        } else if (state is UploadItemSuccess) {
+        if (state is UploadItemSuccess) {
           _logger.i('Upload successful');
           CustomSnackbar(
             message: S.of(context).upload_successful,

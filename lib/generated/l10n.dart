@@ -2130,20 +2130,30 @@ class S {
     );
   }
 
-  /// `We need access to your camera to take photos of your items for easy organization.`
-  String get camera_item_permission_explanation {
+  /// `Allow access to your camera to upload photos of your clothes for easier closet management.`
+  String get camera_upload_item_permission_explanation {
     return Intl.message(
-      'We need access to your camera to take photos of your items for easy organization.',
-      name: 'camera_item_permission_explanation',
+      'Allow access to your camera to upload photos of your clothes for easier closet management.',
+      name: 'camera_upload_item_permission_explanation',
       desc: '',
       args: [],
     );
   }
 
-  /// `We need access to your camera to allow you take your selfie photos to review how it looks on you.`
+  /// `Allow access to update item photos with your camera.`
+  String get camera_edit_item_permission_explanation {
+    return Intl.message(
+      'Allow access to update item photos with your camera.',
+      name: 'camera_edit_item_permission_explanation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allow access to your camera to take selfies with your outfits.`
   String get camera_selfie_permission_explanation {
     return Intl.message(
-      'We need access to your camera to allow you take your selfie photos to review how it looks on you.',
+      'Allow access to your camera to take selfies with your outfits.',
       name: 'camera_selfie_permission_explanation',
       desc: '',
       args: [],

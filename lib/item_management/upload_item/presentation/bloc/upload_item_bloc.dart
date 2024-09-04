@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../core/data/services/item_save_service.dart';
@@ -134,7 +133,6 @@ class UploadItemBloc extends Bloc<UploadItemEvent, UploadItemState> {
       final result = await _itemSaveService.saveData(
         event.itemName,
         event.amountSpent,
-        event.imageFile,
         event.imageUrl,
         event.selectedItemType,
         event.selectedSpecificType,

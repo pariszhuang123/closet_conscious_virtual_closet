@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:uuid/uuid.dart';
+import '../../../../core/photo/data/services/image_upload_service.dart';
 
 import '../../../../core/config/supabase_config.dart';
 import '../../../../core/utilities/logger.dart';
@@ -10,13 +8,16 @@ import '../../../../core/utilities/logger.dart';
 class ItemSaveService {
   final String userId;
   final CustomLogger logger;
+  final ImageUploadService imageUploadService;
 
-  ItemSaveService(this.userId) : logger = CustomLogger('ItemSaveService');
+
+  ItemSaveService(this.userId)
+      : logger = CustomLogger('ItemSaveService'),
+        imageUploadService = ImageUploadService();
 
   Future<String?> saveData(
       String itemName,
       double amountSpent,
-      File? imageFile,
       String? imageUrl,
       String? selectedItemType,
       String? selectedSpecificType,
@@ -28,32 +29,6 @@ class ItemSaveService {
       ) async {
     String? finalImageUrl = imageUrl;
     selectedColourVariation ??= "cc_none";
-
-    if (imageFile != null) {
-      final imageBytes = await imageFile.readAsBytes();
-      final uuid = const Uuid().v4();
-      final imagePath = '/$userId/$uuid.jpg';
-
-      try {
-        await SupabaseConfig.client.storage.from('item_pics').uploadBinary(
-          imagePath,
-          imageBytes,
-          fileOptions: const FileOptions(
-            upsert: true,
-            contentType: 'image/jpeg',
-          ),
-        );
-
-        finalImageUrl =
-            SupabaseConfig.client.storage.from('item_pics').getPublicUrl(imagePath);
-        finalImageUrl = Uri.parse(finalImageUrl).replace(queryParameters: {
-          't': DateTime.now().millisecondsSinceEpoch.toString()
-        }).toString();
-      } catch (e) {
-        logger.e('Error uploading image: $e');
-        throw Exception('Error uploading image: $e');
-      }
-    }
 
     final Map<String, dynamic> params = {
       '_item_type': selectedItemType,

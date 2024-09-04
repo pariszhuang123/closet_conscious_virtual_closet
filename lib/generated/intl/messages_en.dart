@@ -79,13 +79,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "calendarPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Interested in Calendar View?"),
-        "camera_item_permission_explanation": MessageLookupByLibrary.simpleMessage(
-            "We need access to your camera to take photos of your items for easy organization."),
+        "camera_edit_item_permission_explanation":
+            MessageLookupByLibrary.simpleMessage(
+                "Allow access to update item photos with your camera."),
         "camera_permission_explanation": MessageLookupByLibrary.simpleMessage(
             "We need access to your camera to take photos."),
         "camera_selfie_permission_explanation":
             MessageLookupByLibrary.simpleMessage(
-                "We need access to your camera to allow you take your selfie photos to review how it looks on you."),
+                "Allow access to your camera to take selfies with your outfits."),
+        "camera_upload_item_permission_explanation":
+            MessageLookupByLibrary.simpleMessage(
+                "Allow access to your camera to upload photos of your clothes for easier closet management."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "casual": MessageLookupByLibrary.simpleMessage("Casual"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("Closet"),

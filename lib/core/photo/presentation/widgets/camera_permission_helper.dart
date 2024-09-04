@@ -3,15 +3,20 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../utilities/permission_service.dart';
 import '../../../widgets/permission_dialogs/settings_dialog.dart';
 
-class CameraItemPermissionHelper {
+class CameraPermissionHelper {
   final PermissionService _permissionService = PermissionService();
 
-  Future<void> checkAndRequestPermission(BuildContext context, ThemeData theme, VoidCallback navigateToMyCloset) async {
+  Future<void> checkAndRequestPermission({
+    required BuildContext context, // Named parameter for context
+    required ThemeData theme, // Named parameter for theme
+    required CameraPermissionContext cameraContext, // Named parameter for camera context
+    required VoidCallback onClose, // Named parameter for the onClose callback
+  }) async {
     // Capture necessary data from the context before the async operation
     String explanation = _permissionService.getPermissionExplanation(
       context,
       Permission.camera,
-      cameraContext: CameraPermissionContext.item,
+      cameraContext: cameraContext,  // Use the dynamic context
     );
 
     // Check camera permission
@@ -25,7 +30,7 @@ class CameraItemPermissionHelper {
           permission: Permission.camera,
           theme: theme,
           explanation: explanation,
-          onClose: navigateToMyCloset,
+          onClose: onClose,
         );
       }
     }

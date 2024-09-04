@@ -3,7 +3,8 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../generated/l10n.dart';
 
 enum CameraPermissionContext {
-  item,
+  uploadItem,
+  editItem,
   selfie,
 }
 
@@ -27,8 +28,10 @@ class PermissionService {
 
     if (permission == Permission.camera) {
       switch (cameraContext) {
-        case CameraPermissionContext.item:
-          return S.of(context).camera_item_permission_explanation;
+        case CameraPermissionContext.uploadItem:
+          return S.of(context).camera_upload_item_permission_explanation;
+        case CameraPermissionContext.editItem:
+          return S.of(context).camera_edit_item_permission_explanation;
         case CameraPermissionContext.selfie:
           return S.of(context).camera_selfie_permission_explanation;
         default:

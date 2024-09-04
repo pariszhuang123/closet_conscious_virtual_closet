@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'dart:io';
 import 'package:uuid/uuid.dart';
 
-import '../../../../core/usecase/photo_capture_service.dart';
+import '../../../../core/photo/usecase/photo_capture_service.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../user_management/user_service_locator.dart';

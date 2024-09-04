@@ -67,7 +67,6 @@ class ValidateFormPage3 extends UploadItemEvent {
 class StartUploadItem extends UploadItemEvent {
   final String itemName;
   final double amountSpent;
-  final File? imageFile;
   final String? imageUrl;
   final String? selectedItemType;
   final String? selectedSpecificType;
@@ -80,7 +79,6 @@ class StartUploadItem extends UploadItemEvent {
   const StartUploadItem({
     required this.itemName,
     required this.amountSpent,
-    required this.imageFile,
     required this.imageUrl,
     required this.selectedItemType,
     required this.selectedSpecificType,
@@ -95,7 +93,6 @@ class StartUploadItem extends UploadItemEvent {
   List<Object?> get props => [
     itemName,
     amountSpent,
-    imageFile,
     imageUrl,
     selectedItemType,
     selectedSpecificType,

@@ -208,9 +208,9 @@
   "termsNotAcceptedMessage": "您需要接受条款和条件才能登录。",
   "unknownError": "出现问题，请稍后再试。",
   "permission_needed": "应用需要此权限才能正常运行。",
-  "camera_item_permission_explanation": "我们需要访问您的相机以拍摄物品照片，方便管理。",
-  "camera_selfie_permission_explanation": "我们需要访问您的相机，以便您拍摄自拍照片，查看它们在您身上的效果。",
-  "camera_permission_explanation": "我们需要访问您的相机来拍照。",
+  "camera_upload_item_permission_explanation": "允许访问相机以上传服装照片，方便管理衣橱。",
+  "camera_edit_item_permission_explanation": "允许访问相机以更新物品照片。",
+  "camera_selfie_permission_explanation": "Allow access to your camera to take selfies with your outfits.",
   "general_permission_explanation": "需要此权限才能使用此功能。",
   "open_settings": "打开设置",
   "noImage": "没有图片"

@@ -14,6 +14,8 @@ import '../screens/webview_screen.dart';
 import '../../user_management/achievements/data/models/achievements_page_argument.dart';
 import '../../core/data/models/arguments.dart';
 import '../../outfit_management/review_outfit/presentation/page/outfit_review_provider.dart';
+import '../photo/presentation/pages/photo_provider.dart';
+import 'permission_service.dart';
 
 class AppRoutes {
   static const String login = '/';
@@ -24,6 +26,7 @@ class AppRoutes {
   static const String noInternet = '/no_internet';
   static const String uploadItem = '/upload_item';
   static const String editItem = '/edit_item';
+  static const String uploadItemPhoto = '/upload_item_photo';
   static const String infoHub = '/info_hub';
   static const String achievementPage = '/achievements';
 
@@ -48,6 +51,10 @@ class AppRoutes {
       case uploadItem:
         return MaterialPageRoute(
           builder: (_) => UploadItemProvider(myClosetTheme: myClosetTheme),
+        );
+      case uploadItemPhoto:
+        return MaterialPageRoute(
+          builder: (_) => const PhotoProvider(cameraContext: CameraPermissionContext.uploadItem),
         );
       case editItem:
         if (settings.arguments is EditItemArguments) {

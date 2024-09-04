@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import '../utilities/image_resizer.dart';
+import '../../utilities/image_resizer.dart';
 
 class PhotoCaptureService {
   final ImagePicker picker = ImagePicker();
