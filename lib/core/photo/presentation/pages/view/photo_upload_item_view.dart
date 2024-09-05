@@ -22,6 +22,8 @@ late PhotoBloc _photoBloc;
 late CameraPermissionHelper _cameraPermissionHelper;
 
 class PhotoUploadItemViewState extends State<PhotoUploadItemView> with WidgetsBindingObserver {
+  bool _cameraInitialized = false; // Track if the camera has been initialized
+
   @override
   void initState() {
     super.initState();
@@ -35,9 +37,15 @@ class PhotoUploadItemViewState extends State<PhotoUploadItemView> with WidgetsBi
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    widget._logger.d('Accessing theme and checking camera permission in didChangeDependencies');
+    // Moved permission check here to safely access inherited widgets like Theme.of(context)
+    if (!_cameraInitialized) {
+      _checkCameraPermission();
+    }
+  }
 
-    // Move the theme-dependent logic here
+  // Check camera permission on initial load
+  void _checkCameraPermission() {
+    widget._logger.d('Checking camera permission');
     context.read<PhotoBloc>().add(CheckCameraPermission(
       cameraContext: widget.cameraContext,
       context: context,
@@ -53,19 +61,17 @@ class PhotoUploadItemViewState extends State<PhotoUploadItemView> with WidgetsBi
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed) {
-      // App has resumed, check permissions again
+    if (state == AppLifecycleState.resumed && !_cameraInitialized) {
+      // App has resumed, check permissions again only if camera is not initialized
       widget._logger.d('App resumed, checking camera permission again');
-      context.read<PhotoBloc>().add(CheckCameraPermission(
-        cameraContext: widget.cameraContext,
-        context: context,
-        onClose: () {
-          widget._logger.i('Camera permission check failed, navigating to MyCloset');
-          _navigateToMyCloset(context);
-        },
-        theme: Theme.of(context),
-      ));
+      _checkCameraPermission();
     }
+  }
+
+  // Handle camera initialization
+  void _handleCameraInitialized() {
+    widget._logger.d('Camera initialized');
+    _cameraInitialized = true; // Set the flag to true when the camera is initialized
   }
 
   // Use CameraPermissionHelper to handle camera permission
@@ -94,13 +100,11 @@ class PhotoUploadItemViewState extends State<PhotoUploadItemView> with WidgetsBi
 
     if (mounted) {
       widget._logger.d('Navigating to UploadItem with imageUrl: $imageUrl');
-
       Navigator.pushReplacementNamed(
         context,
         AppRoutes.uploadItem,
         arguments: imageUrl,
       );
-
       widget._logger.d('Navigation call successful, Image URL: $imageUrl');
     } else {
       widget._logger.e("Unable to navigate, widget is not mounted");
@@ -125,8 +129,9 @@ class PhotoUploadItemViewState extends State<PhotoUploadItemView> with WidgetsBi
           if (state is CameraPermissionDenied) {
             widget._logger.w('Camera permission denied');
             _handleCameraPermission(context); // Delegate permission handling to CameraPermissionHelper
-          } else if (state is CameraPermissionGranted) {
+          } else if (state is CameraPermissionGranted && !_cameraInitialized) {
             widget._logger.i('Camera permission granted, ready to capture photo');
+            _handleCameraInitialized(); // Mark camera as initialized
             context.read<PhotoBloc>().add(CapturePhoto());
           } else if (state is PhotoCaptureFailure) {
             widget._logger.e('Photo capture failed');
@@ -144,7 +149,7 @@ class PhotoUploadItemViewState extends State<PhotoUploadItemView> with WidgetsBi
                 color: Theme.of(context).colorScheme.primary,
                 size: 24.0,
               );
-            } else if (state is CameraPermissionGranted) {
+            } else if (state is CameraPermissionGranted && !_cameraInitialized) {
               widget._logger.d('Camera permission granted, capturing photo...');
               return ClosetProgressIndicator(
                 color: Theme.of(context).colorScheme.primary,

@@ -29,8 +29,8 @@ class CameraPermissionHelper {
     PermissionStatus status = await _permissionService.checkPermission(Permission.camera);
     _logger.i('Camera permission status: $status');
 
-    if (status.isPermanentlyDenied) {
-      _logger.w('Permission permanently denied. Prompting user to open settings.');
+    if (status.isDenied) {
+      _logger.w('Permission denied. Prompting user to open settings.');
       // Show the settings dialog with the captured explanation
       if (context.mounted) { // Ensure the context is still valid
         SettingsDialog.show(
@@ -43,7 +43,7 @@ class CameraPermissionHelper {
         _logger.d('Settings dialog shown.');
       }
     } else {
-      _logger.i('Permission is not permanently denied. Handling other statuses...');
+      _logger.i('Permission is not denied. Handling other statuses...');
       // Handle other permission statuses as needed
     }
   }
