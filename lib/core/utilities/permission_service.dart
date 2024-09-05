@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart'; // Use material.dart instead of cupertino.dart
 import 'package:permission_handler/permission_handler.dart';
 import '../../generated/l10n.dart';
+import '../../core/utilities/logger.dart'; // Import CustomLogger
 
 enum CameraPermissionContext {
   uploadItem,
@@ -8,38 +9,63 @@ enum CameraPermissionContext {
   selfie,
 }
 
-
 class PermissionService {
+  final CustomLogger _logger = CustomLogger(
+      'PermissionService'); // Initialize CustomLogger
+
   // Check the status of a single permission
   Future<PermissionStatus> checkPermission(Permission permission) async {
-    return await permission.status;
+    _logger.i('Checking status for permission: ${permission.toString()}');
+    PermissionStatus status = await permission.status;
+    _logger.d('Permission status: $status');
+    return status;
   }
 
   // Request a single permission
   Future<PermissionStatus> requestPermission(Permission permission) async {
-    return await permission.request();
+    _logger.i('Requesting permission: ${permission.toString()}');
+    PermissionStatus status = await permission.request();
+    _logger.d('Permission request status: $status');
+    return status;
   }
 
   // Get permission explanation based on permission type and context
-  String getPermissionExplanation(
-      BuildContext context,
+  String getPermissionExplanation(BuildContext context,
       Permission permission,
       {CameraPermissionContext? cameraContext}) {
+    _logger.i('Getting explanation for permission: ${permission.toString()}');
+
+    String explanation;
 
     if (permission == Permission.camera) {
       switch (cameraContext) {
         case CameraPermissionContext.uploadItem:
-          return S.of(context).camera_upload_item_permission_explanation;
+          explanation = S
+              .of(context)
+              .camera_upload_item_permission_explanation;
+          break;
         case CameraPermissionContext.editItem:
-          return S.of(context).camera_edit_item_permission_explanation;
+          explanation = S
+              .of(context)
+              .camera_edit_item_permission_explanation;
+          break;
         case CameraPermissionContext.selfie:
-          return S.of(context).camera_selfie_permission_explanation;
+          explanation = S
+              .of(context)
+              .camera_selfie_permission_explanation;
+          break;
         default:
-          return S.of(context).camera_permission_explanation; // General explanation if no context is provided
+          explanation = S
+              .of(context)
+              .camera_permission_explanation; // General explanation if no context is provided
       }
+    } else {
+      explanation = S
+          .of(context)
+          .general_permission_explanation;
     }
 
-    return S.of(context).general_permission_explanation;
+    // Return the explanation
+    return explanation;
   }
-
 }

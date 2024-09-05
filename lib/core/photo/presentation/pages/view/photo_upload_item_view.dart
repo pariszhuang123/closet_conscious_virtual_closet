@@ -18,11 +18,16 @@ class PhotoUploadItemView extends StatefulWidget {
   PhotoUploadItemViewState createState() => PhotoUploadItemViewState();
 }
 
-class PhotoUploadItemViewState extends State<PhotoUploadItemView> {
+late PhotoBloc _photoBloc;
+late CameraPermissionHelper _cameraPermissionHelper;
+
+class PhotoUploadItemViewState extends State<PhotoUploadItemView> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-
+    _photoBloc = context.read<PhotoBloc>(); // Access the bloc here safely
+    _cameraPermissionHelper = CameraPermissionHelper(); // Initialize CameraPermissionHelper
+    WidgetsBinding.instance.addObserver(this); // Add lifecycle observer
     widget._logger.d('Initializing PhotoUploadItemView');
   }
 
@@ -44,55 +49,29 @@ class PhotoUploadItemViewState extends State<PhotoUploadItemView> {
     ));
   }
 
+  // Detect app lifecycle changes
   @override
-    Widget build(BuildContext context) {
-    widget._logger.d('Building PhotoUploadItemView'); // Log when the widget is built
-    
-    return Scaffold(
-      body: BlocListener<PhotoBloc, PhotoState>(
-        listener: (context, state) {
-          if (state is CameraPermissionDenied) {
-            widget._logger.w('Camera permission denied');
-            _handleCameraPermission(context);
-          } else if (state is PhotoCaptureFailure) {
-            widget._logger.e('Photo capture failed');
-            _navigateToMyCloset(context);
-          } else if (state is PhotoCaptureSuccess) {
-            widget._logger.i('Photo upload succeeded with URL: ${state.imageUrl}');
-            _navigateToUploadItem(context, state.imageUrl);
-          } else if (state is CameraPermissionGranted) {
-            widget._logger.i('Camera permission granted, ready to capture photo');
-            context.read<PhotoBloc>().add(CapturePhoto());
-          }
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      // App has resumed, check permissions again
+      widget._logger.d('App resumed, checking camera permission again');
+      context.read<PhotoBloc>().add(CheckCameraPermission(
+        cameraContext: widget.cameraContext,
+        context: context,
+        onClose: () {
+          widget._logger.i('Camera permission check failed, navigating to MyCloset');
+          _navigateToMyCloset(context);
         },
-        child: BlocBuilder<PhotoBloc, PhotoState>(
-          builder: (context, state) {
-            if (state is PhotoCaptureInProgress) {
-              widget._logger.d('Photo capture in progress');
-              return ClosetProgressIndicator(
-                color: Theme.of(context).colorScheme.onPrimary,
-                size: 24.0,
-              );
-            } else if (state is CameraPermissionGranted) {
-              widget._logger.d('Camera permission granted, capturing photo...');
-              return const SizedBox.shrink(); // Placeholder
-            } else {
-              widget._logger.d('Waiting for camera permission...');
-              return ClosetProgressIndicator(
-                color: Theme.of(context).colorScheme.onPrimary,
-                size: 24.0,
-              );
-            }
-          },
-        ),
-      ),
-    );
+        theme: Theme.of(context),
+      ));
+    }
   }
 
-  // Handle camera permission
+  // Use CameraPermissionHelper to handle camera permission
   void _handleCameraPermission(BuildContext context) {
     widget._logger.d('Handling camera permission');
-    CameraPermissionHelper().checkAndRequestPermission(
+    _cameraPermissionHelper.checkAndRequestPermission(
       context: context,
       theme: Theme.of(context),
       cameraContext: widget.cameraContext,
@@ -127,10 +106,60 @@ class PhotoUploadItemViewState extends State<PhotoUploadItemView> {
       widget._logger.e("Unable to navigate, widget is not mounted");
     }
   }
+
   @override
   void dispose() {
     widget._logger.i('Disposing PhotoUploadItemView');
-    context.read<PhotoBloc>().close(); // Close the BLoC stream
+    WidgetsBinding.instance.removeObserver(this); // Remove observer
+    _photoBloc.close(); // Close the BLoC stream
     super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    widget._logger.d('Building PhotoUploadItemView'); // Log when the widget is built
+
+    return Scaffold(
+      body: BlocListener<PhotoBloc, PhotoState>(
+        listener: (context, state) {
+          if (state is CameraPermissionDenied) {
+            widget._logger.w('Camera permission denied');
+            _handleCameraPermission(context); // Delegate permission handling to CameraPermissionHelper
+          } else if (state is CameraPermissionGranted) {
+            widget._logger.i('Camera permission granted, ready to capture photo');
+            context.read<PhotoBloc>().add(CapturePhoto());
+          } else if (state is PhotoCaptureFailure) {
+            widget._logger.e('Photo capture failed');
+            _navigateToMyCloset(context);
+          } else if (state is PhotoCaptureSuccess) {
+            widget._logger.i('Photo upload succeeded with URL: ${state.imageUrl}');
+            _navigateToUploadItem(context, state.imageUrl);
+          }
+        },
+        child: BlocBuilder<PhotoBloc, PhotoState>(
+          builder: (context, state) {
+            if (state is PhotoCaptureInProgress) {
+              widget._logger.d('Photo capture in progress');
+              return ClosetProgressIndicator(
+                color: Theme.of(context).colorScheme.primary,
+                size: 24.0,
+              );
+            } else if (state is CameraPermissionGranted) {
+              widget._logger.d('Camera permission granted, capturing photo...');
+              return ClosetProgressIndicator(
+                color: Theme.of(context).colorScheme.primary,
+                size: 24.0,
+              );
+            } else {
+              widget._logger.d('Waiting for camera permission...');
+              return ClosetProgressIndicator(
+                color: Theme.of(context).colorScheme.primary,
+                size: 24.0,
+              );
+            }
+          },
+        ),
+      ),
+    );
   }
 }
