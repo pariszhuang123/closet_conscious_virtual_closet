@@ -16,6 +16,7 @@ import '../../core/data/models/arguments.dart';
 import '../../outfit_management/review_outfit/presentation/page/outfit_review_provider.dart';
 import '../photo/presentation/pages/photo_provider.dart';
 import 'permission_service.dart';
+import 'logger.dart';
 
 class AppRoutes {
   static const String login = '/';
@@ -30,7 +31,12 @@ class AppRoutes {
   static const String infoHub = '/info_hub';
   static const String achievementPage = '/achievements';
 
+  static final CustomLogger logger = CustomLogger('AppRoutes');
+
   static Route<dynamic> generateRoute(RouteSettings settings, ThemeData myClosetTheme, ThemeData myOutfitTheme) {
+    // Log the route being navigated to and the arguments passed
+    logger.i("Navigating to: ${settings.name} with arguments: ${settings.arguments}");
+
     switch (settings.name) {
       case login:
         return MaterialPageRoute(builder: (_) => LoginScreen(myClosetTheme: myClosetTheme));
@@ -49,16 +55,29 @@ class AppRoutes {
           builder: (_) => OutfitReviewProvider(myOutfitTheme: myOutfitTheme),
         );
       case uploadItem:
+        final imageUrl = settings.arguments as String?;
+
+        if (imageUrl == null) {
+          return MaterialPageRoute(
+            builder: (_) => Scaffold(
+              appBar: AppBar(title: const Text('Error')),
+              body: const Center(child: Text('No valid image URL passed.')),
+            ),
+          );
+        }
+        // Pass the imageUrl directly to upload_item_view.dart
         return MaterialPageRoute(
-          builder: (_) => UploadItemProvider(myClosetTheme: myClosetTheme),
+          builder: (_) => UploadItemProvider(imageUrl: imageUrl, myClosetTheme: myClosetTheme,), // Pass the imageUrl
         );
       case uploadItemPhoto:
+        logger.d("Navigating to uploadItemPhoto");
         return MaterialPageRoute(
           builder: (_) => const PhotoProvider(cameraContext: CameraPermissionContext.uploadItem),
         );
       case editItem:
         if (settings.arguments is EditItemArguments) {
           final args = settings.arguments as EditItemArguments;
+          logger.d("Navigating to editItem with arguments: $args");
           return MaterialPageRoute(
             builder: (_) => BlocProvider(
               create: (context) => EditItemBloc(
@@ -96,16 +115,18 @@ class AppRoutes {
         return _errorRoute(settings.name);
       case infoHub:
         final args = settings.arguments as InfoHubArguments;
+        logger.d("Navigating to infoHub with arguments: $args");
         return MaterialPageRoute(
           builder: (_) => WebViewScreen(
-              url: args.url,
-              isFromMyCloset: args.isFromMyCloset,
+            url: args.url,
+            isFromMyCloset: args.isFromMyCloset,
             title: args.title,
           ),
         );
       case achievementPage:
         if (settings.arguments is AchievementsPageArguments) {
           final args = settings.arguments as AchievementsPageArguments;
+          logger.d("Navigating to achievementPage with arguments: $args");
           return MaterialPageRoute(
             builder: (_) => AchievementsPage(
               isFromMyCloset: args.isFromMyCloset,
@@ -120,6 +141,7 @@ class AppRoutes {
   }
 
   static Route<dynamic> _errorRoute(String? routeName) {
+    logger.e("No route defined for $routeName");
     return MaterialPageRoute(
       builder: (_) => Scaffold(
         body: Center(

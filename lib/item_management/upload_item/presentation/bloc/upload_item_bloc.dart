@@ -1,9 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../core/data/services/item_save_service.dart';
-import '../../../../core/utilities/permission_service.dart';
 import '../../../../core/utilities/logger.dart';
 
 part 'upload_item_event.dart';
@@ -12,66 +10,19 @@ part 'upload_item_state.dart';
 class UploadItemBloc extends Bloc<UploadItemEvent, UploadItemState> {
   final String userId;
   final ItemSaveService _itemSaveService;
-  final PermissionService _permissionService;
   final CustomLogger _logger = CustomLogger('ItemUploadBloc');
 
-  UploadItemBloc({required this.userId, required PermissionService permissionService})
+  UploadItemBloc({required this.userId})
       : _itemSaveService = ItemSaveService(userId),
-        _permissionService = permissionService,
         super(UploadItemInitial()) {
     on<StartUploadItem>(_onStartUpload);
     on<ValidateFormPage1>(_onValidateFormPage1);
     on<ValidateFormPage2>(_onValidateFormPage2);
     on<ValidateFormPage3>(_onValidateFormPage3);
-    on<CheckCameraPermission>(_onCheckCameraPermission);
-    on<RequestCameraPermission>(_onRequestCameraPermission);
-    on<AppResumed>(_onAppResumed);
   }
 
-  Future<void> _onCheckCameraPermission(CheckCameraPermission event, Emitter<UploadItemState> emit) async {
-    _logger.i('Checking camera permission');
-    var status = await _permissionService.checkPermission(Permission.camera);
 
-    if (status.isGranted) {
-      _logger.i('Camera permission granted');
-      emit(CameraPermissionGranted());
-    } else {
-      _logger.w('Camera permission denied');
-      emit(CameraPermissionDenied());
-    }
-  }
 
-  Future<void> _onRequestCameraPermission(RequestCameraPermission event, Emitter<UploadItemState> emit) async {
-    _logger.i('Requesting camera permission');
-    var status = await _permissionService.requestPermission(Permission.camera);
-
-    if (status.isGranted) {
-      _logger.i('Camera permission granted');
-      emit(CameraPermissionGranted());
-    } else if (status.isPermanentlyDenied) {
-      _logger.w('Camera permission permanently denied');
-      emit(CameraPermissionPermanentlyDenied());
-    } else {
-      _logger.w('Camera permission denied');
-      emit(CameraPermissionDenied());
-    }
-  }
-
-  void _onAppResumed(AppResumed event, Emitter<UploadItemState> emit) async {
-    _logger.i('App resumed, checking camera permission');
-    final status = await _permissionService.checkPermission(Permission.camera);
-
-    if (status.isGranted) {
-      _logger.i('Camera permission granted');
-      emit(CameraPermissionGranted());
-    } else if (status.isPermanentlyDenied) {
-      _logger.w('Camera permission permanently denied');
-      emit(CameraPermissionPermanentlyDenied());
-    } else {
-      _logger.w('Camera permission denied');
-      emit(CameraPermissionDenied());
-    }
-  }
 
   void _onValidateFormPage1(ValidateFormPage1 event, Emitter<UploadItemState> emit) {
     _logger.i('Validating form page 1: $event');

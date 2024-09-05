@@ -12,23 +12,11 @@ class CameraPermissionDenied extends PhotoState {}
 class PhotoCaptureInProgress extends PhotoState {}
 
 class PhotoCaptureSuccess extends PhotoState {
-  final String photo;
-  PhotoCaptureSuccess(this.photo);
+  final String imageUrl;
+  PhotoCaptureSuccess(this.imageUrl);
 }
 
 class PhotoCaptureFailure extends PhotoState {
   final String error;
   PhotoCaptureFailure(this.error);
-}
-
-class PhotoUploadInProgress extends PhotoState {}
-
-class PhotoUploadSuccess extends PhotoState {
-  final String imageUrl;
-  PhotoUploadSuccess(this.imageUrl);
-}
-
-class PhotoUploadFailure extends PhotoState {
-  final String error;
-  PhotoUploadFailure(this.error);
 }

@@ -18,8 +18,13 @@ import 'metadata/metadata_third_page.dart';
 
 class UploadItemView extends StatefulWidget {
   final ThemeData myClosetTheme;
+  final String imageUrl;
 
-  const UploadItemView({super.key, required this.myClosetTheme});
+  const UploadItemView({
+    super.key,
+    required this.myClosetTheme,
+    required this.imageUrl,
+  });
 
   @override
   State<UploadItemView> createState() => _UploadItemViewState();
@@ -40,14 +45,15 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
   String? selectedColourVariation;
 
   final PageController _pageController = PageController();
-  final CustomLogger _logger = CustomLogger('UploadItemView'); // Initialize CustomLogger
+  final CustomLogger _logger = CustomLogger('UploadItemView');
 
   int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
-    _logger.i('UploadItemView initialized');
+    _imageUrl = widget.imageUrl;
+    _logger.i('UploadItemView initialized with imageUrl: $_imageUrl');
   }
 
   @override
@@ -61,17 +67,19 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
     _itemNameController.dispose();
     _amountSpentController.dispose();
     _pageController.dispose();
+    _logger.i('Resources disposed');
   }
 
   void _navigateToMyCloset(BuildContext context) {
     if (mounted) {
+      _logger.i('Navigating back to MyCloset');
       _disposeResources(); // Dispose safely
       Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
     }
   }
 
   void _handleNext(BuildContext context) {
-    _logger.i('Handling next button press, current page: $_currentPage');
+    _logger.i('Handling "Next" button press, current page: $_currentPage');
     final uploadBloc = context.read<UploadItemBloc>();
 
     if (_currentPage == 0) {
@@ -100,7 +108,15 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
   }
 
   void _handleUpload(BuildContext context) {
-    _logger.i('Handling upload');
+    _logger.i('Handling upload, uploading item with the following details:');
+    _logger.d('Item Name: ${_itemNameController.text.trim()}');
+    _logger.d('Amount Spent: ${_amountSpentController.text}');
+    _logger.d('Image URL: $_imageUrl');
+    _logger.d('Item Type: $selectedItemType, Specific Type: $selectedSpecificType');
+    _logger.d('Occasion: $selectedOccasion, Season: $selectedSeason');
+    _logger.d('Clothing Layer: $selectedClothingLayer');
+    _logger.d('Color: $selectedColour, Color Variation: $selectedColourVariation');
+
     context.read<UploadItemBloc>().add(StartUploadItem(
       itemName: _itemNameController.text.trim(),
       amountSpent: double.tryParse(_amountSpentController.text) ?? 0.0,
@@ -115,9 +131,8 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
     ));
   }
 
-  /// This method maps error keys to localized error messages
   void _showErrorMessage(String errorKey) {
-    _logger.w('Showing error message for key: $errorKey');
+    _logger.w('Error encountered: $errorKey');
     String errorMessage;
 
     switch (errorKey) {
@@ -149,10 +164,11 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
         errorMessage = S.of(context).colourVariationFieldNotFilled;
         break;
       default:
-        errorMessage = S.of(context).unknownError; // Add a generic unknown error string
+        errorMessage = S.of(context).unknownError;
         break;
     }
 
+    _logger.w('Displaying error message: $errorMessage');
     CustomSnackbar(
       message: errorMessage,
       theme: widget.myClosetTheme,
@@ -172,12 +188,13 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
 
   @override
   Widget build(BuildContext context) {
-    _logger.i('Building UploadItemView');
+    _logger.i('Building UploadItemView UI');
+
     return BlocConsumer<UploadItemBloc, UploadItemState>(
       listener: (context, state) {
         _logger.i('Bloc state changed: $state');
         if (state is UploadItemSuccess) {
-          _logger.i('Upload successful');
+          _logger.i('Upload successful, navigating back to MyCloset');
           CustomSnackbar(
             message: S.of(context).upload_successful,
             theme: widget.myClosetTheme,
@@ -190,7 +207,7 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
             theme: widget.myClosetTheme,
           ).show(context);
         } else if (state is FormValidPage1) {
-          _logger.i('Form page 1 valid');
+          _logger.i('Form page 1 validated successfully, moving to next page');
           _pageController.nextPage(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
@@ -202,7 +219,7 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
           _logger.w('Form page 1 invalid: ${state.errorMessage}');
           _showErrorMessage(state.errorMessage);
         } else if (state is FormValidPage2) {
-          _logger.i('Form page 2 valid');
+          _logger.i('Form page 2 validated successfully, moving to next page');
           _pageController.nextPage(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
@@ -214,7 +231,7 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
           _logger.w('Form page 2 invalid: ${state.errorMessage}');
           _showErrorMessage(state.errorMessage);
         } else if (state is FormValidPage3) {
-          _logger.i('Form page 3 valid');
+          _logger.i('Form page 3 validated successfully, starting upload');
           _handleUpload(context);
         } else if (state is FormInvalidPage3) {
           _logger.w('Form page 3 invalid: ${state.errorMessage}');
@@ -222,12 +239,12 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
         }
       },
       builder: (context, state) {
-        _logger.i('Building UI based on state: $state');
+        _logger.i('Rendering UI based on state: $state');
         return PopScope<Object?>(
           canPop: false,
           onPopInvokedWithResult: (bool didPop, Object? result) {
             if (didPop) {
-              // Do nothing, effectively preventing the back action
+              _logger.i('Preventing back navigation');
             }
           },
           child: Theme(
