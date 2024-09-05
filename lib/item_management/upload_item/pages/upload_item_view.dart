@@ -59,21 +59,16 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
   @override
   void dispose() {
     _logger.i('Disposing UploadItemView');
-    _disposeResources(); // Ensure resources are cleaned up
-    super.dispose();
-  }
-
-  void _disposeResources() {
     _itemNameController.dispose();
     _amountSpentController.dispose();
     _pageController.dispose();
     _logger.i('Resources disposed');
+    super.dispose();
   }
 
   void _navigateToMyCloset(BuildContext context) {
     if (mounted) {
       _logger.i('Navigating back to MyCloset');
-      _disposeResources(); // Dispose safely
       Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
     }
   }
