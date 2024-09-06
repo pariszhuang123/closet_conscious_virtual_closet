@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/photo_bloc.dart';
 import 'view/photo_upload_item_view.dart';
 import 'view/photo_edit_item_view.dart';
-import '../../data/services/image_upload_service.dart';
 import '../../../utilities/permission_service.dart';
 import '../../usecase/photo_capture_service.dart';
+import '../../../data/services/core_save_services.dart';
 
 
 class PhotoProvider extends StatelessWidget {
@@ -25,7 +25,7 @@ class PhotoProvider extends StatelessWidget {
     return BlocProvider(
       create: (context) => PhotoBloc(
         photoCaptureService: PhotoCaptureService(),
-        imageUploadService: ImageUploadService(),
+        coreSaveService: CoreSaveService(),
       ),
       child: Builder(
         builder: (context) {

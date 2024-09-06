@@ -47,6 +47,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "active": MessageLookupByLibrary.simpleMessage("活跃"),
         "addCloset_addCloset": MessageLookupByLibrary.simpleMessage("添加衣橱"),
         "addYourComments": MessageLookupByLibrary.simpleMessage("添加您的评论"),
+        "aiStylistFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "解锁由 AI 提供的穿搭建议。审核 90 套穿搭后，您将获得基于个人风格的推荐。"),
+        "aiStylistFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("AI 造型师使用功能"),
+        "aiUploadFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "轻松上传物品，并自动添加元数据。AI 会帮助您节省时间，填写类别、颜色等详细信息。"),
+        "aiUploadFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("智能上传使用功能"),
+        "aistylist": MessageLookupByLibrary.simpleMessage("AI 造型师"),
+        "aiupload": MessageLookupByLibrary.simpleMessage("智能上传"),
         "alright": MessageLookupByLibrary.simpleMessage("还行"),
         "alright_feedback_sentence":
             MessageLookupByLibrary.simpleMessage("点击不太适合这套搭配的单品。"),
@@ -240,6 +250,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectColour": MessageLookupByLibrary.simpleMessage("选择颜色"),
         "selectColourVariation": MessageLookupByLibrary.simpleMessage("选择颜色变化"),
         "selectItemType": MessageLookupByLibrary.simpleMessage("选择物品类型"),
+        "selectItemsToCreateOutfit":
+            MessageLookupByLibrary.simpleMessage("请选择物品以创建您的穿搭。"),
         "selectOccasion": MessageLookupByLibrary.simpleMessage("选择场合"),
         "selectSeason": MessageLookupByLibrary.simpleMessage("选择季节"),
         "selectShoeType": MessageLookupByLibrary.simpleMessage("选择鞋类类型"),

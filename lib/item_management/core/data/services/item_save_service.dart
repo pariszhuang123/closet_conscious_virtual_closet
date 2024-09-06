@@ -1,19 +1,15 @@
 import 'dart:convert';
 
-import '../../../../core/photo/data/services/image_upload_service.dart';
-
 import '../../../../core/config/supabase_config.dart';
 import '../../../../core/utilities/logger.dart';
 
 class ItemSaveService {
   final String userId;
   final CustomLogger logger;
-  final ImageUploadService imageUploadService;
 
 
   ItemSaveService(this.userId)
-      : logger = CustomLogger('ItemSaveService'),
-        imageUploadService = ImageUploadService();
+      : logger = CustomLogger('ItemSaveService');
 
   Future<String?> saveData(
       String itemName,

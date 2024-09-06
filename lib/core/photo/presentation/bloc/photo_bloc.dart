@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../../../data/services/core_save_services.dart';
 import '../../../utilities/logger.dart'; // Assuming this is where your CustomLogger is located
 import '../../../utilities/permission_service.dart';
 import '../../usecase/photo_capture_service.dart';
 import '../../presentation/widgets/camera_permission_helper.dart';
-import '../../data/services/image_upload_service.dart';
 
 part 'photo_event.dart';
 part 'photo_state.dart';
@@ -15,14 +16,14 @@ part 'photo_state.dart';
 class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
   final CameraPermissionHelper _permissionHelper = CameraPermissionHelper();
   final PhotoCaptureService _photoCaptureService;
-  final ImageUploadService _imageUploadService;
+  final CoreSaveService _coreSaveService;
   final CustomLogger _logger = CustomLogger('PhotoBloc'); // Instantiate the logger
 
   PhotoBloc({
     required PhotoCaptureService photoCaptureService,
-    required ImageUploadService imageUploadService,
+    required CoreSaveService coreSaveService,
   })  : _photoCaptureService = photoCaptureService,
-        _imageUploadService = imageUploadService,
+        _coreSaveService = coreSaveService,
         super(PhotoInitial()) {
     // Register event handlers
     on<CheckCameraPermission>(_handleCheckCameraPermission);
@@ -91,7 +92,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
       if (photoFile != null) {
         _logger.d('Photo captured successfully, attempting to upload');
         // Upload the captured image using ImageUploadService
-        final String? imageUrl = await _imageUploadService.uploadImage(photoFile);
+        final String? imageUrl = await _coreSaveService.uploadImage(photoFile);
 
         if (imageUrl != null) {
           _logger.i('Photo uploaded successfully: $imageUrl');

@@ -1,3 +1,4 @@
+import 'package:closet_conscious/core/widgets/bottom_sheet/usage_bottom_sheet/ai_stylist_usage_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -6,8 +7,8 @@ import '../app_drawer.dart';
 import '../../core/theme/ui_constant.dart';
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_feature_container.dart';
 import '../../outfit_management/core/data/services/outfits_fetch_service.dart';
-import '../../core/widgets/bottom_sheet/calendar_premium_bottom_sheet.dart';
-import '../../core/widgets/bottom_sheet/filter_premium_bottom_sheet.dart';
+import '../../core/widgets/bottom_sheet/premium_bottom_sheet/calendar_premium_bottom_sheet.dart';
+import '../../core/widgets/bottom_sheet/premium_bottom_sheet/filter_premium_bottom_sheet.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
 import '../../outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
@@ -33,6 +34,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
   final CustomLogger logger = CustomLogger('OutfitPage');
   final ScrollController _scrollController = ScrollController();
   int newOutfitCount = 0;
+  bool _snackBarShown = false;
 
   final OutfitFetchService _outfitFetchService = GetIt.instance<OutfitFetchService>();
 
@@ -96,6 +98,16 @@ class MyOutfitViewState extends State<MyOutfitView> {
     );
   }
 
+  void _onAiStylistButtonPressed() {
+    logger.i('AI Stylist button pressed, showing ai stylist...');
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const AiStylistUsageBottomSheet(isFromMyCloset: false);
+      },
+    );
+  }
+
   Future<void> _fetchOutfitsCount() async {
     logger.i('Fetching outfits count...');
     try {
@@ -138,10 +150,6 @@ class MyOutfitViewState extends State<MyOutfitView> {
   @override
   Widget build(BuildContext context) {
     logger.i('Building MyOutfitView...');
-
-    final outfitsUploadData = TypeDataList.outfitsUpload(context);
-    final filterData = TypeDataList.filter(context);
-    final calendarData = TypeDataList.calendar(context);
 
     final outfitClothingType = TypeDataList.outfitClothingType(context);
     final outfitAccessoryType = TypeDataList.outfitAccessoryType(context);
@@ -208,12 +216,10 @@ class MyOutfitViewState extends State<MyOutfitView> {
                 children: [
                   OutfitFeatureContainer(
                     theme: widget.myOutfitTheme,
-                    filterData: filterData,
-                    calendarData: calendarData,
-                    outfitsUploadData: outfitsUploadData,
                     outfitCount: newOutfitCount,
                     onFilterButtonPressed: _onFilterButtonPressed,
                     onCalendarButtonPressed: _onCalendarButtonPressed,
+                    onStylistButtonPressed: _onAiStylistButtonPressed,
                   ),
                   const SizedBox(height: 15),
                   OutfitTypeContainer(
@@ -227,11 +233,28 @@ class MyOutfitViewState extends State<MyOutfitView> {
                     child: BlocBuilder<CreateOutfitItemBloc, CreateOutfitItemState>(
                       builder: (context, state) {
                         logger.i('CreateOutfitItemBloc builder triggered with state: $state');
+
+                        // Check for failure status
                         if (state.saveStatus == SaveStatus.failure) {
                           return Center(child: Text(S.of(context).failedToLoadItems));
-                        } else if (state.items.isEmpty) {
+                        }
+                        // If no items are available, show no items message
+                        else if (state.items.isEmpty) {
+                          _snackBarShown = false;  // Reset the flag when no items are available
                           return Center(child: Text(S.of(context).noItemsInCategory));
-                        } else {
+                        }
+                        // If items are available, show the OutfitGrid, and trigger the snack bar if none are selected
+                        else {
+                          if (!state.hasSelectedItems && !_snackBarShown) {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(S.of(context).selectItemsToCreateOutfit),
+                                ),
+                              );
+                              _snackBarShown = true;  // Set the flag to true after the snackbar is shown
+                            });
+                          }
                           return OutfitGrid(
                             scrollController: _scrollController,
                             logger: logger,

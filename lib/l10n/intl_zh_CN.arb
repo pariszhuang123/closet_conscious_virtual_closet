@@ -213,5 +213,12 @@
   "camera_selfie_permission_explanation": "Allow access to your camera to take selfies with your outfits.",
   "general_permission_explanation": "需要此权限才能使用此功能。",
   "open_settings": "打开设置",
-  "noImage": "没有图片"
+  "noImage": "没有图片",
+  "aistylist": "AI 造型师",
+  "aiStylistFeatureTitle": "AI 造型师使用功能",
+  "aiStylistFeatureDescription": "解锁由 AI 提供的穿搭建议。审核 90 套穿搭后，您将获得基于个人风格的推荐。",
+  "aiupload": "智能上传",
+  "aiUploadFeatureTitle": "智能上传使用功能",
+  "aiUploadFeatureDescription": "轻松上传物品，并自动添加元数据。AI 会帮助您节省时间，填写类别、颜色等详细信息。",
+  "selectItemsToCreateOutfit": "请选择物品以创建您的穿搭。"
 }

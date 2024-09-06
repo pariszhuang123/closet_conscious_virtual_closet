@@ -10,7 +10,7 @@ import '../../../../core/photo/presentation/widgets/user_photo/base/user_photo.d
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../generated/l10n.dart';
 import '../widget/selfie_date_share_container.dart';
-import '../../../../core/widgets/bottom_sheet/share_premium_bottom_sheet.dart';
+import '../../../../core/widgets/bottom_sheet/premium_bottom_sheet/share_premium_bottom_sheet.dart';
 import '../bloc/outfit_wear_bloc.dart';
 import '../../../../core/widgets/container/logo_text_container.dart';
 import '../../../../core/theme/themed_svg.dart';

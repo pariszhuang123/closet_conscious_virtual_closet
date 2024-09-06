@@ -54,6 +54,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Multi Closet"),
         "addYourComments":
             MessageLookupByLibrary.simpleMessage("Add your comments"),
+        "aiStylistFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "Unlock AI-powered outfit suggestions. Review 90 outfits to get personalized recommendations based on your style."),
+        "aiStylistFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("AI Stylist Usage Feature"),
+        "aiUploadFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "Easily upload items with automatic metadata tagging. The AI helps you save time by filling in details such as category, color, and more."),
+        "aiUploadFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("Smart Upload Usage Feature"),
+        "aistylist": MessageLookupByLibrary.simpleMessage("AI Stylist"),
+        "aiupload": MessageLookupByLibrary.simpleMessage("Smart\nUpload"),
         "alright": MessageLookupByLibrary.simpleMessage("It\'s okay"),
         "alright_feedback_sentence": MessageLookupByLibrary.simpleMessage(
             "Tap the items that don\'t quite fit this outfit."),
@@ -283,6 +293,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Select Colour Variation"),
         "selectItemType":
             MessageLookupByLibrary.simpleMessage("Select Item Type"),
+        "selectItemsToCreateOutfit": MessageLookupByLibrary.simpleMessage(
+            "Please select items to create your outfit."),
         "selectOccasion":
             MessageLookupByLibrary.simpleMessage("Select Occasion"),
         "selectSeason": MessageLookupByLibrary.simpleMessage("Select Season"),

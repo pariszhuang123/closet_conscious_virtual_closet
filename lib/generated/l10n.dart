@@ -2199,6 +2199,76 @@ class S {
       args: [],
     );
   }
+
+  /// `AI Stylist`
+  String get aistylist {
+    return Intl.message(
+      'AI Stylist',
+      name: 'aistylist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `AI Stylist Usage Feature`
+  String get aiStylistFeatureTitle {
+    return Intl.message(
+      'AI Stylist Usage Feature',
+      name: 'aiStylistFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock AI-powered outfit suggestions. Review 90 outfits to get personalized recommendations based on your style.`
+  String get aiStylistFeatureDescription {
+    return Intl.message(
+      'Unlock AI-powered outfit suggestions. Review 90 outfits to get personalized recommendations based on your style.',
+      name: 'aiStylistFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Smart\nUpload`
+  String get aiupload {
+    return Intl.message(
+      'Smart\nUpload',
+      name: 'aiupload',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Smart Upload Usage Feature`
+  String get aiUploadFeatureTitle {
+    return Intl.message(
+      'Smart Upload Usage Feature',
+      name: 'aiUploadFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Easily upload items with automatic metadata tagging. The AI helps you save time by filling in details such as category, color, and more.`
+  String get aiUploadFeatureDescription {
+    return Intl.message(
+      'Easily upload items with automatic metadata tagging. The AI helps you save time by filling in details such as category, color, and more.',
+      name: 'aiUploadFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select items to create your outfit.`
+  String get selectItemsToCreateOutfit {
+    return Intl.message(
+      'Please select items to create your outfit.',
+      name: 'selectItemsToCreateOutfit',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

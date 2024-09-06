@@ -7,7 +7,7 @@ import '../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../generated/l10n.dart';
 import '../core/utilities/logger.dart';
 import '../core/theme/ui_constant.dart';
-import '../core/widgets/bottom_sheet/analytics_premium_bottom_sheet.dart';
+import '../core/widgets/bottom_sheet/premium_bottom_sheet/analytics_premium_bottom_sheet.dart';
 import '../core/utilities/routes.dart';
 import '../user_management/achievements/data/models/achievements_page_argument.dart';
 import '../core/utilities/launch_email.dart';

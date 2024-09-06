@@ -3,25 +3,23 @@ import '../../../../core/widgets/container/base_container.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/widgets/button/number_type_button.dart';
 import '../../../../core/theme/themed_svg.dart';
+import '../../../../core/data/type_data.dart';
 
 class OutfitFeatureContainer extends StatelessWidget {
   final ThemeData theme;
-  final dynamic filterData;
-  final dynamic calendarData;
-  final dynamic outfitsUploadData;
   final int outfitCount;
   final VoidCallback onFilterButtonPressed;
   final VoidCallback onCalendarButtonPressed;
+  final VoidCallback onStylistButtonPressed;
+
 
   const OutfitFeatureContainer({
     super.key,
     required this.theme,
-    required this.filterData,
-    required this.calendarData,
-    required this.outfitsUploadData,
     required this.outfitCount,
     required this.onFilterButtonPressed,
     required this.onCalendarButtonPressed,
+    required this.onStylistButtonPressed,
   });
 
   @override
@@ -34,19 +32,28 @@ class OutfitFeatureContainer extends StatelessWidget {
           Row(
             children: [
               NavigationTypeButton(
-                label: filterData.getName(context),
+                label: TypeDataList.filter(context).getName(context),
                 selectedLabel: '',
                 onPressed: onFilterButtonPressed,
-                assetPath: filterData.assetPath ?? '',
+                assetPath: TypeDataList.filter(context).assetPath,
                 isFromMyCloset: false,
                 buttonType: ButtonType.secondary,
                 usePredefinedColor: false,
               ),
               NavigationTypeButton(
-                label: calendarData.getName(context),
+                label: TypeDataList.calendar(context).getName(context),
                 selectedLabel: '',
                 onPressed: onCalendarButtonPressed,
-                assetPath: calendarData.assetPath ?? '',
+                assetPath: TypeDataList.calendar(context).assetPath,
+                isFromMyCloset: false,
+                buttonType: ButtonType.secondary,
+                usePredefinedColor: false,
+              ),
+              NavigationTypeButton(
+                label: TypeDataList.aistylist(context).getName(context),
+                selectedLabel: '',
+                onPressed: onStylistButtonPressed,
+                assetPath: TypeDataList.aistylist(context).assetPath,
                 isFromMyCloset: false,
                 buttonType: ButtonType.secondary,
                 usePredefinedColor: false,
@@ -54,10 +61,10 @@ class OutfitFeatureContainer extends StatelessWidget {
             ],
           ),
           Tooltip(
-            message: outfitsUploadData.getName(context),
+            message: TypeDataList.outfitsUpload(context).getName(context),
             child: NumberTypeButton(
               count: outfitCount,
-              assetPath: outfitsUploadData.assetPath ?? '',
+              assetPath: TypeDataList.outfitsUpload(context).assetPath,
               isFromMyCloset: false,
               isHorizontal: false,
               buttonType: ButtonType.secondary,

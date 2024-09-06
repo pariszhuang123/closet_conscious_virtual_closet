@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:closet_conscious/core/widgets/bottom_sheet/swap_premium_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../core/widgets/bottom_sheet/premium_bottom_sheet/swap_premium_bottom_sheet.dart';
 import '../../../core/data/type_data.dart';
 import '../../../core/utilities/routes.dart';
 import '../../../core/photo/presentation/widgets/image_display_widget.dart';

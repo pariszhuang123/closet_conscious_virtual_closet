@@ -130,6 +130,14 @@ class TypeDataList {
       TypeData('metadata', (context) => S.of(context).metadata, 'assets/icons/my_closet/upload/more.svg', false);
   }
 
+  static TypeData aistylist(BuildContext context) {
+    return TypeData('AI Stylist', (context) => S.of(context).aistylist, 'assets/icons/my_outfit/additional_features/ai_stylist.svg', false);
+  }
+
+  static TypeData aiupload(BuildContext context) {
+    return TypeData('AI Upload', (context) => S.of(context).aiupload, 'assets/icons/my_closet/upload/ai_upload.svg', false);
+  }
+
   static TypeData outfitsUpload(BuildContext context) {
     return
       TypeData('outfits_upload', (context) => S.of(context).outfits_upload, 'assets/icons/my_outfit/additional_features/outfits_uploaded.svg', false);
@@ -236,4 +244,5 @@ class TypeDataList {
   static TypeData share(BuildContext context) {
     return TypeData('share', (context) => S.of(context).share, 'assets/icons/my_outfit/outfit_review/share_outfit.svg', false);
   }
+
 }

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/data/type_data.dart';
 import '../../../core/photo/presentation/widgets/image_display_widget.dart';
 import '../../../core/utilities/routes.dart';
 import '../../../generated/l10n.dart';
 import '../presentation/bloc/upload_item_bloc.dart';
 import '../../../core/widgets/feedback/custom_snack_bar.dart';
-import '../../../core/widgets/bottom_sheet/metadata_premium_bottom_sheet.dart';
-import '../../../core/theme/themed_svg.dart';
-import '../../../core/widgets/button/navigation_type_button.dart';
+import '../../../core/widgets/bottom_sheet/premium_bottom_sheet/metadata_premium_bottom_sheet.dart';
+import '../../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_upload_usage_bottom_sheet.dart';
 import '../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
+import '../widgets/upload_item_additional_feature.dart';
 import '../../../core/utilities/logger.dart';
 import 'metadata/metadata_first_page.dart';
 import 'metadata/metadata_second_page.dart';
@@ -181,6 +180,17 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
     setState(() {});
   }
 
+  void _openAiUploadSheet() {
+    _logger.i('Opening ai upload sheet');
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) => const AiUploadUsageBottomSheet(
+        isFromMyCloset: true,
+      ),
+    );
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     _logger.i('Building UploadItemView UI');
@@ -264,14 +274,9 @@ class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObse
                               right: 0,
                               top: 0,
                               bottom: 0,
-                              child: NavigationTypeButton(
-                                label: TypeDataList.metadata(context).getName(context),
-                                selectedLabel: '',
-                                onPressed: _openMetadataSheet,
-                                assetPath: TypeDataList.metadata(context).assetPath,
-                                isFromMyCloset: true,
-                                buttonType: ButtonType.secondary,
-                                usePredefinedColor: false,
+                              child: UploadItemAdditionalFeature(
+                                openMetadataSheet: _openMetadataSheet,
+                                openAiUploadSheet: _openAiUploadSheet,
                               ),
                             ),
                           ],

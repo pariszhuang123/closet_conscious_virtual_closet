@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'dart:convert';
 
 import '../../../../../generated/l10n.dart';
 import '../../../theme/my_closet_theme.dart';
 import '../../../theme/my_outfit_theme.dart';
-import '../../../utilities/logger.dart';
 import '../../feedback/custom_alert_dialog.dart';
+import '../../../data/services/core_save_services.dart';
 
 class BasePremiumBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
@@ -28,12 +26,12 @@ class BasePremiumBottomSheet extends StatefulWidget {
 
 class BasePremiumBottomSheetState extends State<BasePremiumBottomSheet> {
   bool _isButtonDisabled = false;
-  late final CustomLogger logger;
+  late final CoreSaveService coreSaveService;
 
   @override
   void initState() {
     super.initState();
-    logger = CustomLogger(widget.title);
+    coreSaveService = CoreSaveService(); // Initialize without passing logger
   }
 
   Future<void> _handleButtonPress() async {
@@ -42,29 +40,18 @@ class BasePremiumBottomSheetState extends State<BasePremiumBottomSheet> {
     });
 
     try {
-      final response = await Supabase.instance.client.rpc(widget.rpcFunctionName).single();
-
-      logger.i('Full response: ${jsonEncode(response)}');
+      final response = await coreSaveService.callSupabaseRpc(widget.rpcFunctionName);
 
       if (!mounted) return;
 
-      if (response.containsKey('status')) {
-        if (response['status'] == 'success') {
-          _showCustomDialog(S.of(context).thankYou,
-              Text(S.of(context).interestAcknowledged));
-        } else {
-          _showCustomDialog(S.of(context).error,
-              Text(S.of(context).unexpectedResponseFormat));
-        }
+      if (response['status'] == 'success') {
+        _showCustomDialog(S.of(context).thankYou, Text(S.of(context).interestAcknowledged));
       } else {
-        _showCustomDialog(S.of(context).error,
-            Text(S.of(context).unexpectedResponseFormat));
+        _showCustomDialog(S.of(context).error, Text(S.of(context).unexpectedResponseFormat));
       }
     } catch (e) {
-      logger.e('Unexpected error: $e');
       if (mounted) {
-        _showCustomDialog(S.of(context).error,
-            Text(S.of(context).unexpectedErrorOccurred));
+        _showCustomDialog(S.of(context).error, Text(S.of(context).unexpectedErrorOccurred));
       }
     } finally {
       if (mounted) {
