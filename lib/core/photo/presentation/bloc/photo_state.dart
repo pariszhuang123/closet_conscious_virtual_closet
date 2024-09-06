@@ -16,6 +16,11 @@ class PhotoCaptureSuccess extends PhotoState {
   PhotoCaptureSuccess(this.imageUrl);
 }
 
+class SelfieCaptureSuccess extends PhotoState {
+  final String outfitId;
+  SelfieCaptureSuccess(this.outfitId);
+}
+
 class PhotoCaptureFailure extends PhotoState {
   final String error;
   PhotoCaptureFailure(this.error);

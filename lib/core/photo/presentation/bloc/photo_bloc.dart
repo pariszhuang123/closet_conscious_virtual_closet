@@ -29,6 +29,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
     on<CheckCameraPermission>(_handleCheckCameraPermission);
     on<RequestCameraPermission>(_handleRequestCameraPermission);
     on<CapturePhoto>(_handleCapturePhoto);
+    on<CaptureSelfiePhoto>(_handleCaptureSelfiePhoto);
     _logger.d('PhotoBloc initialized'); // Log initialization
   }
 
@@ -97,6 +98,43 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
         if (imageUrl != null) {
           _logger.i('Photo uploaded successfully: $imageUrl');
           emit(PhotoCaptureSuccess(imageUrl));
+        } else {
+          _logger.e('Photo upload failed');
+          emit(PhotoCaptureFailure('Image upload failed.'));
+        }
+      } else {
+        _logger.w('Photo capture was canceled');
+        emit(PhotoCaptureFailure('Photo capture was canceled.'));
+      }
+    } catch (e) {
+      _logger.e('Failed to capture and upload photo: $e');
+      emit(PhotoCaptureFailure('Failed to capture and upload photo: $e'));
+    }
+  }
+
+  Future<void> _handleCaptureSelfiePhoto(CaptureSelfiePhoto event, Emitter<PhotoState> emit) async {
+    _logger.d('Handling Captured Selfie Photo event');
+    emit(PhotoCaptureInProgress());
+
+    try {
+      _logger.d('Attempting to capture and resize photo');
+      // Use PhotoCaptureService to capture and resize the photo
+      final File? photoFile = await _photoCaptureService.captureAndResizePhoto();
+
+      if (photoFile != null) {
+        _logger.d('Photo captured successfully, attempting to upload');
+        // Upload the captured image using ImageUploadService
+        final String? imageUrl = await _coreSaveService.uploadImage(photoFile);
+
+        if (imageUrl != null) {
+          _logger.i('Photo uploaded successfully: $imageUrl');
+          await _coreSaveService.processUploadedImage(imageUrl, event.outfitId);
+
+          emit(SelfieCaptureSuccess(event.outfitId));
+
+          _logger.i(
+              'SelfieCaptureSuccess: Selfie upload and processing completed: $event.outfitId');
+
         } else {
           _logger.e('Photo upload failed');
           emit(PhotoCaptureFailure('Image upload failed.'));

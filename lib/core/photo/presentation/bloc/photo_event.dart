@@ -31,3 +31,9 @@ class RequestCameraPermission extends PhotoEvent {
 }
 
 class CapturePhoto extends PhotoEvent {}
+
+class CaptureSelfiePhoto extends PhotoEvent {
+  final String outfitId;
+
+  CaptureSelfiePhoto(this.outfitId);
+}

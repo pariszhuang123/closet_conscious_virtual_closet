@@ -23,6 +23,25 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
     on<SelectCategoryEvent>(_onSelectCategory);
   }
 
+  Future<void> _onSelectCategory(SelectCategoryEvent event,
+      Emitter<CreateOutfitItemState> emit) async {
+    emit(state.copyWith(
+        currentCategory: event.category, saveStatus: SaveStatus.inProgress));
+
+    try {
+      final items = await outfitFetchService.fetchCreateOutfitItems(
+          event.category, 0, 9); // You can adjust the batch size as needed
+      emit(state.copyWith(
+        items: items,
+        saveStatus: SaveStatus.success,
+      ));
+      logger.d('Fetched items for category: ${event.category}');
+    } catch (error) {
+      logger.e('Error fetching items for category ${event.category}: $error');
+      emit(state.copyWith(saveStatus: SaveStatus.failure));
+    }
+  }
+
   Future<void> _onFetchMoreItems(FetchMoreItemsEvent event,
       Emitter<CreateOutfitItemState> emit) async {
     if (state.hasReachedMax) {
@@ -148,22 +167,4 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
     }
   }
 
-  Future<void> _onSelectCategory(SelectCategoryEvent event,
-      Emitter<CreateOutfitItemState> emit) async {
-    emit(state.copyWith(
-        currentCategory: event.category, saveStatus: SaveStatus.inProgress));
-
-    try {
-      final items = await outfitFetchService.fetchCreateOutfitItems(
-          event.category, 0, 9); // You can adjust the batch size as needed
-      emit(state.copyWith(
-        items: items,
-        saveStatus: SaveStatus.success,
-      ));
-      logger.d('Fetched items for category: ${event.category}');
-    } catch (error) {
-      logger.e('Error fetching items for category ${event.category}: $error');
-      emit(state.copyWith(saveStatus: SaveStatus.failure));
-    }
-  }
 }

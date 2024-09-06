@@ -9,10 +9,14 @@ import '../../../../widgets/progress_indicator/outfit_progress_indicator.dart';
 
 class PhotoSelfieView extends StatefulWidget {
   final CameraPermissionContext cameraContext;
-  final CustomLogger _logger = CustomLogger('PhotoSelfieView'); // Instantiate the logger
+  final String? outfitId;
+  final CustomLogger _logger = CustomLogger('PhotoSelfieView');
 
   // Constructor accepting the context (either item or selfie)
-  PhotoSelfieView({super.key, required this.cameraContext});
+  PhotoSelfieView({
+    super.key,
+    required this.cameraContext,
+    this.outfitId});
 
   @override
   PhotoSelfieViewState createState() => PhotoSelfieViewState();
@@ -50,7 +54,7 @@ class PhotoSelfieViewState extends State<PhotoSelfieView> with WidgetsBindingObs
       cameraContext: widget.cameraContext,
       context: context,
       onClose: () {
-        widget._logger.i('Camera permission check failed, navigating to MyCloset');
+        widget._logger.i('Camera permission check failed, navigating to WearOutfit');
         _navigateToWearOutfit(context);
       },
       theme: Theme.of(context),  // Safe to access Theme here
@@ -82,33 +86,19 @@ class PhotoSelfieViewState extends State<PhotoSelfieView> with WidgetsBindingObs
       theme: Theme.of(context),
       cameraContext: widget.cameraContext,
       onClose: () {
-        widget._logger.i('Permission handling closed, navigating to MyCloset');
+        widget._logger.i('Permission handling closed, navigating to WearOutfit');
         _navigateToWearOutfit(context);
       },
     );
   }
 
-  // Navigate to MyCloset route
+  // Navigate to Wear Outfit route
   void _navigateToWearOutfit(BuildContext context) {
     widget._logger.d('Navigating to Wear Outfit');
-    Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
-  }
-
-  // Now you can safely check if the widget is mounted
-  void _navigateToUploadItem(BuildContext context, String imageUrl) {
-    widget._logger.d('Preparing to navigate to UploadItem with imageUrl: $imageUrl');
-
-    if (mounted) {
-      widget._logger.d('Navigating to UploadItem with imageUrl: $imageUrl');
-      Navigator.pushReplacementNamed(
-        context,
-        AppRoutes.uploadItem,
-        arguments: imageUrl,
-      );
-      widget._logger.d('Navigation call successful, Image URL: $imageUrl');
-    } else {
-      widget._logger.e("Unable to navigate, widget is not mounted");
-    }
+    Navigator.pushReplacementNamed(
+      context,
+      AppRoutes.wearOutfit,
+        arguments: widget.outfitId    );
   }
 
   @override
@@ -132,13 +122,18 @@ class PhotoSelfieViewState extends State<PhotoSelfieView> with WidgetsBindingObs
           } else if (state is CameraPermissionGranted && !_cameraInitialized) {
             widget._logger.i('Camera permission granted, ready to capture photo');
             _handleCameraInitialized(); // Mark camera as initialized
-            context.read<PhotoBloc>().add(CapturePhoto());
+            if (widget.outfitId != null) {
+              context.read<PhotoBloc>().add(CaptureSelfiePhoto(widget.outfitId!));  // Use '!' to assert it's not null
+            } else {
+              widget._logger.e('Outfit ID is null. Cannot capture selfie.');
+              _navigateToWearOutfit(context);  // Handle the error by navigating back or showing a message
+            }
           } else if (state is PhotoCaptureFailure) {
             widget._logger.e('Photo capture failed');
             _navigateToWearOutfit(context);
-          } else if (state is PhotoCaptureSuccess) {
-            widget._logger.i('Photo upload succeeded with URL: ${state.imageUrl}');
-            _navigateToUploadItem(context, state.imageUrl);
+          } else if (state is SelfieCaptureSuccess) {
+            widget._logger.i('Photo upload succeeded with outfitId: ${state.outfitId}');
+            _navigateToWearOutfit(context);
           }
         },
         child: BlocBuilder<PhotoBloc, PhotoState>(

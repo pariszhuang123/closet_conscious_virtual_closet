@@ -11,13 +11,12 @@ import '../../core/widgets/bottom_sheet/premium_bottom_sheet/calendar_premium_bo
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/filter_premium_bottom_sheet.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
+import '../../core/utilities/routes.dart';
 import '../../outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
 import '../../outfit_management/navigate_outfit/presentation/bloc/navigate_outfit_bloc.dart';
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_grid.dart';
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_type_container.dart';
-import '../../outfit_management/wear_outfit/presentation/page/outfit_wear_provider.dart';
 import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
-import '../../outfit_management/review_outfit/presentation/page/outfit_review_provider.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 
 class MyOutfitView extends StatefulWidget {
@@ -132,7 +131,7 @@ class MyOutfitViewState extends State<MyOutfitView> {
     logger.i('Bottom navigation item tapped, index: $index');
     if (index == 0) {
       logger.i('Navigating to My Closet screen');
-      Navigator.pushReplacementNamed(context, '/my_closet');
+      Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
     } else {
       setState(() {
         _selectedIndex = index;
@@ -166,12 +165,9 @@ class MyOutfitViewState extends State<MyOutfitView> {
             }
             if (state is NavigateToReviewPageState) {
               logger.i('Navigating to OutfitReviewProvider for outfitId: ${state.outfitId}');
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => OutfitReviewProvider(
-                    myOutfitTheme: widget.myOutfitTheme,
-                  ),
-                ),
+              Navigator.pushNamed(
+                context,
+                AppRoutes.reviewOutfit,
               );
             }
           },
@@ -182,14 +178,10 @@ class MyOutfitViewState extends State<MyOutfitView> {
 
             if (state.saveStatus == SaveStatus.success && state.outfitId != null) {
               logger.i('Navigating to OutfitWearProvider for outfitId: ${state.outfitId}');
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => OutfitWearProvider(
-                    date: DateTime.now(),
-                    outfitId: state.outfitId!,
-                    myOutfitTheme: widget.myOutfitTheme,
-                  ),
-                ),
+              Navigator.pushNamed(
+                context,
+                AppRoutes.wearOutfit,
+                arguments: state.outfitId, // Use arguments to pass the outfitId               ),
               );
             }
           },
