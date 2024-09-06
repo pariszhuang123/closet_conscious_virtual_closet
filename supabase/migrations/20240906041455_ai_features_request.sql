@@ -1,7 +1,7 @@
 -- Add a new column to the user_low_freq_stats table
 ALTER TABLE public.user_low_freq_stats
 ADD COLUMN
-    ai_upload_usage_request int4 DEFAULT 0 NOT NULL,
+    ai_upload_usage_request int4 DEFAULT 0 NOT NULL
     ai_stylist_usage_request int4 DEFAULT 0 NOT NULL;
 
 
