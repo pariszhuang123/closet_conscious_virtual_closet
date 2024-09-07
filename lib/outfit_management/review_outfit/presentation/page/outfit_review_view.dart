@@ -72,9 +72,9 @@ class OutfitReviewViewState extends State<OutfitReview> {
                   ),
                   const SizedBox(height: 15),
 
-                  BlocListener<OutfitReviewBloc, OutfitReviewState>(
+                  BlocConsumer<OutfitReviewBloc, OutfitReviewState>(
                     listener: (context, state) {
-                      if (state is InvalidReviewSubmission) {
+                      if (state is ReviewInvalidItems) {
                         final String message = S.of(context).pleaseSelectAtLeastOneItem;
                         CustomSnackbar(
                           message: message,
@@ -91,17 +91,15 @@ class OutfitReviewViewState extends State<OutfitReview> {
                         );
                       }
                     },
-                    child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
-                      builder: (context, state) {
-                        logger.i('Rendering OutfitReviewContainer with state: $state');
-                        return OutfitReviewContainer(
-                          outfitReviewLike: outfitReviewLike,
-                          outfitReviewAlright: outfitReviewAlright,
-                          outfitReviewDislike: outfitReviewDislike,
-                          theme: widget.myOutfitTheme,
-                        );
-                      },
-                    ),
+                    builder: (context, state) {
+                      logger.i('Rendering OutfitReviewContainer with state: $state');
+                      return OutfitReviewContainer(
+                        outfitReviewLike: outfitReviewLike,
+                        outfitReviewAlright: outfitReviewAlright,
+                        outfitReviewDislike: outfitReviewDislike,
+                        theme: widget.myOutfitTheme,
+                      );
+                    },
                   ),
 
                   const SizedBox(height: 16),
@@ -226,13 +224,23 @@ class OutfitReviewViewState extends State<OutfitReview> {
                     child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
                       builder: (context, state) {
                         final isSubmitting = state is ReviewSubmissionInProgress;
+
+                        // Adjust the button's enabled/disabled state based on validation logic
+                        bool isButtonDisabled = false;
+                        if (state is OutfitReviewItemsLoaded) {
+                          isButtonDisabled = !(state.feedback == OutfitReviewFeedback.like ||
+                              state.items.any((item) => item.isDisliked));
+                        } else if (state is OutfitImageUrlAvailable) {
+                          isButtonDisabled = state.feedback != OutfitReviewFeedback.like;
+                        }
+
                         return ElevatedButton(
-                          onPressed: isSubmitting ? null : () {
+                          onPressed: isSubmitting || isButtonDisabled ? null : () {
                             if (state is OutfitReviewItemsLoaded || state is OutfitImageUrlAvailable) {
                               final outfitId = state.outfitId ?? ""; // Ensure this is part of both states
                               final feedback = state.feedback.toString(); // Ensure this is part of both states
                               final comments = _commentController.text;
-                              final itemIds = state is OutfitReviewItemsLoaded
+                              final selectedItems = state is OutfitReviewItemsLoaded
                                   ? state.items
                                   .where((item) => item.isDisliked)
                                   .map((item) => item.itemId)
@@ -242,11 +250,11 @@ class OutfitReviewViewState extends State<OutfitReview> {
                               logger.i("Submit button pressed. Comment: $comments");
 
                               context.read<OutfitReviewBloc>().add(
-                                SubmitOutfitReview(
+                                ValidateReviewSubmission(
                                   outfitId: outfitId,
                                   feedback: feedback,
                                   comments: comments,
-                                  itemIds: itemIds,  // Pass the item IDs
+                                  selectedItems: selectedItems,  // Pass the item IDs
                                 ),
                               );
                             } else {

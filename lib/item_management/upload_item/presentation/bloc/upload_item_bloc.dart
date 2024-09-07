@@ -21,9 +21,6 @@ class UploadItemBloc extends Bloc<UploadItemEvent, UploadItemState> {
     on<ValidateFormPage3>(_onValidateFormPage3);
   }
 
-
-
-
   void _onValidateFormPage1(ValidateFormPage1 event, Emitter<UploadItemState> emit) {
     _logger.i('Validating form page 1: $event');
     final amountSpent = double.tryParse(event.amountSpentText);

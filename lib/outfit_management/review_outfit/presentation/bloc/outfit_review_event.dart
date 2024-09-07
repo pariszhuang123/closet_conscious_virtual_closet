@@ -45,6 +45,27 @@ class FetchOutfitItems extends OutfitReviewEvent {
   List<Object> get props => [outfitId];
 }
 
+class ValidateSelectedItems extends OutfitReviewEvent {
+  final List<String> selectedItems;
+  final OutfitReviewFeedback feedback;
+
+  ValidateSelectedItems({required this.selectedItems, required this.feedback});
+}
+
+class ValidateReviewSubmission extends OutfitReviewEvent {
+  final String outfitId;
+  final String feedback;
+  final List<String> selectedItems;
+  final String? comments;
+
+  ValidateReviewSubmission({
+    required this.outfitId,
+    required this.feedback,
+    required this.selectedItems,
+    this.comments,
+  });
+}
+
 class SubmitOutfitReview extends OutfitReviewEvent {
   final String outfitId;
   final String feedback;

@@ -123,6 +123,9 @@ class NoOutfitItemsFound extends OutfitReviewState {
   const NoOutfitItemsFound({super.outfitId});
 }
 
+class ReviewInvalidItems extends OutfitReviewState {
+}
+
 class ReviewSubmissionInProgress extends OutfitReviewState {}
 
 class ReviewSubmissionSuccess extends OutfitReviewState {}
