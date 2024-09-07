@@ -2,6 +2,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../../item_management/core/data/models/closet_item_detailed.dart';
 import '../../../../core/utilities/logger.dart';
+import '../../../../user_management/user_service_locator.dart';
+import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 
 class ItemFetchService {
   final CustomLogger logger;
@@ -254,6 +256,34 @@ class ItemFetchService {
     } catch (error) {
       logger.e('Error fetching new items: $error');
       return 0;
+    }
+  }
+  Future<bool> checkClosetUploadStatus() async {
+    try {
+      final authBloc = locator<AuthBloc>();
+      final userId = authBloc.userId;
+
+      if (userId == null) {
+        // Handle the case when userId is null
+        throw Exception('User not authenticated. userId is null.');
+      }
+
+      final data = await Supabase.instance.client
+          .from('user_achievements')
+          .select('achievement_name')
+          .eq('user_id', userId)
+          .eq('achievement_name', 'closet_uploaded');
+
+      if (data.isNotEmpty) {
+        logger.i('Closet uploaded successfully');
+        return true;
+      } else {
+        logger.i('Closet not uploaded yet');
+        return false;
+      }
+    } catch (e) {
+      logger.e('Error checking upload status: $e');
+      return false;
     }
   }
 }

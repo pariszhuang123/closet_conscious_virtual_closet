@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/utilities/routes.dart';
 import '../../core/utilities/logger.dart';
@@ -158,19 +157,11 @@ class MyClosetPageState extends State<MyClosetPage> {
   }
 
   Future<void> _checkUploadCompletedStatus() async {
-    final user = Supabase.instance.client.auth.currentUser;
-    if (user != null) {
-      final data = await Supabase.instance.client
-          .from('user_achievements')
-          .select('achievement_name')
-          .eq('user_id', user.id)
-          .eq('achievement_name', 'closet_uploaded');
-
-      if (data.isNotEmpty) {
-        setState(() {
-          _isUploadCompleted = true;
-        });
-      }
+    final isUploaded = await _itemFetchService.checkClosetUploadStatus();
+    if (isUploaded) {
+      setState(() {
+        _isUploadCompleted = true;
+      });
     }
   }
 
