@@ -18,19 +18,19 @@ import '../../../../core/theme/themed_svg.dart';
 import '../widget/outfit_creation_success_dialog.dart';
 import '../../../../core/theme/my_outfit_theme.dart';
 
-class OutfitWearView extends StatefulWidget {
+class OutfitWearScreen extends StatefulWidget {
   final String outfitId;
 
-  const OutfitWearView({
+  const OutfitWearScreen({
     super.key,
     required this.outfitId,
   });
 
   @override
-  OutfitWearViewState createState() => OutfitWearViewState();
+  OutfitWearScreenState createState() => OutfitWearScreenState();
 }
 
-class OutfitWearViewState extends State<OutfitWearView> {
+class OutfitWearScreenState extends State<OutfitWearScreen> {
   late CustomLogger logger;
   late String formattedDate;
 

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../user_management/authentication/presentation/pages/login_screen.dart';
 import '../core/utilities/logger.dart';
-import '../screens/my_closet.dart';
+import 'closet/closet_screen.dart';
 
 class HomePage extends StatefulWidget {
   final ThemeData myClosetTheme;

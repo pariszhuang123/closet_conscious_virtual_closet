@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../presentation/bloc/upload_item_bloc.dart';
 import '../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
-import 'upload_item_view.dart';
+import 'upload_item_screen.dart';
 import '../../../core/utilities/logger.dart';
 
 class UploadItemProvider extends StatelessWidget {
@@ -35,7 +35,7 @@ class UploadItemProvider extends StatelessWidget {
     return BlocProvider(
       create: (context) => UploadItemBloc(
           userId: userId),
-      child: UploadItemView(myClosetTheme: myClosetTheme, imageUrl: imageUrl),
+      child: UploadItemScreen(myClosetTheme: myClosetTheme, imageUrl: imageUrl),
     );
   }
 }

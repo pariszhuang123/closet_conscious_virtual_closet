@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../screens/home_page.dart';
-import '../../screens/my_closet.dart';
-import '../../screens/outfit/my_outfit_screen.dart';
+import '../../screens/closet/closet_screen.dart';
+import '../../screens/outfit/my_outfit_provider.dart';
 import '../../user_management/achievements/pages/achievements_page.dart';
 import '../../user_management/authentication/presentation/pages/login_screen.dart';
 import '../../item_management/upload_item/pages/upload_item_provider.dart';
@@ -51,7 +51,7 @@ class AppRoutes {
         );
       case createOutfit:
         return MaterialPageRoute(
-          builder: (_) => MyOutfitScreen(myOutfitTheme: myOutfitTheme),
+          builder: (_) => MyOutfitProvider(myOutfitTheme: myOutfitTheme),
         );
       case wearOutfit:
         final outfitId = settings.arguments as String;

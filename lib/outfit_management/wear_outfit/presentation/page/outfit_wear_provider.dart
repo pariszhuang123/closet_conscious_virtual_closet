@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'outfit_wear_view.dart';
+import 'outfit_wear_screen.dart';
 import 'package:get_it/get_it.dart';
 import '../bloc/outfit_wear_bloc.dart';
 import '../../../core/data/services/outfits_fetch_service.dart';
@@ -29,7 +29,7 @@ class OutfitWearProvider extends StatelessWidget {
           outfitSaveService: outfitSaveService,  // Provide the required argument
         );
       },
-      child: OutfitWearView(
+      child: OutfitWearScreen(
         outfitId: outfitId,
       ),
     );

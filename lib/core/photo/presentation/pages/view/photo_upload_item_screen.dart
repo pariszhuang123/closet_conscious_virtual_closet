@@ -5,27 +5,23 @@ import '../../widgets/camera_permission_helper.dart';
 import '../../../../utilities/permission_service.dart';
 import '../../../../utilities/routes.dart';
 import '../../../../utilities/logger.dart';
-import '../../../../widgets/progress_indicator/outfit_progress_indicator.dart';
+import '../../../../widgets/progress_indicator/closet_progress_indicator.dart';
 
-class PhotoSelfieView extends StatefulWidget {
+class PhotoUploadItemScreen extends StatefulWidget {
   final CameraPermissionContext cameraContext;
-  final String? outfitId;
-  final CustomLogger _logger = CustomLogger('PhotoSelfieView');
+  final CustomLogger _logger = CustomLogger('PhotoUploadItemView'); // Instantiate the logger
 
   // Constructor accepting the context (either item or selfie)
-  PhotoSelfieView({
-    super.key,
-    required this.cameraContext,
-    this.outfitId});
+  PhotoUploadItemScreen({super.key, required this.cameraContext});
 
   @override
-  PhotoSelfieViewState createState() => PhotoSelfieViewState();
+  PhotoUploadItemScreenState createState() => PhotoUploadItemScreenState();
 }
 
 late PhotoBloc _photoBloc;
 late CameraPermissionHelper _cameraPermissionHelper;
 
-class PhotoSelfieViewState extends State<PhotoSelfieView> with WidgetsBindingObserver {
+class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with WidgetsBindingObserver {
   bool _cameraInitialized = false; // Track if the camera has been initialized
 
   @override
@@ -34,7 +30,7 @@ class PhotoSelfieViewState extends State<PhotoSelfieView> with WidgetsBindingObs
     _photoBloc = context.read<PhotoBloc>(); // Access the bloc here safely
     _cameraPermissionHelper = CameraPermissionHelper(); // Initialize CameraPermissionHelper
     WidgetsBinding.instance.addObserver(this); // Add lifecycle observer
-    widget._logger.d('Initializing PhotoSelfieView');
+    widget._logger.d('Initializing PhotoUploadItemView');
   }
 
   @override
@@ -54,8 +50,8 @@ class PhotoSelfieViewState extends State<PhotoSelfieView> with WidgetsBindingObs
       cameraContext: widget.cameraContext,
       context: context,
       onClose: () {
-        widget._logger.i('Camera permission check failed, navigating to WearOutfit');
-        _navigateToWearOutfit(context);
+        widget._logger.i('Camera permission check failed, navigating to MyCloset');
+        _navigateToMyCloset(context);
       },
       theme: Theme.of(context),  // Safe to access Theme here
     ));
@@ -86,19 +82,33 @@ class PhotoSelfieViewState extends State<PhotoSelfieView> with WidgetsBindingObs
       theme: Theme.of(context),
       cameraContext: widget.cameraContext,
       onClose: () {
-        widget._logger.i('Permission handling closed, navigating to WearOutfit');
-        _navigateToWearOutfit(context);
+        widget._logger.i('Permission handling closed, navigating to MyCloset');
+        _navigateToMyCloset(context);
       },
     );
   }
 
-  // Navigate to Wear Outfit route
-  void _navigateToWearOutfit(BuildContext context) {
-    widget._logger.d('Navigating to Wear Outfit');
-    Navigator.pushReplacementNamed(
-      context,
-      AppRoutes.wearOutfit,
-        arguments: widget.outfitId    );
+  // Navigate to MyCloset route
+  void _navigateToMyCloset(BuildContext context) {
+    widget._logger.d('Navigating to MyCloset');
+    Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+  }
+
+  // Now you can safely check if the widget is mounted
+  void _navigateToUploadItem(BuildContext context, String imageUrl) {
+    widget._logger.d('Preparing to navigate to UploadItem with imageUrl: $imageUrl');
+
+    if (mounted) {
+      widget._logger.d('Navigating to UploadItem with imageUrl: $imageUrl');
+      Navigator.pushReplacementNamed(
+        context,
+        AppRoutes.uploadItem,
+        arguments: imageUrl,
+      );
+      widget._logger.d('Navigation call successful, Image URL: $imageUrl');
+    } else {
+      widget._logger.e("Unable to navigate, widget is not mounted");
+    }
   }
 
   @override
@@ -122,37 +132,32 @@ class PhotoSelfieViewState extends State<PhotoSelfieView> with WidgetsBindingObs
           } else if (state is CameraPermissionGranted && !_cameraInitialized) {
             widget._logger.i('Camera permission granted, ready to capture photo');
             _handleCameraInitialized(); // Mark camera as initialized
-            if (widget.outfitId != null) {
-              context.read<PhotoBloc>().add(CaptureSelfiePhoto(widget.outfitId!));  // Use '!' to assert it's not null
-            } else {
-              widget._logger.e('Outfit ID is null. Cannot capture selfie.');
-              _navigateToWearOutfit(context);  // Handle the error by navigating back or showing a message
-            }
+            context.read<PhotoBloc>().add(CapturePhoto());
           } else if (state is PhotoCaptureFailure) {
             widget._logger.e('Photo capture failed');
-            _navigateToWearOutfit(context);
-          } else if (state is SelfieCaptureSuccess) {
-            widget._logger.i('Photo upload succeeded with outfitId: ${state.outfitId}');
-            _navigateToWearOutfit(context);
+            _navigateToMyCloset(context);
+          } else if (state is PhotoCaptureSuccess) {
+            widget._logger.i('Photo upload succeeded with URL: ${state.imageUrl}');
+            _navigateToUploadItem(context, state.imageUrl);
           }
         },
         child: BlocBuilder<PhotoBloc, PhotoState>(
           builder: (context, state) {
             if (state is PhotoCaptureInProgress) {
               widget._logger.d('Photo capture in progress');
-              return OutfitProgressIndicator(
+              return ClosetProgressIndicator(
                 color: Theme.of(context).colorScheme.primary,
                 size: 24.0,
               );
             } else if (state is CameraPermissionGranted && !_cameraInitialized) {
               widget._logger.d('Camera permission granted, capturing photo...');
-              return OutfitProgressIndicator(
+              return ClosetProgressIndicator(
                 color: Theme.of(context).colorScheme.primary,
                 size: 24.0,
               );
             } else {
               widget._logger.d('Waiting for camera permission...');
-              return OutfitProgressIndicator(
+              return ClosetProgressIndicator(
                 color: Theme.of(context).colorScheme.primary,
                 size: 24.0,
               );

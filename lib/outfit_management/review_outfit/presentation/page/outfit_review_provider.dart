@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/data/services/outfits_fetch_service.dart';
 import '../../../core/data/services/outfits_save_service.dart';
 import '../bloc/outfit_review_bloc.dart';
-import 'outfit_review_view.dart';
+import 'outfit_review_screen.dart';
 import 'package:get_it/get_it.dart';
 
 
@@ -22,7 +22,7 @@ class OutfitReviewProvider extends StatelessWidget {
         GetIt.instance<OutfitFetchService>(),
         GetIt.instance<OutfitSaveService>(),   // Second argument
       ),
-      child: OutfitReview(
+      child: OutfitReviewScreen(
         myOutfitTheme: myOutfitTheme,
       ),
     );

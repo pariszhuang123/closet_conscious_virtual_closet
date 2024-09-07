@@ -18,19 +18,19 @@ import '../../../../core/photo/presentation/widgets/user_photo/base/user_photo.d
 import '../widgets/outfit_review_custom_dialogue.dart';
 import '../../../../core/widgets/feedback/custom_snack_bar.dart';
 
-class OutfitReview extends StatefulWidget {
+class OutfitReviewScreen extends StatefulWidget {
   final ThemeData myOutfitTheme;
 
-  const OutfitReview({
+  const OutfitReviewScreen({
     super.key,
     required this.myOutfitTheme,
   });
 
   @override
-  OutfitReviewViewState createState() => OutfitReviewViewState();
+  OutfitReviewScreenState createState() => OutfitReviewScreenState();
 }
 
-class OutfitReviewViewState extends State<OutfitReview> {
+class OutfitReviewScreenState extends State<OutfitReviewScreen> {
   final CustomLogger logger = CustomLogger('OutfitReviewViewLogger');
   final TextEditingController _commentController = TextEditingController();
 

@@ -5,11 +5,11 @@ import '../../widgets/camera_permission_helper.dart';
 import '../../../../utilities/permission_service.dart';
 import '../../../../utilities/routes.dart';
 
-class PhotoEditItemView extends StatelessWidget {
+class PhotoEditItemScreen extends StatelessWidget {
   final CameraPermissionContext cameraContext;
 
   // Constructor accepting the context (either item or selfie)
-  const PhotoEditItemView({super.key, required this.cameraContext});
+  const PhotoEditItemScreen({super.key, required this.cameraContext});
 
   @override
   Widget build(BuildContext context) {

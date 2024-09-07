@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/photo_bloc.dart';
-import 'view/photo_upload_item_view.dart';
-import 'view/photo_edit_item_view.dart';
-import 'view/photo_selfie_view.dart';
+import 'view/photo_upload_item_screen.dart';
+import 'view/photo_edit_item_screen.dart';
+import 'view/photo_selfie_screen.dart';
 import '../../../utilities/permission_service.dart';
 import '../../usecase/photo_capture_service.dart';
 import '../../../data/services/core_save_services.dart';
@@ -33,11 +33,11 @@ class PhotoProvider extends StatelessWidget {
           // Use the cameraContext enum to decide which view to load
           switch (cameraContext) {
             case CameraPermissionContext.uploadItem:
-              return PhotoUploadItemView(cameraContext: CameraPermissionContext.uploadItem);  // No itemId or outfitId needed
+              return PhotoUploadItemScreen(cameraContext: CameraPermissionContext.uploadItem);  // No itemId or outfitId needed
             case CameraPermissionContext.editItem:
-              return const PhotoEditItemView(cameraContext: CameraPermissionContext.editItem);  // itemId is required
+              return const PhotoEditItemScreen(cameraContext: CameraPermissionContext.editItem);  // itemId is required
             case CameraPermissionContext.selfie:
-              return PhotoSelfieView(outfitId: outfitId, cameraContext: CameraPermissionContext.selfie);  // outfitId is required
+              return PhotoSelfieScreen(outfitId: outfitId, cameraContext: CameraPermissionContext.selfie);  // outfitId is required
             default:
               return Container(); // Fallback
           }

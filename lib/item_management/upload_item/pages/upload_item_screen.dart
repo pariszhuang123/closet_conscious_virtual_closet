@@ -15,21 +15,21 @@ import 'metadata/metadata_first_page.dart';
 import 'metadata/metadata_second_page.dart';
 import 'metadata/metadata_third_page.dart';
 
-class UploadItemView extends StatefulWidget {
+class UploadItemScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
   final String imageUrl;
 
-  const UploadItemView({
+  const UploadItemScreen({
     super.key,
     required this.myClosetTheme,
     required this.imageUrl,
   });
 
   @override
-  State<UploadItemView> createState() => _UploadItemViewState();
+  State<UploadItemScreen> createState() => _UploadItemScreenState();
 }
 
-class _UploadItemViewState extends State<UploadItemView> with WidgetsBindingObserver {
+class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBindingObserver {
   final _itemNameController = TextEditingController();
   final _amountSpentController = TextEditingController();
   String? _imageUrl;
