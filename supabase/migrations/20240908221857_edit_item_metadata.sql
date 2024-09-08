@@ -7,11 +7,11 @@ create or replace function public.edit_item_metadata(
   _occasion text,
   _season text,
   _colour text,
-  _colour_variations text default 'cc_none',
   _clothing_type text,
   _clothing_layer text,
   _accessory_type text,
-  _shoes_type text
+  _shoes_type text,
+  _colour_variations text default 'cc_none'
 )
 returns json
 language plpgsql
@@ -67,7 +67,6 @@ begin
     delete from public.items_clothing_basic where item_id = _item_id;
     delete from public.items_accessory_basic where item_id = _item_id;
   end if;
-
   -- Return success response with a custom message
   return json_build_object('status', 'success', 'message', 'You have successfully edited your item metadata.');
 exception
