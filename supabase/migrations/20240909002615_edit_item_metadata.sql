@@ -62,6 +62,8 @@ returns json
 language plpgsql
 SET search_path = ''
 as $$
+declare
+  result json;  -- Declare the variable here
 begin
 
   -- Update the general items table
