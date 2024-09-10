@@ -1700,6 +1700,36 @@ class S {
     );
   }
 
+  /// `Arrange`
+  String get arrange {
+    return Intl.message(
+      'Arrange',
+      name: 'arrange',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interested in Customizing Your Closet Layout?`
+  String get arrangeFeatureTitle {
+    return Intl.message(
+      'Interested in Customizing Your Closet Layout?',
+      name: 'arrangeFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We're considering adding a feature that lets you customize grid sizes and sort items by cost per wear, updated date, and more.`
+  String get arrangeFeatureDescription {
+    return Intl.message(
+      'We\'re considering adding a feature that lets you customize grid sizes and sort items by cost per wear, updated date, and more.',
+      name: 'arrangeFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Interested`
   String get ok {
     return Intl.message(

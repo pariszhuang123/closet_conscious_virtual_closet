@@ -1,3 +1,4 @@
+import 'package:closet_conscious/core/widgets/bottom_sheet/premium_bottom_sheet/arrange_premium_bottom_sheet.dart';
 import 'package:closet_conscious/core/widgets/bottom_sheet/usage_bottom_sheet/ai_stylist_usage_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -79,11 +80,21 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   void _onFilterButtonPressed() {
-    logger.i('Filter button pressed, showing filter options...');
+    logger.i('Filter button pressed, showing filter interest form...');
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return const PremiumFilterBottomSheet(isFromMyCloset: false);
+      },
+    );
+  }
+
+  void _onArrangeButtonPressed() {
+    logger.i('Arrange button pressed, showing arrange interest form...');
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const ArrangeFeatureBottomSheet(isFromMyCloset: false);
       },
     );
   }
@@ -213,6 +224,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                     theme: widget.myOutfitTheme,
                     outfitCount: newOutfitCount,
                     onFilterButtonPressed: _onFilterButtonPressed,
+                    onArrangeButtonPressed: _onArrangeButtonPressed,
                     onCalendarButtonPressed: _onCalendarButtonPressed,
                     onStylistButtonPressed: _onAiStylistButtonPressed,
                   ),

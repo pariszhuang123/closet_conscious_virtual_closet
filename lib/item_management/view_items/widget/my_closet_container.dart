@@ -10,6 +10,7 @@ class MyClosetContainer extends StatelessWidget {
   final dynamic uploadData;
   final dynamic filterData;
   final dynamic addClosetData;
+  final dynamic arrangeData;
   final dynamic itemUploadData;
   final dynamic currentStreakData;
   final dynamic highestStreakData;
@@ -24,6 +25,8 @@ class MyClosetContainer extends StatelessWidget {
   final VoidCallback onUploadButtonPressed;
   final VoidCallback onFilterButtonPressed;
   final VoidCallback onMultiClosetButtonPressed;
+  final VoidCallback onArrangeButtonPressed;
+
 
   const MyClosetContainer({
     super.key,
@@ -31,6 +34,7 @@ class MyClosetContainer extends StatelessWidget {
     required this.uploadData,
     required this.filterData,
     required this.addClosetData,
+    required this.arrangeData,
     required this.itemUploadData,
     required this.currentStreakData,
     required this.highestStreakData,
@@ -45,6 +49,7 @@ class MyClosetContainer extends StatelessWidget {
     required this.onUploadButtonPressed,
     required this.onFilterButtonPressed,
     required this.onMultiClosetButtonPressed,
+    required this.onArrangeButtonPressed,
   });
 
   @override
@@ -81,6 +86,15 @@ class MyClosetContainer extends StatelessWidget {
                     selectedLabel: '',
                     onPressed: onMultiClosetButtonPressed,
                     assetPath: addClosetData.assetPath ?? '',
+                    isFromMyCloset: true,
+                    buttonType: ButtonType.secondary,
+                    usePredefinedColor: false,
+                  ),
+                  NavigationTypeButton(
+                    label: arrangeData.getName(context),
+                    selectedLabel: '',
+                    onPressed: onArrangeButtonPressed,
+                    assetPath: arrangeData.assetPath ?? '',
                     isFromMyCloset: true,
                     buttonType: ButtonType.secondary,
                     usePredefinedColor: false,

@@ -65,6 +65,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
         "and": MessageLookupByLibrary.simpleMessage(" 和 "),
         "appInformationSection": MessageLookupByLibrary.simpleMessage("应用信息"),
+        "arrange": MessageLookupByLibrary.simpleMessage("排列"),
+        "arrangeFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "我们正在考虑添加一个功能，让你可以自定义网格大小，并按单次穿着成本、更新时间等进行排序。"),
+        "arrangeFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("感兴趣自定义你的衣橱布局吗？"),
         "athletic": MessageLookupByLibrary.simpleMessage("运动"),
         "autumn": MessageLookupByLibrary.simpleMessage("秋"),
         "bag": MessageLookupByLibrary.simpleMessage("包"),

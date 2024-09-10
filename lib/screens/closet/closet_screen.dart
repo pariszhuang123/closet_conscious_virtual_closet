@@ -10,6 +10,7 @@ import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/filter_premium_bottom_sheet.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/multi_closet_premium_bottom_sheet.dart';
+import '../../core/widgets/bottom_sheet/premium_bottom_sheet/arrange_premium_bottom_sheet.dart';
 import '../../item_management/upload_item/widgets/upload_confirmation_bottom_sheet.dart';
 import '../app_drawer.dart';
 import '../../core/theme/ui_constant.dart';
@@ -197,6 +198,15 @@ class MyClosetPageState extends State<MyClosetPage> {
     );
   }
 
+  void _onArrangeButtonPressed() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const ArrangeFeatureBottomSheet(isFromMyCloset: true);
+      },
+    );
+  }
+
   void _onUploadCompletedButtonPressed() {
     showModalBottomSheet(
       context: context,
@@ -215,6 +225,7 @@ class MyClosetPageState extends State<MyClosetPage> {
     final uploadData = TypeDataList.upload(context);
     final filterData = TypeDataList.filter(context);
     final addClosetData = TypeDataList.addCloset(context);
+    final arrangeData = TypeDataList.arrange(context);
     final currentStreakData = TypeDataList.currentStreak(context);
     final highestStreakData = TypeDataList.highestStreak(context);
     final costOfNewItemsData = TypeDataList.costOfNewItems(context);
@@ -244,6 +255,7 @@ class MyClosetPageState extends State<MyClosetPage> {
                   uploadData: uploadData,
                   filterData: filterData,
                   addClosetData: addClosetData,
+                  arrangeData: arrangeData,
                   itemUploadData: itemUploadData,
                   currentStreakData: currentStreakData,
                   highestStreakData: highestStreakData,
@@ -258,6 +270,7 @@ class MyClosetPageState extends State<MyClosetPage> {
                   onUploadButtonPressed: _onUploadButtonPressed,
                   onFilterButtonPressed: _onFilterButtonPressed,
                   onMultiClosetButtonPressed: _onMultiClosetButtonPressed,
+                  onArrangeButtonPressed: _onArrangeButtonPressed,
                 ),
                 Expanded(
                   child: ItemGrid(

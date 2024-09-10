@@ -9,8 +9,10 @@ class OutfitFeatureContainer extends StatelessWidget {
   final ThemeData theme;
   final int outfitCount;
   final VoidCallback onFilterButtonPressed;
+  final VoidCallback onArrangeButtonPressed;
   final VoidCallback onCalendarButtonPressed;
   final VoidCallback onStylistButtonPressed;
+
 
 
   const OutfitFeatureContainer({
@@ -18,6 +20,7 @@ class OutfitFeatureContainer extends StatelessWidget {
     required this.theme,
     required this.outfitCount,
     required this.onFilterButtonPressed,
+    required this.onArrangeButtonPressed,
     required this.onCalendarButtonPressed,
     required this.onStylistButtonPressed,
   });
@@ -36,6 +39,15 @@ class OutfitFeatureContainer extends StatelessWidget {
                 selectedLabel: '',
                 onPressed: onFilterButtonPressed,
                 assetPath: TypeDataList.filter(context).assetPath,
+                isFromMyCloset: false,
+                buttonType: ButtonType.secondary,
+                usePredefinedColor: false,
+              ),
+              NavigationTypeButton(
+                label: TypeDataList.arrange(context).getName(context),
+                selectedLabel: '',
+                onPressed: onArrangeButtonPressed,
+                assetPath: TypeDataList.arrange(context).assetPath,
                 isFromMyCloset: false,
                 buttonType: ButtonType.secondary,
                 usePredefinedColor: false,

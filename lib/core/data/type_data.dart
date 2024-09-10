@@ -120,6 +120,11 @@ class TypeDataList {
       TypeData('filter_filter', (context) => S.of(context).filter_filter, 'assets/icons/general/filter_search.svg', false);
   }
 
+  static TypeData arrange(BuildContext context) {
+    return
+      TypeData('arrange', (context) => S.of(context).arrange, 'assets/icons/general/arrange.svg', false);
+  }
+
   static TypeData swapItem(BuildContext context) {
     return
       TypeData('swap_item', (context) => S.of(context).swap_item, 'assets/icons/general/qr_code.svg', false);

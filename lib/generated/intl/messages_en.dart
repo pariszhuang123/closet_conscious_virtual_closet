@@ -74,6 +74,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "and": MessageLookupByLibrary.simpleMessage(" and the "),
         "appInformationSection":
             MessageLookupByLibrary.simpleMessage("App Information"),
+        "arrange": MessageLookupByLibrary.simpleMessage("Arrange"),
+        "arrangeFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "We\'re considering adding a feature that lets you customize grid sizes and sort items by cost per wear, updated date, and more."),
+        "arrangeFeatureTitle": MessageLookupByLibrary.simpleMessage(
+            "Interested in Customizing Your Closet Layout?"),
         "athletic": MessageLookupByLibrary.simpleMessage("Athletic"),
         "autumn": MessageLookupByLibrary.simpleMessage("Autumn"),
         "bag": MessageLookupByLibrary.simpleMessage("Bag"),
