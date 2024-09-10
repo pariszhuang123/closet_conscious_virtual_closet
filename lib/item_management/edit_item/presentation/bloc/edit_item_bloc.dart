@@ -112,11 +112,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           emit(EditItemUpdateSuccess());
         } else {
           _logger.e("Item metadata update failed.");
-          emit(EditItemUpdateFailure());
+          emit(EditItemUpdateFailure("Metadata update failed due to an unknown error."));
         }
       } catch (e) {
         _logger.e("Error during item update: $e");
-        emit(EditItemUpdateFailure());
+        emit(EditItemUpdateFailure(e.toString()));
       }
     } else {
       _logger.w("Form submission attempted in invalid state.");

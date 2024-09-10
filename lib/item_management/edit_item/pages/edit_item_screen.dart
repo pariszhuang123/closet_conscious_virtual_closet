@@ -130,6 +130,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     }
   }
 
+  // Keep the logic for getting the current item state
   ClosetItemDetailed getCurrentItem(EditItemState state) {
     if (state is EditItemLoaded) {
       _logger.i('Loaded item: ${state.item.itemId}');
@@ -158,7 +159,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
         } else if (state is EditItemUpdateFailure) {
           _logger.e('Update failure for itemId: ${widget.itemId}');
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('state.errorMessage')), // Using actual error message
+            SnackBar(content: Text(state.errorMessage)), // Using actual error message
           );
         }
 
@@ -192,261 +193,267 @@ class _EditItemScreenState extends State<EditItemScreen> {
           return const Center(child: Text('Failed to load item'));
         }
 
+        try {
+          // Get the current item safely using getCurrentItem
+          ClosetItemDetailed currentItem = getCurrentItem(state);
 
-        ClosetItemDetailed currentItem = getCurrentItem(state);
-
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(S.of(context).editPageTitle),
-          ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    // Image and Swap Button in a Stack
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: GestureDetector(
-                              onTap: !_isChanged ? _navigateToPhotoProvider : null,  // Navigate to PhotoProvider for image editing
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(16.0),
-                                child: ImageDisplayWidget(
-                                  imageUrl: _imageUrl,  // Display the current image or placeholder
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(S.of(context).editPageTitle),
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      // Image and Swap Button in a Stack
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: GestureDetector(
+                                onTap: !_isChanged ? _navigateToPhotoProvider : null,  // Navigate to PhotoProvider for image editing
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                  child: ImageDisplayWidget(
+                                    imageUrl: _imageUrl,  // Display the current image or placeholder
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            right: 0,
-                            top: 0,
-                            bottom: 0,
-                            child: NavigationTypeButton(
-                              label: swapData.getName(context),
-                              selectedLabel: '',
-                              onPressed: _openSwapSheet,  // Open the swap bottom sheet
-                              assetPath: swapData.assetPath,
-                              isFromMyCloset: true,
-                              buttonType: ButtonType.secondary,
-                              usePredefinedColor: false,
+                            Positioned(
+                              right: 0,
+                              top: 0,
+                              bottom: 0,
+                              child: NavigationTypeButton(
+                                label: swapData.getName(context),
+                                selectedLabel: '',
+                                onPressed: _openSwapSheet,  // Open the swap bottom sheet
+                                assetPath: swapData.assetPath,
+                                isFromMyCloset: true,
+                                buttonType: ButtonType.secondary,
+                                usePredefinedColor: false,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 12),
+                      const SizedBox(height: 12),
 
-                    // Metadata Form
-                    TextFormField(
-                      controller: _itemNameController,
-                      decoration: InputDecoration(
-                        labelText: S.of(context).item_name,
-                        labelStyle: myClosetTheme.textTheme.bodyMedium,
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return S.of(context).pleaseEnterItemName;
-                        }
-                        return null;
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          _isChanged = true;
-                        });
-                        final currentItemState = getCurrentItem(state);
-                        _dispatchMetadataChanged(state, currentItemState.copyWith(name: value));
-                      },
-                    ),
-                    const SizedBox(height: 12),
-
-                    TextFormField(
-                      controller: _amountSpentController,
-                      decoration: InputDecoration(
-                        labelText: S.of(context).amountSpentLabel,
-                        hintText: S.of(context).enterAmountSpentHint,
-                        labelStyle: myClosetTheme.textTheme.bodyMedium,
-                      ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {
-                        setState(() {
-                          _isChanged = true;
-                        });
-                        final currentItemState = getCurrentItem(state);
-                        _dispatchMetadataChanged(state, currentItemState.copyWith(
-                          amountSpent: double.tryParse(value) ?? 0,
-                        ));
-                      },
-                    ),
-                    const SizedBox(height: 12),
-
-                    // Icon Row Builder
-                    Text(S.of(context).selectItemType, style: myClosetTheme.textTheme.bodyMedium),
-                    ...buildIconRows(
-                      TypeDataList.itemGeneralTypes(context),
-                      currentItem.itemType,  // Access the itemType safely
-                          (dataKey) {
-                        setState(() {
-                          _isChanged = true;
-                        });
-                        _dispatchMetadataChanged(state, currentItem.copyWith(itemType: dataKey));
-                      },
-                      context,
-                      true,
-                    ),
-                    const SizedBox(height: 12),
-
-                    // Occasion Selection
-                    Text(S.of(context).selectOccasion, style: myClosetTheme.textTheme.bodyMedium),
-                    ...buildIconRows(
-                      TypeDataList.occasions(context),
-                      currentItem.occasion,  // Access the occasion safely
-                          (dataKey) {
-                        setState(() {
-                          _isChanged = true;
-                        });
-                        _dispatchMetadataChanged(state, currentItem.copyWith(occasion: dataKey));
-                      },
-                      context,
-                      true,
-                    ),
-                    const SizedBox(height: 12),
-
-                    // Season Selection
-                    Text(S.of(context).selectSeason, style: myClosetTheme.textTheme.bodyMedium),
-                    ...buildIconRows(
-                      TypeDataList.seasons(context),
-                      currentItem.season,  // Access the season safely
-                          (dataKey) {
-                        setState(() {
-                          _isChanged = true;
-                        });
-                        _dispatchMetadataChanged(state, currentItem.copyWith(season: dataKey));
-                      },
-                      context,
-                      true,
-                    ),
-                    const SizedBox(height: 12),
-
-                    // Shoe Type Selection (for shoes)
-                    if (currentItem.itemType == 'shoes') ...[
-                      Text(S.of(context).selectShoeType, style: myClosetTheme.textTheme.bodyMedium),
-                      ...buildIconRows(
-                        TypeDataList.shoeTypes(context),
-                        currentItem.shoesType,  // Access the shoesType safely
-                            (dataKey) {
-                          setState(() {
-                            _isChanged = true;
-                          });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(shoesType: dataKey));
+                      // Metadata Form
+                      TextFormField(
+                        controller: _itemNameController,
+                        decoration: InputDecoration(
+                          labelText: S.of(context).item_name,
+                          labelStyle: myClosetTheme.textTheme.bodyMedium,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return S.of(context).pleaseEnterItemName;
+                          }
+                          return null;
                         },
-                        context,
-                        true,
-                      ),
-                    ],
-                    const SizedBox(height: 12),
-
-                    // Accessory Type Selection (for accessories)
-                    if (currentItem.itemType == 'accessory') ...[
-                      Text(S.of(context).selectAccessoryType, style: myClosetTheme.textTheme.bodyMedium),
-                      ...buildIconRows(
-                        TypeDataList.accessoryTypes(context),
-                        currentItem.accessoryType,  // Access the accessoryType safely
-                            (dataKey) {
+                        onChanged: (value) {
                           setState(() {
                             _isChanged = true;
                           });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(accessoryType: dataKey));
+                          final currentItemState = getCurrentItem(state);
+                          _dispatchMetadataChanged(state, currentItemState.copyWith(name: value));
                         },
-                        context,
-                        true,
                       ),
-                    ],
-                    const SizedBox(height: 12),
+                      const SizedBox(height: 12),
 
-                    // Clothing Type and Layer Selection (for clothing)
-                    if (currentItem.itemType == 'clothing') ...[
-                      // Clothing Type Selection
-                      Text(S.of(context).selectClothingType, style: myClosetTheme.textTheme.bodyMedium),
+                      TextFormField(
+                        controller: _amountSpentController,
+                        decoration: InputDecoration(
+                          labelText: S.of(context).amountSpentLabel,
+                          hintText: S.of(context).enterAmountSpentHint,
+                          labelStyle: myClosetTheme.textTheme.bodyMedium,
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          setState(() {
+                            _isChanged = true;
+                          });
+                          final currentItemState = getCurrentItem(state);
+                          _dispatchMetadataChanged(state, currentItemState.copyWith(
+                            amountSpent: double.tryParse(value) ?? 0,
+                          ));
+                        },
+                      ),
+                      const SizedBox(height: 12),
+
+                      // Icon Row Builder
+                      Text(S.of(context).selectItemType, style: myClosetTheme.textTheme.bodyMedium),
                       ...buildIconRows(
-                        TypeDataList.clothingTypes(context),
-                        currentItem.clothingType,  // Access the clothingType safely
+                        TypeDataList.itemGeneralTypes(context),
+                        currentItem.itemType,  // Access the itemType safely
                             (dataKey) {
                           setState(() {
                             _isChanged = true;
                           });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(clothingType: dataKey));
+                          _dispatchMetadataChanged(state, currentItem.copyWith(itemType: dataKey));
                         },
                         context,
                         true,
                       ),
                       const SizedBox(height: 12),
 
-                      // Clothing Layer Selection
-                      Text(S.of(context).selectClothingLayer, style: myClosetTheme.textTheme.bodyMedium),
+                      // Occasion Selection
+                      Text(S.of(context).selectOccasion, style: myClosetTheme.textTheme.bodyMedium),
                       ...buildIconRows(
-                        TypeDataList.clothingLayers(context),
-                        currentItem.clothingLayer,  // Access the clothingLayer safely
+                        TypeDataList.occasions(context),
+                        currentItem.occasion,  // Access the occasion safely
                             (dataKey) {
                           setState(() {
                             _isChanged = true;
                           });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(clothingLayer: dataKey));
+                          _dispatchMetadataChanged(state, currentItem.copyWith(occasion: dataKey));
                         },
                         context,
                         true,
                       ),
-                    ],
-                    const SizedBox(height: 12),
+                      const SizedBox(height: 12),
 
-                    // Colour Selection
-                    Text(S.of(context).selectColour, style: myClosetTheme.textTheme.bodyMedium),
-                    ...buildIconRows(
-                      TypeDataList.colors(context),
-                      currentItem.colour,  // Access the colour safely
-                          (dataKey) {
-                        setState(() {
-                          _isChanged = true;
-                        });
-                        _dispatchMetadataChanged(state, currentItem.copyWith(colour: dataKey));
-                      },
-                      context,
-                      true,
-                    ),
-                    const SizedBox(height: 12),
-
-                    // Colour Variation Selection (if colour is not black or white)
-                    if (currentItem.colour != 'black' && currentItem.colour != 'white') ...[
-                      Text(S.of(context).selectColourVariation, style: myClosetTheme.textTheme.bodyMedium),
+                      // Season Selection
+                      Text(S.of(context).selectSeason, style: myClosetTheme.textTheme.bodyMedium),
                       ...buildIconRows(
-                        TypeDataList.colorVariations(context),
-                        currentItem.colourVariations,  // Access the colourVariations safely
+                        TypeDataList.seasons(context),
+                        currentItem.season,  // Access the season safely
                             (dataKey) {
                           setState(() {
                             _isChanged = true;
                           });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(colourVariations: dataKey));
+                          _dispatchMetadataChanged(state, currentItem.copyWith(season: dataKey));
                         },
                         context,
                         true,
                       ),
-                    ],
-                    const SizedBox(height: 12),
+                      const SizedBox(height: 12),
 
-                    ElevatedButton(
-                      onPressed: _isChanged ? _handleUpdate : _openDeclutterSheet,
-                      child: _isChanged ? Text(S.of(context).update) : Text(S.of(context).declutter),
-                    ),
-                  ],
+                      // Shoe Type Selection (for shoes)
+                      if (currentItem.itemType == 'shoes') ...[
+                        Text(S.of(context).selectShoeType, style: myClosetTheme.textTheme.bodyMedium),
+                        ...buildIconRows(
+                          TypeDataList.shoeTypes(context),
+                          currentItem.shoesType,  // Access the shoesType safely
+                              (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                            });
+                            _dispatchMetadataChanged(state, currentItem.copyWith(shoesType: dataKey));
+                          },
+                          context,
+                          true,
+                        ),
+                      ],
+                      const SizedBox(height: 12),
+
+                      // Accessory Type Selection (for accessories)
+                      if (currentItem.itemType == 'accessory') ...[
+                        Text(S.of(context).selectAccessoryType, style: myClosetTheme.textTheme.bodyMedium),
+                        ...buildIconRows(
+                          TypeDataList.accessoryTypes(context),
+                          currentItem.accessoryType,  // Access the accessoryType safely
+                              (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                            });
+                            _dispatchMetadataChanged(state, currentItem.copyWith(accessoryType: dataKey));
+                          },
+                          context,
+                          true,
+                        ),
+                      ],
+                      const SizedBox(height: 12),
+
+                      // Clothing Type and Layer Selection (for clothing)
+                      if (currentItem.itemType == 'clothing') ...[
+                        // Clothing Type Selection
+                        Text(S.of(context).selectClothingType, style: myClosetTheme.textTheme.bodyMedium),
+                        ...buildIconRows(
+                          TypeDataList.clothingTypes(context),
+                          currentItem.clothingType,  // Access the clothingType safely
+                              (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                            });
+                            _dispatchMetadataChanged(state, currentItem.copyWith(clothingType: dataKey));
+                          },
+                          context,
+                          true,
+                        ),
+                        const SizedBox(height: 12),
+
+                        // Clothing Layer Selection
+                        Text(S.of(context).selectClothingLayer, style: myClosetTheme.textTheme.bodyMedium),
+                        ...buildIconRows(
+                          TypeDataList.clothingLayers(context),
+                          currentItem.clothingLayer,  // Access the clothingLayer safely
+                              (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                            });
+                            _dispatchMetadataChanged(state, currentItem.copyWith(clothingLayer: dataKey));
+                          },
+                          context,
+                          true,
+                        ),
+                      ],
+                      const SizedBox(height: 12),
+
+                      // Colour Selection
+                      Text(S.of(context).selectColour, style: myClosetTheme.textTheme.bodyMedium),
+                      ...buildIconRows(
+                        TypeDataList.colors(context),
+                        currentItem.colour,  // Access the colour safely
+                            (dataKey) {
+                          setState(() {
+                            _isChanged = true;
+                          });
+                          _dispatchMetadataChanged(state, currentItem.copyWith(colour: dataKey));
+                        },
+                        context,
+                        true,
+                      ),
+                      const SizedBox(height: 12),
+
+                      // Colour Variation Selection (if colour is not black or white)
+                      if (currentItem.colour != 'black' && currentItem.colour != 'white') ...[
+                        Text(S.of(context).selectColourVariation, style: myClosetTheme.textTheme.bodyMedium),
+                        ...buildIconRows(
+                          TypeDataList.colorVariations(context),
+                          currentItem.colourVariations,  // Access the colourVariations safely
+                              (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                            });
+                            _dispatchMetadataChanged(state, currentItem.copyWith(colourVariations: dataKey));
+                          },
+                          context,
+                          true,
+                        ),
+                      ],
+                      const SizedBox(height: 12),
+
+                      ElevatedButton(
+                        onPressed: _isChanged ? _handleUpdate : _openDeclutterSheet,
+                        child: _isChanged ? Text(S.of(context).update) : Text(S.of(context).declutter),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
+          );
+        } catch (e) {
+          // In case of invalid state or errors, show a fallback indicator
+          _logger.e('Error retrieving item details: $e');
+          return const Center(child: ClosetProgressIndicator(color: Colors.teal));
+        }
       },
     );
   }

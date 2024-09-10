@@ -37,7 +37,9 @@ class EditItemUpdateSuccess extends EditItemState {
 }
 
 class EditItemUpdateFailure extends EditItemState {
-  EditItemUpdateFailure();
+  final String errorMessage;
+
+  EditItemUpdateFailure(this.errorMessage);
 }
 
 class EditItemLoadFailure extends EditItemState {
