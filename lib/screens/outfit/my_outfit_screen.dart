@@ -181,7 +181,9 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               Navigator.pushNamed(
                 context,
                 AppRoutes.reviewOutfit,
-              );
+              ).then((_) {
+                _isNavigating = false; // Reset navigating after returning
+              });
             }
           },
         ),
@@ -196,7 +198,21 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                 context,
                 AppRoutes.wearOutfit,
                 arguments: state.outfitId,
-              );
+              ).then((_) => _isNavigating = false); // Reset navigating after returning
+            }
+
+            // Show SnackBar if no items are selected
+            if (!state.hasSelectedItems && !_snackBarShown && !_isNavigating) {
+              _isNavigating = true; // Prevent the SnackBar from showing during navigation
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(S.of(context).selectItemsToCreateOutfit),
+                  ),
+                );
+                _snackBarShown = true; // Set the flag to true after the snackbar is shown
+                _isNavigating = false; // Reset after SnackBar is shown
+              });
             }
           },
         ),
@@ -250,18 +266,8 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                           _snackBarShown = false;  // Reset the flag when no items are available
                           return Center(child: Text(S.of(context).noItemsInCategory));
                         }
-                        // If items are available, show the OutfitGrid, and trigger the snack bar if none are selected
+                        // If items are available, show the OutfitGrid
                         else {
-                          if (!state.hasSelectedItems && !_snackBarShown && !_isNavigating) { // Add condition for _isNavigating
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(S.of(context).selectItemsToCreateOutfit),
-                                ),
-                              );
-                              _snackBarShown = true;  // Set the flag to true after the snackbar is shown
-                            });
-                          }
                           return OutfitGrid(
                             scrollController: _scrollController,
                             logger: logger,
