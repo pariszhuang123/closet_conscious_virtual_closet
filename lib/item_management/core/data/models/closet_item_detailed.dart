@@ -1,3 +1,5 @@
+import '../../../../core/utilities/logger.dart';
+
 class ClosetItemDetailed {
   final String itemId;
   final String imageUrl;
@@ -13,6 +15,8 @@ class ClosetItemDetailed {
   final String? clothingLayer;
   final String? shoesType;
   final String? accessoryType;
+
+  static final CustomLogger _logger = CustomLogger('ClosetItemDetailed');
 
   ClosetItemDetailed({
     required this.itemId,
@@ -32,7 +36,7 @@ class ClosetItemDetailed {
   });
 
   factory ClosetItemDetailed.fromJson(Map<String, dynamic> json) {
-    return ClosetItemDetailed(
+    final item = ClosetItemDetailed(
       itemId: json['item_id'],
       imageUrl: json['image_url'],
       itemType: json['item_type'],
@@ -56,9 +60,31 @@ class ClosetItemDetailed {
           : null,
       updatedAt: DateTime.parse(json['updated_at']),
     );
+
+    item.logMetadata();  // Log all metadata after creation
+    return item;
   }
 
-  // Add the copyWith method here
+  // Method to log all the metadata
+  void logMetadata() {
+    _logger.d('Logging metadata for item: $itemId');
+    _logger.i('Item ID: $itemId');
+    _logger.i('Image URL: $imageUrl');
+    _logger.i('Item Type: $itemType');
+    _logger.i('Name: $name');
+    _logger.i('Amount Spent: $amountSpent');
+    _logger.i('Occasion: $occasion');
+    _logger.i('Season: $season');
+    _logger.i('Colour: $colour');
+    _logger.i('Colour Variations: $colourVariations');
+    _logger.i('Clothing Type: $clothingType');
+    _logger.i('Clothing Layer: $clothingLayer');
+    _logger.i('Shoes Type: $shoesType');
+    _logger.i('Accessory Type: $accessoryType');
+    _logger.i('Updated At: $updatedAt');
+  }
+
+  // Optional: Add logging to other methods like copyWith as needed
   ClosetItemDetailed copyWith({
     String? itemId,
     String? imageUrl,
@@ -75,6 +101,7 @@ class ClosetItemDetailed {
     String? shoesType,
     String? accessoryType,
   }) {
+    _logger.d('Copying ClosetItemDetailed');
     return ClosetItemDetailed(
       itemId: itemId ?? this.itemId,
       imageUrl: imageUrl ?? this.imageUrl,

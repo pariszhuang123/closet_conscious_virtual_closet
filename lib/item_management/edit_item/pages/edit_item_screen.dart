@@ -27,8 +27,8 @@ class EditItemScreen extends StatefulWidget {
 }
 
 class _EditItemScreenState extends State<EditItemScreen> {
-  late final TextEditingController _itemNameController;
-  late final TextEditingController _amountSpentController;
+  late TextEditingController _itemNameController;
+  late TextEditingController _amountSpentController;
   String? _imageUrl;
   bool _isChanged = false;
 
@@ -133,6 +133,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
   ClosetItemDetailed getCurrentItem(EditItemState state) {
     if (state is EditItemLoaded) {
       _logger.i('Loaded item: ${state.item.itemId}');
+      _logger.i('Item Name: ${state.item.name}');
+      _logger.i('Amount Spent: ${state.item.amountSpent}');
       return state.item;
     } else if (state is EditItemMetadataChanged) {
       _logger.i('Updated item: ${state.updatedItem.itemId}');
@@ -163,6 +165,15 @@ class _EditItemScreenState extends State<EditItemScreen> {
         // Update _imageUrl here safely during state change
         if (state is EditItemLoaded || state is EditItemMetadataChanged) {
           final currentItem = getCurrentItem(state);
+
+          if (_itemNameController.text != currentItem.name) {
+            _itemNameController.text = currentItem.name;
+          }
+
+          if (_amountSpentController.text != currentItem.amountSpent.toString()) {
+            _amountSpentController.text = currentItem.amountSpent.toString();
+          }
+
           if (_imageUrl != currentItem.imageUrl) {
             setState(() {
               _imageUrl = currentItem.imageUrl;
@@ -180,6 +191,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           _logger.e('Failed to load itemId: ${widget.itemId}');
           return const Center(child: Text('Failed to load item'));
         }
+
 
         ClosetItemDetailed currentItem = getCurrentItem(state);
 
