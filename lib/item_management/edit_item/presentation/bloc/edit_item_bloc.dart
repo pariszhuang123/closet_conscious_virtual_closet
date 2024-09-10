@@ -84,7 +84,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       _logger.i("Submitting form for item ID: ${updatedItem.itemId}");
 
       // Validate form data
-      if (updatedItem.name.isEmpty || updatedItem.amountSpent <= 0) {
+      if (updatedItem.name.isEmpty || updatedItem.amountSpent < 0) {
         _logger.w("Form validation failed. Name or amount spent is invalid.");
         emit(EditItemValidationFailed());
         return;
