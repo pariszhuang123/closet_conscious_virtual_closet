@@ -136,7 +136,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
       _logger.i('Loaded item: ${state.item.itemId}');
       _logger.i('Item Name: ${state.item.name}');
       _logger.i('Amount Spent: ${state.item.amountSpent}');
-      return state.item;
+            return state.item;
     } else if (state is EditItemMetadataChanged) {
       _logger.i('Updated item: ${state.updatedItem.itemId}');
       return state.updatedItem;
@@ -274,14 +274,20 @@ class _EditItemScreenState extends State<EditItemScreen> {
                           labelStyle: myClosetTheme.textTheme.bodyMedium,
                         ),
                         keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return S.of(context).enterAmountSpentHint;
+                          }
+                          final parsedValue = double.tryParse(value);
+                          if (parsedValue == null || parsedValue < 0) {
+                            return S.of(context).please_enter_valid_amount;
+                          }
+                          return null;
+                        },
                         onChanged: (value) {
                           setState(() {
                             _isChanged = true;
                           });
-                          final currentItemState = getCurrentItem(state);
-                          _dispatchMetadataChanged(state, currentItemState.copyWith(
-                            amountSpent: double.tryParse(value) ?? 0,
-                          ));
                         },
                       ),
                       const SizedBox(height: 12),
@@ -440,7 +446,30 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       const SizedBox(height: 12),
 
                       ElevatedButton(
-                        onPressed: _isChanged ? _handleUpdate : _openDeclutterSheet,
+                        onPressed: _isChanged
+                            ? () {
+                          // Perform validation first
+                          if (_formKey.currentState?.validate() ?? false) {
+                            // Parse the amountSpent from the controller
+                            final value = _amountSpentController.text;
+                            final double? amountSpent = double.tryParse(value);
+
+                            if (amountSpent != null) {
+                              // Valid amount, proceed with update
+                              final currentItemState = getCurrentItem(state);
+                              _dispatchMetadataChanged(
+                                state,
+                                currentItemState.copyWith(amountSpent: amountSpent),
+                              );
+                              _handleUpdate();
+                            } else {
+                              // Handle invalid parsing (null value)
+                              _logger.e('Invalid Parsing');
+                              // You can also show an error or prevent the form from proceeding.
+                            }
+                          }
+                        }
+                            : _openDeclutterSheet, // Open declutter sheet if no changes
                         child: _isChanged ? Text(S.of(context).update) : Text(S.of(context).declutter),
                       ),
                     ],
