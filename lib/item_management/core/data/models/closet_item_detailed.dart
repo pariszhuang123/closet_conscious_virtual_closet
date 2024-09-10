@@ -46,18 +46,10 @@ class ClosetItemDetailed {
       season: json['season'],
       colour: json['colour'],
       colourVariations: json['colour_variations'],
-      clothingType: json['items_clothing_basic'] != null
-          ? json['items_clothing_basic']['clothing_type']
-          : null,
-      clothingLayer: json['items_clothing_basic'] != null
-          ? json['items_clothing_basic']['clothing_layer']
-          : null,
-      shoesType: json['items_shoes_basic'] != null
-          ? json['items_shoes_basic']['shoes_type']
-          : null,
-      accessoryType: json['items_accessory_basic'] != null
-          ? json['items_accessory_basic']['accessory_type']
-          : null,
+      clothingType: json['clothing_type'],  // No nested object
+      clothingLayer: json['clothing_layer'],  // No nested object
+      shoesType: json['shoes_type'],  // No nested object
+      accessoryType: json['accessory_type'],  // No nested object
       updatedAt: DateTime.parse(json['updated_at']),
     );
 

@@ -213,7 +213,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         children: [
                           Center(
                             child: GestureDetector(
-                              onTap: _navigateToPhotoProvider,  // Navigate to PhotoProvider for image editing
+                              onTap: !_isChanged ? _navigateToPhotoProvider : null,  // Navigate to PhotoProvider for image editing
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(16.0),
                                 child: ImageDisplayWidget(
@@ -438,14 +438,9 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     const SizedBox(height: 12),
 
                     ElevatedButton(
-                      onPressed: _isChanged ? _handleUpdate : null,
-                      child: Text(S.of(context).update),
+                      onPressed: _isChanged ? _handleUpdate : _openDeclutterSheet,
+                      child: _isChanged ? Text(S.of(context).update) : Text(S.of(context).declutter),
                     ),
-                    if (!_isChanged)
-                      ElevatedButton(
-                        onPressed: _openDeclutterSheet,
-                        child: Text(S.of(context).declutter),
-                      ),
                   ],
                 ),
               ),
