@@ -12,6 +12,7 @@ import '../../../core/widgets/layout/icon_row_builder.dart';
 import '../../../core/photo/presentation/widgets/image_display_widget.dart';
 import '../../../core/theme/themed_svg.dart';
 import '../../core/data/models/closet_item_detailed.dart';
+import '../../../core/utilities/logger.dart';
 
 class EditItemScreen extends StatefulWidget {
   final String itemId;
@@ -32,23 +33,28 @@ class _EditItemScreenState extends State<EditItemScreen> {
   bool _isChanged = false;
 
   final _formKey = GlobalKey<FormState>();
+  final _logger = CustomLogger('EditItemScreen'); // Initialize the logger
 
   @override
   void initState() {
     super.initState();
     _itemNameController = TextEditingController();
     _amountSpentController = TextEditingController();
+
+    _logger.i('Initialized EditItemScreen with itemId: ${widget.itemId}');
   }
 
   @override
   void dispose() {
     _itemNameController.dispose();
     _amountSpentController.dispose();
+    _logger.i('Disposed controllers');
     super.dispose();
   }
 
   // Route the user to PhotoProvider for image editing
   void _navigateToPhotoProvider() {
+    _logger.d('Navigating to PhotoProvider for itemId: ${widget.itemId}');
     Navigator.pushNamed(
       context,
       AppRoutes.editPhoto, // Use your custom route name defined in AppRoutes
@@ -58,6 +64,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
   // Open the declutter bottom sheet
   void _openDeclutterSheet() {
+    _logger.d('Opening declutter sheet for itemId: ${widget.itemId}');
     showModalBottomSheet(
       context: context,
       builder: (context) => DeclutterBottomSheet(
@@ -69,6 +76,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
   // Open the swap bottom sheet
   void _openSwapSheet() {
+    _logger.d('Opening swap sheet for itemId: ${widget.itemId}');
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) => const SwapFeatureBottomSheet(
@@ -80,7 +88,15 @@ class _EditItemScreenState extends State<EditItemScreen> {
     });
   }
 
-// Handle form submission via BLoC
+  // Dispatch metadata change event
+  void _dispatchMetadataChanged(EditItemState state, ClosetItemDetailed updatedItem) {
+    _logger.d('Dispatching metadata change for itemId: ${widget.itemId}');
+    context.read<EditItemBloc>().add(
+      MetadataChangedEvent(updatedItem: updatedItem),
+    );
+  }
+
+  // Handle form submission via BLoC
   void _handleUpdate() {
     if (_formKey.currentState?.validate() ?? false) {
       final currentState = context.read<EditItemBloc>().state;
@@ -90,6 +106,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
         final item = currentState is EditItemLoaded
             ? (currentState).item
             : (currentState as EditItemMetadataChanged).updatedItem;
+
+        _logger.i('Submitting form for itemId: ${item.itemId}');
 
         // Dispatch the SubmitFormEvent with all necessary parameters
         context.read<EditItemBloc>().add(
@@ -112,6 +130,18 @@ class _EditItemScreenState extends State<EditItemScreen> {
     }
   }
 
+  ClosetItemDetailed getCurrentItem(EditItemState state) {
+    if (state is EditItemLoaded) {
+      _logger.i('Loaded item: ${state.item.itemId}');
+      return state.item;
+    } else if (state is EditItemMetadataChanged) {
+      _logger.i('Updated item: ${state.updatedItem.itemId}');
+      return state.updatedItem;
+    }
+    _logger.e('Invalid state encountered');
+    throw StateError("Invalid state");
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData myClosetTheme = Theme.of(context);
@@ -121,33 +151,37 @@ class _EditItemScreenState extends State<EditItemScreen> {
     return BlocConsumer<EditItemBloc, EditItemState>(
       listener: (context, state) {
         if (state is EditItemUpdateSuccess) {
+          _logger.i('Update success for itemId: ${widget.itemId}');
           Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
         } else if (state is EditItemUpdateFailure) {
+          _logger.e('Update failure for itemId: ${widget.itemId}');
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('state.error')),
+            const SnackBar(content: Text('state.errorMessage')), // Using actual error message
           );
         }
+
+        // Update _imageUrl here safely during state change
+        if (state is EditItemLoaded || state is EditItemMetadataChanged) {
+          final currentItem = getCurrentItem(state);
+          if (_imageUrl != currentItem.imageUrl) {
+            setState(() {
+              _imageUrl = currentItem.imageUrl;
+            });
+          }
+        }
       },
+
       builder: (context, state) {
         if (state is EditItemInitial || state is EditItemLoading) {
+          _logger.i('Loading state for itemId: ${widget.itemId}');
           return const Center(child: ClosetProgressIndicator(color: Colors.teal));
         }
         if (state is EditItemLoadFailure) {
+          _logger.e('Failed to load itemId: ${widget.itemId}');
           return const Center(child: Text('Failed to load item'));
         }
 
-        ClosetItemDetailed? currentItem;
-
-        if (state is EditItemLoaded) {
-          currentItem = state.item; // Use the item loaded from the initial load
-        } else if (state is EditItemMetadataChanged) {
-          currentItem = state.updatedItem; // Use the updated item with new metadata
-        }
-
-        // If currentItem is still null, return an error or loading indicator
-        if (currentItem == null) {
-          return const Center(child: ClosetProgressIndicator(color: Colors.teal));
-        }
+        ClosetItemDetailed currentItem = getCurrentItem(state);
 
         return Scaffold(
           appBar: AppBar(
@@ -183,13 +217,13 @@ class _EditItemScreenState extends State<EditItemScreen> {
                             child: NavigationTypeButton(
                               label: swapData.getName(context),
                               selectedLabel: '',
-                              onPressed: () => _openSwapSheet,  // Open the swap bottom sheet
+                              onPressed: _openSwapSheet,  // Open the swap bottom sheet
                               assetPath: swapData.assetPath,
                               isFromMyCloset: true,
                               buttonType: ButtonType.secondary,
                               usePredefinedColor: false,
                             ),
-                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -212,21 +246,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         setState(() {
                           _isChanged = true;
                         });
-                        // Check if state is EditItemLoaded or EditItemMetadataChanged
-                        if (state is EditItemLoaded || state is EditItemMetadataChanged) {
-                          final currentItemState = state is EditItemLoaded
-                              ? (state).item
-                              : (state as EditItemMetadataChanged).updatedItem;
-
-                          // Dispatch MetadataChangedEvent with the updated ClosetItemDetailed object
-                          context.read<EditItemBloc>().add(
-                            MetadataChangedEvent(
-                              updatedItem: currentItemState.copyWith(
-                                amountSpent: double.tryParse(value) ?? 0, // Ensure it's parsed as a number
-                              ),
-                            ),
-                          );
-                        }
+                        final currentItemState = getCurrentItem(state);
+                        _dispatchMetadataChanged(state, currentItemState.copyWith(name: value));
                       },
                     ),
                     const SizedBox(height: 12),
@@ -243,48 +264,24 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         setState(() {
                           _isChanged = true;
                         });
-
-                        // Check if state is EditItemLoaded or EditItemMetadataChanged
-                        if (state is EditItemLoaded || state is EditItemMetadataChanged) {
-                          final currentItemState = state is EditItemLoaded
-                              ? (state).item
-                              : (state as EditItemMetadataChanged).updatedItem;
-
-                          // Dispatch MetadataChangedEvent with the updated ClosetItemDetailed object
-                          context.read<EditItemBloc>().add(
-                            MetadataChangedEvent(
-                              updatedItem: currentItemState.copyWith(name: value), // Update the name field
-                            ),
-                          );
-                        }
+                        final currentItemState = getCurrentItem(state);
+                        _dispatchMetadataChanged(state, currentItemState.copyWith(
+                          amountSpent: double.tryParse(value) ?? 0,
+                        ));
                       },
                     ),
                     const SizedBox(height: 12),
 
+                    // Icon Row Builder
                     Text(S.of(context).selectItemType, style: myClosetTheme.textTheme.bodyMedium),
                     ...buildIconRows(
                       TypeDataList.itemGeneralTypes(context),
-                      state is EditItemLoaded
-                          ? (state).item.itemType
-                          : (state as EditItemMetadataChanged).updatedItem.itemType,  // Access the itemType safely
+                      currentItem.itemType,  // Access the itemType safely
                           (dataKey) {
                         setState(() {
                           _isChanged = true;
                         });
-
-                        // Check if state is EditItemLoaded or EditItemMetadataChanged
-                        if (state is EditItemLoaded || state is EditItemMetadataChanged) {
-                          final currentItemState = state is EditItemLoaded
-                              ? (state).item
-                              : (state as EditItemMetadataChanged).updatedItem;
-
-                          // Dispatch MetadataChangedEvent with the updated ClosetItemDetailed object
-                          context.read<EditItemBloc>().add(
-                            MetadataChangedEvent(
-                              updatedItem: currentItemState.copyWith(itemType: dataKey), // Update the itemType field
-                            ),
-                          );
-                        }
+                        _dispatchMetadataChanged(state, currentItem.copyWith(itemType: dataKey));
                       },
                       context,
                       true,
@@ -292,102 +289,48 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     const SizedBox(height: 12),
 
                     // Occasion Selection
-                    Text(
-                      S.of(context).selectOccasion,
-                      style: myClosetTheme.textTheme.bodyMedium,
-                    ),
+                    Text(S.of(context).selectOccasion, style: myClosetTheme.textTheme.bodyMedium),
                     ...buildIconRows(
                       TypeDataList.occasions(context),
-                      state is EditItemLoaded
-                          ? (state).item.occasion
-                          : (state as EditItemMetadataChanged).updatedItem.occasion,  // Access the occasion safely
+                      currentItem.occasion,  // Access the occasion safely
                           (dataKey) {
                         setState(() {
                           _isChanged = true;
                         });
-
-                        // Check if state is EditItemLoaded or EditItemMetadataChanged
-                        if (state is EditItemLoaded || state is EditItemMetadataChanged) {
-                          final currentItemState = state is EditItemLoaded
-                              ? (state).item
-                              : (state as EditItemMetadataChanged).updatedItem;
-
-                          // Dispatch MetadataChangedEvent with the updated ClosetItemDetailed object
-                          context.read<EditItemBloc>().add(
-                            MetadataChangedEvent(
-                              updatedItem: currentItemState.copyWith(occasion: dataKey),  // Update the occasion field
-                            ),
-                          );
-                        }
+                        _dispatchMetadataChanged(state, currentItem.copyWith(occasion: dataKey));
                       },
                       context,
                       true,
                     ),
                     const SizedBox(height: 12),
 
-// Season Selection
-                    Text(
-                      S.of(context).selectSeason,
-                      style: myClosetTheme.textTheme.bodyMedium,
-                    ),
+                    // Season Selection
+                    Text(S.of(context).selectSeason, style: myClosetTheme.textTheme.bodyMedium),
                     ...buildIconRows(
                       TypeDataList.seasons(context),
-                      state is EditItemLoaded
-                          ? (state).item.season
-                          : (state as EditItemMetadataChanged).updatedItem.season,  // Access the season safely
+                      currentItem.season,  // Access the season safely
                           (dataKey) {
                         setState(() {
                           _isChanged = true;
                         });
-
-                        // Check if state is EditItemLoaded or EditItemMetadataChanged
-                        if (state is EditItemLoaded || state is EditItemMetadataChanged) {
-                          final currentItemState = state is EditItemLoaded
-                              ? (state).item
-                              : (state as EditItemMetadataChanged).updatedItem;
-
-                          // Dispatch MetadataChangedEvent with the updated ClosetItemDetailed object
-                          context.read<EditItemBloc>().add(
-                            MetadataChangedEvent(
-                              updatedItem: currentItemState.copyWith(season: dataKey),  // Update the season field
-                            ),
-                          );
-                        }
+                        _dispatchMetadataChanged(state, currentItem.copyWith(season: dataKey));
                       },
                       context,
                       true,
                     ),
                     const SizedBox(height: 12),
 
-// Shoe Type Selection (for shoes)
-// Conditional rendering for shoeType selection based on itemType
-                    if ((state is EditItemLoaded && (state).item.itemType == 'shoes') ||
-                        (state is EditItemMetadataChanged && (state).updatedItem.itemType == 'shoes')) ...[
-                      // Shoe Type Selection
+                    // Shoe Type Selection (for shoes)
+                    if (currentItem.itemType == 'shoes') ...[
                       Text(S.of(context).selectShoeType, style: myClosetTheme.textTheme.bodyMedium),
                       ...buildIconRows(
                         TypeDataList.shoeTypes(context),
-                        state is EditItemLoaded
-                            ? (state).item.shoesType
-                            : (state as EditItemMetadataChanged).updatedItem.shoesType,  // Access the shoesType safely
+                        currentItem.shoesType,  // Access the shoesType safely
                             (dataKey) {
                           setState(() {
                             _isChanged = true;
                           });
-
-                          // Check if state is EditItemLoaded or EditItemMetadataChanged
-                          if (state is EditItemLoaded || state is EditItemMetadataChanged) {
-                            final currentItemState = state is EditItemLoaded
-                                ? (state).item
-                                : (state as EditItemMetadataChanged).updatedItem;
-
-                            // Dispatch MetadataChangedEvent with the updated ClosetItemDetailed object
-                            context.read<EditItemBloc>().add(
-                              MetadataChangedEvent(
-                                updatedItem: currentItemState.copyWith(shoesType: dataKey), // Update the shoesType field
-                              ),
-                            );
-                          }
+                          _dispatchMetadataChanged(state, currentItem.copyWith(shoesType: dataKey));
                         },
                         context,
                         true,
@@ -395,76 +338,36 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     ],
                     const SizedBox(height: 12),
 
-// Accessory Type Selection (for accessories)
-                    if ((state is EditItemLoaded && (state).item.itemType == 'accessory') ||
-                        (state is EditItemMetadataChanged && (state).updatedItem.itemType == 'accessory')) ...[
-                      Text(
-                        S.of(context).selectAccessoryType,
-                        style: myClosetTheme.textTheme.bodyMedium,
-                      ),
+                    // Accessory Type Selection (for accessories)
+                    if (currentItem.itemType == 'accessory') ...[
+                      Text(S.of(context).selectAccessoryType, style: myClosetTheme.textTheme.bodyMedium),
                       ...buildIconRows(
                         TypeDataList.accessoryTypes(context),
-                        state is EditItemLoaded
-                            ? (state).item.accessoryType
-                            : (state as EditItemMetadataChanged).updatedItem.accessoryType,  // Access the accessoryType safely
+                        currentItem.accessoryType,  // Access the accessoryType safely
                             (dataKey) {
                           setState(() {
                             _isChanged = true;
                           });
-
-                          // Check if state is EditItemLoaded or EditItemMetadataChanged
-                          if (state is EditItemLoaded || state is EditItemMetadataChanged) {
-                            final currentItemState = state is EditItemLoaded
-                                ? (state).item
-                                : (state as EditItemMetadataChanged).updatedItem;
-
-                            // Dispatch MetadataChangedEvent with the updated ClosetItemDetailed object
-                            context.read<EditItemBloc>().add(
-                              MetadataChangedEvent(
-                                updatedItem: currentItemState.copyWith(accessoryType: dataKey),  // Update the accessoryType field
-                              ),
-                            );
-                          }
+                          _dispatchMetadataChanged(state, currentItem.copyWith(accessoryType: dataKey));
                         },
                         context,
                         true,
                       ),
                     ],
                     const SizedBox(height: 12),
-                    const SizedBox(height: 12),
 
-// Conditional rendering for clothingType and clothingLayer based on itemType
-                    if ((state is EditItemLoaded && (state).item.itemType == 'clothing') ||
-                        (state is EditItemMetadataChanged && (state).updatedItem.itemType == 'clothing')) ...[
-
+                    // Clothing Type and Layer Selection (for clothing)
+                    if (currentItem.itemType == 'clothing') ...[
                       // Clothing Type Selection
-                      Text(
-                        S.of(context).selectClothingType,
-                        style: myClosetTheme.textTheme.bodyMedium,
-                      ),
+                      Text(S.of(context).selectClothingType, style: myClosetTheme.textTheme.bodyMedium),
                       ...buildIconRows(
                         TypeDataList.clothingTypes(context),
-                        state is EditItemLoaded
-                            ? (state).item.clothingType
-                            : (state as EditItemMetadataChanged).updatedItem.clothingType,  // Access the clothingType safely
+                        currentItem.clothingType,  // Access the clothingType safely
                             (dataKey) {
                           setState(() {
                             _isChanged = true;
                           });
-
-                          // Check if state is EditItemLoaded or EditItemMetadataChanged
-                          if (state is EditItemLoaded || state is EditItemMetadataChanged) {
-                            final currentItemState = state is EditItemLoaded
-                                ? (state).item
-                                : (state as EditItemMetadataChanged).updatedItem;
-
-                            // Dispatch MetadataChangedEvent with the updated ClosetItemDetailed object
-                            context.read<EditItemBloc>().add(
-                              MetadataChangedEvent(
-                                updatedItem: currentItemState.copyWith(clothingType: dataKey),  // Update the clothingType field
-                              ),
-                            );
-                          }
+                          _dispatchMetadataChanged(state, currentItem.copyWith(clothingType: dataKey));
                         },
                         context,
                         true,
@@ -472,111 +375,55 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       const SizedBox(height: 12),
 
                       // Clothing Layer Selection
-                      Text(
-                        S.of(context).selectClothingLayer,
-                        style: myClosetTheme.textTheme.bodyMedium,
-                      ),
+                      Text(S.of(context).selectClothingLayer, style: myClosetTheme.textTheme.bodyMedium),
                       ...buildIconRows(
                         TypeDataList.clothingLayers(context),
-                        state is EditItemLoaded
-                            ? (state).item.clothingLayer
-                            : (state as EditItemMetadataChanged).updatedItem.clothingLayer,  // Access the clothingLayer safely
+                        currentItem.clothingLayer,  // Access the clothingLayer safely
                             (dataKey) {
                           setState(() {
                             _isChanged = true;
                           });
-
-                          // Check if state is EditItemLoaded or EditItemMetadataChanged
-                          if (state is EditItemLoaded || state is EditItemMetadataChanged) {
-                            final currentItemState = state is EditItemLoaded
-                                ? (state).item
-                                : (state as EditItemMetadataChanged).updatedItem;
-
-                            // Dispatch MetadataChangedEvent with the updated ClosetItemDetailed object
-                            context.read<EditItemBloc>().add(
-                              MetadataChangedEvent(
-                                updatedItem: currentItemState.copyWith(clothingLayer: dataKey),  // Update the clothingLayer field
-                              ),
-                            );
-                          }
+                          _dispatchMetadataChanged(state, currentItem.copyWith(clothingLayer: dataKey));
                         },
                         context,
                         true,
                       ),
                     ],
+                    const SizedBox(height: 12),
 
-// Colour Selection
-                    Text(
-                      S.of(context).selectColour,
-                      style: myClosetTheme.textTheme.bodyMedium,
-                    ),
+                    // Colour Selection
+                    Text(S.of(context).selectColour, style: myClosetTheme.textTheme.bodyMedium),
                     ...buildIconRows(
                       TypeDataList.colors(context),
-                      state is EditItemLoaded
-                          ? (state).item.colour
-                          : (state as EditItemMetadataChanged).updatedItem.colour,  // Access the colour safely
+                      currentItem.colour,  // Access the colour safely
                           (dataKey) {
                         setState(() {
                           _isChanged = true;
                         });
-
-                        // Check if state is EditItemLoaded or EditItemMetadataChanged
-                        if (state is EditItemLoaded || state is EditItemMetadataChanged) {
-                          final currentItemState = state is EditItemLoaded
-                              ? (state).item
-                              : (state as EditItemMetadataChanged).updatedItem;
-
-                          // Dispatch MetadataChangedEvent with the updated ClosetItemDetailed object
-                          context.read<EditItemBloc>().add(
-                            MetadataChangedEvent(
-                              updatedItem: currentItemState.copyWith(colour: dataKey),  // Update the colour field
-                            ),
-                          );
-                        }
+                        _dispatchMetadataChanged(state, currentItem.copyWith(colour: dataKey));
                       },
                       context,
                       true,
                     ),
+                    const SizedBox(height: 12),
 
-// Check if selectedColour is not 'black', 'white', or null to display colour variations
-                    if ((state is EditItemLoaded && (state).item.colour != 'black' && (state).item.colour != 'white') ||
-                        (state is EditItemMetadataChanged && (state).updatedItem.colour != 'black' && (state).updatedItem.colour != 'white')) ...[
-
-                      const SizedBox(height: 12),
-
-                      Text(
-                        S.of(context).selectColourVariation,
-                        style: myClosetTheme.textTheme.bodyMedium,
-                      ),
+                    // Colour Variation Selection (if colour is not black or white)
+                    if (currentItem.colour != 'black' && currentItem.colour != 'white') ...[
+                      Text(S.of(context).selectColourVariation, style: myClosetTheme.textTheme.bodyMedium),
                       ...buildIconRows(
                         TypeDataList.colorVariations(context),
-                        state is EditItemLoaded
-                            ? (state).item.colourVariations
-                            : (state as EditItemMetadataChanged).updatedItem.colourVariations,  // Access the colourVariations safely
+                        currentItem.colourVariations,  // Access the colourVariations safely
                             (dataKey) {
                           setState(() {
                             _isChanged = true;
                           });
-
-                          // Check if state is EditItemLoaded or EditItemMetadataChanged
-                          if (state is EditItemLoaded || state is EditItemMetadataChanged) {
-                            final currentItemState = state is EditItemLoaded
-                                ? (state).item
-                                : (state as EditItemMetadataChanged).updatedItem;
-
-                            // Dispatch MetadataChangedEvent with the updated ClosetItemDetailed object
-                            context.read<EditItemBloc>().add(
-                              MetadataChangedEvent(
-                                updatedItem: currentItemState.copyWith(colourVariations: dataKey),  // Update the colourVariations field
-                              ),
-                            );
-                          }
+                          _dispatchMetadataChanged(state, currentItem.copyWith(colourVariations: dataKey));
                         },
                         context,
                         true,
                       ),
                     ],
-
+                    const SizedBox(height: 12),
 
                     ElevatedButton(
                       onPressed: _isChanged ? _handleUpdate : null,

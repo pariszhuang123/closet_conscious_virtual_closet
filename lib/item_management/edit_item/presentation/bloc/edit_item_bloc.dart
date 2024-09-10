@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/data/models/closet_item_detailed.dart';
 import '../../../core/data/services/item_fetch_service.dart';
 import '../../../core/data/services/item_save_service.dart';
-
+import '../../../../core/utilities/logger.dart';
 
 part 'edit_item_event.dart';
 part 'edit_item_state.dart';
@@ -11,6 +11,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   final String itemId;
   final ItemSaveService _itemSaveService;
   final ItemFetchService _itemFetchService;
+  final CustomLogger _logger = CustomLogger('ItemEditBloc');
 
   EditItemBloc({
     required this.itemId,
@@ -23,24 +24,26 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<SubmitFormEvent>(_onSubmitForm);
   }
 
-
   // Handler for loading item from Supabase
   Future<void> _onLoadItem(LoadItemEvent event,
       Emitter<EditItemState> emit) async {
     emit(EditItemLoading());
+    _logger.i("Loading item with ID: ${event.itemId}");
 
     try {
       // Fetch item details using the ItemFetchService
       final itemData = await _itemFetchService.fetchItemDetails(event.itemId);
+      _logger.d("Item loaded successfully: $itemData");
       emit(EditItemLoaded(itemId: itemData.itemId, item: itemData));
     } catch (e) {
+      _logger.e("Failed to load item: $e");
       emit(EditItemLoadFailure());
     }
   }
 
+  // Handler for metadata changes
   void _onMetadataChanged(MetadataChangedEvent event, Emitter<EditItemState> emit) {
-    // Ensure state is EditItemLoaded or EditItemMetadataChanged
-    if (state is EditItemLoaded || state is EditItemMetadataChanged) {
+    if (_isValidStateForMetadataChange()) {
       final currentItemState = state is EditItemLoaded
           ? (state as EditItemLoaded).item
           : (state as EditItemMetadataChanged).updatedItem;
@@ -60,25 +63,29 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         accessoryType: event.updatedItem.accessoryType ?? currentItemState.accessoryType,
       );
 
+      _logger.d("Item metadata changed: $updatedItem");
+
       // Emit the updated state with the new metadata
       emit(EditItemMetadataChanged(updatedItem: updatedItem));
     } else {
+      _logger.w("Attempted to change metadata in invalid state.");
       emit(EditItemLoadFailure());
     }
   }
 
+  // Handler for submitting the form
   Future<void> _onSubmitForm(SubmitFormEvent event,
       Emitter<EditItemState> emit) async {
-    // Only handle if the state is EditItemMetadataChanged, meaning changes have been made
     if (state is EditItemMetadataChanged) {
       final metadataChangedState = state as EditItemMetadataChanged;
-      final updatedItem = metadataChangedState.updatedItem; // Access the updated item
+      final updatedItem = metadataChangedState.updatedItem;
 
       emit(EditItemSubmitting(itemId: updatedItem.itemId));
+      _logger.i("Submitting form for item ID: ${updatedItem.itemId}");
 
       // Validate form data
-      if (updatedItem.name.isEmpty ||
-          updatedItem.amountSpent <= 0) {
+      if (updatedItem.name.isEmpty || updatedItem.amountSpent <= 0) {
+        _logger.w("Form validation failed. Name or amount spent is invalid.");
         emit(EditItemValidationFailed());
         return;
       }
@@ -97,21 +104,28 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           clothingLayer: updatedItem.clothingLayer,
           shoesType: updatedItem.shoesType,
           accessoryType: updatedItem.accessoryType,
-          colourVariations: updatedItem.colourVariations ??
-              'cc_none', // Default if null
+          colourVariations: updatedItem.colourVariations ?? 'cc_none',
         );
 
         if (success) {
+          _logger.i("Item metadata updated successfully.");
           emit(EditItemUpdateSuccess());
         } else {
+          _logger.e("Item metadata update failed.");
           emit(EditItemUpdateFailure());
         }
       } catch (e) {
+        _logger.e("Error during item update: $e");
         emit(EditItemUpdateFailure());
       }
     } else {
-      emit(
-          EditItemLoadFailure()); // Should never happen if button is hidden until changes are made
+      _logger.w("Form submission attempted in invalid state.");
+      emit(EditItemLoadFailure());
     }
+  }
+
+  // Helper method to validate state before metadata change
+  bool _isValidStateForMetadataChange() {
+    return state is EditItemLoaded || state is EditItemMetadataChanged;
   }
 }

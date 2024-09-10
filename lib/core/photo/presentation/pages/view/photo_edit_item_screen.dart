@@ -131,9 +131,9 @@ class PhotoEditItemScreenState extends State<PhotoEditItemScreen> with WidgetsBi
             widget._logger.i('Camera permission granted, ready to capture photo');
             _handleCameraInitialized(); // Mark camera as initialized
             if (widget.itemId != null) {
-              context.read<PhotoBloc>().add(CaptureSelfiePhoto(widget.itemId!));  // Use '!' to assert it's not null
+              context.read<PhotoBloc>().add(CaptureEditItemPhoto(widget.itemId!));  // Use '!' to assert it's not null
             } else {
-              widget._logger.e('Item ID is null. Cannot capture selfie.');
+              widget._logger.e('Item ID is null. Cannot capture EditItem.');
               _navigateToEditItem(context);  // Handle the error by navigating back or showing a message
             }
           } else if (state is PhotoCaptureFailure) {

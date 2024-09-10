@@ -71,6 +71,7 @@ class CoreSaveService {
       return null; // Return null in case of failure
     }
   }
+
   Future<void> processUploadedImage(String imageUrl, String outfitId) async {
     logger.i('Starting processUploadedImage for outfit $outfitId');
     try {
@@ -90,5 +91,26 @@ class CoreSaveService {
       throw Exception('Processing uploaded image failed');
     }
   }
+
+  Future<void> processEditItemImage(String imageUrl, String itemId) async {
+    logger.i('Starting processUploadedImage for item $itemId');
+    try {
+      final response = await SupabaseConfig.client.rpc('update_item_photo', params: {
+        '_image_url': imageUrl,
+        '_item_id': itemId,
+      });
+
+      if (response is! Map<String, dynamic> || response['status'] != 'success') {
+        logger.w('processUploadedImage: RPC call returned an unexpected response for item $itemId: $response');
+        throw Exception('RPC call failed');
+      }
+
+      logger.i('processUploadedImage: Image processing completed successfully for item $itemId');
+    } catch (e) {
+      logger.e('processUploadedImage: Error processing uploaded image for item $itemId, error: $e');
+      throw Exception('Processing uploaded image failed');
+    }
+  }
+
 
 }
