@@ -304,6 +304,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "unexpectedResponseFormat":
             MessageLookupByLibrary.simpleMessage("响应格式出乎意料。请稍后再试或联系支持以获取帮助。"),
         "unknownError": MessageLookupByLibrary.simpleMessage("出现问题，请稍后再试。"),
+        "unsavedChangesMessage": MessageLookupByLibrary.simpleMessage(
+            "您有未保存的更改。请选择保存或放弃这些更改，然后再选择照片。"),
         "update": MessageLookupByLibrary.simpleMessage("更新"),
         "upload": MessageLookupByLibrary.simpleMessage("上传"),
         "uploadConfirmationDescription": MessageLookupByLibrary.simpleMessage(

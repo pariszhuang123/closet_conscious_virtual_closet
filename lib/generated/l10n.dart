@@ -2299,6 +2299,16 @@ class S {
       args: [],
     );
   }
+
+  /// `You have unsaved changes. Please save or discard them before selecting a photo.`
+  String get unsavedChangesMessage {
+    return Intl.message(
+      'You have unsaved changes. Please save or discard them before selecting a photo.',
+      name: 'unsavedChangesMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

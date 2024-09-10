@@ -13,6 +13,7 @@ import '../../../core/photo/presentation/widgets/image_display_widget.dart';
 import '../../../core/theme/themed_svg.dart';
 import '../../core/data/models/closet_item_detailed.dart';
 import '../../../core/utilities/logger.dart';
+import '../../../core/widgets/feedback/custom_snack_bar.dart';
 
 class EditItemScreen extends StatefulWidget {
   final String itemId;
@@ -215,7 +216,18 @@ class _EditItemScreenState extends State<EditItemScreen> {
                           children: [
                             Center(
                               child: GestureDetector(
-                                onTap: !_isChanged ? _navigateToPhotoProvider : null,  // Navigate to PhotoProvider for image editing
+                                onTap: () {
+                                  if (!_isChanged) {
+                                    // Navigate to PhotoProvider for image editing if no changes
+                                    _navigateToPhotoProvider();
+                                  } else {
+                                    // Show custom snackbar if changes were made
+                                    CustomSnackbar(
+                                      message: S.of(context).unsavedChangesMessage,  // Correctly reference 'context'
+                                      theme: Theme.of(context),  // Provide the current theme
+                                    ).show(context);
+                                  }
+                                },
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16.0),
                                   child: ImageDisplayWidget(

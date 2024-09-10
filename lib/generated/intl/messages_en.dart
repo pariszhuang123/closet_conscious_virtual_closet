@@ -357,6 +357,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Unexpected response format. Please try again later or contact support if the issue persists."),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "Something went wrong. Please try again later."),
+        "unsavedChangesMessage": MessageLookupByLibrary.simpleMessage(
+            "You have unsaved changes. Please save or discard them before selecting a photo."),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "uploadConfirmationDescription": MessageLookupByLibrary.simpleMessage(

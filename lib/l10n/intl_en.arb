@@ -224,6 +224,7 @@
   "aiupload": "Smart\nUpload",
   "aiUploadFeatureTitle": "Smart Upload Usage Feature",
   "aiUploadFeatureDescription": "Easily upload items with automatic metadata tagging. The AI helps you save time by filling in details such as category, color, and more.",
-  "selectItemsToCreateOutfit": "Please select items to create your outfit."
+  "selectItemsToCreateOutfit": "Please select items to create your outfit.",
+  "unsavedChangesMessage": "You have unsaved changes. Please save or discard them before selecting a photo."
 
 }

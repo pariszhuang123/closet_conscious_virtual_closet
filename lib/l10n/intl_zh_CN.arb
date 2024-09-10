@@ -223,5 +223,6 @@
   "aiupload": "智能上传",
   "aiUploadFeatureTitle": "智能上传使用功能",
   "aiUploadFeatureDescription": "轻松上传物品，并自动添加元数据。AI 会帮助您节省时间，填写类别、颜色等详细信息。",
-  "selectItemsToCreateOutfit": "请选择物品以创建您的穿搭。"
+  "selectItemsToCreateOutfit": "请选择物品以创建您的穿搭。",
+  "unsavedChangesMessage": "您有未保存的更改。请选择保存或放弃这些更改，然后再选择照片。"
 }
