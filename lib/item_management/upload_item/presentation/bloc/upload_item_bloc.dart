@@ -13,7 +13,7 @@ class UploadItemBloc extends Bloc<UploadItemEvent, UploadItemState> {
   final CustomLogger _logger = CustomLogger('ItemUploadBloc');
 
   UploadItemBloc({required this.userId})
-      : _itemSaveService = ItemSaveService(userId),
+      : _itemSaveService = ItemSaveService(),
         super(UploadItemInitial()) {
     on<StartUploadItem>(_onStartUpload);
     on<ValidateFormPage1>(_onValidateFormPage1);

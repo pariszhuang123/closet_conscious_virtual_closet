@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../screens/home_page.dart';
 import '../../screens/closet/closet_screen.dart';
@@ -7,9 +6,7 @@ import '../../screens/outfit/my_outfit_provider.dart';
 import '../../user_management/achievements/pages/achievements_page.dart';
 import '../../user_management/authentication/presentation/pages/login_screen.dart';
 import '../../item_management/upload_item/pages/upload_item_provider.dart';
-import '../../item_management/edit_item/pages/edit_item_page.dart';
-import '../../item_management/edit_item/data/edit_item_arguments.dart';
-import '../../item_management/edit_item/presentation/bloc/edit_item_bloc.dart';
+import '../../item_management/edit_item/pages/edit_item_provider.dart';
 import '../screens/webview_screen.dart';
 import '../../user_management/achievements/data/models/achievements_page_argument.dart';
 import '../../core/data/models/arguments.dart';
@@ -31,6 +28,7 @@ class AppRoutes {
   static const String editItem = '/edit_item';
   static const String uploadItemPhoto = '/upload_item_photo';
   static const String selfiePhoto = '/selfie_photo';
+  static const String editPhoto = '/edit_photo';
   static const String infoHub = '/info_hub';
   static const String achievementPage = '/achievements';
 
@@ -78,45 +76,18 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (_) => PhotoProvider(outfitId: outfitId, cameraContext: CameraPermissionContext.selfie),
         );
+      case editPhoto:
+        final itemId = settings.arguments as String;
+        logger.d("Navigating to editPhoto");
+        return MaterialPageRoute(
+          builder: (_) => PhotoProvider(itemId: itemId, cameraContext: CameraPermissionContext.editItem),
+        );
       case editItem:
-        if (settings.arguments is EditItemArguments) {
-          final args = settings.arguments as EditItemArguments;
-          logger.d("Navigating to editItem with arguments: $args");
-          return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-              create: (context) => EditItemBloc(
-                itemNameController: args.itemNameController,
-                amountSpentController: args.amountSpentController,
-                itemId: args.itemId,
-                initialName: args.initialName,
-                initialAmountSpent: args.initialAmountSpent,
-                initialImageUrl: args.initialImageUrl,
-                initialItemType: args.initialItemType,
-                initialSpecificType: args.initialSpecificType,
-                initialClothingLayer: args.initialClothingLayer,
-                initialOccasion: args.initialOccasion,
-                initialSeason: args.initialSeason,
-                initialColour: args.initialColour,
-                initialColourVariation: args.initialColourVariation,
-              )..add(FetchItemDetailsEvent(args.itemId)),
-              child: EditItemPage(
-                myClosetTheme: args.myClosetTheme,
-                itemId: args.itemId,
-                initialName: args.initialName,
-                initialAmountSpent: args.initialAmountSpent,
-                initialImageUrl: args.initialImageUrl,
-                initialItemType: args.initialItemType,
-                initialSpecificType: args.initialSpecificType,
-                initialClothingLayer: args.initialClothingLayer,
-                initialOccasion: args.initialOccasion,
-                initialSeason: args.initialSeason,
-                initialColour: args.initialColour,
-                initialColourVariation: args.initialColourVariation,
-              ),
-            ),
-          );
-        }
-        return _errorRoute(settings.name);
+        final itemId = settings.arguments as String;
+        logger.d("Navigating to editItem with itemId: $itemId");
+        return MaterialPageRoute(
+          builder: (_) => EditItemProvider(itemId: itemId),
+        );
       case infoHub:
         final args = settings.arguments as InfoHubArguments;
         logger.d("Navigating to infoHub with arguments: $args");

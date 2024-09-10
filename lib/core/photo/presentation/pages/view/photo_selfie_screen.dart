@@ -103,7 +103,7 @@ class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindin
 
   @override
   void dispose() {
-    widget._logger.i('Disposing PhotoUploadItemView');
+    widget._logger.i('Disposing PhotoSelfieView');
     WidgetsBinding.instance.removeObserver(this); // Remove observer
     _photoBloc.close(); // Close the BLoC stream
     super.dispose();
@@ -111,7 +111,7 @@ class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindin
 
   @override
   Widget build(BuildContext context) {
-    widget._logger.d('Building PhotoUploadItemView'); // Log when the widget is built
+    widget._logger.d('Building PhotoSelfieView'); // Log when the widget is built
 
     return Scaffold(
       body: BlocListener<PhotoBloc, PhotoState>(

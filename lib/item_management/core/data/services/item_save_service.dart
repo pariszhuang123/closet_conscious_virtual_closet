@@ -4,11 +4,10 @@ import '../../../../core/config/supabase_config.dart';
 import '../../../../core/utilities/logger.dart';
 
 class ItemSaveService {
-  final String userId;
   final CustomLogger logger;
 
 
-  ItemSaveService(this.userId)
+  ItemSaveService()
       : logger = CustomLogger('ItemSaveService');
 
   Future<String?> saveData(
@@ -72,6 +71,54 @@ class ItemSaveService {
     } catch (e) {
       logger.e('Unexpected error: $e');
       return 'Unexpected error: $e';
+    }
+  }
+
+  Future<bool> editItemMetadata({
+    required String itemId,
+    required String itemType,
+    required String name,
+    required double amountSpent,
+    required String occasion,
+    required String season,
+    required String colour,
+    String? clothingType,
+    String? clothingLayer,
+    String? accessoryType,
+    String? shoesType,
+    String colourVariations = 'cc_none',
+  }) async {
+    try {
+      // Log the save action
+      logger.d('Saving metadata for item: $itemId');
+
+      // Prepare parameters to send to the RPC
+      final response = await SupabaseConfig.client.rpc('edit_item_metadata', params: {
+        '_item_id': itemId,
+        '_item_type': itemType,
+        '_name': name,
+        '_amount_spent': amountSpent,
+        '_occasion': occasion,
+        '_season': season,
+        '_colour': colour,
+        '_clothing_type': clothingType ?? '',
+        '_clothing_layer': clothingLayer ?? '',
+        '_accessory_type': accessoryType ?? '',
+        '_shoes_type': shoesType ?? '',
+        '_colour_variations': colourVariations,
+      }).single();
+
+      // Check the RPC response for success
+      if (response['status'] != 'success') {
+        logger.e('Failed to save item metadata: $response');
+        return false;
+      }
+
+      logger.d('Item metadata saved successfully: $response');
+      return true;
+    } catch (e) {
+      logger.e('Error saving item metadata: $e');
+      return false;
     }
   }
 }

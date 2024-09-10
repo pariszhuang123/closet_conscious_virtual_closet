@@ -1,188 +1,47 @@
 part of 'edit_item_bloc.dart';
 
-abstract class EditItemEvent extends Equatable {
-  const EditItemEvent();
+// Base class for all events
+abstract class EditItemEvent {}
 
-  @override
-  List<Object?> get props => [];
-}
-
-class FetchItemDetailsEvent extends EditItemEvent {
+class LoadItemEvent extends EditItemEvent {
   final String itemId;
-
-  const FetchItemDetailsEvent(this.itemId);
-
-  @override
-  List<Object?> get props => [itemId];
+  LoadItemEvent(this.itemId);
 }
 
-class ValidateAndUpdateEvent extends EditItemEvent {
-  final TextEditingController itemNameController;
-  final TextEditingController amountSpentController;
+class MetadataChangedEvent extends EditItemEvent {
+  final ClosetItemDetailed updatedItem;
 
-  const ValidateAndUpdateEvent({
-    required this.itemNameController,
-    required this.amountSpentController,
+  MetadataChangedEvent({
+    required this.updatedItem,
   });
-
-  @override
-  List<Object?> get props => [itemNameController, amountSpentController];
 }
-
-class UpdateItemEvent extends EditItemEvent {
-  final TextEditingController itemNameController;
-  final TextEditingController amountSpentController;
-
-  const UpdateItemEvent({
-    required this.itemNameController,
-    required this.amountSpentController,
-  });
-
-  @override
-  List<Object?> get props => [itemNameController, amountSpentController];
-}
-
-class UpdateSuccessEvent extends EditItemEvent {}
-
-class UpdateFailureEvent extends EditItemEvent {
-  final String error;
-
-  const UpdateFailureEvent(this.error);
-
-  @override
-  List<Object?> get props => [error];
-}
-
-class ShowSpecificErrorMessagesEvent extends EditItemEvent {
-  final BuildContext context;
-  final TextEditingController itemNameController;
-  final TextEditingController amountSpentController;
-
-  const ShowSpecificErrorMessagesEvent(
-      this.context,
-      this.itemNameController,
-      this.amountSpentController,
-      );
-
-  @override
-  List<Object?> get props => [context, itemNameController, amountSpentController];
-}
-
-class FieldChangedEvent extends EditItemEvent {}
-
-class UpdateImageEvent extends EditItemEvent {
-  final File imageFile;
-
-  const UpdateImageEvent(this.imageFile);
-
-  @override
-  List<Object?> get props => [imageFile];
-}
-
-class ItemTypeChangedEvent extends EditItemEvent {
-  final String itemType;
-
-  const ItemTypeChangedEvent(this.itemType);
-
-  @override
-  List<Object?> get props => [itemType];
-}
-
-class OccasionChangedEvent extends EditItemEvent {
-  final String occasion;
-
-  const OccasionChangedEvent(this.occasion);
-
-  @override
-  List<Object?> get props => [occasion];
-}
-
-class SeasonChangedEvent extends EditItemEvent {
-  final String season;
-
-  const SeasonChangedEvent(this.season);
-
-  @override
-  List<Object?> get props => [season];
-}
-
-class SpecificTypeChangedEvent extends EditItemEvent {
-  final String specificType;
-
-  const SpecificTypeChangedEvent(this.specificType);
-
-  @override
-  List<Object?> get props => [specificType];
-}
-
-class ClothingLayerChangedEvent extends EditItemEvent {
-  final String clothingLayer;
-
-  const ClothingLayerChangedEvent(this.clothingLayer);
-
-  @override
-  List<Object?> get props => [clothingLayer];
-}
-
-class ColourChangedEvent extends EditItemEvent {
-  final String colour;
-
-  const ColourChangedEvent(this.colour);
-
-  @override
-  List<Object?> get props => [colour];
-}
-
-class ColourVariationChangedEvent extends EditItemEvent {
-  final String colourVariation;
-
-  const ColourVariationChangedEvent(this.colourVariation);
-
-  @override
-  List<Object?> get props => [colourVariation];
-}
-
-class DeclutterOptionsEvent extends EditItemEvent {}
 
 class SubmitFormEvent extends EditItemEvent {
   final String itemId;
   final String name;
   final double amountSpent;
-  final String? imageUrl;
-  final String? itemType;
-  final String? specificType;
+  final String itemType;
+  final String occasion;
+  final String season;
+  final String colour;
+  final String? colourVariations;
+  final String? clothingType;
   final String? clothingLayer;
-  final String? occasion;
-  final String? season;
-  final String? colour;
-  final String? colourVariation;
+  final String? shoesType;
+  final String? accessoryType;
 
-  const SubmitFormEvent({
+  SubmitFormEvent({
     required this.itemId,
     required this.name,
     required this.amountSpent,
-    this.imageUrl,
-    this.itemType,
-    this.specificType,
+    required this.itemType,
+    required this.occasion,
+    required this.season,
+    required this.colour,
+    this.colourVariations,
+    this.clothingType,
     this.clothingLayer,
-    this.occasion,
-    this.season,
-    this.colour,
-    this.colourVariation,
+    this.shoesType,
+    this.accessoryType,
   });
-
-  @override
-  List<Object?> get props => [
-    itemId,
-    name,
-    amountSpent,
-    imageUrl,
-    itemType,
-    specificType,
-    clothingLayer,
-    occasion,
-    season,
-    colour,
-    colourVariation,
-  ];
 }

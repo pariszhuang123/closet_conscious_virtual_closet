@@ -48,6 +48,12 @@ final ThemeData myClosetTheme = ThemeData(
     backgroundColor: Colors.teal.shade100, // Closest to #A0D6B4
     elevation: 16.0,
   ),
+
+  iconTheme: IconThemeData(
+    color: Colors.teal.shade800, // Align with primary or desired color
+    size: 24, // Optional, you can adjust icon size as needed
+  ),
+
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Colors.teal.shade100, // Closest to #A0D6B4
     selectedItemColor: Colors.teal.shade800, // Closest to #255743

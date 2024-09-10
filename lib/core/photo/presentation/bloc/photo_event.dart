@@ -37,3 +37,9 @@ class CaptureSelfiePhoto extends PhotoEvent {
 
   CaptureSelfiePhoto(this.outfitId);
 }
+
+class CaptureEditItemPhoto extends PhotoEvent {
+  final String itemId;
+
+  CaptureEditItemPhoto(this.itemId);
+}

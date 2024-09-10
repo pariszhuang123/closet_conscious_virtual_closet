@@ -38,6 +38,8 @@ class MetadataFirstPage extends StatelessWidget {
               controller: itemNameController,
               decoration: InputDecoration(
                 labelText: S.of(context).item_name,
+                prefixIcon: const Icon(Icons.edit),
+                iconColor: myClosetTheme.iconTheme.color,
                 labelStyle: myClosetTheme.textTheme.bodyMedium,
               ),
             ),
@@ -47,6 +49,8 @@ class MetadataFirstPage extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: S.of(context).amountSpentLabel,
                 hintText: S.of(context).enterAmountSpentHint,
+                prefixIcon: const Icon(Icons.edit),
+                iconColor: myClosetTheme.iconTheme.color,
                 errorText: amountSpentError,
                 labelStyle: myClosetTheme.textTheme.bodyMedium,
               ),

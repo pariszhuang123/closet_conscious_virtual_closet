@@ -48,6 +48,12 @@ final ThemeData myOutfitTheme = ThemeData(
     backgroundColor: Colors.lightBlue.shade100, // Light blue for Drawer
     elevation: 16.0,
   ),
+
+  iconTheme: IconThemeData(
+    color: Colors.blue.shade800, // Align with primary or desired color
+    size: 24, // Optional, you can adjust icon size as needed
+  ),
+
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Colors.blue.shade100, // Light blue for BottomNavigationBar
     selectedItemColor: Colors.blue.shade800, // Darker blue for selected item

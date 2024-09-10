@@ -57,4 +57,39 @@ class ClosetItemDetailed {
       updatedAt: DateTime.parse(json['updated_at']),
     );
   }
+
+  // Add the copyWith method here
+  ClosetItemDetailed copyWith({
+    String? itemId,
+    String? imageUrl,
+    String? itemType,
+    String? name,
+    double? amountSpent,
+    String? occasion,
+    String? season,
+    String? colour,
+    String? colourVariations,
+    DateTime? updatedAt,
+    String? clothingType,
+    String? clothingLayer,
+    String? shoesType,
+    String? accessoryType,
+  }) {
+    return ClosetItemDetailed(
+      itemId: itemId ?? this.itemId,
+      imageUrl: imageUrl ?? this.imageUrl,
+      itemType: itemType ?? this.itemType,
+      name: name ?? this.name,
+      amountSpent: amountSpent ?? this.amountSpent,
+      occasion: occasion ?? this.occasion,
+      season: season ?? this.season,
+      colour: colour ?? this.colour,
+      colourVariations: colourVariations ?? this.colourVariations,
+      updatedAt: updatedAt ?? this.updatedAt,
+      clothingType: clothingType ?? this.clothingType,
+      clothingLayer: clothingLayer ?? this.clothingLayer,
+      shoesType: shoesType ?? this.shoesType,
+      accessoryType: accessoryType ?? this.accessoryType,
+    );
+  }
 }

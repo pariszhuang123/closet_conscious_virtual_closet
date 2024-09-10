@@ -34,6 +34,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   final ScrollController _scrollController = ScrollController();
   int newOutfitCount = 0;
   bool _snackBarShown = false;
+  bool _isNavigating = false; // New flag to track if navigation is in progress
 
   final OutfitFetchService _outfitFetchService = GetIt.instance<OutfitFetchService>();
 
@@ -165,6 +166,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
             }
             if (state is NavigateToReviewPageState) {
               logger.i('Navigating to OutfitReviewProvider for outfitId: ${state.outfitId}');
+              _isNavigating = true; // Set navigating to true when navigating to review page
               Navigator.pushNamed(
                 context,
                 AppRoutes.reviewOutfit,
@@ -178,10 +180,11 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
 
             if (state.saveStatus == SaveStatus.success && state.outfitId != null) {
               logger.i('Navigating to OutfitWearProvider for outfitId: ${state.outfitId}');
+              _isNavigating = true; // Set navigating to true when navigating to wear outfit page
               Navigator.pushNamed(
                 context,
                 AppRoutes.wearOutfit,
-                arguments: state.outfitId, // Use arguments to pass the outfitId               ),
+                arguments: state.outfitId,
               );
             }
           },
@@ -237,7 +240,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                         }
                         // If items are available, show the OutfitGrid, and trigger the snack bar if none are selected
                         else {
-                          if (!state.hasSelectedItems && !_snackBarShown) {
+                          if (!state.hasSelectedItems && !_snackBarShown && !_isNavigating) { // Add condition for _isNavigating
                             WidgetsBinding.instance.addPostFrameCallback((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

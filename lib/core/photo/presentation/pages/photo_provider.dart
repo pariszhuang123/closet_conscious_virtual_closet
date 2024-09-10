@@ -35,7 +35,7 @@ class PhotoProvider extends StatelessWidget {
             case CameraPermissionContext.uploadItem:
               return PhotoUploadItemScreen(cameraContext: CameraPermissionContext.uploadItem);  // No itemId or outfitId needed
             case CameraPermissionContext.editItem:
-              return const PhotoEditItemScreen(cameraContext: CameraPermissionContext.editItem);  // itemId is required
+              return PhotoEditItemScreen(itemId: itemId, cameraContext: CameraPermissionContext.editItem);  // itemId is required
             case CameraPermissionContext.selfie:
               return PhotoSelfieScreen(outfitId: outfitId, cameraContext: CameraPermissionContext.selfie);  // outfitId is required
             default:
