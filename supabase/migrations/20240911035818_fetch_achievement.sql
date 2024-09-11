@@ -39,49 +39,43 @@ begin
   where user_id = current_user_id;
 
   -- Build the milestone achievement JSON in one query
-  select jsonb_strip_nulls(jsonb_build_object(
+  select jsonb_build_object(
     'no_new_clothes_90',
       case
         when current_streak = 90 and not exists (
-          select 1 from public.user_achievements where user_id = current_user_id and achievement_name ? 'no_new_clothes_90'
-        ) then true else null end
-    ),
+          select 1 from public.user_achievements where user_id = current_user_id and achievement_name = 'no_new_clothes_90'
+        ) then true else null end,
     'no_new_clothes_225',
       case
         when current_streak = 225 and not exists (
-          select 1 from public.user_achievements where user_id = current_user_id and one_off_features ? 'no_new_clothes_225'
-        ) then true else null end
-    ),
+          select 1 from public.user_achievements where user_id = current_user_id and one_off_features = 'no_new_clothes_225'
+        ) then true else null end,
     'no_new_clothes_405',
       case
         when current_streak = 405 and not exists (
-          select 1 from public.user_achievements where user_id = current_user_id and one_off_features ? 'no_new_clothes_405'
-        ) then true else null end
-    ),
+          select 1 from public.user_achievements where user_id = current_user_id and one_off_features = 'no_new_clothes_405'
+        ) then true else null end,
     'no_new_clothes_630',
       case
         when current_streak = 630 and not exists (
-          select 1 from public.user_achievements where user_id = current_user_id and one_off_features ? 'no_new_clothes_630'
-        ) then true else null end
-    ),
+          select 1 from public.user_achievements where user_id = current_user_id and one_off_features = 'no_new_clothes_630'
+        ) then true else null end,
     'no_new_clothes_900',
       case
         when current_streak = 900 and not exists (
-          select 1 from public.user_achievements where user_id = current_user_id and one_off_features ? 'no_new_clothes_900'
-        ) then true else null end
-    ),
+          select 1 from public.user_achievements where user_id = current_user_id and one_off_features = 'no_new_clothes_900'
+        ) then true else null end,
     'no_new_clothes_1215',
       case
         when current_streak = 1215 and not exists (
-          select 1 from public.user_achievements where user_id = current_user_id and one_off_features ? 'no_new_clothes_1215'
-        ) then true else null end
-    ),
+          select 1 from public.user_achievements where user_id = current_user_id and one_off_features = 'no_new_clothes_1215'
+        ) then true else null end,
     'no_new_clothes_1575',
       case
         when current_streak = 1575 and not exists (
-          select 1 from public.user_achievements where user_id = current_user_id and one_off_features ? 'no_new_clothes_1575'
+          select 1 from public.user_achievements where user_id = current_user_id and one_off_features = 'no_new_clothes_1575'
         ) then true else null end
-  )) into achieved_milestones; -- No trailing comma
+  ) into achieved_milestones; -- No trailing comma
 
   -- Return the result as a JSON object
   return json_build_object('status', 'success', 'achieved_milestones', achieved_milestones);
