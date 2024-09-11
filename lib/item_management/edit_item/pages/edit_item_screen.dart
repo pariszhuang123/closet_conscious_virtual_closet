@@ -202,107 +202,125 @@ class _EditItemScreenState extends State<EditItemScreen> {
             appBar: AppBar(
               title: Text(S.of(context).editPageTitle),
             ),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      // Image and Swap Button in a Stack
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        child: Stack(
-                          children: [
-                            Center(
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (!_isChanged) {
-                                    // Navigate to PhotoProvider for image editing if no changes
-                                    _navigateToPhotoProvider();
-                                  } else {
-                                    // Show custom snackbar if changes were made
-                                    CustomSnackbar(
-                                      message: S.of(context).unsavedChangesMessage,  // Correctly reference 'context'
-                                      theme: Theme.of(context),  // Provide the current theme
-                                    ).show(context);
-                                  }
-                                },
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                  child: ImageDisplayWidget(
-                                    imageUrl: _imageUrl,  // Display the current image or placeholder
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              right: 0,
-                              top: 0,
-                              bottom: 0,
-                              child: NavigationTypeButton(
-                                label: swapData.getName(context),
-                                selectedLabel: '',
-                                onPressed: _openSwapSheet,  // Open the swap bottom sheet
-                                assetPath: swapData.assetPath,
-                                isFromMyCloset: true,
-                                buttonType: ButtonType.secondary,
-                                usePredefinedColor: false,
-                              ),
-                            ),
-                          ],
-                        ),
+            body: Column(
+                children: [
+            // Image and Swap Button in a Stack (Top Section)
+            SizedBox(
+            height: MediaQuery.of(context).size.height * 0.25,
+            child: Stack(
+              children: [
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      if (!_isChanged) {
+                        // Navigate to PhotoProvider for image editing if no changes
+                        _navigateToPhotoProvider();
+                      } else {
+                        // Show custom snackbar if changes were made
+                        CustomSnackbar(
+                          message: S.of(context).unsavedChangesMessage,
+                          theme: Theme.of(context),
+                        ).show(context);
+                      }
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16.0),
+                      child: ImageDisplayWidget(
+                        imageUrl: _imageUrl, // Display the current image or placeholder
                       ),
-                      const SizedBox(height: 12),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: NavigationTypeButton(
+                    label: swapData.getName(context),
+                    selectedLabel: '',
+                    onPressed: _openSwapSheet, // Open the swap bottom sheet
+                    assetPath: swapData.assetPath,
+                    isFromMyCloset: true,
+                    buttonType: ButtonType.secondary,
+                    usePredefinedColor: false,
+                  ),
+                ),
+              ],
+            ),
+          ),
 
+        // Scrollable Metadata Section (Middle Section)
+        Expanded(
                       // Metadata Form
-                      TextFormField(
-                        controller: _itemNameController,
-                        decoration: InputDecoration(
-                          labelText: S.of(context).item_name,
-                          labelStyle: myClosetTheme.textTheme.bodyMedium,
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return S.of(context).pleaseEnterItemName;
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          setState(() {
-                            _isChanged = true;
-                          });
-                          final currentItemState = getCurrentItem(state);
-                          _dispatchMetadataChanged(state, currentItemState.copyWith(name: value));
-                        },
-                      ),
-                      const SizedBox(height: 12),
+        child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+        key: _formKey,
+        child: Column(
+        children: [
+        TextFormField(
+        controller: _itemNameController,
+        decoration: InputDecoration(
+        labelText: S.of(context).item_name,
+        labelStyle: myClosetTheme.textTheme.bodyMedium,
+        ),
+        validator: (value) {
+        if (value == null || value.isEmpty) {
+        return S.of(context).pleaseEnterItemName;
+        }
+        return null;
+        },
+        onChanged: (value) {
+        setState(() {
+        _isChanged = true;
+        });
+        final currentItemState = getCurrentItem(state);
+        _dispatchMetadataChanged(state, currentItemState.copyWith(name: value));
+        },
+        ),
+        const SizedBox(height: 12),
 
-                      TextFormField(
-                        controller: _amountSpentController,
-                        decoration: InputDecoration(
-                          labelText: S.of(context).amountSpentLabel,
-                          hintText: S.of(context).enterAmountSpentHint,
-                          labelStyle: myClosetTheme.textTheme.bodyMedium,
-                        ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return S.of(context).enterAmountSpentHint;
-                          }
-                          final parsedValue = double.tryParse(value);
-                          if (parsedValue == null || parsedValue < 0) {
-                            return S.of(context).please_enter_valid_amount;
-                          }
-                          return null;
-                        },
-                        onChanged: (value) {
-                          setState(() {
-                            _isChanged = true;
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 12),
+        TextFormField(
+        controller: _amountSpentController,
+        decoration: InputDecoration(
+        labelText: S.of(context).amountSpentLabel,
+        hintText: S.of(context).enterAmountSpentHint,
+        labelStyle: myClosetTheme.textTheme.bodyMedium,
+        ),
+        keyboardType: TextInputType.number,
+        validator: (value) {
+        if (value == null || value.isEmpty) {
+        return S.of(context).enterAmountSpentHint;
+        }
+        final parsedValue = double.tryParse(value);
+        if (parsedValue == null || parsedValue < 0) {
+        return S.of(context).please_enter_valid_amount;
+        }
+        return null;
+        },
+        onChanged: (value) {
+        setState(() {
+        _isChanged = true;
+        });
+        },
+        ),
+        const SizedBox(height: 12),
+
+        // Icon Row Builder
+        Text(S.of(context).selectItemType, style: myClosetTheme.textTheme.bodyMedium),
+        ...buildIconRows(
+        TypeDataList.itemGeneralTypes(context),
+        currentItem.itemType, // Access the itemType safely
+        (dataKey) {
+        setState(() {
+        _isChanged = true;
+        });
+        _dispatchMetadataChanged(state, currentItem.copyWith(itemType: dataKey));
+        },
+        context,
+        true,
+        ),
+        const SizedBox(height: 12),
 
                       // Icon Row Builder
                       Text(S.of(context).selectItemType, style: myClosetTheme.textTheme.bodyMedium),
@@ -456,44 +474,43 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         ),
                       ],
                       const SizedBox(height: 12),
+        ],
+        ),
+        ),
+        ),
+        ),
 
-                      ElevatedButton(
-                        onPressed: _isChanged
-                            ? () {
-                          // Perform validation first
-                          if (_formKey.currentState?.validate() ?? false) {
-                            // Parse the amountSpent from the controller
-                            final value = _amountSpentController.text;
-                            final double? amountSpent = double.tryParse(value);
+        Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ElevatedButton(
+        onPressed: _isChanged
+        ? () {
+        if (_formKey.currentState?.validate() ?? false) {
+        final value = _amountSpentController.text;
+        final double? amountSpent = double.tryParse(value);
 
-                            if (amountSpent != null) {
-                              // Valid amount, proceed with update
-                              final currentItemState = getCurrentItem(state);
-                              _dispatchMetadataChanged(
-                                state,
-                                currentItemState.copyWith(amountSpent: amountSpent),
-                              );
-                              _handleUpdate();
-                            } else {
-                              // Handle invalid parsing (null value)
-                              _logger.e('Invalid Parsing');
-                              // You can also show an error or prevent the form from proceeding.
-                            }
-                          }
-                        }
-                            : _openDeclutterSheet, // Open declutter sheet if no changes
-                        child: _isChanged ? Text(S.of(context).update) : Text(S.of(context).declutter),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
+        if (amountSpent != null) {
+        final currentItemState = getCurrentItem(state);
+        _dispatchMetadataChanged(
+        state,
+        currentItemState.copyWith(amountSpent: amountSpent),
+        );
+        _handleUpdate();
+        } else {
+        _logger.e('Invalid Parsing');
+        }
+        }
+        }
+            : _openDeclutterSheet, // Open declutter sheet if no changes
+        child: _isChanged ? Text(S.of(context).update) : Text(S.of(context).declutter),
+        ),
+        ),
+        ],
+        ),
+        );
         } catch (e) {
-          // In case of invalid state or errors, show a fallback indicator
-          _logger.e('Error retrieving item details: $e');
-          return const Center(child: ClosetProgressIndicator(color: Colors.teal));
+        _logger.e('Error retrieving item details: $e');
+        return const Center(child: ClosetProgressIndicator(color: Colors.teal));
         }
       },
     );
