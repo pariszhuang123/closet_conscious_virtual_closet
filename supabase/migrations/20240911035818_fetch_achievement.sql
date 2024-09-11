@@ -21,7 +21,6 @@ begin
 
   -- Return as JSON
   return json_build_object('status', 'success', 'achievement', clothes_worn);
-  end if;
 end;
 $$ language plpgsql;
 
