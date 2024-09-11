@@ -82,7 +82,7 @@ begin
           select 1 from public.user_achievements where user_id = current_user_id and one_off_features ? 'no_new_clothes_1575'
         ) then true else null end
     ),
-  ) into milestone_achievements;
+  ) into achieved_milestones;
 
   -- Return the result as a JSON object
   return json_build_object('status', 'success', 'achieved_milestones', achieved_milestones);
