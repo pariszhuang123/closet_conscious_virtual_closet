@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'dart:convert';
 
 import '../../../../generated/l10n.dart';
 import '../../../core/theme/my_closet_theme.dart';
@@ -8,6 +6,7 @@ import '../../../core/theme/my_outfit_theme.dart';
 import '../../../core/utilities/logger.dart';
 import '../../../core/widgets/feedback/custom_alert_dialog.dart';
 import '../../../core/screens/achievement_completed_screen.dart';
+import '../../../core/data/services/core_save_services.dart';
 
 class UploadConfirmationBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
@@ -21,22 +20,25 @@ class UploadConfirmationBottomSheet extends StatefulWidget {
 class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomSheet> {
   bool _isButtonDisabled = false;
   final logger = CustomLogger('UploadConfirmation');
+  late final CoreSaveService coreSaveService;
+
 
   Future<void> _handleButtonPress() async {
     setState(() {
       _isButtonDisabled = true;
+      coreSaveService = CoreSaveService(); // Initialize without passing logger
     });
 
     try {
-      final response = await Supabase.instance.client.rpc('closet_uploaded_achievement').single();
-
-      logger.i('Full response: ${jsonEncode(response)}');
+      final response = await coreSaveService.saveAchievementBadge('closet_uploaded'); // Use the service
 
       if (!mounted) return;
 
       // Check if the response is a Map
-      if (response.containsKey('status') && response['status'] == 'success') {
+      if (response != null && response['status'] == 'success') {
         final achievementUrl = response['badge_url'];
+
+        // Use null-aware access for achievementUrl
         if (achievementUrl != null) {
           _showAchievementScreen(context, achievementUrl);
         } else {

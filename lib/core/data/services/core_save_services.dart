@@ -31,6 +31,27 @@ class CoreSaveService {
     }
   }
 
+  Future<Map<String, dynamic>?> saveAchievementBadge(String achievementName) async {
+    try {
+      final response = await Supabase.instance.client
+          .rpc('achievement_badge', params: {'p_achievement_name': achievementName})
+          .single();
+
+      logger.i('Full response: ${jsonEncode(response)}');
+
+      // Check if the response contains the status and is successful
+      if (response.containsKey('status') && response['status'] == 'success') {
+        return response;
+      } else {
+        logger.e('Unexpected response format');
+        return null;
+      }
+    } catch (e) {
+      logger.e('Unexpected error: $e');
+      return null;
+    }
+  }
+
   /// Function to upload images to Supabase storage
   Future<String?> uploadImage(File imageFile) async {
     try {
