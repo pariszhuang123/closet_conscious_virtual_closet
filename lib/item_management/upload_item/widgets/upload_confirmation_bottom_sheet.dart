@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../generated/l10n.dart';
+import '../../../core/utilities/routes.dart';
 import '../../../core/theme/my_closet_theme.dart';
 import '../../../core/theme/my_outfit_theme.dart';
 import '../../../core/utilities/logger.dart';
@@ -92,7 +93,7 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
           data: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
           child: AchievementScreen(
             achievementUrl: achievementUrl,
-            isFromMyCloset: widget.isFromMyCloset,
+            nextRoute: AppRoutes.myCloset,
           ),
         ),
       ),

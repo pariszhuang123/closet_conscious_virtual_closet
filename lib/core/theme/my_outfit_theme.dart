@@ -59,6 +59,16 @@ final ThemeData myOutfitTheme = ThemeData(
     selectedItemColor: Colors.blue.shade800, // Darker blue for selected item
     unselectedItemColor: Colors.grey,
   ),
+  tooltipTheme: TooltipThemeData(
+    decoration: BoxDecoration(
+      color: Colors.blue.shade100, // Custom color for myClosetTheme tooltips
+      borderRadius: BorderRadius.circular(8),
+    ),
+    textStyle: const TextStyle(
+      color: Colors.black, // Custom text color for myClosetTheme tooltips
+      fontSize: 14,
+    ),
+  ),
   snackBarTheme: SnackBarThemeData(
     backgroundColor: Colors.blue.shade100, // Set the background color for SnackBar
     contentTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold), // Set the text color and style

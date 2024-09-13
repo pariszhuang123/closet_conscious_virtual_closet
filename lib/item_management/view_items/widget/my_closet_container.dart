@@ -4,6 +4,8 @@ import '../../../core/widgets/container/base_container_no_format.dart';
 import '../../../core/widgets/button/navigation_type_button.dart';
 import '../../../core/widgets/button/number_type_button.dart';
 import '../../../core/theme/themed_svg.dart';
+import '../../../core/widgets/custom_tooltip.dart';
+
 
 class MyClosetContainer extends StatelessWidget {
   final ThemeData theme;
@@ -102,7 +104,7 @@ class MyClosetContainer extends StatelessWidget {
                 ],
               ),
               if (!isUploadCompleted)
-                Tooltip(
+                CustomTooltip(
                   message: itemUploadData.getName(context),
                   child: NumberTypeButton(
                     count: apparelCount,
@@ -126,7 +128,7 @@ class MyClosetContainer extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Tooltip(
+                  CustomTooltip(
                     message: currentStreakData.getName(context),
                     child: NumberTypeButton(
                       count: currentStreakCount,
@@ -137,7 +139,7 @@ class MyClosetContainer extends StatelessWidget {
                       usePredefinedColor: false,
                     ),
                   ),
-                  Tooltip(
+                  CustomTooltip(
                     message: highestStreakData.getName(context),
                     child: NumberTypeButton(
                       count: highestStreakCount,
@@ -148,7 +150,7 @@ class MyClosetContainer extends StatelessWidget {
                       usePredefinedColor: false,
                     ),
                   ),
-                  Tooltip(
+                  CustomTooltip(
                     message: costOfNewItemsData.getName(context),
                     child: NumberTypeButton(
                       count: newItemsCost,
@@ -159,7 +161,7 @@ class MyClosetContainer extends StatelessWidget {
                       usePredefinedColor: false,
                     ),
                   ),
-                  Tooltip(
+                  CustomTooltip(
                     message: numberOfNewItemsData.getName(context),
                     child: NumberTypeButton(
                       count: newItemsCount,
