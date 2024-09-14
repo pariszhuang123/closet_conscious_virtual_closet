@@ -34,22 +34,20 @@ begin
     if (reward_result->>'status') != 'success' then
       raise exception 'Reward function failed with message: %', reward_result->>'message';
     end if;
+
+    -- Return JSON object with the achievement and reward result
+    return json_build_object(
+      'status', 'success',
+      'achievement', p_achievement_name,
+      'reward_result', reward_result
+    );
+  else
+    -- No achievement unlocked, return a more descriptive response
+    return json_build_object(
+      'status', 'no_achievement',
+      'message', 'No achievement unlocked, clothes worn percentage is below 100%'
+    );
   end if;
-
-  -- Return JSON object with the achievement and reward result
-  return json_build_object(
-    'status', 'success',
-    'achievement', achievement_name,
-    'reward_result', reward_result
-  );
-    else
-      -- No achievement unlocked, return a more descriptive response
-      return json_build_object(
-        'status', 'no_achievement',
-        'message', 'No achievement unlocked, clothes worn percentage is below 100%'
-      );
-    end if;
-
 end;
 $$ language plpgsql;
 
