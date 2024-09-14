@@ -68,7 +68,7 @@ BEGIN
         SELECT json_build_object(
             'status', 'success',
             'badge_url', badge_url)
-        ) INTO result
+        INTO result
         FROM public.achievements
         WHERE achievement_name = p_achievement_name;
 
