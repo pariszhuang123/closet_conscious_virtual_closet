@@ -40,20 +40,22 @@ class FetchAndSaveNoBuyMilestoneAchievementInProgressState extends NavigateOutfi
 
 class FetchAndSaveClothingAchievementMilestoneSuccessState extends NavigateOutfitState {
   final String badgeUrl;
+  final String achievementName;
 
-  const FetchAndSaveClothingAchievementMilestoneSuccessState({required this.badgeUrl});
+  const FetchAndSaveClothingAchievementMilestoneSuccessState({required this.badgeUrl, required this.achievementName});
 
   @override
-  List<Object?> get props => [badgeUrl];
+  List<Object?> get props => [badgeUrl, achievementName];
 }
 
 class FetchAndSaveNoBuyMilestoneSuccessState extends NavigateOutfitState {
   final String badgeUrl;
+  final String achievementName;
 
-  const FetchAndSaveNoBuyMilestoneSuccessState({required this.badgeUrl});
+  const FetchAndSaveNoBuyMilestoneSuccessState({required this.badgeUrl, required this.achievementName});
 
   @override
-  List<Object?> get props => [badgeUrl];
+  List<Object?> get props => [badgeUrl, achievementName];
 }
 
 

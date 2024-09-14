@@ -209,6 +209,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   builder: (context) => Theme(
                     data: myOutfitTheme, // Apply the relevant theme
                     child: AchievementScreen(
+                      achievementKey: state.achievementName,
                       achievementUrl: state.badgeUrl, // Pass the badge URL
                       nextRoute: AppRoutes.createOutfit, // Define the next route if needed
                     ),
@@ -227,6 +228,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   builder: (context) => Theme(
                     data: myOutfitTheme, // Apply the relevant theme
                     child: AchievementScreen(
+                      achievementKey: state.achievementName,
                       achievementUrl: state.badgeUrl, // Pass the badge URL
                       nextRoute: AppRoutes.createOutfit, // Define the next route if needed
                     ),

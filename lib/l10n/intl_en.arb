@@ -225,6 +225,23 @@
   "aiUploadFeatureTitle": "Smart Upload Usage Feature",
   "aiUploadFeatureDescription": "Easily upload items with automatic metadata tagging. The AI helps you save time by filling in details such as category, color, and more.",
   "selectItemsToCreateOutfit": "Please select items to create your outfit.",
-  "unsavedChangesMessage": "You have unsaved changes. Please save or discard them before selecting a photo."
-
+  "unsavedChangesMessage": "You have unsaved changes. Please save or discard them before selecting a photo.",
+  "noNewClothes90Achievement": "Sustainable Start!",
+  "noNewClothes90AchievementMessage": "You've reached 90 days of no new clothes! You're building powerful habits for a greener future. Keep it up!",
+  "noNewClothes225Achievement": "Eco-Warrior in the Making!",
+  "noNewClothes225AchievementMessage": "225 days and counting! You're making waves in sustainability, and your closet is thriving. Amazing effort!",
+  "noNewClothes405Achievement": "Champion of Conscious Choices!",
+  "noNewClothes405AchievementMessage": "405 days strong! Your commitment to cherishing what you have is an inspiration. You're a role model for thoughtful living.",
+  "noNewClothes630Achievement": "Sustainability Leader!",
+  "noNewClothes630AchievementMessage": "630 days without new clothes—you're leading by example! Your dedication is making a real impact on the planet.",
+  "noNewClothes900Achievement": "Trailblazer of Change!",
+  "noNewClothes900AchievementMessage": "Wow! 900 days of choosing wisely. Your influence is inspiring others to rethink their habits. Keep blazing the trail for sustainability!",
+  "noNewClothes1575Achievement": "Master of Minimalism!",
+  "noNewClothes1575AchievementMessage": "1,575 days of embracing what you already own. Your journey is nothing short of legendary. You're rewriting the rules of fashion!",
+  "allClothesWornAchievement": "All Clothes, All You!",
+  "allClothesWornAchievementMessage": "You've worn every single item in your closet! You're mastering mindful fashion choices. Great job!",
+  "closetUploadAchievement": "Virtual Closet Complete!",
+  "closetUploadAchievementMessage": "Congratulations! You've uploaded all your items to your virtual closet. Now you're ready to make the most of what you own!",
+  "defaultAchievementTitle": "Achievement Unlocked!",
+  "defaultAchievementMessage": "You've reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion."
 }

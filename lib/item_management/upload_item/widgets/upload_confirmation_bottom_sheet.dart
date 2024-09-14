@@ -92,6 +92,7 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
         builder: (context) => Theme(
           data: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
           child: AchievementScreen(
+            achievementKey: "closet_uploaded",
             achievementUrl: achievementUrl,
             nextRoute: AppRoutes.myCloset,
           ),

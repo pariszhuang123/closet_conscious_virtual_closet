@@ -136,13 +136,15 @@ class OutfitFetchService {
     if (response != null && response['status'] == 'success') {
       final badgeUrl = response['badge_url'] as String?;
       final featureStatus = response['feature'] as String?;
+      final achievementName = response['achievement_name'] as String?;
       // Log achievement details
-      logger.i('fetchAchievementData - Badge URL: $badgeUrl, Feature status: $featureStatus');
+      logger.i('fetchAchievementData - Badge URL: $badgeUrl, Feature status: $featureStatus, Achievement name: $achievementName');
 
       // Return the full response with achievement and reward details
       return {
         'badge_url': badgeUrl,
         'feature_status': featureStatus,
+        'achievement_name': achievementName,
       };
     } else {
       // Log warning if no achievement data is found

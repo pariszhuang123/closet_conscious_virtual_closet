@@ -64,6 +64,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Smart Upload Usage Feature"),
         "aistylist": MessageLookupByLibrary.simpleMessage("AI Stylist"),
         "aiupload": MessageLookupByLibrary.simpleMessage("Smart\nUpload"),
+        "allClothesWornAchievement":
+            MessageLookupByLibrary.simpleMessage("All Clothes, All You!"),
+        "allClothesWornAchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "You\'ve worn every single item in your closet! You\'re mastering mindful fashion choices. Great job!"),
         "alright": MessageLookupByLibrary.simpleMessage("It\'s okay"),
         "alright_feedback_sentence": MessageLookupByLibrary.simpleMessage(
             "Tap the items that don\'t quite fit this outfit."),
@@ -108,6 +112,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "casual": MessageLookupByLibrary.simpleMessage("Casual"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("Closet"),
+        "closetUploadAchievement":
+            MessageLookupByLibrary.simpleMessage("Virtual Closet Complete!"),
+        "closetUploadAchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "Congratulations! You\'ve uploaded all your items to your virtual closet. Now you\'re ready to make the most of what you own!"),
         "closetUploadComplete":
             MessageLookupByLibrary.simpleMessage("Closet Upload Complete"),
         "clothing": MessageLookupByLibrary.simpleMessage("Clothing"),
@@ -143,6 +151,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Declutter Your Closet"),
         "declutterOptions":
             MessageLookupByLibrary.simpleMessage("What would you like to do?"),
+        "defaultAchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "You\'ve reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion."),
+        "defaultAchievementTitle":
+            MessageLookupByLibrary.simpleMessage("Achievement Unlocked!"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
         "deleteAccountConfirmation": MessageLookupByLibrary.simpleMessage(
@@ -231,6 +243,30 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
         "noItemsInCategory": MessageLookupByLibrary.simpleMessage(
             "Please upload your items in my closet"),
+        "noNewClothes1575Achievement":
+            MessageLookupByLibrary.simpleMessage("Master of Minimalism!"),
+        "noNewClothes1575AchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "1,575 days of embracing what you already own. Your journey is nothing short of legendary. You\'re rewriting the rules of fashion!"),
+        "noNewClothes225Achievement":
+            MessageLookupByLibrary.simpleMessage("Eco-Warrior in the Making!"),
+        "noNewClothes225AchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "225 days and counting! You\'re making waves in sustainability, and your closet is thriving. Amazing effort!"),
+        "noNewClothes405Achievement": MessageLookupByLibrary.simpleMessage(
+            "Champion of Conscious Choices!"),
+        "noNewClothes405AchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "405 days strong! Your commitment to cherishing what you have is an inspiration. You\'re a role model for thoughtful living."),
+        "noNewClothes630Achievement":
+            MessageLookupByLibrary.simpleMessage("Sustainability Leader!"),
+        "noNewClothes630AchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "630 days without new clothes—you\'re leading by example! Your dedication is making a real impact on the planet."),
+        "noNewClothes900Achievement":
+            MessageLookupByLibrary.simpleMessage("Trailblazer of Change!"),
+        "noNewClothes900AchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "Wow! 900 days of choosing wisely. Your influence is inspiring others to rethink their habits. Keep blazing the trail for sustainability!"),
+        "noNewClothes90Achievement":
+            MessageLookupByLibrary.simpleMessage("Sustainable Start!"),
+        "noNewClothes90AchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "You\'ve reached 90 days of no new clothes! You\'re building powerful habits for a greener future. Keep it up!"),
         "npsExplanation": MessageLookupByLibrary.simpleMessage(
             "On a scale from 0 to 10:\n0: Not at all likely\n10: Extremely likely"),
         "npsReviewEmailBody": MessageLookupByLibrary.simpleMessage(

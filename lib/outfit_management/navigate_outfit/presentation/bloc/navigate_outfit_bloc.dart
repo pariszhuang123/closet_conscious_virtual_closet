@@ -77,10 +77,11 @@ class NavigateOutfitBloc extends Bloc<NavigateOutfitEvent, NavigateOutfitState> 
 
       if (achievementData != null && achievementData['badge_url'] != null) {
         final badgeUrl = achievementData['badge_url'] as String;
+        final achievementName = achievementData['achievement_name'] as String;
 
-        logger.i('Achievement milestone processed, badge URL: $badgeUrl');
+        logger.i('Achievement milestone processed, badge URL: $badgeUrl, achievement Name: $achievementName');
 
-        emit(FetchAndSaveClothingAchievementMilestoneSuccessState(badgeUrl: badgeUrl)); // Emit success state with badge URL
+        emit(FetchAndSaveClothingAchievementMilestoneSuccessState(badgeUrl: badgeUrl, achievementName: achievementName)); // Emit success state with badge URL
       } else {
         logger.i('Failed to fetch achievement milestone.');
       }
@@ -100,9 +101,11 @@ class NavigateOutfitBloc extends Bloc<NavigateOutfitEvent, NavigateOutfitState> 
 
       if (achievementData != null && achievementData['badge_url'] != null) {
         final badgeUrl = achievementData['badge_url'] as String;
-        logger.i('Achievement milestone processed, badge URL: $badgeUrl');
+        final achievementName = achievementData['achievement_name'] as String;
 
-        emit(FetchAndSaveNoBuyMilestoneSuccessState(badgeUrl: badgeUrl));
+        logger.i('Achievement milestone processed, badge URL: $badgeUrl, achievement Name: $achievementName');
+
+        emit(FetchAndSaveNoBuyMilestoneSuccessState(badgeUrl: badgeUrl, achievementName: achievementName));
       } else {
         logger.i('Failed to fetch achievement milestone.');
       }
