@@ -133,23 +133,14 @@ class OutfitFetchService {
     );
 
     // Check if the response contains a valid achievement and reward information
-    if (response != null && response['inserted_achievement'] != null) {
-      final achievementName = response['inserted_achievement']['achievement_name'] as String?;
-      final rewardResult = response['reward_result'];
-
+    if (response != null && response['status'] == 'success') {
+      final badgeUrl = response['badge_url'] as String?;
+      final featureStatus = response['feature'] as String?;
       // Log achievement details
-      logger.i(
-          'fetchAchievementData - Fetched achievement name: $achievementName from function $rpcFunctionName');
-
-      // Log reward details (badge_url and feature status)
-      final badgeUrl = rewardResult?['badge_url'] as String?;
-      final featureStatus = rewardResult?['feature'] as String?;
-      logger.i(
-          'fetchAchievementData - Badge URL: $badgeUrl, Feature status: $featureStatus');
+      logger.i('fetchAchievementData - Badge URL: $badgeUrl, Feature status: $featureStatus');
 
       // Return the full response with achievement and reward details
       return {
-        'achievement_name': achievementName,
         'badge_url': badgeUrl,
         'feature_status': featureStatus,
       };

@@ -73,18 +73,14 @@ class NavigateOutfitBloc extends Bloc<NavigateOutfitEvent, NavigateOutfitState> 
     emit(FetchAndSaveClothingWornAchievementInProgressState());
     try {
       // Call the generalized fetch method, passing the appropriate RPC function name
-      final achievementData  = await outfitFetchService.fetchAchievementData('fetch_clothes_worn_achievement');
+      final achievementData  = await outfitFetchService.fetchAchievementData('fetch_clothes_worn_achievement_combined');
 
-      if (achievementData != null && achievementData['achievement_name'] != null) {
-        final achievementName = achievementData['achievement_name'] as String;
-        logger.i('Achievement milestone reached: $achievementName');
-
-        // Get badge URL from the fetched data
+      if (achievementData != null && achievementData['badge_url'] != null) {
         final badgeUrl = achievementData['badge_url'] as String;
-        final featureStatus = achievementData['feature_status'] as String;
 
-        logger.i('Achievement milestone processed, badge URL: $badgeUrl, feature status: $featureStatus');
-        emit(FetchAndSaveClothingAchievementMilestoneSuccessState(badgeUrl: badgeUrl, featureStatus: featureStatus)); // Emit success state with badge URL
+        logger.i('Achievement milestone processed, badge URL: $badgeUrl');
+
+        emit(FetchAndSaveClothingAchievementMilestoneSuccessState(badgeUrl: badgeUrl)); // Emit success state with badge URL
       } else {
         logger.i('Failed to fetch achievement milestone.');
       }
