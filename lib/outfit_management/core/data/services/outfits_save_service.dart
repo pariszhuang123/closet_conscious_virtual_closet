@@ -99,28 +99,5 @@ class OutfitSaveService {
       return false;
     }
   }
-  Future<Map<String, dynamic>> saveAchievementMilestone({
-    required String achievementName,
-  }) async {
-    try {
-      final response = await client.rpc('achievement_milestone_reward', params: {
-        'achievement_name': achievementName,
-      });
-
-      if (response != null && response.containsKey('badge_url')) {
-        logger.i('Successfully saved achievement milestone with badge URL: ${response['badge_url']}');
-        return {'status': 'success', 'badge_url': response['badge_url']};
-      } else if (response.error != null) {
-        logger.e('Error in RPC call: ${response.error.message}');
-        return {'status': 'error', 'message': response.error.message};
-      } else {
-        logger.e('Unexpected response format: $response');
-        return {'status': 'error', 'message': 'Unexpected response format'};
-      }
-    } catch (error) {
-      logger.e('Error during RPC call: $error');
-      return {'status': 'error', 'message': error.toString()};
-    }
-  }
 }
 
