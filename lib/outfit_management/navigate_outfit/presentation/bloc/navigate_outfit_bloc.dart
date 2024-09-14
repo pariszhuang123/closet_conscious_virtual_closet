@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../core/data/services/outfits_fetch_service.dart';
+import '../../../core/data/services/outfits_save_service.dart';
 import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../../user_management/user_service_locator.dart';
 
@@ -10,15 +11,18 @@ part 'navigate_outfit_state.dart';
 
 class NavigateOutfitBloc extends Bloc<NavigateOutfitEvent, NavigateOutfitState> {
   final OutfitFetchService outfitFetchService;
+  final OutfitSaveService outfitSaveService;
   final CustomLogger logger;
   final AuthBloc authBloc;
 
-  NavigateOutfitBloc({required this.outfitFetchService})
+  NavigateOutfitBloc({required this.outfitFetchService, required this.outfitSaveService})
       : logger = CustomLogger('NavigateOutfitBlocLogger'),
         authBloc = locator<AuthBloc>(),
         super(InitialNavigateOutfitState()) {
     on<CheckNavigationToReviewEvent>(_onCheckNavigationToReview);
     on<TriggerNpsSurveyEvent>(_onTriggerNpsSurvey);
+    on<FetchAndSaveClothingWornAchievementEvent>(_onFetchAndSaveClothingWornAchievement);
+    on<FetchAndSaveNoBuyMilestoneAchievementEvent>(_onFetchAndSaveNoBuyMilestoneAchievement);
   }
 
   Future<void> _onCheckNavigationToReview(
@@ -62,4 +66,60 @@ class NavigateOutfitBloc extends Bloc<NavigateOutfitEvent, NavigateOutfitState> 
       logger.e('Error triggering NPS survey: $error');
     }
   }
+  Future<void> _onFetchAndSaveClothingWornAchievement(
+      FetchAndSaveClothingWornAchievementEvent event,
+      Emitter<NavigateOutfitState> emit,
+      ) async {
+    emit(FetchAndSaveClothingWornAchievementInProgressState());
+    try {
+      // Call the generalized fetch method, passing the appropriate RPC function name
+      final achievementData  = await outfitFetchService.fetchAchievementData('fetch_clothes_worn_achievement');
+
+      if (achievementData != null && achievementData['achievement_name'] != null) {
+        final achievementName = achievementData['achievement_name'] as String;
+        logger.i('Achievement milestone reached: $achievementName');
+
+        // Get badge URL from the fetched data
+        final badgeUrl = achievementData['badge_url'] as String;
+        final featureStatus = achievementData['feature_status'] as String;
+
+        logger.i('Achievement milestone processed, badge URL: $badgeUrl, feature status: $featureStatus');
+        emit(FetchAndSaveClothingAchievementMilestoneSuccessState(badgeUrl: badgeUrl, featureStatus: featureStatus)); // Emit success state with badge URL
+      } else {
+        logger.i('Failed to fetch achievement milestone.');
+      }
+    } catch (error) {
+      logger.e('Error fetching achievement milestone: $error');
+    }
+  }
+
+  Future<void> _onFetchAndSaveNoBuyMilestoneAchievement(
+      FetchAndSaveNoBuyMilestoneAchievementEvent event,
+      Emitter<NavigateOutfitState> emit,
+      ) async {
+    emit(FetchAndSaveNoBuyMilestoneAchievementInProgressState());
+    try {
+      // Call the generalized fetch method, passing the appropriate RPC function name
+      final achievementData = await outfitFetchService.fetchAchievementData('fetch_milestone_achievements');
+
+      if (achievementData != null && achievementData['achievement_name'] != null) {
+        final achievementName = achievementData['achievement_name'] as String;
+        logger.i('Achievement milestone reached: $achievementName');
+
+        // Get badge URL from the fetched data
+        final badgeUrl = achievementData['badge_url'] as String;
+        final featureStatus = achievementData['feature_status'] as String;
+
+        logger.i('Achievement milestone processed, badge URL: $badgeUrl, feature status: $featureStatus');
+
+        // Emit success state with badge URL and feature status
+        emit(FetchAndSaveNoBuyMilestoneSuccessState(badgeUrl: badgeUrl, featureStatus: featureStatus));
+      } else {
+        logger.i('Failed to fetch achievement milestone.');
+      }
+    } catch (error) {
+      logger.e('Error fetching achievement milestone: $error');
+    }
+  }
+
 }

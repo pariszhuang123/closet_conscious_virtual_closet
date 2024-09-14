@@ -19,6 +19,8 @@ import '../../outfit_management/create_outfit/presentation/widgets/outfit_grid.d
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_type_container.dart';
 import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
+import '../../core/screens/achievement_completed_screen.dart';
+import '../../core/theme/my_outfit_theme.dart';
 
 class MyOutfitScreen extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -45,6 +47,8 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     logger.i('MyOutfitView initialized');
     _fetchOutfitsCount();
     _checkNavigationToReview(context);
+    _triggerClothingAchievement();
+    _triggerNoBuyAchievement();// Call the method after setting the outfit count
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
         logger.i('Reached the end of the list, fetching more items...');
@@ -77,6 +81,17 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   void _triggerNpsSurveyIfNeeded() {
     logger.i('Checking if NPS survey should be triggered for outfit count: $newOutfitCount');
     context.read<NavigateOutfitBloc>().add(TriggerNpsSurveyEvent(newOutfitCount));
+  }
+
+
+  void _triggerClothingAchievement() {
+    logger.i('Checking if Clothing Achievement Milestone is successful');
+    context.read<NavigateOutfitBloc>().add(const FetchAndSaveClothingWornAchievementEvent());
+  }
+
+  void _triggerNoBuyAchievement() {
+    logger.i('Checking if Clothing Achievement Milestone is successful');
+    context.read<NavigateOutfitBloc>().add(const FetchAndSaveNoBuyMilestoneAchievementEvent());
   }
 
   void _onFilterButtonPressed() {
@@ -132,7 +147,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
           newOutfitCount = count;
         });
         logger.i('New outfit count set to $newOutfitCount');
-        _triggerNpsSurveyIfNeeded();  // Call the method after setting the outfit count
+        _triggerNpsSurveyIfNeeded();
       }
     } catch (e) {
       logger.e('Error fetching new outfits count: $e');
@@ -185,6 +200,43 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                 _isNavigating = false; // Reset navigating after returning
               });
             }
+            if (state is FetchAndSaveClothingAchievementMilestoneSuccessState) {
+              logger.i('Navigating to achievement page for achievement: ${state.badgeUrl}');
+              _isNavigating = true; // Set navigating to true when navigating to review page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Theme(
+                    data: myOutfitTheme, // Apply the relevant theme
+                    child: AchievementScreen(
+                      achievementUrl: state.badgeUrl, // Pass the badge URL
+                      nextRoute: AppRoutes.createOutfit, // Define the next route if needed
+                    ),
+                  ),
+                ),
+              ).then((_) {
+                _isNavigating = false; // Reset navigating after returning
+              });
+            }
+            if (state is FetchAndSaveNoBuyMilestoneSuccessState) {
+              logger.i('Navigating to achievement page for achievement: ${state.badgeUrl}');
+              _isNavigating = true; // Set navigating to true when navigating to review page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Theme(
+                    data: myOutfitTheme, // Apply the relevant theme
+                    child: AchievementScreen(
+                      achievementUrl: state.badgeUrl, // Pass the badge URL
+                      nextRoute: AppRoutes.createOutfit, // Define the next route if needed
+                    ),
+                  ),
+                ),
+              ).then((_) {
+                _isNavigating = false; // Reset navigating after returning
+              });
+            }
+
           },
         ),
         BlocListener<CreateOutfitItemBloc, CreateOutfitItemState>(

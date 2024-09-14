@@ -16,17 +16,24 @@ class OutfitFetchService {
   Future<List<ClosetItemMinimal>> fetchCreateOutfitItems(
       OutfitItemCategory category, int currentPage, int batchSize) async {
     if (currentPage < 0 || batchSize <= 0) {
-      throw ArgumentError('Invalid pagination parameters: currentPage: $currentPage, batchSize: $batchSize');
+      throw ArgumentError(
+          'Invalid pagination parameters: currentPage: $currentPage, batchSize: $batchSize');
     }
     return _executeQuery(
-          () => client
-          .from('items')
-          .select('item_id, image_url, name, item_type, updated_at')
-          .eq('status', 'active')
-          .eq('item_type', category.toString().split('.').last)
-          .order('updated_at', ascending: true)
-          .range(currentPage * batchSize, (currentPage + 1) * batchSize - 1)
-          .then((data) => data.map<ClosetItemMinimal>((item) => ClosetItemMinimal.fromMap(item)).toList()),
+          () =>
+          client
+              .from('items')
+              .select('item_id, image_url, name, item_type, updated_at')
+              .eq('status', 'active')
+              .eq('item_type', category
+              .toString()
+              .split('.')
+              .last)
+              .order('updated_at', ascending: true)
+              .range(currentPage * batchSize, (currentPage + 1) * batchSize - 1)
+              .then((data) =>
+              data.map<ClosetItemMinimal>((item) =>
+                  ClosetItemMinimal.fromMap(item)).toList()),
       'fetchCreateOutfitItems - Fetching items for category $category, page $currentPage, batch size $batchSize',
     );
   }
@@ -45,7 +52,8 @@ class OutfitFetchService {
             name: item['name'],
           )).toList();
     } else {
-      logger.e('fetchOutfitItems - Unexpected data format for outfit $outfitId.');
+      logger.e(
+          'fetchOutfitItems - Unexpected data format for outfit $outfitId.');
       return [];
     }
   }
@@ -56,7 +64,8 @@ class OutfitFetchService {
       'fetchOutfitsCountAndNPS - Fetching outfits count and NPS status',
     );
 
-    if (data['outfits_created'] != null && data['milestone_triggered'] != null) {
+    if (data['outfits_created'] != null &&
+        data['milestone_triggered'] != null) {
       return {
         'outfits_created': data['outfits_created'],
         'milestone_triggered': data['milestone_triggered'],
@@ -68,38 +77,44 @@ class OutfitFetchService {
 
   Future<String?> fetchOutfitImageUrl(String outfitId) async {
     final data = await _executeQuery(
-          () => client
-          .from('outfits')
-          .select('outfit_image_url')
-          .eq('outfit_id', outfitId)
-          .single(),
+          () =>
+          client
+              .from('outfits')
+              .select('outfit_image_url')
+              .eq('outfit_id', outfitId)
+              .single(),
       'fetchOutfitImageUrl - Fetching image URL for outfit $outfitId',
     );
 
     if (data['outfit_image_url'] != null) {
-      logger.i('fetchOutfitImageUrl - Fetched image URL for outfit $outfitId: ${data['outfit_image_url']}');
+      logger.i(
+          'fetchOutfitImageUrl - Fetched image URL for outfit $outfitId: ${data['outfit_image_url']}');
       return data['outfit_image_url'] as String?;
     } else {
-      logger.w('fetchOutfitImageUrl - Outfit image URL not found for outfit $outfitId.');
+      logger.w(
+          'fetchOutfitImageUrl - Outfit image URL not found for outfit $outfitId.');
       return null;
     }
   }
 
   Future<String?> fetchOutfitId(String userId) async {
     final response = await _executeQuery(
-          () => client.rpc('fetch_outfitid', params: {'p_user_id': userId}).single(),
+          () =>
+          client.rpc('fetch_outfitid', params: {'p_user_id': userId}).single(),
       'fetchOutfitId - Fetching outfit ID for user $userId',
     );
 
     if (response['status'] == 'success') {
       return response['outfit_id'] as String?;
     } else {
-      logger.w('fetchOutfitId - Failed to fetch outfit ID for user $userId: ${response['message']}');
+      logger.w(
+          'fetchOutfitId - Failed to fetch outfit ID for user $userId: ${response['message']}');
       return null;
     }
   }
 
-  Future<T> _executeQuery<T>(Future<T> Function() query, String logMessage) async {
+  Future<T> _executeQuery<T>(Future<T> Function() query,
+      String logMessage) async {
     try {
       logger.d(logMessage);
       final result = await query();
@@ -108,6 +123,41 @@ class OutfitFetchService {
     } catch (error) {
       logger.e('Error during $logMessage: $error');
       throw OutfitFetchException('Error during $logMessage: $error');
+    }
+  }
+
+  Future<Map<String, dynamic>?> fetchAchievementData(String rpcFunctionName) async {
+    final response = await _executeQuery(
+          () => client.rpc(rpcFunctionName),
+      'fetchAchievementData - Fetching data using function $rpcFunctionName',
+    );
+
+    // Check if the response contains a valid achievement and reward information
+    if (response != null && response['inserted_achievement'] != null) {
+      final achievementName = response['inserted_achievement']['achievement_name'] as String?;
+      final rewardResult = response['reward_result'];
+
+      // Log achievement details
+      logger.i(
+          'fetchAchievementData - Fetched achievement name: $achievementName from function $rpcFunctionName');
+
+      // Log reward details (badge_url and feature status)
+      final badgeUrl = rewardResult?['badge_url'] as String?;
+      final featureStatus = rewardResult?['feature'] as String?;
+      logger.i(
+          'fetchAchievementData - Badge URL: $badgeUrl, Feature status: $featureStatus');
+
+      // Return the full response with achievement and reward details
+      return {
+        'achievement_name': achievementName,
+        'badge_url': badgeUrl,
+        'feature_status': featureStatus,
+      };
+    } else {
+      // Log warning if no achievement data is found
+      logger.w(
+          'fetchAchievementData - No data found using function $rpcFunctionName');
+      return null;
     }
   }
 }
@@ -119,3 +169,4 @@ class OutfitFetchException implements Exception {
   @override
   String toString() => 'OutfitFetchException: $message';
 }
+

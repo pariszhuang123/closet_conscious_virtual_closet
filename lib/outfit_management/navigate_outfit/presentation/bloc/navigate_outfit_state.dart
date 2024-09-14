@@ -26,3 +26,45 @@ class NpsSurveyTriggeredState extends NavigateOutfitState {
   @override
   List<Object?> get props => [milestone];
 }
+
+class FetchAndSaveClothingWornAchievementInProgressState extends NavigateOutfitState {
+  @override
+  List<Object?> get props => [];
+}
+
+
+class FetchAndSaveNoBuyMilestoneAchievementInProgressState extends NavigateOutfitState {
+  @override
+  List<Object?> get props => [];
+}
+
+class FetchAndSaveClothingAchievementMilestoneSuccessState extends NavigateOutfitState {
+  final String badgeUrl;
+  final String featureStatus;
+
+  const FetchAndSaveClothingAchievementMilestoneSuccessState({required this.badgeUrl, required this.featureStatus});
+
+  @override
+  List<Object?> get props => [badgeUrl, featureStatus];
+}
+
+class FetchAndSaveNoBuyMilestoneSuccessState extends NavigateOutfitState {
+  final String badgeUrl;
+  final String featureStatus;
+
+  const FetchAndSaveNoBuyMilestoneSuccessState({required this.badgeUrl, required this.featureStatus});
+
+  @override
+  List<Object?> get props => [badgeUrl, featureStatus];
+}
+
+
+// New failure state for handling errors in achievement fetch or save
+class NavigateOutfitFailureState extends NavigateOutfitState {
+  final String error;
+
+  const NavigateOutfitFailureState({required this.error});
+
+  @override
+  List<Object?> get props => [error];
+}

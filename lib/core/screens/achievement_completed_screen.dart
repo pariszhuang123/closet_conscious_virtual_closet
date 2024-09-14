@@ -5,14 +5,17 @@ import '../../generated/l10n.dart';
 
 class AchievementScreen extends StatelessWidget {
   final String achievementUrl;
-  final bool isFromMyCloset;
+  final String nextRoute;
 
-  const AchievementScreen({super.key, required this.achievementUrl, required this.isFromMyCloset});
+  const AchievementScreen({
+    super.key,
+    required this.achievementUrl,
+    required this.nextRoute});
 
   @override
   Widget build(BuildContext context) {
     Timer(const Duration(seconds: 5), () {
-      Navigator.pushReplacementNamed(context, '/my_closet');
+      Navigator.pushReplacementNamed(context, nextRoute);
     });
 
     final theme = Theme.of(context);
@@ -35,7 +38,7 @@ class AchievementScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               SizedBox(
-                height: 50,
+                height: 75,
                 child: Lottie.asset('assets/lottie/tasty.json'),
               ),
               const SizedBox(height: 20),

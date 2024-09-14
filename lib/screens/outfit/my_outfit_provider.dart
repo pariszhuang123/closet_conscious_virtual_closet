@@ -27,7 +27,8 @@ class MyOutfitProvider extends StatelessWidget {
         BlocProvider(
           create: (context) {
             final outfitFetchService = GetIt.instance<OutfitFetchService>();
-            return NavigateOutfitBloc(outfitFetchService: outfitFetchService);
+            final outfitSaveService = GetIt.instance<OutfitSaveService>();
+            return NavigateOutfitBloc(outfitFetchService: outfitFetchService, outfitSaveService: outfitSaveService);
           },
         ),
       ],
