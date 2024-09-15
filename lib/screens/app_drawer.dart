@@ -13,11 +13,12 @@ import '../user_management/achievements/data/models/achievements_page_argument.d
 import '../core/utilities/launch_email.dart';
 import '../core/data/models/arguments.dart';
 import '../core/widgets/feedback/custom_alert_dialog.dart';
-import '../core/data/services/core_save_services.dart';
+import '../user_management/core/data/services/user_save_service.dart';
 
 class AppDrawer extends StatelessWidget {
   final bool isFromMyCloset;
-  final CoreSaveService coreSaveService = CoreSaveService();
+  final UserSaveService userSaveService = UserSaveService();
+
 
   AppDrawer({super.key, required this.isFromMyCloset});
 
@@ -221,7 +222,7 @@ class AppDrawer extends StatelessWidget {
           onPressed: ()  {
             logger.i('Attempting to delete user account');
 
-            coreSaveService.notifyDeleteUserAccount().then((response) {
+            userSaveService.notifyDeleteUserAccount().then((response) {
               if (response['status'] == 'success') {
                 logger.i('Account deletion process succeeded');
               } else {

@@ -26,13 +26,14 @@ class AchievementsPage extends StatefulWidget {
 class AchievementsPageState extends State<AchievementsPage> {
   final ScrollController _scrollController = ScrollController();
   final CustomLogger _logger = CustomLogger('AchievementsPage');
+  final userFetchService = UserFetchSupabaseService();
   late Future<List<Achievement>> _futureAchievements;
 
   @override
   void initState() {
     super.initState();
     _logger.d('initState: Fetching achievements for user ${widget.userId}');
-    _futureAchievements = fetchUserAchievements(widget.userId);
+    _futureAchievements = userFetchService.fetchUserAchievements(widget.userId);
   }
 
   @override
