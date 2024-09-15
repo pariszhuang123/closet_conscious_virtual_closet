@@ -185,7 +185,10 @@ class AppDrawer extends StatelessWidget {
 
   void _showDeleteAccountDialog(BuildContext context) {
     logger.w('Showing delete account dialog');
-    final parentContext = context; // Save the parent context
+
+    final authBloc = context.read<AuthBloc>(); // Access authBloc before async operations
+    final navigator = Navigator.of(context);
+
     showDialog(
       context: context,
       barrierDismissible: false, // Prevent closing by tapping outside
@@ -215,8 +218,30 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           buttonText: S.of(context).delete,
-          onPressed: () async {
-            await _deleteUserAccount(parentContext); // Use the parent context
+          onPressed: ()  {
+            logger.i('Attempting to delete user account');
+
+            coreSaveService.notifyDeleteUserAccount().then((response) {
+              if (response['status'] == 'success') {
+                logger.i('Account deletion process succeeded');
+              } else {
+                logger.e('Failed to delete account: ${response['status']}');
+              }
+            }).catchError((e) {
+              logger.e('Error deleting account: $e');
+            });
+
+            // Close the dialog after triggering log out
+            Navigator.pop(dialogContext);
+
+            // Immediately log out the user
+            authBloc.add(SignOutEvent());
+            // Navigate to login and clear the navigation stack
+            Future.delayed(const Duration(milliseconds: 100), () {
+              // Navigate to login and clear the navigation stack
+              navigator.pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
+            });
+
           },
           theme: Theme.of(context), // Pass the current theme
           iconButton: IconButton(
@@ -228,21 +253,6 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Future<void> _deleteUserAccount(BuildContext context) async {
-    logger.i('Attempting to delete user account');
-
-    try {
-      final response = await coreSaveService.notifyDeleteUserAccount();
-
-      if (response['status'] == 'success') {
-        logger.i('Account deleted successfully');
-
-      } else {
-        logger.e('Failed to delete account: ${response['status']}');
-      }
-    } catch (e) {'error';
-    }
-  }
 
   void _logOut(BuildContext context) {
     logger.i('Logging out');
