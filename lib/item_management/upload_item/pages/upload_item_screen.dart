@@ -8,7 +8,7 @@ import '../presentation/bloc/upload_item_bloc.dart';
 import '../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../core/widgets/bottom_sheet/premium_bottom_sheet/metadata_premium_bottom_sheet.dart';
 import '../../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_upload_usage_bottom_sheet.dart';
-import '../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
+import '../widgets/sliding_progress_button.dart';
 import '../widgets/upload_item_additional_feature.dart';
 import '../../../core/utilities/logger.dart';
 import 'metadata/metadata_first_page.dart';
@@ -235,12 +235,12 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
         } else if (state is FormInvalidPage2) {
           _logger.w('Form page 2 invalid: ${state.errorMessage}');
           _showErrorMessage(state.errorMessage);
-        } else if (state is FormValidPage3) {
-          _logger.i('Form page 3 validated successfully, starting upload');
-          _handleUpload(context);
         } else if (state is FormInvalidPage3) {
           _logger.w('Form page 3 invalid: ${state.errorMessage}');
           _showErrorMessage(state.errorMessage);
+        } else if (state is FormValidPage3) {
+          _logger.i('Form page 3 validated successfully, starting upload');
+          _handleUpload(context);
         }
       },
       builder: (context, state) {
@@ -333,19 +333,14 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 2.0, bottom: 20.0, left: 16.0, right: 16.0),
-                      child: ElevatedButton(
-                        onPressed: state is UploadingItem ? null : () => _handleNext(context),
-                        child: state is UploadingItem
-                            ? SizedBox(
-                          width: 36.0,
-                          height: 36.0,
-                          child: ClosetProgressIndicator(
-                            color: widget.myClosetTheme.colorScheme.onPrimary,
-                            size: 24.0,
-                          ),
-                        )
-                            : Text(_currentPage == 2 ? S.of(context).upload : S.of(context).next),
+                      padding: const EdgeInsets.only(top: 2.0, bottom: 60.0, left: 16.0, right: 16.0),
+                      child: SlidingProgressButton(
+                        onNext: () => _handleNext(context),
+                        onSubmit: () => _handleNext(context),
+                        isUploadingItem: state is UploadingItem,  // Pass Bloc's loading state
+                        currentPage: _currentPage,
+                        totalSteps: 3,
+                        myClosetTheme: widget.myClosetTheme,
                       ),
                     ),
                   ],
