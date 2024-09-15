@@ -1500,21 +1500,31 @@ class S {
     );
   }
 
-  /// `Warning: Deleting your account is irreversible.`
+  /// `Warning: Deleting your account is irreversible.\n`
   String get deleteAccountImpact {
     return Intl.message(
-      'Warning: Deleting your account is irreversible.',
+      'Warning: Deleting your account is irreversible.\n',
       name: 'deleteAccountImpact',
       desc: '',
       args: [],
     );
   }
 
-  /// `Are you sure you want to delete your account? All your data will be permanently removed.`
+  /// `Are you sure you want to delete your account?\nAll your data and your paid features access will be permanently removed.\nThe data will be deleted in 48 hours`
   String get deleteAccountConfirmation {
     return Intl.message(
-      'Are you sure you want to delete your account? All your data will be permanently removed.',
+      'Are you sure you want to delete your account?\nAll your data and your paid features access will be permanently removed.\nThe data will be deleted in 48 hours',
       name: 'deleteAccountConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your request has been received. We will delete your account within 48 hours.`
+  String get accountDeletedSuccess {
+    return Intl.message(
+      'Your request has been received. We will delete your account within 48 hours.',
+      name: 'accountDeletedSuccess',
       desc: '',
       args: [],
     );
@@ -2485,6 +2495,16 @@ class S {
     return Intl.message(
       'You\'ve reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion.',
       name: 'defaultAchievementMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We are unable to process your account deletion request at the moment. Would you kindly email us at support@example.com for assistance?`
+  String get unableToProcessAccountDeletion {
+    return Intl.message(
+      'We are unable to process your account deletion request at the moment. Would you kindly email us at support@example.com for assistance?',
+      name: 'unableToProcessAccountDeletion',
       desc: '',
       args: [],
     );

@@ -42,6 +42,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "OutfitReview": MessageLookupByLibrary.simpleMessage("穿搭评价"),
         "Throw": MessageLookupByLibrary.simpleMessage("丢弃"),
         "accessory": MessageLookupByLibrary.simpleMessage("配饰"),
+        "accountDeletedSuccess":
+            MessageLookupByLibrary.simpleMessage("您的请求已收到，我们将在48小时内删除您的帐户。"),
         "achievementMessage": MessageLookupByLibrary.simpleMessage("这是您的成就："),
         "achievements": MessageLookupByLibrary.simpleMessage("成就"),
         "active": MessageLookupByLibrary.simpleMessage("活跃"),
@@ -91,9 +93,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("有兴趣查看日历视图吗？"),
         "camera_edit_item_permission_explanation":
             MessageLookupByLibrary.simpleMessage("允许访问相机以更新物品照片。"),
+        "camera_permission_explanation":
+            MessageLookupByLibrary.simpleMessage("我们需要访问您的相机才能拍摄照片。"),
         "camera_selfie_permission_explanation":
-            MessageLookupByLibrary.simpleMessage(
-                "Allow access to your camera to take selfies with your outfits."),
+            MessageLookupByLibrary.simpleMessage("允许访问您的相机，以便与您的服装拍摄自拍。"),
         "camera_upload_item_permission_explanation":
             MessageLookupByLibrary.simpleMessage("允许访问相机以上传服装照片，方便管理衣橱。"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
@@ -137,10 +140,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("成就解锁！"),
         "delete": MessageLookupByLibrary.simpleMessage("删除"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("删除账户"),
-        "deleteAccountConfirmation":
-            MessageLookupByLibrary.simpleMessage("您确定要删除您的账户吗？所有数据将被永久删除。"),
+        "deleteAccountConfirmation": MessageLookupByLibrary.simpleMessage(
+            "您确定要删除您的帐户吗？\n您所有的数据以及付费功能的访问权限将被永久删除。\n数据将在48小时内被删除。"),
         "deleteAccountImpact":
-            MessageLookupByLibrary.simpleMessage("警告：删除账户是不可逆的。"),
+            MessageLookupByLibrary.simpleMessage("警告：删除账户是不可逆的。\n"),
         "deleteAccountTitle": MessageLookupByLibrary.simpleMessage("删除账户"),
         "dislike": MessageLookupByLibrary.simpleMessage("不适合我"),
         "dislike_feedback_sentence":
@@ -340,6 +343,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "top": MessageLookupByLibrary.simpleMessage("上衣"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "我们正在探索一项高级功能，可以分析您物品的每次穿着成本，并提供个性化的搭配洞察。"),
+        "unableToProcessAccountDeletion": MessageLookupByLibrary.simpleMessage(
+            "我们暂时无法处理您的账户删除请求。请通过电子邮件联系我们：support@example.com，以获取帮助。"),
         "unableToRetrieveUserId":
             MessageLookupByLibrary.simpleMessage("无法获取用户 ID。请重新登录。"),
         "unexpectedErrorOccurred":

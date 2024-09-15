@@ -67,8 +67,8 @@ class NpsDialog extends StatelessWidget {
   }
 
   // Use this method to trigger the dialog
-  void showNpsDialog(BuildContext context) {
-    CustomAlertDialog.showCustomDialog(
+  Future<void> showNpsDialog(BuildContext context) async {
+    return await CustomAlertDialog.showCustomDialog(
       context: context,
       title: S.of(context).recommendClosetConscious,
       content: _buildDialogContent(context),

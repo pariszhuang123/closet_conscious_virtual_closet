@@ -46,6 +46,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "OutfitReview": MessageLookupByLibrary.simpleMessage("Outfit Review"),
         "Throw": MessageLookupByLibrary.simpleMessage("Throw"),
         "accessory": MessageLookupByLibrary.simpleMessage("Accessory"),
+        "accountDeletedSuccess": MessageLookupByLibrary.simpleMessage(
+            "Your request has been received. We will delete your account within 48 hours."),
         "achievementMessage":
             MessageLookupByLibrary.simpleMessage("Here is your achievement:"),
         "achievements": MessageLookupByLibrary.simpleMessage("Achievements"),
@@ -158,9 +160,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
         "deleteAccountConfirmation": MessageLookupByLibrary.simpleMessage(
-            "Are you sure you want to delete your account? All your data will be permanently removed."),
+            "Are you sure you want to delete your account?\nAll your data and your paid features access will be permanently removed.\nThe data will be deleted in 48 hours"),
         "deleteAccountImpact": MessageLookupByLibrary.simpleMessage(
-            "Warning: Deleting your account is irreversible."),
+            "Warning: Deleting your account is irreversible.\n"),
         "deleteAccountTitle":
             MessageLookupByLibrary.simpleMessage("Delete Account"),
         "dislike": MessageLookupByLibrary.simpleMessage("Not for me"),
@@ -385,6 +387,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "top": MessageLookupByLibrary.simpleMessage("Top"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "We\'re exploring a premium feature to analyze your items\' cost per wear and provide personalized outfit insights."),
+        "unableToProcessAccountDeletion": MessageLookupByLibrary.simpleMessage(
+            "We are unable to process your account deletion request at the moment. Would you kindly email us at support@example.com for assistance?"),
         "unableToRetrieveUserId": MessageLookupByLibrary.simpleMessage(
             "Unable to retrieve user ID. Please sign in again."),
         "unexpectedErrorOccurred": MessageLookupByLibrary.simpleMessage(

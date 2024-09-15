@@ -145,8 +145,9 @@
   "costOfNewItems": "Cost of the new items you have purchased",
   "numberOfNewItems": "Number of new items you have purchased",
   "deleteAccountTitle": "Delete Account",
-  "deleteAccountImpact": "Warning: Deleting your account is irreversible.",
-  "deleteAccountConfirmation": "Are you sure you want to delete your account? All your data will be permanently removed.",
+  "deleteAccountImpact": "Warning: Deleting your account is irreversible.\n",
+  "deleteAccountConfirmation": "Are you sure you want to delete your account?\nAll your data and your paid features access will be permanently removed.\nThe data will be deleted in 48 hours",
+  "accountDeletedSuccess": "Your request has been received. We will delete your account within 48 hours.",
   "cancel": "Cancel",
   "delete": "Delete",
   "please_select_the_category_above": "Please select the category above",
@@ -243,5 +244,6 @@
   "closetUploadAchievement": "Virtual Closet Complete!",
   "closetUploadAchievementMessage": "Congratulations! You've uploaded all your items to your virtual closet. Now you're ready to make the most of what you own!",
   "defaultAchievementTitle": "Achievement Unlocked!",
-  "defaultAchievementMessage": "You've reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion."
+  "defaultAchievementMessage": "You've reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion.",
+  "unableToProcessAccountDeletion": "We are unable to process your account deletion request at the moment. Would you kindly email us at support@example.com for assistance?"
 }

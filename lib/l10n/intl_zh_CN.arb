@@ -145,8 +145,9 @@
   "costOfNewItems": "您购买的新物品花费金额",
   "numberOfNewItems": "您购买的新物品数量",
   "deleteAccountTitle": "删除账户",
-  "deleteAccountImpact": "警告：删除账户是不可逆的。",
-  "deleteAccountConfirmation": "您确定要删除您的账户吗？所有数据将被永久删除。",
+  "deleteAccountImpact": "警告：删除账户是不可逆的。\n",
+  "deleteAccountConfirmation": "您确定要删除您的帐户吗？\n您所有的数据以及付费功能的访问权限将被永久删除。\n数据将在48小时内被删除。",
+  "accountDeletedSuccess": "您的请求已收到，我们将在48小时内删除您的帐户。",
   "cancel": "取消",
   "delete": "删除",
   "please_select_the_category_above": "请在上方选择类别",
@@ -213,7 +214,8 @@
   "permission_needed": "应用需要此权限才能正常运行。",
   "camera_upload_item_permission_explanation": "允许访问相机以上传服装照片，方便管理衣橱。",
   "camera_edit_item_permission_explanation": "允许访问相机以更新物品照片。",
-  "camera_selfie_permission_explanation": "Allow access to your camera to take selfies with your outfits.",
+  "camera_selfie_permission_explanation": "允许访问您的相机，以便与您的服装拍摄自拍。",
+  "camera_permission_explanation": "我们需要访问您的相机才能拍摄照片。",
   "general_permission_explanation": "需要此权限才能使用此功能。",
   "open_settings": "打开设置",
   "noImage": "没有图片",
@@ -242,5 +244,6 @@
   "closetUploadAchievement": "全部衣服都穿过了！",
   "closetUploadAchievementMessage": "你已经穿过了衣柜里的每一件衣服！你正在掌握有意识的时尚选择。做得好！",
   "defaultAchievementTitle": "成就解锁！",
-  "defaultAchievementMessage": "你达到了新的里程碑！在有意识的时尚之旅中，继续保持出色的表现。"
+  "defaultAchievementMessage": "你达到了新的里程碑！在有意识的时尚之旅中，继续保持出色的表现。",
+  "unableToProcessAccountDeletion": "我们暂时无法处理您的账户删除请求。请通过电子邮件联系我们：support@example.com，以获取帮助。"
 }

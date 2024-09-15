@@ -12,9 +12,12 @@ import '../core/utilities/routes.dart';
 import '../user_management/achievements/data/models/achievements_page_argument.dart';
 import '../core/utilities/launch_email.dart';
 import '../core/data/models/arguments.dart';
+import '../core/widgets/feedback/custom_alert_dialog.dart';
+import '../core/data/services/core_save_services.dart';
 
 class AppDrawer extends StatelessWidget {
   final bool isFromMyCloset;
+  final CoreSaveService coreSaveService = CoreSaveService();
 
   AppDrawer({super.key, required this.isFromMyCloset});
 
@@ -171,52 +174,73 @@ class AppDrawer extends StatelessWidget {
   }
 
   void _showDeleteAccountDialog(BuildContext context) {
-    showDialog(
+    CustomAlertDialog.showCustomDialog(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(S.of(context).deleteAccountTitle),
-          content: RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: S.of(context).deleteAccountImpact,
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyLarge?.color,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const WidgetSpan(
-                  child: SizedBox(width: 10),
-                ),
-                TextSpan(
-                  text: S.of(context).deleteAccountConfirmation,
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyMedium?.color,
-                  ),
-                ),
-              ],
+      title: S.of(context).deleteAccountTitle,
+      content: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: S.of(context).deleteAccountImpact,
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodyLarge?.color,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(S.of(context).cancel),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+            const WidgetSpan(
+              child: SizedBox(width: 10),
             ),
-            TextButton(
-              child: Text(S.of(context).delete),
-              onPressed: () {
-                // Dispatch the delete account event to AuthBloc
-                context.read<AuthBloc>().add(DeleteAccountEvent());
-                Navigator.pop(context);
-              },
+            TextSpan(
+              text: S.of(context).deleteAccountConfirmation,
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+              ),
             ),
           ],
-        );
+        ),
+      ),
+      buttonText: S.of(context).delete,
+      onPressed: () async {
+        await _deleteUserAccount(context);
       },
+      theme: Theme.of(context), // Pass the current theme
+      iconButton: IconButton(
+        icon: const Icon(Icons.close),
+        onPressed: () => Navigator.pop(context), // Add an optional close button
+      ),
     );
+  }
+
+  Future<void> _deleteUserAccount(BuildContext context) async {
+    // Pre-fetch AuthBloc, ScaffoldMessenger, and errorMessage before any await calls
+    final authBloc = context.read<AuthBloc>();
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    final errorMessage = S.of(context)
+        .unableToProcessAccountDeletion;
+    final successMessage = S.of(context).accountDeletedSuccess;
+
+
+    try {
+      // Keep the dialog open during async operation
+      final response = await coreSaveService.notifyDeleteUserAccount();
+
+      if (response['status'] == 'success') {
+        scaffoldMessenger.showSnackBar(
+            SnackBar(content: Text(successMessage)),
+        );
+        authBloc.add(SignOutEvent());
+      } else {
+        // Handle unexpected error
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      }
+    } catch (e) {
+      // Log the error and show a friendly message
+      scaffoldMessenger.showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    }
   }
 
   void _logOut(BuildContext context) {
