@@ -25,6 +25,8 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.d('Building AppDrawer for ${isFromMyCloset ? 'My Closet' : 'Other Screen'}');
+
     final achievementsItem = TypeDataList.drawerAchievements(context);
     final insightsItem = TypeDataList.drawerInsights(context);
     final infoHubItem = TypeDataList.drawerInfoHub(context);
@@ -73,6 +75,7 @@ class AppDrawer extends StatelessWidget {
                   BlocListener<AuthBloc, AuthState>(
                     listener: (context, state) {
                       if (state is Unauthenticated) {
+                        logger.i('User logged out. Redirecting to home screen.');
                         Navigator.of(context).pushReplacementNamed('/');
                       }
                     },
@@ -83,6 +86,7 @@ class AppDrawer extends StatelessWidget {
                   BlocListener<AuthBloc, AuthState>(
                     listener: (context, state) {
                       if (state is Unauthenticated) {
+                        logger.i('User logged out. Redirecting to home screen.');
                         Navigator.of(context).pushReplacementNamed('/');
                       }
                     },
@@ -110,12 +114,15 @@ class AppDrawer extends StatelessWidget {
           buttonType: ButtonType.primary,
           usePredefinedColor: false,
           onPressed: () async {
+            logger.d('Navigation button pressed: ${item.getName(context)}');
             final navigator = Navigator.of(context);
             navigator.pop(); // Close the drawer
             Future.delayed(const Duration(milliseconds: 300)); // Allow drawer to close
             if (route != null) {
+              logger.d('Navigating to route: $route');
               navigator.pushNamed(route);
             } else if (customAction != null) {
+              logger.d('Executing custom action for ${item.getName(context)}');
               customAction(context);
             }
           },
@@ -135,6 +142,7 @@ class AppDrawer extends StatelessWidget {
     final authState = context.read<AuthBloc>().state;
     if (authState is Authenticated) {
       final String userId = authState.user.id;
+      logger.d('Navigating to achievements page with userId: $userId');
       Navigator.pushNamed(
         context,
         AppRoutes.achievementPage,
@@ -152,6 +160,7 @@ class AppDrawer extends StatelessWidget {
   void _navigateToInfoHub(BuildContext context) {
     final String infoHubUrl = S.of(context).infoHubUrl;
     final String infoHubTitle = S.of(context).infoHub;
+    logger.d('Navigating to Info Hub: $infoHubUrl');
 
     Navigator.pushNamed(
       context,
@@ -165,6 +174,7 @@ class AppDrawer extends StatelessWidget {
   }
 
   void _showUsageInsightsBottomSheet(BuildContext context, bool isFromMyCloset) {
+    logger.d('Showing Usage Insights BottomSheet for ${isFromMyCloset ? 'My Closet' : 'Other Screen'}');
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -174,77 +184,68 @@ class AppDrawer extends StatelessWidget {
   }
 
   void _showDeleteAccountDialog(BuildContext context) {
-    CustomAlertDialog.showCustomDialog(
+    logger.w('Showing delete account dialog');
+    final parentContext = context; // Save the parent context
+    showDialog(
       context: context,
-      title: S.of(context).deleteAccountTitle,
-      content: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: S.of(context).deleteAccountImpact,
-              style: TextStyle(
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-                fontWeight: FontWeight.bold,
-              ),
+      barrierDismissible: false, // Prevent closing by tapping outside
+      builder: (BuildContext dialogContext) { // Separate context for the dialog
+        return CustomAlertDialog(
+          title: S.of(context).deleteAccountTitle,
+          content: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: S.of(context).deleteAccountImpact,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const WidgetSpan(
+                  child: SizedBox(width: 10),
+                ),
+                TextSpan(
+                  text: S.of(context).deleteAccountConfirmation,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                  ),
+                ),
+              ],
             ),
-            const WidgetSpan(
-              child: SizedBox(width: 10),
-            ),
-            TextSpan(
-              text: S.of(context).deleteAccountConfirmation,
-              style: TextStyle(
-                color: Theme.of(context).textTheme.bodyMedium?.color,
-              ),
-            ),
-          ],
-        ),
-      ),
-      buttonText: S.of(context).delete,
-      onPressed: () async {
-        await _deleteUserAccount(context);
+          ),
+          buttonText: S.of(context).delete,
+          onPressed: () async {
+            await _deleteUserAccount(parentContext); // Use the parent context
+          },
+          theme: Theme.of(context), // Pass the current theme
+          iconButton: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () => Navigator.pop(dialogContext), // Close using dialogContext
+          ),
+        );
       },
-      theme: Theme.of(context), // Pass the current theme
-      iconButton: IconButton(
-        icon: const Icon(Icons.close),
-        onPressed: () => Navigator.pop(context), // Add an optional close button
-      ),
     );
   }
 
   Future<void> _deleteUserAccount(BuildContext context) async {
-    // Pre-fetch AuthBloc, ScaffoldMessenger, and errorMessage before any await calls
-    final authBloc = context.read<AuthBloc>();
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
-    final errorMessage = S.of(context)
-        .unableToProcessAccountDeletion;
-    final successMessage = S.of(context).accountDeletedSuccess;
-
+    logger.i('Attempting to delete user account');
 
     try {
-      // Keep the dialog open during async operation
       final response = await coreSaveService.notifyDeleteUserAccount();
 
       if (response['status'] == 'success') {
-        scaffoldMessenger.showSnackBar(
-            SnackBar(content: Text(successMessage)),
-        );
-        authBloc.add(SignOutEvent());
+        logger.i('Account deleted successfully');
+
       } else {
-        // Handle unexpected error
-        scaffoldMessenger.showSnackBar(
-          SnackBar(content: Text(errorMessage)),
-        );
+        logger.e('Failed to delete account: ${response['status']}');
       }
-    } catch (e) {
-      // Log the error and show a friendly message
-      scaffoldMessenger.showSnackBar(
-        SnackBar(content: Text(errorMessage)),
-      );
+    } catch (e) {'error';
     }
   }
 
   void _logOut(BuildContext context) {
-    // Dispatch the sign out event to AuthBloc
+    logger.i('Logging out');
     context.read<AuthBloc>().add(SignOutEvent());
   }
 }
