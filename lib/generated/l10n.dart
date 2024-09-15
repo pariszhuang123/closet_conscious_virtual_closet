@@ -70,11 +70,31 @@ class S {
     );
   }
 
-  /// `You are currently offline`
-  String get offlineStatus {
+  /// `Oops, No Connection!`
+  String get noInternetTitle {
     return Intl.message(
-      'You are currently offline',
-      name: 'offlineStatus',
+      'Oops, No Connection!',
+      name: 'noInternetTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `It looks like you’re offline. Let's reconnect and get back to making mindful choices!`
+  String get noInternetMessage {
+    return Intl.message(
+      'It looks like you’re offline. Let\'s reconnect and get back to making mindful choices!',
+      name: 'noInternetMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Still no connection—hang tight! We'll keep trying.`
+  String get noInternetSnackBar {
+    return Intl.message(
+      'Still no connection—hang tight! We\'ll keep trying.',
+      name: 'noInternetSnackBar',
       desc: '',
       args: [],
     );

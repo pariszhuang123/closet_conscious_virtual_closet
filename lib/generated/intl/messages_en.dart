@@ -242,6 +242,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "noAchievementFound":
             MessageLookupByLibrary.simpleMessage("No achievement badges found"),
         "noImage": MessageLookupByLibrary.simpleMessage("No Image"),
+        "noInternetMessage": MessageLookupByLibrary.simpleMessage(
+            "It looks like you’re offline. Let\'s reconnect and get back to making mindful choices!"),
+        "noInternetSnackBar": MessageLookupByLibrary.simpleMessage(
+            "Still no connection—hang tight! We\'ll keep trying."),
+        "noInternetTitle":
+            MessageLookupByLibrary.simpleMessage("Oops, No Connection!"),
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
         "noItemsInCategory": MessageLookupByLibrary.simpleMessage(
             "Please upload your items in my closet"),
@@ -279,8 +285,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Number of new items you have purchased"),
         "occasionFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Occasion field is not filled."),
-        "offlineStatus":
-            MessageLookupByLibrary.simpleMessage("You are currently offline"),
         "ok": MessageLookupByLibrary.simpleMessage("Interested"),
         "onePiece": MessageLookupByLibrary.simpleMessage("One Piece"),
         "open_settings": MessageLookupByLibrary.simpleMessage("Open Settings"),

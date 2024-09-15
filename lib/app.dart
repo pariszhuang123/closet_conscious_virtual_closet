@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'generated/l10n.dart';
 import 'user_management/user_service_locator.dart' as user_management_locator;
 import 'user_management/authentication/presentation/pages/auth_wrapper.dart';
 import 'user_management/authentication/presentation/bloc/auth_bloc.dart';
+import 'core/connectivity/presentation/blocs/connectivity_bloc.dart';
+import 'core/connectivity/pages/connectivity_provider.dart';
+import 'core/connectivity/pages/connectivity_screen.dart';
+
 
 import 'core/theme/my_closet_theme.dart';
 import 'core/theme/my_outfit_theme.dart';
@@ -27,21 +32,45 @@ class MainApp extends StatelessWidget {
           create: (_) => user_management_locator.locator<AuthBloc>(),
           dispose: (_, bloc) => bloc.close(),
         ),
-        // Add other providers if needed
+        Provider<ConnectivityBloc>(
+          create: (_) => ConnectivityBloc()..add(ConnectivityChecked()), // Initialize ConnectivityBloc and check connection
+          dispose: (_, bloc) => bloc.close(), // Dispose ConnectivityBloc properly
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
-          S.delegate, // Add the generated delegate
+          S.delegate, // Add the generated delegate for localization
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: S.delegate.supportedLocales, // Add the supported locales
-        initialRoute: AppRoutes.home, // Set initial route
-        onGenerateRoute: (settings) => AppRoutes.generateRoute(settings, myClosetTheme, myOutfitTheme),
+        supportedLocales: S.delegate.supportedLocales, // Supported locales
         theme: myClosetTheme, // Default theme
-        home: AuthWrapper(myClosetTheme: myClosetTheme, myOutfitTheme: myOutfitTheme), // Set AuthWrapper as the home
+        initialRoute: AppRoutes.home, // Set the initial route
+        onGenerateRoute: (settings) =>
+            AppRoutes.generateRoute(settings, myClosetTheme, myOutfitTheme),
+        home: AuthWrapper(
+          myClosetTheme: myClosetTheme,
+          myOutfitTheme: myOutfitTheme,
+        ), // Set AuthWrapper as home
+        builder: (context, child) {
+          return ConnectivityProvider(
+            child: Stack(
+              children: [
+                child!, // The rest of the app (AuthWrapper and others)
+                BlocBuilder<ConnectivityBloc, ConnectivityState>(
+                  builder: (context, state) {
+                    if (state is ConnectivityDisconnected) {
+                      return const ConnectivityScreen(); // Overlay ConnectivityScreen when disconnected
+                    }
+                    return const SizedBox.shrink(); // Otherwise, show nothing
+                  },
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
