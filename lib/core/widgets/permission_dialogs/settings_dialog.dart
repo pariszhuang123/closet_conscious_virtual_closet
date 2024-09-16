@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../generated/l10n.dart';
 import '../feedback/custom_alert_dialog.dart';
+import '../button/themed_elevated_button.dart';
 
 class SettingsDialog {
   static void show({
@@ -21,11 +22,11 @@ class SettingsDialog {
           const SizedBox(height: 16.0),
           Align(
             alignment: Alignment.centerRight,
-            child: ElevatedButton(
+            child: ThemedElevatedButton( // Use ThemedElevatedButton here
               onPressed: () {
                 openAppSettings();
               },
-              child: Text(S.of(context).open_settings),
+              text: S.of(context).open_settings, // Button text
             ),
           ),
         ],

@@ -17,6 +17,8 @@ import '../../../../core/widgets/container/logo_text_container.dart';
 import '../../../../core/theme/themed_svg.dart';
 import '../widget/outfit_creation_success_dialog.dart';
 import '../../../../core/theme/my_outfit_theme.dart';
+import '../../../../core/widgets/button/themed_elevated_button.dart';
+
 
 class OutfitWearScreen extends StatefulWidget {
   final String outfitId;
@@ -186,12 +188,12 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
                         left: 16.0,
                         right: 16.0,
                       ),
-                      child: ElevatedButton(
+                      child: ThemedElevatedButton( // Replaced ElevatedButton with ThemedElevatedButton
                         onPressed: () {
                           logger.i('Confirm button pressed');
                           context.read<OutfitWearBloc>().add(ConfirmOutfitCreation());
                         },
-                        child: Text(S.of(context).styleOn),
+                        text: S.of(context).styleOn, // Button text
                       ),
                     ),
                   ],

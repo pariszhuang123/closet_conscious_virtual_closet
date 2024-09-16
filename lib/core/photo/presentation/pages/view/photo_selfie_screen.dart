@@ -6,6 +6,7 @@ import '../../../../utilities/permission_service.dart';
 import '../../../../utilities/routes.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../widgets/progress_indicator/outfit_progress_indicator.dart';
+import '../../../../theme/my_outfit_theme.dart';  // Import your custom theme
 
 class PhotoSelfieScreen extends StatefulWidget {
   final CameraPermissionContext cameraContext;
@@ -113,51 +114,54 @@ class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindin
   Widget build(BuildContext context) {
     widget._logger.d('Building PhotoSelfieView'); // Log when the widget is built
 
-    return Scaffold(
-      body: BlocListener<PhotoBloc, PhotoState>(
-        listener: (context, state) {
-          if (state is CameraPermissionDenied) {
-            widget._logger.w('Camera permission denied');
-            _handleCameraPermission(context); // Delegate permission handling to CameraPermissionHelper
-          } else if (state is CameraPermissionGranted && !_cameraInitialized) {
-            widget._logger.i('Camera permission granted, ready to capture photo');
-            _handleCameraInitialized(); // Mark camera as initialized
-            if (widget.outfitId != null) {
-              context.read<PhotoBloc>().add(CaptureSelfiePhoto(widget.outfitId!));  // Use '!' to assert it's not null
-            } else {
-              widget._logger.e('Outfit ID is null. Cannot capture selfie.');
-              _navigateToWearOutfit(context);  // Handle the error by navigating back or showing a message
-            }
-          } else if (state is PhotoCaptureFailure) {
-            widget._logger.e('Photo capture failed');
-            _navigateToWearOutfit(context);
-          } else if (state is SelfieCaptureSuccess) {
-            widget._logger.i('Photo upload succeeded with outfitId: ${state.outfitId}');
-            _navigateToWearOutfit(context);
-          }
-        },
-        child: BlocBuilder<PhotoBloc, PhotoState>(
-          builder: (context, state) {
-            if (state is PhotoCaptureInProgress) {
-              widget._logger.d('Photo capture in progress');
-              return OutfitProgressIndicator(
-                color: Theme.of(context).colorScheme.primary,
-                size: 24.0,
-              );
+    return Theme(
+      data: myOutfitTheme, // Apply your custom theme here
+      child: Scaffold(
+        body: BlocListener<PhotoBloc, PhotoState>(
+          listener: (context, state) {
+            if (state is CameraPermissionDenied) {
+              widget._logger.w('Camera permission denied');
+              _handleCameraPermission(context);
             } else if (state is CameraPermissionGranted && !_cameraInitialized) {
-              widget._logger.d('Camera permission granted, capturing photo...');
-              return OutfitProgressIndicator(
-                color: Theme.of(context).colorScheme.primary,
-                size: 24.0,
-              );
-            } else {
-              widget._logger.d('Waiting for camera permission...');
-              return OutfitProgressIndicator(
-                color: Theme.of(context).colorScheme.primary,
-                size: 24.0,
-              );
+              widget._logger.i('Camera permission granted, ready to capture photo');
+              _handleCameraInitialized();
+              if (widget.outfitId != null) {
+                context.read<PhotoBloc>().add(CaptureSelfiePhoto(widget.outfitId!));
+              } else {
+                widget._logger.e('Outfit ID is null. Cannot capture selfie.');
+                _navigateToWearOutfit(context);
+              }
+            } else if (state is PhotoCaptureFailure) {
+              widget._logger.e('Photo capture failed');
+              _navigateToWearOutfit(context);
+            } else if (state is SelfieCaptureSuccess) {
+              widget._logger.i('Photo upload succeeded with outfitId: ${state.outfitId}');
+              _navigateToWearOutfit(context);
             }
           },
+          child: BlocBuilder<PhotoBloc, PhotoState>(
+            builder: (context, state) {
+              if (state is PhotoCaptureInProgress) {
+                widget._logger.d('Photo capture in progress');
+                return OutfitProgressIndicator(
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 24.0,
+                );
+              } else if (state is CameraPermissionGranted && !_cameraInitialized) {
+                widget._logger.d('Camera permission granted, capturing photo...');
+                return OutfitProgressIndicator(
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 24.0,
+                );
+              } else {
+                widget._logger.d('Waiting for camera permission...');
+                return OutfitProgressIndicator(
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 24.0,
+                );
+              }
+            },
+          ),
         ),
       ),
     );
