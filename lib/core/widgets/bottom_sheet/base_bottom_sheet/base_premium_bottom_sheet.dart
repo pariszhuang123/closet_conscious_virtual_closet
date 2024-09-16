@@ -5,6 +5,8 @@ import '../../../theme/my_closet_theme.dart';
 import '../../../theme/my_outfit_theme.dart';
 import '../../feedback/custom_alert_dialog.dart';
 import '../../../data/services/core_save_services.dart';
+import '../../../widgets/button/themed_elevated_button.dart'; // Import the ThemedElevatedButton
+
 
 class BasePremiumBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
@@ -40,18 +42,31 @@ class BasePremiumBottomSheetState extends State<BasePremiumBottomSheet> {
     });
 
     try {
-      final response = await coreSaveService.callSupabaseRpc(widget.rpcFunctionName);
+      final response = await coreSaveService.callSupabaseRpc(
+          widget.rpcFunctionName);
 
       if (!mounted) return;
 
       if (response['status'] == 'success') {
-        _showCustomDialog(S.of(context).thankYou, Text(S.of(context).interestAcknowledged));
+        _showCustomDialog(S
+            .of(context)
+            .thankYou, Text(S
+            .of(context)
+            .interestAcknowledged));
       } else {
-        _showCustomDialog(S.of(context).error, Text(S.of(context).unexpectedResponseFormat));
+        _showCustomDialog(S
+            .of(context)
+            .error, Text(S
+            .of(context)
+            .unexpectedResponseFormat));
       }
     } catch (e) {
       if (mounted) {
-        _showCustomDialog(S.of(context).error, Text(S.of(context).unexpectedErrorOccurred));
+        _showCustomDialog(S
+            .of(context)
+            .error, Text(S
+            .of(context)
+            .unexpectedErrorOccurred));
       }
     } finally {
       if (mounted) {
@@ -69,7 +84,9 @@ class BasePremiumBottomSheetState extends State<BasePremiumBottomSheet> {
         return CustomAlertDialog(
           title: title,
           content: content,
-          buttonText: S.of(context).ok,
+          buttonText: S
+              .of(context)
+              .ok,
           onPressed: () {
             Navigator.of(context).pop();
             Navigator.of(context).pop();
@@ -83,45 +100,48 @@ class BasePremiumBottomSheetState extends State<BasePremiumBottomSheet> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
-    ColorScheme colorScheme = theme.colorScheme;
 
-    return Container(
-      color: colorScheme.surface,
-      padding: const EdgeInsets.all(16.0),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Text(
-                    widget.title,
-                    style: theme.textTheme.titleMedium,
+    return Theme(
+      data: theme, // Wrap the widget tree with the selected theme
+      child: Container(
+        color: theme.colorScheme.surface,
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(
+                      widget.title,
+                      style: theme.textTheme.titleMedium,
+                    ),
                   ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.close, color: colorScheme.onSurface),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8.0),
-            Text(
-              widget.description,
-              style: theme.textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 16.0),
-            Center(
-              child: ElevatedButton(
-                onPressed: _isButtonDisabled ? null : _handleButtonPress,
-                style: theme.elevatedButtonTheme.style,
-                child: Text(S.of(context).interested, style: theme.textTheme.labelLarge),
+                  IconButton(
+                    icon: Icon(Icons.close, color: theme.colorScheme.onSurface),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: 8.0),
+              Text(
+                widget.description,
+                style: theme.textTheme.bodyMedium,
+              ),
+              const SizedBox(height: 16.0),
+              Center(
+                child: ThemedElevatedButton(
+                  onPressed: _isButtonDisabled ? null : _handleButtonPress,
+                  text: S
+                      .of(context)
+                      .interested,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
