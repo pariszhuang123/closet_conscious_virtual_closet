@@ -8,6 +8,7 @@ import '../../../core/utilities/logger.dart';
 import '../../../core/widgets/feedback/custom_alert_dialog.dart';
 import '../../../core/screens/achievement_completed_screen.dart';
 import '../../../core/data/services/core_save_services.dart';
+import '../../../core/widgets/button/themed_elevated_button.dart';
 
 class UploadConfirmationBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
@@ -24,22 +25,27 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
   late final CoreSaveService coreSaveService;
 
 
-  Future<void> _handleButtonPress() async {
+  void _handleButtonClick() {
+    // Handle button click state, disable button
     setState(() {
       _isButtonDisabled = true;
-      coreSaveService = CoreSaveService(); // Initialize without passing logger
     });
+
+    // Call the function to save the result
+    _saveAchievementBadge();
+  }
+
+  Future<void> _saveAchievementBadge() async {
+    coreSaveService = CoreSaveService(); // Initialize without passing logger
 
     try {
       final response = await coreSaveService.saveAchievementBadge('closet_uploaded'); // Use the service
 
       if (!mounted) return;
 
-      // Check if the response is a Map
       if (response != null && response['status'] == 'success') {
         final achievementUrl = response['badge_url'];
 
-        // Use null-aware access for achievementUrl
         if (achievementUrl != null) {
           _showAchievementScreen(context, achievementUrl);
         } else {
@@ -64,6 +70,7 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
       }
     }
   }
+
 
   void _showCustomDialog(String title, Widget content) {
     showDialog(
@@ -138,13 +145,11 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
               ),
               const SizedBox(height: 16.0),
               Center(
-                child: ElevatedButton(
-                  onPressed: _isButtonDisabled ? null : _handleButtonPress,
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: colorScheme.onPrimary,
-                    backgroundColor: colorScheme.primary,
-                  ),
-                  child: Text(S.of(context).confirmUpload, style: theme.textTheme.labelLarge),
+                child: ThemedElevatedButton(
+                  onPressed: _isButtonDisabled
+                      ? null
+                      : _handleButtonClick,
+                  text: S.of(context).confirmUpload,
                 ),
               ),
             ],

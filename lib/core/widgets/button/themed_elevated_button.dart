@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemedElevatedButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String text;
 
   const ThemedElevatedButton({
