@@ -50,10 +50,10 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `ClosetConscious`
+  /// `Closet\nConscious`
   String get AppName {
     return Intl.message(
-      'ClosetConscious',
+      'Closet\nConscious',
       name: 'AppName',
       desc: '',
       args: [],
@@ -80,20 +80,20 @@ class S {
     );
   }
 
-  /// `It looks like you’re offline. Let's reconnect and get back to making mindful choices!`
+  /// `We’re just taking a little break\nreconnect soon to keep styling sustainably!`
   String get noInternetMessage {
     return Intl.message(
-      'It looks like you’re offline. Let\'s reconnect and get back to making mindful choices!',
+      'We’re just taking a little break\nreconnect soon to keep styling sustainably!',
       name: 'noInternetMessage',
       desc: '',
       args: [],
     );
   }
 
-  /// `Still no connection—hang tight! We'll keep trying.`
+  /// `Still no connection, but your closet’s worth the wait!`
   String get noInternetSnackBar {
     return Intl.message(
-      'Still no connection—hang tight! We\'ll keep trying.',
+      'Still no connection, but your closet’s worth the wait!',
       name: 'noInternetSnackBar',
       desc: '',
       args: [],

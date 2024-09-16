@@ -212,10 +212,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "niche": MessageLookupByLibrary.simpleMessage("小众"),
         "noAchievementFound": MessageLookupByLibrary.simpleMessage("未找到成就徽章"),
         "noImage": MessageLookupByLibrary.simpleMessage("没有图片"),
-        "noInternetMessage": MessageLookupByLibrary.simpleMessage(
-            "看起来您处于离线状态。让我们重新连接，一起继续做出环保的选择吧！"),
+        "noInternetMessage":
+            MessageLookupByLibrary.simpleMessage("我们暂时休息一下\n稍后重新连接，继续可持续时尚之旅！"),
         "noInternetSnackBar":
-            MessageLookupByLibrary.simpleMessage("还没有连接上—请稍等，我们还在努力。"),
+            MessageLookupByLibrary.simpleMessage("仍然没有连接，但您的衣橱值得等待！"),
         "noInternetTitle": MessageLookupByLibrary.simpleMessage("哎呀，网络连接中断了！"),
         "noItemsFound": MessageLookupByLibrary.simpleMessage("未找到物品"),
         "noItemsInCategory":

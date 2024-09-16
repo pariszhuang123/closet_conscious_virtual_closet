@@ -29,7 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "AmountLabel": MessageLookupByLibrary.simpleMessage("Amount"),
         "AnalyticsSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Interested in Usage Analytics?"),
-        "AppName": MessageLookupByLibrary.simpleMessage("ClosetConscious"),
+        "AppName": MessageLookupByLibrary.simpleMessage("Closet\nConscious"),
         "ItemClothingLayerLabel":
             MessageLookupByLibrary.simpleMessage("Clothing Layer"),
         "ItemClothingTypeLabel":
@@ -243,9 +243,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No achievement badges found"),
         "noImage": MessageLookupByLibrary.simpleMessage("No Image"),
         "noInternetMessage": MessageLookupByLibrary.simpleMessage(
-            "It looks like you’re offline. Let\'s reconnect and get back to making mindful choices!"),
+            "We’re just taking a little break\nreconnect soon to keep styling sustainably!"),
         "noInternetSnackBar": MessageLookupByLibrary.simpleMessage(
-            "Still no connection—hang tight! We\'ll keep trying."),
+            "Still no connection, but your closet’s worth the wait!"),
         "noInternetTitle":
             MessageLookupByLibrary.simpleMessage("Oops, No Connection!"),
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),

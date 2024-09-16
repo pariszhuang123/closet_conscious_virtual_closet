@@ -1,10 +1,10 @@
 {
   "@@locale": "en",
-  "AppName": "ClosetConscious",
+  "AppName": "Closet\nConscious",
   "tagline": "ShopYourCloset",
   "noInternetTitle" : "Oops, No Connection!",
-  "noInternetMessage" : "It looks like you’re offline. Let's reconnect and get back to making mindful choices!",
-  "noInternetSnackBar" : "Still no connection—hang tight! We'll keep trying.",
+  "noInternetMessage" : "We’re just taking a little break\nReconnect soon to keep styling sustainably!",
+  "noInternetSnackBar" : "Still no connection, but your closet’s worth the wait!",
   "retryConnection" : "Retry",
   "ItemNameLabel" : "Name",
   "ItemNameHint" : "'What is the name of your item?",
