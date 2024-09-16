@@ -17,8 +17,12 @@ class ThemedElevatedButton extends StatelessWidget {
 
     // Customize the button style based on the theme
     final buttonStyle = ElevatedButton.styleFrom(
-      foregroundColor: theme.colorScheme.onPrimary,
-      backgroundColor: theme.colorScheme.primary, // Text color
+      foregroundColor: onPressed != null
+          ? theme.colorScheme.onPrimary
+          : theme.disabledColor,
+      backgroundColor: onPressed != null
+          ? theme.colorScheme.primary
+          : theme.colorScheme.onSurface.withOpacity(0.12),
       textStyle: theme.textTheme.labelLarge, // Text style
     );
 

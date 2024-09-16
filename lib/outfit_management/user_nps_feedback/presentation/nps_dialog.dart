@@ -11,6 +11,8 @@ import '../../../core/widgets/feedback/custom_alert_dialog.dart';
 import '../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../generated/l10n.dart';
 import '../../../core/utilities/routes.dart';
+import '../../../core/widgets/button/themed_elevated_button.dart';
+
 
 class NpsDialog extends StatelessWidget {
   final int milestone;
@@ -101,13 +103,9 @@ class NpsDialog extends StatelessWidget {
               ),
               itemCount: 11, // Fixed number of buttons
               itemBuilder: (context, index) {
-                return ElevatedButton(
+                return ThemedElevatedButton( // Use ThemedElevatedButton here
                   onPressed: () => _sendNpsScore(context, index),
-                  style: myOutfitTheme.elevatedButtonTheme.style,
-                  child: Text(
-                    index.toString(),
-                    style: myOutfitTheme.textTheme.labelLarge,
-                  ),
+                  text: index.toString(), // Pass the index as text
                 );
               },
             ),
