@@ -22,8 +22,8 @@ class ThemedSvg extends StatelessWidget {
     required this.isSelected,
     required this.buttonType,
     required this.usePredefinedColor,
-    this.width = 30,
-    this.height = 30,
+    this.width = 25,
+    this.height = 25,
   });
 
   @override

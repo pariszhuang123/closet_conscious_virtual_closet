@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../utilities/permission_service.dart';
-import '../../../widgets/permission_dialogs/settings_dialog.dart';
+import '../../../widgets/dialog/settings_dialog.dart';
 import '../../../utilities/logger.dart'; // Import CustomLogger
 
 class CameraPermissionHelper {
