@@ -73,27 +73,11 @@ class AppDrawer extends StatelessWidget {
                   _buildNavigationButton(
                       context, contactUsItem, null, (ctx) => launchEmail(context, EmailType.support)),
                   _buildVerticalSpacing(),
-                  BlocListener<AuthBloc, AuthState>(
-                    listener: (context, state) {
-                      if (state is Unauthenticated) {
-                        logger.i('User logged out. Redirecting to home screen.');
-                        Navigator.of(context).pushReplacementNamed('/');
-                      }
-                    },
-                    child: _buildNavigationButton(
-                        context, deleteAccountItem, null, _showDeleteAccountDialog),
-                  ),
+                  _buildNavigationButton(
+                      context, deleteAccountItem, null, _showDeleteAccountDialog), // Delete account button
                   _buildVerticalSpacing(),
-                  BlocListener<AuthBloc, AuthState>(
-                    listener: (context, state) {
-                      if (state is Unauthenticated) {
-                        logger.i('User logged out. Redirecting to home screen.');
-                        Navigator.of(context).pushReplacementNamed('/');
-                      }
-                    },
-                    child: _buildNavigationButton(
-                        context, logOutItem, null, _logOut),
-                  ),
+                  _buildNavigationButton(
+                      context, logOutItem, null, _logOut), // Normal log out button
                 ],
               ),
             ),
@@ -257,6 +241,7 @@ class AppDrawer extends StatelessWidget {
 
   void _logOut(BuildContext context) {
     logger.i('Logging out');
+    Navigator.of(context).pop(); // Close the drawer
     context.read<AuthBloc>().add(SignOutEvent());
   }
 }

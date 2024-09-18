@@ -38,7 +38,7 @@ class AuthWrapperState extends State<AuthWrapper> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (currentRoute != AppRoutes.login) {
               logger.i('Performing navigation to login screen');
-              Navigator.of(context).pushReplacementNamed(AppRoutes.login);
+              Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.login, (route) =>false);
             }
           });
         } else if (state is Authenticated) {
