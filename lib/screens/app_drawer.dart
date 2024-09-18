@@ -12,8 +12,8 @@ import '../core/utilities/routes.dart';
 import '../user_management/achievements/data/models/achievements_page_argument.dart';
 import '../core/utilities/launch_email.dart';
 import '../core/data/models/arguments.dart';
-import '../core/widgets/feedback/custom_alert_dialog.dart';
 import '../user_management/core/data/services/user_save_service.dart';
+import '../core/widgets/dialog/delete_account_dialog.dart';
 
 class AppDrawer extends StatelessWidget {
   final bool isFromMyCloset;
@@ -178,32 +178,8 @@ class AppDrawer extends StatelessWidget {
       context: context,
       barrierDismissible: false, // Prevent closing by tapping outside
       builder: (BuildContext dialogContext) { // Separate context for the dialog
-        return CustomAlertDialog(
-          title: S.of(context).deleteAccountTitle,
-          content: RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: S.of(context).deleteAccountImpact,
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyLarge?.color,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const WidgetSpan(
-                  child: SizedBox(width: 10),
-                ),
-                TextSpan(
-                  text: S.of(context).deleteAccountConfirmation,
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyMedium?.color,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          buttonText: S.of(context).delete,
-          onPressed: ()  {
+        return DeleteAccountDialog(
+          onDelete: () {
             logger.i('Attempting to delete user account');
 
             userSaveService.notifyDeleteUserAccount().then((response) {
@@ -221,18 +197,15 @@ class AppDrawer extends StatelessWidget {
 
             // Immediately log out the user
             authBloc.add(SignOutEvent());
+
             // Navigate to login and clear the navigation stack
             Future.delayed(const Duration(milliseconds: 100), () {
-              // Navigate to login and clear the navigation stack
               navigator.pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
             });
-
           },
-          theme: Theme.of(context), // Pass the current theme
-          iconButton: IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () => Navigator.pop(dialogContext), // Close using dialogContext
-          ),
+          onClose: () {
+            Navigator.pop(dialogContext); // Close using dialogContext
+          },
         );
       },
     );
