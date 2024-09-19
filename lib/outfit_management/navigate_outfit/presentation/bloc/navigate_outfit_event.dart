@@ -52,3 +52,13 @@ class FetchAndSaveNoBuyMilestoneAchievementEvent extends NavigateOutfitEvent {
   @override
   List<Object?> get props => [];
 }
+
+class CheckOutfitCreationAccessEvent extends NavigateOutfitEvent {
+
+  const CheckOutfitCreationAccessEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+

@@ -23,6 +23,8 @@ class NavigateOutfitBloc extends Bloc<NavigateOutfitEvent, NavigateOutfitState> 
     on<TriggerNpsSurveyEvent>(_onTriggerNpsSurvey);
     on<FetchAndSaveClothingWornAchievementEvent>(_onFetchAndSaveClothingWornAchievement);
     on<FetchAndSaveNoBuyMilestoneAchievementEvent>(_onFetchAndSaveNoBuyMilestoneAchievement);
+    on<CheckOutfitCreationAccessEvent>(_onCheckOutfitCreationAccess); // Add event handler
+
   }
 
   Future<void> _onCheckNavigationToReview(
@@ -111,6 +113,22 @@ class NavigateOutfitBloc extends Bloc<NavigateOutfitEvent, NavigateOutfitState> 
       }
     } catch (error) {
       logger.e('Error fetching achievement milestone: $error');
+    }
+  }
+  Future<void> _onCheckOutfitCreationAccess(
+      CheckOutfitCreationAccessEvent event,
+      Emitter<NavigateOutfitState> emit) async {
+
+    try {
+      bool canCreateOutfit = await outfitFetchService.checkOutfitAccess(); // Use service to check access
+      if (canCreateOutfit) {
+        emit(OutfitAccessGrantedState());
+      } else {
+        emit(OutfitAccessDeniedState());
+      }
+    } catch (error) {
+      logger.e('Error checking outfit access: $error');
+      emit(const OutfitAccessErrorState('Failed to check outfit access.'));
     }
   }
 

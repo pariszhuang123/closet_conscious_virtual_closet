@@ -153,6 +153,17 @@ class OutfitFetchService {
       return null;
     }
   }
+  Future<bool> checkOutfitAccess() async {
+    final result = await client.rpc('check_user_access_to_create_outfit');
+
+    if (result.error != null) {
+      // Log or handle the error accordingly
+      throw Exception('Error checking access: ${result.error.message}');
+    } else {
+      return result.data as bool; // Return the result directly
+    }
+  }
+
 }
 
 class OutfitFetchException implements Exception {
