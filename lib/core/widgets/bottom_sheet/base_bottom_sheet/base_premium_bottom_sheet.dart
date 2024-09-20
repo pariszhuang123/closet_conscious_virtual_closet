@@ -80,6 +80,7 @@ class BasePremiumBottomSheetState extends State<BasePremiumBottomSheet> {
   void _showCustomDialog(String title, Widget content) {
     showDialog(
       context: context,
+      barrierDismissible: false, // Prevents dismissal by clicking outside
       builder: (BuildContext context) {
         return CustomAlertDialog(
           title: title,

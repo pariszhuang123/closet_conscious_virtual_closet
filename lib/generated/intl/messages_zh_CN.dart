@@ -259,7 +259,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "numberOfNewItems": MessageLookupByLibrary.simpleMessage("您购买的新物品数量"),
         "occasionFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("场合字段未填写。"),
-        "ok": MessageLookupByLibrary.simpleMessage("有兴趣"),
+        "ok": MessageLookupByLibrary.simpleMessage("好的"),
         "onePiece": MessageLookupByLibrary.simpleMessage("连衣裙"),
         "open_settings": MessageLookupByLibrary.simpleMessage("打开设置"),
         "other": MessageLookupByLibrary.simpleMessage("杂项"),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../button/themed_elevated_button.dart';
 
 class CustomAlertDialog extends StatelessWidget {
   final String title;
@@ -47,9 +48,9 @@ class CustomAlertDialog extends StatelessWidget {
         content: content,
         actions: buttonText != null && onPressed != null
             ? [
-          TextButton(
+          ThemedElevatedButton(
             onPressed: onPressed,
-            child: Text(buttonText!),
+            text: buttonText!, // Pass the button text here
           ),
         ]
             : null, // No button if buttonText or onPressed is null

@@ -243,7 +243,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No achievement badges found"),
         "noImage": MessageLookupByLibrary.simpleMessage("No Image"),
         "noInternetMessage": MessageLookupByLibrary.simpleMessage(
-            "We’re just taking a little break\nreconnect soon to keep styling sustainably!"),
+            "We’re just taking a little break\nReconnect soon to keep styling sustainably!"),
         "noInternetSnackBar": MessageLookupByLibrary.simpleMessage(
             "Still no connection, but your closet’s worth the wait!"),
         "noInternetTitle":
@@ -285,7 +285,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Number of new items you have purchased"),
         "occasionFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Occasion field is not filled."),
-        "ok": MessageLookupByLibrary.simpleMessage("Interested"),
+        "ok": MessageLookupByLibrary.simpleMessage("ok"),
         "onePiece": MessageLookupByLibrary.simpleMessage("One Piece"),
         "open_settings": MessageLookupByLibrary.simpleMessage("Open Settings"),
         "other": MessageLookupByLibrary.simpleMessage("Misc"),

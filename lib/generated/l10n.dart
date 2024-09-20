@@ -80,10 +80,10 @@ class S {
     );
   }
 
-  /// `We’re just taking a little break\nreconnect soon to keep styling sustainably!`
+  /// `We’re just taking a little break\nReconnect soon to keep styling sustainably!`
   String get noInternetMessage {
     return Intl.message(
-      'We’re just taking a little break\nreconnect soon to keep styling sustainably!',
+      'We’re just taking a little break\nReconnect soon to keep styling sustainably!',
       name: 'noInternetMessage',
       desc: '',
       args: [],
@@ -1760,10 +1760,10 @@ class S {
     );
   }
 
-  /// `Interested`
+  /// `ok`
   String get ok {
     return Intl.message(
-      'Interested',
+      'ok',
       name: 'ok',
       desc: '',
       args: [],

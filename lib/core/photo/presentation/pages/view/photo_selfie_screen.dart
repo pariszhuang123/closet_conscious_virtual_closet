@@ -11,7 +11,7 @@ import '../../../../theme/my_outfit_theme.dart';  // Import your custom theme
 class PhotoSelfieScreen extends StatefulWidget {
   final CameraPermissionContext cameraContext;
   final String? outfitId;
-  final CustomLogger _logger = CustomLogger('PhotoSelfieView');
+  final CustomLogger _logger = CustomLogger('PhotoSelfieScreen');
 
   // Constructor accepting the context (either item or selfie)
   PhotoSelfieScreen({

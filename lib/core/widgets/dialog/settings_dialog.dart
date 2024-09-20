@@ -21,7 +21,7 @@ class SettingsDialog {
           Text(explanation), // Dynamic explanation based on permission type
           const SizedBox(height: 16.0),
           Align(
-            alignment: Alignment.centerRight,
+            alignment: Alignment.center,
             child: ThemedElevatedButton( // Use ThemedElevatedButton here
               onPressed: () {
                 openAppSettings();

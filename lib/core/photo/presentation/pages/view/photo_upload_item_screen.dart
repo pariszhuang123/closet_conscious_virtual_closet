@@ -9,7 +9,7 @@ import '../../../../widgets/progress_indicator/closet_progress_indicator.dart';
 
 class PhotoUploadItemScreen extends StatefulWidget {
   final CameraPermissionContext cameraContext;
-  final CustomLogger _logger = CustomLogger('PhotoUploadItemView'); // Instantiate the logger
+  final CustomLogger _logger = CustomLogger('PhotoUploadItemScreen'); // Instantiate the logger
 
   // Constructor accepting the context (either item or selfie)
   PhotoUploadItemScreen({super.key, required this.cameraContext});
