@@ -273,7 +273,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("您的穿搭评论已成功提交！"),
         "outfitReviewTitle": MessageLookupByLibrary.simpleMessage("穿搭评论已提交"),
         "outfits_upload": MessageLookupByLibrary.simpleMessage("显示您上传的装扮数量"),
-        "perfume": MessageLookupByLibrary.simpleMessage("香水"),
+        "perfume": MessageLookupByLibrary.simpleMessage("化妆品"),
         "permission_needed":
             MessageLookupByLibrary.simpleMessage("应用需要此权限才能正常运行。"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),

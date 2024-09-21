@@ -530,10 +530,10 @@ class S {
     );
   }
 
-  /// `Perfume`
+  /// `Cosmetic`
   String get perfume {
     return Intl.message(
-      'Perfume',
+      'Cosmetic',
       name: 'perfume',
       desc: '',
       args: [],

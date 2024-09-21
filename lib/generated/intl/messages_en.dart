@@ -301,7 +301,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Outfit Review Submitted"),
         "outfits_upload": MessageLookupByLibrary.simpleMessage(
             "This shows the number of outfits you have uploaded"),
-        "perfume": MessageLookupByLibrary.simpleMessage("Perfume"),
+        "perfume": MessageLookupByLibrary.simpleMessage("Cosmetic"),
         "permission_needed": MessageLookupByLibrary.simpleMessage(
             "This permission is required for the app to function properly."),
         "pleaseEnterItemName":
