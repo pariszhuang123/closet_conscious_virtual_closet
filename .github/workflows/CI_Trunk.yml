@@ -150,6 +150,15 @@ jobs:
         with:
           fetch-depth: 0  # Ensures we get the full Git history, including tags
 
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17.0.9'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+
       # Fetch Git tags and determine versionCode and versionName
       - name: Set Version Code and Version Name
         id: versioning

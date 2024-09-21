@@ -48,8 +48,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.closetconscious"
-        minSdkVersion 26
-        targetSdkVersion 33
+        minSdkVersion 27
+        targetSdkVersion 34
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
