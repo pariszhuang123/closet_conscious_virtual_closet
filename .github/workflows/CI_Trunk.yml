@@ -154,10 +154,49 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17.0.9'
-
+          sdk: 'stable'
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.24.0'
+
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .flutter-plugins
+            .flutter-plugins-dependencies
+            build/
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}-${{ github.run_number }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
+      - name: Setup key.properties for production
+        run: |
+          mkdir -p app
+          echo "prodStoreFile=android/app/prod_keystore.jks" > android/app/key.properties
+          echo "prodKeyAlias=${{ secrets.PROD_KEY_ALIAS }}" >> android/key.properties
+          echo "prodStorePassword=${{ secrets.PROD_STORE_PASSWORD }}" >> android/key.properties
+          echo "prodKeyPassword=${{ secrets.PROD_KEY_PASSWORD }}" >> android/key.properties
+          echo "${{ secrets.PROD_KEYSTORE_BASE64 }}" | base64 --decode > android/app/prod_keystore.jks
+
+      - name: Create app_config_prod.json
+        run: |
+          mkdir -p config
+          echo '{
+            "SUPABASE_URL": "${{ secrets.SUPABASE_URL }}",
+            "SUPABASE_ANON_KEY": "${{ secrets.SUPABASE_ANON_KEY }}",
+            "SUPABASE_SERVICE_ROLE_KEY": "${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}",
+            "webClientId": "${{ secrets.WEB_CLIENT_ID }}",
+            "iosClientId": "${{ secrets.IOS_CLIENT_ID }}"
+          }' > config/app_config_prod.json
+
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Run linting and static analysis
+        run: flutter analyze
+      - name: Run tests
+        run: flutter test
 
       # Fetch Git tags and determine versionCode and versionName
       - name: Set Version Code and Version Name
@@ -175,11 +214,6 @@ jobs:
           # Set these values as environment variables for later steps
           echo "VERSION_CODE=$versionCode" >> $GITHUB_ENV
           echo "VERSION_NAME=$versionName" >> $GITHUB_ENV
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.24.0'
 
       # Use the versionName and versionCode in the Flutter build command
       - name: Build AAB for production
