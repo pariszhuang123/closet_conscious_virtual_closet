@@ -153,11 +153,15 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17.0.9'
-          sdk: 'stable'
+          java-version: '17.0.9'  # Correct setup for Java, no sdk needed
+
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.0'  # Correct setup for Flutter
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 'stable'  # Correct setup for Dart
 
       - name: Cache Flutter dependencies
         uses: actions/cache@v4
@@ -193,35 +197,27 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+
       - name: Run linting and static analysis
         run: flutter analyze
+
       - name: Run tests
         run: flutter test
 
-      # Fetch Git tags and determine versionCode and versionName
       - name: Set Version Code and Version Name
         id: versioning
         run: |
-          # Fetch all tags from the remote
           git fetch --tags
-  
-          # Extract the latest tag (e.g., v1.0.0)
           versionName=$(git describe --tags --abbrev=0 || echo "1.0.0")
-  
-          # Use the total number of commits since the latest tag as the versionCode
           versionCode=$(git rev-list --count HEAD)
-  
-          # Set these values as environment variables for later steps
           echo "VERSION_CODE=$versionCode" >> $GITHUB_ENV
           echo "VERSION_NAME=$versionName" >> $GITHUB_ENV
 
-      # Use the versionName and versionCode in the Flutter build command
       - name: Build AAB for production
         run: |
           flutter build appbundle --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV \
           --build-name=$VERSION_NAME --build-number=$VERSION_CODE
 
-      # Upload the built AAB as an artifact
       - name: Upload production AAB
         uses: actions/upload-artifact@v4
         with:
