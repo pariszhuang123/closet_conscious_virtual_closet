@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'base/user_photo.dart';
+import '../../../core_enums.dart';
 
 class EnhancedUserPhoto extends StatelessWidget {
   final String imageUrl;
@@ -8,6 +9,7 @@ class EnhancedUserPhoto extends StatelessWidget {
   final VoidCallback onPressed;
   final String itemName;
   final String itemId;
+  final ImageSize imageSize;
 
   const EnhancedUserPhoto({
     super.key,
@@ -17,6 +19,7 @@ class EnhancedUserPhoto extends StatelessWidget {
     required this.onPressed,
     required this.itemName,
     required this.itemId,
+    required this.imageSize,
   });
 
   @override
@@ -41,7 +44,9 @@ class EnhancedUserPhoto extends StatelessWidget {
               padding: const EdgeInsets.all(2.0),
               child: AspectRatio(
                 aspectRatio: 1.0, // Ensures the image is square
-                child: UserPhoto(imageUrl: imageUrl),
+                child: UserPhoto(
+                  imageUrl: imageUrl,
+                  imageSize: imageSize,),
               ),
             ),
             const SizedBox(height: 8.0),

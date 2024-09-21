@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/photo/presentation/widgets/image_display_widget.dart';
+import '../../../core/user_photo/presentation/widgets/image_display_widget.dart';
 import '../../../core/utilities/routes.dart';
 import '../../../generated/l10n.dart';
 import '../presentation/bloc/upload_item_bloc.dart';

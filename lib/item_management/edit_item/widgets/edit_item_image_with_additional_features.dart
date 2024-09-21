@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/widgets/button/navigation_type_button.dart';
-import '../../../core/photo/presentation/widgets/image_display_widget.dart';
+import '../../../core/user_photo/presentation/widgets/image_display_widget.dart';
 import '../../../core/theme/themed_svg.dart';
 
 class EditItemImageWithAdditionalFeatures extends StatelessWidget {

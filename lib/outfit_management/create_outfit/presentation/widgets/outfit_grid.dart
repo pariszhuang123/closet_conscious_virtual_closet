@@ -4,8 +4,9 @@ import '../../../../core/utilities/logger.dart';
 import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
 import '../../../../core/widgets/layout/base_grid.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
-import '../../../../core/photo/presentation/widgets/user_photo/enhanced_user_photo.dart';
+import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../core/core_enums.dart';
 
 class OutfitGrid extends StatelessWidget {
   final ScrollController scrollController;
@@ -51,6 +52,7 @@ class OutfitGrid extends StatelessWidget {
 
                 return EnhancedUserPhoto(
                   imageUrl: item.imageUrl,
+                  imageSize: ImageSize.itemGrid3,
                   isSelected: isSelected,
                   isDisliked: false,
                   onPressed: () {

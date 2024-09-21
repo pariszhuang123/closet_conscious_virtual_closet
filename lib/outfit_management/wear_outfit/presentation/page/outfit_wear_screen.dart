@@ -6,8 +6,8 @@ import '../../../../core/utilities/logger.dart';
 import '../../../../core/utilities/routes.dart';
 import '../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../core/widgets/layout/base_grid.dart';
-import '../../../../core/photo/presentation/widgets/user_photo/enhanced_user_photo.dart';
-import '../../../../core/photo/presentation/widgets/user_photo/base/user_photo.dart';
+import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
+import '../../../../core/user_photo/presentation/widgets/base/user_photo.dart';
 import '../../../../core/widgets/bottom_sheet/premium_bottom_sheet/share_premium_bottom_sheet.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../generated/l10n.dart';
@@ -18,6 +18,7 @@ import '../../../../core/theme/themed_svg.dart';
 import '../widget/outfit_creation_success_dialog.dart';
 import '../../../../core/theme/my_outfit_theme.dart';
 import '../../../../core/widgets/button/themed_elevated_button.dart';
+import '../../../../core/core_enums.dart';
 
 
 class OutfitWearScreen extends StatefulWidget {
@@ -135,6 +136,7 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
                             return Center(
                               child: UserPhoto(
                                 imageUrl: outfitImageUrl,
+                                imageSize: ImageSize.selfie,
                               ),
                             );
                           } else if (state is OutfitWearLoaded) {
@@ -146,6 +148,7 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
                               itemBuilder: (context, item, index) {
                                 return EnhancedUserPhoto(
                                   imageUrl: item.imageUrl,
+                                  imageSize: ImageSize.itemGrid3,
                                   isSelected: false,
                                   isDisliked: item.isDisliked,
                                   onPressed: () {},

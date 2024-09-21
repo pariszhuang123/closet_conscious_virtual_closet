@@ -5,7 +5,7 @@ import '../../../../core/utilities/routes.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../core/widgets/layout/base_grid.dart';
-import '../../../../core/photo/presentation/widgets/user_photo/enhanced_user_photo.dart';
+import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/widgets/container/logo_text_container.dart';
 import '../../../../core/theme/themed_svg.dart';
@@ -14,9 +14,11 @@ import '../widgets/outfit_review_container.dart';
 import '../widgets/comment_field.dart';
 import '../../../../core/data/type_data.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
-import '../../../../core/photo/presentation/widgets/user_photo/base/user_photo.dart';
+import '../../../../core/user_photo/presentation/widgets/base/user_photo.dart';
 import '../widgets/outfit_review_custom_dialogue.dart';
 import '../../../../core/widgets/feedback/custom_snack_bar.dart';
+import '../../../../core/core_enums.dart';
+
 
 class OutfitReviewScreen extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -155,6 +157,7 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                                       padding: const EdgeInsets.all(4.0),
                                       child: EnhancedUserPhoto(
                                         imageUrl: item.imageUrl,
+                                        imageSize: ImageSize.itemGrid3,
                                         isSelected: false,
                                         isDisliked: item.isDisliked,
                                         onPressed: () {
@@ -198,6 +201,7 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                             child: Center(
                               child: UserPhoto(
                                 imageUrl: outfitImageUrl,
+                                imageSize: ImageSize.selfie,
                               ),
                             ),
                           ),
