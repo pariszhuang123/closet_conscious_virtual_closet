@@ -1,4 +1,4 @@
-package com.example.closetconscious
+package com.makinglifeeasie.closetconscious
 
 import io.flutter.embedding.android.FlutterActivity
 
