@@ -11,21 +11,22 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
-
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
+
+// Define the major and minor version manually
+def majorVersion = 1
+def minorVersion = 0  // You can manually update this for each release
+
+// Get the build number from the environment variable (set in GitHub Actions)
+def buildNumber = System.getenv("BUILD_NUMBER") ?: '1'
+
+// Create the version name using major, minor, and build numbers
+def buildVersionName = "${majorVersion}.${minorVersion}.${buildNumber}"
 
 android {
 
@@ -50,9 +51,8 @@ android {
         applicationId "com.example.closetconscious"
         minSdkVersion 27
         targetSdkVersion 34
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode buildNumber.toInteger()  // Automatically use build number for versionCode
+        versionName buildVersionName         // Version name format: "1.0.123"
     }
     flavorDimensions "default"
 
@@ -99,6 +99,7 @@ android {
 
     }
 }
+
 
 flutter {
     source '../..'

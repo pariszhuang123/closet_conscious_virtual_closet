@@ -1,0 +1,45 @@
+default_platform(:android)
+
+platform :android do
+  desc "Deploy to internal testing track"
+  lane :deploy_internal do
+    gradle(
+      task: "bundle",                 # Use 'bundle' to build AAB instead of APK
+      build_type: "Release"
+    )
+    upload_to_play_store(
+      track: "internal",
+      aab: "./build/app/outputs/bundle/prodRelease/app-prod-release.aab",  # Path to your AAB
+      json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+      package_name: "com.example.closetconscious"
+    )
+  end
+
+
+  desc "Promote to closed testing track"
+  lane :promote_to_closed do
+    upload_to_play_store(
+      track: "closed",
+      json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+      package_name: "com.example.closetconscious"
+    )
+  end
+
+  desc "Promote to open testing track"
+  lane :promote_to_open do
+    upload_to_play_store(
+      track: "open",
+      json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+      package_name: "com.example.closetconscious"
+    )
+  end
+
+  desc "Deploy to production"
+  lane :promote_to_production do
+    upload_to_play_store(
+      track: "production",
+      json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+      package_name: "com.example.closetconscious"
+    )
+  end
+end

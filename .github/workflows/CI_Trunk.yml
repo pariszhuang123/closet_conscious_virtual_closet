@@ -100,8 +100,16 @@ jobs:
       - name: Run unit and widget tests
         run: flutter test
 
+      - name: Set Build Number
+        id: versioning
+        run: |
+          # Get the number of commits to use as the build number
+          versionCode=$(git rev-list --count HEAD)
+          echo "BUILD_NUMBER=$versionCode" >> $GITHUB_ENV
+
       - name: Build APK for development
-        run: flutter build apk --debug --flavor dev --target=lib/main_dev.dart --dart-define=ENV=$ENV --target-platform android-arm64
+        run: flutter build apk --debug --flavor dev --target=lib/main_dev.dart --dart-define=ENV=$ENV \
+          --build-number=$BUILD_NUMBER --target-platform android-arm64
 
       - name: Upload development APK
         uses: actions/upload-artifact@v4
@@ -204,19 +212,17 @@ jobs:
       - name: Run tests
         run: flutter test
 
-      - name: Set Version Code and Version Name
+      - name: Set Build Number
         id: versioning
         run: |
-          git fetch --tags
-          versionName=$(git describe --tags --abbrev=0 || echo "1.0.0")
+          # Get the number of commits to use as the build number
           versionCode=$(git rev-list --count HEAD)
-          echo "VERSION_CODE=$versionCode" >> $GITHUB_ENV
-          echo "VERSION_NAME=$versionName" >> $GITHUB_ENV
+          echo "BUILD_NUMBER=$versionCode" >> $GITHUB_ENV
 
       - name: Build AAB for production
         run: |
           flutter build appbundle --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV \
-          --build-name=$VERSION_NAME --build-number=$VERSION_CODE
+          --build-number=$BUILD_NUMBER
 
       - name: Upload production AAB
         uses: actions/upload-artifact@v4
