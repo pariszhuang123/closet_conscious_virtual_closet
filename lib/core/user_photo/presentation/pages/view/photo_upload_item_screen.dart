@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/photo_bloc.dart';
 import '../../widgets/camera_permission_helper.dart';
-import '../../../../utilities/permission_service.dart';
+import '../../../../core_enums.dart';
 import '../../../../utilities/routes.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../widgets/progress_indicator/closet_progress_indicator.dart';

@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../core/data/models/outfit_item_minimal.dart';
+import '../../../core/outfit_enums.dart';
 import '../../../../user_management/user_service_locator.dart';
 import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../core/data/services/outfits_fetch_service.dart';
@@ -10,8 +11,6 @@ import '../../../../core/utilities/logger.dart';
 
 part 'outfit_review_state.dart';
 part 'outfit_review_event.dart';
-
-enum OutfitReviewFeedback { like, dislike, alright }
 
 // Helper function to convert feedback enum to string
 String convertFeedbackToString(OutfitReviewFeedback feedback) {

@@ -3,8 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'my_closet_theme.dart';
 import 'my_outfit_theme.dart';
 import '../widgets/button/base_button/button_utility.dart';
-
-enum ButtonType { primary, secondary }
+import '../core_enums.dart';
 
 class ThemedSvg extends StatelessWidget {
   final String assetName;

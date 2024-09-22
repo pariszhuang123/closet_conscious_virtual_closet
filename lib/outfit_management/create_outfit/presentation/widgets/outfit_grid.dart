@@ -7,6 +7,7 @@ import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/core_enums.dart';
+import '../../../core/outfit_enums.dart';
 
 class OutfitGrid extends StatelessWidget {
   final ScrollController scrollController;

@@ -7,6 +7,8 @@ import 'package:closet_conscious/item_management/core/data/models/closet_item_mi
 import 'package:closet_conscious/outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
 import 'package:closet_conscious/outfit_management/core/data/services/outfits_fetch_service.dart';
 import 'package:closet_conscious/outfit_management/core/data/services/outfits_save_service.dart';
+import 'package:closet_conscious/outfit_management/core/outfit_enums.dart';
+
 
 class MockOutfitFetchService extends Mock implements OutfitFetchService {}
 

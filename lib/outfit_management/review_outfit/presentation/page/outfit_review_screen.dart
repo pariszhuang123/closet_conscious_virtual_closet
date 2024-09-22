@@ -8,7 +8,6 @@ import '../../../../core/widgets/layout/base_grid.dart';
 import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/widgets/container/logo_text_container.dart';
-import '../../../../core/theme/themed_svg.dart';
 import '../bloc/outfit_review_bloc.dart';
 import '../widgets/outfit_review_container.dart';
 import '../widgets/comment_field.dart';
@@ -18,6 +17,7 @@ import '../../../../core/user_photo/presentation/widgets/base/user_photo.dart';
 import '../widgets/outfit_review_custom_dialogue.dart';
 import '../../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../../core/core_enums.dart';
+import '../../../core/outfit_enums.dart';
 
 
 class OutfitReviewScreen extends StatefulWidget {

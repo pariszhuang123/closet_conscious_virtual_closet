@@ -2,8 +2,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'logger.dart';
 import 'package:flutter/material.dart';
 import '../../generated/l10n.dart';
+import '../../core/core_enums.dart';
 
-enum EmailType { support, npsReview }
 
 void launchEmail(BuildContext context, EmailType emailType) async {
   final CustomLogger logger = CustomLogger('EmailLauncher');

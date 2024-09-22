@@ -13,7 +13,7 @@ import '../../core/data/models/arguments.dart';
 import '../../outfit_management/review_outfit/presentation/page/outfit_review_provider.dart';
 import '../../outfit_management/wear_outfit/presentation/page/outfit_wear_provider.dart';
 import '../user_photo/presentation/pages/photo_provider.dart';
-import 'permission_service.dart';
+import '../core_enums.dart';
 import 'logger.dart';
 
 class AppRoutes {

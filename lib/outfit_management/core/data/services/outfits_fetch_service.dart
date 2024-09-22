@@ -2,7 +2,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../../core/utilities/logger.dart';
-import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
+import '../../../core/outfit_enums.dart';
 
 class OutfitFetchService {
   final SupabaseClient client;

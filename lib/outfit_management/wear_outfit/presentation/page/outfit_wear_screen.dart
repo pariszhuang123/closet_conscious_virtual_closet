@@ -14,7 +14,6 @@ import '../../../../generated/l10n.dart';
 import '../widget/selfie_date_share_container.dart';
 import '../bloc/outfit_wear_bloc.dart';
 import '../../../../core/widgets/container/logo_text_container.dart';
-import '../../../../core/theme/themed_svg.dart';
 import '../widget/outfit_creation_success_dialog.dart';
 import '../../../../core/theme/my_outfit_theme.dart';
 import '../../../../core/widgets/button/themed_elevated_button.dart';

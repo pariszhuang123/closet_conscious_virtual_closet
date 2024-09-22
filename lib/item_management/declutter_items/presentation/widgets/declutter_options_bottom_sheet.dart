@@ -5,7 +5,7 @@ import 'dart:convert';
 import '../../../../generated/l10n.dart';
 import '../../../../core/theme/my_closet_theme.dart';
 import '../../../../core/theme/my_outfit_theme.dart';
-import '../../../../core/theme/themed_svg.dart';
+import '../../../../core/core_enums.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/widgets/feedback/custom_alert_dialog.dart'; // Import the custom alert dialog

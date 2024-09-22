@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../core_enums.dart';
 import '../../../theme/themed_svg.dart';
 
 class TypeButton extends StatelessWidget {

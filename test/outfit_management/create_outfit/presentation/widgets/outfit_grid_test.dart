@@ -7,9 +7,11 @@ import 'package:closet_conscious/core/utilities/logger.dart';
 import 'package:closet_conscious/item_management/core/data/models/closet_item_minimal.dart';
 import 'package:closet_conscious/outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
 import 'package:closet_conscious/outfit_management/create_outfit/presentation/widgets/outfit_grid.dart';
+import 'package:closet_conscious/outfit_management/core/outfit_enums.dart';
 import 'package:closet_conscious/core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:closet_conscious/generated/l10n.dart';
+
 
 // 1. Define Fake Classes for Events and States
 class FakeCreateOutfitItemEvent extends Fake implements CreateOutfitItemEvent {}

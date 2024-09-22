@@ -1,7 +1,5 @@
 part of 'create_outfit_item_bloc.dart';
 
-enum SaveStatus { initial, success, failure, inProgress }
-
 class CreateOutfitItemState extends Equatable {
   final Map<OutfitItemCategory, List<String>> selectedItemIds;
   final List<ClosetItemMinimal> items;

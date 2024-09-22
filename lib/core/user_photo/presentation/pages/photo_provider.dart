@@ -4,7 +4,7 @@ import '../bloc/photo_bloc.dart';
 import 'view/photo_upload_item_screen.dart';
 import 'view/photo_edit_item_screen.dart';
 import 'view/photo_selfie_screen.dart';
-import '../../../utilities/permission_service.dart';
+import '../../../core_enums.dart';
 import '../../usecase/photo_capture_service.dart';
 import '../../../data/services/core_save_services.dart';
 

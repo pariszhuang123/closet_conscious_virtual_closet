@@ -6,7 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../data/services/core_save_services.dart';
 import '../../../utilities/logger.dart';
-import '../../../utilities/permission_service.dart';
+import '../../../core_enums.dart';
 import '../../usecase/photo_capture_service.dart';
 import '../../presentation/widgets/camera_permission_helper.dart';
 

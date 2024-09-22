@@ -1,7 +1,5 @@
 part of 'create_outfit_item_bloc.dart';
 
-enum OutfitItemCategory { clothing, accessory, shoes }
-
 abstract class CreateOutfitItemEvent extends Equatable {
   const CreateOutfitItemEvent();
 

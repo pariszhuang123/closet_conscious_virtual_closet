@@ -3,6 +3,7 @@ import '../../../core/utilities/logger.dart';
 import '../../../user_management/user_service_locator.dart';
 import '../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../core/theme/my_outfit_theme.dart';
+import '../../../core/core_enums.dart';
 import '../../../core/utilities/launch_email.dart';
 import '../../core/data/services/outfits_save_service.dart';
 import '../../outfit_service_locator.dart';

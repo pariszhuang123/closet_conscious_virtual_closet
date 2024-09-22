@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'base_container.dart';
+import '../../core_enums.dart';
 import '../../theme/themed_svg.dart';
 
 class LogoTextContainer extends StatelessWidget {

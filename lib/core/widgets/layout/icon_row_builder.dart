@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/themed_svg.dart';
+import '../../core_enums.dart';
 import '../button/text_type_button.dart';
 import '../../data/type_data.dart';
 

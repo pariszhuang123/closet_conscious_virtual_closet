@@ -8,6 +8,7 @@ import '../app_drawer.dart';
 import '../../core/theme/ui_constant.dart';
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_feature_container.dart';
 import '../../outfit_management/core/data/services/outfits_fetch_service.dart';
+import '../../outfit_management/core/outfit_enums.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/calendar_premium_bottom_sheet.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/filter_premium_bottom_sheet.dart';
 import '../../core/data/type_data.dart';

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
-import '../../../../core/theme/themed_svg.dart';
+import '../../../../core/core_enums.dart';
+import '../../../core/outfit_enums.dart';
 import '../../../../core/data/type_data.dart';
 import '../../../../core/widgets/container/base_container_no_format.dart';
 

@@ -3,6 +3,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../utilities/permission_service.dart';
 import '../../../widgets/dialog/settings_dialog.dart';
 import '../../../utilities/logger.dart'; // Import CustomLogger
+import '../../../core_enums.dart';
 
 class CameraPermissionHelper {
   final PermissionService _permissionService = PermissionService();

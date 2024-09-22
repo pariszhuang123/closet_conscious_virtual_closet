@@ -2,12 +2,7 @@ import 'package:flutter/material.dart'; // Use material.dart instead of cupertin
 import 'package:permission_handler/permission_handler.dart';
 import '../../generated/l10n.dart';
 import '../../core/utilities/logger.dart'; // Import CustomLogger
-
-enum CameraPermissionContext {
-  uploadItem,
-  editItem,
-  selfie,
-}
+import '../core_enums.dart';
 
 class PermissionService {
   final CustomLogger _logger = CustomLogger(
