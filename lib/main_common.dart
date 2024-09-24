@@ -17,7 +17,11 @@ Future<void> mainCommon(String environment) async {
   final logger = core_locator.coreLocator<CustomLogger>(instanceName: 'MainCommonLogger');
 
   FlavorConfig.initialize(environment);
+  logger.i('FlavorConfig initialized for environment: $environment');
+
   await ConfigReader.initialize(environment);
+  logger.i('ConfigReader initialized successfully');
+
   await SupabaseConfig.initialize();
 
   user_management_locator.setupUserManagementLocator();
