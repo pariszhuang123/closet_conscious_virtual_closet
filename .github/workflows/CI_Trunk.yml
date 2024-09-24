@@ -217,7 +217,10 @@ jobs:
       - name: Fetch Git commit messages for release notes
         id: release_notes
         run: |
-          release_notes=$(git log $(git describe --tags --abbrev=0)..HEAD --oneline)
+          release_notes=$(git log $(git describe --tags --abbrev=0)..HEAD --oneline | sed "s/'//g" | tr '\n' ' ')
+          if [ -z "$release_notes" ]; then
+          release_notes="No new commit messages."
+          fi
           echo "RELEASE_NOTES=$release_notes" >> $GITHUB_ENV
 
       - name: Upload AAB to Google Play Store
