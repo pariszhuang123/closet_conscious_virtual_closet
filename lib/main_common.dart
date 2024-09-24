@@ -30,6 +30,8 @@ Future<void> mainCommon(String environment) async {
   // Log Supabase client initialization
   logger.i('Supabase client initialized: ${SupabaseConfig.client}');
 
+  runApp(const MainApp());
+
   // Log the current user
   final currentUser = SupabaseConfig.client.auth.currentUser;
   if (currentUser != null) {
@@ -38,6 +40,4 @@ Future<void> mainCommon(String environment) async {
     logger.w('No user is authenticated');
   }
 
-
-  runApp(const MainApp());
 }
