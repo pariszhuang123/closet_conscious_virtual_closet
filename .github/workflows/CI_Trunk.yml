@@ -23,11 +23,6 @@ jobs:
       - run: supabase link --project-ref $SUPABASE_PROJECT_ID
       - run: supabase db push
 
-      # Deploy Supabase Function
-      - name: Deploy Supabase Function
-        run:
-          supabase functions deploy deleteUserFolderAndAccount --project-ref $SUPABASE_PROJECT_ID
-
   deploy_dev_ui:
     needs: deploy_dev_supabase
     runs-on: ubuntu-latest
@@ -135,12 +130,6 @@ jobs:
 
       - run: supabase link --project-ref $SUPABASE_PROJECT_ID
       - run: supabase db push
-
-      # Deploy Supabase Function
-      - name: Deploy Supabase Function
-        run:
-          supabase functions deploy deleteUserFolderAndAccount --project-ref $SUPABASE_PROJECT_ID
-
 
   deploy_prod_ui:
     needs: deploy_prod_supabase
