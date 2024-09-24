@@ -75,8 +75,8 @@ jobs:
             "SUPABASE_URL": "${{ secrets.SUPABASE_URL }}",
             "SUPABASE_ANON_KEY": "${{ secrets.SUPABASE_ANON_KEY }}",
             "SUPABASE_SERVICE_ROLE_KEY": "${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}",
-            "webClientId": "${{ secrets.WEB_CLIENT_ID }}",
-            "iosClientId": "${{ secrets.IOS_CLIENT_ID }}"
+            "WEB_CLIENT_ID": "${{ secrets.WEB_CLIENT_ID }}",
+            "IOS_CLIENT_ID": "${{ secrets.IOS_CLIENT_ID }}"
           }' > config/app_config_dev.json
 
       - name: Install dependencies
@@ -189,8 +189,8 @@ jobs:
             "SUPABASE_URL": "${{ secrets.SUPABASE_URL }}",
             "SUPABASE_ANON_KEY": "${{ secrets.SUPABASE_ANON_KEY }}",
             "SUPABASE_SERVICE_ROLE_KEY": "${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}",
-            "webClientId": "${{ secrets.WEB_CLIENT_ID }}",
-            "iosClientId": "${{ secrets.IOS_CLIENT_ID }}"
+            "WEB_CLIENT_ID": "${{ secrets.WEB_CLIENT_ID }}",
+            "IOS_CLIENT_ID": "${{ secrets.IOS_CLIENT_ID }}"
           }' > config/app_config_prod.json
 
       - name: Install dependencies
