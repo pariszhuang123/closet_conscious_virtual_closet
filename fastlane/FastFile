@@ -1,45 +1,85 @@
-default_platform(:android)
-
 platform :android do
   desc "Deploy to internal testing track"
   lane :deploy_internal do
-    gradle(
-      task: "bundle",                 # Use 'bundle' to build AAB instead of APK
-      build_type: "Release"
-    )
-    upload_to_play_store(
-      track: "internal",
-      aab: "./build/app/outputs/bundle/prodRelease/app-prod-release.aab",  # Path to your AAB
-      json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
-      package_name: "com.makinglifeeasie.closetconscious"
-    )
-  end
+    begin
+      # Increment the version code automatically based on the last Play Store build
+      increment_version_code(
+        gradle_file_path: "./app/build.gradle"
+      )
 
+      # Build AAB
+      gradle(
+        task: "bundle",
+        build_type: "Release",
+        properties: {
+          "VERSION_CODE" => ENV["BUILD_NUMBER"],
+        }
+      )
+
+      # Fetch the release notes from the CI environment variable
+      commit_messages = ENV["RELEASE_NOTES"]
+
+      # Upload AAB to Google Play Store (Internal Testing Track) with release notes
+      upload_to_play_store(
+        track: "internal",
+        aab: "./build/app/outputs/bundle/prodRelease/app-prod-release.aab",
+        json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+        package_name: "com.makinglifeeasie.closetconscious",
+        release_notes: {
+          'en-US' => commit_messages  # Use commit messages from the CI environment
+        }
+      )
+    rescue => exception
+      UI.error("Failed to deploy to internal track: #{exception.message}")
+      raise exception
+    ensure
+      UI.message("Finished internal testing deployment.")
+    end
+  end
 
   desc "Promote to closed testing track"
   lane :promote_to_closed do
-    upload_to_play_store(
-      track: "closed",
-      json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
-      package_name: "com.makinglifeeasie.closetconscious"
-    )
+    begin
+      # Fetch the release notes from the CI environment variable
+      commit_messages = ENV["RELEASE_NOTES"]
+
+      # Promote from internal to closed track
+      upload_to_play_store(
+        track: "closed",
+        json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+        package_name: "com.makinglifeeasie.closetconscious",
+        release_notes: {
+          'en-US' => commit_messages  # Use commit messages from the CI environment
+        }
+      )
+    rescue => exception
+      UI.error("Failed to promote to closed track: #{exception.message}")
+      raise exception
+    ensure
+      UI.message("Finished promoting to closed testing track.")
+    end
   end
 
   desc "Promote to open testing track"
   lane :promote_to_open do
-    upload_to_play_store(
-      track: "open",
-      json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
-      package_name: "com.makinglifeeasie.closetconscious"
-    )
-  end
+    begin
+      # Fetch the release notes from the CI environment variable
+      commit_messages = ENV["RELEASE_NOTES"]
 
-  desc "Deploy to production"
-  lane :promote_to_production do
-    upload_to_play_store(
-      track: "production",
-      json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
-      package_name: "com.makinglifeeasie.closetconscious"
-    )
+      # Promote from closed to open track
+      upload_to_play_store(
+        track: "open",
+        json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+        package_name: "com.makinglifeeasie.closetconscious",
+        release_notes: {
+          'en-US' => commit_messages  # Use commit messages from the CI environment
+        }
+      )
+    rescue => exception
+      UI.error("Failed to promote to open track: #{exception.message}")
+      raise exception
+    ensure
+      UI.message("Finished promoting to open testing track.")
+    end
   end
 end

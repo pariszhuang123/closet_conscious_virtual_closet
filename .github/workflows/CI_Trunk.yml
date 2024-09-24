@@ -146,20 +146,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Ensures we get the full Git history, including tags
+          fetch-depth: 0  # Ensures full Git history including tags
 
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17.0.9'  # Correct setup for Java, no sdk needed
+          java-version: '17.0.9'
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'  # Correct setup for Flutter
+          flutter-version: '3.24.0'
 
       - uses: dart-lang/setup-dart@v1
         with:
-          sdk: 'stable'  # Correct setup for Dart
+          sdk: 'stable'
 
       - name: Cache Flutter dependencies
         uses: actions/cache@v4
@@ -214,15 +214,40 @@ jobs:
           flutter build appbundle --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV \
           --build-number=$BUILD_NUMBER
 
-      - name: Upload ProGuard Mapping File
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: mapping-file
-          path: build/app/outputs/mapping/prodRelease/mapping.txt
+      - name: Fetch Git commit messages for release notes
+        id: release_notes
+        run: |
+          release_notes=$(git log $(git describe --tags --abbrev=0)..HEAD --oneline)
+          echo "RELEASE_NOTES=$release_notes" >> $GITHUB_ENV
 
-      - name: Upload production AAB
-        uses: actions/upload-artifact@v4
-        with:
-          name: prod-aab
-          path: build/app/outputs/bundle/prodRelease/app-prod-release.aab
+      - name: Upload AAB to Google Play Store
+        run: |
+          bundle exec fastlane deploy_internal  # or whichever lane you use to deploy
+        env:
+          BUILD_NUMBER: ${{ steps.versioning.outputs.BUILD_NUMBER }}
+          RELEASE_NOTES: ${{ env.RELEASE_NOTES }}  # Pass the release notes to Fastlane
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+
+  promote_to_closed:
+    needs: deploy_prod_ui
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Promote to closed testing track
+        run: |
+          bundle exec fastlane promote_to_closed
+
+  promote_to_open:
+    needs: promote_to_closed
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Promote to open testing track
+        run: |
+          bundle exec fastlane promote_to_open
