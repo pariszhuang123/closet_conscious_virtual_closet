@@ -14,3 +14,7 @@
 # Keep Kotlin coroutines if used
 -keepclassmembers class kotlinx.coroutines.** { *; }
 
+-keep class com.google.android.gms.** { *; }
+-keep class com.google.firebase.** { *; }
+-keep class com.google.api.** { *; }
+-dontwarn com.google.**
