@@ -294,4 +294,3 @@ jobs:
           fastlane promote_to_open  # No need for 'bundle exec'
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: /tmp/google_play_key.json  # Point to the JSON file location
-
