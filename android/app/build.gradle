@@ -72,6 +72,7 @@ android {
             keyPassword keystoreProperties['debugKeyPassword']
             storeFile file('dev_keystore.jks')
             storePassword keystoreProperties['debugStorePassword']
+            storeType "JKS"
         }
 
         release {
@@ -79,6 +80,7 @@ android {
             keyPassword keystoreProperties['prodKeyPassword']
             storeFile file('prod_keystore.jks')
             storePassword keystoreProperties['prodStorePassword']
+            storeType "JKS"
         }
     }
 

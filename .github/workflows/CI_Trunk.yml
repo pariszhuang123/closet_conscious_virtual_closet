@@ -66,6 +66,7 @@ jobs:
           echo "debugStorePassword=${{ secrets.DEBUG_STORE_PASSWORD }}" >> android/key.properties
           echo "debugKeyAlias=${{ secrets.DEBUG_KEY_ALIAS }}" >> android/key.properties
           echo "debugKeyPassword=${{ secrets.DEBUG_KEY_PASSWORD }}" >> android/key.properties
+          echo "storeType=JKS" >> android/key.properties
           echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > android/app/dev_keystore.jks
 
       - name: Create app_config_dev.json
@@ -180,6 +181,7 @@ jobs:
           echo "prodKeyAlias=${{ secrets.PROD_KEY_ALIAS }}" >> android/key.properties
           echo "prodStorePassword=${{ secrets.PROD_STORE_PASSWORD }}" >> android/key.properties
           echo "prodKeyPassword=${{ secrets.PROD_KEY_PASSWORD }}" >> android/key.properties
+          echo "storeType=JKS" >> android/key.properties
           echo "${{ secrets.PROD_KEYSTORE_BASE64 }}" | base64 --decode > android/app/prod_keystore.jks
 
       - name: Create app_config_prod.json
@@ -209,7 +211,11 @@ jobs:
           versionCode=$(git rev-list --count HEAD)
           echo "BUILD_NUMBER=$versionCode" >> $GITHUB_ENV
 
-      # Install Fastlane step (NEW STEP)
+      - name: Install Ruby 3.3.5 (NEW STEP)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.5'
+
       - name: Install Fastlane
         run: gem install fastlane
 
