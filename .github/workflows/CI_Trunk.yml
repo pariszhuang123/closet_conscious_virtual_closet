@@ -253,7 +253,7 @@ jobs:
 
       - name: Upload AAB to Google Play Store
         run: |
-          fastlane deploy_internal --non-interactive
+          fastlane deploy_internal
         env:
           BUILD_NUMBER: ${{ steps.versioning.outputs.BUILD_NUMBER }}
           RELEASE_NOTES: ${{ env.RELEASE_NOTES }}  # Pass the release notes to Fastlane
