@@ -209,6 +209,10 @@ jobs:
           versionCode=$(git rev-list --count HEAD)
           echo "BUILD_NUMBER=$versionCode" >> $GITHUB_ENV
 
+      # Install Fastlane step (NEW STEP)
+      - name: Install Fastlane
+        run: gem install fastlane
+
       # New step to generate APK for testing
       - name: Build APK for testing
         run: |
@@ -243,7 +247,7 @@ jobs:
 
       - name: Upload AAB to Google Play Store
         run: |
-          fastlane deploy_internal
+          fastlane deploy_internal --non-interactive
         env:
           BUILD_NUMBER: ${{ steps.versioning.outputs.BUILD_NUMBER }}
           RELEASE_NOTES: ${{ env.RELEASE_NOTES }}  # Pass the release notes to Fastlane
@@ -290,3 +294,4 @@ jobs:
           fastlane promote_to_open  # No need for 'bundle exec'
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: /tmp/google_play_key.json  # Point to the JSON file location
+
