@@ -58,11 +58,11 @@ android {
 
     productFlavors {
         dev {
-            applicationIdSuffix ".dev"
+            applicationId "com.makinglifeeasie.closetconscious.dev"
             versionNameSuffix "-dev"
         }
         prod {
-            applicationIdSuffix ".prod"
+            applicationId "com.makinglifeeasie.closetconscious"
         }
     }
 
