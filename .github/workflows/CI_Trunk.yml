@@ -69,6 +69,10 @@ jobs:
           echo "storeType=JKS" >> android/key.properties
           echo "${{ secrets.DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > android/app/dev_keystore.jks
 
+      - name: Print SHA-1 Key
+        run: |
+          keytool -list -v -keystore android/app/dev_keystore.jks -alias ${{ secrets.DEBUG_KEY_ALIAS }} -storepass ${{ secrets.DEBUG_STORE_PASSWORD }} -keypass ${{ secrets.DEBUG_KEY_PASSWORD }} | grep 'SHA1'
+
       - name: Create app_config_dev.json
         run: |
           mkdir -p config
@@ -253,11 +257,12 @@ jobs:
 
       - name: Upload AAB to Google Play Store
         run: |
-          fastlane deploy_internal
+          fastlane android deploy_internal
         env:
           BUILD_NUMBER: ${{ steps.versioning.outputs.BUILD_NUMBER }}
           RELEASE_NOTES: ${{ env.RELEASE_NOTES }}  # Pass the release notes to Fastlane
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: /tmp/google_play_key.json
+          FASTLANE_SKIP_CONFIRMATIONS: true
 
   promote_to_closed:
     needs: deploy_prod_ui
