@@ -5,7 +5,7 @@ platform :android do
       # Build AAB with the prod flavor
       gradle(
         task: "bundle",
-        flavor: "prod",  # Add the flavor explicitly
+        flavor: "Prod",  # Add the flavor explicitly
         build_type: "Release",
         properties: {
           "VERSION_CODE" => ENV["BUILD_NUMBER"],
