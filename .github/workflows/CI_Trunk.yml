@@ -26,8 +26,8 @@ jobs:
   deploy_dev_ui:
     needs: deploy_dev_supabase
     runs-on: ubuntu-latest
+    environment: dev
     env:
-      ENV: dev
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -78,6 +78,14 @@ jobs:
         run: |
           echo "Environment: $ENV"
           echo "WEB_CLIENT_ID is being pulled from secrets: ${{ secrets.WEB_CLIENT_ID }}"
+
+      - name: Debugging environment variables
+        run: |
+          echo "SUPABASE_URL: ${{ secrets.SUPABASE_URL }}"
+          echo "SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}"
+          echo "SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}"
+          echo "WEB_CLIENT_ID: ${{ secrets.WEB_CLIENT_ID }}"
+          echo "IOS_CLIENT_ID: ${{ secrets.IOS_CLIENT_ID }}"
 
       - name: Create app_config_dev.json
         run: |
@@ -185,8 +193,8 @@ jobs:
   deploy_prod_ui:
     needs: deploy_prod_supabase
     runs-on: ubuntu-latest
+    environment: prod
     env:
-      ENV: prod
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
