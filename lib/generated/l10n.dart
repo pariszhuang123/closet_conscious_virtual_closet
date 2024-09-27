@@ -2529,6 +2529,216 @@ class S {
       args: [],
     );
   }
+
+  /// `Bronze Plan - Upload Items`
+  String get uploadItemBronzeTitle {
+    return Intl.message(
+      'Bronze Plan - Upload Items',
+      name: 'uploadItemBronzeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay US$19.99 to upload another 200 items`
+  String get uploadItemBronzeDescription {
+    return Intl.message(
+      'Pay US\$19.99 to upload another 200 items',
+      name: 'uploadItemBronzeDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Silver Plan - Upload Items`
+  String get uploadItemSilverTitle {
+    return Intl.message(
+      'Silver Plan - Upload Items',
+      name: 'uploadItemSilverTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay US$49.99 to upload another 700 items`
+  String get uploadItemSilverDescription {
+    return Intl.message(
+      'Pay US\$49.99 to upload another 700 items',
+      name: 'uploadItemSilverDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gold Plan - Upload Items`
+  String get uploadItemGoldTitle {
+    return Intl.message(
+      'Gold Plan - Upload Items',
+      name: 'uploadItemGoldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay US$129.99 to upload unlimited items`
+  String get uploadItemGoldDescription {
+    return Intl.message(
+      'Pay US\$129.99 to upload unlimited items',
+      name: 'uploadItemGoldDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bronze Plan - Edit Item Images`
+  String get editItemBronzeTitle {
+    return Intl.message(
+      'Bronze Plan - Edit Item Images',
+      name: 'editItemBronzeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay US$19.99 to edit another 200 items images`
+  String get editItemBronzeDescription {
+    return Intl.message(
+      'Pay US\$19.99 to edit another 200 items images',
+      name: 'editItemBronzeDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Silver Plan - Edit Item Images`
+  String get editItemSilverTitle {
+    return Intl.message(
+      'Silver Plan - Edit Item Images',
+      name: 'editItemSilverTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay US$49.99 to edit another 700 items images`
+  String get editItemSilverDescription {
+    return Intl.message(
+      'Pay US\$49.99 to edit another 700 items images',
+      name: 'editItemSilverDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gold Plan - Edit Item Images`
+  String get editItemGoldTitle {
+    return Intl.message(
+      'Gold Plan - Edit Item Images',
+      name: 'editItemGoldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay US$129.99 to edit unlimited items images`
+  String get editItemGoldDescription {
+    return Intl.message(
+      'Pay US\$129.99 to edit unlimited items images',
+      name: 'editItemGoldDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bronze Plan - Selfie`
+  String get selfieBronzeTitle {
+    return Intl.message(
+      'Bronze Plan - Selfie',
+      name: 'selfieBronzeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay US$19.99 to take another 200 selfies`
+  String get selfieBronzeDescription {
+    return Intl.message(
+      'Pay US\$19.99 to take another 200 selfies',
+      name: 'selfieBronzeDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Silver Plan - Selfie`
+  String get selfieSilverTitle {
+    return Intl.message(
+      'Silver Plan - Selfie',
+      name: 'selfieSilverTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay US$49.99 to take another 700 selfies`
+  String get selfieSilverDescription {
+    return Intl.message(
+      'Pay US\$49.99 to take another 700 selfies',
+      name: 'selfieSilverDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gold Plan - Selfie`
+  String get selfieGoldTitle {
+    return Intl.message(
+      'Gold Plan - Selfie',
+      name: 'selfieGoldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay US$129.99 to take unlimited selfies`
+  String get selfieGoldDescription {
+    return Intl.message(
+      'Pay US\$129.99 to take unlimited selfies',
+      name: 'selfieGoldDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Multi Outfit Premium Feature`
+  String get multiOutfitTitle {
+    return Intl.message(
+      'Multi Outfit Premium Feature',
+      name: 'multiOutfitTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pay US$19.99 to create multiple outfits a day`
+  String get multiOutfitDescription {
+    return Intl.message(
+      'Pay US\$19.99 to create multiple outfits a day',
+      name: 'multiOutfitDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Purchase Now`
+  String get purchase_button {
+    return Intl.message(
+      'Purchase Now',
+      name: 'purchase_button',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

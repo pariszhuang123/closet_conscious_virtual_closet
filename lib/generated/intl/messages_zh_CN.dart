@@ -148,6 +148,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "dislike": MessageLookupByLibrary.simpleMessage("不适合我"),
         "dislike_feedback_sentence":
             MessageLookupByLibrary.simpleMessage("点击让这套搭配不太合适的单品。"),
+        "editItemBronzeDescription":
+            MessageLookupByLibrary.simpleMessage("支付19.99美元编辑额外200张物品图片"),
+        "editItemBronzeTitle":
+            MessageLookupByLibrary.simpleMessage("青铜计划 - 编辑物品图片"),
+        "editItemGoldDescription":
+            MessageLookupByLibrary.simpleMessage("支付129.99美元编辑无限数量的物品图片"),
+        "editItemGoldTitle":
+            MessageLookupByLibrary.simpleMessage("黄金计划 - 编辑物品图片"),
+        "editItemSilverDescription":
+            MessageLookupByLibrary.simpleMessage("支付49.99美元编辑额外700张物品图片"),
+        "editItemSilverTitle":
+            MessageLookupByLibrary.simpleMessage("白银计划 - 编辑物品图片"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("编辑物品"),
         "enterAmountSpentHint": MessageLookupByLibrary.simpleMessage("输入花费金额"),
         "error": MessageLookupByLibrary.simpleMessage("错误"),
@@ -204,6 +216,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "我们正在考虑添加一个高级功能，以创建多个衣橱，包括临时和消失的衣橱。"),
         "multiClosetFeatureTitle":
             MessageLookupByLibrary.simpleMessage("有兴趣使用多衣橱功能吗？"),
+        "multiOutfitDescription":
+            MessageLookupByLibrary.simpleMessage("支付19.99美元每天创建多个搭配"),
+        "multiOutfitTitle": MessageLookupByLibrary.simpleMessage("多重搭配高级功能"),
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("我的衣橱"),
         "myOutfitOfTheDay": MessageLookupByLibrary.simpleMessage("今日穿搭"),
         "myOutfitTitle": MessageLookupByLibrary.simpleMessage("创建我的装扮"),
@@ -287,6 +302,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "privacyTermsUrl": MessageLookupByLibrary.simpleMessage(
             "https://inky-twill-3ab.notion.site/5c881235e92240d9a008e0fe6bb80f0b"),
         "profileSection": MessageLookupByLibrary.simpleMessage("个人资料"),
+        "purchase_button": MessageLookupByLibrary.simpleMessage("立即购买"),
         "quicklyFindItems":
             MessageLookupByLibrary.simpleMessage("我们正在考虑推出一项高级功能，帮助您更轻松地筛选物品。"),
         "rainbow": MessageLookupByLibrary.simpleMessage("多色"),
@@ -311,6 +327,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectSeason": MessageLookupByLibrary.simpleMessage("选择季节"),
         "selectShoeType": MessageLookupByLibrary.simpleMessage("选择鞋类类型"),
         "selfie": MessageLookupByLibrary.simpleMessage("自拍"),
+        "selfieBronzeDescription":
+            MessageLookupByLibrary.simpleMessage("支付19.99美元拍摄额外200张自拍"),
+        "selfieBronzeTitle": MessageLookupByLibrary.simpleMessage("青铜计划 - 自拍"),
+        "selfieGoldDescription":
+            MessageLookupByLibrary.simpleMessage("支付129.99美元拍摄无限数量的自拍"),
+        "selfieGoldTitle": MessageLookupByLibrary.simpleMessage("黄金计划 - 自拍"),
+        "selfieSilverDescription":
+            MessageLookupByLibrary.simpleMessage("支付49.99美元拍摄额外700张自拍"),
+        "selfieSilverTitle": MessageLookupByLibrary.simpleMessage("白银计划 - 自拍"),
         "sell": MessageLookupByLibrary.simpleMessage("出售"),
         "share": MessageLookupByLibrary.simpleMessage("分享"),
         "shareFeatureDescription": MessageLookupByLibrary.simpleMessage(
@@ -364,6 +389,18 @@ class MessageLookup extends MessageLookupByLibrary {
             "您是否已完成上传所有现有物品到您的衣橱？一旦确认，任何带有价格的新上传将标记为您的衣橱新增加的物品。"),
         "uploadConfirmationTitle":
             MessageLookupByLibrary.simpleMessage("确认衣橱完成"),
+        "uploadItemBronzeDescription":
+            MessageLookupByLibrary.simpleMessage("支付19.99美元上传额外200个物品"),
+        "uploadItemBronzeTitle":
+            MessageLookupByLibrary.simpleMessage("青铜计划 - 上传物品"),
+        "uploadItemGoldDescription":
+            MessageLookupByLibrary.simpleMessage("支付129.99美元上传无限数量的物品"),
+        "uploadItemGoldTitle":
+            MessageLookupByLibrary.simpleMessage("黄金计划 - 上传物品"),
+        "uploadItemSilverDescription":
+            MessageLookupByLibrary.simpleMessage("支付49.99美元上传额外700个物品"),
+        "uploadItemSilverTitle":
+            MessageLookupByLibrary.simpleMessage("白银计划 - 上传物品"),
         "upload_failed": m0,
         "upload_successful": MessageLookupByLibrary.simpleMessage("上传成功！"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("上传"),

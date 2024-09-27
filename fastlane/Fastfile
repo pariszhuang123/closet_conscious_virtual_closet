@@ -32,8 +32,6 @@ platform :android do
       UI.message("Finished internal testing deployment.")
     end
   end
-end
-
 
   desc "Promote to closed testing track"
   lane :promote_to_closed do
