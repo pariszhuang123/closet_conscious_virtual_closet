@@ -20,7 +20,7 @@ platform :android do
       upload_to_play_store(
         track: "internal",
         aab: "./build/app/outputs/bundle/prodRelease/app-prod-release.aab",
-        json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+        json_key: "/tmp/google_play_key.json",  # Use the path of the file created by GitHub Actions
         package_name: "com.makinglifeeasie.closetconscious",
         release_notes: {
           'en-US' => commit_messages  # Use commit messages from the CI environment
@@ -44,7 +44,7 @@ platform :android do
       upload_to_play_store(
         track: "closed",
         track_promote_to: "closed",  # Explicitly promote from internal to closed
-        json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+        json_key: "/tmp/google_play_key.json",  # Use the path of the file created by GitHub Actions
         package_name: "com.makinglifeeasie.closetconscious",
         release_notes: {
           'en-US' => commit_messages  # Use commit messages from the CI environment
@@ -68,7 +68,7 @@ platform :android do
       upload_to_play_store(
         track: "open",
         track_promote_to: "open",  # Explicitly promote from closed to open
-        json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+        json_key: "/tmp/google_play_key.json",  # Use the path of the file created by GitHub Actions
         package_name: "com.makinglifeeasie.closetconscious",
         release_notes: {
           'en-US' => commit_messages  # Use commit messages from the CI environment
