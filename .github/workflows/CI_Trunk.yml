@@ -79,7 +79,6 @@ jobs:
             "IOS_CLIENT_ID": "${{ secrets.IOS_CLIENT_ID }}"
           }' > config/app_config_dev.json
 
-
       - name: Install dependencies
         run: flutter pub get
 
@@ -206,7 +205,6 @@ jobs:
       - name: Set Build Number
         id: versioning
         run: |
-          # Get the number of commits to use as the build number
           versionCode=$(git rev-list --count HEAD)
           echo "BUILD_NUMBER=$versionCode" >> $GITHUB_ENV
 
@@ -218,7 +216,6 @@ jobs:
       - name: Install Fastlane
         run: gem install fastlane
 
-      # New step to generate APK for testing
       - name: Build APK for testing
         run: |
           flutter build apk --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV \
@@ -244,18 +241,20 @@ jobs:
           fi
           echo "RELEASE_NOTES=$release_notes" >> $GITHUB_ENV
 
-      # Create the Google Play Service Account JSON file
-      - name: Create service account key
+      - name: Create service account key (EXISTING STEP)
         run: |
           echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > /tmp/google_play_key.json
           echo "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON=/tmp/google_play_key.json" >> $GITHUB_ENV
+
+      - name: Debug Google Play Key JSON (NEW STEP for debugging)
+        run: cat /tmp/google_play_key.json
 
       - name: Upload AAB to Google Play Store
         run: |
           fastlane android deploy_internal
         env:
           BUILD_NUMBER: ${{ steps.versioning.outputs.BUILD_NUMBER }}
-          RELEASE_NOTES: ${{ env.RELEASE_NOTES }}  # Pass the release notes to Fastlane
+          RELEASE_NOTES: ${{ env.RELEASE_NOTES }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: /tmp/google_play_key.json
           FASTLANE_SKIP_CONFIRMATIONS: true
 
@@ -268,7 +267,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Create the Google Play Service Account JSON file
       - name: Create service account key
         run: |
           echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > /tmp/google_play_key.json
@@ -276,9 +274,9 @@ jobs:
 
       - name: Promote to closed testing track
         run: |
-          fastlane promote_to_closed  # No need for 'bundle exec'
+          fastlane promote_to_closed
         env:
-          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: /tmp/google_play_key.json  # Point to the JSON file location
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: /tmp/google_play_key.json
 
   promote_to_open:
     needs: promote_to_closed
@@ -289,7 +287,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Create the Google Play Service Account JSON file
       - name: Create service account key
         run: |
           echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > /tmp/google_play_key.json
@@ -297,6 +294,6 @@ jobs:
 
       - name: Promote to open testing track
         run: |
-          fastlane promote_to_open  # No need for 'bundle exec'
+          fastlane promote_to_open
         env:
-          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: /tmp/google_play_key.json  # Point to the JSON file location
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: /tmp/google_play_key.json

@@ -11,7 +11,7 @@ platform :android do
         properties: {
           "target" => "lib/main_prod.dart"  # Passing the target as a Gradle property
         }
-      )  # <-- Missing 'end' here to close the gradle block
+      )  # <-- Closing the gradle block
 
       # Fetch the release notes from the CI environment variable
       commit_messages = ENV["RELEASE_NOTES"]
@@ -43,6 +43,7 @@ platform :android do
       # Promote from internal to closed track
       upload_to_play_store(
         track: "closed",
+        track_promote_to: "closed",  # Explicitly promote from internal to closed
         json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
         package_name: "com.makinglifeeasie.closetconscious",
         release_notes: {
@@ -66,6 +67,7 @@ platform :android do
       # Promote from closed to open track
       upload_to_play_store(
         track: "open",
+        track_promote_to: "open",  # Explicitly promote from closed to open
         json_key: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
         package_name: "com.makinglifeeasie.closetconscious",
         release_notes: {
