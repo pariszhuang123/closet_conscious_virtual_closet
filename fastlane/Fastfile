@@ -65,7 +65,6 @@ platform :android do
     begin
       # Fetch the release notes from the CI environment variable
       commit_messages = ENV["RELEASE_NOTES"]
-
       # Promote from closed to open track
       upload_to_play_store(
         track: "open",

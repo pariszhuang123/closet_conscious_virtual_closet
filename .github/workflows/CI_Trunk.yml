@@ -73,6 +73,12 @@ jobs:
         run: |
           keytool -list -v -keystore android/app/dev_keystore.jks -alias ${{ secrets.DEBUG_KEY_ALIAS }} -storepass ${{ secrets.DEBUG_STORE_PASSWORD }} -keypass ${{ secrets.DEBUG_KEY_PASSWORD }} | grep 'SHA1'
 
+      # Debugging step to check which environment is active and where the secret comes from
+      - name: Check WEB_CLIENT_ID and active environment
+        run: |
+          echo "Environment: $ENV"
+          echo "WEB_CLIENT_ID is being pulled from secrets: ${{ secrets.WEB_CLIENT_ID }}"
+
       - name: Create app_config_dev.json
         run: |
           mkdir -p config
