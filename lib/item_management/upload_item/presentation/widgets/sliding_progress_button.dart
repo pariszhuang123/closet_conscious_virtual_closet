@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../generated/l10n.dart';
-import '../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../../../generated/l10n.dart';
+import '../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 
 
 class SlidingProgressButton extends StatelessWidget {

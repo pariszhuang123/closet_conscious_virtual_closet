@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../core/widgets/button/navigation_type_button.dart';
-import '../../../core/user_photo/presentation/widgets/image_display_widget.dart';
-import '../../../core/core_enums.dart';
+import '../../../../core/widgets/button/navigation_type_button.dart';
+import '../../../../core/user_photo/presentation/widgets/image_display_widget.dart';
+import '../../../../core/core_enums.dart';
 
 class EditItemImageWithAdditionalFeatures extends StatelessWidget {
   final String? imageUrl;

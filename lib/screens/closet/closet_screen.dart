@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import '../../core/utilities/routes.dart';
 import '../../core/utilities/logger.dart';
 import '../../item_management/core/data/models/closet_item_minimal.dart';
-import '../../item_management/view_items/widget/item_grid.dart';
+import '../../item_management/view_items/presentation/widgets/item_grid.dart';
 import '../../item_management/core/data/services/item_fetch_service.dart';
-import '../../item_management/view_items/widget/my_closet_container.dart';
+import '../../item_management/view_items/presentation/widgets/my_closet_container.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/filter_premium_bottom_sheet.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/multi_closet_premium_bottom_sheet.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/arrange_premium_bottom_sheet.dart';
-import '../../item_management/upload_item/widgets/upload_confirmation_bottom_sheet.dart';
+import '../../item_management/upload_item/presentation/widgets/upload_confirmation_bottom_sheet.dart';
 import '../app_drawer.dart';
 import '../../core/theme/ui_constant.dart';
 

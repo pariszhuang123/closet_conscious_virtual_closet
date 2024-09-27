@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/data/type_data.dart';
-import '../../../core/core_enums.dart';
-import '../../../core/widgets/button/navigation_type_button.dart';
+import '../../../../core/data/type_data.dart';
+import '../../../../core/core_enums.dart';
+import '../../../../core/widgets/button/navigation_type_button.dart';
 
 class UploadItemAdditionalFeature extends StatelessWidget {
   final VoidCallback openMetadataSheet;

@@ -10,8 +10,8 @@ import '../../../core/utilities/routes.dart';
 import '../../core/data/models/closet_item_detailed.dart';
 import '../../../core/utilities/logger.dart';
 import '../../../core/widgets/feedback/custom_snack_bar.dart';
-import '../widgets/edit_item_metadata.dart';  // Import the new file
-import '../widgets/edit_item_image_with_additional_features.dart';
+import '../presentation/widgets/edit_item_metadata.dart';  // Import the new file
+import '../presentation/widgets/edit_item_image_with_additional_features.dart';
 
 class EditItemScreen extends StatefulWidget {
   final String itemId;

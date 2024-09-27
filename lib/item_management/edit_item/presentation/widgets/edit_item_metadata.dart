@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../core/data/type_data.dart';
-import '../../../generated/l10n.dart';
-import '../../core/data/models/closet_item_detailed.dart';
-import '../../../core/widgets/layout/icon_row_builder.dart';
+import '../../../../core/data/type_data.dart';
+import '../../../../generated/l10n.dart';
+import '../../../core/data/models/closet_item_detailed.dart';
+import '../../../../core/widgets/layout/icon_row_builder.dart';
 
 class EditItemMetadata extends StatelessWidget {
   final ClosetItemDetailed currentItem;

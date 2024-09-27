@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../../generated/l10n.dart';
-import '../../../core/utilities/routes.dart';
-import '../../../core/theme/my_closet_theme.dart';
-import '../../../core/theme/my_outfit_theme.dart';
-import '../../../core/utilities/logger.dart';
-import '../../../core/widgets/feedback/custom_alert_dialog.dart';
-import '../../../core/screens/achievement_completed_screen.dart';
-import '../../../core/data/services/core_save_services.dart';
-import '../../../core/widgets/button/themed_elevated_button.dart';
+import '../../../../core/utilities/routes.dart';
+import '../../../../core/theme/my_closet_theme.dart';
+import '../../../../core/theme/my_outfit_theme.dart';
+import '../../../../core/utilities/logger.dart';
+import '../../../../core/widgets/feedback/custom_alert_dialog.dart';
+import '../../../../core/screens/achievement_completed_screen.dart';
+import '../../../../core/data/services/core_save_services.dart';
+import '../../../../core/widgets/button/themed_elevated_button.dart';
 
 class UploadConfirmationBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
