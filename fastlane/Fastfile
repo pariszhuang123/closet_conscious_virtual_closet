@@ -7,11 +7,11 @@ platform :android do
         task: "bundle",
         flavor: "Prod",  # Add the flavor explicitly
         build_type: "Release",
-        project_dir: "./android"
+        project_dir: "./android",
         properties: {
-          "target" => "lib/main_prod.dart"     # Passing the target as a Gradle property
+          "target" => "lib/main_prod.dart"  # Passing the target as a Gradle property
         }
-    )
+      )  # <-- Missing 'end' here to close the gradle block
 
       # Fetch the release notes from the CI environment variable
       commit_messages = ENV["RELEASE_NOTES"]
@@ -62,6 +62,7 @@ platform :android do
     begin
       # Fetch the release notes from the CI environment variable
       commit_messages = ENV["RELEASE_NOTES"]
+
       # Promote from closed to open track
       upload_to_play_store(
         track: "open",
