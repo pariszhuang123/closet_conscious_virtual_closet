@@ -8,9 +8,6 @@ platform :android do
         flavor: "Prod",  # Add the flavor explicitly
         build_type: "Release",
         project_dir: "./android"
-        properties: {
-            "VERSION_CODE" => ENV["BUILD_NUMBER"]  # Correct syntax for properties
-        }
     )
 
       # Fetch the release notes from the CI environment variable
