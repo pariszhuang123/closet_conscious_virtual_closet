@@ -2,11 +2,6 @@ platform :android do
   desc "Deploy to internal testing track"
   lane :deploy_internal do
     begin
-      # Increment the version code automatically based on the last Play Store build
-      increment_version_code(
-        gradle_file_path: "./app/build.gradle"
-      )
-
       # Build AAB
       gradle(
         task: "bundle",

@@ -90,6 +90,46 @@ jobs:
             "IOS_CLIENT_ID": "${{ secrets.IOS_CLIENT_ID }}"
           }' > config/app_config_dev.json
 
+      - name: Check if WEB_CLIENT_ID is present
+        run: |
+          if [ -z "${{ secrets.WEB_CLIENT_ID }}" ]; then
+            echo "WEB_CLIENT_ID is not set!"
+          else
+            echo "WEB_CLIENT_ID is set, but masked."
+          fi
+
+      - name: Check if IOS_CLIENT_ID is present
+        run: |
+          if [ -z "${{ secrets.IOS_CLIENT_ID }}" ]; then
+            echo "IOS_CLIENT_ID is not set!"
+          else
+            echo "IOS_CLIENT_ID is set, but masked."
+          fi
+
+      - name: Check if SUPABASE_URL is present
+        run: |
+          if [ -z "${{ secrets.SUPABASE_URL }}" ]; then
+            echo "SUPABASE_URL is not set!"
+          else
+            echo "SUPABASE_URL is set, but masked."
+          fi
+
+      - name: Check if SUPABASE_ANON_KEY is present
+        run: |
+          if [ -z "${{ secrets.SUPABASE_ANON_KEY }}" ]; then
+            echo "SUPABASE_ANON_KEY is not set!"
+          else
+            echo "SUPABASE_ANON_KEY is set, but masked."
+          fi
+
+      - name: Check if SUPABASE_SERVICE_ROLE_KEY is present
+        run: |
+          if [ -z "${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" ]; then
+            echo "SUPABASE_SERVICE_ROLE_KEY is not set!"
+          else
+            echo "SUPABASE_SERVICE_ROLE_KEY is set, but masked."
+          fi
+
       - name: Install dependencies
         run: flutter pub get
 
