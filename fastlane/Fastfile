@@ -8,6 +8,9 @@ platform :android do
         flavor: "Prod",  # Add the flavor explicitly
         build_type: "Release",
         project_dir: "./android"
+        properties: {
+          "target" => "lib/main_prod.dart"     # Passing the target as a Gradle property
+        }
     )
 
       # Fetch the release notes from the CI environment variable
