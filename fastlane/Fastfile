@@ -2,10 +2,11 @@ platform :android do
   desc "Deploy to internal testing track"
   lane :deploy_internal do
     begin
-      # Build AAB
+      # Build AAB with the prod flavor
       gradle(
         task: "bundle",
         build_type: "Release",
+        flavor: "prod",  # Add the flavor explicitly
         properties: {
           "VERSION_CODE" => ENV["BUILD_NUMBER"],
         }
@@ -31,6 +32,8 @@ platform :android do
       UI.message("Finished internal testing deployment.")
     end
   end
+end
+
 
   desc "Promote to closed testing track"
   lane :promote_to_closed do
