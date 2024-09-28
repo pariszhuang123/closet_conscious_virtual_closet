@@ -26,12 +26,6 @@ jobs:
     needs: deploy_dev_supabase
     runs-on: ubuntu-latest
     environment: dev
-    env:
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-      WEB_CLIENT_ID: ${{ secrets.WEB_CLIENT_ID }}
-      IOS_CLIENT_ID: ${{ secrets.IOS_CLIENT_ID }}
 
     steps:
       - uses: actions/checkout@v4
@@ -134,13 +128,6 @@ jobs:
     needs: deploy_prod_supabase
     runs-on: ubuntu-latest
     environment: prod
-    env:
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-      WEB_CLIENT_ID: ${{ secrets.WEB_CLIENT_ID }}
-      IOS_CLIENT_ID: ${{ secrets.IOS_CLIENT_ID }}
-      GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
     steps:
       - uses: actions/checkout@v4
@@ -246,39 +233,37 @@ jobs:
   promote_to_closed:
     needs: deploy_prod_ui
     runs-on: ubuntu-latest
-    env:
-      GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+    if: github.event_name == 'workflow_dispatch'  # Ensures this job only runs when manually triggered
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Create service account key
         run: |
-          echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > /tmp/google_play_key.json
-          echo "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON=/tmp/google_play_key.json" >> $GITHUB_ENV
+          mkdir -p config
+          echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" | base64 --decode > config/google_play_key.json
 
       - name: Promote to closed testing track
         run: |
           fastlane promote_to_closed
         env:
-          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: /tmp/google_play_key.json
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: config/google_play_key.json
 
   promote_to_open:
     needs: promote_to_closed
     runs-on: ubuntu-latest
-    env:
-      GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+    if: github.event_name == 'workflow_dispatch'  # Ensures this job only runs when manually triggered
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Create service account key
         run: |
-          echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > /tmp/google_play_key.json
-          echo "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON=/tmp/google_play_key.json" >> $GITHUB_ENV
+          mkdir -p config
+          echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" | base64 --decode > config/google_play_key.json
 
       - name: Promote to open testing track
         run: |
           fastlane promote_to_open
         env:
-          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: /tmp/google_play_key.json
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: config/google_play_key.json

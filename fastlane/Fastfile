@@ -22,7 +22,7 @@ platform :android do
         package_name: "com.makinglifeeasie.closetconscious",
         metadata_path: "./metadata/android",
         skip_upload_apk: true,  # This skips APK upload, so only AAB will be uploaded
-        release_status: 'draft'
+        release_status: 'published'
       )
     rescue => exception
       UI.error("Failed to deploy to internal track: #{exception.message}")
