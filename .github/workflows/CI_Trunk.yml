@@ -206,7 +206,7 @@ jobs:
         id: versioning
         run: |
           versionCode=$(git rev-list --count HEAD)
-          echo "::set-output name=BUILD_NUMBER::$versionCode"
+          echo "BUILD_NUMBER=$versionCode" >> $GITHUB_ENV
 
       - name: Install Ruby 3.3.5 (NEW STEP)
         uses: ruby/setup-ruby@v1
@@ -238,7 +238,7 @@ jobs:
         run: |
           fastlane android deploy_internal
         env:
-          BUILD_NUMBER: ${{ steps.versioning.outputs.BUILD_NUMBER }}
+          BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
           RELEASE_NOTES: ${{ env.RELEASE_NOTES }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: config/google_play_key.json
           FASTLANE_SKIP_CONFIRMATIONS: true
