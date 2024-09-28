@@ -206,7 +206,7 @@ jobs:
         id: versioning
         run: |
           versionCode=$(git rev-list --count HEAD)
-          echo "BUILD_NUMBER=$versionCode" >> $GITHUB_ENV
+          echo "::set-output name=BUILD_NUMBER::$versionCode"
 
       - name: Install Ruby 3.3.5 (NEW STEP)
         uses: ruby/setup-ruby@v1
