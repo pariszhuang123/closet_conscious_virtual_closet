@@ -216,17 +216,6 @@ jobs:
       - name: Install Fastlane
         run: gem install fastlane
 
-      - name: Build APK for testing
-        run: |
-          flutter build apk --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV \
-          --build-number=$BUILD_NUMBER --target-platform android-arm64
-
-      - name: Upload APK for testing (as an artifact)
-        uses: actions/upload-artifact@v4
-        with:
-          name: prod-apk-for-testing
-          path: build/app/outputs/flutter-apk/app-prod-release.apk
-
       - name: Build AAB for production
         run: |
           flutter build appbundle --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV \
@@ -240,13 +229,13 @@ jobs:
           fi
           echo "$release_notes" > metadata/android/en-US/changelogs/default.txt
 
-      - name: Create service account key (EXISTING STEP)
+      - name: Create service account key
         run: |
-          echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > /tmp/google_play_key.json
-          echo "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON=/tmp/google_play_key.json" >> $GITHUB_ENV
+          mkdir -p config
+          echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" >> config/google_play_key.json
 
       - name: Debug Google Play Key JSON (NEW STEP for debugging)
-        run: cat /tmp/google_play_key.json
+        run: head -c 100 config/google_play_key.json
 
       - name: Upload AAB to Google Play Store
         run: |
@@ -254,7 +243,7 @@ jobs:
         env:
           BUILD_NUMBER: ${{ steps.versioning.outputs.BUILD_NUMBER }}
           RELEASE_NOTES: ${{ env.RELEASE_NOTES }}
-          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: /tmp/google_play_key.json
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: config/google_play_key.json
           FASTLANE_SKIP_CONFIRMATIONS: true
 
   promote_to_closed:
