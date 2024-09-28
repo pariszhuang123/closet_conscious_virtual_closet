@@ -13,18 +13,15 @@ platform :android do
         }
       )  # <-- Closing the gradle block
 
-      # Fetch the release notes from the CI environment variable
-      commit_messages = ENV["RELEASE_NOTES"]
-
       # Upload AAB to Google Play Store (Internal Testing Track) with release notes
       upload_to_play_store(
         track: "internal",
         aab: "./build/app/outputs/bundle/prodRelease/app-prod-release.aab",
-        json_key: "/tmp/google_play_key.json",  # Use the path of the file created by GitHub Actions
+        json_key: "./config/google_play_key.json",  # Use the path of the file created by GitHub Actions
         package_name: "com.makinglifeeasie.closetconscious",
-        release_notes: {
-          'en-US' => commit_messages  # Use commit messages from the CI environment
-        }
+        metadata_path: "./metadata/android",
+        skip_upload_apk: true,  # This skips APK upload, so only AAB will be uploaded
+        release_status: 'draft'
       )
     rescue => exception
       UI.error("Failed to deploy to internal track: #{exception.message}")
@@ -37,18 +34,15 @@ platform :android do
   desc "Promote to closed testing track"
   lane :promote_to_closed do
     begin
-      # Fetch the release notes from the CI environment variable
-      commit_messages = ENV["RELEASE_NOTES"]
 
       # Promote from internal to closed track
       upload_to_play_store(
         track: "closed",
         track_promote_to: "closed",  # Explicitly promote from internal to closed
-        json_key: "/tmp/google_play_key.json",  # Use the path of the file created by GitHub Actions
+        json_key: "./config/google_play_key.json",  # Use the path of the file created by GitHub Actions
         package_name: "com.makinglifeeasie.closetconscious",
-        release_notes: {
-          'en-US' => commit_messages  # Use commit messages from the CI environment
-        }
+        metadata_path: "./metadata/android",
+        skip_upload_apk: true  # This skips APK upload, so only AAB will be uploaded
       )
     rescue => exception
       UI.error("Failed to promote to closed track: #{exception.message}")
@@ -61,18 +55,15 @@ platform :android do
   desc "Promote to open testing track"
   lane :promote_to_open do
     begin
-      # Fetch the release notes from the CI environment variable
-      commit_messages = ENV["RELEASE_NOTES"]
 
       # Promote from closed to open track
       upload_to_play_store(
         track: "open",
         track_promote_to: "open",  # Explicitly promote from closed to open
-        json_key: "/tmp/google_play_key.json",  # Use the path of the file created by GitHub Actions
+        json_key: "./config/google_play_key.json",  # Use the path of the file created by GitHub Actions
         package_name: "com.makinglifeeasie.closetconscious",
-        release_notes: {
-          'en-US' => commit_messages  # Use commit messages from the CI environment
-        }
+        metadata_path: "./metadata/android",
+        skip_upload_apk: true  # This skips APK upload, so only AAB will be uploaded
       )
     rescue => exception
       UI.error("Failed to promote to open track: #{exception.message}")

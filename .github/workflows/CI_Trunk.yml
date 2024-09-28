@@ -233,13 +233,12 @@ jobs:
           --build-number=$BUILD_NUMBER
 
       - name: Fetch Git commit messages for release notes
-        id: release_notes
         run: |
           release_notes=$(git log -1 --oneline | sed "s/'//g")
           if [ -z "$release_notes" ]; then
           release_notes="No new commit messages."
           fi
-          echo "RELEASE_NOTES=$release_notes" >> $GITHUB_ENV
+          echo "$release_notes" > metadata/android/en-US/changelogs/default.txt
 
       - name: Create service account key (EXISTING STEP)
         run: |
