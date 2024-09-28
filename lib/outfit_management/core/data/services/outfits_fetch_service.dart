@@ -163,7 +163,6 @@ class OutfitFetchService {
       return result.data as bool; // Return the result directly
     }
   }
-
 }
 
 class OutfitFetchException implements Exception {

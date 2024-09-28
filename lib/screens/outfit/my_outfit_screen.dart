@@ -22,6 +22,7 @@ import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../core/screens/achievement_completed_screen.dart';
 import '../../core/theme/my_outfit_theme.dart';
+import '../../core/paywall/data/feature_key.dart';
 
 class MyOutfitScreen extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -219,6 +220,22 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               ).then((_) {
                 _isNavigating = false; // Reset navigating after returning
               });
+            }
+            if (state is OutfitAccessGrantedState) {
+              // Do nothing specific since the user is already in MyOutfitScreen
+              logger.i('Outfit access granted, continuing with current process.');
+            }
+            else if (state is OutfitAccessDeniedState) {
+              // Access denied, navigate to the payment screen
+              logger.i('Outfit access denied, navigating to payment screen.');
+              Navigator.pushNamed(
+                context,
+                AppRoutes.payment,
+                arguments: {
+                  'featureKey': FeatureKey.multiOutfit,  // Pass necessary data
+                  'isFromMyCloset': true,
+                },
+              );
             }
             if (state is FetchAndSaveNoBuyMilestoneSuccessState) {
               logger.i('Navigating to achievement page for achievement: ${state.badgeUrl}');

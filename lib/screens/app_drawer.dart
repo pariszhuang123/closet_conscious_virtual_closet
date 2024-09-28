@@ -72,7 +72,8 @@ class AppDrawer extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              color: Colors.white, // Set the body color to white
+              color: Theme
+                  .of(context).colorScheme.surface, // Set the body color to white
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: <Widget>[

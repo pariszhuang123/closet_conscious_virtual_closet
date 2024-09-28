@@ -49,7 +49,7 @@ class AchievementsPageState extends State<AchievementsPage> {
           backgroundColor: theme.appBarTheme.backgroundColor,
         ),
         body: Container(
-          color: Colors.white,
+          color: theme.colorScheme.surface,
           child: FutureBuilder<List<Achievement>>(
             future: _futureAchievements,
             builder: (context, snapshot) {

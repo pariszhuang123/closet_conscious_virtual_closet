@@ -5,86 +5,86 @@ final ThemeData myOutfitTheme = ThemeData(
     primarySwatch: Colors.blue,
     accentColor: Colors.blueAccent,
   ).copyWith(
-    primary: Colors.blue.shade800, // Dark blue for primary
-    onPrimary: Colors.white,
-    primaryContainer: Colors.blue.shade800, // Darker blue for primary container
-    secondary: Colors.lightBlue.shade400, // Light blue for secondary
-    onSecondary: Colors.black,
+    primary: Colors.purple.shade700, // Dark blue for primary
+    onPrimary: Colors.lime.shade50,
+    primaryContainer: Colors.purple.shade700, // Darker blue for primary container
+    secondary: Colors.purple.shade300, // Light blue for secondary
+    onSecondary: Colors.black87,
     secondaryContainer: Colors.blueAccent.shade100,
-    surface: Colors.white,
-    onSurface: Colors.blue.shade800,
+    surface: Colors.lime.shade50,
+    onSurface: Colors.purple.shade700,
     error: Colors.red,
-    onError: Colors.white,
+    onError: Colors.lime.shade50,
   ),
-  dividerColor: Colors.blue.shade800,
+  dividerColor: Colors.purple.shade700,
 
   textTheme: const TextTheme(
-    bodyLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black), // Larger body text
-    bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black), // Medium body text
-    displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black), // Largest headline
-    displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black), // Second largest headline
-    titleMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black), // Medium-emphasis text
-    titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black), // Smaller medium-emphasis text
-    bodySmall: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black, fontStyle: FontStyle.italic), // Caption text
+    bodyLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87), // Larger body text
+    bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black87), // Medium body text
+    displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black87), // Largest headline
+    displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black87), // Second largest headline
+    titleMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87), // Medium-emphasis text
+    titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black87), // Smaller medium-emphasis text
+    bodySmall: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black87, fontStyle: FontStyle.italic), // Caption text
     labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white), // Text for buttons
-    labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black), // Overline text
+    labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black87), // Overline text
   ),
   chipTheme: ChipThemeData(
     backgroundColor: Colors.grey.shade100,
-    selectedColor: Colors.blue.shade800, // Dark blue for selected chip
+    selectedColor: Colors.purple.shade700, // Dark blue for selected chip
     disabledColor: Colors.grey,
-    secondarySelectedColor: Colors.blueAccent.shade400, // Darker light blue for secondary selected chip
+    secondarySelectedColor: Colors.purple.shade100, // Darker light blue for secondary selected chip
     padding: const EdgeInsets.all(4.0),
     shape: const StadiumBorder(),
-    labelStyle: const TextStyle(color: Colors.black),
+    labelStyle: const TextStyle(color: Colors.black87),
     secondaryLabelStyle: const TextStyle(color: Colors.white),
     brightness: Brightness.light,
   ),
   appBarTheme: AppBarTheme(
-    backgroundColor: Colors.blue.shade100, // Light blue for AppBar
-    foregroundColor: Colors.black,
+    backgroundColor: Colors.purple.shade100, // Light blue for AppBar
+    foregroundColor: Colors.black87,
   ),
   drawerTheme: DrawerThemeData(
-    backgroundColor: Colors.lightBlue.shade100, // Light blue for Drawer
+    backgroundColor: Colors.purple.shade100, // Light blue for Drawer
     elevation: 16.0,
   ),
 
   iconTheme: IconThemeData(
-    color: Colors.blue.shade800, // Align with primary or desired color
+    color: Colors.purple.shade700, // Align with primary or desired color
     size: 24, // Optional, you can adjust icon size as needed
   ),
 
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: Colors.blue.shade100, // Light blue for BottomNavigationBar
-    selectedItemColor: Colors.blue.shade800, // Darker blue for selected item
+    backgroundColor: Colors.purple.shade100, // Light blue for BottomNavigationBar
+    selectedItemColor: Colors.purple.shade700, // Darker blue for selected item
     unselectedItemColor: Colors.grey,
   ),
   tooltipTheme: TooltipThemeData(
     decoration: BoxDecoration(
-      color: Colors.blue.shade100, // Custom color for myClosetTheme tooltips
+      color: Colors.purple.shade100, // Custom color for myClosetTheme tooltips
       borderRadius: BorderRadius.circular(8),
     ),
     textStyle: const TextStyle(
-      color: Colors.black, // Custom text color for myClosetTheme tooltips
+      color: Colors.black87, // Custom text color for myClosetTheme tooltips
       fontSize: 14,
     ),
   ),
   snackBarTheme: SnackBarThemeData(
-    backgroundColor: Colors.blue.shade100, // Set the background color for SnackBar
-    contentTextStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold), // Set the text color and style
+    backgroundColor: Colors.purple.shade100, // Set the background color for SnackBar
+    contentTextStyle: const TextStyle(color: Colors.black87, fontWeight: FontWeight.bold), // Set the text color and style
   ),
   dialogTheme: DialogTheme(
-    backgroundColor: Colors.lightBlue.shade100,
-    titleTextStyle: TextStyle(color: Colors.blue.shade900, fontWeight: FontWeight.bold),
-    contentTextStyle: TextStyle(color: Colors.blue.shade800),
+    backgroundColor: Colors.purple.shade100,
+    titleTextStyle: TextStyle(color: Colors.purple.shade700, fontWeight: FontWeight.bold),
+    contentTextStyle: TextStyle(color: Colors.purple.shade600),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
       backgroundColor: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
         if (states.contains(WidgetState.pressed)) {
-          return Colors.blue.shade900; // closest to #255743
+          return Colors.purple.shade700; // closest to #255743
         }
-        return Colors.blue.shade800; // closest to #366D59
+        return Colors.purple.shade600; // closest to #366D59
       }),
       foregroundColor: WidgetStateProperty.all<Color>(Colors.white), // text color
     ),

@@ -268,5 +268,11 @@
   "selfieGoldDescription": "Pay US$129.99 to take unlimited selfies",
   "multiOutfitTitle": "Multi Outfit Premium Feature",
   "multiOutfitDescription": "Pay US$19.99 to create multiple outfits a day",
-  "purchase_button": "Purchase Now"
+  "purchase_button": "Purchase Now",
+  "uploadItemBronzeSuccessTitle": "Congrats! 200 More Items to Your Conscious Closet",
+  "uploadItemBronzeSuccessMessage": "You've unlocked space for 200 more items!\nKeep adding thoughtfully to build a sustainable wardrobe that reflects your unique style.",
+  "uploadItemSilverSuccessTitle": "Amazing! 700 More Items to Express Your Style",
+  "uploadItemSilverSuccessMessage": "Your closet just got bigger!\nYou can now add 700 more items. Keep refining your personal style while making eco-conscious choices.",
+  "uploadItemGoldSuccessTitle": "Limitless! Your Closet is Now Boundless",
+  "uploadItemGoldSuccessMessage": "You’ve unlocked unlimited space! Add as many items as you want and let your sustainable wardrobe reflect the best of your personal style."
 }

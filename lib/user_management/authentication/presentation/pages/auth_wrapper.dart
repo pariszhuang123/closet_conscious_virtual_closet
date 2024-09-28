@@ -60,7 +60,7 @@ class AuthWrapperState extends State<AuthWrapper> {
             return LoginScreen(myClosetTheme: widget.myClosetTheme);
           } else {
             return Container(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface, // Use the surface color from the theme
               child: const Center(child: CircularProgressIndicator()),
             );
           }

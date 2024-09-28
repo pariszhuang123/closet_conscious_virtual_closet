@@ -2739,6 +2739,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Congrats! 200 More Items to Your Conscious Closet`
+  String get uploadItemBronzeSuccessTitle {
+    return Intl.message(
+      'Congrats! 200 More Items to Your Conscious Closet',
+      name: 'uploadItemBronzeSuccessTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've unlocked space for 200 more items!\nKeep adding thoughtfully to build a sustainable wardrobe that reflects your unique style.`
+  String get uploadItemBronzeSuccessMessage {
+    return Intl.message(
+      'You\'ve unlocked space for 200 more items!\nKeep adding thoughtfully to build a sustainable wardrobe that reflects your unique style.',
+      name: 'uploadItemBronzeSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amazing! 700 More Items to Express Your Style`
+  String get uploadItemSilverSuccessTitle {
+    return Intl.message(
+      'Amazing! 700 More Items to Express Your Style',
+      name: 'uploadItemSilverSuccessTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your closet just got bigger!\nYou can now add 700 more items. Keep refining your personal style while making eco-conscious choices.`
+  String get uploadItemSilverSuccessMessage {
+    return Intl.message(
+      'Your closet just got bigger!\nYou can now add 700 more items. Keep refining your personal style while making eco-conscious choices.',
+      name: 'uploadItemSilverSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Limitless! Your Closet is Now Boundless`
+  String get uploadItemGoldSuccessTitle {
+    return Intl.message(
+      'Limitless! Your Closet is Now Boundless',
+      name: 'uploadItemGoldSuccessTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve unlocked unlimited space! Add as many items as you want and let your sustainable wardrobe reflect the best of your personal style.`
+  String get uploadItemGoldSuccessMessage {
+    return Intl.message(
+      'You’ve unlocked unlimited space! Add as many items as you want and let your sustainable wardrobe reflect the best of your personal style.',
+      name: 'uploadItemGoldSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

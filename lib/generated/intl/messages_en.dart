@@ -440,14 +440,26 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Confirm Closet Completion"),
         "uploadItemBronzeDescription": MessageLookupByLibrary.simpleMessage(
             "Pay US\$19.99 to upload another 200 items"),
+        "uploadItemBronzeSuccessMessage": MessageLookupByLibrary.simpleMessage(
+            "You\'ve unlocked space for 200 more items!\nKeep adding thoughtfully to build a sustainable wardrobe that reflects your unique style."),
+        "uploadItemBronzeSuccessTitle": MessageLookupByLibrary.simpleMessage(
+            "Congrats! 200 More Items to Your Conscious Closet"),
         "uploadItemBronzeTitle":
             MessageLookupByLibrary.simpleMessage("Bronze Plan - Upload Items"),
         "uploadItemGoldDescription": MessageLookupByLibrary.simpleMessage(
             "Pay US\$129.99 to upload unlimited items"),
+        "uploadItemGoldSuccessMessage": MessageLookupByLibrary.simpleMessage(
+            "You’ve unlocked unlimited space! Add as many items as you want and let your sustainable wardrobe reflect the best of your personal style."),
+        "uploadItemGoldSuccessTitle": MessageLookupByLibrary.simpleMessage(
+            "Limitless! Your Closet is Now Boundless"),
         "uploadItemGoldTitle":
             MessageLookupByLibrary.simpleMessage("Gold Plan - Upload Items"),
         "uploadItemSilverDescription": MessageLookupByLibrary.simpleMessage(
             "Pay US\$49.99 to upload another 700 items"),
+        "uploadItemSilverSuccessMessage": MessageLookupByLibrary.simpleMessage(
+            "Your closet just got bigger!\nYou can now add 700 more items. Keep refining your personal style while making eco-conscious choices."),
+        "uploadItemSilverSuccessTitle": MessageLookupByLibrary.simpleMessage(
+            "Amazing! 700 More Items to Express Your Style"),
         "uploadItemSilverTitle":
             MessageLookupByLibrary.simpleMessage("Silver Plan - Upload Items"),
         "upload_failed": m0,

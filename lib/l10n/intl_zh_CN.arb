@@ -268,5 +268,11 @@
   "selfieGoldDescription": "支付129.99美元拍摄无限数量的自拍",
   "multiOutfitTitle": "多重搭配高级功能",
   "multiOutfitDescription": "支付19.99美元每天创建多个搭配",
-  "purchase_button": "立即购买"
+  "purchase_button": "立即购买",
+  "uploadItemBronzeSuccessTitle": "恭喜！再增加200件物品到您的环保衣橱",
+  "uploadItemBronzeSuccessMessage": "您已解锁了200件物品的空间！继续精心挑选，打造反映您独特风格的可持续衣橱。",
+  "uploadItemSilverSuccessTitle": "太棒了！再增加700件物品，展现您的风采",
+  "uploadItemSilverSuccessMessage": "您的衣橱空间扩展了！现在可以添加700件物品，继续打造符合环保理念的个性风格。",
+  "uploadItemGoldSuccessTitle": "无限量！您的衣橱现在无边无际 ",
+  "uploadItemGoldSuccessMessage": "您已解锁无限空间！随心添加物品，让您的可持续衣橱完美展示您的个人风格。"
 }

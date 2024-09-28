@@ -29,7 +29,7 @@ class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(  // Added Scaffold here
-      backgroundColor: Colors.white, // Set the background color to white
+      backgroundColor: widget.myClosetTheme.colorScheme.surface,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

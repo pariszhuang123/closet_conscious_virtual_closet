@@ -3,6 +3,7 @@ name: ClosetConscious CI Trunk Based
 on:
   push:
     branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   deploy_dev_supabase:

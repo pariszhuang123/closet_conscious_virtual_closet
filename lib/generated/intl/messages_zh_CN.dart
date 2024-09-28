@@ -391,14 +391,26 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("确认衣橱完成"),
         "uploadItemBronzeDescription":
             MessageLookupByLibrary.simpleMessage("支付19.99美元上传额外200个物品"),
+        "uploadItemBronzeSuccessMessage": MessageLookupByLibrary.simpleMessage(
+            "您已解锁了200件物品的空间！继续精心挑选，打造反映您独特风格的可持续衣橱。"),
+        "uploadItemBronzeSuccessTitle":
+            MessageLookupByLibrary.simpleMessage("恭喜！再增加200件物品到您的环保衣橱"),
         "uploadItemBronzeTitle":
             MessageLookupByLibrary.simpleMessage("青铜计划 - 上传物品"),
         "uploadItemGoldDescription":
             MessageLookupByLibrary.simpleMessage("支付129.99美元上传无限数量的物品"),
+        "uploadItemGoldSuccessMessage": MessageLookupByLibrary.simpleMessage(
+            "您已解锁无限空间！随心添加物品，让您的可持续衣橱完美展示您的个人风格。"),
+        "uploadItemGoldSuccessTitle":
+            MessageLookupByLibrary.simpleMessage("无限量！您的衣橱现在无边无际 "),
         "uploadItemGoldTitle":
             MessageLookupByLibrary.simpleMessage("黄金计划 - 上传物品"),
         "uploadItemSilverDescription":
             MessageLookupByLibrary.simpleMessage("支付49.99美元上传额外700个物品"),
+        "uploadItemSilverSuccessMessage": MessageLookupByLibrary.simpleMessage(
+            "您的衣橱空间扩展了！现在可以添加700件物品，继续打造符合环保理念的个性风格。"),
+        "uploadItemSilverSuccessTitle":
+            MessageLookupByLibrary.simpleMessage("太棒了！再增加700件物品，展现您的风采"),
         "uploadItemSilverTitle":
             MessageLookupByLibrary.simpleMessage("白银计划 - 上传物品"),
         "upload_failed": m0,

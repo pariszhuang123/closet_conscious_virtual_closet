@@ -12,6 +12,7 @@ import '../../user_management/achievements/data/models/achievements_page_argumen
 import '../../core/data/models/arguments.dart';
 import '../../outfit_management/review_outfit/presentation/page/outfit_review_provider.dart';
 import '../../outfit_management/wear_outfit/presentation/page/outfit_wear_provider.dart';
+import '../paywall/pages/payment_provider.dart';
 import '../user_photo/presentation/pages/photo_provider.dart';
 import '../core_enums.dart';
 import 'logger.dart';
@@ -31,6 +32,7 @@ class AppRoutes {
   static const String editPhoto = '/edit_photo';
   static const String infoHub = '/info_hub';
   static const String achievementPage = '/achievements';
+  static const String payment = '/payment';
 
   static final CustomLogger logger = CustomLogger('AppRoutes');
 
@@ -109,10 +111,18 @@ class AppRoutes {
             ),
           );
         }
-        return _errorRoute(settings.name);
+      case payment:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => PaymentProvider(
+            featureKey: args['featureKey'],
+            isFromMyCloset: args['isFromMyCloset'],
+          ),
+        );
       default:
         return _errorRoute(settings.name);
     }
+    return _errorRoute(settings.name); // Add this to handle non-matching arguments
   }
 
   static Route<dynamic> _errorRoute(String? routeName) {
