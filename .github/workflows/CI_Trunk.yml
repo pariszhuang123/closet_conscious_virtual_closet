@@ -234,9 +234,6 @@ jobs:
           mkdir -p config
           echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" | base64 --decode > config/google_play_key.json
 
-      - name: Debug Google Play Key JSON (NEW STEP for debugging)
-        run: head -c 100 config/google_play_key.json
-
       - name: Upload AAB to Google Play Store
         run: |
           fastlane android deploy_internal

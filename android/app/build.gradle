@@ -23,7 +23,7 @@ def majorVersion = 1
 def minorVersion = 0  // You can manually update this for each release
 
 // Get the build number from the environment variable (set in GitHub Actions)
-def buildNumber = System.getenv("BUILD_NUMBER") ?: '1'
+def buildNumber = System.getenv("BUILD_NUMBER")?.toInteger() ?: 1
 
 // Create the version name using major, minor, and build numbers
 def buildVersionName = "${majorVersion}.${minorVersion}.${buildNumber}"
