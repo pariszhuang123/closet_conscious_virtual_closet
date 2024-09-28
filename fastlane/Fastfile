@@ -22,7 +22,7 @@ platform :android do
         package_name: "com.makinglifeeasie.closetconscious",
         metadata_path: "./metadata/android",
         skip_upload_apk: true,  # This skips APK upload, so only AAB will be uploaded
-        release_status: 'published'
+        release_status: 'completed'
       )
     rescue => exception
       UI.error("Failed to deploy to internal track: #{exception.message}")
@@ -38,8 +38,7 @@ platform :android do
 
       # Promote from internal to closed track
       upload_to_play_store(
-        track: "closed",
-        track_promote_to: "closed",  # Explicitly promote from internal to closed
+        track: "alpha",
         json_key: "./config/google_play_key.json",  # Use the path of the file created by GitHub Actions
         package_name: "com.makinglifeeasie.closetconscious",
         metadata_path: "./metadata/android",
@@ -59,8 +58,7 @@ platform :android do
 
       # Promote from closed to open track
       upload_to_play_store(
-        track: "open",
-        track_promote_to: "open",  # Explicitly promote from closed to open
+        track: "beta",
         json_key: "./config/google_play_key.json",  # Use the path of the file created by GitHub Actions
         package_name: "com.makinglifeeasie.closetconscious",
         metadata_path: "./metadata/android",
