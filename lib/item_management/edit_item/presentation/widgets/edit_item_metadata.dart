@@ -52,6 +52,13 @@ class EditItemMetadata extends StatelessWidget {
           decoration: InputDecoration(
             labelText: S.of(context).item_name,
             labelStyle: theme.textTheme.bodyMedium,
+            border: InputBorder.none,  // No underline when not focused
+            focusedBorder: UnderlineInputBorder( // Underline when focused
+              borderSide: BorderSide(
+                color: theme.colorScheme.primary,  // Customize underline color
+                width: 2.0,
+              ),
+            ),
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -70,6 +77,13 @@ class EditItemMetadata extends StatelessWidget {
             labelText: S.of(context).amountSpentLabel,
             hintText: S.of(context).enterAmountSpentHint,
             labelStyle: theme.textTheme.bodyMedium,
+            border: InputBorder.none,  // No underline when not focused
+            focusedBorder: UnderlineInputBorder( // Underline when focused
+              borderSide: BorderSide(
+                color: theme.colorScheme.primary,  // Customize underline color
+                width: 2.0,
+              ),
+            ),
           ),
           keyboardType: TextInputType.number,
           validator: (value) {

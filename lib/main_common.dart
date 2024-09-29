@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'core/config/config_reader.dart';
 import 'core/config/flavor_config.dart';
 import 'core/config/supabase_config.dart';
-import 'app.dart';
 
 import 'user_management/user_service_locator.dart' as user_management_locator;
 import 'core/core_service_locator.dart' as core_locator;
 import 'core/utilities/logger.dart';
 import 'outfit_management/outfit_service_locator.dart' as outfit_locator;
+import 'app.dart';
 
 Future<void> mainCommon(String environment) async {
   WidgetsFlutterBinding.ensureInitialized();
+
 
   core_locator.setupCoreServices();
 

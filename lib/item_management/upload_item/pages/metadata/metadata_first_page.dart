@@ -41,6 +41,13 @@ class MetadataFirstPage extends StatelessWidget {
                 prefixIcon: const Icon(Icons.edit),
                 iconColor: myClosetTheme.iconTheme.color,
                 labelStyle: myClosetTheme.textTheme.bodyMedium,
+                border: InputBorder.none,  // No underline when not focused
+                focusedBorder: UnderlineInputBorder( // Underline when focused
+                  borderSide: BorderSide(
+                    color: myClosetTheme.colorScheme.primary,  // Customize underline color
+                    width: 2.0,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -53,6 +60,13 @@ class MetadataFirstPage extends StatelessWidget {
                 iconColor: myClosetTheme.iconTheme.color,
                 errorText: amountSpentError,
                 labelStyle: myClosetTheme.textTheme.bodyMedium,
+                border: InputBorder.none,  // No underline when not focused
+                focusedBorder: UnderlineInputBorder( // Underline when focused
+                  borderSide: BorderSide(
+                    color: myClosetTheme.colorScheme.primary,  // Customize underline color
+                    width: 2.0,
+                  ),
+                ),
               ),
               keyboardType: TextInputType.number,
               onChanged: (value) {
