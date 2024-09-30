@@ -115,21 +115,24 @@ class NavigateOutfitBloc extends Bloc<NavigateOutfitEvent, NavigateOutfitState> 
       logger.e('Error fetching achievement milestone: $error');
     }
   }
+
   Future<void> _onCheckOutfitCreationAccess(
       CheckOutfitCreationAccessEvent event,
       Emitter<NavigateOutfitState> emit) async {
-
+    logger.i('Checking if the user has access to create an outfit.');
     try {
-      bool canCreateOutfit = await outfitFetchService.checkOutfitAccess(); // Use service to check access
+      bool canCreateOutfit = await outfitFetchService.checkOutfitAccess();
+
       if (canCreateOutfit) {
         emit(OutfitAccessGrantedState());
+        logger.i('Outfit creation access granted.');
       } else {
         emit(OutfitAccessDeniedState());
+        logger.w('Outfit creation access denied.');
       }
     } catch (error) {
       logger.e('Error checking outfit access: $error');
       emit(const OutfitAccessErrorState('Failed to check outfit access.'));
     }
   }
-
 }
