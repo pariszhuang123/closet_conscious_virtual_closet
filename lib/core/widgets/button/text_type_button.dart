@@ -30,7 +30,7 @@ class TextTypeButton extends TypeButton {
 
     return Text(
       label[0].toUpperCase() + label.substring(1),
-      style: theme.textTheme.labelSmall?.copyWith(
+      style: theme.textTheme.bodyMedium?.copyWith(
         color: textColor,
       ),
     );

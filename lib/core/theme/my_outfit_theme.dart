@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 final ThemeData myOutfitTheme = ThemeData(
   colorScheme: ColorScheme.fromSwatch(
@@ -9,25 +11,19 @@ final ThemeData myOutfitTheme = ThemeData(
     onPrimary: Colors.lime.shade50,
     primaryContainer: Colors.purple.shade700, // Darker blue for primary container
     secondary: Colors.purple.shade300, // Light blue for secondary
-    onSecondary: Colors.black87,
+    onSecondary: Colors.blueGrey.shade900,
     secondaryContainer: Colors.blueAccent.shade100,
     surface: Colors.lime.shade50,
     onSurface: Colors.purple.shade700,
-    error: Colors.red,
+    error: Colors.red.shade200,
     onError: Colors.lime.shade50,
   ),
   dividerColor: Colors.purple.shade700,
 
-  textTheme: const TextTheme(
-    bodyLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87), // Larger body text
-    bodyMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.black87), // Medium body text
-    displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black87), // Largest headline
-    displayMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black87), // Second largest headline
-    titleMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87), // Medium-emphasis text
-    titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black87), // Smaller medium-emphasis text
-    bodySmall: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.black87, fontStyle: FontStyle.italic), // Caption text
-    labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white), // Text for buttons
-    labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.black87), // Overline text
+  textTheme: TextTheme(
+    bodyMedium: GoogleFonts.averageSans(fontSize: 16, fontWeight: FontWeight.normal, color: const Color(0xFF263238)), // Medium body text
+    displayLarge: GoogleFonts.openSans(fontSize: 32, fontWeight: FontWeight.bold, color: const Color(0xFF263238)), // Largest headline
+    titleMedium: GoogleFonts.openSans(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF263238)), // Medium-emphasis text
   ),
   chipTheme: ChipThemeData(
     backgroundColor: Colors.grey.shade100,

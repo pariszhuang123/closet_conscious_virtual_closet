@@ -81,7 +81,7 @@ class PaymentScreenState extends State<PaymentScreen> {
               // Display price
               Text(
                 "\$${featureData.price.toStringAsFixed(2)}",
-                style: appliedTheme.textTheme.displayMedium?.copyWith(
+                style: appliedTheme.textTheme.displayLarge?.copyWith(
                   color: appliedTheme.colorScheme.onSurface,
                   fontWeight: FontWeight.bold,
                 ),

@@ -53,7 +53,7 @@ class ConnectivityScreenState extends State<ConnectivityScreen> with SingleTicke
                 // Title above the logo using myClosetTheme text style
                 Text(
                   S.of(context).noInternetTitle, // Localized title
-                  style: myClosetTheme.textTheme.displayMedium, // Use myClosetTheme's displayMedium for title
+                  style: myClosetTheme.textTheme.displayLarge, // Use myClosetTheme's displayMedium for title
                 ),
                 const SizedBox(height: 20),
                 // Animated logo
@@ -69,7 +69,7 @@ class ConnectivityScreenState extends State<ConnectivityScreen> with SingleTicke
                 Text(
                   S.of(context).noInternetMessage, // Localized message
                   textAlign: TextAlign.center,
-                  style: myClosetTheme.textTheme.bodyLarge, // Use myClosetTheme's bodyLarge for the message
+                  style: myClosetTheme.textTheme.titleMedium,
                 ),
                 const SizedBox(height: 20),
                 // Retry button

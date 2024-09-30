@@ -53,7 +53,7 @@ class EnhancedUserPhoto extends StatelessWidget {
             Flexible(
               child: Text(
                 itemName,
-                style: Theme.of(context).textTheme.labelSmall,
+                style: Theme.of(context).textTheme.bodyMedium,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),

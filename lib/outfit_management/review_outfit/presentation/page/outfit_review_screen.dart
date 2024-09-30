@@ -137,7 +137,7 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                                     color: Theme.of(context).cardColor,
                                     child: Text(
                                       feedbackSentence,
-                                      style: Theme.of(context).textTheme.titleSmall,
+                                      style: Theme.of(context).textTheme.titleMedium,
                                       textAlign: TextAlign.center,
                                     ),
                                   ),

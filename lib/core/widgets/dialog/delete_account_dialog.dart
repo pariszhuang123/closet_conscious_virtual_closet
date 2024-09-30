@@ -23,7 +23,7 @@ class DeleteAccountDialog extends StatelessWidget {
             TextSpan(
               text: S.of(context).deleteAccountImpact,
               style: TextStyle(
-                color: Theme.of(context).textTheme.bodyLarge?.color,
+                color: Theme.of(context).textTheme.titleMedium?.color,
                 fontWeight: FontWeight.bold,
               ),
             ),

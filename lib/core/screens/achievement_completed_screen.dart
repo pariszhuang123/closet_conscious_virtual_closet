@@ -147,7 +147,7 @@ class AchievementScreenState extends State<AchievementScreen> {
                     // Dynamic Achievement Message
                     Text(
                       achievementMessage,  // Localized achievement message based on key
-                      style: theme.textTheme.bodyLarge,
+                      style: theme.textTheme.titleMedium,
                       textAlign: TextAlign.center,
                     ),
 

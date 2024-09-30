@@ -52,7 +52,7 @@ class SlidingProgressButton extends StatelessWidget {
         )
             : Text(
           _buttonText(context),
-          style: myClosetTheme.textTheme.labelLarge?.copyWith(
+          style: myClosetTheme.textTheme.bodyMedium?.copyWith(
             color: myClosetTheme.colorScheme.onPrimary,
           ),
         ),

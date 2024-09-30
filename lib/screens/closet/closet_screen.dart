@@ -14,6 +14,7 @@ import '../../core/widgets/bottom_sheet/premium_bottom_sheet/arrange_premium_bot
 import '../../item_management/upload_item/presentation/widgets/upload_confirmation_bottom_sheet.dart';
 import '../app_drawer.dart';
 import '../../core/theme/ui_constant.dart';
+import '../../core/widgets/button/themed_elevated_button.dart';
 
 class MyClosetPage extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -281,10 +282,9 @@ class MyClosetPageState extends State<MyClosetPage> {
                   ),
                 ),
                 if (!_isUploadCompleted)
-                  ElevatedButton(
+                  ThemedElevatedButton(
                     onPressed: _onUploadCompletedButtonPressed,
-                    style: widget.myClosetTheme.elevatedButtonTheme.style,
-                    child: Text(S.of(context).closetUploadComplete, style: widget.myClosetTheme.textTheme.labelLarge),
+                    text: S.of(context).closetUploadComplete, // Pass the localized text
                   ),
               ],
             ),

@@ -27,7 +27,7 @@ class NumberTypeButton extends TypeButton {
 
     return Text(
       '${formattedCount.value}${formattedCount.suffix}',
-      style: theme.textTheme.labelSmall?.copyWith(
+      style: theme.textTheme.bodyMedium?.copyWith(
         color: textColor,
       ),
     );
