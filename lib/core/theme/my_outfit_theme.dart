@@ -21,7 +21,7 @@ final ThemeData myOutfitTheme = ThemeData(
   dividerColor: Colors.purple.shade700,
 
   textTheme: TextTheme(
-    bodyMedium: GoogleFonts.averageSans(fontSize: 16, fontWeight: FontWeight.normal, color: const Color(0xFF263238)), // Medium body text
+    bodyMedium: GoogleFonts.averageSans(fontSize: 14, fontWeight: FontWeight.normal, color: const Color(0xFF263238)), // Medium body text
     displayLarge: GoogleFonts.openSans(fontSize: 32, fontWeight: FontWeight.bold, color: const Color(0xFF263238)), // Largest headline
     titleMedium: GoogleFonts.openSans(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF263238)), // Medium-emphasis text
   ),

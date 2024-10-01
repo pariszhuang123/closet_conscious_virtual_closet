@@ -51,6 +51,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     _checkNavigationToReview(context);
     _triggerClothingAchievement();
     _triggerNoBuyAchievement();// Call the method after setting the outfit count
+    _triggerOutfitCreation();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
         logger.i('Reached the end of the list, fetching more items...');
@@ -94,6 +95,11 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   void _triggerNoBuyAchievement() {
     logger.i('Checking if Clothing Achievement Milestone is successful');
     context.read<NavigateOutfitBloc>().add(const FetchAndSaveNoBuyMilestoneAchievementEvent());
+  }
+
+  void _triggerOutfitCreation() {
+    logger.i('Checking if Outfit can be created');
+    context.read<NavigateOutfitBloc>().add(const CheckOutfitCreationAccessEvent());
   }
 
   void _onFilterButtonPressed() {
