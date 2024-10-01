@@ -15,25 +15,25 @@ extension FeatureKeyExtension on FeatureKey {
   String get key {
     switch (this) {
       case FeatureKey.uploadItemBronze:
-        return 'upload_item_bronze';
+        return 'com.makinglifeeasie.closetconscious.bronzeuploaditem';
       case FeatureKey.uploadItemSilver:
-        return 'upload_item_silver';
+        return 'com.makinglifeeasie.closetconscious.silveruploaditem';
       case FeatureKey.uploadItemGold:
-        return 'upload_item_gold';
+        return 'com.makinglifeeasie.closetconscious.golduploaditem';
       case FeatureKey.editItemBronze:
-        return 'edit_item_bronze';
+        return 'com.makinglifeeasie.closetconscious.bronzeedititem';
       case FeatureKey.editItemSilver:
-        return 'edit_item_silver';
+        return 'com.makinglifeeasie.closetconscious.silveredititem';
       case FeatureKey.editItemGold:
-        return 'edit_item_gold';
+        return 'com.makinglifeeasie.closetconscious.goldedititem';
       case FeatureKey.selfieBronze:
-        return 'selfie_bronze';
+        return 'com.makinglifeeasie.closetconscious.bronzeselfie';
       case FeatureKey.selfieSilver:
-        return 'selfie_silver';
+        return 'com.makinglifeeasie.closetconscious.silverselfie';
       case FeatureKey.selfieGold:
-        return 'selfie_gold';
+        return 'com.makinglifeeasie.closetconscious.goldselfie';
       case FeatureKey.multiOutfit:
-        return 'multi_outfit';
+        return 'com.makinglifeeasie.closetconscious.multipleoutfits';
     }
   }
 }
