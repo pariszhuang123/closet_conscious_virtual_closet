@@ -4,7 +4,7 @@ CREATE TABLE public.purchases (
   product_id TEXT NOT NULL,
   purchase_date TIMESTAMPTZ NOT NULL,
   purchase_token TEXT NOT NULL DEFAULT 'cc_none',
-  country_code TEXT NOT NULL,
+  country_code TEXT NOT NULL
 );
 
 COMMENT ON TABLE public.purchases IS 'Table storing in-app purchase records for both Android and iOS platforms. Tracks transaction details and user-specific purchase data.';
