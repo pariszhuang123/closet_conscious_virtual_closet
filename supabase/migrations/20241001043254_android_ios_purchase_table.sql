@@ -7,6 +7,7 @@ CREATE TABLE public.purchases (
   country_code TEXT NOT NULL
 );
 
+
 COMMENT ON TABLE public.purchases IS 'Table storing in-app purchase records for both Android and iOS platforms. Tracks transaction details and user-specific purchase data.';
 
 COMMENT ON COLUMN public.purchases.transaction_id IS 'The unique transaction identifier (iOS: transaction_id, Android: orderId). These identifiers are unique per platform, but Android uses a longer string format compared to iOS.';
