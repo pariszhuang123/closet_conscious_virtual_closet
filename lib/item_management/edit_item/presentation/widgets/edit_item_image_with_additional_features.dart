@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/user_photo/presentation/widgets/image_display_widget.dart';
-import '../../../../core/core_enums.dart';
+import '../../presentation/widgets/edit_item_additional_feature.dart';
 
 class EditItemImageWithAdditionalFeatures extends StatelessWidget {
   final String? imageUrl;
   final bool isChanged;
   final VoidCallback onImageTap;
   final VoidCallback onSwapPressed;
-  final String swapLabel;
-  final String assetPath;
+  final VoidCallback onMetadataPressed;
+
 
   const EditItemImageWithAdditionalFeatures({
     super.key,
@@ -17,8 +16,7 @@ class EditItemImageWithAdditionalFeatures extends StatelessWidget {
     required this.isChanged,
     required this.onImageTap,
     required this.onSwapPressed,
-    required this.swapLabel,
-    required this.assetPath,
+    required this.onMetadataPressed,
   });
 
   @override
@@ -39,17 +37,12 @@ class EditItemImageWithAdditionalFeatures extends StatelessWidget {
             ),
           ),
           Positioned(
-            right: 0,
-            top: 0,
+            right: 20,
+            top: 20,
             bottom: 0,
-            child: NavigationTypeButton(
-              label: swapLabel,
-              selectedLabel: '',
-              onPressed: onSwapPressed,
-              assetPath: assetPath,
-              isFromMyCloset: true,
-              buttonType: ButtonType.secondary,
-              usePredefinedColor: false,
+            child: EditItemAdditionalFeature(
+              openMetadataSheet: onMetadataPressed,  // New callback
+              openSwapSheet: onSwapPressed,  // Reusing the swap callback
             ),
           ),
         ],

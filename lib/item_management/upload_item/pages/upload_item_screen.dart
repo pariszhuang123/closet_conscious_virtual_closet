@@ -6,7 +6,6 @@ import '../../../core/utilities/routes.dart';
 import '../../../generated/l10n.dart';
 import '../presentation/bloc/upload_item_bloc.dart';
 import '../../../core/widgets/feedback/custom_snack_bar.dart';
-import '../../../core/widgets/bottom_sheet/premium_bottom_sheet/metadata_premium_bottom_sheet.dart';
 import '../../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_upload_usage_bottom_sheet.dart';
 import '../presentation/widgets/sliding_progress_button.dart';
 import '../presentation/widgets/upload_item_additional_feature.dart';
@@ -169,17 +168,6 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
     ).show(context);
   }
 
-  void _openMetadataSheet() {
-    _logger.i('Opening metadata sheet');
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) => const MetadataFeatureBottomSheet(
-        isFromMyCloset: true,
-      ),
-    );
-    setState(() {});
-  }
-
   void _openAiUploadSheet() {
     _logger.i('Opening ai upload sheet');
     showModalBottomSheet(
@@ -271,11 +259,10 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
                               ),
                             ),
                             Positioned(
-                              right: 0,
-                              top: 0,
+                              right: 20,
+                              top: 20,
                               bottom: 0,
                               child: UploadItemAdditionalFeature(
-                                openMetadataSheet: _openMetadataSheet,
                                 openAiUploadSheet: _openAiUploadSheet,
                               ),
                             ),

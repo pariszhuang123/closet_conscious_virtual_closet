@@ -5,7 +5,7 @@ import '../../declutter_items/presentation/widgets/declutter_options_bottom_shee
 import '../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../generated/l10n.dart';
 import '../../../core/widgets/bottom_sheet/premium_bottom_sheet/swap_premium_bottom_sheet.dart';
-import '../../../core/data/type_data.dart';
+import '../../../core/widgets/bottom_sheet/premium_bottom_sheet/metadata_premium_bottom_sheet.dart';
 import '../../../core/utilities/routes.dart';
 import '../../core/data/models/closet_item_detailed.dart';
 import '../../../core/utilities/logger.dart';
@@ -87,6 +87,21 @@ class _EditItemScreenState extends State<EditItemScreen> {
     });
   }
 
+  // Open the swap bottom sheet
+  void _openMetadataSheet() {
+    _logger.d('Opening metadata sheet for itemId: ${widget.itemId}');
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) => const MetadataFeatureBottomSheet(
+        isFromMyCloset: true,
+      ),
+    );
+    setState(() {
+      _isChanged = false;
+    });
+  }
+
+
   // Dispatch metadata change event
   void _dispatchMetadataChanged(EditItemState state, ClosetItemDetailed updatedItem) {
     _logger.d('Dispatching metadata change for itemId: ${widget.itemId}');
@@ -147,7 +162,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
   @override
   Widget build(BuildContext context) {
     final ThemeData myClosetTheme = Theme.of(context);
-    final swapData = TypeDataList.swapItem(context);
 
     return BlocConsumer<EditItemBloc, EditItemState>(
       listener: (context, state) {
@@ -215,8 +229,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     }
                   },
                   onSwapPressed: _openSwapSheet,
-                  swapLabel: swapData.getName(context),
-                  assetPath: swapData.assetPath,
+                  onMetadataPressed: _openMetadataSheet, // Added this line
                 ),
 
                 // Scrollable Metadata Section (Middle Section)
