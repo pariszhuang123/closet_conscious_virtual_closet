@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/data/services/outfits_fetch_service.dart';
-import '../../../core/data/services/outfits_save_service.dart';
+import '../../../core/data/services/outfits_fetch_services.dart';
+import '../../../core/data/services/outfits_save_services.dart';
 import '../bloc/outfit_review_bloc.dart';
 import 'outfit_review_screen.dart';
 import 'package:get_it/get_it.dart';

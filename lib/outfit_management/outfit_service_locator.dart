@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'core/data/services/outfits_fetch_service.dart';
-import 'core/data/services/outfits_save_service.dart';
+import 'core/data/services/outfits_fetch_services.dart';
+import 'core/data/services/outfits_save_services.dart';
 
 final GetIt getIt = GetIt.instance;
 

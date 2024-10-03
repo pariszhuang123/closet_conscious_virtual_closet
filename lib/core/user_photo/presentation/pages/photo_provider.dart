@@ -7,13 +7,16 @@ import 'view/photo_selfie_screen.dart';
 import '../../../core_enums.dart';
 import '../../usecase/photo_capture_service.dart';
 import '../../../data/services/core_save_services.dart';
+import '../../../data/services/core_fetch_services.dart';
+import '../../../navigation/presentation/bloc/navigate_core_bloc.dart';
+import 'package:get_it/get_it.dart';
 
+final GetIt coreLocator = GetIt.instance;
 
 class PhotoProvider extends StatelessWidget {
   final CameraPermissionContext cameraContext;
   final String? itemId;  // Nullable: only for editItem
   final String? outfitId;  // Nullable: only for selfie
-// Add context to decide which view to load
 
   const PhotoProvider({super.key,
     required this.cameraContext,
@@ -23,11 +26,21 @@ class PhotoProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PhotoBloc(
-        photoCaptureService: PhotoCaptureService(),
-        coreSaveService: CoreSaveService(),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PhotoBloc>(
+          create: (context) => PhotoBloc(
+            photoCaptureService: PhotoCaptureService(),
+            coreSaveService: coreLocator<CoreSaveService>(),  // Access CoreSaveService via GetIt
+          ),
+        ),
+        BlocProvider<NavigateCoreBloc>(
+          create: (context) => NavigateCoreBloc(
+            coreFetchService: coreLocator<CoreFetchService>(),  // Access CoreFetchService via GetIt
+            coreSaveService: coreLocator<CoreSaveService>(),    // Access CoreSaveService via GetIt
+          ),
+        ),
+      ],
       child: Builder(
         builder: (context) {
           // Use the cameraContext enum to decide which view to load

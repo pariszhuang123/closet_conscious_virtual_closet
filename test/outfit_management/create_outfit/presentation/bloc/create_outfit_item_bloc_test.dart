@@ -5,8 +5,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:closet_conscious/core/utilities/logger.dart';
 import 'package:closet_conscious/item_management/core/data/models/closet_item_minimal.dart';
 import 'package:closet_conscious/outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
-import 'package:closet_conscious/outfit_management/core/data/services/outfits_fetch_service.dart';
-import 'package:closet_conscious/outfit_management/core/data/services/outfits_save_service.dart';
+import 'package:closet_conscious/outfit_management/core/data/services/outfits_fetch_services.dart';
+import 'package:closet_conscious/outfit_management/core/data/services/outfits_save_services.dart';
 import 'package:closet_conscious/outfit_management/core/outfit_enums.dart';
 
 

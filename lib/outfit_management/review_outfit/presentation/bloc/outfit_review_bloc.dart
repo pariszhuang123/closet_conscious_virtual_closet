@@ -5,8 +5,8 @@ import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../core/outfit_enums.dart';
 import '../../../../user_management/user_service_locator.dart';
 import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
-import '../../../core/data/services/outfits_fetch_service.dart';
-import '../../../core/data/services/outfits_save_service.dart';
+import '../../../core/data/services/outfits_fetch_services.dart';
+import '../../../core/data/services/outfits_save_services.dart';
 import '../../../../core/utilities/logger.dart';
 
 part 'outfit_review_state.dart';

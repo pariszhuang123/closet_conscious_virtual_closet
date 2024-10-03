@@ -2,9 +2,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/utilities/logger.dart';
-import '../../../core/data/services/outfits_fetch_service.dart';
+import '../../../core/data/services/outfits_fetch_services.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
-import '../../../core/data/services/outfits_save_service.dart';
+import '../../../core/data/services/outfits_save_services.dart';
 import '../../../core/outfit_enums.dart';
 
 part 'create_outfit_item_event.dart';
