@@ -39,16 +39,8 @@ class FeatureDataList {
         isUsageFeature: true,
         parts: [
           FeaturePart(
-            imageUrl: 'https://example.com/bronze_upload.png',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/upload_item.jpg',
             getDescription: (context) => S.of(context).uploadItemBronzeDescription,
-          ),
-          FeaturePart(
-            imageUrl: 'https://example.com/silver_upload.png',
-            getDescription: (context) => S.of(context).uploadItemSilverDescription,
-          ),
-          FeaturePart(
-            imageUrl: 'https://example.com/gold_upload.png',
-            getDescription: (context) => S.of(context).uploadItemGoldDescription,
           ),
         ],
       ),
@@ -59,7 +51,7 @@ class FeatureDataList {
         isUsageFeature: false,
         parts: [
           FeaturePart(
-            imageUrl: 'https://example.com/multiple_outfits.png',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/upload_item.jpg',
             getDescription: (context) => S.of(context).uploadItemSilverDescription,
           ),
         ],
@@ -71,7 +63,7 @@ class FeatureDataList {
         isUsageFeature: false,
         parts: [
           FeaturePart(
-            imageUrl: 'https://example.com/multiple_outfits.png',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/upload_item.jpg',
             getDescription: (context) => S.of(context).uploadItemGoldDescription,
           ),
         ],
@@ -83,7 +75,7 @@ class FeatureDataList {
         isUsageFeature: false,
         parts: [
           FeaturePart(
-            imageUrl: 'https://example.com/multiple_outfits.png',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
             getDescription: (context) => S.of(context).editItemBronzeDescription,
           ),
         ],
@@ -95,7 +87,7 @@ class FeatureDataList {
         isUsageFeature: false,
         parts: [
           FeaturePart(
-            imageUrl: 'https://example.com/multiple_outfits.png',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
             getDescription: (context) => S.of(context).editItemSilverDescription,
           ),
         ],
@@ -107,7 +99,7 @@ class FeatureDataList {
         isUsageFeature: false,
         parts: [
           FeaturePart(
-            imageUrl: 'https://example.com/multiple_outfits.png',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
             getDescription: (context) => S.of(context).editItemGoldDescription,
           ),
         ],
@@ -119,7 +111,7 @@ class FeatureDataList {
         isUsageFeature: false,
         parts: [
           FeaturePart(
-            imageUrl: 'https://example.com/multiple_outfits.png',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/selfie.jpg',
             getDescription: (context) => S.of(context).selfieBronzeDescription,
           ),
         ],
@@ -131,7 +123,7 @@ class FeatureDataList {
         isUsageFeature: false,
         parts: [
           FeaturePart(
-            imageUrl: 'https://example.com/multiple_outfits.png',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/selfie.jpg',
             getDescription: (context) => S.of(context).selfieSilverDescription,
           ),
         ],
@@ -143,7 +135,7 @@ class FeatureDataList {
         isUsageFeature: false,
         parts: [
           FeaturePart(
-            imageUrl: 'https://example.com/multiple_outfits.png',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/selfie.jpg',
             getDescription: (context) => S.of(context).selfieGoldDescription,
           ),
         ],
@@ -156,7 +148,7 @@ class FeatureDataList {
         isUsageFeature: false,
         parts: [
           FeaturePart(
-            imageUrl: 'https://example.com/multiple_outfits.png',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/multi_outfit.jpg',
             getDescription: (context) => S.of(context).multiOutfitDescription,
           ),
         ],

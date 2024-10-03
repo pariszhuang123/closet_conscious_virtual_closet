@@ -227,22 +227,6 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                 _isNavigating = false; // Reset navigating after returning
               });
             }
-            if (state is OutfitAccessGrantedState) {
-              // Do nothing specific since the user is already in MyOutfitScreen
-              logger.i('Outfit access granted, continuing with current process.');
-            }
-            else if (state is OutfitAccessDeniedState) {
-              // Access denied, navigate to the payment screen
-              logger.i('Outfit access denied, navigating to payment screen.');
-              Navigator.pushNamed(
-                context,
-                AppRoutes.payment,
-                arguments: {
-                  'featureKey': FeatureKey.multiOutfit,  // Pass necessary data
-                  'isFromMyCloset': true,
-                },
-              );
-            }
             if (state is FetchAndSaveNoBuyMilestoneSuccessState) {
               logger.i('Navigating to achievement page for achievement: ${state.badgeUrl}');
               _isNavigating = true; // Set navigating to true when navigating to review page
@@ -262,7 +246,24 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                 _isNavigating = false; // Reset navigating after returning
               });
             }
-
+            if (state is OutfitAccessGrantedState) {
+              // Do nothing specific since the user is already in MyOutfitScreen
+              logger.i('Outfit access granted, continuing with current process.');
+            }
+            else if (state is OutfitAccessDeniedState) {
+              // Access denied, navigate to the payment screen
+              logger.i('Outfit access denied, navigating to payment screen.');
+              Navigator.pushNamed(
+                context,
+                AppRoutes.payment,
+                arguments: {
+                  'featureKey': FeatureKey.multiOutfit,  // Pass necessary data
+                  'isFromMyCloset': false,
+                  'previousRoute': AppRoutes.myCloset,
+                  'nextRoute': AppRoutes.createOutfit
+                },
+              );
+            }
           },
         ),
         BlocListener<CreateOutfitItemBloc, CreateOutfitItemState>(

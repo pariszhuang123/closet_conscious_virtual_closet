@@ -2540,10 +2540,10 @@ class S {
     );
   }
 
-  /// `Pay US$19.99 to upload another 200 items`
+  /// `Upload another 200 items`
   String get uploadItemBronzeDescription {
     return Intl.message(
-      'Pay US\$19.99 to upload another 200 items',
+      'Upload another 200 items',
       name: 'uploadItemBronzeDescription',
       desc: '',
       args: [],
@@ -2560,10 +2560,10 @@ class S {
     );
   }
 
-  /// `Pay US$49.99 to upload another 700 items`
+  /// `Upload another 700 items`
   String get uploadItemSilverDescription {
     return Intl.message(
-      'Pay US\$49.99 to upload another 700 items',
+      'Upload another 700 items',
       name: 'uploadItemSilverDescription',
       desc: '',
       args: [],
@@ -2580,10 +2580,10 @@ class S {
     );
   }
 
-  /// `Pay US$129.99 to upload unlimited items`
+  /// `Upload unlimited items`
   String get uploadItemGoldDescription {
     return Intl.message(
-      'Pay US\$129.99 to upload unlimited items',
+      'Upload unlimited items',
       name: 'uploadItemGoldDescription',
       desc: '',
       args: [],
@@ -2600,10 +2600,10 @@ class S {
     );
   }
 
-  /// `Pay US$19.99 to edit another 200 items images`
+  /// `Edit another 200 items images`
   String get editItemBronzeDescription {
     return Intl.message(
-      'Pay US\$19.99 to edit another 200 items images',
+      'Edit another 200 items images',
       name: 'editItemBronzeDescription',
       desc: '',
       args: [],
@@ -2620,10 +2620,10 @@ class S {
     );
   }
 
-  /// `Pay US$49.99 to edit another 700 items images`
+  /// `Edit 700 items images`
   String get editItemSilverDescription {
     return Intl.message(
-      'Pay US\$49.99 to edit another 700 items images',
+      'Edit 700 items images',
       name: 'editItemSilverDescription',
       desc: '',
       args: [],
@@ -2640,10 +2640,10 @@ class S {
     );
   }
 
-  /// `Pay US$129.99 to edit unlimited items images`
+  /// `Edit unlimited items images`
   String get editItemGoldDescription {
     return Intl.message(
-      'Pay US\$129.99 to edit unlimited items images',
+      'Edit unlimited items images',
       name: 'editItemGoldDescription',
       desc: '',
       args: [],
@@ -2660,10 +2660,10 @@ class S {
     );
   }
 
-  /// `Pay US$19.99 to take another 200 selfies`
+  /// `Take another 200 selfies`
   String get selfieBronzeDescription {
     return Intl.message(
-      'Pay US\$19.99 to take another 200 selfies',
+      'Take another 200 selfies',
       name: 'selfieBronzeDescription',
       desc: '',
       args: [],
@@ -2680,10 +2680,10 @@ class S {
     );
   }
 
-  /// `Pay US$49.99 to take another 700 selfies`
+  /// `Take another 700 selfies`
   String get selfieSilverDescription {
     return Intl.message(
-      'Pay US\$49.99 to take another 700 selfies',
+      'Take another 700 selfies',
       name: 'selfieSilverDescription',
       desc: '',
       args: [],
@@ -2700,10 +2700,10 @@ class S {
     );
   }
 
-  /// `Pay US$129.99 to take unlimited selfies`
+  /// `Take unlimited selfies`
   String get selfieGoldDescription {
     return Intl.message(
-      'Pay US\$129.99 to take unlimited selfies',
+      'Take unlimited selfies',
       name: 'selfieGoldDescription',
       desc: '',
       args: [],
@@ -2720,10 +2720,10 @@ class S {
     );
   }
 
-  /// `Pay US$19.99 to create multiple outfits a day`
+  /// `Create multiple outfits a day`
   String get multiOutfitDescription {
     return Intl.message(
-      'Pay US\$19.99 to create multiple outfits a day',
+      'Create multiple outfits a day',
       name: 'multiOutfitDescription',
       desc: '',
       args: [],

@@ -169,15 +169,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "dislike_feedback_sentence": MessageLookupByLibrary.simpleMessage(
             "Tap the items that didn\'t work in this outfit."),
         "editItemBronzeDescription": MessageLookupByLibrary.simpleMessage(
-            "Pay US\$19.99 to edit another 200 items images"),
+            "Edit another 200 items images"),
         "editItemBronzeTitle": MessageLookupByLibrary.simpleMessage(
             "Bronze Plan - Edit Item Images"),
-        "editItemGoldDescription": MessageLookupByLibrary.simpleMessage(
-            "Pay US\$129.99 to edit unlimited items images"),
+        "editItemGoldDescription":
+            MessageLookupByLibrary.simpleMessage("Edit unlimited items images"),
         "editItemGoldTitle": MessageLookupByLibrary.simpleMessage(
             "Gold Plan - Edit Item Images"),
-        "editItemSilverDescription": MessageLookupByLibrary.simpleMessage(
-            "Pay US\$49.99 to edit another 700 items images"),
+        "editItemSilverDescription":
+            MessageLookupByLibrary.simpleMessage("Edit 700 items images"),
         "editItemSilverTitle": MessageLookupByLibrary.simpleMessage(
             "Silver Plan - Edit Item Images"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("Edit Item"),
@@ -243,7 +243,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "multiClosetFeatureTitle":
             MessageLookupByLibrary.simpleMessage("Interested in Multi-Closet?"),
         "multiOutfitDescription": MessageLookupByLibrary.simpleMessage(
-            "Pay US\$19.99 to create multiple outfits a day"),
+            "Create multiple outfits a day"),
         "multiOutfitTitle": MessageLookupByLibrary.simpleMessage(
             "Multi Outfit Premium Feature"),
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("My Closet"),
@@ -365,16 +365,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectShoeType":
             MessageLookupByLibrary.simpleMessage("Select Shoe Type"),
         "selfie": MessageLookupByLibrary.simpleMessage("selfie"),
-        "selfieBronzeDescription": MessageLookupByLibrary.simpleMessage(
-            "Pay US\$19.99 to take another 200 selfies"),
+        "selfieBronzeDescription":
+            MessageLookupByLibrary.simpleMessage("Take another 200 selfies"),
         "selfieBronzeTitle":
             MessageLookupByLibrary.simpleMessage("Bronze Plan - Selfie"),
-        "selfieGoldDescription": MessageLookupByLibrary.simpleMessage(
-            "Pay US\$129.99 to take unlimited selfies"),
+        "selfieGoldDescription":
+            MessageLookupByLibrary.simpleMessage("Take unlimited selfies"),
         "selfieGoldTitle":
             MessageLookupByLibrary.simpleMessage("Gold Plan - Selfie"),
-        "selfieSilverDescription": MessageLookupByLibrary.simpleMessage(
-            "Pay US\$49.99 to take another 700 selfies"),
+        "selfieSilverDescription":
+            MessageLookupByLibrary.simpleMessage("Take another 700 selfies"),
         "selfieSilverTitle":
             MessageLookupByLibrary.simpleMessage("Silver Plan - Selfie"),
         "sell": MessageLookupByLibrary.simpleMessage("Sell"),
@@ -438,24 +438,24 @@ class MessageLookup extends MessageLookupByLibrary {
             "Have you finished uploading all your existing items to your closet? Once confirmed, any new uploads with price will be marked as new additions to your wardrobe."),
         "uploadConfirmationTitle":
             MessageLookupByLibrary.simpleMessage("Confirm Closet Completion"),
-        "uploadItemBronzeDescription": MessageLookupByLibrary.simpleMessage(
-            "Pay US\$19.99 to upload another 200 items"),
+        "uploadItemBronzeDescription":
+            MessageLookupByLibrary.simpleMessage("Upload another 200 items"),
         "uploadItemBronzeSuccessMessage": MessageLookupByLibrary.simpleMessage(
             "You\'ve unlocked space for 200 more items!\nKeep adding thoughtfully to build a sustainable wardrobe that reflects your unique style."),
         "uploadItemBronzeSuccessTitle": MessageLookupByLibrary.simpleMessage(
             "Congrats! 200 More Items to Your Conscious Closet"),
         "uploadItemBronzeTitle":
             MessageLookupByLibrary.simpleMessage("Bronze Plan - Upload Items"),
-        "uploadItemGoldDescription": MessageLookupByLibrary.simpleMessage(
-            "Pay US\$129.99 to upload unlimited items"),
+        "uploadItemGoldDescription":
+            MessageLookupByLibrary.simpleMessage("Upload unlimited items"),
         "uploadItemGoldSuccessMessage": MessageLookupByLibrary.simpleMessage(
             "You’ve unlocked unlimited space! Add as many items as you want and let your sustainable wardrobe reflect the best of your personal style."),
         "uploadItemGoldSuccessTitle": MessageLookupByLibrary.simpleMessage(
             "Limitless! Your Closet is Now Boundless"),
         "uploadItemGoldTitle":
             MessageLookupByLibrary.simpleMessage("Gold Plan - Upload Items"),
-        "uploadItemSilverDescription": MessageLookupByLibrary.simpleMessage(
-            "Pay US\$49.99 to upload another 700 items"),
+        "uploadItemSilverDescription":
+            MessageLookupByLibrary.simpleMessage("Upload another 700 items"),
         "uploadItemSilverSuccessMessage": MessageLookupByLibrary.simpleMessage(
             "Your closet just got bigger!\nYou can now add 700 more items. Keep refining your personal style while making eco-conscious choices."),
         "uploadItemSilverSuccessTitle": MessageLookupByLibrary.simpleMessage(

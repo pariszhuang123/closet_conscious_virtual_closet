@@ -149,15 +149,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "dislike_feedback_sentence":
             MessageLookupByLibrary.simpleMessage("点击让这套搭配不太合适的单品。"),
         "editItemBronzeDescription":
-            MessageLookupByLibrary.simpleMessage("支付19.99美元编辑额外200张物品图片"),
+            MessageLookupByLibrary.simpleMessage("编辑额外200张物品图片"),
         "editItemBronzeTitle":
             MessageLookupByLibrary.simpleMessage("青铜计划 - 编辑物品图片"),
         "editItemGoldDescription":
-            MessageLookupByLibrary.simpleMessage("支付129.99美元编辑无限数量的物品图片"),
+            MessageLookupByLibrary.simpleMessage("编辑无限数量的物品图片"),
         "editItemGoldTitle":
             MessageLookupByLibrary.simpleMessage("黄金计划 - 编辑物品图片"),
         "editItemSilverDescription":
-            MessageLookupByLibrary.simpleMessage("支付49.99美元编辑额外700张物品图片"),
+            MessageLookupByLibrary.simpleMessage("编辑额外700张物品图片"),
         "editItemSilverTitle":
             MessageLookupByLibrary.simpleMessage("白银计划 - 编辑物品图片"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("编辑物品"),
@@ -217,7 +217,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "multiClosetFeatureTitle":
             MessageLookupByLibrary.simpleMessage("有兴趣使用多衣橱功能吗？"),
         "multiOutfitDescription":
-            MessageLookupByLibrary.simpleMessage("支付19.99美元每天创建多个搭配"),
+            MessageLookupByLibrary.simpleMessage("每天创建多个搭配"),
         "multiOutfitTitle": MessageLookupByLibrary.simpleMessage("多重搭配高级功能"),
         "myClosetTitle": MessageLookupByLibrary.simpleMessage("我的衣橱"),
         "myOutfitOfTheDay": MessageLookupByLibrary.simpleMessage("今日穿搭"),
@@ -328,13 +328,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectShoeType": MessageLookupByLibrary.simpleMessage("选择鞋类类型"),
         "selfie": MessageLookupByLibrary.simpleMessage("自拍"),
         "selfieBronzeDescription":
-            MessageLookupByLibrary.simpleMessage("支付19.99美元拍摄额外200张自拍"),
+            MessageLookupByLibrary.simpleMessage("拍摄额外200张自拍"),
         "selfieBronzeTitle": MessageLookupByLibrary.simpleMessage("青铜计划 - 自拍"),
         "selfieGoldDescription":
-            MessageLookupByLibrary.simpleMessage("支付129.99美元拍摄无限数量的自拍"),
+            MessageLookupByLibrary.simpleMessage("拍摄无限数量的自拍"),
         "selfieGoldTitle": MessageLookupByLibrary.simpleMessage("黄金计划 - 自拍"),
         "selfieSilverDescription":
-            MessageLookupByLibrary.simpleMessage("支付49.99美元拍摄额外700张自拍"),
+            MessageLookupByLibrary.simpleMessage("拍摄额外700张自拍"),
         "selfieSilverTitle": MessageLookupByLibrary.simpleMessage("白银计划 - 自拍"),
         "sell": MessageLookupByLibrary.simpleMessage("出售"),
         "share": MessageLookupByLibrary.simpleMessage("分享"),
@@ -390,7 +390,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "uploadConfirmationTitle":
             MessageLookupByLibrary.simpleMessage("确认衣橱完成"),
         "uploadItemBronzeDescription":
-            MessageLookupByLibrary.simpleMessage("支付19.99美元上传额外200个物品"),
+            MessageLookupByLibrary.simpleMessage("上传额外200个物品"),
         "uploadItemBronzeSuccessMessage": MessageLookupByLibrary.simpleMessage(
             "您已解锁了200件物品的空间！继续精心挑选，打造反映您独特风格的可持续衣橱。"),
         "uploadItemBronzeSuccessTitle":
@@ -398,7 +398,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "uploadItemBronzeTitle":
             MessageLookupByLibrary.simpleMessage("青铜计划 - 上传物品"),
         "uploadItemGoldDescription":
-            MessageLookupByLibrary.simpleMessage("支付129.99美元上传无限数量的物品"),
+            MessageLookupByLibrary.simpleMessage("上传无限数量的物品"),
         "uploadItemGoldSuccessMessage": MessageLookupByLibrary.simpleMessage(
             "您已解锁无限空间！随心添加物品，让您的可持续衣橱完美展示您的个人风格。"),
         "uploadItemGoldSuccessTitle":
@@ -406,7 +406,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "uploadItemGoldTitle":
             MessageLookupByLibrary.simpleMessage("黄金计划 - 上传物品"),
         "uploadItemSilverDescription":
-            MessageLookupByLibrary.simpleMessage("支付49.99美元上传额外700个物品"),
+            MessageLookupByLibrary.simpleMessage("上传额外700个物品"),
         "uploadItemSilverSuccessMessage": MessageLookupByLibrary.simpleMessage(
             "您的衣橱空间扩展了！现在可以添加700件物品，继续打造符合环保理念的个性风格。"),
         "uploadItemSilverSuccessTitle":

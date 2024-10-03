@@ -7,18 +7,34 @@ import '../data/feature_key.dart';
 class PaymentProvider extends StatelessWidget {
   final FeatureKey featureKey;
   final bool isFromMyCloset;
+  final String previousRoute;
+  final String nextRoute;
+  final String? outfitId;  // Optional outfitId parameter
+  final String? itemId;    // Optional itemId parameter
+
 
   const PaymentProvider({
     super.key,
     required this.featureKey,
     required this.isFromMyCloset,
+    required this.previousRoute,
+    required this.nextRoute,
+    this.outfitId,   // Optional, can be null
+    this.itemId,     // Optional, can be null
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => PaymentBloc(), // Provide the PaymentBloc
-      child: PaymentScreen(featureKey: featureKey, isFromMyCloset: isFromMyCloset), // Child is PaymentScreen
+      child: PaymentScreen(
+          featureKey: featureKey,
+          isFromMyCloset: isFromMyCloset,
+          previousRoute: previousRoute,
+          nextRoute: nextRoute,
+          outfitId: outfitId,
+          itemId: itemId,
+      ), // Child is PaymentScreen
     );
   }
 }

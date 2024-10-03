@@ -117,6 +117,8 @@ class AppRoutes {
           builder: (_) => PaymentProvider(
             featureKey: args['featureKey'],
             isFromMyCloset: args['isFromMyCloset'],
+            previousRoute: args ['previousRoute'],
+            nextRoute: args ['nextRoute'],
           ),
         );
       default:
