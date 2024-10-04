@@ -8,6 +8,7 @@ import '../../../generated/l10n.dart';
 import '../../theme/my_closet_theme.dart';
 import '../../theme/my_outfit_theme.dart';
 import '../../utilities/logger.dart'; // Import the CustomLogger
+import '../../utilities/routes.dart';
 
 class PaymentScreen extends StatefulWidget {
   final FeatureKey featureKey;
@@ -36,6 +37,9 @@ class PaymentScreenState extends State<PaymentScreen> {
   int currentIndex = 0;
   final CustomLogger _logger = CustomLogger('PaymentScreen'); // Initialize CustomLogger
 
+  String? itemId;  // Instance-level variable to store itemId
+  String? outfitId;  // Instance-level variable to store outfitId
+
   @override
   void initState() {
     super.initState();
@@ -49,7 +53,52 @@ class PaymentScreenState extends State<PaymentScreen> {
     // Moved featureData retrieval to didChangeDependencies because it depends on the context
     featureData = FeatureDataList.features(context).firstWhere((data) => data.featureKey == widget.featureKey);
 
-    _logger.d('Feature data loaded: ${featureData.getTitle(context)}');
+    // Ensure arguments are properly extracted
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+
+    if (args != null) {
+      // Use local variables to store the values from arguments
+      _logger.d('Payment screen received arguments: featureKey = ${args['featureKey']}, previousRoute = ${args['previousRoute']}, itemId = ${args['itemId']}');
+
+      // Use arguments as needed (do not modify widget properties directly)
+      final itemId = args['itemId'];
+      final outfitId = args['outfitId'];
+
+      _logger.d('Received itemId: $itemId and outfitId: $outfitId');
+
+
+    } else {
+      _logger.e('No arguments passed to PaymentScreen.');
+    }
+  }
+
+  // Cancel Action Handler
+  void _onCancel() {
+    _logger.i('User cancelled payment, navigating back to ${widget.previousRoute} with itemId: ${widget.itemId}, outfitId: ${widget.outfitId}');
+
+    if (widget.previousRoute == '/edit_item' && widget.itemId != null) {
+      _logger.i('Navigating back to EditItem with itemId: ${widget.itemId}');
+      Navigator.pop(context, widget.itemId);
+    } else if (widget.previousRoute == '/wear_outfit' && widget.outfitId != null) {
+      _logger.i('Navigating back to WearOutfit with outfitId: ${widget.outfitId}');
+      Navigator.pop(context, widget.outfitId);
+    } else if (widget.previousRoute == AppRoutes.myCloset) {
+      _logger.i('Navigating back to MyCloset without specific arguments.');
+      Navigator.pushReplacementNamed(
+        context,
+        AppRoutes.myCloset, // Default fallback if no previous route matches
+      );
+    } else if (widget.previousRoute == '/create_outfit') {
+      _logger.i('Navigating back to CreateOutfit without specific arguments.');
+      Navigator.pop(context);
+    } else {
+      // If the previous route is not explicitly handled, use a generic fallback
+      _logger.w('Unknown previous route: ${widget.previousRoute}. Navigating to MyCloset as a fallback.');
+      Navigator.pushReplacementNamed(
+        context,
+        AppRoutes.myCloset, // Default fallback if no previous route matches
+      );
+    }
   }
 
 
@@ -82,19 +131,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                     ),
                     IconButton(
                       icon: Icon(Icons.close, color: appliedTheme.colorScheme.onSurface),
-                      onPressed: () {
-                        _logger.i('Navigating back to ${widget.previousRoute} with itemId: ${widget.itemId}, outfitId: ${widget.outfitId}');
-
-                        // Pass previousScreenRoute along with optional outfitId and itemId as arguments
-                        Navigator.pushNamed(
-                          context,
-                          widget.previousRoute,
-                          arguments: {
-                            'outfitId': widget.outfitId,
-                            'itemId': widget.itemId,
-                          },
-                        );
-                      },
+                      onPressed: _onCancel,
                     ),
                   ],
                 ),

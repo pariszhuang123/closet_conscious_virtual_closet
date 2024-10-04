@@ -87,7 +87,7 @@ class NavigateCoreBloc extends Bloc<NavigateCoreEvent, NavigateCoreState> {
         emit(BronzeSelfieDeniedState());
         logger.i('User have yet to pay for the bronze selfie tier.');
       } else if (result['status'] == 'selfieSilver') {
-        emit(SilverEditItemDeniedState());
+        emit(SilverSelfieDeniedState());
         logger.i('User have yet to pay for the silver selfie tier.');
       } else if (result['status'] == 'selfieGold') {
         emit(GoldSelfieDeniedState());

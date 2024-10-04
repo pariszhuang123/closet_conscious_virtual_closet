@@ -65,7 +65,7 @@ class AppRoutes {
       case uploadItem:
         final imageUrl = settings.arguments as String;
         return MaterialPageRoute(
-          builder: (_) => UploadItemProvider(imageUrl: imageUrl, myClosetTheme: myClosetTheme,), // Pass the imageUrl
+          builder: (_) => UploadItemProvider(imageUrl: imageUrl, myClosetTheme: myClosetTheme), // Pass the imageUrl
         );
       case uploadItemPhoto:
         logger.d("Navigating to uploadItemPhoto");
@@ -119,6 +119,8 @@ class AppRoutes {
             isFromMyCloset: args['isFromMyCloset'],
             previousRoute: args ['previousRoute'],
             nextRoute: args ['nextRoute'],
+            itemId: args['itemId'],
+            outfitId: args['outfitId'],
           ),
         );
       default:
