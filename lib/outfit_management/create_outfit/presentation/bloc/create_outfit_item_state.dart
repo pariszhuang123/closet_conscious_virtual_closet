@@ -23,10 +23,18 @@ class CreateOutfitItemState extends Equatable {
 
   factory CreateOutfitItemState.initial() {
     return const CreateOutfitItemState(
-      selectedItemIds: {},
-      categoryItems: {},
-      categoryPages: {},
-      categoryHasReachedMax: {},
+      selectedItemIds: {
+        OutfitItemCategory.clothing: [],
+      },
+      categoryItems: {
+        OutfitItemCategory.clothing: [],
+      },
+      categoryPages: {
+        OutfitItemCategory.clothing: 0,
+      },
+      categoryHasReachedMax: {
+        OutfitItemCategory.clothing: false,
+      },
       currentCategory: OutfitItemCategory.clothing, // Default category
       saveStatus: SaveStatus.initial,
       outfitId: null,

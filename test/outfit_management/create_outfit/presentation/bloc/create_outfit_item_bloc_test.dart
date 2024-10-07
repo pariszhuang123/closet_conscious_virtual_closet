@@ -43,52 +43,118 @@ void main() {
     });
 
     blocTest<CreateOutfitItemBloc, CreateOutfitItemState>(
-      'emits states [inProgress, success] when FetchMoreItemsEvent is successful and fewer than 9 items are fetched',
+      'emits [success (hasReachedMax: false), success (hasReachedMax: true)] when FetchMoreItemsEvent is successful and fewer than 9 items are fetched',
       build: () {
         // Mocking fewer than 9 items to trigger hasReachedMax = true for a specific category
-        when(() => mockOutfitFetchService.fetchCreateOutfitItems(any(), any(), any()))
-            .thenAnswer((_) async => [
-          ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', amountSpent: 5, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')),
-          ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', amountSpent: 10, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-21 07:20:06.923036+00')),
+        when(() => mockOutfitFetchService.fetchCreateOutfitItems(
+          any(),
+          any(),
+          any(),
+        )).thenAnswer((_) async => [
+          ClosetItemMinimal(
+            itemId: '1',
+            imageUrl: 'url1',
+            name: 'item1',
+            amountSpent: 5.0,
+            itemType: 'clothing',
+            updatedAt: DateTime.parse('2024-08-20T07:20:06.923036Z'),
+          ),
+          ClosetItemMinimal(
+            itemId: '2',
+            imageUrl: 'url2',
+            name: 'item2',
+            amountSpent: 10.0,
+            itemType: 'clothing',
+            updatedAt: DateTime.parse('2024-08-21T07:20:06.923036Z'),
+          ),
         ]);
+
         return bloc;
       },
       act: (bloc) => bloc.add(FetchMoreItemsEvent()),
       expect: () => [
-        // First state, where fetching more items doesn't set hasReachedMax yet
-        bloc.state.copyWith(
+        // First emission: After fetching items
+        CreateOutfitItemState(
+          selectedItemIds: const {
+            OutfitItemCategory.clothing: [],
+          },
           categoryItems: {
             OutfitItemCategory.clothing: [
-              ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', amountSpent: 5, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')),
-              ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', amountSpent: 10, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-21 07:20:06.923036+00')),
+              ClosetItemMinimal(
+                itemId: '1',
+                imageUrl: 'url1',
+                name: 'item1',
+                amountSpent: 5.0,
+                itemType: 'clothing',
+                updatedAt: DateTime.parse('2024-08-20T07:20:06.923036Z'),
+              ),
+              ClosetItemMinimal(
+                itemId: '2',
+                imageUrl: 'url2',
+                name: 'item2',
+                amountSpent: 10.0,
+                itemType: 'clothing',
+                updatedAt: DateTime.parse('2024-08-21T07:20:06.923036Z'),
+              ),
             ],
-          },  // Add items to the clothing category
-          categoryPages: {
-            OutfitItemCategory.clothing: 1,  // Page is incremented
           },
-          categoryHasReachedMax: {
-            OutfitItemCategory.clothing: false,  // Still false because fetching is ongoing
+          categoryPages: const {
+            OutfitItemCategory.clothing: 1,
           },
+          categoryHasReachedMax: const {
+            OutfitItemCategory.clothing: false,
+          },
+          currentCategory: OutfitItemCategory.clothing,
           saveStatus: SaveStatus.success,
+          outfitId: null,
+          hasSelectedItems: false,
         ),
-        // Final state, where hasReachedMax is set to true because fewer than 9 items were fetched
-        bloc.state.copyWith(
+        // Second emission: After determining that hasReachedMax should be true
+        CreateOutfitItemState(
+          selectedItemIds: const {
+            OutfitItemCategory.clothing: [],
+          },
           categoryItems: {
             OutfitItemCategory.clothing: [
-              ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', amountSpent: 5, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')),
-              ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', amountSpent: 10, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-21 07:20:06.923036+00')),
+              ClosetItemMinimal(
+                itemId: '1',
+                imageUrl: 'url1',
+                name: 'item1',
+                amountSpent: 5.0,
+                itemType: 'clothing',
+                updatedAt: DateTime.parse('2024-08-20T07:20:06.923036Z'),
+              ),
+              ClosetItemMinimal(
+                itemId: '2',
+                imageUrl: 'url2',
+                name: 'item2',
+                amountSpent: 10.0,
+                itemType: 'clothing',
+                updatedAt: DateTime.parse('2024-08-21T07:20:06.923036Z'),
+              ),
             ],
-          },  // Keep the same items for the clothing category
-          categoryPages: {
-            OutfitItemCategory.clothing: 1,  // Same page
           },
-          categoryHasReachedMax: {
-            OutfitItemCategory.clothing: true,  // Now set to true because fewer than 9 items were fetched
+          categoryPages: const {
+            OutfitItemCategory.clothing: 1,
           },
+          categoryHasReachedMax: const {
+            OutfitItemCategory.clothing: true,
+          },
+          currentCategory: OutfitItemCategory.clothing,
           saveStatus: SaveStatus.success,
+          outfitId: null,
+          hasSelectedItems: false,
         ),
       ],
+      verify: (_) {
+        verify(() => mockOutfitFetchService.fetchCreateOutfitItems(
+          OutfitItemCategory.clothing,
+          0,
+          9,
+        )).called(1);
+      },
     );
+
 
     blocTest<CreateOutfitItemBloc, CreateOutfitItemState>(
       'emits states [inProgress, success] when FetchMoreItemsEvent is successful and a full batch of 9 items is fetched',
@@ -220,75 +286,84 @@ void main() {
       ],
     );
 
+
     blocTest<CreateOutfitItemBloc, CreateOutfitItemState>(
-      'emits states [inProgress, success] when SelectCategoryEvent is successful',
+      'emits [inProgress, success] when SelectCategoryEvent is successful',
       build: () {
         // Mock the fetch service to return an item for the specific category
-        when(() => mockOutfitFetchService.fetchCreateOutfitItems(any(), any(), any()))
-            .thenAnswer((_) async => [
-          ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', amountSpent: 5, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')),
+        when(() => mockOutfitFetchService.fetchCreateOutfitItems(
+          any(),
+          any(),
+          any(),
+        )).thenAnswer((_) async => [
+          ClosetItemMinimal(
+            itemId: '1',
+            imageUrl: 'url1',
+            name: 'item1',
+            amountSpent: 5.0,
+            itemType: 'clothing',
+            updatedAt: DateTime.parse('2024-08-20T07:20:06.923036Z'),
+          ),
         ]);
         return bloc;
       },
       act: (bloc) => bloc.add(const SelectCategoryEvent(OutfitItemCategory.clothing)),
       expect: () => [
-        // First state where fetching has started but no items are loaded yet (inProgress state)
-        bloc.state.copyWith(
-          categoryItems: {
-            OutfitItemCategory.clothing: [], // Ensure that the list for 'clothing' category is empty during inProgress
+        // First emission: After initiating category selection (inProgress state)
+        CreateOutfitItemState(
+          selectedItemIds: {
+            OutfitItemCategory.clothing: [],
           },
+          categoryItems: {
+            OutfitItemCategory.clothing: [],
+          },
+          categoryPages: {
+            OutfitItemCategory.clothing: 0,
+          },
+          categoryHasReachedMax: {
+            OutfitItemCategory.clothing: false,
+          },
+          currentCategory: OutfitItemCategory.clothing,
           saveStatus: SaveStatus.inProgress,
+          outfitId: null,
+          hasSelectedItems: false,
         ),
-        // Final state where the fetched item is added to the 'clothing' category
-        bloc.state.copyWith(
+        // Second emission: After successfully fetching items (success state)
+        CreateOutfitItemState(
+          selectedItemIds: {
+            OutfitItemCategory.clothing: [],
+          },
           categoryItems: {
             OutfitItemCategory.clothing: [
               ClosetItemMinimal(
-                  itemId: '1',
-                  imageUrl: 'url1',
-                  name: 'item1',
-                  amountSpent: 5,
-                  itemType: 'clothing',
-                  updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')
+                itemId: '1',
+                imageUrl: 'url1',
+                name: 'item1',
+                amountSpent: 5.0,
+                itemType: 'clothing',
+                updatedAt: DateTime.parse('2024-08-20T07:20:06.923036Z'),
               ),
             ],
           },
+          categoryPages: {
+            OutfitItemCategory.clothing: 1,
+          },
+          categoryHasReachedMax: {
+            OutfitItemCategory.clothing: true, // Fewer than 9 items fetched
+          },
+          currentCategory: OutfitItemCategory.clothing,
           saveStatus: SaveStatus.success,
+          outfitId: null,
+          hasSelectedItems: false,
         ),
       ],
-    );
-
-    blocTest<CreateOutfitItemBloc, CreateOutfitItemState>(
-      'emits states [inProgress, success] when SelectCategoryEvent is successful',
-      build: () {
-        // Mock the fetch service to return an item for the specific category
-        when(() => mockOutfitFetchService.fetchCreateOutfitItems(any(), any(), any()))
-            .thenAnswer((_) async => [
-          ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', amountSpent: 5, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')),
-        ]);
-        return bloc;
+      verify: (_) {
+        verify(() => mockOutfitFetchService.fetchCreateOutfitItems(
+          OutfitItemCategory.clothing,
+          0,
+          9,
+        )).called(1);
       },
-      act: (bloc) => bloc.add(const SelectCategoryEvent(OutfitItemCategory.clothing)),
-      expect: () => [
-        // Check that in the inProgress state, the categoryItems map has an empty list for the 'clothing' category
-        isA<CreateOutfitItemState>()
-            .having((state) => state.categoryItems[OutfitItemCategory.clothing], 'items for clothing category', isEmpty)
-            .having((state) => state.saveStatus, 'saveStatus', SaveStatus.inProgress), // Status is in progress
-
-        // Check that in the success state, the categoryItems map has the item for the 'clothing' category
-        isA<CreateOutfitItemState>()
-            .having((state) => state.categoryItems[OutfitItemCategory.clothing], 'items for clothing category', [
-          ClosetItemMinimal(
-              itemId: '1',
-              imageUrl: 'url1',
-              name: 'item1',
-              amountSpent: 5,
-              itemType: 'clothing',
-              updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')
-          )
-        ]) // Checks that items contains the expected ClosetItemMinimal
-            .having((state) => state.saveStatus, 'saveStatus', SaveStatus.success), // Status is success
-      ],
     );
 
   });
