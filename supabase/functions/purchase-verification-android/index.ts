@@ -121,7 +121,7 @@ async function getAccessToken(): Promise<string> {
 
   const encodedSignature = base64urlEncode(new Uint8Array(signature));
 
-  const signedJwt = ${unsignedJwt}.${encodedSignature};
+  const signedJwt = `${unsignedJwt}.${encodedSignature}`;
 
   const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
     method: 'POST',
