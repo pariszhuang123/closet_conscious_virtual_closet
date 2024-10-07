@@ -315,6 +315,13 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  OutfitTypeContainer(
+                    outfitClothingType: outfitClothingType,
+                    outfitAccessoryType: outfitAccessoryType,
+                    outfitShoesType: outfitShoesType,
+                    theme: widget.myOutfitTheme,
+                  ),
+                  const SizedBox(height: 16),
                   OutfitFeatureContainer(
                     theme: widget.myOutfitTheme,
                     outfitCount: newOutfitCount,
@@ -324,24 +331,20 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                     onStylistButtonPressed: _onAiStylistButtonPressed,
                   ),
                   const SizedBox(height: 15),
-                  OutfitTypeContainer(
-                    outfitClothingType: outfitClothingType,
-                    outfitAccessoryType: outfitAccessoryType,
-                    outfitShoesType: outfitShoesType,
-                    theme: widget.myOutfitTheme,
-                  ),
-                  const SizedBox(height: 16),
                   Expanded(
                     child: BlocBuilder<CreateOutfitItemBloc, CreateOutfitItemState>(
                       builder: (context, state) {
                         logger.i('CreateOutfitItemBloc builder triggered with state: $state');
+
+                        // Fetch the items for the current category
+                        final currentItems = state.categoryItems[state.currentCategory] ?? [];
 
                         // Check for failure status
                         if (state.saveStatus == SaveStatus.failure) {
                           return Center(child: Text(S.of(context).failedToLoadItems));
                         }
                         // If no items are available, show no items message
-                        else if (state.items.isEmpty) {
+                        else if (currentItems.isEmpty) {
                           _snackBarShown = false;  // Reset the flag when no items are available
                           return Center(child: Text(S.of(context).noItemsInCategory));
                         }
@@ -350,7 +353,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                           return OutfitGrid(
                             scrollController: _scrollController,
                             logger: logger,
-                            items: state.items,
+                            items: currentItems,
                           );
                         }
                       },

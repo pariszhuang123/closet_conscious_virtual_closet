@@ -2,64 +2,75 @@ part of 'create_outfit_item_bloc.dart';
 
 class CreateOutfitItemState extends Equatable {
   final Map<OutfitItemCategory, List<String>> selectedItemIds;
-  final List<ClosetItemMinimal> items;
-  final OutfitItemCategory currentCategory; // Made non-nullable
+  final Map<OutfitItemCategory, List<ClosetItemMinimal>> categoryItems; // Store items per category
+  final Map<OutfitItemCategory, int> categoryPages; // Track page per category
+  final Map<OutfitItemCategory, bool> categoryHasReachedMax; // Track hasReachedMax per category
+  final OutfitItemCategory currentCategory;
   final SaveStatus saveStatus;
   final String? outfitId;
   final bool hasSelectedItems;
-  final bool hasReachedMax;
-  final int currentPage;
-
 
   const CreateOutfitItemState({
     this.selectedItemIds = const {},
-    this.items = const [],
-    required this.currentCategory, // Required in constructor
+    this.categoryItems = const {},
+    this.categoryPages = const {},
+    this.categoryHasReachedMax = const {},
+    required this.currentCategory,
     this.saveStatus = SaveStatus.initial,
     this.outfitId,
     this.hasSelectedItems = false,
-    required this.hasReachedMax,
-    required this.currentPage,
-
   });
 
   factory CreateOutfitItemState.initial() {
     return const CreateOutfitItemState(
       selectedItemIds: {},
-      items: [],
-      currentCategory: OutfitItemCategory.clothing, // Default value set here
+      categoryItems: {},
+      categoryPages: {},
+      categoryHasReachedMax: {},
+      currentCategory: OutfitItemCategory.clothing, // Default category
       saveStatus: SaveStatus.initial,
       outfitId: null,
       hasSelectedItems: false,
-      hasReachedMax: false,
-      currentPage: 0,
     );
   }
 
   CreateOutfitItemState copyWith({
     Map<OutfitItemCategory, List<String>>? selectedItemIds,
-    List<ClosetItemMinimal>? items,
-    OutfitItemCategory? currentCategory, // Allow nullable input here for convenience
+    Map<OutfitItemCategory, List<ClosetItemMinimal>>? categoryItems,
+    Map<OutfitItemCategory, int>? categoryPages,
+    Map<OutfitItemCategory, bool>? categoryHasReachedMax,
+    OutfitItemCategory? currentCategory,
     SaveStatus? saveStatus,
     String? outfitId,
     bool? hasSelectedItems,
-    bool? hasReachedMax,
-    int? currentPage,
-
   }) {
     return CreateOutfitItemState(
       selectedItemIds: selectedItemIds ?? this.selectedItemIds,
-      items: items ?? this.items,
-      currentCategory: currentCategory ?? this.currentCategory, // Default to the current value if null
+      categoryItems: categoryItems ?? this.categoryItems,
+      categoryPages: categoryPages ?? this.categoryPages,
+      categoryHasReachedMax: categoryHasReachedMax ?? this.categoryHasReachedMax,
+      currentCategory: currentCategory ?? this.currentCategory,
       saveStatus: saveStatus ?? this.saveStatus,
       outfitId: outfitId ?? this.outfitId,
       hasSelectedItems: hasSelectedItems ?? this.hasSelectedItems,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-      currentPage: currentPage ?? this.currentPage,
     );
   }
 
-  @override
-  List<Object?> get props => [selectedItemIds, items, currentCategory, saveStatus, outfitId, hasSelectedItems, hasReachedMax, currentPage];
-}
+  // Get the current page for the selected category
+  int get currentPage => categoryPages[currentCategory] ?? 0;
 
+  // Get the hasReachedMax flag for the selected category
+  bool get hasReachedMax => categoryHasReachedMax[currentCategory] ?? false;
+
+  @override
+  List<Object?> get props => [
+    selectedItemIds,
+    categoryItems,
+    categoryPages,
+    categoryHasReachedMax,
+    currentCategory,
+    saveStatus,
+    outfitId,
+    hasSelectedItems,
+  ];
+}
