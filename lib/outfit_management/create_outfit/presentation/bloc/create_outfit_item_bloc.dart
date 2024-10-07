@@ -43,8 +43,7 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
     }
   }
 
-  Future<void> _onFetchMoreItems(FetchMoreItemsEvent event,
-      Emitter<CreateOutfitItemState> emit) async {
+  Future<void> _onFetchMoreItems(FetchMoreItemsEvent event, Emitter<CreateOutfitItemState> emit) async {
     if (state.hasReachedMax) {
       logger.d('No more items to fetch. Reached max limit.');
       return;
@@ -77,22 +76,23 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
           emit(state.copyWith(
             items: List.of(state.items)..addAll(filteredNewItems),
             currentPage: currentPage,
-            hasReachedMax: filteredNewItems.length < 9,
             saveStatus: SaveStatus.success,
           ));
         }
 
-        if (filteredNewItems.length < 9) {
+        // This is the key part: only set hasReachedMax if fewer than the batch size is fetched.
+        // You should always allow one more fetch if the batch is exactly full.
+        if (newItems.length < 9) {
           logger.d('Fetched the last batch of items. No more items to load.');
           emit(state.copyWith(hasReachedMax: true));
         }
       }
-
     } catch (error) {
       logger.e('Error fetching more items: $error');
       emit(state.copyWith(saveStatus: SaveStatus.failure));
     }
   }
+
 
   void _onToggleSelectItem(ToggleSelectItemEvent event,
       Emitter<CreateOutfitItemState> emit) {
