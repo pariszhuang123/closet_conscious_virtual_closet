@@ -43,26 +43,81 @@ void main() {
     });
 
     blocTest<CreateOutfitItemBloc, CreateOutfitItemState>(
-      'emits states [inProgress, success] when FetchMoreItemsEvent is successful',
+      'emits states [inProgress, success] when FetchMoreItemsEvent is successful and fewer than 9 items are fetched',
       build: () {
+        // Mocking fewer than 9 items to trigger hasReachedMax = true
         when(() => mockOutfitFetchService.fetchCreateOutfitItems(any(), any(), any()))
             .thenAnswer((_) async => [
           ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', amountSpent: 5, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')),
+          ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', amountSpent: 10, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-21 07:20:06.923036+00')),
         ]);
         return bloc;
       },
       act: (bloc) => bloc.add(FetchMoreItemsEvent()),
       expect: () => [
+        // First state, where fetching more items doesn't set hasReachedMax yet
         bloc.state.copyWith(
           items: [
             ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', amountSpent: 5, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')),
+            ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', amountSpent: 10, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-21 07:20:06.923036+00')),
           ],
-          currentPage: 1,
-          hasReachedMax: true,
+          currentPage: 1,  // Page is incremented
+          hasReachedMax: false,  // Still false because fetching is ongoing
+          saveStatus: SaveStatus.success,
+        ),
+        // Final state, where hasReachedMax is set to true because fewer than 9 items were fetched
+        bloc.state.copyWith(
+          items: [
+            ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', amountSpent: 5, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')),
+            ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', amountSpent: 10, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-21 07:20:06.923036+00')),
+          ],
+          currentPage: 1,  // Same page
+          hasReachedMax: true,  // Now set to true because fewer than 9 items were fetched
           saveStatus: SaveStatus.success,
         ),
       ],
     );
+
+    blocTest<CreateOutfitItemBloc, CreateOutfitItemState>(
+      'emits states [inProgress, success] when FetchMoreItemsEvent is successful and a full batch of 9 items is fetched',
+      build: () {
+        // Mock the service to return exactly 9 items
+        when(() => mockOutfitFetchService.fetchCreateOutfitItems(any(), any(), any()))
+            .thenAnswer((_) async => [
+          ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', amountSpent: 5, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')),
+          ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', amountSpent: 10, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-21 07:20:06.923036+00')),
+          ClosetItemMinimal(itemId: '3', imageUrl: 'url3', name: 'item3', amountSpent: 15, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-22 07:20:06.923036+00')),
+          ClosetItemMinimal(itemId: '4', imageUrl: 'url4', name: 'item4', amountSpent: 20, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-23 07:20:06.923036+00')),
+          ClosetItemMinimal(itemId: '5', imageUrl: 'url5', name: 'item5', amountSpent: 25, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-24 07:20:06.923036+00')),
+          ClosetItemMinimal(itemId: '6', imageUrl: 'url6', name: 'item6', amountSpent: 30, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-25 07:20:06.923036+00')),
+          ClosetItemMinimal(itemId: '7', imageUrl: 'url7', name: 'item7', amountSpent: 35, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-26 07:20:06.923036+00')),
+          ClosetItemMinimal(itemId: '8', imageUrl: 'url8', name: 'item8', amountSpent: 40, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-27 07:20:06.923036+00')),
+          ClosetItemMinimal(itemId: '9', imageUrl: 'url9', name: 'item9', amountSpent: 45, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-28 07:20:06.923036+00')),
+        ]);
+        return bloc;
+      },
+      act: (bloc) => bloc.add(FetchMoreItemsEvent()),
+      expect: () => [
+        // Expect the state to have 9 items and hasReachedMax = false
+        bloc.state.copyWith(
+          items: [
+            ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', amountSpent: 5, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')),
+            ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', amountSpent: 10, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-21 07:20:06.923036+00')),
+            ClosetItemMinimal(itemId: '3', imageUrl: 'url3', name: 'item3', amountSpent: 15, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-22 07:20:06.923036+00')),
+            ClosetItemMinimal(itemId: '4', imageUrl: 'url4', name: 'item4', amountSpent: 20, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-23 07:20:06.923036+00')),
+            ClosetItemMinimal(itemId: '5', imageUrl: 'url5', name: 'item5', amountSpent: 25, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-24 07:20:06.923036+00')),
+            ClosetItemMinimal(itemId: '6', imageUrl: 'url6', name: 'item6', amountSpent: 30, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-25 07:20:06.923036+00')),
+            ClosetItemMinimal(itemId: '7', imageUrl: 'url7', name: 'item7', amountSpent: 35, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-26 07:20:06.923036+00')),
+            ClosetItemMinimal(itemId: '8', imageUrl: 'url8', name: 'item8', amountSpent: 40, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-27 07:20:06.923036+00')),
+            ClosetItemMinimal(itemId: '9', imageUrl: 'url9', name: 'item9', amountSpent: 45, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-28 07:20:06.923036+00')),
+          ],
+          currentPage: 1, // Increment page count
+          hasReachedMax: false, // False because we fetched a full batch
+          saveStatus: SaveStatus.success,
+        ),
+      ],
+    );
+
 
     blocTest<CreateOutfitItemBloc, CreateOutfitItemState>(
       'emits states [inProgress, failure] when FetchMoreItemsEvent fails',
