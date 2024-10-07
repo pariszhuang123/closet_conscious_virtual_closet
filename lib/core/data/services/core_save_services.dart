@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
@@ -132,4 +133,48 @@ class CoreSaveService {
       throw Exception('Processing uploaded image failed');
     }
   }
+
+  Future<Map<String, dynamic>?> verifyAndroidPurchaseWithSupabaseEdgeFunction(
+      String purchaseToken,
+      String productId,
+      ) async {
+    try {
+      // Construct the URL for your Edge Function
+      const supabaseFunctionUrl = 'https://vrhytwexijijwhlicqfw.functions.supabase.co/purchase-verification-android';
+
+      // Fetch the JWT token from Supabase client (ensure you are authenticated)
+      final accessToken = Supabase.instance.client.auth.currentSession?.accessToken;
+
+      if (accessToken == null) {
+        logger.e('Access token not found. User may not be authenticated.');
+        return null;
+      }
+
+      // Make a POST request to the Edge Function
+      final response = await http.post(
+        Uri.parse(supabaseFunctionUrl),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'purchaseToken': purchaseToken,
+          'productId': productId,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+        logger.i('Purchase verification successful: $data');
+        return data;
+      } else {
+        logger.e('Failed to verify purchase: ${response.body}');
+        return null;
+      }
+    } catch (e) {
+      logger.e('Error verifying purchase with Supabase Edge Function: $e');
+      return null;
+    }
+  }
+
 }

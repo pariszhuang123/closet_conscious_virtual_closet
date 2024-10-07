@@ -2740,6 +2740,16 @@ class S {
     );
   }
 
+  /// `Loading`
+  String get loading_text {
+    return Intl.message(
+      'Loading',
+      name: 'loading_text',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Congrats! 200 More Items to Your Conscious Closet`
   String get uploadItemBronzeSuccessTitle {
     return Intl.message(

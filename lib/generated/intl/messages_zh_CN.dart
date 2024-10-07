@@ -203,6 +203,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "jewellery": MessageLookupByLibrary.simpleMessage("珠宝"),
         "light": MessageLookupByLibrary.simpleMessage("浅色"),
         "like": MessageLookupByLibrary.simpleMessage("喜欢"),
+        "loading_text": MessageLookupByLibrary.simpleMessage("加载中"),
         "logOut": MessageLookupByLibrary.simpleMessage("登出"),
         "medium": MessageLookupByLibrary.simpleMessage("中色"),
         "metadata": MessageLookupByLibrary.simpleMessage("更多"),

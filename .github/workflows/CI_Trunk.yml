@@ -125,6 +125,13 @@ jobs:
       - run: supabase link --project-ref $SUPABASE_PROJECT_ID
       - run: supabase db push
 
+      # Deploy the Edge Function for purchase verification
+      - name: Deploy purchase-verification-android Edge Function
+        run: |
+          supabase functions deploy purchase-verification-android \
+            --project-ref $SUPABASE_PROJECT_ID \
+            --token $SUPABASE_ACCESS_TOKEN
+
   deploy_prod_ui:
     needs: deploy_prod_supabase
     runs-on: ubuntu-latest

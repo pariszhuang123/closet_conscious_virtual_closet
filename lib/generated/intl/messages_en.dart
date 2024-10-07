@@ -229,6 +229,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "jewellery": MessageLookupByLibrary.simpleMessage("Jewellery"),
         "light": MessageLookupByLibrary.simpleMessage("Light"),
         "like": MessageLookupByLibrary.simpleMessage("love it"),
+        "loading_text": MessageLookupByLibrary.simpleMessage("Loading"),
         "logOut": MessageLookupByLibrary.simpleMessage("Log Out"),
         "medium": MessageLookupByLibrary.simpleMessage("Medium"),
         "metadata": MessageLookupByLibrary.simpleMessage("More"),

@@ -6,10 +6,12 @@ class PaymentInitial extends PaymentState {}
 
 class PaymentInProgress extends PaymentState {}
 
+class PaymentPendingState extends PaymentState {}
+
 class PaymentSuccess extends PaymentState {}
 
 class PaymentFailure extends PaymentState {
-  final String error;
+  final String errorMessage;
 
-  PaymentFailure(this.error);
+  PaymentFailure(this.errorMessage);
 }
