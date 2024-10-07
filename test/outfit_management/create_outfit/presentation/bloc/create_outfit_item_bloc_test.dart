@@ -310,7 +310,7 @@ void main() {
       act: (bloc) => bloc.add(const SelectCategoryEvent(OutfitItemCategory.clothing)),
       expect: () => [
         // First emission: After initiating category selection (inProgress state)
-        CreateOutfitItemState(
+        const CreateOutfitItemState(
           selectedItemIds: {
             OutfitItemCategory.clothing: [],
           },
@@ -330,7 +330,7 @@ void main() {
         ),
         // Second emission: After successfully fetching items (success state)
         CreateOutfitItemState(
-          selectedItemIds: {
+          selectedItemIds: const {
             OutfitItemCategory.clothing: [],
           },
           categoryItems: {
@@ -345,10 +345,10 @@ void main() {
               ),
             ],
           },
-          categoryPages: {
+          categoryPages: const {
             OutfitItemCategory.clothing: 1,
           },
-          categoryHasReachedMax: {
+          categoryHasReachedMax: const {
             OutfitItemCategory.clothing: true, // Fewer than 9 items fetched
           },
           currentCategory: OutfitItemCategory.clothing,
