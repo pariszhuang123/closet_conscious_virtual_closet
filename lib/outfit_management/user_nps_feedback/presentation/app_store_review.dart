@@ -29,7 +29,7 @@ class AppStoreReview {
 
     if (Platform.isAndroid) {
       uri = Uri.parse(
-          "https://play.google.com/store/apps/details?id=com.looko.acloset&hl=en");
+          "https://play.google.com/store/apps/details?id=com.makinglifeeasie.closetconscious");
     } else if (Platform.isIOS) {
       uri = Uri.parse("https://apps.apple.com/us/app/id1542311809");
     } else {
