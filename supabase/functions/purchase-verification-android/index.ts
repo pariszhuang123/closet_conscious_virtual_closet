@@ -1,12 +1,9 @@
-// Follow this setup guide to integrate the Deno language server with your editor:
-// https://deno.land/manual/getting_started/setup_your_environment
-// This enables autocomplete, go to definition, etc.
-
-// Setup type definitions for built-in Supabase Runtime APIs
-/// <reference types="https://esm.sh/@supabase/functions-js/src/edge-runtime.d.ts" />
-
 import { serve } from 'https://deno.land/std@0.131.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js';
+
+// Cached access token and expiration time
+let cachedAccessToken: string | null = null;
+let tokenExpirationTime: number | null = null;
 
 serve(async (req) => {
   try {
@@ -15,6 +12,7 @@ serve(async (req) => {
     if (!authHeader) {
       return new Response(JSON.stringify({ error: 'Missing authorization header' }), { status: 401 });
     }
+
     const { purchaseToken, productId } = await req.json();
 
     // Fetch access token using the service account credentials
@@ -37,14 +35,16 @@ serve(async (req) => {
     if (response.ok) {
       const data = await response.json();
 
-      // Extract necessary fields
       const transactionId = data.orderId;
       const purchaseDate = data.purchaseTimeMillis;
-      const countryCode = data.regionCode;
-      const isValid = data.purchaseState === 0;
+      const countryCode = data.regionCode || 'cc_none'; // Fallback if regionCode is missing
+      const purchaseState = data.purchaseState;
 
-      // Proceed if the purchase is valid
-      if (isValid) {
+      // Handle different purchase states
+      if (purchaseState === 0) { // Purchase is complete
+        // Acknowledge the purchase
+        await acknowledgePurchase(packageName, productId, purchaseToken, accessToken);
+
         // Trigger the Supabase RPC for persisting purchase data
         const rpcResponse = await triggerPersistPurchaseRPC(
           transactionId,
@@ -55,6 +55,10 @@ serve(async (req) => {
         );
 
         return new Response(JSON.stringify(rpcResponse), { status: 200 });
+      } else if (purchaseState === 1) { // Purchase is pending
+        return new Response(JSON.stringify({ error: 'Purchase is pending' }), { status: 202 });
+      } else if (purchaseState === 2) { // Purchase is canceled
+        return new Response(JSON.stringify({ error: 'Purchase is canceled' }), { status: 400 });
       } else {
         return new Response(JSON.stringify({ error: 'Invalid purchase state' }), { status: 400 });
       }
@@ -67,9 +71,15 @@ serve(async (req) => {
   }
 });
 
-
-// Helper function to get access token
+// Helper function to get access token with caching
 async function getAccessToken(): Promise<string> {
+  const currentTime = Math.floor(Date.now() / 1000);
+
+  // If token is cached and not expired, return the cached token
+  if (cachedAccessToken && tokenExpirationTime && currentTime < tokenExpirationTime) {
+    return cachedAccessToken;
+  }
+
   const serviceAccountKeyBase64 = Deno.env.get('SERVICE_ACCOUNT_KEY_BASE64');
   if (!serviceAccountKeyBase64) {
     throw new Error('Service account key not set in environment variables');
@@ -112,7 +122,6 @@ async function getAccessToken(): Promise<string> {
     ['sign']
   );
 
-
   const signature = await crypto.subtle.sign(
     'RSASSA-PKCS1-v1_5',
     keyData,
@@ -139,7 +148,32 @@ async function getAccessToken(): Promise<string> {
   }
 
   const tokenData = await tokenResponse.json();
-  return tokenData.access_token;
+
+  // Cache the access token and its expiration time
+  cachedAccessToken = tokenData.access_token;
+  tokenExpirationTime = now + 3600; // Tokens are valid for 1 hour
+
+  return cachedAccessToken;
+}
+
+// Helper function to acknowledge the purchase
+async function acknowledgePurchase(packageName: string, productId: string, purchaseToken: string, accessToken: string) {
+  const acknowledgeUrl = `https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${packageName}/purchases/products/${productId}/tokens/${purchaseToken}:acknowledge`;
+
+  const acknowledgeResponse = await fetch(acknowledgeUrl, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({}),
+  });
+
+  if (!acknowledgeResponse.ok) {
+    const errorData = await acknowledgeResponse.json();
+    console.error('Failed to acknowledge purchase:', errorData);
+    throw new Error('Purchase acknowledgment failed');
+  }
 }
 
 // Helper function to trigger the persist purchase RPC
@@ -170,6 +204,7 @@ async function triggerPersistPurchaseRPC(
   return data;
 }
 
+// Helper function for base64url encoding
 function base64urlEncode(arraybuffer: ArrayBuffer): string {
   let base64 = btoa(String.fromCharCode(...new Uint8Array(arraybuffer)));
   return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -177,11 +212,7 @@ function base64urlEncode(arraybuffer: ArrayBuffer): string {
 
 // Helper function to convert PEM to ArrayBuffer
 function pemToArrayBuffer(pem: string): ArrayBuffer {
-  // Remove the "BEGIN" and "END" lines and newlines
-  const b64 = pem
-    .replace(/-----BEGIN PRIVATE KEY-----/, '')
-    .replace(/-----END PRIVATE KEY-----/, '')
-    .replace(/\s+/g, '');
+  const b64 = pem.replace(/-----BEGIN PRIVATE KEY-----/, '').replace(/-----END PRIVATE KEY-----/, '').replace(/\s+/g, '');
   const binaryDerString = atob(b64);
   const binaryDer = new Uint8Array(binaryDerString.length);
   for (let i = 0; i < binaryDerString.length; i++) {
