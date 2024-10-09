@@ -1,5 +1,5 @@
 CREATE OR REPLACE FUNCTION public.android_persist_purchase(
-    p_user_id uuid
+    p_user_id uuid,
     p_product_id text,
     p_purchase_token text,
     p_transaction_id text,
