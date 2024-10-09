@@ -1,6 +1,6 @@
 import { serve } from 'https://deno.land/std@0.180.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js';
-import { verify } from 'https://deno.land/x/deno_jwt@v2.7.0/mod.ts'; // Updated import
+import { verify } from 'https://deno.land/std@0.180.0/jwt/mod.ts'; // Updated import
 import { decode as base64Decode } from 'https://deno.land/std@0.180.0/encoding/base64.ts';
 
 // Initialize Supabase client
@@ -37,7 +37,7 @@ serve(async (req) => {
 
     try {
       // Verify the JWT using HS256 and the jwt_secret
-      const payload = await verify(userJwt, SUPABASE_JWT_SECRET, 'HS256');
+      const payload = await verify(userJwt, SUPABASE_JWT_SECRET, { alg: 'HS256' });
 
       // Extract user_id from the 'sub' claim
       userId = payload.sub as string;
