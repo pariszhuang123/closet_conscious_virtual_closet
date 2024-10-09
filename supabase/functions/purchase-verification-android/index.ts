@@ -57,7 +57,7 @@ serve(async (req) => {
     console.log('Google API Access Token present');
 
     const { purchaseToken, productId } = await req.json();
-    console.log('Request payload: purchaseToken, productId' });
+    console.log('Request payload: purchaseToken, productId');
 
     // Fetch access token using the service account credentials (if necessary)
     const accessToken = await getAccessToken();
