@@ -1,5 +1,6 @@
-import { serve } from 'https://deno.land/std@0.131.0/http/server.ts';
+import { serve } from 'https://deno.land/std@0.180.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js';
+import { decode } from "https://deno.land/std@0.180.0/encoding/base64.ts";
 
 // Cached access token and expiration time
 let cachedAccessToken: string | null = null;
@@ -105,7 +106,15 @@ async function getAccessToken(): Promise<string> {
   console.log('Generating new access token...');
 
   // Decode the base64-encoded service account key
-  const decodedServiceAccountKey = new TextDecoder().decode(base64Decode(serviceAccountKeyBase64));
+  let decodedServiceAccountKey: string;
+  try {
+    const decodedBytes = decode(serviceAccountKeyBase64);
+    decodedServiceAccountKey = new TextDecoder().decode(decodedBytes);
+  } catch (error) {
+    console.error('Failed to decode service account key:', error);
+    throw new Error('Invalid service account key encoding');
+  }
+
   const serviceAccountCredentials = JSON.parse(decodedServiceAccountKey);
 
   const now = Math.floor(Date.now() / 1000);

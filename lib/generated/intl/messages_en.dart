@@ -169,7 +169,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "dislike_feedback_sentence": MessageLookupByLibrary.simpleMessage(
             "Tap the items that didn\'t work in this outfit."),
         "editItemBronzeDescription": MessageLookupByLibrary.simpleMessage(
-            "Edit another 200 items images"),
+            "Edit another 200 more items images"),
         "editItemBronzeTitle": MessageLookupByLibrary.simpleMessage(
             "Bronze Plan - Edit Item Images"),
         "editItemGoldDescription":
@@ -177,7 +177,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "editItemGoldTitle": MessageLookupByLibrary.simpleMessage(
             "Gold Plan - Edit Item Images"),
         "editItemSilverDescription":
-            MessageLookupByLibrary.simpleMessage("Edit 700 items images"),
+            MessageLookupByLibrary.simpleMessage("Edit 700 more items images"),
         "editItemSilverTitle": MessageLookupByLibrary.simpleMessage(
             "Silver Plan - Edit Item Images"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("Edit Item"),
@@ -366,16 +366,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectShoeType":
             MessageLookupByLibrary.simpleMessage("Select Shoe Type"),
         "selfie": MessageLookupByLibrary.simpleMessage("selfie"),
-        "selfieBronzeDescription":
-            MessageLookupByLibrary.simpleMessage("Take another 200 selfies"),
+        "selfieBronzeDescription": MessageLookupByLibrary.simpleMessage(
+            "Take another 200 more selfies"),
         "selfieBronzeTitle":
             MessageLookupByLibrary.simpleMessage("Bronze Plan - Selfie"),
         "selfieGoldDescription":
             MessageLookupByLibrary.simpleMessage("Take unlimited selfies"),
         "selfieGoldTitle":
             MessageLookupByLibrary.simpleMessage("Gold Plan - Selfie"),
-        "selfieSilverDescription":
-            MessageLookupByLibrary.simpleMessage("Take another 700 selfies"),
+        "selfieSilverDescription": MessageLookupByLibrary.simpleMessage(
+            "Take another 700 more selfies"),
         "selfieSilverTitle":
             MessageLookupByLibrary.simpleMessage("Silver Plan - Selfie"),
         "sell": MessageLookupByLibrary.simpleMessage("Sell"),
@@ -439,8 +439,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Have you finished uploading all your existing items to your closet? Once confirmed, any new uploads with price will be marked as new additions to your wardrobe."),
         "uploadConfirmationTitle":
             MessageLookupByLibrary.simpleMessage("Confirm Closet Completion"),
-        "uploadItemBronzeDescription":
-            MessageLookupByLibrary.simpleMessage("Upload another 200 items"),
+        "uploadItemBronzeDescription": MessageLookupByLibrary.simpleMessage(
+            "Upload another 200 more items"),
         "uploadItemBronzeSuccessMessage": MessageLookupByLibrary.simpleMessage(
             "You\'ve unlocked space for 200 more items!\nKeep adding thoughtfully to build a sustainable wardrobe that reflects your unique style."),
         "uploadItemBronzeSuccessTitle": MessageLookupByLibrary.simpleMessage(
@@ -455,8 +455,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Limitless! Your Closet is Now Boundless"),
         "uploadItemGoldTitle":
             MessageLookupByLibrary.simpleMessage("Gold Plan - Upload Items"),
-        "uploadItemSilverDescription":
-            MessageLookupByLibrary.simpleMessage("Upload another 700 items"),
+        "uploadItemSilverDescription": MessageLookupByLibrary.simpleMessage(
+            "Upload another 700 more items"),
         "uploadItemSilverSuccessMessage": MessageLookupByLibrary.simpleMessage(
             "Your closet just got bigger!\nYou can now add 700 more items. Keep refining your personal style while making eco-conscious choices."),
         "uploadItemSilverSuccessTitle": MessageLookupByLibrary.simpleMessage(

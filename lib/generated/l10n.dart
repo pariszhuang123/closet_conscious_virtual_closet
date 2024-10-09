@@ -2540,10 +2540,10 @@ class S {
     );
   }
 
-  /// `Upload another 200 items`
+  /// `Upload another 200 more items`
   String get uploadItemBronzeDescription {
     return Intl.message(
-      'Upload another 200 items',
+      'Upload another 200 more items',
       name: 'uploadItemBronzeDescription',
       desc: '',
       args: [],
@@ -2560,10 +2560,10 @@ class S {
     );
   }
 
-  /// `Upload another 700 items`
+  /// `Upload another 700 more items`
   String get uploadItemSilverDescription {
     return Intl.message(
-      'Upload another 700 items',
+      'Upload another 700 more items',
       name: 'uploadItemSilverDescription',
       desc: '',
       args: [],
@@ -2600,10 +2600,10 @@ class S {
     );
   }
 
-  /// `Edit another 200 items images`
+  /// `Edit another 200 more items images`
   String get editItemBronzeDescription {
     return Intl.message(
-      'Edit another 200 items images',
+      'Edit another 200 more items images',
       name: 'editItemBronzeDescription',
       desc: '',
       args: [],
@@ -2620,10 +2620,10 @@ class S {
     );
   }
 
-  /// `Edit 700 items images`
+  /// `Edit 700 more items images`
   String get editItemSilverDescription {
     return Intl.message(
-      'Edit 700 items images',
+      'Edit 700 more items images',
       name: 'editItemSilverDescription',
       desc: '',
       args: [],
@@ -2660,10 +2660,10 @@ class S {
     );
   }
 
-  /// `Take another 200 selfies`
+  /// `Take another 200 more selfies`
   String get selfieBronzeDescription {
     return Intl.message(
-      'Take another 200 selfies',
+      'Take another 200 more selfies',
       name: 'selfieBronzeDescription',
       desc: '',
       args: [],
@@ -2680,10 +2680,10 @@ class S {
     );
   }
 
-  /// `Take another 700 selfies`
+  /// `Take another 700 more selfies`
   String get selfieSilverDescription {
     return Intl.message(
-      'Take another 700 selfies',
+      'Take another 700 more selfies',
       name: 'selfieSilverDescription',
       desc: '',
       args: [],
