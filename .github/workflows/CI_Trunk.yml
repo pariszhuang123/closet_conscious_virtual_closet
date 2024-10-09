@@ -99,7 +99,7 @@ jobs:
 
       - name: Build APK for development
         run: flutter build apk --debug --flavor dev --target=lib/main_dev.dart --dart-define=ENV=$ENV \
-          --build-number=$BUILD_NUMBER --target-platform android-arm64
+          --build-number=$BUILD_NUMBER --target-platform android-arm64 --debug-symbols=build/symbols
 
       - name: Upload development APK
         uses: actions/upload-artifact@v4
@@ -213,7 +213,7 @@ jobs:
       - name: Build AAB for production
         run: |
           flutter build appbundle --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=$ENV \
-          --build-number=$BUILD_NUMBER
+          --build-number=$BUILD_NUMBER --debug-symbols=build/symbols
 
       - name: Fetch Git commit messages for release notes
         run: |

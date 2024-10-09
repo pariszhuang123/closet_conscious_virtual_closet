@@ -1,6 +1,12 @@
 import { serve } from 'https://deno.land/std@0.180.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js';
-import { decode } from "https://deno.land/std@0.180.0/encoding/base64.ts";
+import { decode, verify } from "https://deno.land/x/djwt@v2.8/mod.ts"; // JWT verification library
+import { decode as base64Decode } from "https://deno.land/std@0.180.0/encoding/base64.ts";
+
+// Initialize Supabase client
+const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 // Cached access token and expiration time
 let cachedAccessToken: string | null = null;
@@ -10,21 +16,52 @@ serve(async (req) => {
   try {
     console.log('Received request');
 
-    // Ensure the request has an Authorization header
+    // Extract User JWT from Authorization header
     const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      console.error('Missing authorization header');
-      return new Response(JSON.stringify({ error: 'Missing authorization header' }), { status: 401 });
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      console.error('Missing or invalid authorization header for user authentication');
+      return new Response(JSON.stringify({ error: 'Missing or invalid authorization header' }), { status: 401 });
     }
 
-    console.log('Authorization header present:', authHeader);
+    const userJwt = authHeader.split(' ')[1];
+    let userId: string;
+
+    try {
+      // Retrieve the Supabase JWT secret from environment variables
+      const SUPABASE_JWT_SECRET = Deno.env.get('JWT_SECRET')!;
+      if (!SUPABASE_JWT_SECRET) {
+        throw new Error('Supabase JWT secret not set');
+      }
+
+      // Verify the JWT
+      const payload = await verify(userJwt, SUPABASE_JWT_SECRET, 'HS256');
+      userId = payload?.user_id as string;
+
+      if (!userId) {
+        throw new Error('User ID not found in token');
+      }
+      console.log('Authenticated user ID:', userId);
+    } catch (err) {
+      console.error('Invalid user JWT:', err);
+      return new Response(JSON.stringify({ error: 'Invalid authentication token' }), { status: 401 });
+    }
+
+    // Extract Google API Access Token from a separate header
+    const googleAuthHeader = req.headers.get('X-Google-Authorization');
+    if (!googleAuthHeader || !googleAuthHeader.startsWith('Bearer ')) {
+      console.error('Missing or invalid X-Google-Authorization header');
+      return new Response(JSON.stringify({ error: 'Missing or invalid Google authorization header' }), { status: 401 });
+    }
+
+    const googleAccessToken = googleAuthHeader.split(' ')[1];
+    console.log('Google API Access Token present');
 
     const { purchaseToken, productId } = await req.json();
-    console.log('Request payload:', { purchaseToken, productId });
+    console.log('Request payload: purchaseToken, productId' });
 
-    // Fetch access token using the service account credentials
+    // Fetch access token using the service account credentials (if necessary)
     const accessToken = await getAccessToken();
-    console.log('Fetched access token:', accessToken);
+    console.log('Fetched access token:');
 
     // Package name of the Android app
     const packageName = 'com.makinglifeeasie.closetconscious';
@@ -35,7 +72,7 @@ serve(async (req) => {
       `https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${packageName}/purchases/products/${productId}/tokens/${purchaseToken}`,
       {
         headers: {
-          'Authorization': `Bearer ${accessToken}`,
+          'Authorization': `Bearer ${googleAccessToken}`, // Or `accessToken` if fetched from service account
           'Accept': 'application/json',
         },
       }
@@ -53,11 +90,12 @@ serve(async (req) => {
       // Handle different purchase states
       if (purchaseState === 0) { // Purchase is complete
         console.log('Purchase complete, acknowledging purchase...');
-        await acknowledgePurchase(packageName, productId, purchaseToken, accessToken);
+        await acknowledgePurchase(packageName, productId, purchaseToken, googleAccessToken);
 
         // Trigger the Supabase RPC for persisting purchase data
         console.log('Persisting purchase in Supabase...');
         const rpcResponse = await triggerPersistPurchaseRPC(
+          userId, // Securely obtained userId
           transactionId,
           productId,
           purchaseToken,
@@ -108,7 +146,7 @@ async function getAccessToken(): Promise<string> {
   // Decode the base64-encoded service account key
   let decodedServiceAccountKey: string;
   try {
-    const decodedBytes = decode(serviceAccountKeyBase64);
+    const decodedBytes = base64Decode(serviceAccountKeyBase64);
     decodedServiceAccountKey = new TextDecoder().decode(decodedBytes);
   } catch (error) {
     console.error('Failed to decode service account key:', error);
@@ -208,17 +246,15 @@ async function acknowledgePurchase(packageName: string, productId: string, purch
 
 // Helper function to trigger the persist purchase RPC
 async function triggerPersistPurchaseRPC(
+  userId: string, // Securely obtained userId
   transactionId: string,
   productId: string,
   purchaseToken: string,
   purchaseDate: number,
   countryCode: string
 ): Promise<any> {
-  const supabaseUrl = Deno.env.get('SUPABASE_URL');
-  const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
-  const supabase = createClient(supabaseUrl, supabaseKey);
-
   const { data, error } = await supabase.rpc('android_persist_purchase', {
+    p_user_id: userId, // Pass user_id as a parameter
     p_transaction_id: transactionId,
     p_product_id: productId,
     p_purchase_token: purchaseToken,

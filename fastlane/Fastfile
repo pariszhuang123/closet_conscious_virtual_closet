@@ -10,7 +10,8 @@ platform :android do
         project_dir: "./android",
         properties: {
           "target" => "lib/main_prod.dart",  # Passing the target as a Gradle property
-          "BUILD_NUMBER" => ENV["BUILD_NUMBER"]  # Ensure BUILD_NUMBER is passed from the GitHub Actions environment
+          "BUILD_NUMBER" => ENV["BUILD_NUMBER"],  # Ensure BUILD_NUMBER is passed from the GitHub Actions environment
+          "debug-symbols" => "build/symbols"  # Ensure that debug symbols are generated and stored in 'build/symbols'
         }
       )  # <-- Closing the gradle block
 
@@ -22,7 +23,8 @@ platform :android do
         package_name: "com.makinglifeeasie.closetconscious",
         metadata_path: "./metadata/android",
         skip_upload_apk: true,  # This skips APK upload, so only AAB will be uploaded
-        release_status: 'draft'
+        release_status: 'draft',
+        mapping: "./build/symbols"  # Ensure that debug symbols are generated and stored in 'build/symbols'
       )
     rescue => exception
       UI.error("Failed to deploy to internal track: #{exception.message}")
