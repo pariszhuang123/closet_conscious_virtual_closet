@@ -47,7 +47,7 @@ serve(async (req) => {
       );
 
       // Verify the JWT using the CryptoKey
-      const { payload } = await verify(userJwt, key);
+      const payload = await verify(userJwt, key);
 
       // Extract user_id from the 'sub' claim
       userId = payload.sub as string;
