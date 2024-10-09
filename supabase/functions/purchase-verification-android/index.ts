@@ -37,7 +37,7 @@ serve(async (req) => {
       const payload = await verify(userJwt, SUPABASE_JWT_SECRET, 'HS256');
 
       // Extract user_id from the 'sub' claim
-      userId = payload?.sub as string;
+      userId = payload.sub as string;
 
       if (!userId) {
         throw new Error('User ID (sub) not found in token');
