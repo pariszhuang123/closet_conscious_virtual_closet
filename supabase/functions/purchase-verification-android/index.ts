@@ -1,7 +1,7 @@
 import { serve } from 'https://deno.land/std@0.180.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js';
-import { verify } from "https://deno.land/x/djwt@v2.8/mod.ts";
-import { decode as base64Decode } from "https://deno.land/std@0.180.0/encoding/base64.ts";
+import { verify } from 'https://deno.land/x/deno_jwt@v2.7.0/mod.ts'; // Updated import
+import { decode as base64Decode } from 'https://deno.land/std@0.180.0/encoding/base64.ts';
 
 // Initialize Supabase client
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
@@ -26,7 +26,10 @@ serve(async (req) => {
     const authHeader = req.headers.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       console.error('Missing or invalid Authorization header');
-      return new Response(JSON.stringify({ error: 'Missing or invalid Authorization header' }), { status: 401 });
+      return new Response(
+        JSON.stringify({ error: 'Missing or invalid Authorization header' }),
+        { status: 401 },
+      );
     }
 
     const userJwt = authHeader.split(' ')[1];
@@ -46,14 +49,22 @@ serve(async (req) => {
       console.log('Authenticated user ID:', userId);
     } catch (err) {
       console.error('Invalid JWT:', err);
-      return new Response(JSON.stringify({ error: 'Invalid authentication token' }), { status: 401 });
+      return new Response(
+        JSON.stringify({ error: 'Invalid authentication token' }),
+        { status: 401 },
+      );
     }
 
-    // Extract Google API Access Token from a separate header (if required)
+    // Extract Google API Access Token from a separate header
     const googleAuthHeader = req.headers.get('X-Google-Authorization');
     if (!googleAuthHeader || !googleAuthHeader.startsWith('Bearer ')) {
       console.error('Missing or invalid X-Google-Authorization header');
-      return new Response(JSON.stringify({ error: 'Missing or invalid Google authorization header' }), { status: 401 });
+      return new Response(
+        JSON.stringify({
+          error: 'Missing or invalid Google authorization header',
+        }),
+        { status: 401 },
+      );
     }
 
     const googleAccessToken = googleAuthHeader.split(' ')[1];
@@ -76,10 +87,10 @@ serve(async (req) => {
       `https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${packageName}/purchases/products/${productId}/tokens/${purchaseToken}`,
       {
         headers: {
-          'Authorization': `Bearer ${googleAccessToken}`, // Use the Google API Access Token
-          'Accept': 'application/json',
+          Authorization: `Bearer ${googleAccessToken}`, // Use the Google API Access Token
+          Accept: 'application/json',
         },
-      }
+      },
     );
 
     if (response.ok) {
@@ -92,9 +103,15 @@ serve(async (req) => {
       const purchaseState = data.purchaseState;
 
       // Handle different purchase states
-      if (purchaseState === 0) { // Purchase is complete
+      if (purchaseState === 0) {
+        // Purchase is complete
         console.log('Purchase complete, acknowledging purchase...');
-        await acknowledgePurchase(packageName, productId, purchaseToken, googleAccessToken);
+        await acknowledgePurchase(
+          packageName,
+          productId,
+          purchaseToken,
+          googleAccessToken,
+        );
 
         // Trigger the Supabase RPC for persisting purchase data
         console.log('Persisting purchase in Supabase...');
@@ -104,29 +121,44 @@ serve(async (req) => {
           productId,
           purchaseToken,
           purchaseDate,
-          countryCode
+          countryCode,
         );
 
         console.log('RPC Response:', rpcResponse);
         return new Response(JSON.stringify(rpcResponse), { status: 200 });
-      } else if (purchaseState === 1) { // Purchase is pending
+      } else if (purchaseState === 1) {
+        // Purchase is pending
         console.warn('Purchase is pending');
-        return new Response(JSON.stringify({ error: 'Purchase is pending' }), { status: 202 });
-      } else if (purchaseState === 2) { // Purchase is canceled
+        return new Response(
+          JSON.stringify({ error: 'Purchase is pending' }),
+          { status: 202 },
+        );
+      } else if (purchaseState === 2) {
+        // Purchase is canceled
         console.warn('Purchase is canceled');
-        return new Response(JSON.stringify({ error: 'Purchase is canceled' }), { status: 400 });
+        return new Response(
+          JSON.stringify({ error: 'Purchase is canceled' }),
+          { status: 400 },
+        );
       } else {
         console.error('Invalid purchase state:', purchaseState);
-        return new Response(JSON.stringify({ error: 'Invalid purchase state' }), { status: 400 });
+        return new Response(
+          JSON.stringify({ error: 'Invalid purchase state' }),
+          { status: 400 },
+        );
       }
     } else {
       const errorData = await response.json();
       console.error('Error in purchase verification:', errorData);
-      return new Response(JSON.stringify({ error: errorData }), { status: response.status });
+      return new Response(JSON.stringify({ error: errorData }), {
+        status: response.status,
+      });
     }
   } catch (error) {
     console.error('Error during function execution:', error);
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+    });
   }
 });
 
@@ -135,7 +167,11 @@ async function getAccessToken(): Promise<string> {
   const currentTime = Math.floor(Date.now() / 1000);
 
   // If token is cached and not expired, return the cached token
-  if (cachedAccessToken && tokenExpirationTime && currentTime < tokenExpirationTime) {
+  if (
+    cachedAccessToken &&
+    tokenExpirationTime &&
+    currentTime < tokenExpirationTime
+  ) {
     console.log('Using cached access token');
     return cachedAccessToken;
   }
@@ -174,8 +210,12 @@ async function getAccessToken(): Promise<string> {
   };
 
   const encoder = new TextEncoder();
-  const encodedHeader = base64urlEncode(encoder.encode(JSON.stringify(jwtHeader)));
-  const encodedClaimSet = base64urlEncode(encoder.encode(JSON.stringify(jwtClaimSet)));
+  const encodedHeader = base64urlEncode(
+    encoder.encode(JSON.stringify(jwtHeader)),
+  );
+  const encodedClaimSet = base64urlEncode(
+    encoder.encode(JSON.stringify(jwtClaimSet)),
+  );
 
   const unsignedJwt = `${encodedHeader}.${encodedClaimSet}`;
 
@@ -189,13 +229,13 @@ async function getAccessToken(): Promise<string> {
       hash: 'SHA-256',
     },
     false,
-    ['sign']
+    ['sign'],
   );
 
   const signature = await crypto.subtle.sign(
     'RSASSA-PKCS1-v1_5',
     keyData,
-    encoder.encode(unsignedJwt)
+    encoder.encode(unsignedJwt),
   );
 
   const encodedSignature = base64urlEncode(new Uint8Array(signature));
@@ -229,13 +269,18 @@ async function getAccessToken(): Promise<string> {
 }
 
 // Helper function to acknowledge the purchase
-async function acknowledgePurchase(packageName: string, productId: string, purchaseToken: string, accessToken: string) {
+async function acknowledgePurchase(
+  packageName: string,
+  productId: string,
+  purchaseToken: string,
+  accessToken: string,
+) {
   const acknowledgeUrl = `https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${packageName}/purchases/products/${productId}/tokens/${purchaseToken}:acknowledge`;
 
   const acknowledgeResponse = await fetch(acknowledgeUrl, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({}),
@@ -255,7 +300,7 @@ async function triggerPersistPurchaseRPC(
   productId: string,
   purchaseToken: string,
   purchaseDate: number,
-  countryCode: string
+  countryCode: string,
 ): Promise<any> {
   const { data, error } = await supabase.rpc('android_persist_purchase', {
     p_user_id: userId, // Pass user_id as a parameter
@@ -282,7 +327,10 @@ function base64urlEncode(arraybuffer: ArrayBuffer): string {
 
 // Helper function to convert PEM to ArrayBuffer
 function pemToArrayBuffer(pem: string): ArrayBuffer {
-  const b64 = pem.replace(/-----BEGIN PRIVATE KEY-----/, '').replace(/-----END PRIVATE KEY-----/, '').replace(/\s+/g, '');
+  const b64 = pem
+    .replace(/-----BEGIN PRIVATE KEY-----/, '')
+    .replace(/-----END PRIVATE KEY-----/, '')
+    .replace(/\s+/g, '');
   const binaryDerString = atob(b64);
   const binaryDer = new Uint8Array(binaryDerString.length);
   for (let i = 0; i < binaryDerString.length; i++) {
