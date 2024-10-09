@@ -7,21 +7,29 @@ let tokenExpirationTime: number | null = null;
 
 serve(async (req) => {
   try {
+    console.log('Received request');
+
     // Ensure the request has an Authorization header
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
+      console.error('Missing authorization header');
       return new Response(JSON.stringify({ error: 'Missing authorization header' }), { status: 401 });
     }
 
+    console.log('Authorization header present:', authHeader);
+
     const { purchaseToken, productId } = await req.json();
+    console.log('Request payload:', { purchaseToken, productId });
 
     // Fetch access token using the service account credentials
     const accessToken = await getAccessToken();
+    console.log('Fetched access token:', accessToken);
 
     // Package name of the Android app
     const packageName = 'com.makinglifeeasie.closetconscious';
 
     // Verify purchase using Google's API
+    console.log('Verifying purchase...');
     const response = await fetch(
       `https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${packageName}/purchases/products/${productId}/tokens/${purchaseToken}`,
       {
@@ -34,6 +42,7 @@ serve(async (req) => {
 
     if (response.ok) {
       const data = await response.json();
+      console.log('Purchase verification successful:', data);
 
       const transactionId = data.orderId;
       const purchaseDate = data.purchaseTimeMillis;
@@ -42,10 +51,11 @@ serve(async (req) => {
 
       // Handle different purchase states
       if (purchaseState === 0) { // Purchase is complete
-        // Acknowledge the purchase
+        console.log('Purchase complete, acknowledging purchase...');
         await acknowledgePurchase(packageName, productId, purchaseToken, accessToken);
 
         // Trigger the Supabase RPC for persisting purchase data
+        console.log('Persisting purchase in Supabase...');
         const rpcResponse = await triggerPersistPurchaseRPC(
           transactionId,
           productId,
@@ -54,19 +64,25 @@ serve(async (req) => {
           countryCode
         );
 
+        console.log('RPC Response:', rpcResponse);
         return new Response(JSON.stringify(rpcResponse), { status: 200 });
       } else if (purchaseState === 1) { // Purchase is pending
+        console.warn('Purchase is pending');
         return new Response(JSON.stringify({ error: 'Purchase is pending' }), { status: 202 });
       } else if (purchaseState === 2) { // Purchase is canceled
+        console.warn('Purchase is canceled');
         return new Response(JSON.stringify({ error: 'Purchase is canceled' }), { status: 400 });
       } else {
+        console.error('Invalid purchase state:', purchaseState);
         return new Response(JSON.stringify({ error: 'Invalid purchase state' }), { status: 400 });
       }
     } else {
       const errorData = await response.json();
+      console.error('Error in purchase verification:', errorData);
       return new Response(JSON.stringify({ error: errorData }), { status: response.status });
     }
   } catch (error) {
+    console.error('Error during function execution:', error);
     return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
 });
@@ -77,6 +93,7 @@ async function getAccessToken(): Promise<string> {
 
   // If token is cached and not expired, return the cached token
   if (cachedAccessToken && tokenExpirationTime && currentTime < tokenExpirationTime) {
+    console.log('Using cached access token');
     return cachedAccessToken;
   }
 
@@ -84,6 +101,8 @@ async function getAccessToken(): Promise<string> {
   if (!serviceAccountKeyBase64) {
     throw new Error('Service account key not set in environment variables');
   }
+
+  console.log('Generating new access token...');
 
   // Decode the base64-encoded service account key
   const decodedServiceAccountKey = new TextDecoder().decode(base64Decode(serviceAccountKeyBase64));
@@ -152,6 +171,8 @@ async function getAccessToken(): Promise<string> {
   // Cache the access token and its expiration time
   cachedAccessToken = tokenData.access_token;
   tokenExpirationTime = now + 3600; // Tokens are valid for 1 hour
+
+  console.log('Access token generated and cached');
 
   return cachedAccessToken;
 }
