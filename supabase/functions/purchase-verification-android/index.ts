@@ -1,12 +1,18 @@
 import { serve } from 'https://deno.land/std@0.180.0/http/server.ts';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js';
-import { decode, verify } from "https://deno.land/x/djwt@v2.8/mod.ts"; // JWT verification library
+import { verify } from "https://deno.land/x/djwt@v2.8/mod.ts";
 import { decode as base64Decode } from "https://deno.land/std@0.180.0/encoding/base64.ts";
 
 // Initialize Supabase client
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+// Initialize JWT Secret
+const SUPABASE_JWT_SECRET = Deno.env.get('JWT_SECRET')!;
+if (!SUPABASE_JWT_SECRET) {
+  throw new Error('Supabase JWT secret is not set in environment variables');
+}
 
 // Cached access token and expiration time
 let cachedAccessToken: string | null = null;
@@ -19,34 +25,31 @@ serve(async (req) => {
     // Extract User JWT from Authorization header
     const authHeader = req.headers.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      console.error('Missing or invalid authorization header for user authentication');
-      return new Response(JSON.stringify({ error: 'Missing or invalid authorization header' }), { status: 401 });
+      console.error('Missing or invalid Authorization header');
+      return new Response(JSON.stringify({ error: 'Missing or invalid Authorization header' }), { status: 401 });
     }
 
     const userJwt = authHeader.split(' ')[1];
     let userId: string;
 
     try {
-      // Retrieve the Supabase JWT secret from environment variables
-      const SUPABASE_JWT_SECRET = Deno.env.get('JWT_SECRET')!;
-      if (!SUPABASE_JWT_SECRET) {
-        throw new Error('Supabase JWT secret not set');
-      }
-
-      // Verify the JWT
+      // Verify the JWT using HS256 and the jwt_secret
       const payload = await verify(userJwt, SUPABASE_JWT_SECRET, 'HS256');
-      userId = payload?.user_id as string;
+
+      // Extract user_id from the 'sub' claim
+      userId = payload?.sub as string;
 
       if (!userId) {
-        throw new Error('User ID not found in token');
+        throw new Error('User ID (sub) not found in token');
       }
+
       console.log('Authenticated user ID:', userId);
     } catch (err) {
-      console.error('Invalid user JWT:', err);
+      console.error('Invalid JWT:', err);
       return new Response(JSON.stringify({ error: 'Invalid authentication token' }), { status: 401 });
     }
 
-    // Extract Google API Access Token from a separate header
+    // Extract Google API Access Token from a separate header (if required)
     const googleAuthHeader = req.headers.get('X-Google-Authorization');
     if (!googleAuthHeader || !googleAuthHeader.startsWith('Bearer ')) {
       console.error('Missing or invalid X-Google-Authorization header');
@@ -56,12 +59,13 @@ serve(async (req) => {
     const googleAccessToken = googleAuthHeader.split(' ')[1];
     console.log('Google API Access Token present');
 
+    // Parse the request body
     const { purchaseToken, productId } = await req.json();
-    console.log('Request payload: purchaseToken, productId');
+    console.log('Request payload:', { purchaseToken, productId });
 
-    // Fetch access token using the service account credentials (if necessary)
+    // Fetch access token using the service account credentials
     const accessToken = await getAccessToken();
-    console.log('Fetched access token:');
+    console.log('Fetched access token:', accessToken);
 
     // Package name of the Android app
     const packageName = 'com.makinglifeeasie.closetconscious';
@@ -72,7 +76,7 @@ serve(async (req) => {
       `https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${packageName}/purchases/products/${productId}/tokens/${purchaseToken}`,
       {
         headers: {
-          'Authorization': `Bearer ${googleAccessToken}`, // Or `accessToken` if fetched from service account
+          'Authorization': `Bearer ${googleAccessToken}`, // Use the Google API Access Token
           'Accept': 'application/json',
         },
       }
