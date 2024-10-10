@@ -56,7 +56,7 @@ serve(async (req) => {
         throw new Error('User ID (sub) not found in token');
       }
 
-      console.log('Authenticated user ID:', userId);
+      console.log('Authenticated user ID');
     } catch (err) {
       console.error('Invalid JWT:', err);
       return new Response(
@@ -71,7 +71,7 @@ serve(async (req) => {
 
     // Fetch access token using the service account credentials
     const accessToken = await getAccessToken();
-    console.log('Fetched access token:', accessToken);
+    console.log('Fetched access token');
 
     // Package name of the Android app
     const packageName = 'com.makinglifeeasie.closetconscious';
@@ -114,27 +114,62 @@ serve(async (req) => {
         );
 
         console.log('RPC Response:', rpcResponse);
-        return new Response(JSON.stringify(rpcResponse), { status: 200 });
+        return new Response(
+          JSON.stringify({
+            success: true,
+            data: rpcResponse,
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } }
+        );
       } else if (purchaseState === 1) { // Purchase is pending
         console.warn('Purchase is pending');
-        return new Response(JSON.stringify({ error: 'Purchase is pending' }), { status: 202 });
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: 'Purchase is pending',
+          }),
+          { status: 202, headers: { "Content-Type": "application/json" } }
+        );
       } else if (purchaseState === 2) { // Purchase is canceled
         console.warn('Purchase is canceled');
-        return new Response(JSON.stringify({ error: 'Purchase is canceled' }), { status: 400 });
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: 'Purchase is canceled',
+          }),
+          { status: 400, headers: { "Content-Type": "application/json" } }
+        );
       } else {
         console.error('Invalid purchase state:', purchaseState);
-        return new Response(JSON.stringify({ error: 'Invalid purchase state' }), { status: 400 });
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: `Invalid purchase state: ${purchaseState}`,
+          }),
+          { status: 400, headers: { "Content-Type": "application/json" } }
+        );
       }
     } else {
       const errorData = await response.json();
       console.error('Error in purchase verification:', errorData);
-      return new Response(JSON.stringify({ error: errorData }), { status: response.status });
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: errorData,
+        }),
+        { status: response.status, headers: { "Content-Type": "application/json" } }
+      );
     }
-  } catch (error) {
-    console.error('Error during function execution:', error);
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
-  }
-});
+} catch (error) {
+  console.error('Error during function execution:', error);
+  return new Response(
+    JSON.stringify({
+      success: false,
+      error: error.message || 'Internal server error',
+    }),
+    { status: 500, headers: { "Content-Type": "application/json" } }
+  );
+}
 
 // Helper function to get access token with caching
 async function getAccessToken(): Promise<string> {

@@ -147,7 +147,10 @@ class CoreSaveService {
 
       if (accessToken == null) {
         logger.e('Access token not found. User may not be authenticated.');
-        return null;
+        return {
+          'status': 'error',
+          'message': 'User not authenticated',
+        };
       }
 
       // Make a POST request to the Edge Function
@@ -163,17 +166,28 @@ class CoreSaveService {
         }),
       );
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body) as Map<String, dynamic>;
-        logger.i('Purchase verification successful: $data');
-        return data;
+      final responseData = jsonDecode(response.body) as Map<String, dynamic>;
+
+      if (response.statusCode == 200 && responseData['success'] == true) {
+        logger.i('Purchase verification successful: $responseData');
+        return {
+          'status': 'success',
+          'message': 'Purchase verified successfully',
+          'data': responseData['data'],
+        };
       } else {
         logger.e('Failed to verify purchase: ${response.body}');
-        return null;
+        return {
+          'status': 'error',
+          'message': responseData['error'] ?? 'Unknown error occurred',
+        };
       }
     } catch (e) {
       logger.e('Error verifying purchase with Supabase Edge Function: $e');
-      return null;
+      return {
+        'status': 'error',
+        'message': 'An exception occurred: $e',
+      };
     }
   }
 
