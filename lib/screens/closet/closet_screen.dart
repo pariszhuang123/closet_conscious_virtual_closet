@@ -164,6 +164,10 @@ class MyClosetPageState extends State<MyClosetPage> {
       setState(() {
         _isUploadCompleted = true;
       });
+    }else {
+      setState(() {
+        _isUploadCompleted = false;
+      });
     }
   }
 

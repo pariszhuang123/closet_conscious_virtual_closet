@@ -170,7 +170,9 @@ class CoreSaveService {
 
       final responseData = jsonDecode(response.body) as Map<String, dynamic>;
 
-      if (responseData['status'] == 'success') {
+      final status = responseData['status'] as String?;
+
+      if (status == 'success') {
         Sentry.addBreadcrumb(Breadcrumb(
           message: 'Purchase verification succeeded',
           data: {'response': responseData},
@@ -179,8 +181,7 @@ class CoreSaveService {
         logger.i('Purchase verification successful: $responseData');
         return {
           'status': 'success',
-          'message': 'Purchase verified successfully',
-          'data': responseData['data'],
+          'message': 'Purchase verified successfully'
         };
       } else {
         Sentry.captureMessage('Failed to verify purchase', level: SentryLevel.error);

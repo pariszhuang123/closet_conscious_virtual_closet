@@ -116,10 +116,12 @@ serve(async (req) => {
         console.log('RPC Response:', rpcResponse);
         return new Response(
           JSON.stringify({
-            success: true,
-            data: rpcResponse,
+            status: 'success',
+            message: 'Purchase recorded successfully',
+            // Include any additional data if necessary
           }),
           { status: 200, headers: { "Content-Type": "application/json" } }
+
         );
       } else if (purchaseState === 1) { // Purchase is pending
         console.warn('Purchase is pending');
