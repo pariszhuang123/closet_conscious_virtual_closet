@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/gestures.dart';
@@ -52,10 +53,11 @@ class LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 24),
 
             // Google Sign-In Button, only enabled when terms are accepted
-            SignInButtonGoogle(
-              enabled: _isTermsAccepted,
-              onDisabledPressed: _showTermsSnackbar, // Show snackbar if disabled
-            ),
+            if (Platform.isAndroid)
+              SignInButtonGoogle(
+                enabled: _isTermsAccepted,
+                onDisabledPressed: _showTermsSnackbar, // Show snackbar if disabled
+              ),
             const SizedBox(height: 16),
 
             // Checkbox and Terms

@@ -160,16 +160,17 @@ serve(async (req) => {
         { status: response.status, headers: { "Content-Type": "application/json" } }
       );
     }
-} catch (error) {
-  console.error('Error during function execution:', error);
-  return new Response(
-    JSON.stringify({
-      success: false,
-      error: error.message || 'Internal server error',
-    }),
-    { status: 500, headers: { "Content-Type": "application/json" } }
-  );
-}
+  } catch (error) {
+    console.error('Error during function execution:', error);
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: error.message || 'Internal server error',
+      }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
+});
 
 // Helper function to get access token with caching
 async function getAccessToken(): Promise<string> {
