@@ -264,7 +264,6 @@ async function getAccessToken(): Promise<string> {
   // Cache the access token and its expiration time
   cachedAccessToken = tokenData.access_token;
   tokenExpirationTime = now + 3600; // Tokens are valid for 1 hour
-
   console.log('Access token generated and cached');
 
   return cachedAccessToken;
