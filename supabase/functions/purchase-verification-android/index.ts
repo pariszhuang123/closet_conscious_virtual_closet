@@ -65,19 +65,6 @@ serve(async (req) => {
       );
     }
 
-    // Extract Google API Access Token from a separate header (if required)
-    const googleAuthHeader = req.headers.get('X-Google-Authorization');
-    if (!googleAuthHeader || !googleAuthHeader.startsWith('Bearer ')) {
-      console.error('Missing or invalid X-Google-Authorization header');
-      return new Response(
-        JSON.stringify({ error: 'Missing or invalid Google authorization header' }),
-        { status: 401 },
-      );
-    }
-
-    const googleAccessToken = googleAuthHeader.split(' ')[1];
-    console.log('Google API Access Token present');
-
     // Parse the request body
     const { purchaseToken, productId } = await req.json();
     console.log('Request payload:', { purchaseToken, productId });
@@ -95,7 +82,7 @@ serve(async (req) => {
       `https://androidpublisher.googleapis.com/androidpublisher/v3/applications/${packageName}/purchases/products/${productId}/tokens/${purchaseToken}`,
       {
         headers: {
-          'Authorization': `Bearer ${googleAccessToken}`, // Use the Google API Access Token
+          'Authorization': `Bearer ${accessToken}`, // Use the service account access token
           'Accept': 'application/json',
         },
       }
@@ -113,7 +100,7 @@ serve(async (req) => {
       // Handle different purchase states
       if (purchaseState === 0) { // Purchase is complete
         console.log('Purchase complete, acknowledging purchase...');
-        await acknowledgePurchase(packageName, productId, purchaseToken, googleAccessToken);
+        await acknowledgePurchase(packageName, productId, purchaseToken, accessToken);
 
         // Trigger the Supabase RPC for persisting purchase data
         console.log('Persisting purchase in Supabase...');
@@ -259,7 +246,7 @@ async function acknowledgePurchase(
   const acknowledgeResponse = await fetch(acknowledgeUrl, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`, // Use the service account access token
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({}),
