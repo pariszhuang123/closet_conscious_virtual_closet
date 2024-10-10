@@ -317,7 +317,12 @@ async function triggerPersistPurchaseRPC(
     return { status: 'error', message: error.message };
   }
 
-  return data;
+  return {
+    status: 'success',
+    message: 'Purchase recorded successfully',
+    data: data, // Wrap RPC response in 'data'
+  };
+
 }
 
 // Helper function for base64url encoding
