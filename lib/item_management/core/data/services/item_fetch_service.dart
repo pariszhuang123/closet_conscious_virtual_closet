@@ -146,8 +146,8 @@ class ItemFetchService {
       final userId = authBloc.userId;
 
       if (userId == null) {
-        // Handle the case when userId is null
-        throw Exception('User not authenticated. userId is null.');
+        logger.e('User not authenticated. userId is null.');
+        return false;
       }
 
       final data = await Supabase.instance.client

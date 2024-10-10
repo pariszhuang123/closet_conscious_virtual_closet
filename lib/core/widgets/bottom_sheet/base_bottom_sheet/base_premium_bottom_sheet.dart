@@ -116,9 +116,15 @@ class BasePremiumBottomSheetState extends State<BasePremiumBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: Text(
-                      widget.title,
-                      style: theme.textTheme.titleMedium,
+                    child: Row(
+                      children: [
+                        Icon(Icons.lightbulb, color: theme.colorScheme.primary), // Lightbulb icon
+                        const SizedBox(width: 8.0), // Add some space between the icon and the title
+                        Text(
+                          widget.title,
+                          style: theme.textTheme.titleMedium,
+                        ),
+                      ],
                     ),
                   ),
                   IconButton(

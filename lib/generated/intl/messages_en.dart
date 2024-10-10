@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "\'How much did the item cost?"),
         "AmountLabel": MessageLookupByLibrary.simpleMessage("Amount"),
         "AnalyticsSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
-            "Interested in Usage Analytics?"),
+            "Curious about\n Usage Analytics?"),
         "AppName": MessageLookupByLibrary.simpleMessage("Closet\nConscious"),
         "ItemClothingLayerLabel":
             MessageLookupByLibrary.simpleMessage("Clothing Layer"),
@@ -82,9 +82,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("App Information"),
         "arrange": MessageLookupByLibrary.simpleMessage("Arrange"),
         "arrangeFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "We\'re considering adding a feature that lets you customize grid sizes and sort items by cost per wear, updated date, and more."),
+            "We’re thinking about letting you customize how your closet is organized. Would sorting by cost per wear or updated date be helpful to you?"),
         "arrangeFeatureTitle": MessageLookupByLibrary.simpleMessage(
-            "Interested in Customizing Your Closet Layout?"),
+            "Would You Customize\n Your Closet Layout?"),
         "athletic": MessageLookupByLibrary.simpleMessage("Athletic"),
         "autumn": MessageLookupByLibrary.simpleMessage("Autumn"),
         "bag": MessageLookupByLibrary.simpleMessage("Bag"),
@@ -99,7 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "brown": MessageLookupByLibrary.simpleMessage("Brown"),
         "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "calendarPremiumFeature": MessageLookupByLibrary.simpleMessage(
-            "Interested in Calendar View?"),
+            "Would a Calendar View\n be Useful?"),
         "camera_edit_item_permission_explanation":
             MessageLookupByLibrary.simpleMessage(
                 "Allow access to update item photos with your camera."),
@@ -196,7 +196,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "failedToSubmitScore":
             MessageLookupByLibrary.simpleMessage("Failed to submit score."),
         "filterSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
-            "Interested in Advanced Filters?"),
+            "Looking for\n Advanced Filters?"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "formal": MessageLookupByLibrary.simpleMessage("Formal"),
         "general_permission_explanation": MessageLookupByLibrary.simpleMessage(
@@ -234,15 +234,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "medium": MessageLookupByLibrary.simpleMessage("Medium"),
         "metadata": MessageLookupByLibrary.simpleMessage("More"),
         "metadataFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "We’re thinking about offering a premium feature to let you add extra details to your items."),
-        "metadataFeatureTitle":
-            MessageLookupByLibrary.simpleMessage("Want to Add More Details?"),
+            "We’re considering letting you add extra details to your items to make them easier to manage. Would this enhance your experience?"),
+        "metadataFeatureTitle": MessageLookupByLibrary.simpleMessage(
+            "Would You Like to\n Add More Details?"),
         "mid": MessageLookupByLibrary.simpleMessage("Mid"),
         "multi": MessageLookupByLibrary.simpleMessage("Multi"),
         "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "We\'re considering adding a premium feature to create multiple closets, including temporary and disappearing closets."),
-        "multiClosetFeatureTitle":
-            MessageLookupByLibrary.simpleMessage("Interested in Multi-Closet?"),
+            "We’re exploring the idea of multiple closets (temporary, permanent, disappearing). Would this be something you’d use?"),
+        "multiClosetFeatureTitle": MessageLookupByLibrary.simpleMessage(
+            "Would You Use\n Multiple Closets?"),
         "multiOutfitDescription": MessageLookupByLibrary.simpleMessage(
             "Create multiple outfits a day"),
         "multiOutfitTitle": MessageLookupByLibrary.simpleMessage(
@@ -336,14 +336,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "profileSection": MessageLookupByLibrary.simpleMessage("Profile"),
         "purchase_button": MessageLookupByLibrary.simpleMessage("Purchase Now"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
-            "We’re thinking about offering a premium feature to help you filter your items more easily."),
+            "We’re thinking about a feature to help you filter your items more easily. Let us know if you’d find this useful."),
         "rainbow": MessageLookupByLibrary.simpleMessage("Multicolour"),
         "recommendClosetConscious": MessageLookupByLibrary.simpleMessage(
             "How likely will you recommend Closet Conscious to a friend?"),
         "red": MessageLookupByLibrary.simpleMessage("Red"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("Retry"),
         "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
-            "We\'re considering adding a premium feature to view previous outfits in a calendar format and integrate with multi-closet."),
+            "We’re considering adding a feature to view your outfits in a calendar format. Would this help you stay organized?"),
         "scarf": MessageLookupByLibrary.simpleMessage("Scarf"),
         "seasonFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("Season field is not filled."),
@@ -403,9 +403,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Support Request"),
         "swap": MessageLookupByLibrary.simpleMessage("Swap"),
         "swapFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "We\'re considering adding a premium feature for digitally swapping items and getting notified about nearby swap events."),
+            "We’re considering a feature for digitally swapping items and getting notified about nearby swap events. Would you participate in something like this?"),
         "swapFeatureTitle": MessageLookupByLibrary.simpleMessage(
-            "Interested in Swapping Items?"),
+            "Interested in\n Item Swapping?"),
         "swap_item": MessageLookupByLibrary.simpleMessage("Swap QR"),
         "tagline": MessageLookupByLibrary.simpleMessage("ShopYourCloset"),
         "tech": MessageLookupByLibrary.simpleMessage("Tech"),
@@ -420,7 +420,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "top": MessageLookupByLibrary.simpleMessage("Top"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
-            "We\'re exploring a premium feature to analyze your items\' cost per wear and provide personalized outfit insights."),
+            "We’re exploring how to help you track your items\' cost per wear and provide personalized outfit insights. Let us know if this would be helpful for you."),
         "unableToProcessAccountDeletion": MessageLookupByLibrary.simpleMessage(
             "We are unable to process your account deletion request at the moment. Would you kindly email us at support@example.com for assistance?"),
         "unableToRetrieveUserId": MessageLookupByLibrary.simpleMessage(

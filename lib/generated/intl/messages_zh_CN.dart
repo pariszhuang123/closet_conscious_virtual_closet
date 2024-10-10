@@ -27,7 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "AmountHint": MessageLookupByLibrary.simpleMessage("该物品的花费是多少？"),
         "AmountLabel": MessageLookupByLibrary.simpleMessage("金额"),
         "AnalyticsSearchPremiumFeature":
-            MessageLookupByLibrary.simpleMessage("有兴趣使用分析功能吗？"),
+            MessageLookupByLibrary.simpleMessage("对使用分析感到好奇吗？"),
         "AppName": MessageLookupByLibrary.simpleMessage("环保衣橱"),
         "ItemClothingLayerLabel": MessageLookupByLibrary.simpleMessage("服装层"),
         "ItemClothingTypeLabel": MessageLookupByLibrary.simpleMessage("服装类型"),
@@ -72,11 +72,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
         "and": MessageLookupByLibrary.simpleMessage(" 和 "),
         "appInformationSection": MessageLookupByLibrary.simpleMessage("应用信息"),
-        "arrange": MessageLookupByLibrary.simpleMessage("排列"),
+        "arrange": MessageLookupByLibrary.simpleMessage("整理"),
         "arrangeFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "我们正在考虑添加一个功能，让你可以自定义网格大小，并按单次穿着成本、更新时间等进行排序。"),
+            "我们正在考虑让您定制衣橱的组织方式。按穿着成本或更新日期排序对您有帮助吗？"),
         "arrangeFeatureTitle":
-            MessageLookupByLibrary.simpleMessage("感兴趣自定义你的衣橱布局吗？"),
+            MessageLookupByLibrary.simpleMessage("您会定制衣橱布局吗？"),
         "athletic": MessageLookupByLibrary.simpleMessage("运动"),
         "autumn": MessageLookupByLibrary.simpleMessage("秋"),
         "bag": MessageLookupByLibrary.simpleMessage("包"),
@@ -90,7 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "brown": MessageLookupByLibrary.simpleMessage("棕色"),
         "calendar": MessageLookupByLibrary.simpleMessage("日历"),
         "calendarPremiumFeature":
-            MessageLookupByLibrary.simpleMessage("有兴趣查看日历视图吗？"),
+            MessageLookupByLibrary.simpleMessage("日历视图对您有帮助吗？"),
         "camera_edit_item_permission_explanation":
             MessageLookupByLibrary.simpleMessage("允许访问相机以更新物品照片。"),
         "camera_permission_explanation":
@@ -171,7 +171,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "failedToLoadItems": MessageLookupByLibrary.simpleMessage("加载项目失败"),
         "failedToSubmitScore": MessageLookupByLibrary.simpleMessage("提交分数失败。"),
         "filterSearchPremiumFeature":
-            MessageLookupByLibrary.simpleMessage("有兴趣使用高级筛选功能吗？"),
+            MessageLookupByLibrary.simpleMessage("需要高级筛选功能吗？"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("筛选"),
         "formal": MessageLookupByLibrary.simpleMessage("正式"),
         "general_permission_explanation":
@@ -208,15 +208,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "medium": MessageLookupByLibrary.simpleMessage("中色"),
         "metadata": MessageLookupByLibrary.simpleMessage("更多"),
         "metadataFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "我们正在考虑推出一项高级功能，让您可以为物品添加更多详细信息。"),
+            "我们正在考虑让您为物品添加额外的详细信息，使管理更容易。这会增强您的体验吗？"),
         "metadataFeatureTitle":
-            MessageLookupByLibrary.simpleMessage("想添加更多详细信息吗？"),
+            MessageLookupByLibrary.simpleMessage("您想为物品添加更多详细信息吗？"),
         "mid": MessageLookupByLibrary.simpleMessage("中层"),
         "multi": MessageLookupByLibrary.simpleMessage("多季节"),
         "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "我们正在考虑添加一个高级功能，以创建多个衣橱，包括临时和消失的衣橱。"),
+            "我们正在探索多个衣橱的想法（临时的、永久的、消失的）。这对您有用吗？"),
         "multiClosetFeatureTitle":
-            MessageLookupByLibrary.simpleMessage("有兴趣使用多衣橱功能吗？"),
+            MessageLookupByLibrary.simpleMessage("您会使用多个衣橱吗？"),
         "multiOutfitDescription":
             MessageLookupByLibrary.simpleMessage("每天创建多个搭配"),
         "multiOutfitTitle": MessageLookupByLibrary.simpleMessage("多重搭配高级功能"),
@@ -304,15 +304,15 @@ class MessageLookup extends MessageLookupByLibrary {
             "https://inky-twill-3ab.notion.site/5c881235e92240d9a008e0fe6bb80f0b"),
         "profileSection": MessageLookupByLibrary.simpleMessage("个人资料"),
         "purchase_button": MessageLookupByLibrary.simpleMessage("立即购买"),
-        "quicklyFindItems":
-            MessageLookupByLibrary.simpleMessage("我们正在考虑推出一项高级功能，帮助您更轻松地筛选物品。"),
+        "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
+            "我们正在考虑开发一个功能，帮助您更轻松地筛选物品。请告诉我们这个功能对您是否有用。"),
         "rainbow": MessageLookupByLibrary.simpleMessage("多色"),
         "recommendClosetConscious": MessageLookupByLibrary.simpleMessage(
             "您有多大可能向朋友推荐环保衣橱 (Closet Conscious)?"),
         "red": MessageLookupByLibrary.simpleMessage("红色"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("重试"),
         "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
-            "我们正在考虑添加一个高级功能，可以在日历格式中查看之前的装扮并与多衣橱集成。"),
+            "我们正在考虑添加一个功能，以日历形式查看您的穿搭记录。这个功能能帮助您更好地组织吗？"),
         "scarf": MessageLookupByLibrary.simpleMessage("围巾"),
         "seasonFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("季节字段未填写。"),
@@ -358,8 +358,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "supportEmailSubject": MessageLookupByLibrary.simpleMessage("支持请求"),
         "swap": MessageLookupByLibrary.simpleMessage("交换"),
         "swapFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "我们正在考虑添加一个高级功能，用于数字交换物品并收到附近交换活动的通知。"),
-        "swapFeatureTitle": MessageLookupByLibrary.simpleMessage("有兴趣交换物品吗？"),
+            "我们正在考虑开发一个数字交换物品的功能，并通知您附近的交换活动。您会参与这种活动吗？"),
+        "swapFeatureTitle": MessageLookupByLibrary.simpleMessage("您对物品交换感兴趣吗？"),
         "swap_item": MessageLookupByLibrary.simpleMessage("交换二维码"),
         "tagline": MessageLookupByLibrary.simpleMessage("在衣橱里购物"),
         "tech": MessageLookupByLibrary.simpleMessage("科技"),
@@ -372,7 +372,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
         "top": MessageLookupByLibrary.simpleMessage("上衣"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
-            "我们正在探索一项高级功能，可以分析您物品的每次穿着成本，并提供个性化的搭配洞察。"),
+            "我们正在探索如何帮助您跟踪物品的穿着成本，并提供个性化的穿搭洞察。这个功能对您有帮助吗？"),
         "unableToProcessAccountDeletion": MessageLookupByLibrary.simpleMessage(
             "我们暂时无法处理您的账户删除请求。请通过电子邮件联系我们：support@example.com，以获取帮助。"),
         "unableToRetrieveUserId":

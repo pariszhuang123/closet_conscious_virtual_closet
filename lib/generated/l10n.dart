@@ -1610,126 +1610,6 @@ class S {
     );
   }
 
-  /// `Interested in Usage Analytics?`
-  String get AnalyticsSearchPremiumFeature {
-    return Intl.message(
-      'Interested in Usage Analytics?',
-      name: 'AnalyticsSearchPremiumFeature',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `We're exploring a premium feature to analyze your items' cost per wear and provide personalized outfit insights.`
-  String get trackAnalyticsDescription {
-    return Intl.message(
-      'We\'re exploring a premium feature to analyze your items\' cost per wear and provide personalized outfit insights.',
-      name: 'trackAnalyticsDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Interested in Calendar View?`
-  String get calendarPremiumFeature {
-    return Intl.message(
-      'Interested in Calendar View?',
-      name: 'calendarPremiumFeature',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `We're considering adding a premium feature to view previous outfits in a calendar format and integrate with multi-closet.`
-  String get reviewOutfitsInCalendar {
-    return Intl.message(
-      'We\'re considering adding a premium feature to view previous outfits in a calendar format and integrate with multi-closet.',
-      name: 'reviewOutfitsInCalendar',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Interested in Advanced Filters?`
-  String get filterSearchPremiumFeature {
-    return Intl.message(
-      'Interested in Advanced Filters?',
-      name: 'filterSearchPremiumFeature',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `We’re thinking about offering a premium feature to help you filter your items more easily.`
-  String get quicklyFindItems {
-    return Intl.message(
-      'We’re thinking about offering a premium feature to help you filter your items more easily.',
-      name: 'quicklyFindItems',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Want to Add More Details?`
-  String get metadataFeatureTitle {
-    return Intl.message(
-      'Want to Add More Details?',
-      name: 'metadataFeatureTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `We’re thinking about offering a premium feature to let you add extra details to your items.`
-  String get metadataFeatureDescription {
-    return Intl.message(
-      'We’re thinking about offering a premium feature to let you add extra details to your items.',
-      name: 'metadataFeatureDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Interested in Multi-Closet?`
-  String get multiClosetFeatureTitle {
-    return Intl.message(
-      'Interested in Multi-Closet?',
-      name: 'multiClosetFeatureTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `We're considering adding a premium feature to create multiple closets, including temporary and disappearing closets.`
-  String get multiClosetFeatureDescription {
-    return Intl.message(
-      'We\'re considering adding a premium feature to create multiple closets, including temporary and disappearing closets.',
-      name: 'multiClosetFeatureDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Interested in Swapping Items?`
-  String get swapFeatureTitle {
-    return Intl.message(
-      'Interested in Swapping Items?',
-      name: 'swapFeatureTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `We're considering adding a premium feature for digitally swapping items and getting notified about nearby swap events.`
-  String get swapFeatureDescription {
-    return Intl.message(
-      'We\'re considering adding a premium feature for digitally swapping items and getting notified about nearby swap events.',
-      name: 'swapFeatureDescription',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Arrange`
   String get arrange {
     return Intl.message(
@@ -1740,21 +1620,141 @@ class S {
     );
   }
 
-  /// `Interested in Customizing Your Closet Layout?`
+  /// `Would You Customize\n Your Closet Layout?`
   String get arrangeFeatureTitle {
     return Intl.message(
-      'Interested in Customizing Your Closet Layout?',
+      'Would You Customize\n Your Closet Layout?',
       name: 'arrangeFeatureTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `We're considering adding a feature that lets you customize grid sizes and sort items by cost per wear, updated date, and more.`
+  /// `We’re thinking about letting you customize how your closet is organized. Would sorting by cost per wear or updated date be helpful to you?`
   String get arrangeFeatureDescription {
     return Intl.message(
-      'We\'re considering adding a feature that lets you customize grid sizes and sort items by cost per wear, updated date, and more.',
+      'We’re thinking about letting you customize how your closet is organized. Would sorting by cost per wear or updated date be helpful to you?',
       name: 'arrangeFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Looking for\n Advanced Filters?`
+  String get filterSearchPremiumFeature {
+    return Intl.message(
+      'Looking for\n Advanced Filters?',
+      name: 'filterSearchPremiumFeature',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We’re thinking about a feature to help you filter your items more easily. Let us know if you’d find this useful.`
+  String get quicklyFindItems {
+    return Intl.message(
+      'We’re thinking about a feature to help you filter your items more easily. Let us know if you’d find this useful.',
+      name: 'quicklyFindItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Would You Use\n Multiple Closets?`
+  String get multiClosetFeatureTitle {
+    return Intl.message(
+      'Would You Use\n Multiple Closets?',
+      name: 'multiClosetFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We’re exploring the idea of multiple closets (temporary, permanent, disappearing). Would this be something you’d use?`
+  String get multiClosetFeatureDescription {
+    return Intl.message(
+      'We’re exploring the idea of multiple closets (temporary, permanent, disappearing). Would this be something you’d use?',
+      name: 'multiClosetFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Would You Like to\n Add More Details?`
+  String get metadataFeatureTitle {
+    return Intl.message(
+      'Would You Like to\n Add More Details?',
+      name: 'metadataFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We’re considering letting you add extra details to your items to make them easier to manage. Would this enhance your experience?`
+  String get metadataFeatureDescription {
+    return Intl.message(
+      'We’re considering letting you add extra details to your items to make them easier to manage. Would this enhance your experience?',
+      name: 'metadataFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Would a Calendar View\n be Useful?`
+  String get calendarPremiumFeature {
+    return Intl.message(
+      'Would a Calendar View\n be Useful?',
+      name: 'calendarPremiumFeature',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We’re considering adding a feature to view your outfits in a calendar format. Would this help you stay organized?`
+  String get reviewOutfitsInCalendar {
+    return Intl.message(
+      'We’re considering adding a feature to view your outfits in a calendar format. Would this help you stay organized?',
+      name: 'reviewOutfitsInCalendar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interested in\n Item Swapping?`
+  String get swapFeatureTitle {
+    return Intl.message(
+      'Interested in\n Item Swapping?',
+      name: 'swapFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We’re considering a feature for digitally swapping items and getting notified about nearby swap events. Would you participate in something like this?`
+  String get swapFeatureDescription {
+    return Intl.message(
+      'We’re considering a feature for digitally swapping items and getting notified about nearby swap events. Would you participate in something like this?',
+      name: 'swapFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Curious about\n Usage Analytics?`
+  String get AnalyticsSearchPremiumFeature {
+    return Intl.message(
+      'Curious about\n Usage Analytics?',
+      name: 'AnalyticsSearchPremiumFeature',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We’re exploring how to help you track your items' cost per wear and provide personalized outfit insights. Let us know if this would be helpful for you.`
+  String get trackAnalyticsDescription {
+    return Intl.message(
+      'We’re exploring how to help you track your items\' cost per wear and provide personalized outfit insights. Let us know if this would be helpful for you.',
+      name: 'trackAnalyticsDescription',
       desc: '',
       args: [],
     );
