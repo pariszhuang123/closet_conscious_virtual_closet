@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
 import '../../../data/services/core_save_services.dart';
 import '../../../utilities/logger.dart';
 import '../../data/feature_key.dart';
@@ -110,9 +112,15 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   Future<void> _verifyAndDeliverAndroidPurchase(PurchaseDetails purchaseDetails) async {
-    // Get the purchaseToken and productId and send them to the Supabase Edge Function
+        // Get the purchaseToken and productId and send them to the Supabase Edge Function
     String purchaseToken = purchaseDetails.verificationData.serverVerificationData;
     String productId = purchaseDetails.productID;
+
+    Sentry.addBreadcrumb(Breadcrumb(
+      message: 'Verifying purchase with Supabase Edge function',
+      data: {'purchaseToken': purchaseDetails.verificationData.serverVerificationData, 'productId': purchaseDetails.productID},
+      level: SentryLevel.info,
+    ));
 
     // Call the method from core_save_services.dart to verify the purchase
     final verificationResult = await _coreSaveService.verifyAndroidPurchaseWithSupabaseEdgeFunction(
@@ -122,10 +130,16 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
     if (verificationResult != null && verificationResult['status'] == 'success') {
       _logger.i('Purchase verified and persisted successfully for product: $productId');
+      Sentry.addBreadcrumb(Breadcrumb(
+        message: 'Purchase verified successfully',
+        data: {'productId': purchaseDetails.productID},
+        level: SentryLevel.info,
+      ));
       // Emit a simple success state
       add(PurchaseSuccess());
     } else {
       _logger.e('Invalid purchase: $productId');
+      Sentry.captureMessage('Purchase verification failed for product: ${purchaseDetails.productID}', level: SentryLevel.error);
       add(PurchaseFailure('Invalid purchase. Please try again.'));
     }
   }

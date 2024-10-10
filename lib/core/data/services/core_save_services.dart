@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:sentry_flutter/sentry_flutter.dart';
+
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
@@ -169,6 +171,11 @@ class CoreSaveService {
       final responseData = jsonDecode(response.body) as Map<String, dynamic>;
 
       if (responseData['status'] == 'success') {
+        Sentry.addBreadcrumb(Breadcrumb(
+          message: 'Purchase verification succeeded',
+          data: {'response': responseData},
+          level: SentryLevel.info,
+        ));
         logger.i('Purchase verification successful: $responseData');
         return {
           'status': 'success',
@@ -176,13 +183,15 @@ class CoreSaveService {
           'data': responseData['data'],
         };
       } else {
+        Sentry.captureMessage('Failed to verify purchase', level: SentryLevel.error);
         logger.e('Failed to verify purchase: ${response.body}');
         return {
           'status': 'error',
           'message': responseData['error'] ?? 'Unknown error occurred',
         };
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      Sentry.captureException(e, stackTrace: stackTrace);
       logger.e('Error verifying purchase with Supabase Edge Function: $e');
       return {
         'status': 'error',

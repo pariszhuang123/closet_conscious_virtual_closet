@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
 import 'core/config/config_reader.dart';
 import 'core/config/flavor_config.dart';
 import 'core/config/supabase_config.dart';
@@ -10,35 +12,42 @@ import 'outfit_management/outfit_service_locator.dart' as outfit_locator;
 import 'app.dart';
 
 Future<void> mainCommon(String environment) async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // Initialize Sentry before other services
+  await SentryFlutter.init(
+        (options) {
+      options.dsn = 'https://f37eb9fa1d999491570b030a6885a1ca@o4506970390921216.ingest.us.sentry.io/4506970392559616';
+      options.tracesSampleRate = 1.0; // Adjust this for production if needed
+      options.profilesSampleRate = 1.0; // Enable profiling
+    },
+    // Wrap the rest of the app initialization
+    appRunner: () async {
+      WidgetsFlutterBinding.ensureInitialized();
 
+      core_locator.setupCoreServices();
+      final logger = core_locator.coreLocator<CustomLogger>(instanceName: 'MainCommonLogger');
 
-  core_locator.setupCoreServices();
+      FlavorConfig.initialize(environment);
+      logger.i('FlavorConfig initialized for environment: $environment');
 
-  final logger = core_locator.coreLocator<CustomLogger>(instanceName: 'MainCommonLogger');
+      await ConfigReader.initialize(environment);
+      logger.i('ConfigReader initialized successfully');
 
-  FlavorConfig.initialize(environment);
-  logger.i('FlavorConfig initialized for environment: $environment');
+      await SupabaseConfig.initialize();
+      user_management_locator.setupUserManagementLocator();
+      outfit_locator.setupLocator();
 
-  await ConfigReader.initialize(environment);
-  logger.i('ConfigReader initialized successfully');
+      // Log Supabase client initialization
+      logger.i('Supabase client initialized: ${SupabaseConfig.client}');
 
-  await SupabaseConfig.initialize();
+      runApp(const MainApp());
 
-  user_management_locator.setupUserManagementLocator();
-  outfit_locator.setupLocator();
-
-  // Log Supabase client initialization
-  logger.i('Supabase client initialized: ${SupabaseConfig.client}');
-
-  runApp(const MainApp());
-
-  // Log the current user
-  final currentUser = SupabaseConfig.client.auth.currentUser;
-  if (currentUser != null) {
-    logger.i('User is authenticated: ${currentUser.email}');
-  } else {
-    logger.w('No user is authenticated');
-  }
-
+      // Log the current user
+      final currentUser = SupabaseConfig.client.auth.currentUser;
+      if (currentUser != null) {
+        logger.i('User is authenticated: ${currentUser.email}');
+      } else {
+        logger.w('No user is authenticated');
+      }
+    },
+  );
 }

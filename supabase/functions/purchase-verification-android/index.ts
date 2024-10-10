@@ -292,6 +292,8 @@ async function acknowledgePurchase(
     console.error('Failed to acknowledge purchase:', errorData);
     throw new Error('Purchase acknowledgment failed');
   }
+    console.log('Purchase acknowledged successfully:', acknowledgeResponse.status); // Log the success status
+
 }
 
 // Helper function to trigger the persist purchase RPC
@@ -316,6 +318,7 @@ async function triggerPersistPurchaseRPC(
     console.error('Error calling RPC:', error);
     return { status: 'error', message: error.message };
   }
+  console.log('RPC call successful, response:', data); // Log the success response
 
   return {
     status: 'success',
