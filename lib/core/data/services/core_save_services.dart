@@ -168,7 +168,7 @@ class CoreSaveService {
 
       final responseData = jsonDecode(response.body) as Map<String, dynamic>;
 
-      if (response.statusCode == 200 && responseData['success'] == true) {
+      if (responseData['status'] == 'success') {
         logger.i('Purchase verification successful: $responseData');
         return {
           'status': 'success',
