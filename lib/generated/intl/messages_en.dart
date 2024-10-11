@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "\'How much did the item cost?"),
         "AmountLabel": MessageLookupByLibrary.simpleMessage("Amount"),
         "AnalyticsSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
-            "Curious about\n Usage Analytics?"),
+            "Curious about\nUsage Analytics?"),
         "AppName": MessageLookupByLibrary.simpleMessage("Closet\nConscious"),
         "ItemClothingLayerLabel":
             MessageLookupByLibrary.simpleMessage("Clothing Layer"),
@@ -84,7 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "arrangeFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "We’re thinking about letting you customize how your closet is organized. Would sorting by cost per wear or updated date be helpful to you?"),
         "arrangeFeatureTitle": MessageLookupByLibrary.simpleMessage(
-            "Would You Customize\n Your Closet Layout?"),
+            "Would You Customize\nYour Closet Layout?"),
         "athletic": MessageLookupByLibrary.simpleMessage("Athletic"),
         "autumn": MessageLookupByLibrary.simpleMessage("Autumn"),
         "bag": MessageLookupByLibrary.simpleMessage("Bag"),
@@ -99,7 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "brown": MessageLookupByLibrary.simpleMessage("Brown"),
         "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "calendarPremiumFeature": MessageLookupByLibrary.simpleMessage(
-            "Would a Calendar View\n be Useful?"),
+            "Would a Calendar View\nbe Useful?"),
         "camera_edit_item_permission_explanation":
             MessageLookupByLibrary.simpleMessage(
                 "Allow access to update item photos with your camera."),
@@ -196,7 +196,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "failedToSubmitScore":
             MessageLookupByLibrary.simpleMessage("Failed to submit score."),
         "filterSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
-            "Looking for\n Advanced Filters?"),
+            "Looking for\nAdvanced Filters?"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
         "formal": MessageLookupByLibrary.simpleMessage("Formal"),
         "general_permission_explanation": MessageLookupByLibrary.simpleMessage(
@@ -236,13 +236,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "metadataFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "We’re considering letting you add extra details to your items to make them easier to manage. Would this enhance your experience?"),
         "metadataFeatureTitle": MessageLookupByLibrary.simpleMessage(
-            "Would You Like to\n Add More Details?"),
+            "Would You Like to\nAdd More Details?"),
         "mid": MessageLookupByLibrary.simpleMessage("Mid"),
         "multi": MessageLookupByLibrary.simpleMessage("Multi"),
         "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "We’re exploring the idea of multiple closets (temporary, permanent, disappearing). Would this be something you’d use?"),
         "multiClosetFeatureTitle": MessageLookupByLibrary.simpleMessage(
-            "Would You Use\n Multiple Closets?"),
+            "Would You Use\nMultiple Closets?"),
         "multiOutfitDescription": MessageLookupByLibrary.simpleMessage(
             "Create multiple outfits a day"),
         "multiOutfitTitle": MessageLookupByLibrary.simpleMessage(
@@ -405,7 +405,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "swapFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "We’re considering a feature for digitally swapping items and getting notified about nearby swap events. Would you participate in something like this?"),
         "swapFeatureTitle": MessageLookupByLibrary.simpleMessage(
-            "Interested in\n Item Swapping?"),
+            "Interested in\nItem Swapping?"),
         "swap_item": MessageLookupByLibrary.simpleMessage("Swap QR"),
         "tagline": MessageLookupByLibrary.simpleMessage("ShopYourCloset"),
         "tech": MessageLookupByLibrary.simpleMessage("Tech"),

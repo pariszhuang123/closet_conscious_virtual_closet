@@ -1620,10 +1620,10 @@ class S {
     );
   }
 
-  /// `Would You Customize\n Your Closet Layout?`
+  /// `Would You Customize\nYour Closet Layout?`
   String get arrangeFeatureTitle {
     return Intl.message(
-      'Would You Customize\n Your Closet Layout?',
+      'Would You Customize\nYour Closet Layout?',
       name: 'arrangeFeatureTitle',
       desc: '',
       args: [],
@@ -1640,10 +1640,10 @@ class S {
     );
   }
 
-  /// `Looking for\n Advanced Filters?`
+  /// `Looking for\nAdvanced Filters?`
   String get filterSearchPremiumFeature {
     return Intl.message(
-      'Looking for\n Advanced Filters?',
+      'Looking for\nAdvanced Filters?',
       name: 'filterSearchPremiumFeature',
       desc: '',
       args: [],
@@ -1660,10 +1660,10 @@ class S {
     );
   }
 
-  /// `Would You Use\n Multiple Closets?`
+  /// `Would You Use\nMultiple Closets?`
   String get multiClosetFeatureTitle {
     return Intl.message(
-      'Would You Use\n Multiple Closets?',
+      'Would You Use\nMultiple Closets?',
       name: 'multiClosetFeatureTitle',
       desc: '',
       args: [],
@@ -1680,10 +1680,10 @@ class S {
     );
   }
 
-  /// `Would You Like to\n Add More Details?`
+  /// `Would You Like to\nAdd More Details?`
   String get metadataFeatureTitle {
     return Intl.message(
-      'Would You Like to\n Add More Details?',
+      'Would You Like to\nAdd More Details?',
       name: 'metadataFeatureTitle',
       desc: '',
       args: [],
@@ -1700,10 +1700,10 @@ class S {
     );
   }
 
-  /// `Would a Calendar View\n be Useful?`
+  /// `Would a Calendar View\nbe Useful?`
   String get calendarPremiumFeature {
     return Intl.message(
-      'Would a Calendar View\n be Useful?',
+      'Would a Calendar View\nbe Useful?',
       name: 'calendarPremiumFeature',
       desc: '',
       args: [],
@@ -1720,10 +1720,10 @@ class S {
     );
   }
 
-  /// `Interested in\n Item Swapping?`
+  /// `Interested in\nItem Swapping?`
   String get swapFeatureTitle {
     return Intl.message(
-      'Interested in\n Item Swapping?',
+      'Interested in\nItem Swapping?',
       name: 'swapFeatureTitle',
       desc: '',
       args: [],
@@ -1740,10 +1740,10 @@ class S {
     );
   }
 
-  /// `Curious about\n Usage Analytics?`
+  /// `Curious about\nUsage Analytics?`
   String get AnalyticsSearchPremiumFeature {
     return Intl.message(
-      'Curious about\n Usage Analytics?',
+      'Curious about\nUsage Analytics?',
       name: 'AnalyticsSearchPremiumFeature',
       desc: '',
       args: [],
