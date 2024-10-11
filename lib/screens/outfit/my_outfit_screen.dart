@@ -37,7 +37,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   int _selectedIndex = 1;
   final CustomLogger logger = CustomLogger('OutfitPage');
   final ScrollController _scrollController = ScrollController();
-  int newOutfitCount = 0;
+  int newOutfitCount = 1;
   bool _snackBarShown = false;
   bool _isNavigating = false; // New flag to track if navigation is in progress
 
@@ -281,7 +281,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
             }
 
             // Show SnackBar if no items are selected
-            if (!state.hasSelectedItems && !_snackBarShown && !_isNavigating) {
+            if (!state.hasSelectedItems && !_snackBarShown && !_isNavigating && newOutfitCount == 0) {
               _isNavigating = true; // Prevent the SnackBar from showing during navigation
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -345,7 +345,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                         }
                         // If no items are available, show no items message
                         else if (currentItems.isEmpty) {
-                          _snackBarShown = false;  // Reset the flag when no items are available
+                          _snackBarShown = false; // Reset the flag when no items are available
                           return Center(child: Text(S.of(context).noItemsInCategory));
                         }
                         // If items are available, show the OutfitGrid
