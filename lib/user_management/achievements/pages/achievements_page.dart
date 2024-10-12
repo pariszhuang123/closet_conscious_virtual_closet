@@ -32,8 +32,8 @@ class AchievementsPageState extends State<AchievementsPage> {
   @override
   void initState() {
     super.initState();
-    _logger.d('initState: Fetching achievements for user ${widget.userId}');
-    _futureAchievements = userFetchService.fetchUserAchievements(widget.userId);
+    _logger.d('initState: Fetching achievements for user');
+    _futureAchievements = userFetchService.fetchUserAchievements();
   }
 
   @override

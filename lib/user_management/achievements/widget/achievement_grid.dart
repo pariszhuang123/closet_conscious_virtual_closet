@@ -28,6 +28,7 @@ class AchievementGrid extends StatelessWidget {
         return Container(
           color: Colors.transparent,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,  // Aligns children to the start of the Column
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 10.0, right: 5.0, left: 5.0),
@@ -44,6 +45,14 @@ class AchievementGrid extends StatelessWidget {
                       },
                     ),
                   ),
+                ),
+              ),
+              // Use the text style from the theme
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  achievement.awardedAt,  // Assuming awardedAt is in 'YYYY-MM-DD' format
+                  style: Theme.of(context).textTheme.bodyMedium,  // Use the bodyMedium style from the theme
                 ),
               ),
             ],

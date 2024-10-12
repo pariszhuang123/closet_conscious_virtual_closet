@@ -14,7 +14,7 @@ AS $$
     ), '[]'::json  -- Return an empty array if no achievements are found
   )
   from public.user_achievements ua
-  join public.achievements a on ua.achievement_id = a.id
+  join public.achievements a on ua.achievement_name = a.achievement_name
   where ua.user_id = auth.uid();
 $$;
 

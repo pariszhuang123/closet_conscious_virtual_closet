@@ -10,19 +10,16 @@ class UserFetchSupabaseService {
       : _client = client ?? Supabase.instance.client,
         _logger = CustomLogger('UserFetchSupabaseService');
 
-  Future<List<Achievement>> fetchUserAchievements(String userId) async {
+  Future<List<Achievement>> fetchUserAchievements() async {
     try {
-      _logger.d('Fetching achievements for user: $userId');
+      _logger.d('Fetching achievements for current user');
 
-      final data = await _client
-          .from('user_achievements')
-          .select('achievement_name, achievements (achievement_name, badge_url)')
-          .eq('user_id', userId);
+      // Call the RPC function instead of querying the user_achievements table directly
+      final data = await _client.rpc('fetch_user_achievements'); // No need for userId
 
       _logger.i('Fetched ${data.length} achievements');
       return data.map((item) {
-        final achievementData = item['achievements'];
-        return Achievement.fromJson(achievementData);
+        return Achievement.fromJson(item);  // Assuming your Achievement model handles the RPC data format
       }).toList();
     } catch (error) {
       _logger.e('Error fetching achievements: $error');
