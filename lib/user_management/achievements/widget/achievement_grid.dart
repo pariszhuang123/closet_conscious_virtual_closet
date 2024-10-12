@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../../core/utilities/logger.dart';
 import '../data/models/achievement_model.dart';
 import '../../../core/widgets/layout/base_grid.dart';
@@ -17,6 +18,8 @@ class AchievementGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dateFormatter = DateFormat('yyyy-MM-dd');
+
     return BaseGrid<Achievement>(
       items: achievements,
       scrollController: scrollController,
@@ -51,7 +54,7 @@ class AchievementGrid extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                  achievement.awardedAt,  // Assuming awardedAt is in 'YYYY-MM-DD' format
+                  dateFormatter.format(achievement.awardedAt),  // Format the DateTime to String
                   style: Theme.of(context).textTheme.bodyMedium,  // Use the bodyMedium style from the theme
                 ),
               ),

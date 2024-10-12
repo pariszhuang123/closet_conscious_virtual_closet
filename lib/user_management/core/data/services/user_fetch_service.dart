@@ -14,13 +14,20 @@ class UserFetchSupabaseService {
     try {
       _logger.d('Fetching achievements for current user');
 
-      // Call the RPC function instead of querying the user_achievements table directly
-      final data = await _client.rpc('fetch_user_achievements'); // No need for userId
+      // Call the RPC function and ensure it's cast as List<dynamic>
+      final response = await _client.rpc('fetch_user_achievements');
 
-      _logger.i('Fetched ${data.length} achievements');
-      return data.map((item) {
-        return Achievement.fromJson(item);  // Assuming your Achievement model handles the RPC data format
-      }).toList();
+      // Ensure response is a list
+      if (response is List<dynamic>) {
+        _logger.i('Fetched ${response.length} achievements');
+        // Map response to Achievement model
+        return response.map((item) {
+          return Achievement.fromJson(item as Map<String, dynamic>);
+        }).toList();
+      } else {
+        _logger.e('Unexpected response format: $response');
+        return [];
+      }
     } catch (error) {
       _logger.e('Error fetching achievements: $error');
       rethrow;
