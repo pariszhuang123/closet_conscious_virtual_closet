@@ -17,4 +17,3 @@ AS $$
   join public.achievements a on ua.achievement_name = a.achievement_name
   where ua.user_id = auth.uid();
 $$;
-
