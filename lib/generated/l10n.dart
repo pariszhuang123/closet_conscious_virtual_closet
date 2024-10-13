@@ -2440,6 +2440,26 @@ class S {
     );
   }
 
+  /// `Icon of Sustainability!`
+  String get noNewClothes1215Achievement {
+    return Intl.message(
+      'Icon of Sustainability!',
+      name: 'noNewClothes1215Achievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,215 days of intentional living! Your sustainable journey is inspiring others. Keep leading the way!`
+  String get noNewClothes1215AchievementMessage {
+    return Intl.message(
+      '1,215 days of intentional living! Your sustainable journey is inspiring others. Keep leading the way!',
+      name: 'noNewClothes1215AchievementMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Master of Minimalism!`
   String get noNewClothes1575Achievement {
     return Intl.message(
@@ -2495,6 +2515,46 @@ class S {
     return Intl.message(
       'Congratulations! You\'ve uploaded all your items to your virtual closet. Now you\'re ready to make the most of what you own!',
       name: 'closetUploadAchievementMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Selfie Superstar!`
+  String get firstSelfieTakenAchievement {
+    return Intl.message(
+      'Selfie Superstar!',
+      name: 'firstSelfieTakenAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve taken your first selfie! Show off your style and let your closet shine!`
+  String get firstSelfieTakenAchievementMessage {
+    return Intl.message(
+      'You’ve taken your first selfie! Show off your style and let your closet shine!',
+      name: 'firstSelfieTakenAchievementMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Outfit Architect!`
+  String get firstOutfitCreatedAchievement {
+    return Intl.message(
+      'Outfit Architect!',
+      name: 'firstOutfitCreatedAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your first outfit is ready! You're on your way to mastering your style.`
+  String get firstOutfitCreatedAchievementMessage {
+    return Intl.message(
+      'Your first outfit is ready! You\'re on your way to mastering your style.',
+      name: 'firstOutfitCreatedAchievementMessage',
       desc: '',
       args: [],
     );

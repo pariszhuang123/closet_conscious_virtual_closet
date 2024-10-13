@@ -60,10 +60,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "aistylist": MessageLookupByLibrary.simpleMessage("AI 造型师"),
         "aiupload": MessageLookupByLibrary.simpleMessage("智能上传"),
         "allClothesWornAchievement":
-            MessageLookupByLibrary.simpleMessage("全部衣服都穿过了！"),
+            MessageLookupByLibrary.simpleMessage("全衣尽穿，全由你定！"),
         "allClothesWornAchievementMessage":
             MessageLookupByLibrary.simpleMessage(
-                "你已经穿过了衣柜里的每一件衣服！你正在掌握有意识的时尚选择。做得好！"),
+                "你已经穿遍了衣橱中的每件单品！你正在掌握有意识的时尚选择。干得好！"),
         "alright": MessageLookupByLibrary.simpleMessage("还行"),
         "alright_feedback_sentence":
             MessageLookupByLibrary.simpleMessage("点击不太适合这套搭配的单品。"),
@@ -103,9 +103,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "casual": MessageLookupByLibrary.simpleMessage("休闲"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("衣橱"),
         "closetUploadAchievement":
-            MessageLookupByLibrary.simpleMessage("全部衣服都穿过了！"),
+            MessageLookupByLibrary.simpleMessage("虚拟衣橱完成！"),
         "closetUploadAchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "你已经穿过了衣柜里的每一件衣服！你正在掌握有意识的时尚选择。做得好！"),
+            "恭喜！你已经将所有物品上传到了虚拟衣橱。现在你可以最大限度地利用你拥有的物品了！"),
         "closetUploadComplete": MessageLookupByLibrary.simpleMessage("衣橱上传完成"),
         "clothing": MessageLookupByLibrary.simpleMessage("服装"),
         "clothingLayerFieldNotFilled":
@@ -173,6 +173,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "filterSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("需要高级筛选功能吗？"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("筛选"),
+        "firstOutfitCreatedAchievement":
+            MessageLookupByLibrary.simpleMessage("穿搭设计师！"),
+        "firstOutfitCreatedAchievementMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "你的第一套搭配已经完成！你正在迈向掌握个人风格的道路上。"),
+        "firstSelfieTakenAchievement":
+            MessageLookupByLibrary.simpleMessage("自拍明星！"),
+        "firstSelfieTakenAchievementMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "你已经拍摄了你的第一张自拍！展示你的风格，让你的衣橱熠熠生辉！"),
         "formal": MessageLookupByLibrary.simpleMessage("正式"),
         "general_permission_explanation":
             MessageLookupByLibrary.simpleMessage("需要此权限才能使用此功能。"),
@@ -236,36 +246,41 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("未找到物品"),
         "noItemsInCategory":
             MessageLookupByLibrary.simpleMessage("请上传您的物品到我的衣橱"),
+        "noNewClothes1215Achievement":
+            MessageLookupByLibrary.simpleMessage("可持续的象征！"),
+        "noNewClothes1215AchievementMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "1,215天有意识的生活！你的可持续之旅正在激励他人。继续引领潮流吧！"),
         "noNewClothes1575Achievement":
             MessageLookupByLibrary.simpleMessage("极简主义大师！"),
         "noNewClothes1575AchievementMessage":
             MessageLookupByLibrary.simpleMessage(
-                "1,575天的坚守，你拥抱了自己已有的物品。你的旅程堪称传奇。你正在改写时尚的规则！"),
+                "1,575天拥抱你现有的物品。你的旅程堪称传奇。你正在重写时尚规则！"),
         "noNewClothes225Achievement":
             MessageLookupByLibrary.simpleMessage("环保战士的崛起！"),
         "noNewClothes225AchievementMessage":
             MessageLookupByLibrary.simpleMessage(
-                "225天，还在继续！你在可持续发展方面引领潮流，你的衣柜蒸蒸日上。了不起的努力！"),
+                "225天持续不买新衣！你正在为可持续发展做出贡献，你的衣橱也欣欣向荣。太棒了！"),
         "noNewClothes405Achievement":
             MessageLookupByLibrary.simpleMessage("有意识选择的冠军！"),
         "noNewClothes405AchievementMessage":
             MessageLookupByLibrary.simpleMessage(
-                "405天的坚守！你对珍惜已有物品的承诺令人鼓舞。你是有意识生活的榜样。"),
+                "405天强势坚持！你对现有物品的珍惜是一个巨大的启发，你是有意识生活的榜样。"),
         "noNewClothes630Achievement":
-            MessageLookupByLibrary.simpleMessage("可持续发展的领导者！"),
+            MessageLookupByLibrary.simpleMessage("可持续发展的领袖！"),
         "noNewClothes630AchievementMessage":
             MessageLookupByLibrary.simpleMessage(
-                "630天没有购买新衣服——你以身作则！你的奉献精神对地球产生了真正的影响。"),
+                "630天不买新衣服——你正在用实际行动引领他人！你的奉献正在对地球产生真实的影响。"),
         "noNewClothes900Achievement":
-            MessageLookupByLibrary.simpleMessage("改变的先锋！"),
+            MessageLookupByLibrary.simpleMessage("变革的开拓者！"),
         "noNewClothes900AchievementMessage":
             MessageLookupByLibrary.simpleMessage(
-                "哇！900天的明智选择。你的影响力正在激励他人重新思考他们的习惯。继续为可持续发展开辟道路！"),
+                "哇！900天明智选择。你的影响力正在启发他人重新思考他们的习惯。继续为可持续发展开拓前路！"),
         "noNewClothes90Achievement":
             MessageLookupByLibrary.simpleMessage("可持续的开始！"),
         "noNewClothes90AchievementMessage":
             MessageLookupByLibrary.simpleMessage(
-                "你已经坚持90天没有购买新衣服了！你正在为更绿色的未来建立强大的习惯。继续保持！"),
+                "你已经达到了90天不买新衣服的目标！你正在为更加绿色的未来建立强大的习惯。继续保持下去！"),
         "npsExplanation": MessageLookupByLibrary.simpleMessage(
             "在 0 到 10 的范围内打分：\n0：完全不推荐\n10：非常推荐"),
         "npsReviewEmailBody":

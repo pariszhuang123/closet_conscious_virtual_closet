@@ -58,6 +58,10 @@ class AchievementScreenState extends State<AchievementScreen> {
         achievementTitle = S.of(context).closetUploadAchievement;
         achievementMessage = S.of(context).closetUploadAchievementMessage;
         break;
+      case 'no_new_clothes_1215':
+        achievementTitle = S.of(context).noNewClothes1215Achievement;
+        achievementMessage = S.of(context).noNewClothes1215AchievementMessage;
+        break;
       case 'no_new_clothes_1575':
         achievementTitle = S.of(context).noNewClothes1575Achievement;
         achievementMessage = S.of(context).noNewClothes1575AchievementMessage;
@@ -81,6 +85,14 @@ class AchievementScreenState extends State<AchievementScreen> {
       case 'no_new_clothes_900':
         achievementTitle = S.of(context).noNewClothes900Achievement;
         achievementMessage = S.of(context).noNewClothes900AchievementMessage;
+        break;
+      case '1st_selfie_taken':
+        achievementTitle = S.of(context).firstSelfieTakenAchievement;
+        achievementMessage = S.of(context).firstSelfieTakenAchievementMessage;
+        break;
+      case '1st_outfit_created':
+        achievementTitle = S.of(context).firstOutfitCreatedAchievement;
+        achievementMessage = S.of(context).firstOutfitCreatedAchievementMessage;
         break;
       default:
         achievementTitle = S.of(context).defaultAchievementTitle; // Fallback if none match

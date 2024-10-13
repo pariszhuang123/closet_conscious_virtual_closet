@@ -52,6 +52,8 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     _triggerClothingAchievement();
     _triggerNoBuyAchievement();// Call the method after setting the outfit count
     _triggerOutfitCreation();
+    _triggerOutfitCreateAchievement();
+    _triggerSelfieTakenAchievement();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
         logger.i('Reached the end of the list, fetching more items...');
@@ -95,6 +97,17 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   void _triggerNoBuyAchievement() {
     logger.i('Checking if Clothing Achievement Milestone is successful');
     context.read<NavigateOutfitBloc>().add(const FetchAndSaveNoBuyMilestoneAchievementEvent());
+  }
+
+
+  void _triggerOutfitCreateAchievement() {
+    logger.i('Checking if Outfit Create Milestone is successful');
+    context.read<NavigateOutfitBloc>().add(const FetchFirstOutfitCreatedAchievementEvent());
+  }
+
+  void _triggerSelfieTakenAchievement() {
+    logger.i('Checking if Selfie Taken Milestone is successful');
+    context.read<NavigateOutfitBloc>().add(const FetchFirstSelfieTakenAchievementEvent());
   }
 
   void _triggerOutfitCreation() {
@@ -228,6 +241,44 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               });
             }
             if (state is FetchAndSaveNoBuyMilestoneSuccessState) {
+              logger.i('Navigating to achievement page for achievement: ${state.badgeUrl}');
+              _isNavigating = true; // Set navigating to true when navigating to review page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Theme(
+                    data: myOutfitTheme, // Apply the relevant theme
+                    child: AchievementScreen(
+                      achievementKey: state.achievementName,
+                      achievementUrl: state.badgeUrl, // Pass the badge URL
+                      nextRoute: AppRoutes.createOutfit, // Define the next route if needed
+                    ),
+                  ),
+                ),
+              ).then((_) {
+                _isNavigating = false; // Reset navigating after returning
+              });
+            }
+            if (state is FetchFirstOutfitMilestoneSuccessState) {
+              logger.i('Navigating to achievement page for achievement: ${state.badgeUrl}');
+              _isNavigating = true; // Set navigating to true when navigating to review page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Theme(
+                    data: myOutfitTheme, // Apply the relevant theme
+                    child: AchievementScreen(
+                      achievementKey: state.achievementName,
+                      achievementUrl: state.badgeUrl, // Pass the badge URL
+                      nextRoute: AppRoutes.createOutfit, // Define the next route if needed
+                    ),
+                  ),
+                ),
+              ).then((_) {
+                _isNavigating = false; // Reset navigating after returning
+              });
+            }
+            if (state is FetchFirstSelfieTakenMilestoneSuccessState) {
               logger.i('Navigating to achievement page for achievement: ${state.badgeUrl}');
               _isNavigating = true; // Set navigating to true when navigating to review page
               Navigator.push(

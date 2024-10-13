@@ -198,6 +198,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "filterSearchPremiumFeature": MessageLookupByLibrary.simpleMessage(
             "Looking for\nAdvanced Filters?"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
+        "firstOutfitCreatedAchievement":
+            MessageLookupByLibrary.simpleMessage("Outfit Architect!"),
+        "firstOutfitCreatedAchievementMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your first outfit is ready! You\'re on your way to mastering your style."),
+        "firstSelfieTakenAchievement":
+            MessageLookupByLibrary.simpleMessage("Selfie Superstar!"),
+        "firstSelfieTakenAchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "You’ve taken your first selfie! Show off your style and let your closet shine!"),
         "formal": MessageLookupByLibrary.simpleMessage("Formal"),
         "general_permission_explanation": MessageLookupByLibrary.simpleMessage(
             "This permission is needed to use this feature."),
@@ -268,6 +277,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found"),
         "noItemsInCategory": MessageLookupByLibrary.simpleMessage(
             "Please upload your items in my closet"),
+        "noNewClothes1215Achievement":
+            MessageLookupByLibrary.simpleMessage("Icon of Sustainability!"),
+        "noNewClothes1215AchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "1,215 days of intentional living! Your sustainable journey is inspiring others. Keep leading the way!"),
         "noNewClothes1575Achievement":
             MessageLookupByLibrary.simpleMessage("Master of Minimalism!"),
         "noNewClothes1575AchievementMessage": MessageLookupByLibrary.simpleMessage(
