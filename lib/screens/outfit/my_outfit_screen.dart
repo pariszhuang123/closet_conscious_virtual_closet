@@ -37,7 +37,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   int _selectedIndex = 1;
   final CustomLogger logger = CustomLogger('OutfitPage');
   final ScrollController _scrollController = ScrollController();
-  int newOutfitCount = 1;
+  int newOutfitCount = 2;
   bool _snackBarShown = false;
   bool _isNavigating = false; // New flag to track if navigation is in progress
 

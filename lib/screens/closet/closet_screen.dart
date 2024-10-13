@@ -32,7 +32,7 @@ class MyClosetPageState extends State<MyClosetPage> {
   bool _isLoading = false;
   bool _hasMore = true;
   int _currentPage = 0;
-  int apparelCount = 0;
+  int apparelCount = 2;
   int currentStreakCount = 0;
   int highestStreakCount = 0;
   int newItemsCost = 0;
