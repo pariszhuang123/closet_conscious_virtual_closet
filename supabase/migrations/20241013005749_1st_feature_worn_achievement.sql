@@ -143,7 +143,9 @@ BEGIN
         -- Fetch the badge_url and other relevant information from the achievements table
         SELECT json_build_object(
             'status', 'success',
-            'badge_url', badge_url
+            'badge_url', badge_url,
+            'achievement_name', achievement_name,
+            'feature', 'cc_none'
         ) INTO result
         FROM public.achievements
         WHERE achievement_name = '1st_item_uploaded';
@@ -195,7 +197,9 @@ BEGIN
         -- Fetch the badge_url and other relevant information from the achievements table
         SELECT json_build_object(
             'status', 'success',
-            'badge_url', badge_url
+            'badge_url', badge_url,
+            'achievement_name', achievement_name,
+            'feature', 'cc_none'
         ) INTO result
         FROM public.achievements
         WHERE achievement_name = '1st_item_pic_edited';
@@ -246,7 +250,9 @@ BEGIN
         -- Fetch the badge_url and other relevant information from the achievements table
         SELECT json_build_object(
             'status', 'success',
-            'badge_url', badge_url
+            'badge_url', badge_url,
+            'achievement_name', achievement_name,
+            'feature', 'cc_none'
         ) INTO result
         FROM public.achievements
         WHERE achievement_name = '1st_item_gifted';
@@ -297,7 +303,9 @@ BEGIN
         -- Fetch the badge_url and other relevant information from the achievements table
         SELECT json_build_object(
             'status', 'success',
-            'badge_url', badge_url
+            'badge_url', badge_url,
+            'achievement_name', achievement_name,
+            'feature', 'cc_none'
         ) INTO result
         FROM public.achievements
         WHERE achievement_name = '1st_item_sold';
@@ -348,7 +356,9 @@ BEGIN
         -- Fetch the badge_url and other relevant information from the achievements table
         SELECT json_build_object(
             'status', 'success',
-            'badge_url', badge_url
+            'badge_url', badge_url,
+            'achievement_name', achievement_name,
+            'feature', 'cc_none'
         ) INTO result
         FROM public.achievements
         WHERE achievement_name = '1st_item_swap';
@@ -400,7 +410,9 @@ BEGIN
         -- Fetch the badge_url and other relevant information from the achievements table
         SELECT json_build_object(
             'status', 'success',
-            'badge_url', badge_url
+            'badge_url', badge_url,
+            'achievement_name', achievement_name,
+            'feature', 'cc_none'
         ) INTO result
         FROM public.achievements
         WHERE achievement_name = '1st_outfit_created';
@@ -451,7 +463,9 @@ BEGIN
         -- Fetch the badge_url and other relevant information from the achievements table
         SELECT json_build_object(
             'status', 'success',
-            'badge_url', badge_url
+            'badge_url', badge_url,
+            'achievement_name', achievement_name,
+            'feature', 'cc_none'
         ) INTO result
         FROM public.achievements
         WHERE achievement_name = '1st_selfie_taken';
