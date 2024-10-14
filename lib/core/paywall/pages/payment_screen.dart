@@ -234,14 +234,8 @@ class PaymentScreenState extends State<PaymentScreen> {
                       color: appliedTheme.colorScheme.primary, // Theme-based background color
                       child: Center(
                         child: widget.isFromMyCloset
-                            ? ClosetProgressIndicator(
-                          color: appliedTheme.colorScheme.onPrimary, // Themed color for the icon
-                          size: 36.0,
-                        )
-                            : OutfitProgressIndicator(
-                          color: appliedTheme.colorScheme.onPrimary, // Themed color for the icon
-                          size: 24.0,
-                        ),
+                            ? const ClosetProgressIndicator()
+                            : const OutfitProgressIndicator(),
                       ),
                     ),
                 ],

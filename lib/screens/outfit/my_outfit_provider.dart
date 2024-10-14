@@ -5,7 +5,7 @@ import '../../outfit_management/create_outfit/presentation/bloc/create_outfit_it
 import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../outfit_management/core/data/services/outfits_save_services.dart';
 import '../../outfit_management/core/outfit_enums.dart';
-import '../../outfit_management/navigate_outfit/presentation/bloc/navigate_outfit_bloc.dart';
+import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc.dart';
 import 'my_outfit_screen.dart';
 
 class MyOutfitProvider extends StatelessWidget {

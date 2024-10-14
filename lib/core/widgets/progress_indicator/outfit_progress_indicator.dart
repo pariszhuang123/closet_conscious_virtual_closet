@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class OutfitProgressIndicator extends StatefulWidget {
-  final Color color;
   final double size;
 
-  const OutfitProgressIndicator({super.key, required this.color, this.size = 24.0});
+  const OutfitProgressIndicator({super.key, this.size = 24.0});
 
   @override
   OutfitProgressIndicatorState createState() => OutfitProgressIndicatorState();
@@ -37,7 +36,7 @@ class OutfitProgressIndicatorState extends State<OutfitProgressIndicator>
         child: Icon(
           Icons.wc_outlined, // Use your custom icon here
           size: widget.size, // Adjust the size as needed
-          color: widget.color, // Use the color passed to the widget
+          color: Theme.of(context).primaryColor, // Always use the primary color from the theme
         ),
       ),
     );

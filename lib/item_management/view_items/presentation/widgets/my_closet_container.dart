@@ -29,7 +29,6 @@ class MyClosetContainer extends StatelessWidget {
   final VoidCallback onMultiClosetButtonPressed;
   final VoidCallback onArrangeButtonPressed;
 
-
   const MyClosetContainer({
     super.key,
     required this.theme,
@@ -103,6 +102,7 @@ class MyClosetContainer extends StatelessWidget {
                   ),
                 ],
               ),
+              // Show apparel count only when upload is not completed
               if (!isUploadCompleted)
                 CustomTooltip(
                   message: itemUploadData.getName(context),
@@ -119,6 +119,7 @@ class MyClosetContainer extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10.0),
+        // Show streak data, new items cost, and new items count only when upload is completed
         Visibility(
           visible: isUploadCompleted,
           child: BaseContainerNoFormat(
@@ -128,50 +129,54 @@ class MyClosetContainer extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  CustomTooltip(
-                    message: currentStreakData.getName(context),
-                    child: NumberTypeButton(
-                      count: currentStreakCount,
-                      assetPath: currentStreakData.assetPath ?? '',
-                      isFromMyCloset: true,
-                      isHorizontal: true,
-                      buttonType: ButtonType.secondary,
-                      usePredefinedColor: false,
+                  if (currentStreakData != null)
+                    CustomTooltip(
+                      message: currentStreakData.getName(context),
+                      child: NumberTypeButton(
+                        count: currentStreakCount,
+                        assetPath: currentStreakData.assetPath ?? '',
+                        isFromMyCloset: true,
+                        isHorizontal: true,
+                        buttonType: ButtonType.secondary,
+                        usePredefinedColor: false,
+                      ),
                     ),
-                  ),
-                  CustomTooltip(
-                    message: highestStreakData.getName(context),
-                    child: NumberTypeButton(
-                      count: highestStreakCount,
-                      assetPath: highestStreakData.assetPath ?? '',
-                      isFromMyCloset: true,
-                      isHorizontal: true,
-                      buttonType: ButtonType.secondary,
-                      usePredefinedColor: false,
+                  if (highestStreakData != null)
+                    CustomTooltip(
+                      message: highestStreakData.getName(context),
+                      child: NumberTypeButton(
+                        count: highestStreakCount,
+                        assetPath: highestStreakData.assetPath ?? '',
+                        isFromMyCloset: true,
+                        isHorizontal: true,
+                        buttonType: ButtonType.secondary,
+                        usePredefinedColor: false,
+                      ),
                     ),
-                  ),
-                  CustomTooltip(
-                    message: costOfNewItemsData.getName(context),
-                    child: NumberTypeButton(
-                      count: newItemsCost,
-                      assetPath: costOfNewItemsData.assetPath ?? '',
-                      isFromMyCloset: true,
-                      isHorizontal: true,
-                      buttonType: ButtonType.secondary,
-                      usePredefinedColor: false,
+                  if (costOfNewItemsData != null)
+                    CustomTooltip(
+                      message: costOfNewItemsData.getName(context),
+                      child: NumberTypeButton(
+                        count: newItemsCost,
+                        assetPath: costOfNewItemsData.assetPath ?? '',
+                        isFromMyCloset: true,
+                        isHorizontal: true,
+                        buttonType: ButtonType.secondary,
+                        usePredefinedColor: false,
+                      ),
                     ),
-                  ),
-                  CustomTooltip(
-                    message: numberOfNewItemsData.getName(context),
-                    child: NumberTypeButton(
-                      count: newItemsCount,
-                      assetPath: numberOfNewItemsData.assetPath ?? '',
-                      isFromMyCloset: true,
-                      isHorizontal: true,
-                      buttonType: ButtonType.secondary,
-                      usePredefinedColor: false,
+                  if (numberOfNewItemsData != null)
+                    CustomTooltip(
+                      message: numberOfNewItemsData.getName(context),
+                      child: NumberTypeButton(
+                        count: newItemsCount,
+                        assetPath: numberOfNewItemsData.assetPath ?? '',
+                        isFromMyCloset: true,
+                        isHorizontal: true,
+                        buttonType: ButtonType.secondary,
+                        usePredefinedColor: false,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),

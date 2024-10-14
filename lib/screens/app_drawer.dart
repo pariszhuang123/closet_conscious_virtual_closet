@@ -55,7 +55,7 @@ class AppDrawer extends StatelessWidget {
                 child: Text(
                   S
                       .of(context)
-                      .tagline,
+                      .shortTagline,
                   style: Theme
                       .of(context)
                       .textTheme

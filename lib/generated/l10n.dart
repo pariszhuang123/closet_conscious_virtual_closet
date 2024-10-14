@@ -50,60 +50,70 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Closet\nConscious`
+  /// `Closet\nConscious 🌱`
   String get AppName {
     return Intl.message(
-      'Closet\nConscious',
+      'Closet\nConscious 🌱',
       name: 'AppName',
       desc: '',
       args: [],
     );
   }
 
-  /// `ShopYourCloset`
+  /// `Shop Your Closet\nLove Your Style!`
   String get tagline {
     return Intl.message(
-      'ShopYourCloset',
+      'Shop Your Closet\nLove Your Style!',
       name: 'tagline',
       desc: '',
       args: [],
     );
   }
 
-  /// `Oops, No Connection!`
+  /// `Shop Your Closet`
+  String get shortTagline {
+    return Intl.message(
+      'Shop Your Closet',
+      name: 'shortTagline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Uh-oh, You're Offline!`
   String get noInternetTitle {
     return Intl.message(
-      'Oops, No Connection!',
+      'Uh-oh, You\'re Offline!',
       name: 'noInternetTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `We’re just taking a little break\nReconnect soon to keep styling sustainably!`
+  /// `We're on a coffee break ☕\nReconnect soon to keep rocking those eco-friendly looks!`
   String get noInternetMessage {
     return Intl.message(
-      'We’re just taking a little break\nReconnect soon to keep styling sustainably!',
+      'We\'re on a coffee break ☕\nReconnect soon to keep rocking those eco-friendly looks!',
       name: 'noInternetMessage',
       desc: '',
       args: [],
     );
   }
 
-  /// `Still no connection, but your closet’s worth the wait!`
+  /// `Still offline, but your closet’s worth the wait! ✨`
   String get noInternetSnackBar {
     return Intl.message(
-      'Still no connection, but your closet’s worth the wait!',
+      'Still offline, but your closet’s worth the wait! ✨',
       name: 'noInternetSnackBar',
       desc: '',
       args: [],
     );
   }
 
-  /// `Retry`
+  /// `Try Again? 🚀`
   String get retryConnection {
     return Intl.message(
-      'Retry',
+      'Try Again? 🚀',
       name: 'retryConnection',
       desc: '',
       args: [],
@@ -120,10 +130,10 @@ class S {
     );
   }
 
-  /// `'What is the name of your item?`
+  /// `What’s this fabulous piece called?`
   String get ItemNameHint {
     return Intl.message(
-      '\'What is the name of your item?',
+      'What’s this fabulous piece called?',
       name: 'ItemNameHint',
       desc: '',
       args: [],
@@ -140,20 +150,20 @@ class S {
     );
   }
 
-  /// `'How much did the item cost?`
+  /// `How much did this beauty cost?`
   String get AmountHint {
     return Intl.message(
-      '\'How much did the item cost?',
+      'How much did this beauty cost?',
       name: 'AmountHint',
       desc: '',
       args: [],
     );
   }
 
-  /// `Occassion`
+  /// `Occasion`
   String get ItemOccasionLabel {
     return Intl.message(
-      'Occassion',
+      'Occasion',
       name: 'ItemOccasionLabel',
       desc: '',
       args: [],
@@ -1090,10 +1100,10 @@ class S {
     );
   }
 
-  /// `Your interest has been noted. Stay tuned for updates.`
+  /// `Got it! We’ve noted your interest—stay tuned for updates! 🎉`
   String get interestAcknowledged {
     return Intl.message(
-      'Your interest has been noted. Stay tuned for updates.',
+      'Got it! We’ve noted your interest—stay tuned for updates! 🎉',
       name: 'interestAcknowledged',
       desc: '',
       args: [],
@@ -1150,50 +1160,50 @@ class S {
     );
   }
 
-  /// `This shows the number of items you have uploaded`
+  /// `Number of items you've uploaded to your conscious closet`
   String get itemsUploadedTooltip {
     return Intl.message(
-      'This shows the number of items you have uploaded',
+      'Number of items you\'ve uploaded to your conscious closet',
       name: 'itemsUploadedTooltip',
       desc: '',
       args: [],
     );
   }
 
-  /// `This shows your current streak of no purchase`
+  /// `Your current streak of no purchases`
   String get currentStreakTooltip {
     return Intl.message(
-      'This shows your current streak of no purchase',
+      'Your current streak of no purchases',
       name: 'currentStreakTooltip',
       desc: '',
       args: [],
     );
   }
 
-  /// `This shows your highest score of no purchase`
+  /// `Your highest no-purchase streak ever!`
   String get highestStreakTooltip {
     return Intl.message(
-      'This shows your highest score of no purchase',
+      'Your highest no-purchase streak ever!',
       name: 'highestStreakTooltip',
       desc: '',
       args: [],
     );
   }
 
-  /// `This shows how much you have spent on new items`
+  /// `How much you’ve spent on new items so far`
   String get spendingTooltip {
     return Intl.message(
-      'This shows how much you have spent on new items',
+      'How much you’ve spent on new items so far',
       name: 'spendingTooltip',
       desc: '',
       args: [],
     );
   }
 
-  /// `This shows how many new items you have purchased`
+  /// `Number of new items you have purchased`
   String get newItemsTooltip {
     return Intl.message(
-      'This shows how many new items you have purchased',
+      'Number of new items you have purchased',
       name: 'newItemsTooltip',
       desc: '',
       args: [],
@@ -1240,10 +1250,10 @@ class S {
     );
   }
 
-  /// `This shows the number of outfits you have uploaded`
+  /// `Number of outfits uploaded`
   String get outfits_upload {
     return Intl.message(
-      'This shows the number of outfits you have uploaded',
+      'Number of outfits uploaded',
       name: 'outfits_upload',
       desc: '',
       args: [],
@@ -1320,80 +1330,80 @@ class S {
     );
   }
 
-  /// `Your data has been updated`
+  /// `Data updated successfully!`
   String get dataUpdatedSuccessfully {
     return Intl.message(
-      'Your data has been updated',
+      'Data updated successfully!',
       name: 'dataUpdatedSuccessfully',
       desc: '',
       args: [],
     );
   }
 
-  /// `Error`
+  /// `Oops, something went wrong.`
   String get error {
     return Intl.message(
-      'Error',
+      'Oops, something went wrong.',
       name: 'error',
       desc: '',
       args: [],
     );
   }
 
-  /// `Your data has been saved`
+  /// `Data saved! You're all set.`
   String get dataInsertedSuccessfully {
     return Intl.message(
-      'Your data has been saved',
+      'Data saved! You\'re all set.',
       name: 'dataInsertedSuccessfully',
       desc: '',
       args: [],
     );
   }
 
-  /// `Upload successful!`
+  /// `Success! Your closet just got a little more stylish! 🎉`
   String get upload_successful {
     return Intl.message(
-      'Upload successful!',
+      'Success! Your closet just got a little more stylish! 🎉',
       name: 'upload_successful',
       desc: '',
       args: [],
     );
   }
 
-  /// `Upload failed: {error}`
-  String upload_failed(Object error) {
+  /// `Oops! Looks like something went off the rails. Try again? 🚂`
+  String get upload_failed {
     return Intl.message(
-      'Upload failed: $error',
+      'Oops! Looks like something went off the rails. Try again? 🚂',
       name: 'upload_failed',
       desc: '',
-      args: [error],
+      args: [],
     );
   }
 
-  /// `We are sorry, we can't record your interest`
+  /// `Oops! We couldn’t record your interest. Please try again!`
   String get errorIncrement {
     return Intl.message(
-      'We are sorry, we can\'t record your interest',
+      'Oops! We couldn’t record your interest. Please try again!',
       name: 'errorIncrement',
       desc: '',
       args: [],
     );
   }
 
-  /// `Your closet has being decluttered!`
+  /// `Well done! Your closet just took a breather! 😌`
   String get declutterAcknowledged {
     return Intl.message(
-      'Your closet has being decluttered!',
+      'Well done! Your closet just took a breather! 😌',
       name: 'declutterAcknowledged',
       desc: '',
       args: [],
     );
   }
 
-  /// `We are sorry, we can't declutter your closet`
+  /// `We couldn’t declutter right now, but don’t worry—we’ll try again soon! 🌿`
   String get errorDeclutter {
     return Intl.message(
-      'We are sorry, we can\'t declutter your closet',
+      'We couldn’t declutter right now, but don’t worry—we’ll try again soon! 🌿',
       name: 'errorDeclutter',
       desc: '',
       args: [],
@@ -1420,20 +1430,20 @@ class S {
     );
   }
 
-  /// `Unexpected response format. Please try again later or contact support if the issue persists.`
+  /// `Hmm, that was unexpected. Please try again or contact support.`
   String get unexpectedResponseFormat {
     return Intl.message(
-      'Unexpected response format. Please try again later or contact support if the issue persists.',
+      'Hmm, that was unexpected. Please try again or contact support.',
       name: 'unexpectedResponseFormat',
       desc: '',
       args: [],
     );
   }
 
-  /// `An unexpected error occurred. Please try again later or contact support if the issue persists.`
+  /// `Yikes! Something went wrong. Please try again later or contact support if it persists.`
   String get unexpectedErrorOccurred {
     return Intl.message(
-      'An unexpected error occurred. Please try again later or contact support if the issue persists.',
+      'Yikes! Something went wrong. Please try again later or contact support if it persists.',
       name: 'unexpectedErrorOccurred',
       desc: '',
       args: [],
@@ -1450,10 +1460,10 @@ class S {
     );
   }
 
-  /// `Have you finished uploading all your existing items to your closet? Once confirmed, any new uploads with price will be marked as new additions to your wardrobe.`
+  /// `All set with uploading? Confirm to mark your closet as complete. Any new upload with amount will count as a fresh addition!`
   String get uploadConfirmationDescription {
     return Intl.message(
-      'Have you finished uploading all your existing items to your closet? Once confirmed, any new uploads with price will be marked as new additions to your wardrobe.',
+      'All set with uploading? Confirm to mark your closet as complete. Any new upload with amount will count as a fresh addition!',
       name: 'uploadConfirmationDescription',
       desc: '',
       args: [],
@@ -1470,40 +1480,40 @@ class S {
     );
   }
 
-  /// `Your current record of days without buying clothes.`
+  /// `Your current no-buy streak.`
   String get currentStreak {
     return Intl.message(
-      'Your current record of days without buying clothes.',
+      'Your current no-buy streak.',
       name: 'currentStreak',
       desc: '',
       args: [],
     );
   }
 
-  /// `Your top record of days without buying clothes.`
+  /// `Your all-time record of no new clothes!`
   String get highestStreak {
     return Intl.message(
-      'Your top record of days without buying clothes.',
+      'Your all-time record of no new clothes!',
       name: 'highestStreak',
       desc: '',
       args: [],
     );
   }
 
-  /// `Cost of the new items you have purchased`
+  /// `Cost of new items you've added`
   String get costOfNewItems {
     return Intl.message(
-      'Cost of the new items you have purchased',
+      'Cost of new items you\'ve added',
       name: 'costOfNewItems',
       desc: '',
       args: [],
     );
   }
 
-  /// `Number of new items you have purchased`
+  /// `Number of new items in your closet`
   String get numberOfNewItems {
     return Intl.message(
-      'Number of new items you have purchased',
+      'Number of new items in your closet',
       name: 'numberOfNewItems',
       desc: '',
       args: [],
@@ -1520,30 +1530,30 @@ class S {
     );
   }
 
-  /// `Warning: Deleting your account is irreversible.\n`
+  /// `Are you sure? This action cannot be undone.`
   String get deleteAccountImpact {
     return Intl.message(
-      'Warning: Deleting your account is irreversible.\n',
+      'Are you sure? This action cannot be undone.',
       name: 'deleteAccountImpact',
       desc: '',
       args: [],
     );
   }
 
-  /// `Are you sure you want to delete your account?\nAll your data and your paid features access will be permanently removed.\nThe data will be deleted in 48 hours`
+  /// `\n\nAll your data and access to paid features will be permanently removed. Deletion will occur in 48 hours.`
   String get deleteAccountConfirmation {
     return Intl.message(
-      'Are you sure you want to delete your account?\nAll your data and your paid features access will be permanently removed.\nThe data will be deleted in 48 hours',
+      '\n\nAll your data and access to paid features will be permanently removed. Deletion will occur in 48 hours.',
       name: 'deleteAccountConfirmation',
       desc: '',
       args: [],
     );
   }
 
-  /// `Your request has been received. We will delete your account within 48 hours.`
+  /// `Your request has been received. We’ll delete your account within 48 hours.`
   String get accountDeletedSuccess {
     return Intl.message(
-      'Your request has been received. We will delete your account within 48 hours.',
+      'Your request has been received. We’ll delete your account within 48 hours.',
       name: 'accountDeletedSuccess',
       desc: '',
       args: [],
@@ -1580,30 +1590,30 @@ class S {
     );
   }
 
-  /// `No achievement badges found`
+  /// `No achievements yet—start unlocking them today!`
   String get noAchievementFound {
     return Intl.message(
-      'No achievement badges found',
+      'No achievements yet—start unlocking them today!',
       name: 'noAchievementFound',
       desc: '',
       args: [],
     );
   }
 
-  /// `Congratulations!`
+  /// `Congratulations! 🎉`
   String get congratulations {
     return Intl.message(
-      'Congratulations!',
+      'Congratulations! 🎉',
       name: 'congratulations',
       desc: '',
       args: [],
     );
   }
 
-  /// `Here is your achievement:`
+  /// `You’ve unlocked a new achievement:`
   String get achievementMessage {
     return Intl.message(
-      'Here is your achievement:',
+      'You’ve unlocked a new achievement:',
       name: 'achievementMessage',
       desc: '',
       args: [],
@@ -1620,150 +1630,150 @@ class S {
     );
   }
 
-  /// `Would You Customize\nYour Closet Layout?`
+  /// `Customize Your\nCloset Layout`
   String get arrangeFeatureTitle {
     return Intl.message(
-      'Would You Customize\nYour Closet Layout?',
+      'Customize Your\nCloset Layout',
       name: 'arrangeFeatureTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `We’re thinking about letting you customize how your closet is organized. Would sorting by cost per wear or updated date be helpful to you?`
+  /// `Would you like to organize your closet by cost per wear or date added? Let us know!`
   String get arrangeFeatureDescription {
     return Intl.message(
-      'We’re thinking about letting you customize how your closet is organized. Would sorting by cost per wear or updated date be helpful to you?',
+      'Would you like to organize your closet by cost per wear or date added? Let us know!',
       name: 'arrangeFeatureDescription',
       desc: '',
       args: [],
     );
   }
 
-  /// `Looking for\nAdvanced Filters?`
+  /// `Advanced Filters?`
   String get filterSearchPremiumFeature {
     return Intl.message(
-      'Looking for\nAdvanced Filters?',
+      'Advanced Filters?',
       name: 'filterSearchPremiumFeature',
       desc: '',
       args: [],
     );
   }
 
-  /// `We’re thinking about a feature to help you filter your items more easily. Let us know if you’d find this useful.`
+  /// `We’re thinking about adding advanced filters to help you find your items more easily. Sound good?`
   String get quicklyFindItems {
     return Intl.message(
-      'We’re thinking about a feature to help you filter your items more easily. Let us know if you’d find this useful.',
+      'We’re thinking about adding advanced filters to help you find your items more easily. Sound good?',
       name: 'quicklyFindItems',
       desc: '',
       args: [],
     );
   }
 
-  /// `Would You Use\nMultiple Closets?`
+  /// `Multiple Closets?`
   String get multiClosetFeatureTitle {
     return Intl.message(
-      'Would You Use\nMultiple Closets?',
+      'Multiple Closets?',
       name: 'multiClosetFeatureTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `We’re exploring the idea of multiple closets (temporary, permanent, disappearing). Would this be something you’d use?`
+  /// `We’re exploring adding multiple closets (temporary, permanent, disappearing)—would you use this?`
   String get multiClosetFeatureDescription {
     return Intl.message(
-      'We’re exploring the idea of multiple closets (temporary, permanent, disappearing). Would this be something you’d use?',
+      'We’re exploring adding multiple closets (temporary, permanent, disappearing)—would you use this?',
       name: 'multiClosetFeatureDescription',
       desc: '',
       args: [],
     );
   }
 
-  /// `Would You Like to\nAdd More Details?`
+  /// `More Item Details?`
   String get metadataFeatureTitle {
     return Intl.message(
-      'Would You Like to\nAdd More Details?',
+      'More Item Details?',
       name: 'metadataFeatureTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `We’re considering letting you add extra details to your items to make them easier to manage. Would this enhance your experience?`
+  /// `Want to add extra details to your items for better organization? Let us know!`
   String get metadataFeatureDescription {
     return Intl.message(
-      'We’re considering letting you add extra details to your items to make them easier to manage. Would this enhance your experience?',
+      'Want to add extra details to your items for better organization? Let us know!',
       name: 'metadataFeatureDescription',
       desc: '',
       args: [],
     );
   }
 
-  /// `Would a Calendar View\nbe Useful?`
+  /// `Calendar View?`
   String get calendarPremiumFeature {
     return Intl.message(
-      'Would a Calendar View\nbe Useful?',
+      'Calendar View?',
       name: 'calendarPremiumFeature',
       desc: '',
       args: [],
     );
   }
 
-  /// `We’re considering adding a feature to view your outfits in a calendar format. Would this help you stay organized?`
+  /// `We’re considering a calendar view for your outfits. Would this help you stay organized?`
   String get reviewOutfitsInCalendar {
     return Intl.message(
-      'We’re considering adding a feature to view your outfits in a calendar format. Would this help you stay organized?',
+      'We’re considering a calendar view for your outfits. Would this help you stay organized?',
       name: 'reviewOutfitsInCalendar',
       desc: '',
       args: [],
     );
   }
 
-  /// `Interested in\nItem Swapping?`
+  /// `Swap Items?`
   String get swapFeatureTitle {
     return Intl.message(
-      'Interested in\nItem Swapping?',
+      'Swap Items?',
       name: 'swapFeatureTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `We’re considering a feature for digitally swapping items and getting notified about nearby swap events. Would you participate in something like this?`
+  /// `Interested in swapping items or getting notified about swap events nearby? We’re thinking about this feature—what do you think?`
   String get swapFeatureDescription {
     return Intl.message(
-      'We’re considering a feature for digitally swapping items and getting notified about nearby swap events. Would you participate in something like this?',
+      'Interested in swapping items or getting notified about swap events nearby? We’re thinking about this feature—what do you think?',
       name: 'swapFeatureDescription',
       desc: '',
       args: [],
     );
   }
 
-  /// `Curious about\nUsage Analytics?`
+  /// `Track Your Analytics?`
   String get AnalyticsSearchPremiumFeature {
     return Intl.message(
-      'Curious about\nUsage Analytics?',
+      'Track Your Analytics?',
       name: 'AnalyticsSearchPremiumFeature',
       desc: '',
       args: [],
     );
   }
 
-  /// `We’re exploring how to help you track your items' cost per wear and provide personalized outfit insights. Let us know if this would be helpful for you.`
+  /// `Track your cost per wear and get personalized outfit insights. Would this be helpful?`
   String get trackAnalyticsDescription {
     return Intl.message(
-      'We’re exploring how to help you track your items\' cost per wear and provide personalized outfit insights. Let us know if this would be helpful for you.',
+      'Track your cost per wear and get personalized outfit insights. Would this be helpful?',
       name: 'trackAnalyticsDescription',
       desc: '',
       args: [],
     );
   }
 
-  /// `ok`
+  /// `OK`
   String get ok {
     return Intl.message(
-      'ok',
+      'OK',
       name: 'ok',
       desc: '',
       args: [],
@@ -1780,30 +1790,30 @@ class S {
     );
   }
 
-  /// `Please upload your items in my closet`
+  /// `Please upload some items to your closet!`
   String get noItemsInCategory {
     return Intl.message(
-      'Please upload your items in my closet',
+      'Please upload some items to your closet!',
       name: 'noItemsInCategory',
       desc: '',
       args: [],
     );
   }
 
-  /// `Something went wrong!`
+  /// `Something went wrong! 😱`
   String get somethingWentWrong {
     return Intl.message(
-      'Something went wrong!',
+      'Something went wrong! 😱',
       name: 'somethingWentWrong',
       desc: '',
       args: [],
     );
   }
 
-  /// `Failed to load items`
+  /// `Failed to load items. Please try again!`
   String get failedToLoadItems {
     return Intl.message(
-      'Failed to load items',
+      'Failed to load items. Please try again!',
       name: 'failedToLoadItems',
       desc: '',
       args: [],
@@ -1830,10 +1840,10 @@ class S {
     );
   }
 
-  /// `No items found`
+  /// `No items found.`
   String get noItemsFound {
     return Intl.message(
-      'No items found',
+      'No items found.',
       name: 'noItemsFound',
       desc: '',
       args: [],
@@ -1850,50 +1860,50 @@ class S {
     );
   }
 
-  /// `love it`
+  /// `Love it! 😍`
   String get like {
     return Intl.message(
-      'love it',
+      'Love it! 😍',
       name: 'like',
       desc: '',
       args: [],
     );
   }
 
-  /// `It's okay`
+  /// `It’s alright 🤷‍♀️`
   String get alright {
     return Intl.message(
-      'It\'s okay',
+      'It’s alright 🤷‍♀️',
       name: 'alright',
       desc: '',
       args: [],
     );
   }
 
-  /// `Not for me`
+  /// `Not quite my vibe 🤔`
   String get dislike {
     return Intl.message(
-      'Not for me',
+      'Not quite my vibe 🤔',
       name: 'dislike',
       desc: '',
       args: [],
     );
   }
 
-  /// `selfie`
+  /// `Selfie`
   String get selfie {
     return Intl.message(
-      'selfie',
+      'Selfie',
       name: 'selfie',
       desc: '',
       args: [],
     );
   }
 
-  /// `share`
+  /// `Share`
   String get share {
     return Intl.message(
-      'share',
+      'Share',
       name: 'share',
       desc: '',
       args: [],
@@ -1980,20 +1990,20 @@ class S {
     );
   }
 
-  /// `Tap the items that don't quite fit this outfit.`
+  /// `Tap the items that don’t quite fit this outfit.`
   String get alright_feedback_sentence {
     return Intl.message(
-      'Tap the items that don\'t quite fit this outfit.',
+      'Tap the items that don’t quite fit this outfit.',
       name: 'alright_feedback_sentence',
       desc: '',
       args: [],
     );
   }
 
-  /// `Tap the items that didn't work in this outfit.`
+  /// `Tap the items that didn’t work in this outfit.`
   String get dislike_feedback_sentence {
     return Intl.message(
-      'Tap the items that didn\'t work in this outfit.',
+      'Tap the items that didn’t work in this outfit.',
       name: 'dislike_feedback_sentence',
       desc: '',
       args: [],
@@ -2010,20 +2020,20 @@ class S {
     );
   }
 
-  /// `Your outfit review has been successfully submitted!`
+  /// `Your outfit review has been submitted successfully!`
   String get outfitReviewContent {
     return Intl.message(
-      'Your outfit review has been successfully submitted!',
+      'Your outfit review has been submitted successfully!',
       name: 'outfitReviewContent',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please select at least one item you didn't like.`
+  /// `Please select at least one item you didn’t like.`
   String get pleaseSelectAtLeastOneItem {
     return Intl.message(
-      'Please select at least one item you didn\'t like.',
+      'Please select at least one item you didn’t like.',
       name: 'pleaseSelectAtLeastOneItem',
       desc: '',
       args: [],
@@ -2040,10 +2050,10 @@ class S {
     );
   }
 
-  /// `Outfit ready. Go Slay the World!`
+  /// `Outfit ready. Go Slay the World, Fashionista! 🦸‍♀️`
   String get outfitCreationSuccessContent {
     return Intl.message(
-      'Outfit ready. Go Slay the World!',
+      'Outfit ready. Go Slay the World, Fashionista! 🦸‍♀️',
       name: 'outfitCreationSuccessContent',
       desc: '',
       args: [],
@@ -2070,20 +2080,20 @@ class S {
     );
   }
 
-  /// `We will Love Your Feedback`
+  /// `We Love Your Feedback!`
   String get npsReviewEmailSubject {
     return Intl.message(
-      'We will Love Your Feedback',
+      'We Love Your Feedback!',
       name: 'npsReviewEmailSubject',
       desc: '',
       args: [],
     );
   }
 
-  /// `Could you please share more details on how we can improve?`
+  /// `Could you share some details on how we can improve?`
   String get npsReviewEmailBody {
     return Intl.message(
-      'Could you please share more details on how we can improve?',
+      'Could you share some details on how we can improve?',
       name: 'npsReviewEmailBody',
       desc: '',
       args: [],
@@ -2140,10 +2150,10 @@ class S {
     );
   }
 
-  /// `How likely will you recommend Closet Conscious to a friend?`
+  /// `How likely are you to recommend Closet Conscious to a friend?`
   String get recommendClosetConscious {
     return Intl.message(
-      'How likely will you recommend Closet Conscious to a friend?',
+      'How likely are you to recommend Closet Conscious to a friend?',
       name: 'recommendClosetConscious',
       desc: '',
       args: [],
@@ -2170,10 +2180,10 @@ class S {
     );
   }
 
-  /// `Something went wrong. Please try again later.`
+  /// `Uh-oh, something went wrong. Please try again later!`
   String get unknownError {
     return Intl.message(
-      'Something went wrong. Please try again later.',
+      'Uh-oh, something went wrong. Please try again later!',
       name: 'unknownError',
       desc: '',
       args: [],
@@ -2190,50 +2200,50 @@ class S {
     );
   }
 
-  /// `Allow access to your camera to upload photos of your clothes for easier closet management.`
+  /// `We need camera access to help you upload photos of your clothes.`
   String get camera_upload_item_permission_explanation {
     return Intl.message(
-      'Allow access to your camera to upload photos of your clothes for easier closet management.',
+      'We need camera access to help you upload photos of your clothes.',
       name: 'camera_upload_item_permission_explanation',
       desc: '',
       args: [],
     );
   }
 
-  /// `Allow access to update item photos with your camera.`
+  /// `Let us use your camera to update your item photos.`
   String get camera_edit_item_permission_explanation {
     return Intl.message(
-      'Allow access to update item photos with your camera.',
+      'Let us use your camera to update your item photos.',
       name: 'camera_edit_item_permission_explanation',
       desc: '',
       args: [],
     );
   }
 
-  /// `Allow access to your camera to take selfies with your outfits.`
+  /// `We need access to your camera for your stunning outfit selfies!`
   String get camera_selfie_permission_explanation {
     return Intl.message(
-      'Allow access to your camera to take selfies with your outfits.',
+      'We need access to your camera for your stunning outfit selfies!',
       name: 'camera_selfie_permission_explanation',
       desc: '',
       args: [],
     );
   }
 
-  /// `We need access to your camera to take photos.`
+  /// `Camera access is required to take photos.`
   String get camera_permission_explanation {
     return Intl.message(
-      'We need access to your camera to take photos.',
+      'Camera access is required to take photos.',
       name: 'camera_permission_explanation',
       desc: '',
       args: [],
     );
   }
 
-  /// `This permission is needed to use this feature.`
+  /// `We need this permission to make the app work properly.`
   String get general_permission_explanation {
     return Intl.message(
-      'This permission is needed to use this feature.',
+      'We need this permission to make the app work properly.',
       name: 'general_permission_explanation',
       desc: '',
       args: [],
@@ -2250,10 +2260,10 @@ class S {
     );
   }
 
-  /// `No Image`
+  /// `No Image Available`
   String get noImage {
     return Intl.message(
-      'No Image',
+      'No Image Available',
       name: 'noImage',
       desc: '',
       args: [],
@@ -2280,10 +2290,10 @@ class S {
     );
   }
 
-  /// `Unlock AI-powered outfit suggestions. Review 90 outfits to get personalized recommendations based on your style.`
+  /// `Unlock AI-powered outfit suggestions and receive personalized recommendations based on your unique style.`
   String get aiStylistFeatureDescription {
     return Intl.message(
-      'Unlock AI-powered outfit suggestions. Review 90 outfits to get personalized recommendations based on your style.',
+      'Unlock AI-powered outfit suggestions and receive personalized recommendations based on your unique style.',
       name: 'aiStylistFeatureDescription',
       desc: '',
       args: [],
@@ -2310,20 +2320,20 @@ class S {
     );
   }
 
-  /// `Easily upload items with automatic metadata tagging. The AI helps you save time by filling in details such as category, color, and more.`
+  /// `Easily upload items with automatic metadata tagging. Let AI handle the details!`
   String get aiUploadFeatureDescription {
     return Intl.message(
-      'Easily upload items with automatic metadata tagging. The AI helps you save time by filling in details such as category, color, and more.',
+      'Easily upload items with automatic metadata tagging. Let AI handle the details!',
       name: 'aiUploadFeatureDescription',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please select items to create your outfit.`
+  /// `Select items to create your outfit.`
   String get selectItemsToCreateOutfit {
     return Intl.message(
-      'Please select items to create your outfit.',
+      'Select items to create your outfit.',
       name: 'selectItemsToCreateOutfit',
       desc: '',
       args: [],
@@ -2350,10 +2360,10 @@ class S {
     );
   }
 
-  /// `You've reached 90 days of no new clothes! You're building powerful habits for a greener future. Keep it up!`
+  /// `You’ve hit 90 days without new clothes! Keep building those eco-friendly habits! 🌱`
   String get noNewClothes90AchievementMessage {
     return Intl.message(
-      'You\'ve reached 90 days of no new clothes! You\'re building powerful habits for a greener future. Keep it up!',
+      'You’ve hit 90 days without new clothes! Keep building those eco-friendly habits! 🌱',
       name: 'noNewClothes90AchievementMessage',
       desc: '',
       args: [],
@@ -2370,10 +2380,10 @@ class S {
     );
   }
 
-  /// `225 days and counting! You're making waves in sustainability, and your closet is thriving. Amazing effort!`
+  /// `225 days and counting! Your closet is thriving, and so is the planet. 🌍`
   String get noNewClothes225AchievementMessage {
     return Intl.message(
-      '225 days and counting! You\'re making waves in sustainability, and your closet is thriving. Amazing effort!',
+      '225 days and counting! Your closet is thriving, and so is the planet. 🌍',
       name: 'noNewClothes225AchievementMessage',
       desc: '',
       args: [],
@@ -2390,10 +2400,10 @@ class S {
     );
   }
 
-  /// `405 days strong! Your commitment to cherishing what you have is an inspiration. You're a role model for thoughtful living.`
+  /// `405 days strong! Your commitment to conscious fashion is an inspiration.`
   String get noNewClothes405AchievementMessage {
     return Intl.message(
-      '405 days strong! Your commitment to cherishing what you have is an inspiration. You\'re a role model for thoughtful living.',
+      '405 days strong! Your commitment to conscious fashion is an inspiration.',
       name: 'noNewClothes405AchievementMessage',
       desc: '',
       args: [],
@@ -2410,10 +2420,10 @@ class S {
     );
   }
 
-  /// `630 days without new clothes—you're leading by example! Your dedication is making a real impact on the planet.`
+  /// `630 days without new clothes—you're leading by example! Keep going!`
   String get noNewClothes630AchievementMessage {
     return Intl.message(
-      '630 days without new clothes—you\'re leading by example! Your dedication is making a real impact on the planet.',
+      '630 days without new clothes—you\'re leading by example! Keep going!',
       name: 'noNewClothes630AchievementMessage',
       desc: '',
       args: [],
@@ -2430,10 +2440,10 @@ class S {
     );
   }
 
-  /// `Wow! 900 days of choosing wisely. Your influence is inspiring others to rethink their habits. Keep blazing the trail for sustainability!`
+  /// `900 days of conscious choices! You’re setting trends and making waves in sustainability!`
   String get noNewClothes900AchievementMessage {
     return Intl.message(
-      'Wow! 900 days of choosing wisely. Your influence is inspiring others to rethink their habits. Keep blazing the trail for sustainability!',
+      '900 days of conscious choices! You’re setting trends and making waves in sustainability!',
       name: 'noNewClothes900AchievementMessage',
       desc: '',
       args: [],
@@ -2450,10 +2460,10 @@ class S {
     );
   }
 
-  /// `1,215 days of intentional living! Your sustainable journey is inspiring others. Keep leading the way!`
+  /// `1,215 days of intentional living! Your journey is inspiring others to follow in your footsteps.`
   String get noNewClothes1215AchievementMessage {
     return Intl.message(
-      '1,215 days of intentional living! Your sustainable journey is inspiring others. Keep leading the way!',
+      '1,215 days of intentional living! Your journey is inspiring others to follow in your footsteps.',
       name: 'noNewClothes1215AchievementMessage',
       desc: '',
       args: [],
@@ -2470,10 +2480,10 @@ class S {
     );
   }
 
-  /// `1,575 days of embracing what you already own. Your journey is nothing short of legendary. You're rewriting the rules of fashion!`
+  /// `1,575 days of embracing what you have. You're rewriting the rules of fashion!`
   String get noNewClothes1575AchievementMessage {
     return Intl.message(
-      '1,575 days of embracing what you already own. Your journey is nothing short of legendary. You\'re rewriting the rules of fashion!',
+      '1,575 days of embracing what you have. You\'re rewriting the rules of fashion!',
       name: 'noNewClothes1575AchievementMessage',
       desc: '',
       args: [],
@@ -2490,10 +2500,10 @@ class S {
     );
   }
 
-  /// `You've worn every single item in your closet! You're mastering mindful fashion choices. Great job!`
+  /// `You've worn every single item in your closet! You're mastering mindful fashion choices.`
   String get allClothesWornAchievementMessage {
     return Intl.message(
-      'You\'ve worn every single item in your closet! You\'re mastering mindful fashion choices. Great job!',
+      'You\'ve worn every single item in your closet! You\'re mastering mindful fashion choices.',
       name: 'allClothesWornAchievementMessage',
       desc: '',
       args: [],
@@ -2510,10 +2520,10 @@ class S {
     );
   }
 
-  /// `Congratulations! You've uploaded all your items to your virtual closet. Now you're ready to make the most of what you own!`
+  /// `Congratulations! You've uploaded all your items to your virtual closet. Now you can style like a pro!`
   String get closetUploadAchievementMessage {
     return Intl.message(
-      'Congratulations! You\'ve uploaded all your items to your virtual closet. Now you\'re ready to make the most of what you own!',
+      'Congratulations! You\'ve uploaded all your items to your virtual closet. Now you can style like a pro!',
       name: 'closetUploadAchievementMessage',
       desc: '',
       args: [],
@@ -2570,20 +2580,20 @@ class S {
     );
   }
 
-  /// `You've reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion.`
+  /// `You’ve reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion.`
   String get defaultAchievementMessage {
     return Intl.message(
-      'You\'ve reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion.',
+      'You’ve reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion.',
       name: 'defaultAchievementMessage',
       desc: '',
       args: [],
     );
   }
 
-  /// `We are unable to process your account deletion request at the moment. Would you kindly email us at support@example.com for assistance?`
+  /// `We’re unable to process your account deletion right now. Could you kindly email us at support@example.com for assistance?`
   String get unableToProcessAccountDeletion {
     return Intl.message(
-      'We are unable to process your account deletion request at the moment. Would you kindly email us at support@example.com for assistance?',
+      'We’re unable to process your account deletion right now. Could you kindly email us at support@example.com for assistance?',
       name: 'unableToProcessAccountDeletion',
       desc: '',
       args: [],
@@ -2600,10 +2610,10 @@ class S {
     );
   }
 
-  /// `Upload another 200 more items`
+  /// `Upload 200 more items to keep building your sustainable wardrobe!`
   String get uploadItemBronzeDescription {
     return Intl.message(
-      'Upload another 200 more items',
+      'Upload 200 more items to keep building your sustainable wardrobe!',
       name: 'uploadItemBronzeDescription',
       desc: '',
       args: [],
@@ -2620,10 +2630,10 @@ class S {
     );
   }
 
-  /// `Upload another 700 more items`
+  /// `Upload 700 more items and keep your closet thriving!`
   String get uploadItemSilverDescription {
     return Intl.message(
-      'Upload another 700 more items',
+      'Upload 700 more items and keep your closet thriving!',
       name: 'uploadItemSilverDescription',
       desc: '',
       args: [],
@@ -2640,10 +2650,10 @@ class S {
     );
   }
 
-  /// `Upload unlimited items`
+  /// `Unlimited uploads! Add as many items as you like to your conscious closet.`
   String get uploadItemGoldDescription {
     return Intl.message(
-      'Upload unlimited items',
+      'Unlimited uploads! Add as many items as you like to your conscious closet.',
       name: 'uploadItemGoldDescription',
       desc: '',
       args: [],
@@ -2660,10 +2670,10 @@ class S {
     );
   }
 
-  /// `Edit another 200 more items images`
+  /// `Edit 200 more item images to keep your closet fresh.`
   String get editItemBronzeDescription {
     return Intl.message(
-      'Edit another 200 more items images',
+      'Edit 200 more item images to keep your closet fresh.',
       name: 'editItemBronzeDescription',
       desc: '',
       args: [],
@@ -2680,10 +2690,10 @@ class S {
     );
   }
 
-  /// `Edit 700 more items images`
+  /// `Edit 700 more item images and elevate your closet game!`
   String get editItemSilverDescription {
     return Intl.message(
-      'Edit 700 more items images',
+      'Edit 700 more item images and elevate your closet game!',
       name: 'editItemSilverDescription',
       desc: '',
       args: [],
@@ -2700,10 +2710,10 @@ class S {
     );
   }
 
-  /// `Edit unlimited items images`
+  /// `Unlimited image edits! Keep refining your closet to perfection.`
   String get editItemGoldDescription {
     return Intl.message(
-      'Edit unlimited items images',
+      'Unlimited image edits! Keep refining your closet to perfection.',
       name: 'editItemGoldDescription',
       desc: '',
       args: [],
@@ -2720,10 +2730,10 @@ class S {
     );
   }
 
-  /// `Take another 200 more selfies`
+  /// `Take 200 more selfies and keep your style on point!`
   String get selfieBronzeDescription {
     return Intl.message(
-      'Take another 200 more selfies',
+      'Take 200 more selfies and keep your style on point!',
       name: 'selfieBronzeDescription',
       desc: '',
       args: [],
@@ -2740,10 +2750,10 @@ class S {
     );
   }
 
-  /// `Take another 700 more selfies`
+  /// `Take 700 more selfies and show off your fashion progress!`
   String get selfieSilverDescription {
     return Intl.message(
-      'Take another 700 more selfies',
+      'Take 700 more selfies and show off your fashion progress!',
       name: 'selfieSilverDescription',
       desc: '',
       args: [],
@@ -2760,10 +2770,10 @@ class S {
     );
   }
 
-  /// `Take unlimited selfies`
+  /// `Unlimited selfies! Capture your looks whenever inspiration strikes.`
   String get selfieGoldDescription {
     return Intl.message(
-      'Take unlimited selfies',
+      'Unlimited selfies! Capture your looks whenever inspiration strikes.',
       name: 'selfieGoldDescription',
       desc: '',
       args: [],
@@ -2780,30 +2790,30 @@ class S {
     );
   }
 
-  /// `Create multiple outfits a day`
+  /// `Create multiple outfits a day and keep experimenting with your style!`
   String get multiOutfitDescription {
     return Intl.message(
-      'Create multiple outfits a day',
+      'Create multiple outfits a day and keep experimenting with your style!',
       name: 'multiOutfitDescription',
       desc: '',
       args: [],
     );
   }
 
-  /// `Purchase Now`
+  /// `Unlock Now`
   String get purchase_button {
     return Intl.message(
-      'Purchase Now',
+      'Unlock Now',
       name: 'purchase_button',
       desc: '',
       args: [],
     );
   }
 
-  /// `Loading`
+  /// `Loading... Fashion magic in progress 🧙‍♂️✨`
   String get loading_text {
     return Intl.message(
-      'Loading',
+      'Loading... Fashion magic in progress 🧙‍♂️✨',
       name: 'loading_text',
       desc: '',
       args: [],

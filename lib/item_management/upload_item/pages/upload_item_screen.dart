@@ -196,7 +196,7 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
         } else if (state is UploadItemFailure) {
           _logger.e('Upload failed with error: ${state.error}');
           CustomSnackbar(
-            message: S.of(context).upload_failed(state.error),
+            message: S.of(context).upload_failed,
             theme: widget.myClosetTheme,
           ).show(context);
         } else if (state is FormValidPage1) {

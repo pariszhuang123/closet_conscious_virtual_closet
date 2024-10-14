@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ClosetProgressIndicator extends StatefulWidget {
-  final Color color;
   final double size;
 
-  const ClosetProgressIndicator({super.key, required this.color, this.size = 36.0});
+  const ClosetProgressIndicator({super.key, this.size = 36.0});
 
   @override
   ClosetProgressIndicatorState createState() => ClosetProgressIndicatorState();
@@ -37,7 +36,7 @@ class ClosetProgressIndicatorState extends State<ClosetProgressIndicator>
         child: Icon(
           Icons.dry_cleaning_outlined, // Use your custom icon here
           size: widget.size, // Adjust the size as needed
-          color: widget.color, // Use the color passed to the widget
+          color: Theme.of(context).primaryColor, // Use the color passed to the widget
         ),
       ),
     );

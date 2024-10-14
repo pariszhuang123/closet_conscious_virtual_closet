@@ -42,18 +42,16 @@ class SlidingProgressButton extends StatelessWidget {
               : myClosetTheme.colorScheme.primary,
         ),
         child: isUploadingItem
-            ? SizedBox(
+            ? const SizedBox(
           width: 36.0,
           height: 36.0,
           child: ClosetProgressIndicator(
-            color: myClosetTheme.colorScheme.onPrimary,
             size: 24.0,
           ),
         )
             : Text(
           _buttonText(context),
           style: myClosetTheme.textTheme.bodyMedium?.copyWith(
-            color: myClosetTheme.colorScheme.onPrimary,
           ),
         ),
       ),

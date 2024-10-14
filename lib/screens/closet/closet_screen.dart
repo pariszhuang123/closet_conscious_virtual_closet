@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart'; // Ensure flutter_bloc is imported
 
 import '../../core/utilities/routes.dart';
 import '../../core/utilities/logger.dart';
 import '../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../item_management/view_items/presentation/widgets/item_grid.dart';
 import '../../item_management/core/data/services/item_fetch_service.dart';
+import '../../item_management/streak_item/presentation/bloc/upload_item_streak_bloc.dart'; // Import the bloc here
 import '../../item_management/view_items/presentation/widgets/my_closet_container.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
@@ -15,29 +17,24 @@ import '../../item_management/upload_item/presentation/widgets/upload_confirmati
 import '../app_drawer.dart';
 import '../../core/theme/ui_constant.dart';
 import '../../core/widgets/button/themed_elevated_button.dart';
+import '../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 
-class MyClosetPage extends StatefulWidget {
+class MyClosetScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
 
-  const MyClosetPage({super.key, required this.myClosetTheme});
+  const MyClosetScreen({super.key, required this.myClosetTheme});
 
   @override
-  MyClosetPageState createState() => MyClosetPageState();
+  MyClosetScreenState createState() => MyClosetScreenState();
 }
 
-class MyClosetPageState extends State<MyClosetPage> {
+class MyClosetScreenState extends State<MyClosetScreen> {
   int _selectedIndex = 0;
   final ScrollController _scrollController = ScrollController();
   final List<ClosetItemMinimal> _items = [];
   bool _isLoading = false;
   bool _hasMore = true;
   int _currentPage = 0;
-  int apparelCount = 2;
-  int currentStreakCount = 0;
-  int highestStreakCount = 0;
-  int newItemsCost = 0;
-  int newItemsCount = 0;
-  bool _isUploadCompleted = false; // Add this state variable
   final CustomLogger logger = CustomLogger('MyClosetPage');
 
   // Create an instance of ItemFetchService
@@ -49,82 +46,15 @@ class MyClosetPageState extends State<MyClosetPage> {
   void initState() {
     super.initState();
     _fetchItems();
-    _fetchApparelCount();
-    _fetchCurrentStreakCount();
-    _fetchHighestStreakCount();
-    _fetchNewItemsCost();
-    _fetchNewItemsCount();
-    _checkUploadCompletedStatus();
+    context.read<UploadStreakBloc>().add(
+        CheckUploadStatus()); // Ensure this is within the correct context
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && _hasMore && !_isLoading) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent && _hasMore &&
+          !_isLoading) {
         _fetchItems();
       }
     });
-  }
-
-  Future<void> _fetchApparelCount() async {
-    try {
-      final count = await _itemFetchService.fetchApparelCount();
-      if (mounted) {
-        setState(() {
-          apparelCount = count;
-        });
-      }
-    } catch (e) {
-      logger.e('Error fetching apparel count: $e');
-    }
-  }
-
-  Future<void> _fetchCurrentStreakCount() async {
-    try {
-      final count = await _itemFetchService.fetchCurrentStreakCount();
-      if (mounted) {
-        setState(() {
-          currentStreakCount = count;
-        });
-      }
-    } catch (e) {
-      logger.e('Error fetching current streak count: $e');
-    }
-  }
-
-  Future<void> _fetchHighestStreakCount() async {
-    try {
-      final count = await _itemFetchService.fetchHighestStreakCount();
-      if (mounted) {
-        setState(() {
-          highestStreakCount = count;
-        });
-      }
-    } catch (e) {
-      logger.e('Error fetching highest streak count: $e');
-    }
-  }
-
-  Future<void> _fetchNewItemsCost() async {
-    try {
-      final count = await _itemFetchService.fetchNewItemsCost();
-      if (mounted) {
-        setState(() {
-          newItemsCost = count;
-        });
-      }
-    } catch (e) {
-      logger.e('Error fetching new item cost: $e');
-    }
-  }
-
-  Future<void> _fetchNewItemsCount() async {
-    try {
-      final count = await _itemFetchService.fetchNewItemsCount();
-      if (mounted) {
-        setState(() {
-          newItemsCount = count;
-        });
-      }
-    } catch (e) {
-      logger.e('Error fetching new items count: $e');
-    }
   }
 
   Future<void> _fetchItems() async {
@@ -136,7 +66,8 @@ class MyClosetPageState extends State<MyClosetPage> {
     }
 
     try {
-      final items = await _itemFetchService.fetchItems(_currentPage, _batchSize);
+      final items = await _itemFetchService.fetchItems(
+          _currentPage, _batchSize);
       if (mounted) {
         setState(() {
           _items.addAll(items);
@@ -155,19 +86,6 @@ class MyClosetPageState extends State<MyClosetPage> {
           _isLoading = false;
         });
       }
-    }
-  }
-
-  Future<void> _checkUploadCompletedStatus() async {
-    final isUploaded = await _itemFetchService.checkClosetUploadStatus();
-    if (isUploaded) {
-      setState(() {
-        _isUploadCompleted = true;
-      });
-    }else {
-      setState(() {
-        _isUploadCompleted = false;
-      });
     }
   }
 
@@ -219,13 +137,11 @@ class MyClosetPageState extends State<MyClosetPage> {
         return const UploadConfirmationBottomSheet(isFromMyCloset: true);
       },
     );
-    setState(() {
-      _isUploadCompleted = true; // Update the state to hide the button
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    // Getting the data from TypeDataList for assets and translations
     final itemUploadData = TypeDataList.itemUploaded(context);
     final uploadData = TypeDataList.upload(context);
     final filterData = TypeDataList.filter(context);
@@ -236,81 +152,129 @@ class MyClosetPageState extends State<MyClosetPage> {
     final costOfNewItemsData = TypeDataList.costOfNewItems(context);
     final numberOfNewItemsData = TypeDataList.numberOfNewItems(context);
 
-    return PopScope(
-      canPop: false, // Disable back navigation
-      child: Theme(
-        data: widget.myClosetTheme,
-        child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(appBarHeight),
-            child: AppBar(
-              title: Text(S.of(context).myClosetTitle, style: widget.myClosetTheme.textTheme.titleMedium),
-              automaticallyImplyLeading: true, // Ensure no back button
-              backgroundColor: widget.myClosetTheme.appBarTheme.backgroundColor,
-            ),
-          ),
-          drawer: AppDrawer(isFromMyCloset: true), // Include the AppDrawer here
-          backgroundColor: widget.myClosetTheme.colorScheme.surface,
-          body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                MyClosetContainer(
-                  theme: widget.myClosetTheme,
-                  uploadData: uploadData,
-                  filterData: filterData,
-                  addClosetData: addClosetData,
-                  arrangeData: arrangeData,
-                  itemUploadData: itemUploadData,
-                  currentStreakData: currentStreakData,
-                  highestStreakData: highestStreakData,
-                  costOfNewItemsData: costOfNewItemsData,
-                  numberOfNewItemsData: numberOfNewItemsData,
-                  apparelCount: apparelCount,
-                  currentStreakCount: currentStreakCount,
-                  highestStreakCount: highestStreakCount,
-                  newItemsCost: newItemsCost,
-                  newItemsCount: newItemsCount,
-                  isUploadCompleted: _isUploadCompleted,
-                  onUploadButtonPressed: _onUploadButtonPressed,
-                  onFilterButtonPressed: _onFilterButtonPressed,
-                  onMultiClosetButtonPressed: _onMultiClosetButtonPressed,
-                  onArrangeButtonPressed: _onArrangeButtonPressed,
-                ),
-                Expanded(
-                  child: ItemGrid(
-                    items: _items,
-                    scrollController: _scrollController,
-                    myClosetTheme: widget.myClosetTheme,
-                    logger: logger,
+    return BlocBuilder<UploadStreakBloc, UploadStreakState>(
+      builder: (context, state) {
+        if (state is UploadStreakLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state is UploadStreakSuccess) {
+          final bool isUploadCompleted = state.isUploadCompleted;
+          final apparelCount = state.apparelCount;
+          final currentStreakCount = state.currentStreakCount;
+          final highestStreakCount = state.highestStreakCount;
+          final newItemsCost = state.newItemsCost;
+          final newItemsCount = state.newItemsCount;
+
+          return PopScope(
+            canPop: false, // Disable back navigation
+            child: Theme(
+              data: widget.myClosetTheme,
+              child: Scaffold(
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(appBarHeight),
+                  child: AppBar(
+                    title: Text(S
+                        .of(context)
+                        .myClosetTitle,
+                        style: widget.myClosetTheme.textTheme.titleMedium),
+                    automaticallyImplyLeading: true, // Ensure no back button
+                    backgroundColor: widget.myClosetTheme.appBarTheme
+                        .backgroundColor,
                   ),
                 ),
-                if (!_isUploadCompleted)
-                  ThemedElevatedButton(
-                    onPressed: _onUploadCompletedButtonPressed,
-                    text: S.of(context).closetUploadComplete, // Pass the localized text
+                drawer: AppDrawer(isFromMyCloset: true),
+                // Include the AppDrawer here
+                backgroundColor: widget.myClosetTheme.colorScheme.surface,
+                body: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      MyClosetContainer(
+                        theme: widget.myClosetTheme,
+                        apparelCount: isUploadCompleted ? apparelCount : apparelCount,
+                        // Show only when not uploaded
+                        uploadData: uploadData,
+                        // Passing translation and SVG asset data
+                        filterData: filterData,
+                        addClosetData: addClosetData,
+                        arrangeData: arrangeData,
+                        itemUploadData: itemUploadData,
+                        currentStreakData: isUploadCompleted
+                            ? currentStreakData
+                            : null,
+                        // Only show streak data when uploaded
+                        highestStreakData: isUploadCompleted
+                            ? highestStreakData
+                            : null,
+                        costOfNewItemsData: isUploadCompleted
+                            ? costOfNewItemsData
+                            : null,
+                        numberOfNewItemsData: isUploadCompleted
+                            ? numberOfNewItemsData
+                            : null,
+                        currentStreakCount: currentStreakCount,
+                        // Fix: Passing the streak count
+                        highestStreakCount: highestStreakCount,
+                        // Fix: Passing the highest streak count
+                        newItemsCost: newItemsCost,
+                        // Fix: Passing the new items cost
+                        newItemsCount: newItemsCount,
+                        // Fix: Passing the new items count
+                        isUploadCompleted: isUploadCompleted,
+                        // Fix: Passing the upload completion status
+                        onUploadButtonPressed: _onUploadButtonPressed,
+                        onFilterButtonPressed: _onFilterButtonPressed,
+                        onMultiClosetButtonPressed: _onMultiClosetButtonPressed,
+                        onArrangeButtonPressed: _onArrangeButtonPressed,
+                      ),
+                      Expanded(
+                        child: ItemGrid(
+                          items: _items,
+                          scrollController: _scrollController,
+                          myClosetTheme: widget.myClosetTheme,
+                          logger: logger,
+                        ),
+                      ),
+                      if (!isUploadCompleted)
+                        ThemedElevatedButton(
+                          onPressed: _onUploadCompletedButtonPressed,
+                          text: S
+                              .of(context)
+                              .closetUploadComplete, // Pass the localized text
+                        ),
+                    ],
                   ),
-              ],
+                ),
+                bottomNavigationBar: BottomNavigationBar(
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: const Icon(Icons.dry_cleaning_outlined),
+                      label: S
+                          .of(context)
+                          .closetLabel,
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Icon(Icons.wc_outlined),
+                      label: S
+                          .of(context)
+                          .outfitLabel,
+                    ),
+                  ],
+                  currentIndex: _selectedIndex,
+                  selectedItemColor: widget.myClosetTheme
+                      .bottomNavigationBarTheme.selectedItemColor,
+                  backgroundColor: widget.myClosetTheme.bottomNavigationBarTheme
+                      .backgroundColor,
+                  onTap: _onItemTapped,
+                ),
+              ),
             ),
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.dry_cleaning_outlined),
-                label: S.of(context).closetLabel,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.wc_outlined),
-                label: S.of(context).outfitLabel,
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: widget.myClosetTheme.bottomNavigationBarTheme.selectedItemColor,
-            backgroundColor: widget.myClosetTheme.bottomNavigationBarTheme.backgroundColor,
-            onTap: _onItemTapped,
-          ),
-        ),
-      ),
+          );
+        }
+
+        return const Center(child: ClosetProgressIndicator());
+      },
     );
   }
 }

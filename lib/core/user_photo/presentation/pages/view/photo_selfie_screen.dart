@@ -143,7 +143,7 @@ class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindin
                       'featureKey': FeatureKey.selfieBronze,  // Pass necessary data
                       'isFromMyCloset': true,
                       'previousRoute': AppRoutes.wearOutfit,
-                      'nextRoute': AppRoutes.selfiePhoto,
+                      'nextRoute': AppRoutes.createOutfit,
                       'outfitId': widget.outfitId,  // Use outfitId or other identifier
                     },
                   );
@@ -156,7 +156,7 @@ class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindin
                       'featureKey': FeatureKey.selfieSilver,
                       'isFromMyCloset': true,
                       'previousRoute': AppRoutes.wearOutfit,
-                      'nextRoute': AppRoutes.selfiePhoto,
+                      'nextRoute': AppRoutes.createOutfit,
                       'outfitId': widget.outfitId,
                     },
                   );
@@ -169,7 +169,7 @@ class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindin
                       'featureKey': FeatureKey.selfieGold,
                       'isFromMyCloset': true,
                       'previousRoute': AppRoutes.wearOutfit,
-                      'nextRoute': AppRoutes.selfiePhoto,
+                      'nextRoute': AppRoutes.createOutfit,
                       'outfitId': widget.outfitId,
                     },
                   );
@@ -218,20 +218,17 @@ class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindin
             builder: (context, state) {
               if (state is PhotoCaptureInProgress) {
                 widget._logger.d('Photo capture in progress');
-                return OutfitProgressIndicator(
-                  color: Theme.of(context).colorScheme.primary,
+                return const OutfitProgressIndicator(
                   size: 24.0,
                 );
               } else if (state is CameraPermissionGranted && !_cameraInitialized) {
                 widget._logger.d('Camera permission granted, capturing photo...');
-                return OutfitProgressIndicator(
-                  color: Theme.of(context).colorScheme.primary,
+                return const OutfitProgressIndicator(
                   size: 24.0,
                 );
               } else {
                 widget._logger.d('Waiting for camera permission...');
-                return OutfitProgressIndicator(
-                  color: Theme.of(context).colorScheme.primary,
+                return const OutfitProgressIndicator(
                   size: 24.0,
                 );
               }

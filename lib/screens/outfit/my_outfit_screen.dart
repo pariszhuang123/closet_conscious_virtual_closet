@@ -15,7 +15,7 @@ import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
 import '../../core/utilities/routes.dart';
 import '../../outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
-import '../../outfit_management/navigate_outfit/presentation/bloc/navigate_outfit_bloc.dart';
+import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc.dart';
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_grid.dart';
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_type_container.dart';
 import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
@@ -178,7 +178,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   void _onItemTapped(int index) {
     logger.i('Bottom navigation item tapped, index: $index');
     if (index == 0) {
-      logger.i('Navigating to My Closet screen');
+      logger.i('Navigating to My Closet Provider');
       Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
     } else {
       setState(() {

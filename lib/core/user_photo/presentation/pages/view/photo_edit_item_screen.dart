@@ -147,7 +147,7 @@ class PhotoEditItemScreenState extends State<PhotoEditItemScreen> with WidgetsBi
                     'featureKey': FeatureKey.editItemBronze,  // Pass necessary data
                     'isFromMyCloset': true,
                     'previousRoute': AppRoutes.editItem,
-                    'nextRoute': AppRoutes.editPhoto,
+                    'nextRoute': AppRoutes.myCloset,
                     'itemId': widget.itemId,
                   },
                 );
@@ -160,7 +160,7 @@ class PhotoEditItemScreenState extends State<PhotoEditItemScreen> with WidgetsBi
                     'featureKey': FeatureKey.editItemSilver,
                     'isFromMyCloset': true,
                     'previousRoute': AppRoutes.editItem,
-                    'nextRoute': AppRoutes.editPhoto,
+                    'nextRoute': AppRoutes.myCloset,
                     'itemId': widget.itemId,
                   },
                 );
@@ -173,7 +173,7 @@ class PhotoEditItemScreenState extends State<PhotoEditItemScreen> with WidgetsBi
                     'featureKey': FeatureKey.editItemGold,
                     'isFromMyCloset': true,
                     'previousRoute': AppRoutes.editItem,
-                    'nextRoute': AppRoutes.editPhoto,
+                    'nextRoute': AppRoutes.myCloset,
                     'itemId': widget.itemId,
                   },
                 );
@@ -220,22 +220,13 @@ class PhotoEditItemScreenState extends State<PhotoEditItemScreen> with WidgetsBi
           builder: (context, state) {
             if (state is PhotoCaptureInProgress) {
               widget._logger.d('Photo capture in progress');
-              return ClosetProgressIndicator(
-                color: Theme.of(context).colorScheme.primary,
-                size: 24.0,
-              );
+              return const ClosetProgressIndicator();
             } else if (state is CameraPermissionGranted && !_cameraInitialized) {
               widget._logger.d('Camera permission granted, capturing photo...');
-              return ClosetProgressIndicator(
-                color: Theme.of(context).colorScheme.primary,
-                size: 24.0,
-              );
+              return const ClosetProgressIndicator();
             } else {
               widget._logger.d('Waiting for camera permission...');
-              return ClosetProgressIndicator(
-                color: Theme.of(context).colorScheme.primary,
-                size: 24.0,
-              );
+              return const ClosetProgressIndicator();
             }
           },
         ),

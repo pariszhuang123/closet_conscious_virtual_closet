@@ -198,7 +198,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
       builder: (context, state) {
         if (state is EditItemInitial || state is EditItemLoading) {
           _logger.i('Loading state for itemId: ${widget.itemId}');
-          return const Center(child: ClosetProgressIndicator(color: Colors.teal));
+          return const Center(child: ClosetProgressIndicator());
         }
         if (state is EditItemLoadFailure) {
           _logger.e('Failed to load itemId: ${widget.itemId}');
@@ -346,7 +346,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           );
         } catch (e) {
           _logger.e('Error retrieving item details: $e');
-          return const Center(child: ClosetProgressIndicator(color: Colors.teal));
+          return const Center(child: ClosetProgressIndicator());
         }
       },
     );

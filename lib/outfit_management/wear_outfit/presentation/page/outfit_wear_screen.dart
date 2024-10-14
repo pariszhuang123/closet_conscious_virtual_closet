@@ -172,11 +172,8 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
                             );
                           } else {
                             logger.i('Loading state, displaying progress indicator');
-                            return Center(
-                              child: OutfitProgressIndicator(
-                                color: myOutfitTheme.colorScheme.onPrimary,
-                                size: 24.0,
-                              ),
+                            return const Center(
+                              child: OutfitProgressIndicator(),
                             );
                           }
                         },
