@@ -197,6 +197,27 @@ class MessageLookup extends MessageLookupByLibrary {
         "filterSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("Advanced Filters?"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
+        "firstItemGiftedAchievement":
+            MessageLookupByLibrary.simpleMessage("Generous Giver!"),
+        "firstItemGiftedAchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "You’ve gifted your first item! Your style is making someone else’s day brighter."),
+        "firstItemPicEditedAchievement":
+            MessageLookupByLibrary.simpleMessage("Picture Perfect!"),
+        "firstItemPicEditedAchievementMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your first item picture has been edited! Your closet is looking better than ever."),
+        "firstItemSoldAchievement":
+            MessageLookupByLibrary.simpleMessage("Smart Seller!"),
+        "firstItemSoldAchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "You’ve sold your first item! Way to turn your closet into cash and make space for new looks."),
+        "firstItemSwapAchievement":
+            MessageLookupByLibrary.simpleMessage("Sustainable Swapper!"),
+        "firstItemSwapAchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "You’ve swapped your first item! Your wardrobe just got a stylish and sustainable refresh."),
+        "firstItemUploadAchievement":
+            MessageLookupByLibrary.simpleMessage("Item Initiator!"),
+        "firstItemUploadAchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "Your first item is uploaded! Your virtual closet journey has begun!"),
         "firstOutfitCreatedAchievement":
             MessageLookupByLibrary.simpleMessage("Outfit Architect!"),
         "firstOutfitCreatedAchievementMessage":

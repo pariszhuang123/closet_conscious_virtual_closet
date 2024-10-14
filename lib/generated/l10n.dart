@@ -2570,6 +2570,106 @@ class S {
     );
   }
 
+  /// `Generous Giver!`
+  String get firstItemGiftedAchievement {
+    return Intl.message(
+      'Generous Giver!',
+      name: 'firstItemGiftedAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve gifted your first item! Your style is making someone else’s day brighter.`
+  String get firstItemGiftedAchievementMessage {
+    return Intl.message(
+      'You’ve gifted your first item! Your style is making someone else’s day brighter.',
+      name: 'firstItemGiftedAchievementMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Picture Perfect!`
+  String get firstItemPicEditedAchievement {
+    return Intl.message(
+      'Picture Perfect!',
+      name: 'firstItemPicEditedAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your first item picture has been edited! Your closet is looking better than ever.`
+  String get firstItemPicEditedAchievementMessage {
+    return Intl.message(
+      'Your first item picture has been edited! Your closet is looking better than ever.',
+      name: 'firstItemPicEditedAchievementMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Smart Seller!`
+  String get firstItemSoldAchievement {
+    return Intl.message(
+      'Smart Seller!',
+      name: 'firstItemSoldAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve sold your first item! Way to turn your closet into cash and make space for new looks.`
+  String get firstItemSoldAchievementMessage {
+    return Intl.message(
+      'You’ve sold your first item! Way to turn your closet into cash and make space for new looks.',
+      name: 'firstItemSoldAchievementMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sustainable Swapper!`
+  String get firstItemSwapAchievement {
+    return Intl.message(
+      'Sustainable Swapper!',
+      name: 'firstItemSwapAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve swapped your first item! Your wardrobe just got a stylish and sustainable refresh.`
+  String get firstItemSwapAchievementMessage {
+    return Intl.message(
+      'You’ve swapped your first item! Your wardrobe just got a stylish and sustainable refresh.',
+      name: 'firstItemSwapAchievementMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Item Initiator!`
+  String get firstItemUploadAchievement {
+    return Intl.message(
+      'Item Initiator!',
+      name: 'firstItemUploadAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your first item is uploaded! Your virtual closet journey has begun!`
+  String get firstItemUploadAchievementMessage {
+    return Intl.message(
+      'Your first item is uploaded! Your virtual closet journey has begun!',
+      name: 'firstItemUploadAchievementMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Achievement Unlocked!`
   String get defaultAchievementTitle {
     return Intl.message(

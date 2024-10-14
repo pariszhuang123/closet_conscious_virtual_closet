@@ -1,3 +1,4 @@
+import 'package:closet_conscious/core/theme/my_closet_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart'; // Ensure flutter_bloc is imported
 
@@ -7,6 +8,7 @@ import '../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../item_management/view_items/presentation/widgets/item_grid.dart';
 import '../../item_management/core/data/services/item_fetch_service.dart';
 import '../../item_management/streak_item/presentation/bloc/upload_item_streak_bloc.dart'; // Import the bloc here
+import '../../item_management/core/presentation/bloc/navigate_item_bloc.dart';
 import '../../item_management/view_items/presentation/widgets/my_closet_container.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
@@ -15,6 +17,7 @@ import '../../core/widgets/bottom_sheet/premium_bottom_sheet/multi_closet_premiu
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/arrange_premium_bottom_sheet.dart';
 import '../../item_management/upload_item/presentation/widgets/upload_confirmation_bottom_sheet.dart';
 import '../app_drawer.dart';
+import '../../core/screens/achievement_completed_screen.dart';
 import '../../core/theme/ui_constant.dart';
 import '../../core/widgets/button/themed_elevated_button.dart';
 import '../../core/widgets/progress_indicator/closet_progress_indicator.dart';
@@ -46,6 +49,11 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   void initState() {
     super.initState();
     _fetchItems();
+    _triggerItemUploadAchievement();
+    _triggerItemPicEditedAchievement();
+    _triggerItemGiftedAchievement();
+    _triggerItemSoldAchievement();
+    _triggerItemSwapAchievement();
     context.read<UploadStreakBloc>().add(
         CheckUploadStatus()); // Ensure this is within the correct context
     _scrollController.addListener(() {
@@ -97,6 +105,31 @@ class MyClosetScreenState extends State<MyClosetScreen> {
         _selectedIndex = index;
       });
     }
+  }
+
+  void _triggerItemUploadAchievement() {
+    logger.i('Checking if Item Upload Milestone is successful');
+    context.read<NavigateItemBloc>().add(const FetchFirstItemUploadedAchievementEvent());
+  }
+
+  void _triggerItemPicEditedAchievement() {
+    logger.i('Checking if Item Pic Edited Milestone is successful');
+    context.read<NavigateItemBloc>().add(const FetchFirstItemPicEditedAchievementEvent());
+  }
+
+  void _triggerItemGiftedAchievement() {
+    logger.i('Checking if Item Gifted Milestone is successful');
+    context.read<NavigateItemBloc>().add(const FetchFirstItemGiftedAchievementEvent());
+  }
+
+  void _triggerItemSoldAchievement() {
+    logger.i('Checking if Item Sold Milestone is successful');
+    context.read<NavigateItemBloc>().add(const FetchFirstItemSoldAchievementEvent());
+  }
+
+  void _triggerItemSwapAchievement() {
+    logger.i('Checking if Item Pic Edited Milestone is successful');
+    context.read<NavigateItemBloc>().add(const FetchFirstItemSwapAchievementEvent());
   }
 
   void _onUploadButtonPressed() {
@@ -152,7 +185,85 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     final costOfNewItemsData = TypeDataList.costOfNewItems(context);
     final numberOfNewItemsData = TypeDataList.numberOfNewItems(context);
 
-    return BlocBuilder<UploadStreakBloc, UploadStreakState>(
+    return BlocListener<NavigateItemBloc, NavigateItemState>(
+        listener: (context, state) {
+          if (state is FetchFirstItemUploadedMilestoneSuccessState) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Theme(
+                  data: myClosetTheme, // Apply the relevant theme
+                  child: AchievementScreen(
+                    achievementKey: state.achievementName,
+                    achievementUrl: state.badgeUrl, // Pass the badge URL
+                    nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                  ),
+                ),
+              ),
+            );
+          }
+          if (state is FetchFirstItemGiftedMilestoneSuccessState) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Theme(
+                  data: myClosetTheme, // Apply the relevant theme
+                  child: AchievementScreen(
+                    achievementKey: state.achievementName,
+                    achievementUrl: state.badgeUrl, // Pass the badge URL
+                    nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                  ),
+                ),
+              ),
+            );
+          }
+          if (state is FetchFirstItemSwapMilestoneSuccessState) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Theme(
+                  data: myClosetTheme, // Apply the relevant theme
+                  child: AchievementScreen(
+                    achievementKey: state.achievementName,
+                    achievementUrl: state.badgeUrl, // Pass the badge URL
+                    nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                  ),
+                ),
+              ),
+            );
+          }
+          if (state is FetchFirstItemSoldMilestoneSuccessState) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Theme(
+                  data: myClosetTheme, // Apply the relevant theme
+                  child: AchievementScreen(
+                    achievementKey: state.achievementName,
+                    achievementUrl: state.badgeUrl, // Pass the badge URL
+                    nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                  ),
+                ),
+              ),
+            );
+          }
+          if (state is FetchFirstItemPicEditedMilestoneSuccessState) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Theme(
+                  data: myClosetTheme, // Apply the relevant theme
+                  child: AchievementScreen(
+                    achievementKey: state.achievementName,
+                    achievementUrl: state.badgeUrl, // Pass the badge URL
+                    nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                  ),
+                ),
+              ),
+            );
+          }
+        },
+        child: BlocBuilder<UploadStreakBloc, UploadStreakState>(
       builder: (context, state) {
         if (state is UploadStreakLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -275,6 +386,8 @@ class MyClosetScreenState extends State<MyClosetScreen> {
 
         return const Center(child: ClosetProgressIndicator());
       },
+        )
     );
+
   }
 }

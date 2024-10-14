@@ -94,6 +94,26 @@ class AchievementScreenState extends State<AchievementScreen> {
         achievementTitle = S.of(context).firstOutfitCreatedAchievement;
         achievementMessage = S.of(context).firstOutfitCreatedAchievementMessage;
         break;
+      case '1st_item_gifted':
+        achievementTitle = S.of(context).firstItemGiftedAchievement;
+        achievementMessage = S.of(context).firstItemGiftedAchievementMessage;
+        break;
+      case '1st_item_pic_edited':
+        achievementTitle = S.of(context).firstItemPicEditedAchievement;
+        achievementMessage = S.of(context).firstItemPicEditedAchievementMessage;
+        break;
+      case '1st_item_sold':
+        achievementTitle = S.of(context).firstItemSoldAchievement;
+        achievementMessage = S.of(context).firstItemSoldAchievementMessage;
+        break;
+      case '1st_item_swap':
+        achievementTitle = S.of(context).firstItemSwapAchievement;
+        achievementMessage = S.of(context).firstItemSwapAchievementMessage;
+        break;
+      case '1st_item_uploaded':
+        achievementTitle = S.of(context).firstItemUploadAchievement;
+        achievementMessage = S.of(context).firstItemUploadAchievementMessage;
+        break;
       default:
         achievementTitle = S.of(context).defaultAchievementTitle; // Fallback if none match
         achievementMessage = S.of(context).defaultAchievementMessage;
