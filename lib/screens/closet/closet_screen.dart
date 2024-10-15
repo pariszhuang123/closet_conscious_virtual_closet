@@ -2,6 +2,7 @@ import 'package:closet_conscious/core/theme/my_closet_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart'; // Ensure flutter_bloc is imported
 
+import '../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../core/utilities/routes.dart';
 import '../../core/utilities/logger.dart';
 import '../../item_management/core/data/models/closet_item_minimal.dart';
@@ -185,84 +186,101 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     final costOfNewItemsData = TypeDataList.costOfNewItems(context);
     final numberOfNewItemsData = TypeDataList.numberOfNewItems(context);
 
-    return BlocListener<NavigateItemBloc, NavigateItemState>(
-        listener: (context, state) {
-          if (state is FetchFirstItemUploadedMilestoneSuccessState) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Theme(
-                  data: myClosetTheme, // Apply the relevant theme
-                  child: AchievementScreen(
-                    achievementKey: state.achievementName,
-                    achievementUrl: state.badgeUrl, // Pass the badge URL
-                    nextRoute: AppRoutes.myCloset, // Define the next route if needed
+    return MultiBlocListener(
+        listeners: [
+          BlocListener<NavigateItemBloc, NavigateItemState>(
+            listener: (context, state) {
+              if (state is FetchFirstItemUploadedMilestoneSuccessState) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Theme(
+                      data: myClosetTheme, // Apply the relevant theme
+                      child: AchievementScreen(
+                        achievementKey: state.achievementName,
+                        achievementUrl: state.badgeUrl, // Pass the badge URL
+                        nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            );
-          }
-          if (state is FetchFirstItemGiftedMilestoneSuccessState) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Theme(
-                  data: myClosetTheme, // Apply the relevant theme
-                  child: AchievementScreen(
-                    achievementKey: state.achievementName,
-                    achievementUrl: state.badgeUrl, // Pass the badge URL
-                    nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                );
+              }
+              if (state is FetchFirstItemGiftedMilestoneSuccessState) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Theme(
+                      data: myClosetTheme, // Apply the relevant theme
+                      child: AchievementScreen(
+                        achievementKey: state.achievementName,
+                        achievementUrl: state.badgeUrl, // Pass the badge URL
+                        nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            );
-          }
-          if (state is FetchFirstItemSwapMilestoneSuccessState) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Theme(
-                  data: myClosetTheme, // Apply the relevant theme
-                  child: AchievementScreen(
-                    achievementKey: state.achievementName,
-                    achievementUrl: state.badgeUrl, // Pass the badge URL
-                    nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                );
+              }
+              if (state is FetchFirstItemSoldMilestoneSuccessState) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Theme(
+                      data: myClosetTheme, // Apply the relevant theme
+                      child: AchievementScreen(
+                        achievementKey: state.achievementName,
+                        achievementUrl: state.badgeUrl, // Pass the badge URL
+                        nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            );
-          }
-          if (state is FetchFirstItemSoldMilestoneSuccessState) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Theme(
-                  data: myClosetTheme, // Apply the relevant theme
-                  child: AchievementScreen(
-                    achievementKey: state.achievementName,
-                    achievementUrl: state.badgeUrl, // Pass the badge URL
-                    nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                );
+              }
+              if (state is FetchFirstItemSwapMilestoneSuccessState) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Theme(
+                      data: myClosetTheme, // Apply the relevant theme
+                      child: AchievementScreen(
+                        achievementKey: state.achievementName,
+                        achievementUrl: state.badgeUrl, // Pass the badge URL
+                        nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            );
-          }
-          if (state is FetchFirstItemPicEditedMilestoneSuccessState) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Theme(
-                  data: myClosetTheme, // Apply the relevant theme
-                  child: AchievementScreen(
-                    achievementKey: state.achievementName,
-                    achievementUrl: state.badgeUrl, // Pass the badge URL
-                    nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                );
+              }
+              if (state is FetchFirstItemPicEditedMilestoneSuccessState) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Theme(
+                      data: myClosetTheme, // Apply the relevant theme
+                      child: AchievementScreen(
+                        achievementKey: state.achievementName,
+                        achievementUrl: state.badgeUrl, // Pass the badge URL
+                        nextRoute: AppRoutes.myCloset, // Define the next route if needed
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            );
-          }
-        },
+                );
+              }
+            },
+          ),
+          BlocListener<UploadStreakBloc, UploadStreakState>(
+            listener: (context, state) {
+              if (state is UploadStreakSuccess && state.apparelCount == 0) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  final snackBar = CustomSnackbar(
+                    message: S.of(context).clickUploadItemInCloset,
+                    theme: Theme.of(context),
+                  );
+                  snackBar.show(context); // Call show separately, don't treat it like a value
+                });
+              }
+            },
+          ),
+        ],
         child: BlocBuilder<UploadStreakBloc, UploadStreakState>(
       builder: (context, state) {
         if (state is UploadStreakLoading) {
@@ -276,6 +294,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
           final highestStreakCount = state.highestStreakCount;
           final newItemsCost = state.newItemsCost;
           final newItemsCount = state.newItemsCount;
+
 
           return PopScope(
             canPop: false, // Disable back navigation

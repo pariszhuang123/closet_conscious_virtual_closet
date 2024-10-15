@@ -98,6 +98,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("我们需要相机权限，帮助您上传衣物照片。"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "casual": MessageLookupByLibrary.simpleMessage("休闲"),
+        "clickUploadItemInCloset":
+            MessageLookupByLibrary.simpleMessage("点击上传按钮，将你的第一件物品上传到衣橱。"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("衣橱"),
         "closetUploadAchievement":
             MessageLookupByLibrary.simpleMessage("虚拟衣橱已完成！"),

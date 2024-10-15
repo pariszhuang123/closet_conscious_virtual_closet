@@ -111,6 +111,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "We need camera access to help you upload photos of your clothes."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "casual": MessageLookupByLibrary.simpleMessage("Casual"),
+        "clickUploadItemInCloset": MessageLookupByLibrary.simpleMessage(
+            "Click Upload button to upload your first item in the closet."),
         "closetLabel": MessageLookupByLibrary.simpleMessage("Closet"),
         "closetUploadAchievement":
             MessageLookupByLibrary.simpleMessage("Virtual Closet Complete!"),

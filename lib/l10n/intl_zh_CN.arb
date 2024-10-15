@@ -292,5 +292,6 @@
   "uploadItemSilverSuccessTitle": "太棒了！700件新物品展示您的风格",
   "uploadItemSilverSuccessMessage": "您的衣橱变大了！现在您可以再添加700件物品。继续优化您的个人风格，同时做出环保选择。",
   "uploadItemGoldSuccessTitle": "无限制！您的衣橱现在没有边界",
-  "uploadItemGoldSuccessMessage": "您已解锁无限空间！添加尽可能多的物品，让您的环保衣橱反映出最好的个人风格。"
+  "uploadItemGoldSuccessMessage": "您已解锁无限空间！添加尽可能多的物品，让您的环保衣橱反映出最好的个人风格。",
+  "clickUploadItemInCloset": "点击上传按钮，将你的第一件物品上传到衣橱。"
 }

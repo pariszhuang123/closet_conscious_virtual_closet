@@ -2979,6 +2979,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Click Upload button to upload your first item in the closet.`
+  String get clickUploadItemInCloset {
+    return Intl.message(
+      'Click Upload button to upload your first item in the closet.',
+      name: 'clickUploadItemInCloset',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import '../../core/utilities/logger.dart';
 import '../app_drawer.dart';
 import '../../core/theme/ui_constant.dart';
+import '../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../outfit_management/create_outfit/presentation/widgets/outfit_feature_container.dart';
 import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../outfit_management/core/outfit_enums.dart';
@@ -21,7 +22,6 @@ import '../../outfit_management/create_outfit/presentation/widgets/outfit_type_c
 import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../core/screens/achievement_completed_screen.dart';
-import '../../core/theme/my_outfit_theme.dart';
 import '../../core/paywall/data/feature_key.dart';
 
 class MyOutfitScreen extends StatefulWidget {
@@ -41,7 +41,8 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   bool _snackBarShown = false;
   bool _isNavigating = false; // New flag to track if navigation is in progress
 
-  final OutfitFetchService _outfitFetchService = GetIt.instance<OutfitFetchService>();
+  final OutfitFetchService _outfitFetchService = GetIt.instance<
+      OutfitFetchService>();
 
   @override
   void initState() {
@@ -50,12 +51,13 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     _fetchOutfitsCount();
     _checkNavigationToReview(context);
     _triggerClothingAchievement();
-    _triggerNoBuyAchievement();// Call the method after setting the outfit count
+    _triggerNoBuyAchievement(); // Call the method after setting the outfit count
     _triggerOutfitCreation();
     _triggerOutfitCreateAchievement();
     _triggerSelfieTakenAchievement();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         logger.i('Reached the end of the list, fetching more items...');
         _fetchMoreItems();
       }
@@ -73,46 +75,57 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   void _checkNavigationToReview(BuildContext context) {
-    final userId = GetIt.instance<AuthBloc>().userId;  // Access userId from AuthBloc
+    final userId = GetIt
+        .instance<AuthBloc>()
+        .userId; // Access userId from AuthBloc
 
     if (userId != null) {
-      logger.i('Attempting to check navigation to review page with userId: $userId');
-      context.read<NavigateOutfitBloc>().add(CheckNavigationToReviewEvent(userId: userId));
+      logger.i(
+          'Attempting to check navigation to review page with userId: $userId');
+      context.read<NavigateOutfitBloc>().add(
+          CheckNavigationToReviewEvent(userId: userId));
     } else {
       logger.e('Error: userId is null. Cannot check navigation to review.');
     }
   }
 
   void _triggerNpsSurveyIfNeeded() {
-    logger.i('Checking if NPS survey should be triggered for outfit count: $newOutfitCount');
-    context.read<NavigateOutfitBloc>().add(TriggerNpsSurveyEvent(newOutfitCount));
+    logger.i(
+        'Checking if NPS survey should be triggered for outfit count: $newOutfitCount');
+    context.read<NavigateOutfitBloc>().add(
+        TriggerNpsSurveyEvent(newOutfitCount));
   }
 
 
   void _triggerClothingAchievement() {
     logger.i('Checking if Clothing Achievement Milestone is successful');
-    context.read<NavigateOutfitBloc>().add(const FetchAndSaveClothingWornAchievementEvent());
+    context.read<NavigateOutfitBloc>().add(
+        const FetchAndSaveClothingWornAchievementEvent());
   }
 
   void _triggerNoBuyAchievement() {
     logger.i('Checking if Clothing Achievement Milestone is successful');
-    context.read<NavigateOutfitBloc>().add(const FetchAndSaveNoBuyMilestoneAchievementEvent());
+    context.read<NavigateOutfitBloc>().add(
+        const FetchAndSaveNoBuyMilestoneAchievementEvent());
   }
 
 
   void _triggerOutfitCreateAchievement() {
     logger.i('Checking if Outfit Create Milestone is successful');
-    context.read<NavigateOutfitBloc>().add(const FetchFirstOutfitCreatedAchievementEvent());
+    context.read<NavigateOutfitBloc>().add(
+        const FetchFirstOutfitCreatedAchievementEvent());
   }
 
   void _triggerSelfieTakenAchievement() {
     logger.i('Checking if Selfie Taken Milestone is successful');
-    context.read<NavigateOutfitBloc>().add(const FetchFirstSelfieTakenAchievementEvent());
+    context.read<NavigateOutfitBloc>().add(
+        const FetchFirstSelfieTakenAchievementEvent());
   }
 
   void _triggerOutfitCreation() {
     logger.i('Checking if Outfit can be created');
-    context.read<NavigateOutfitBloc>().add(const CheckOutfitCreationAccessEvent());
+    context.read<NavigateOutfitBloc>().add(
+        const CheckOutfitCreationAccessEvent());
   }
 
   void _onFilterButtonPressed() {
@@ -202,162 +215,210 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     final outfitAccessoryType = TypeDataList.outfitAccessoryType(context);
     final outfitShoesType = TypeDataList.outfitShoesType(context);
 
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<NavigateOutfitBloc, NavigateOutfitState>(
-          listener: (context, state) {
-            logger.i('NavigateOutfitBloc listener triggered with state: $state');
-            if (state is NpsSurveyTriggeredState) {
-              logger.i('NPS Survey triggered for milestone: ${state.milestone}');
-              NpsDialog(milestone: state.milestone).showNpsDialog(context);
-            }
-            if (state is NavigateToReviewPageState) {
-              logger.i('Navigating to OutfitReviewProvider for outfitId: ${state.outfitId}');
-              _isNavigating = true; // Set navigating to true when navigating to review page
-              Navigator.pushNamed(
-                context,
-                AppRoutes.reviewOutfit,
-              ).then((_) {
-                _isNavigating = false; // Reset navigating after returning
-              });
-            }
-            if (state is FetchAndSaveClothingAchievementMilestoneSuccessState) {
-              logger.i('Navigating to achievement page for achievement: ${state.badgeUrl}');
-              _isNavigating = true; // Set navigating to true when navigating to review page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Theme(
-                    data: myOutfitTheme, // Apply the relevant theme
-                    child: AchievementScreen(
-                      achievementKey: state.achievementName,
-                      achievementUrl: state.badgeUrl, // Pass the badge URL
-                      nextRoute: AppRoutes.createOutfit, // Define the next route if needed
-                    ),
+    return Theme( // Apply the relevant theme higher up
+      data: widget.myOutfitTheme,
+      child: MultiBlocListener( // BlocListener now inside the theme
+        listeners: [
+          BlocListener<NavigateOutfitBloc, NavigateOutfitState>(
+            listener: (context, state) {
+              logger.i(
+                  'NavigateOutfitBloc listener triggered with state: $state');
+              if (state is NpsSurveyTriggeredState) {
+                logger.i(
+                    'NPS Survey triggered for milestone: ${state.milestone}');
+                NpsDialog(milestone: state.milestone).showNpsDialog(context);
+              }
+              if (state is NavigateToReviewPageState) {
+                logger.i(
+                    'Navigating to OutfitReviewProvider for outfitId: ${state
+                        .outfitId}');
+                _isNavigating =
+                true; // Set navigating to true when navigating to review page
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.reviewOutfit,
+                ).then((_) {
+                  _isNavigating = false; // Reset navigating after returning
+                });
+              }
+              if (state is FetchAndSaveClothingAchievementMilestoneSuccessState) {
+                logger.i(
+                    'Navigating to achievement page for achievement: ${state
+                        .badgeUrl}');
+                _isNavigating =
+                true; // Set navigating to true when navigating to review page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Theme(
+                          data: widget.myOutfitTheme,
+                          // Apply the relevant theme
+                          child: AchievementScreen(
+                            achievementKey: state.achievementName,
+                            achievementUrl: state.badgeUrl,
+                            // Pass the badge URL
+                            nextRoute: AppRoutes
+                                .createOutfit, // Define the next route if needed
+                          ),
+                        ),
                   ),
-                ),
-              ).then((_) {
-                _isNavigating = false; // Reset navigating after returning
-              });
-            }
-            if (state is FetchAndSaveNoBuyMilestoneSuccessState) {
-              logger.i('Navigating to achievement page for achievement: ${state.badgeUrl}');
-              _isNavigating = true; // Set navigating to true when navigating to review page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Theme(
-                    data: myOutfitTheme, // Apply the relevant theme
-                    child: AchievementScreen(
-                      achievementKey: state.achievementName,
-                      achievementUrl: state.badgeUrl, // Pass the badge URL
-                      nextRoute: AppRoutes.createOutfit, // Define the next route if needed
-                    ),
+                ).then((_) {
+                  _isNavigating = false; // Reset navigating after returning
+                });
+              }
+              if (state is FetchAndSaveNoBuyMilestoneSuccessState) {
+                logger.i(
+                    'Navigating to achievement page for achievement: ${state
+                        .badgeUrl}');
+                _isNavigating =
+                true; // Set navigating to true when navigating to review page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Theme(
+                          data: widget.myOutfitTheme,
+                          // Apply the relevant theme
+                          child: AchievementScreen(
+                            achievementKey: state.achievementName,
+                            achievementUrl: state.badgeUrl,
+                            // Pass the badge URL
+                            nextRoute: AppRoutes
+                                .createOutfit, // Define the next route if needed
+                          ),
+                        ),
                   ),
-                ),
-              ).then((_) {
-                _isNavigating = false; // Reset navigating after returning
-              });
-            }
-            if (state is FetchFirstOutfitMilestoneSuccessState) {
-              logger.i('Navigating to achievement page for achievement: ${state.badgeUrl}');
-              _isNavigating = true; // Set navigating to true when navigating to review page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Theme(
-                    data: myOutfitTheme, // Apply the relevant theme
-                    child: AchievementScreen(
-                      achievementKey: state.achievementName,
-                      achievementUrl: state.badgeUrl, // Pass the badge URL
-                      nextRoute: AppRoutes.createOutfit, // Define the next route if needed
-                    ),
+                ).then((_) {
+                  _isNavigating = false; // Reset navigating after returning
+                });
+              }
+              if (state is FetchFirstOutfitMilestoneSuccessState) {
+                logger.i(
+                    'Navigating to achievement page for achievement: ${state
+                        .badgeUrl}');
+                _isNavigating =
+                true; // Set navigating to true when navigating to review page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Theme(
+                          data: widget.myOutfitTheme,
+                          // Apply the relevant theme
+                          child: AchievementScreen(
+                            achievementKey: state.achievementName,
+                            achievementUrl: state.badgeUrl,
+                            // Pass the badge URL
+                            nextRoute: AppRoutes
+                                .createOutfit, // Define the next route if needed
+                          ),
+                        ),
                   ),
-                ),
-              ).then((_) {
-                _isNavigating = false; // Reset navigating after returning
-              });
-            }
-            if (state is FetchFirstSelfieTakenMilestoneSuccessState) {
-              logger.i('Navigating to achievement page for achievement: ${state.badgeUrl}');
-              _isNavigating = true; // Set navigating to true when navigating to review page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Theme(
-                    data: myOutfitTheme, // Apply the relevant theme
-                    child: AchievementScreen(
-                      achievementKey: state.achievementName,
-                      achievementUrl: state.badgeUrl, // Pass the badge URL
-                      nextRoute: AppRoutes.createOutfit, // Define the next route if needed
-                    ),
+                ).then((_) {
+                  _isNavigating = false; // Reset navigating after returning
+                });
+              }
+              if (state is FetchFirstSelfieTakenMilestoneSuccessState) {
+                logger.i(
+                    'Navigating to achievement page for achievement: ${state
+                        .badgeUrl}');
+                _isNavigating =
+                true; // Set navigating to true when navigating to review page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Theme(
+                          data: widget.myOutfitTheme,
+                          // Apply the relevant theme
+                          child: AchievementScreen(
+                            achievementKey: state.achievementName,
+                            achievementUrl: state.badgeUrl,
+                            // Pass the badge URL
+                            nextRoute: AppRoutes
+                                .createOutfit, // Define the next route if needed
+                          ),
+                        ),
                   ),
-                ),
-              ).then((_) {
-                _isNavigating = false; // Reset navigating after returning
-              });
-            }
-            if (state is OutfitAccessGrantedState) {
-              // Do nothing specific since the user is already in MyOutfitScreen
-              logger.i('Outfit access granted, continuing with current process.');
-            }
-            else if (state is OutfitAccessDeniedState) {
-              // Access denied, navigate to the payment screen
-              logger.i('Outfit access denied, navigating to payment screen.');
-              Navigator.pushNamed(
-                context,
-                AppRoutes.payment,
-                arguments: {
-                  'featureKey': FeatureKey.multiOutfit,  // Pass necessary data
-                  'isFromMyCloset': false,
-                  'previousRoute': AppRoutes.myCloset,
-                  'nextRoute': AppRoutes.createOutfit
-                },
-              );
-            }
-          },
-        ),
-        BlocListener<CreateOutfitItemBloc, CreateOutfitItemState>(
-          listener: (context, state) {
-            logger.i('CreateOutfitItemBloc listener triggered with state: $state');
-
-            if (state.saveStatus == SaveStatus.success && state.outfitId != null) {
-              logger.i('Navigating to OutfitWearProvider for outfitId: ${state.outfitId}');
-              _isNavigating = true; // Set navigating to true when navigating to wear outfit page
-              Navigator.pushNamed(
-                context,
-                AppRoutes.wearOutfit,
-                arguments: state.outfitId,
-              ).then((_) => _isNavigating = false); // Reset navigating after returning
-            }
-
-            // Show SnackBar if no items are selected
-            if (!state.hasSelectedItems && !_snackBarShown && !_isNavigating && newOutfitCount == 0) {
-              _isNavigating = true; // Prevent the SnackBar from showing during navigation
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(S.of(context).selectItemsToCreateOutfit),
-                  ),
+                ).then((_) {
+                  _isNavigating = false; // Reset navigating after returning
+                });
+              }
+              if (state is OutfitAccessGrantedState) {
+                // Do nothing specific since the user is already in MyOutfitScreen
+                logger.i(
+                    'Outfit access granted, continuing with current process.');
+              } else if (state is OutfitAccessDeniedState) {
+                // Access denied, navigate to the payment screen
+                logger.i('Outfit access denied, navigating to payment screen.');
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.payment,
+                  arguments: {
+                    'featureKey': FeatureKey.multiOutfit, // Pass necessary data
+                    'isFromMyCloset': false,
+                    'previousRoute': AppRoutes.myCloset,
+                    'nextRoute': AppRoutes.createOutfit
+                  },
                 );
-                _snackBarShown = true; // Set the flag to true after the snackbar is shown
-                _isNavigating = false; // Reset after SnackBar is shown
-              });
-            }
-          },
-        ),
-      ],
-      child: PopScope(
-        canPop: false,
-        child: Theme(
-          data: widget.myOutfitTheme,
+              }
+            },
+          ),
+          BlocListener<CreateOutfitItemBloc, CreateOutfitItemState>(
+            listener: (context, state) {
+              logger.i(
+                  'CreateOutfitItemBloc listener triggered with state: $state');
+
+              if (state.saveStatus == SaveStatus.success &&
+                  state.outfitId != null) {
+                logger.i('Navigating to OutfitWearProvider for outfitId: ${state
+                    .outfitId}');
+                _isNavigating =
+                true; // Set navigating to true when navigating to wear outfit page
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.wearOutfit,
+                  arguments: state.outfitId,
+                ).then((_) =>
+                _isNavigating = false); // Reset navigating after returning
+              }
+
+              // Show SnackBar if no items are selected
+              if (!state.hasSelectedItems && !_snackBarShown &&
+                  !_isNavigating && newOutfitCount == 0) {
+                _isNavigating =
+                true; // Prevent the SnackBar from showing during navigation
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  final snackBar = CustomSnackbar(
+                    message: S
+                        .of(context)
+                        .selectItemsToCreateOutfit,
+                    theme: Theme.of(context),
+                  );
+                  snackBar.show(
+                      context); // Call show separately, don't treat it like a value
+                  _snackBarShown =
+                  true; // Set the flag to true after the snackbar is shown
+                  _isNavigating = false; // Reset after SnackBar is shown
+                });
+              }
+            },
+          ),
+        ],
+        child: PopScope(
+          canPop: false,
           child: Scaffold(
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(appBarHeight),
               child: AppBar(
-                title: Text(S.of(context).myOutfitTitle, style: widget.myOutfitTheme.textTheme.titleMedium),
+                title: Text(S
+                    .of(context)
+                    .myOutfitTitle,
+                    style: widget.myOutfitTheme.textTheme.titleMedium),
                 automaticallyImplyLeading: true,
-                backgroundColor: widget.myOutfitTheme.appBarTheme.backgroundColor,
+                backgroundColor: widget.myOutfitTheme.appBarTheme
+                    .backgroundColor,
               ),
             ),
             drawer: AppDrawer(isFromMyCloset: false),
@@ -383,21 +444,30 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   ),
                   const SizedBox(height: 15),
                   Expanded(
-                    child: BlocBuilder<CreateOutfitItemBloc, CreateOutfitItemState>(
+                    child: BlocBuilder<
+                        CreateOutfitItemBloc,
+                        CreateOutfitItemState>(
                       builder: (context, state) {
-                        logger.i('CreateOutfitItemBloc builder triggered with state: $state');
+                        logger.i(
+                            'CreateOutfitItemBloc builder triggered with state: $state');
 
                         // Fetch the items for the current category
-                        final currentItems = state.categoryItems[state.currentCategory] ?? [];
+                        final currentItems = state.categoryItems[state
+                            .currentCategory] ?? [];
 
                         // Check for failure status
                         if (state.saveStatus == SaveStatus.failure) {
-                          return Center(child: Text(S.of(context).failedToLoadItems));
+                          return Center(child: Text(S
+                              .of(context)
+                              .failedToLoadItems));
                         }
                         // If no items are available, show no items message
                         else if (currentItems.isEmpty) {
-                          _snackBarShown = false; // Reset the flag when no items are available
-                          return Center(child: Text(S.of(context).noItemsInCategory));
+                          _snackBarShown =
+                          false; // Reset the flag when no items are available
+                          return Center(child: Text(S
+                              .of(context)
+                              .noItemsInCategory));
                         }
                         // If items are available, show the OutfitGrid
                         else {
@@ -412,13 +482,18 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: BlocBuilder<CreateOutfitItemBloc, CreateOutfitItemState>(
+                    child: BlocBuilder<
+                        CreateOutfitItemBloc,
+                        CreateOutfitItemState>(
                       builder: (context, state) {
-                        logger.i('CreateOutfitItemBloc bottom button builder triggered with state: $state');
+                        logger.i(
+                            'CreateOutfitItemBloc bottom button builder triggered with state: $state');
                         return state.hasSelectedItems
                             ? ElevatedButton(
                           onPressed: _onSaveOutfit,
-                          child: Text(S.of(context).OutfitDay),
+                          child: Text(S
+                              .of(context)
+                              .OutfitDay),
                         )
                             : const SizedBox.shrink();
                       },
@@ -431,16 +506,22 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               items: [
                 BottomNavigationBarItem(
                   icon: const Icon(Icons.dry_cleaning_outlined),
-                  label: S.of(context).closetLabel,
+                  label: S
+                      .of(context)
+                      .closetLabel,
                 ),
                 BottomNavigationBarItem(
                   icon: const Icon(Icons.wc_outlined),
-                  label: S.of(context).outfitLabel,
+                  label: S
+                      .of(context)
+                      .outfitLabel,
                 ),
               ],
               currentIndex: _selectedIndex,
-              selectedItemColor: widget.myOutfitTheme.bottomNavigationBarTheme.selectedItemColor,
-              backgroundColor: widget.myOutfitTheme.bottomNavigationBarTheme.backgroundColor,
+              selectedItemColor: widget.myOutfitTheme.bottomNavigationBarTheme
+                  .selectedItemColor,
+              backgroundColor: widget.myOutfitTheme.bottomNavigationBarTheme
+                  .backgroundColor,
               onTap: _onItemTapped,
             ),
           ),
