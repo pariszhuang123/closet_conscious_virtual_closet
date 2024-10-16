@@ -37,9 +37,13 @@ class SlidingProgressButton extends StatelessWidget {
         onPressed: isUploadingItem ? null : (currentPage < totalSteps - 1 ? onNext : onSubmit),
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+          foregroundColor: isUploadingItem
+              ? myClosetTheme.colorScheme.onPrimary.withOpacity(0.5)
+              : myClosetTheme.colorScheme.onPrimary,
           backgroundColor: isUploadingItem
               ? myClosetTheme.colorScheme.primary.withOpacity(0.5)  // Dim button during loading
               : myClosetTheme.colorScheme.primary,
+          
         ),
         child: isUploadingItem
             ? const SizedBox(
@@ -52,6 +56,7 @@ class SlidingProgressButton extends StatelessWidget {
             : Text(
           _buttonText(context),
           style: myClosetTheme.textTheme.bodyMedium?.copyWith(
+            color: myClosetTheme.colorScheme.onPrimary,
           ),
         ),
       ),
