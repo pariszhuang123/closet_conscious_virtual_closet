@@ -176,8 +176,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
         }
 
         // Update _imageUrl here safely during state change
-        if (state is EditItemLoaded || state is EditItemMetadataChanged) {
-          final currentItem = getCurrentItem(state);
+        if (state is EditItemLoaded) {
+          final currentItem = state.item;
 
           if (_itemNameController.text != currentItem.name) {
             _itemNameController.text = currentItem.name;
@@ -192,6 +192,15 @@ class _EditItemScreenState extends State<EditItemScreen> {
               _imageUrl = currentItem.imageUrl;
             });
           }
+        } else if (state is EditItemMetadataChanged) {
+          final updatedItem = state.updatedItem;
+
+          if (_itemNameController.text != updatedItem.name) {
+            _itemNameController.text = updatedItem.name;
+          }
+
+          // Update other metadata fields as necessary
+          // Do not update _amountSpentController.text
         }
       },
 

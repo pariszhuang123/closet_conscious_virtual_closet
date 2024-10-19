@@ -105,7 +105,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("虚拟衣橱已完成！"),
         "closetUploadAchievementMessage": MessageLookupByLibrary.simpleMessage(
             "恭喜你！你已将所有物品上传到虚拟衣橱。现在你可以像专业人士一样搭配造型了！"),
-        "closetUploadComplete": MessageLookupByLibrary.simpleMessage("衣橱上传完成"),
+        "closetUploadComplete":
+            MessageLookupByLibrary.simpleMessage("我上传了我的衣橱"),
         "clothing": MessageLookupByLibrary.simpleMessage("服装"),
         "clothingLayerFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("服装层次未填写。"),
@@ -417,7 +418,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "update": MessageLookupByLibrary.simpleMessage("更新"),
         "upload": MessageLookupByLibrary.simpleMessage("上传"),
         "uploadConfirmationDescription": MessageLookupByLibrary.simpleMessage(
-            "所有上传已完成？确认后，标记为完成。任何新上传有价钱的物品将视为新的添加！"),
+            "确认您的衣橱上传！有价格的新物品将被视为新的添加，会影响您的不购买记录！"),
         "uploadConfirmationTitle":
             MessageLookupByLibrary.simpleMessage("确认衣橱完成"),
         "uploadItemBronzeDescription":

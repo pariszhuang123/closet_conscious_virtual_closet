@@ -760,10 +760,10 @@ class S {
     );
   }
 
-  /// `Closet Upload Complete`
+  /// `I uploaded my closet`
   String get closetUploadComplete {
     return Intl.message(
-      'Closet Upload Complete',
+      'I uploaded my closet',
       name: 'closetUploadComplete',
       desc: '',
       args: [],
@@ -1460,10 +1460,10 @@ class S {
     );
   }
 
-  /// `All set with uploading? Confirm to mark your closet as complete. Any new upload with amount will count as a fresh addition!`
+  /// `Confirm your closet upload! New items with a price will count as fresh additions, affecting your no-buy streak!`
   String get uploadConfirmationDescription {
     return Intl.message(
-      'All set with uploading? Confirm to mark your closet as complete. Any new upload with amount will count as a fresh addition!',
+      'Confirm your closet upload! New items with a price will count as fresh additions, affecting your no-buy streak!',
       name: 'uploadConfirmationDescription',
       desc: '',
       args: [],

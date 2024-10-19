@@ -119,7 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "closetUploadAchievementMessage": MessageLookupByLibrary.simpleMessage(
             "Congratulations! You\'ve uploaded all your items to your virtual closet. Now you can style like a pro!"),
         "closetUploadComplete":
-            MessageLookupByLibrary.simpleMessage("Closet Upload Complete"),
+            MessageLookupByLibrary.simpleMessage("I uploaded my closet"),
         "clothing": MessageLookupByLibrary.simpleMessage("Clothing"),
         "clothingLayerFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Clothing Layer field is not filled."),
@@ -475,7 +475,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "update": MessageLookupByLibrary.simpleMessage("Update"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "uploadConfirmationDescription": MessageLookupByLibrary.simpleMessage(
-            "All set with uploading? Confirm to mark your closet as complete. Any new upload with amount will count as a fresh addition!"),
+            "Confirm your closet upload! New items with a price will count as fresh additions, affecting your no-buy streak!"),
         "uploadConfirmationTitle":
             MessageLookupByLibrary.simpleMessage("Confirm Closet Completion"),
         "uploadItemBronzeDescription": MessageLookupByLibrary.simpleMessage(
