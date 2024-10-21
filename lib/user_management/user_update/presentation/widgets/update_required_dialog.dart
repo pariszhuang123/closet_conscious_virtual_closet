@@ -16,7 +16,7 @@ class UpdateRequiredDialog {
   }) async {
     logger.i('Showing UpdateRequiredDialog');  // Log when dialog is shown
 
-    // Using CustomAlertDialog.showCustomDialog
+    // Using CustomAlertDialog.showCustomDialog and making it non-dismissible
     return CustomAlertDialog.showCustomDialog(
       context: context,
       title: S.of(context).update_required_title,  // Localized title
@@ -27,6 +27,7 @@ class UpdateRequiredDialog {
         _launchAppStore(context);
       },
       theme: theme,
+      barrierDismissible: false,  // Prevent dismissing by tapping outside or pressing back
     );
   }
 

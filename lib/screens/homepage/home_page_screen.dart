@@ -34,32 +34,46 @@ class HomePageScreenState extends State<HomePageScreen> {
 
     return Scaffold(
       backgroundColor: widget.myClosetTheme.colorScheme.surface,
-      body: BlocBuilder<VersionBloc, VersionState>(
-        builder: (context, versionState) {
-          if (versionState is VersionChecking) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (versionState is VersionUpdateRequired) {
-            // Show the dialog and return an empty widget
-            _showUpdateRequiredDialog();
-            return const SizedBox();  // Return an empty widget while dialog is shown
-          } else if (versionState is VersionValid) {
-            return BlocBuilder<AuthBloc, AuthState>(
-              builder: (context, authState) {
-                if (authState is Authenticated) {
-                  return MyClosetProvider(myClosetTheme: widget.myClosetTheme);
-                } else if (authState is Unauthenticated) {
-                  return LoginScreen(myClosetTheme: widget.myClosetTheme);
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            );
-          } else if (versionState is VersionError) {
-            return Center(child: Text(versionState.error));
-          } else {
-            return const CircularProgressIndicator();
+      body: BlocListener<VersionBloc, VersionState>(
+        listener: (context, versionState) {
+          if (versionState is VersionUpdateRequired) {
+            // Show update required dialog
+            Future.microtask(() => _showUpdateRequiredDialog());
           }
         },
+        child: BlocBuilder<VersionBloc, VersionState>(
+          builder: (context, versionState) {
+            if (versionState is VersionChecking) {
+              // Show loading spinner while version is being checked
+              return const Center(child: CircularProgressIndicator());
+            } else if (versionState is VersionValid) {
+              // Only proceed with AuthBloc logic if version is valid
+              return BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, authState) {
+                  if (authState is Authenticated) {
+                    logger.i('Authenticated, proceeding to MyClosetProvider');
+                    return MyClosetProvider(myClosetTheme: widget.myClosetTheme);
+                  } else if (authState is Unauthenticated) {
+                    logger.i('Unauthenticated, showing login screen');
+                    return LoginScreen(myClosetTheme: widget.myClosetTheme);
+                  } else {
+                    logger.i('Auth state is still loading');
+                    return const CircularProgressIndicator();
+                  }
+                },
+              );
+            } else if (versionState is VersionUpdateRequired) {
+              // Prevent further action if update is required
+              logger.i('Update required, blocking further actions');
+              return const SizedBox();  // Block the app with an empty widget until the user updates
+            } else if (versionState is VersionError) {
+              // Show error if version checking fails
+              return Center(child: Text(versionState.error));
+            } else {
+              return const CircularProgressIndicator();
+            }
+          },
+        ),
       ),
     );
   }
