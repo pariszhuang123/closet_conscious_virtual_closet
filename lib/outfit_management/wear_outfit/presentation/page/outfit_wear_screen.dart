@@ -35,6 +35,8 @@ class OutfitWearScreen extends StatefulWidget {
 class OutfitWearScreenState extends State<OutfitWearScreen> {
   late CustomLogger logger;
   late String formattedDate;
+  final TextEditingController _eventNameController = TextEditingController(); // Controller for event name
+
 
   @override
   void initState() {
@@ -70,6 +72,13 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
         return const ShareFeatureBottomSheet(isFromMyCloset: false);
       },
     );
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the controller when the widget is disposed
+    _eventNameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -124,6 +133,28 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
                           isSelfieTaken: isSelfieTaken,
                         );
                       },
+                    ),
+                    const SizedBox(height: 16),
+                    // Add text field for event name
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: TextFormField(
+                        controller: _eventNameController,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.edit),
+                          labelText: S.of(context).enterEventName,
+                          hintText: S.of(context).hintEventName,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: myOutfitTheme.colorScheme.secondary, width: 2.0),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          // Focused border - use theme primary color
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: myOutfitTheme.colorScheme.primary, width: 2.0),
+                            borderRadius: BorderRadius.circular(8.0),
+                          )
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 16),
                     Expanded(
@@ -190,7 +221,8 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
                       child: ThemedElevatedButton( // Replaced ElevatedButton with ThemedElevatedButton
                         onPressed: () {
                           logger.i('Confirm button pressed');
-                          context.read<OutfitWearBloc>().add(ConfirmOutfitCreation());
+                          final eventName = _eventNameController.text;
+                          context.read<OutfitWearBloc>().add(ConfirmOutfitCreation(outfitId: widget.outfitId, eventName: eventName));
                         },
                         text: S.of(context).styleOn, // Button text
                       ),

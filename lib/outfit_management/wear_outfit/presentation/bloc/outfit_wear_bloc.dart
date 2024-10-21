@@ -56,9 +56,19 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
     }
   }
 
-  void _onConfirmOutfitCreation(
-      ConfirmOutfitCreation event, Emitter<OutfitWearState> emit) {
-    logger.i('Outfit creation confirmed');
-    emit(OutfitCreationSuccess());
+  Future<void> _onConfirmOutfitCreation(
+      ConfirmOutfitCreation event, Emitter<OutfitWearState> emit) async {
+    logger.i('Outfit creation confirmed with event name: ${event.eventName} and outfitId: ${event.outfitId}');
+
+    final success = await outfitSaveService.updateOutfitEventName(
+      outfitId: event.outfitId,
+      eventName: event.eventName, // This could be an empty string or null
+    );
+
+    if (success) {
+      emit(OutfitCreationSuccess());
+    } else {
+      emit(const OutfitWearError('Failed to update event name.'));
+    }
   }
 }

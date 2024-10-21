@@ -74,8 +74,40 @@ class OutfitSaveService {
     }
   }
 
+  Future<bool> updateOutfitEventName({
+    required String outfitId,
+    String? eventName, // Optional eventName parameter
+  }) async {
+    try {
+      // Default to 'cc_none' if eventName is empty or null
+      final eventNameToUse = (eventName == null || eventName.trim().isEmpty)
+          ? 'cc_none'
+          : eventName.trim();
 
-  Future<bool> recordUserReview({
+      // Send an update request with SQL 'now()' for the updated_at field
+      final response = await client
+          .from('outfits')
+          .update({'event_name': eventNameToUse,
+      })
+          .eq('outfit_id', outfitId)
+          .select();  // Add this to return the updated row
+
+
+      if (response.isNotEmpty) {
+        logger.i('Successfully updated event name for outfit ID: $outfitId');
+        return true;
+      } else {
+        logger.e('Unexpected empty or null response from the update query');
+        return false;
+      }
+    } catch (error) {
+      logger.e('Error occurred while updating event name: $error');
+      return false;
+    }
+  }
+
+
+Future<bool> recordUserReview({
     required String userId,
     required int score,
     required int milestone,

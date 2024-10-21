@@ -70,7 +70,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("All Clothes, All You!"),
         "allClothesWornAchievementMessage": MessageLookupByLibrary.simpleMessage(
             "You\'ve worn every single item in your closet! You\'re mastering mindful fashion choices."),
-        "alright": MessageLookupByLibrary.simpleMessage("It’s alright 🤷‍♀️"),
+        "alright": MessageLookupByLibrary.simpleMessage("It’s alright\n🤷‍♀️"),
         "alright_feedback_sentence": MessageLookupByLibrary.simpleMessage(
             "Tap the items that don’t quite fit this outfit."),
         "amountSpentFieldNotFilled": MessageLookupByLibrary.simpleMessage(
@@ -169,7 +169,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure? This action cannot be undone."),
         "deleteAccountTitle":
             MessageLookupByLibrary.simpleMessage("Delete Account"),
-        "dislike": MessageLookupByLibrary.simpleMessage("Not quite my vibe 🤔"),
+        "dislike":
+            MessageLookupByLibrary.simpleMessage("Not quite\nmy vibe 🤔"),
         "dislike_feedback_sentence": MessageLookupByLibrary.simpleMessage(
             "Tap the items that didn’t work in this outfit."),
         "editItemBronzeDescription": MessageLookupByLibrary.simpleMessage(
@@ -187,6 +188,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "editPageTitle": MessageLookupByLibrary.simpleMessage("Edit Item"),
         "enterAmountSpentHint":
             MessageLookupByLibrary.simpleMessage("Enter amount spent"),
+        "enterEventName":
+            MessageLookupByLibrary.simpleMessage("What\'s the occasion?"),
         "error":
             MessageLookupByLibrary.simpleMessage("Oops, something went wrong."),
         "errorDeclutter": MessageLookupByLibrary.simpleMessage(
@@ -245,6 +248,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Your all-time record of no new clothes!"),
         "highestStreakTooltip": MessageLookupByLibrary.simpleMessage(
             "Your highest no-purchase streak ever!"),
+        "hintEventName": MessageLookupByLibrary.simpleMessage(
+            "Enter the event or special moment."),
         "infoHub": MessageLookupByLibrary.simpleMessage("Info Hub"),
         "infoHubUrl": MessageLookupByLibrary.simpleMessage(
             "https://inky-twill-3ab.notion.site/8bca4fd6945f4f808a32cbb5ad28400c"),
@@ -263,7 +268,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Number of items you\'ve uploaded to your conscious closet"),
         "jewellery": MessageLookupByLibrary.simpleMessage("Jewellery"),
         "light": MessageLookupByLibrary.simpleMessage("Light"),
-        "like": MessageLookupByLibrary.simpleMessage("Love it! 😍"),
+        "like": MessageLookupByLibrary.simpleMessage("Love it!\n😍"),
         "loading_text": MessageLookupByLibrary.simpleMessage(
             "Loading... Fashion magic in progress 🧙‍♂️✨"),
         "logOut": MessageLookupByLibrary.simpleMessage("Log Out"),

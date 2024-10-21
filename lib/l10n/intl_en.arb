@@ -185,9 +185,9 @@
   "date": "Date",
   "noItemsFound": "No items found.",
   "styleOn": "Review Outfit",
-  "like": "Love it! 😍",
-  "alright": "It’s alright 🤷‍♀️",
-  "dislike": "Not quite my vibe 🤔",
+  "like": "Love it!\n😍",
+  "alright": "It’s alright\n🤷‍♀️",
+  "dislike": "Not quite\nmy vibe 🤔",
   "selfie": "Selfie",
   "share": "Share",
   "OutfitReview": "Outfit Review",
@@ -297,5 +297,7 @@
   "uploadItemSilverSuccessMessage": "Your closet just got bigger!\nYou can now add 700 more items. Keep refining your personal style while making eco-conscious choices.",
   "uploadItemGoldSuccessTitle": "Limitless! Your Closet is Now Boundless",
   "uploadItemGoldSuccessMessage": "You’ve unlocked unlimited space! Add as many items as you want and let your sustainable wardrobe reflect the best of your personal style.",
-  "clickUploadItemInCloset": "Click Upload button to upload your first item in the closet."
+  "clickUploadItemInCloset": "Click Upload button to upload your first item in the closet.",
+  "enterEventName": "What's the occasion?",
+  "hintEventName": "Enter the event or special moment."
 }

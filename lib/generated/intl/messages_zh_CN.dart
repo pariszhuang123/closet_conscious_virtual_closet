@@ -165,6 +165,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("银计划 - 编辑物品图片"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("编辑物品"),
         "enterAmountSpentHint": MessageLookupByLibrary.simpleMessage("输入花费金额"),
+        "enterEventName": MessageLookupByLibrary.simpleMessage("这个是什么场合？"),
         "error": MessageLookupByLibrary.simpleMessage("哎呀，出了点问题。"),
         "errorDeclutter": MessageLookupByLibrary.simpleMessage(
             "我们暂时无法整理您的衣橱，但别担心——我们会尽快再试！🌿"),
@@ -218,6 +219,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "highestStreak": MessageLookupByLibrary.simpleMessage("您历史最长的无新衣记录！"),
         "highestStreakTooltip":
             MessageLookupByLibrary.simpleMessage("您历史最长的无购买记录！"),
+        "hintEventName": MessageLookupByLibrary.simpleMessage("输入这个场合或特别时刻。"),
         "infoHub": MessageLookupByLibrary.simpleMessage("信息中心"),
         "infoHubUrl": MessageLookupByLibrary.simpleMessage(
             "https://inky-twill-3ab.notion.site/dc4dd32378b0478daf36fca24e00d0c8"),

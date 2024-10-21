@@ -1900,30 +1900,30 @@ class S {
     );
   }
 
-  /// `Love it! 😍`
+  /// `Love it!\n😍`
   String get like {
     return Intl.message(
-      'Love it! 😍',
+      'Love it!\n😍',
       name: 'like',
       desc: '',
       args: [],
     );
   }
 
-  /// `It’s alright 🤷‍♀️`
+  /// `It’s alright\n🤷‍♀️`
   String get alright {
     return Intl.message(
-      'It’s alright 🤷‍♀️',
+      'It’s alright\n🤷‍♀️',
       name: 'alright',
       desc: '',
       args: [],
     );
   }
 
-  /// `Not quite my vibe 🤔`
+  /// `Not quite\nmy vibe 🤔`
   String get dislike {
     return Intl.message(
-      'Not quite my vibe 🤔',
+      'Not quite\nmy vibe 🤔',
       name: 'dislike',
       desc: '',
       args: [],
@@ -3025,6 +3025,26 @@ class S {
     return Intl.message(
       'Click Upload button to upload your first item in the closet.',
       name: 'clickUploadItemInCloset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What's the occasion?`
+  String get enterEventName {
+    return Intl.message(
+      'What\'s the occasion?',
+      name: 'enterEventName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the event or special moment.`
+  String get hintEventName {
+    return Intl.message(
+      'Enter the event or special moment.',
+      name: 'hintEventName',
       desc: '',
       args: [],
     );
