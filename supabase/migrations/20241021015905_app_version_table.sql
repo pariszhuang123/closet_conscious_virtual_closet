@@ -17,7 +17,7 @@ COMMENT ON TABLE public.app_version IS 'Stores information about app versions, i
 COMMENT ON COLUMN public.app_version.id IS 'Primary key for the app version table. A randomly generated UUID.';
 COMMENT ON COLUMN public.app_version.version_number IS 'Version number of the app (e.g., 1.0.0). Must be unique and represent the public-facing app version.';
 COMMENT ON COLUMN public.app_version.release_date IS 'Timestamp when the app version was released. Default is the current timestamp.';
-COMMENT ON COLUMN public.app_version.min_supported IS 'The minimum app version supported. Users on versions below this will be prompted to update.';
+COMMENT ON COLUMN public.app_version.min_supported_version IS 'The minimum app version supported. Users on versions below this will be prompted to update.';
 COMMENT ON COLUMN public.app_version.is_current IS 'Indicates whether this version is the latest and current version. Only one version should have this set to true at any time.';
 COMMENT ON COLUMN public.app_version.notes IS 'Release notes or description of updates and changes made in this version.';
 
