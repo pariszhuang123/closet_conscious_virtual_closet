@@ -40,6 +40,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "OutfitReview": MessageLookupByLibrary.simpleMessage("造型评论"),
         "Throw": MessageLookupByLibrary.simpleMessage("丢弃"),
         "accessory": MessageLookupByLibrary.simpleMessage("配饰"),
+        "accessoryTypeRequired":
+            MessageLookupByLibrary.simpleMessage("配饰类型是必需的。"),
         "accountDeletedSuccess":
             MessageLookupByLibrary.simpleMessage("您的请求已收到。我们将在48小时内删除您的账号。"),
         "achievementMessage":
@@ -110,6 +112,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "clothing": MessageLookupByLibrary.simpleMessage("服装"),
         "clothingLayerFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("服装层次未填写。"),
+        "clothingTypeRequired":
+            MessageLookupByLibrary.simpleMessage("服装类型是必需的。"),
         "colourFieldNotFilled": MessageLookupByLibrary.simpleMessage("颜色未填写。"),
         "colourVariationFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("颜色变化未填写。"),
@@ -324,6 +328,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "perfume": MessageLookupByLibrary.simpleMessage("化妆品"),
         "permission_needed":
             MessageLookupByLibrary.simpleMessage("此权限是应用正常运行所必需的。"),
+        "pleaseCorrectTheErrors":
+            MessageLookupByLibrary.simpleMessage("请更正表单中的错误。"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
         "pleaseSelectAtLeastOneItem":
             MessageLookupByLibrary.simpleMessage("请选择至少一个不喜欢的物品。"),
@@ -374,6 +380,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "一键分享您的今日造型至所有社交媒体。提升您的风格，轻松激励他人。"),
         "shareFeatureTitle": MessageLookupByLibrary.simpleMessage("轻松分享造型"),
         "shoes": MessageLookupByLibrary.simpleMessage("鞋子"),
+        "shoesTypeRequired": MessageLookupByLibrary.simpleMessage("鞋类类型是必需的。"),
         "shortTagline": MessageLookupByLibrary.simpleMessage("在衣橱里购物"),
         "social": MessageLookupByLibrary.simpleMessage("社交"),
         "somethingWentWrong": MessageLookupByLibrary.simpleMessage("出了点问题！😱"),

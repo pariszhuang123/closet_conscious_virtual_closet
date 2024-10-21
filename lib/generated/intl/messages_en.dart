@@ -44,6 +44,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "OutfitReview": MessageLookupByLibrary.simpleMessage("Outfit Review"),
         "Throw": MessageLookupByLibrary.simpleMessage("Throw"),
         "accessory": MessageLookupByLibrary.simpleMessage("Accessory"),
+        "accessoryTypeRequired":
+            MessageLookupByLibrary.simpleMessage("Accessory type is required."),
         "accountDeletedSuccess": MessageLookupByLibrary.simpleMessage(
             "Your request has been received. We’ll delete your account within 48 hours."),
         "achievementMessage": MessageLookupByLibrary.simpleMessage(
@@ -123,6 +125,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "clothing": MessageLookupByLibrary.simpleMessage("Clothing"),
         "clothingLayerFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Clothing Layer field is not filled."),
+        "clothingTypeRequired":
+            MessageLookupByLibrary.simpleMessage("Clothing type is required."),
         "colourFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("Colour field is not filled."),
         "colourVariationFieldNotFilled": MessageLookupByLibrary.simpleMessage(
@@ -357,6 +361,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "perfume": MessageLookupByLibrary.simpleMessage("Cosmetic"),
         "permission_needed": MessageLookupByLibrary.simpleMessage(
             "This permission is required for the app to function properly."),
+        "pleaseCorrectTheErrors": MessageLookupByLibrary.simpleMessage(
+            "Please correct the errors in the form."),
         "pleaseEnterItemName":
             MessageLookupByLibrary.simpleMessage("Please enter an item name"),
         "pleaseSelectAtLeastOneItem": MessageLookupByLibrary.simpleMessage(
@@ -422,6 +428,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "shareFeatureTitle":
             MessageLookupByLibrary.simpleMessage("Effortless Outfit Sharing"),
         "shoes": MessageLookupByLibrary.simpleMessage("Shoes"),
+        "shoesTypeRequired":
+            MessageLookupByLibrary.simpleMessage("Shoes type is required."),
         "shortTagline":
             MessageLookupByLibrary.simpleMessage("Shop Your Closet"),
         "social": MessageLookupByLibrary.simpleMessage("Social"),

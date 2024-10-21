@@ -21,6 +21,7 @@ class EditItemMetadata extends StatelessWidget {
   final Function(String) onColourChanged;
   final Function(String) onColourVariationChanged;
   final ThemeData theme;
+  final Map<String, String> validationErrors; // New prop for validation errors
 
   const EditItemMetadata({
     super.key,
@@ -40,6 +41,7 @@ class EditItemMetadata extends StatelessWidget {
     required this.onColourChanged,
     required this.onColourVariationChanged,
     required this.theme,
+    required this.validationErrors, // Initialize in constructor
   });
 
   @override
@@ -52,13 +54,14 @@ class EditItemMetadata extends StatelessWidget {
           decoration: InputDecoration(
             labelText: S.of(context).item_name,
             labelStyle: theme.textTheme.bodyMedium,
-            border: InputBorder.none,  // No underline when not focused
-            focusedBorder: UnderlineInputBorder( // Underline when focused
+            border: InputBorder.none,
+            focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(
-                color: theme.colorScheme.primary,  // Customize underline color
+                color: theme.colorScheme.primary,
                 width: 2.0,
               ),
             ),
+            errorText: validationErrors['item_name'], // Display error
           ),
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -77,13 +80,14 @@ class EditItemMetadata extends StatelessWidget {
             labelText: S.of(context).amountSpentLabel,
             hintText: S.of(context).enterAmountSpentHint,
             labelStyle: theme.textTheme.bodyMedium,
-            border: InputBorder.none,  // No underline when not focused
-            focusedBorder: UnderlineInputBorder( // Underline when focused
+            border: InputBorder.none,
+            focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(
-                color: theme.colorScheme.primary,  // Customize underline color
+                color: theme.colorScheme.primary,
                 width: 2.0,
               ),
             ),
+            errorText: validationErrors['amount_spent'], // Display error
           ),
           keyboardType: TextInputType.number,
           validator: (value) {
@@ -109,6 +113,8 @@ class EditItemMetadata extends StatelessWidget {
           context,
           true,
         ),
+        // If interdependent fields require validation, consider handling them via Bloc
+        // or pass validation errors as props
         const SizedBox(height: 12),
 
         // Occasion Selection
@@ -143,6 +149,15 @@ class EditItemMetadata extends StatelessWidget {
             context,
             true,
           ),
+          // Display validation error if any
+          if (validationErrors['shoes_type'] != null)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                validationErrors['shoes_type']!,
+                style: const TextStyle(color: Colors.red, fontSize: 12),
+              ),
+            ),
         ],
         const SizedBox(height: 12),
 
@@ -156,6 +171,15 @@ class EditItemMetadata extends StatelessWidget {
             context,
             true,
           ),
+          // Display validation error if any
+          if (validationErrors['accessory_type'] != null)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                validationErrors['accessory_type']!,
+                style: const TextStyle(color: Colors.red, fontSize: 12),
+              ),
+            ),
         ],
         const SizedBox(height: 12),
 
@@ -170,6 +194,15 @@ class EditItemMetadata extends StatelessWidget {
             context,
             true,
           ),
+          // Display validation error if any
+          if (validationErrors['clothing_type'] != null)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                validationErrors['clothing_type']!,
+                style: const TextStyle(color: Colors.red, fontSize: 12),
+              ),
+            ),
           const SizedBox(height: 12),
 
           // Clothing Layer Selection
@@ -181,6 +214,15 @@ class EditItemMetadata extends StatelessWidget {
             context,
             true,
           ),
+          // Display validation error if any
+          if (validationErrors['clothing_layer'] != null)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                validationErrors['clothing_layer']!,
+                style: const TextStyle(color: Colors.red, fontSize: 12),
+              ),
+            ),
         ],
         const SizedBox(height: 12),
 
@@ -205,6 +247,15 @@ class EditItemMetadata extends StatelessWidget {
             context,
             true,
           ),
+          // Display validation error if any
+          if (validationErrors['colour_variations'] != null)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                validationErrors['colour_variations']!,
+                style: const TextStyle(color: Colors.red, fontSize: 12),
+              ),
+            ),
         ],
         const SizedBox(height: 12),
       ],

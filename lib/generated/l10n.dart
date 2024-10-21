@@ -1070,6 +1070,46 @@ class S {
     );
   }
 
+  /// `Clothing type is required.`
+  String get clothingTypeRequired {
+    return Intl.message(
+      'Clothing type is required.',
+      name: 'clothingTypeRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accessory type is required.`
+  String get accessoryTypeRequired {
+    return Intl.message(
+      'Accessory type is required.',
+      name: 'accessoryTypeRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shoes type is required.`
+  String get shoesTypeRequired {
+    return Intl.message(
+      'Shoes type is required.',
+      name: 'shoesTypeRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please correct the errors in the form.`
+  String get pleaseCorrectTheErrors {
+    return Intl.message(
+      'Please correct the errors in the form.',
+      name: 'pleaseCorrectTheErrors',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Interested`
   String get interested {
     return Intl.message(

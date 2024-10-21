@@ -34,6 +34,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
   final _formKey = GlobalKey<FormState>();
   final _logger = CustomLogger('EditItemScreen'); // Initialize the logger
 
+  Map<String, String> _validationErrors = {};
+
   @override
   void initState() {
     super.initState();
@@ -110,37 +112,88 @@ class _EditItemScreenState extends State<EditItemScreen> {
     );
   }
 
-  // Handle form submission via BLoC
   void _handleUpdate() {
-    if (_formKey.currentState?.validate() ?? false) {
-      final currentState = context.read<EditItemBloc>().state;
+    final isValid = _formKey.currentState?.validate() ?? false;
+    _logger.d('Form validation result: $isValid');
 
-      // Ensure we have the current state and it's either loaded or metadata has changed
-      if (currentState is EditItemLoaded || currentState is EditItemMetadataChanged) {
-        final item = currentState is EditItemLoaded
-            ? (currentState).item
-            : (currentState as EditItemMetadataChanged).updatedItem;
+    if (!isValid) {
+      _logger.w('Form validation failed at basic level.');
+      return; // Basic validation failed, errors are displayed by Form
+    }
 
-        _logger.i('Submitting form for itemId: ${item.itemId}');
+    // Proceed with interdependent validation
+    final currentState = context.read<EditItemBloc>().state;
 
-        // Dispatch the SubmitFormEvent with all necessary parameters
-        context.read<EditItemBloc>().add(
-          SubmitFormEvent(
-            itemId: item.itemId,
-            name: _itemNameController.text,
-            amountSpent: double.tryParse(_amountSpentController.text) ?? item.amountSpent,
-            itemType: item.itemType,
-            colour: item.colour,
-            occasion: item.occasion,
-            season: item.season,
-            colourVariations: item.colourVariations,
-            clothingType: item.clothingType,
-            clothingLayer: item.clothingLayer,
-            shoesType: item.shoesType,
-            accessoryType: item.accessoryType,
-          ),
-        );
+    if (currentState is EditItemLoaded || currentState is EditItemMetadataChanged) {
+      final item = currentState is EditItemLoaded
+          ? currentState.item
+          : (currentState as EditItemMetadataChanged).updatedItem;
+
+      // Initialize a temporary map for errors
+      Map<String, String> tempErrors = {};
+
+      // Check interdependent validations
+      if (item.itemType == 'clothing') {
+        if (item.clothingType == null || item.clothingType!.isEmpty) {
+          tempErrors['clothing_type'] = S.of(context).clothingTypeRequired;
+        }
+        if (item.clothingLayer == null || item.clothingLayer!.isEmpty) {
+          tempErrors['clothing_layer'] = S.of(context).clothingLayerFieldNotFilled;
+        }
+      } else if (item.itemType == 'accessory') {
+        if (item.accessoryType == null || item.accessoryType!.isEmpty) {
+          tempErrors['accessory_type'] = S.of(context).accessoryTypeRequired;
+        }
+      } else if (item.itemType == 'shoes') {
+        if (item.shoesType == null || item.shoesType!.isEmpty) {
+          tempErrors['shoes_type'] = S.of(context).shoesTypeRequired;
+        }
       }
+
+      if (item.colour != 'black' && item.colour != 'white') {
+        if (item.colourVariations == null || item.colourVariations!.isEmpty) {
+          tempErrors['colour_variations'] = S.of(context).colourVariationFieldNotFilled;
+        }
+      }
+
+      if (tempErrors.isNotEmpty) {
+        // Update the validationErrors map and trigger UI update
+        setState(() {
+          _validationErrors = tempErrors;
+        });
+        _logger.w('Interdependent form validation failed: $tempErrors');
+        // Optionally, you can show a general error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(S.of(context).pleaseCorrectTheErrors)),
+        );
+        return; // Halt submission due to interdependent validation failure
+      }
+
+      // If all validations pass, dispatch the submission event
+      _logger.i('All validations passed. Dispatching SubmitFormEvent.');
+      context.read<EditItemBloc>().add(
+        SubmitFormEvent(
+          itemId: item.itemId,
+          name: _itemNameController.text,
+          amountSpent: double.tryParse(_amountSpentController.text) ?? item.amountSpent,
+          itemType: item.itemType,
+          colour: item.colour,
+          occasion: item.occasion,
+          season: item.season,
+          colourVariations: item.colourVariations,
+          clothingType: item.clothingType,
+          clothingLayer: item.clothingLayer,
+          shoesType: item.shoesType,
+          accessoryType: item.accessoryType,
+        ),
+      );
+      setState(() {
+        _validationErrors = {};
+      });
+
+    } else {
+      _logger.e('Invalid state encountered: $currentState');
+      throw StateError("Invalid state encountered while handling update.");
     }
   }
 
@@ -165,14 +218,16 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
     return BlocConsumer<EditItemBloc, EditItemState>(
       listener: (context, state) {
+
         if (state is EditItemUpdateSuccess) {
           _logger.i('Update success for itemId: ${widget.itemId}');
           Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
         } else if (state is EditItemUpdateFailure) {
           _logger.e('Update failure for itemId: ${widget.itemId}');
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMessage)), // Using actual error message
-          );
+          CustomSnackbar(
+            message: state.errorMessage, // Pass the error message from validation
+            theme: Theme.of(context),    // Use the current theme
+          ).show(context);
         }
 
         // Update _imageUrl here safely during state change
@@ -252,9 +307,11 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         itemNameController: _itemNameController,
                         amountSpentController: _amountSpentController,
                         isChanged: _isChanged,
+                        validationErrors: _validationErrors,
                         onNameChanged: (value) {
                           setState(() {
                             _isChanged = true;
+                            _validationErrors = {};
                           });
                           final currentItemState = getCurrentItem(state);
                           _dispatchMetadataChanged(state, currentItemState.copyWith(name: value));
@@ -262,61 +319,115 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         onAmountSpentChanged: (value) {
                           setState(() {
                             _isChanged = true;
+                            _validationErrors = {};
                           });
-                        },
-                        onItemTypeChanged: (dataKey) {
-                          setState(() {
-                            _isChanged = true;
-                          });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(itemType: dataKey));
-                        },
+                          double? parsedAmount = double.tryParse(value);
+
+                          if (parsedAmount != null) {
+                            _dispatchMetadataChanged(state, currentItem.copyWith(amountSpent: parsedAmount));
+                          } else {
+                            // Handle invalid or empty input (optional)
+                            _validationErrors['amount_spent'] = S.of(context).please_enter_valid_amount; // Add a relevant error message
+                          }
+
+                          },
+                          onItemTypeChanged: (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                              _validationErrors = {};
+
+                              // Update the itemType and reset fields not related to the selected itemType
+                              if (dataKey == 'clothing') {
+                                _dispatchMetadataChanged(state, currentItem.copyWith(
+                                  itemType: dataKey,
+                                  accessoryType: null,  // Reset accessoryType because it's not needed for clothing
+                                  shoesType: null,      // Reset shoesType because it's not needed for clothing
+                                ));
+                                _validationErrors.remove('accessory_type');
+                                _validationErrors.remove('shoes_type');
+                                _validationErrors.remove('clothing_type');
+                                _validationErrors.remove('clothing_layer');
+                              } else if (dataKey == 'accessory') {
+                                _dispatchMetadataChanged(state, currentItem.copyWith(
+                                  itemType: dataKey,
+                                  clothingLayer: null,  // Reset clothingLayer because it's not needed for accessories
+                                  clothingType: null,   // Reset clothingType because it's not needed for accessories
+                                  shoesType: null,      // Reset shoesType because it's not needed for accessories
+                                ));
+                                _validationErrors.remove('clothing_type');
+                                _validationErrors.remove('clothing_layer');
+                                _validationErrors.remove('shoes_type');
+                                _validationErrors.remove('accessory_type');
+                              } else if (dataKey == 'shoes') {
+                                _dispatchMetadataChanged(state, currentItem.copyWith(
+                                  itemType: dataKey,
+                                  clothingLayer: null,  // Reset clothingLayer because it's not needed for shoes
+                                  clothingType: null,   // Reset clothingType because it's not needed for shoes
+                                  accessoryType: null,  // Reset accessoryType because it's not needed for shoes
+                                ));
+                                _validationErrors.remove('clothing_type');
+                                _validationErrors.remove('clothing_layer');
+                                _validationErrors.remove('accessory_type');
+                                _validationErrors.remove('shoes_type');
+                              }
+                            });
+                          },
                         onOccasionChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
+                            _validationErrors = {};
                           });
                           _dispatchMetadataChanged(state, currentItem.copyWith(occasion: dataKey));
                         },
                         onSeasonChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
+                            _validationErrors = {};
                           });
                           _dispatchMetadataChanged(state, currentItem.copyWith(season: dataKey));
                         },
                         onAccessoryTypeChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
+                            _validationErrors = {};
                           });
                           _dispatchMetadataChanged(state, currentItem.copyWith(accessoryType: dataKey));
                         },
                         onClothingLayerChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
+                            _validationErrors = {};
                           });
                           _dispatchMetadataChanged(state, currentItem.copyWith(clothingLayer: dataKey));
                         },
                         onClothingTypeChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
+                            _validationErrors = {};
                           });
                           _dispatchMetadataChanged(state, currentItem.copyWith(clothingType: dataKey));
                         },
                         onShoeTypeChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
+                            _validationErrors = {};
                           });
                           _dispatchMetadataChanged(state, currentItem.copyWith(shoesType: dataKey));
                         },
                         onColourChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
+                            _validationErrors = {};
                           });
                           _dispatchMetadataChanged(state, currentItem.copyWith(colour: dataKey));
                         },
                         onColourVariationChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
+                            _validationErrors = {};
                           });
                           _dispatchMetadataChanged(state, currentItem.copyWith(colourVariations: dataKey));
+
                         },
                         theme: myClosetTheme,
                       ),
@@ -329,25 +440,17 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: ElevatedButton(
                     onPressed: _isChanged
+                        ? (_validationErrors.isEmpty
                         ? () {
                       if (_formKey.currentState?.validate() ?? false) {
-                        final value = _amountSpentController.text;
-                        final double? amountSpent = double.tryParse(value);
-
-                        if (amountSpent != null) {
-                          final currentItemState = getCurrentItem(state);
-                          _dispatchMetadataChanged(
-                            state,
-                            currentItemState.copyWith(amountSpent: amountSpent),
-                          );
-                          _handleUpdate();
-                        } else {
-                          _logger.e('Invalid Parsing');
-                        }
+                        _handleUpdate();  // Proceed with update
                       }
                     }
+                        : null) // Disable button if there are validation errors
                         : _openDeclutterSheet, // Open declutter sheet if no changes
-                    child: _isChanged ? Text(S.of(context).update) : Text(S.of(context).declutter),
+                    child: _isChanged
+                        ? Text(S.of(context).update)
+                        : Text(S.of(context).declutter),
                   ),
                 ),
               ],

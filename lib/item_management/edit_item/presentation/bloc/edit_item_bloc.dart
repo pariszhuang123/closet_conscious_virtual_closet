@@ -48,7 +48,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           ? (state as EditItemLoaded).item
           : (state as EditItemMetadataChanged).updatedItem;
 
-      // Create a new instance of ClosetItemDetailed with the updated fields
+      // Reset fields based on the new itemType
       final updatedItem = currentItemState.copyWith(
         itemType: event.updatedItem.itemType,
         name: event.updatedItem.name,
@@ -57,10 +57,14 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         season: event.updatedItem.season,
         colour: event.updatedItem.colour,
         colourVariations: event.updatedItem.colourVariations ?? currentItemState.colourVariations,
-        clothingType: event.updatedItem.clothingType ?? currentItemState.clothingType,
-        clothingLayer: event.updatedItem.clothingLayer ?? currentItemState.clothingLayer,
-        shoesType: event.updatedItem.shoesType ?? currentItemState.shoesType,
-        accessoryType: event.updatedItem.accessoryType ?? currentItemState.accessoryType,
+
+        // Reset irrelevant fields based on itemType
+        clothingType: event.updatedItem.itemType == 'clothing' ? event.updatedItem.clothingType : null,
+        clothingLayer: event.updatedItem.itemType == 'clothing' ? event.updatedItem.clothingLayer : null,
+
+        shoesType: event.updatedItem.itemType == 'shoes' ? event.updatedItem.shoesType : null,
+
+        accessoryType: event.updatedItem.itemType == 'accessory' ? event.updatedItem.accessoryType : null,
       );
 
       _logger.d("Item metadata changed: $updatedItem");
@@ -74,8 +78,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   // Handler for submitting the form
-  Future<void> _onSubmitForm(SubmitFormEvent event,
-      Emitter<EditItemState> emit) async {
+  Future<void> _onSubmitForm(SubmitFormEvent event, Emitter<EditItemState> emit) async {
     if (state is EditItemMetadataChanged) {
       final metadataChangedState = state as EditItemMetadataChanged;
       final updatedItem = metadataChangedState.updatedItem;
@@ -83,12 +86,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       emit(EditItemSubmitting(itemId: updatedItem.itemId));
       _logger.i("Submitting form for item ID: ${updatedItem.itemId}");
 
-      // Validate form data
-      if (updatedItem.name.isEmpty || updatedItem.amountSpent < 0) {
-        _logger.w("Form validation failed. Name or amount spent is invalid.");
-        emit(EditItemValidationFailed());
-        return;
-      }
 
       try {
         // Call the ItemSaveService to save the edited metadata

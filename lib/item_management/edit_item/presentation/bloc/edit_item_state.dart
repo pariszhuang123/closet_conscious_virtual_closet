@@ -29,8 +29,6 @@ class EditItemSubmitting extends EditItemState {
   EditItemSubmitting({required this.itemId});
 }
 
-class EditItemValidationFailed extends EditItemState {}
-
 class EditItemUpdateSuccess extends EditItemState {
 
   EditItemUpdateSuccess();
