@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/auth_bloc.dart';
 import '../../../../core/utilities/routes.dart';
-import '../../../../screens/home_page.dart';
+import '../../../../screens/homepage/home_page_provider.dart';
 import 'login_screen.dart';
 import '../../../../core/utilities/logger.dart';
 
@@ -55,7 +55,7 @@ class AuthWrapperState extends State<AuthWrapper> {
         builder: (context, state) {
           logger.d('Building UI for state: $state');
           if (state is Authenticated) {
-            return HomePage(myClosetTheme: widget.myClosetTheme, myOutfitTheme: widget.myOutfitTheme);
+            return HomePageProvider(myClosetTheme: widget.myClosetTheme, myOutfitTheme: widget.myOutfitTheme);
           } else if (state is Unauthenticated) {
             return LoginScreen(myClosetTheme: widget.myClosetTheme);
           } else {

@@ -33,4 +33,27 @@ class UserFetchSupabaseService {
       rethrow;
     }
   }
+
+  Future<bool> isUpdateRequired(String currentVersion) async {
+    try {
+      _logger.d('Checking if update is required for version $currentVersion');
+
+      // Call the RPC function to check the app version
+      final response = await _client.rpc('check_app_version',
+          params: {'current_version_input': currentVersion});
+
+      // Check if there was an error
+      if (response.error != null) {
+        throw Exception('Error during version check: ${response.error!.message}');
+      }
+
+      // Log and return the result (true if an update is required)
+      final updateRequired = response.data as bool;
+      _logger.i('Update required: $updateRequired');
+      return updateRequired;
+    } catch (e) {
+      _logger.e('Failed to check app version: $e');
+      throw Exception('Failed to check app version: $e');
+    }
+  }
 }

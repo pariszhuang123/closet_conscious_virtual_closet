@@ -425,6 +425,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "unsavedChangesMessage":
             MessageLookupByLibrary.simpleMessage("您有未保存的更改。请保存或丢弃它们，然后选择照片。"),
         "update": MessageLookupByLibrary.simpleMessage("更新"),
+        "update_button_text": MessageLookupByLibrary.simpleMessage("马上行动！"),
+        "update_required_content": MessageLookupByLibrary.simpleMessage(
+            "我们做了一些您会喜欢的改进！ 立即更新，让您的衣橱保持新鲜和可持续性。"),
+        "update_required_title":
+            MessageLookupByLibrary.simpleMessage("是时候更新啦！"),
         "upload": MessageLookupByLibrary.simpleMessage("上传"),
         "uploadConfirmationDescription": MessageLookupByLibrary.simpleMessage(
             "确认您的衣橱上传！有价格的新物品将被视为新的添加，会影响您的不购买记录！"),

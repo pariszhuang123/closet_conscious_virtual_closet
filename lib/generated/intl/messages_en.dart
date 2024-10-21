@@ -486,6 +486,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "unsavedChangesMessage": MessageLookupByLibrary.simpleMessage(
             "You have unsaved changes. Please save or discard them before selecting a photo."),
         "update": MessageLookupByLibrary.simpleMessage("Update"),
+        "update_button_text":
+            MessageLookupByLibrary.simpleMessage("Let’s Do It!"),
+        "update_required_content": MessageLookupByLibrary.simpleMessage(
+            "We’ve made some improvements you’ll love! Update now to keep your wardrobe fresh and sustainable."),
+        "update_required_title":
+            MessageLookupByLibrary.simpleMessage("Time to Refresh!"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "uploadConfirmationDescription": MessageLookupByLibrary.simpleMessage(
             "Confirm your closet upload! New items with a price will count as fresh additions, affecting your no-buy streak!"),

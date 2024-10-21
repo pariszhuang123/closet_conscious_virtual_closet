@@ -13,6 +13,9 @@ import 'authentication/application/usecases/delete_user_account.dart';
 
 import 'authentication/presentation/bloc/auth_bloc.dart';
 
+import 'core/data/services/user_fetch_service.dart';
+import 'user_update/presentation/bloc/version_bloc.dart';
+
 GetIt locator = GetIt.instance;
 
 void setupUserManagementLocator() {
@@ -39,4 +42,10 @@ void setupUserManagementLocator() {
     signOut: locator(),
     deleteUserAccount: locator(),
   ));
+
+  // User fetch service (which now also handles version checking)
+  locator.registerLazySingleton(() => UserFetchSupabaseService());
+
+  // VersionBloc, which uses the UserFetchSupabaseService
+  locator.registerLazySingleton(() => VersionBloc(locator<UserFetchSupabaseService>()));
 }

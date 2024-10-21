@@ -1,7 +1,7 @@
-import 'package:closet_conscious/screens/closet/closet_provider.dart';
 import 'package:flutter/material.dart';
 
-import '../../screens/home_page.dart';
+import '../../screens/closet/closet_provider.dart';
+import '../../screens/homepage/home_page_provider.dart';
 import '../../screens/outfit/my_outfit_provider.dart';
 import '../../user_management/achievements/pages/achievements_page.dart';
 import '../../user_management/authentication/presentation/pages/login_screen.dart';
@@ -44,7 +44,7 @@ class AppRoutes {
       case login:
         return MaterialPageRoute(builder: (_) => LoginScreen(myClosetTheme: myClosetTheme));
       case home:
-        return MaterialPageRoute(builder: (_) => HomePage(myClosetTheme: myClosetTheme, myOutfitTheme: myOutfitTheme));
+        return MaterialPageRoute(builder: (_) => HomePageProvider(myClosetTheme: myClosetTheme, myOutfitTheme: myOutfitTheme));
       case myCloset:
         return MaterialPageRoute(
           builder: (_) => MyClosetProvider(myClosetTheme: myClosetTheme),

@@ -3049,6 +3049,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Time to Refresh!`
+  String get update_required_title {
+    return Intl.message(
+      'Time to Refresh!',
+      name: 'update_required_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We’ve made some improvements you’ll love! Update now to keep your wardrobe fresh and sustainable.`
+  String get update_required_content {
+    return Intl.message(
+      'We’ve made some improvements you’ll love! Update now to keep your wardrobe fresh and sustainable.',
+      name: 'update_required_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Let’s Do It!`
+  String get update_button_text {
+    return Intl.message(
+      'Let’s Do It!',
+      name: 'update_button_text',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
