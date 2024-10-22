@@ -27,7 +27,8 @@ class UpdateRequiredDialog {
         _launchAppStore(context);
       },
       theme: theme,
-      barrierDismissible: false,  // Prevent dismissing by tapping outside or pressing back
+      barrierDismissible: false,
+      canPop: false,
     );
   }
 

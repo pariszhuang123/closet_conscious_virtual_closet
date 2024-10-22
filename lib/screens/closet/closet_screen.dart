@@ -10,6 +10,8 @@ import '../../item_management/view_items/presentation/widgets/item_grid.dart';
 import '../../item_management/core/data/services/item_fetch_service.dart';
 import '../../item_management/streak_item/presentation/bloc/upload_item_streak_bloc.dart'; // Import the bloc here
 import '../../item_management/core/presentation/bloc/navigate_item_bloc.dart';
+import '../../user_management/user_update/presentation/bloc/version_bloc.dart';
+import '../../user_management/user_update/presentation/widgets/update_required_dialog.dart';
 import '../../item_management/view_items/presentation/widgets/my_closet_container.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
@@ -173,6 +175,17 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     );
   }
 
+  Future<void> _showUpdateRequiredDialog() {
+    return UpdateRequiredDialog.show(
+      context: context,
+      theme: widget.myClosetTheme,
+      onUpdatePressed: () {
+        logger.i('Update button pressed. Redirecting to app store...');
+        // Handle the logic for updating (e.g., redirect to the app store)
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Getting the data from TypeDataList for assets and translations
@@ -188,6 +201,17 @@ class MyClosetScreenState extends State<MyClosetScreen> {
 
     return MultiBlocListener(
         listeners: [
+          BlocListener<VersionBloc, VersionState>(
+            listener: (context, versionState) {
+              if (versionState is VersionUpdateRequired) {
+                logger.i('Version update required, showing update dialog');
+                _showUpdateRequiredDialog();
+              } else if (versionState is VersionError) {
+                logger.e('Error during version check: ${versionState.error}');
+                // Handle version check errors if needed
+              }
+            },
+          ),
           BlocListener<NavigateItemBloc, NavigateItemState>(
             listener: (context, state) {
               if (state is FetchFirstItemUploadedMilestoneSuccessState) {

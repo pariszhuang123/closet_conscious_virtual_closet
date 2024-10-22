@@ -1,5 +1,5 @@
+import 'package:closet_conscious/user_management/user_update/presentation/bloc/version_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,15 +26,16 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
-        Provider<AuthBloc>(
+        BlocProvider<AuthBloc>(
           create: (_) => user_management_locator.locator<AuthBloc>(),
-          dispose: (_, bloc) => bloc.close(),
         ),
-        Provider<ConnectivityBloc>(
-          create: (_) => ConnectivityBloc()..add(ConnectivityChecked()), // Initialize ConnectivityBloc and check connection
-          dispose: (_, bloc) => bloc.close(), // Dispose ConnectivityBloc properly
+        BlocProvider<ConnectivityBloc>(
+          create: (_) => ConnectivityBloc()..add(ConnectivityChecked()),
+        ),
+        BlocProvider<VersionBloc>(
+          create: (_) => user_management_locator.locator<VersionBloc>()..add(CheckVersionEvent()),
         ),
       ],
       child: MaterialApp(

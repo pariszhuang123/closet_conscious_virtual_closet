@@ -24,8 +24,6 @@ class HomePageScreenState extends State<HomePageScreen> {
   void initState() {
     super.initState();
     logger.i('HomePageScreen initState');
-    // Trigger the version check event
-    context.read<VersionBloc>().add(CheckVersionEvent());
   }
 
   @override
@@ -38,7 +36,7 @@ class HomePageScreenState extends State<HomePageScreen> {
         listener: (context, versionState) {
           if (versionState is VersionUpdateRequired) {
             // Show update required dialog
-            Future.microtask(() => _showUpdateRequiredDialog());
+            _showUpdateRequiredDialog();
           }
         },
         child: BlocBuilder<VersionBloc, VersionState>(
