@@ -217,9 +217,19 @@ class AppDrawer extends StatelessWidget {
           onDelete: () {
             logger.i('Attempting to delete user account');
 
+            // Ensure the deletion process is awaited before logging out
             userSaveService.notifyDeleteUserAccount().then((response) {
               if (response['status'] == 'success') {
                 logger.i('Account deletion process succeeded');
+
+                // Log out the user after successful account deletion
+                authBloc.add(SignOutEvent());
+
+                // Navigate to login and clear the navigation stack after a short delay
+                Future.delayed(const Duration(milliseconds: 100), () {
+                  navigator.pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
+                });
+
               } else {
                 logger.e('Failed to delete account: ${response['status']}');
               }
@@ -227,17 +237,8 @@ class AppDrawer extends StatelessWidget {
               logger.e('Error deleting account: $e');
             });
 
-            // Close the dialog after triggering log out
+            // Close the dialog only after triggering the account deletion and logout
             Navigator.pop(dialogContext);
-
-            // Immediately log out the user
-            authBloc.add(SignOutEvent());
-
-            // Navigate to login and clear the navigation stack
-            Future.delayed(const Duration(milliseconds: 100), () {
-              navigator.pushNamedAndRemoveUntil(
-                  AppRoutes.login, (route) => false);
-            });
           },
           onClose: () {
             Navigator.pop(dialogContext); // Close using dialogContext
