@@ -5,13 +5,12 @@ import '../../user_management/user_update/presentation/bloc/version_bloc.dart';
 import '../../user_management/authentication/presentation/pages/login_screen.dart';
 import '../../core/utilities/logger.dart';
 import '../closet/closet_provider.dart';
-import '../../user_management/user_update/presentation/widgets/update_required_dialog.dart';
+import '../../user_management/user_update/presentation/widgets/update_required_page.dart';
 
 class HomePageScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
-  final ThemeData myOutfitTheme;
 
-  const HomePageScreen({super.key, required this.myClosetTheme, required this.myOutfitTheme});
+  const HomePageScreen({super.key, required this.myClosetTheme});
 
   @override
   HomePageScreenState createState() => HomePageScreenState();
@@ -24,6 +23,9 @@ class HomePageScreenState extends State<HomePageScreen> {
   void initState() {
     super.initState();
     logger.i('HomePageScreen initState');
+    context.read<VersionBloc>().add(
+        CheckVersionEvent()); // Ensure this is within the correct context
+
   }
 
   @override
@@ -35,8 +37,20 @@ class HomePageScreenState extends State<HomePageScreen> {
       body: BlocListener<VersionBloc, VersionState>(
         listener: (context, versionState) {
           if (versionState is VersionUpdateRequired) {
-            // Show update required dialog
-            _showUpdateRequiredDialog();
+            // Navigate to the update required dialog if an update is needed
+            logger.i('Version update required, showing UpdateRequiredPage');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const UpdateRequiredPage(),
+              ),
+            );
+          } else if (versionState is VersionError) {
+            logger.e('Error during version check: ${versionState.error}');
+            // Optionally show a snackbar or dialog for the error
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(versionState.error)),
+            );
           }
         },
         child: BlocBuilder<VersionBloc, VersionState>(
@@ -50,7 +64,8 @@ class HomePageScreenState extends State<HomePageScreen> {
                 builder: (context, authState) {
                   if (authState is Authenticated) {
                     logger.i('Authenticated, proceeding to MyClosetProvider');
-                    return MyClosetProvider(myClosetTheme: widget.myClosetTheme);
+                    return MyClosetProvider(
+                        myClosetTheme: widget.myClosetTheme);
                   } else if (authState is Unauthenticated) {
                     logger.i('Unauthenticated, showing login screen');
                     return LoginScreen(myClosetTheme: widget.myClosetTheme);
@@ -63,7 +78,7 @@ class HomePageScreenState extends State<HomePageScreen> {
             } else if (versionState is VersionUpdateRequired) {
               // Prevent further action if update is required
               logger.i('Update required, blocking further actions');
-              return const SizedBox();  // Block the app with an empty widget until the user updates
+              return const SizedBox(); // Block the app with an empty widget until the user updates
             } else if (versionState is VersionError) {
               // Show error if version checking fails
               return Center(child: Text(versionState.error));
@@ -73,18 +88,6 @@ class HomePageScreenState extends State<HomePageScreen> {
           },
         ),
       ),
-    );
-  }
-
-  // Helper method to show the Update Required dialog
-  Future<void> _showUpdateRequiredDialog() {
-    return UpdateRequiredDialog.show(
-      context: context,
-      theme: widget.myClosetTheme,
-      onUpdatePressed: () {
-        logger.i('Update button pressed. Redirecting to app store...');
-        // Handle the logic for updating (e.g., redirect to the app store)
-      },
     );
   }
 }

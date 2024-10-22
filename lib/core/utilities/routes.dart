@@ -44,7 +44,7 @@ class AppRoutes {
       case login:
         return MaterialPageRoute(builder: (_) => LoginScreen(myClosetTheme: myClosetTheme));
       case home:
-        return MaterialPageRoute(builder: (_) => HomePageProvider(myClosetTheme: myClosetTheme, myOutfitTheme: myOutfitTheme));
+        return MaterialPageRoute(builder: (_) => HomePageProvider(myClosetTheme: myClosetTheme));
       case myCloset:
         return MaterialPageRoute(
           builder: (_) => MyClosetProvider(myClosetTheme: myClosetTheme),

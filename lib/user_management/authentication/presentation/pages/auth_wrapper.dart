@@ -55,7 +55,7 @@ class AuthWrapperState extends State<AuthWrapper> {
         builder: (context, state) {
           logger.d('Building UI for state: $state');
           if (state is Authenticated) {
-            return HomePageProvider(myClosetTheme: widget.myClosetTheme, myOutfitTheme: widget.myOutfitTheme);
+            return HomePageProvider(myClosetTheme: widget.myClosetTheme);
           } else if (state is Unauthenticated) {
             return LoginScreen(myClosetTheme: widget.myClosetTheme);
           } else {

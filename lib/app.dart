@@ -1,4 +1,3 @@
-import 'package:closet_conscious/user_management/user_update/presentation/bloc/version_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,9 +32,6 @@ class MainApp extends StatelessWidget {
         ),
         BlocProvider<ConnectivityBloc>(
           create: (_) => ConnectivityBloc()..add(ConnectivityChecked()),
-        ),
-        BlocProvider<VersionBloc>(
-          create: (_) => user_management_locator.locator<VersionBloc>()..add(CheckVersionEvent()),
         ),
       ],
       child: MaterialApp(

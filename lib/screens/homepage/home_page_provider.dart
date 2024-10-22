@@ -8,9 +8,8 @@ import 'home_page_screen.dart';  // The new screen file
 
 class HomePageProvider extends StatelessWidget {
   final ThemeData myClosetTheme;
-  final ThemeData myOutfitTheme;
 
-  const HomePageProvider({super.key, required this.myClosetTheme, required this.myOutfitTheme});
+  const HomePageProvider({super.key, required this.myClosetTheme});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +23,7 @@ class HomePageProvider extends StatelessWidget {
         ),
       ],
       child: HomePageScreen(
-        myClosetTheme: myClosetTheme,
-        myOutfitTheme: myOutfitTheme,
+        myClosetTheme: myClosetTheme
       ),
     );
   }
