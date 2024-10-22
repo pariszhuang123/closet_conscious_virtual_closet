@@ -6,10 +6,17 @@ part 'connectivity_event.dart';
 part 'connectivity_state.dart';
 
 class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
-  final Connectivity _connectivity = Connectivity();
+  final Connectivity connectivity;
+  final http.Client httpClient;
+  late final Stream<ConnectivityResult> _connectivityStream;
 
-  ConnectivityBloc() : super(ConnectivityInitial()) {
-    _connectivity.onConnectivityChanged.listen((result) async {
+  ConnectivityBloc({
+    required this.connectivity,
+    required this.httpClient,
+  }) : super(ConnectivityInitial()) {
+    _connectivityStream = connectivity.onConnectivityChanged.map((resultList) => resultList.first);
+
+    _connectivityStream.listen((result) async {
       bool hasInternet = await _testInternetConnection();
       add(ConnectivityChanged(hasInternet));
     });
@@ -34,12 +41,18 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
 
   Future<bool> _testInternetConnection() async {
     try {
-      final response = await http.get(Uri.parse('https://www.google.com')).timeout(
-        const Duration(seconds: 5),
-      );
+      final response = await httpClient
+          .get(Uri.parse('https://www.google.com'))
+          .timeout(const Duration(seconds: 5));
       return response.statusCode == 200; // Internet is working
     } catch (e) {
       return false; // No internet or the request failed
     }
+  }
+
+  @override
+  Future<void> close() {
+    // Close any streams or subscriptions if necessary
+    return super.close();
   }
 }

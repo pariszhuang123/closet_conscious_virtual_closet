@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:connectivity_plus/connectivity_plus.dart'; // For Connectivity
+import 'package:http/http.dart' as http; // For the http client
 
 import 'generated/l10n.dart';
 import 'user_management/user_service_locator.dart' as user_management_locator;
@@ -31,7 +33,10 @@ class MainApp extends StatelessWidget {
           create: (_) => user_management_locator.locator<AuthBloc>(),
         ),
         BlocProvider<ConnectivityBloc>(
-          create: (_) => ConnectivityBloc()..add(ConnectivityChecked()),
+          create: (_) => ConnectivityBloc(
+            connectivity: Connectivity(), // Pass the connectivity instance
+            httpClient: http.Client(), // Pass the http client instance
+          )..add(ConnectivityChecked()),
         ),
       ],
       child: MaterialApp(
