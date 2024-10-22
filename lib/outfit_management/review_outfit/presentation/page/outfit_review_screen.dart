@@ -64,13 +64,28 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  LogoTextContainer(
-                    themeData: widget.myOutfitTheme,
-                    text: S.of(context).OutfitReview,
-                    isFromMyCloset: false,
-                    buttonType: ButtonType.primary,
-                    isSelected: false,
-                    usePredefinedColor: true,
+                  // Update the LogoTextContainer to use the fetched event name
+                  BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
+                    builder: (context, state) {
+                      String displayText = S.of(context).OutfitReview; // Default text
+
+                      if (state.eventName != null && state.eventName!.isNotEmpty) {
+                        if (state.eventName == 'cc_none') {
+                          displayText = S.of(context).OutfitReview;
+                        } else {
+                          displayText = state.eventName!;
+                        }
+                      }
+
+                      return LogoTextContainer(
+                        themeData: widget.myOutfitTheme,
+                        text: displayText, // Use the dynamic displayText
+                        isFromMyCloset: false,
+                        buttonType: ButtonType.primary,
+                        isSelected: false,
+                        usePredefinedColor: true,
+                      );
+                    },
                   ),
                   const SizedBox(height: 15),
 

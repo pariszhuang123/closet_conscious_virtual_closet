@@ -2,12 +2,14 @@ part of 'outfit_review_bloc.dart';
 
 abstract class OutfitReviewState extends Equatable {
   final String? outfitId;
+  final String? eventName;
   final OutfitReviewFeedback feedback;
   final bool canSelectItems;
   final bool hasSelectedItems;
 
   const OutfitReviewState({
     this.outfitId,
+    this.eventName,
     this.feedback = OutfitReviewFeedback.like,
     this.canSelectItems = false,
     this.hasSelectedItems = false,
@@ -15,12 +17,14 @@ abstract class OutfitReviewState extends Equatable {
 
   OutfitReviewState copyWith({
     String? outfitId,
+    String? eventName,
     OutfitReviewFeedback? feedback,
     bool? canSelectItems,
     bool? hasSelectedItems,
   }) {
     return _OutfitReviewState(
       outfitId: outfitId ?? this.outfitId,
+      eventName: eventName ?? this.eventName,
       feedback: feedback ?? this.feedback,
       canSelectItems: canSelectItems ?? this.canSelectItems,
       hasSelectedItems: hasSelectedItems ?? this.hasSelectedItems,
@@ -28,12 +32,18 @@ abstract class OutfitReviewState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [outfitId, feedback, canSelectItems, hasSelectedItems];
+  List<Object?> get props => [outfitId, eventName, feedback, canSelectItems, hasSelectedItems];
+}
+
+class OutfitEventNameError extends OutfitReviewState {
+  final String message;
+  const OutfitEventNameError(this.message);
 }
 
 class _OutfitReviewState extends OutfitReviewState {
   const _OutfitReviewState({
     required super.outfitId,
+    required super.eventName,
     required super.feedback,
     required super.canSelectItems,
     required super.hasSelectedItems,
@@ -49,7 +59,8 @@ class OutfitReviewLoading extends OutfitReviewState {
 class OutfitImageUrlAvailable extends OutfitReviewState {
   final String imageUrl;
 
-  const OutfitImageUrlAvailable(this.imageUrl, {super.outfitId});
+
+  const OutfitImageUrlAvailable(this.imageUrl, {super.outfitId, super.eventName});
 
   @override
   List<Object?> get props => [imageUrl, ...super.props];
@@ -61,6 +72,7 @@ class OutfitReviewItemsLoaded extends OutfitReviewState {
   const OutfitReviewItemsLoaded({
     required this.items,
     super.outfitId,
+    super.eventName,
     super.feedback,
     super.canSelectItems,
     super.hasSelectedItems,
@@ -70,6 +82,7 @@ class OutfitReviewItemsLoaded extends OutfitReviewState {
   OutfitReviewItemsLoaded copyWith({
     List<OutfitItemMinimal>? items,
     String? outfitId,
+    String? eventName,  // Add eventName to copyWith method
     OutfitReviewFeedback? feedback,
     bool? canSelectItems,
     bool? hasSelectedItems,
@@ -77,6 +90,7 @@ class OutfitReviewItemsLoaded extends OutfitReviewState {
     return OutfitReviewItemsLoaded(
       items: items ?? this.items,  // This line ensures items can be copied
       outfitId: outfitId ?? this.outfitId,
+      eventName: eventName ?? this.eventName,  // Ensure eventName is copied
       feedback: feedback ?? this.feedback,
       canSelectItems: canSelectItems ?? this.canSelectItems,
       hasSelectedItems: hasSelectedItems ?? this.hasSelectedItems,
@@ -88,6 +102,7 @@ class OutfitReviewItemsLoaded extends OutfitReviewState {
   List<Object?> get props => [
     items,
     outfitId,
+    eventName,
     feedback,
     canSelectItems,
     hasSelectedItems,
@@ -109,6 +124,7 @@ class FeedbackUpdated extends OutfitReviewState {
   const FeedbackUpdated(
       OutfitReviewFeedback feedback, {
         super.outfitId,
+        super.eventName,
         super.canSelectItems,
         super.hasSelectedItems,
       }) : super(

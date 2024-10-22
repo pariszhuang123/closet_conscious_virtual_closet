@@ -36,12 +36,16 @@ class LogoTextContainer extends StatelessWidget {
             usePredefinedColor: usePredefinedColor,
           ),
           const SizedBox(width: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              text,
-              style: themeData.textTheme.titleMedium,
-              textAlign: TextAlign.center,
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                text,
+                style: themeData.textTheme.titleMedium,
+                textAlign: TextAlign.center,
+                maxLines: 2, // Limit text to 2 lines
+                overflow: TextOverflow.ellipsis, // Show ellipsis if text exceeds 2 lines
+              ),
             ),
           ),
           const SizedBox(width: 8),

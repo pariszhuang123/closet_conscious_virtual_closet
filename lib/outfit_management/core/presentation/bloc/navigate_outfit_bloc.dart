@@ -38,11 +38,11 @@ class NavigateOutfitBloc extends Bloc<NavigateOutfitEvent, NavigateOutfitState> 
       logger.e('Error: userId is null. Cannot proceed with navigation check.');
       return;
     }
-    final outfitId = await outfitFetchService.fetchOutfitId(userId);
+    final response = await outfitFetchService.fetchOutfitId(userId); // Fetch response object
 
-    if (outfitId != null) {
-      logger.i('Emitting NavigateToReviewPageState with outfitId: $outfitId');
-      emit(NavigateToReviewPageState(outfitId: outfitId));
+    if (response != null && response.outfitId != null) {
+      logger.i('Emitting NavigateToReviewPageState with outfitId: ${response.outfitId}');
+      emit(NavigateToReviewPageState(outfitId: response.outfitId!));  // Use only outfitId
     } else {
       logger.i('No outfitId found, continuing without navigation.');
     }

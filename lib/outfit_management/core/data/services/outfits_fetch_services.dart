@@ -97,18 +97,17 @@ class OutfitFetchService {
     }
   }
 
-  Future<String?> fetchOutfitId(String userId) async {
+
+  Future<OutfitFetchResponse?> fetchOutfitId(String userId) async {
     final response = await _executeQuery(
-          () =>
-          client.rpc('fetch_outfitid', params: {'p_user_id': userId}).single(),
-      'fetchOutfitId - Fetching outfit ID for user $userId',
+          () => client.rpc('fetch_outfitid', params: {'p_user_id': userId}).single(),
+      'fetchOutfitId - Fetching outfit ID and event name for user $userId',
     );
 
     if (response['status'] == 'success') {
-      return response['outfit_id'] as String?;
+      return OutfitFetchResponse.fromMap(response);
     } else {
-      logger.w(
-          'fetchOutfitId - Failed to fetch outfit ID for user $userId: ${response['message']}');
+      logger.w('fetchOutfitId - Failed to fetch outfit ID for user $userId: ${response['message']}');
       return null;
     }
   }
@@ -172,3 +171,17 @@ class OutfitFetchException implements Exception {
   String toString() => 'OutfitFetchException: $message';
 }
 
+class OutfitFetchResponse {
+  final String? outfitId;
+  final String? eventName;
+
+  OutfitFetchResponse({this.outfitId, this.eventName});
+
+  // Factory method to create the object from a Map (JSON-like structure)
+  factory OutfitFetchResponse.fromMap(Map<String, dynamic> map) {
+    return OutfitFetchResponse(
+      outfitId: map['outfit_id'] as String?,
+      eventName: map['event_name'] as String?,  // No need to default, handled in SQL
+    );
+  }
+}
