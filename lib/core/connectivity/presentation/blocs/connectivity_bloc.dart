@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
+import 'package:equatable/equatable.dart';
 
 part 'connectivity_event.dart';
 part 'connectivity_state.dart';
@@ -8,15 +9,17 @@ part 'connectivity_state.dart';
 class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   final Connectivity connectivity;
   final http.Client httpClient;
-  late final Stream<ConnectivityResult> _connectivityStream;
+  late final Stream<List<ConnectivityResult>> _connectivityStream;
 
   ConnectivityBloc({
     required this.connectivity,
     required this.httpClient,
   }) : super(ConnectivityInitial()) {
-    _connectivityStream = connectivity.onConnectivityChanged.map((resultList) => resultList.first);
+    // Adjust the type to handle List<ConnectivityResult>
+    _connectivityStream = connectivity.onConnectivityChanged;
 
-    _connectivityStream.listen((result) async {
+    _connectivityStream.listen((resultList) async {
+      // You can check the first connectivity result in the list
       bool hasInternet = await _testInternetConnection();
       add(ConnectivityChanged(hasInternet));
     });
@@ -48,11 +51,5 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
     } catch (e) {
       return false; // No internet or the request failed
     }
-  }
-
-  @override
-  Future<void> close() {
-    // Close any streams or subscriptions if necessary
-    return super.close();
   }
 }
