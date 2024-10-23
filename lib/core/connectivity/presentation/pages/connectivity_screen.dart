@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart'; // Import for SVG logo
-import '../../../generated/l10n.dart';
-import '../presentation/blocs/connectivity_bloc.dart';
-import '../../widgets/button/themed_elevated_button.dart';
-import '../../widgets/feedback/custom_snack_bar.dart';
-import '../../theme/my_closet_theme.dart';
+import '../../../../generated/l10n.dart';
+import '../blocs/connectivity_bloc.dart';
+import '../../../widgets/button/themed_elevated_button.dart';
+import '../../../widgets/feedback/custom_snack_bar.dart';
+import '../../../theme/my_closet_theme.dart';
 
 class ConnectivityScreen extends StatefulWidget {
   const ConnectivityScreen({super.key});

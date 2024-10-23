@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../presentation/blocs/connectivity_bloc.dart'; // Import the ConnectivityBloc
+import '../blocs/connectivity_bloc.dart'; // Import the ConnectivityBloc
 import 'connectivity_screen.dart';
 
 class ConnectivityProvider extends StatelessWidget {
