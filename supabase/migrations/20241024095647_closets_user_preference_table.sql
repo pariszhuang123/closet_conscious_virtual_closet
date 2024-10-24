@@ -19,7 +19,7 @@ CREATE TABLE public.shared_preferences(
    all_closet BOOLEAN NOT NULL DEFAULT FALSE,
    grid INT NOT NULL DEFAULT 3 CHECK (grid between 2 and 7),
    sort TEXT NOT NULL DEFAULT 'updated_at' CHECK (sort IN ('updated_at', 'created_at', 'amount_spent', 'item_last_worn', 'worn_in_outfit', 'price_per_wear')),
-   order TEXT NOT NULL DEFAULT 'desc' CHECK (order IN ('desc', 'asc'))
+   sort_order TEXT NOT NULL DEFAULT 'desc' CHECK (sort_order IN ('desc', 'asc'))
 );
 
 CREATE INDEX idx_shared_preference_filter ON public.shared_preferences USING GIN (filter);
@@ -78,8 +78,8 @@ COMMENT ON COLUMN public.shared_preferences.grid IS 'Integer defining the grid l
 -- Sort: The criteria by which the closets are sorted.
 COMMENT ON COLUMN public.shared_preferences.sort IS 'Defines the sorting criteria for closets, such as updated_at, created_at, amount_spent, item_last_worn, etc. Defaults to updated_at.';
 
--- Order: Sorting order, either ascending or descending.
-COMMENT ON COLUMN public.shared_preferences.order IS 'Defines the sorting order, either asc (ascending) or desc (descending). Defaults to desc.';
+-- Sort_order: Sorting order, either ascending or descending.
+COMMENT ON COLUMN public.shared_preferences.sort_order IS 'Defines the sorting order, either asc (ascending) or desc (descending). Defaults to desc.';
 
 
 ALTER TABLE public.user_closets ENABLE ROW LEVEL SECURITY;
