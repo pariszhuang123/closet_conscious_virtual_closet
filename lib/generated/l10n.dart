@@ -1720,10 +1720,10 @@ class S {
     );
   }
 
-  /// `We’re exploring adding multiple closets (temporary, permanent, disappearing)—would you use this?`
+  /// `We’re exploring adding multiple closets (permanent, disappearing)—would you use this?`
   String get multiClosetFeatureDescription {
     return Intl.message(
-      'We’re exploring adding multiple closets (temporary, permanent, disappearing)—would you use this?',
+      'We’re exploring adding multiple closets (permanent, disappearing)—would you use this?',
       name: 'multiClosetFeatureDescription',
       desc: '',
       args: [],

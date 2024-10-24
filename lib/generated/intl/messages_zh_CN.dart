@@ -249,8 +249,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "metadataFeatureTitle": MessageLookupByLibrary.simpleMessage("更多物品细节？"),
         "mid": MessageLookupByLibrary.simpleMessage("中层"),
         "multi": MessageLookupByLibrary.simpleMessage("多季"),
-        "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "我们正在探索添加多个衣橱（临时、永久、消失）——您会使用吗？"),
+        "multiClosetFeatureDescription":
+            MessageLookupByLibrary.simpleMessage("我们正在探索添加多个衣橱（永久、消失）——您会使用吗？"),
         "multiClosetFeatureTitle":
             MessageLookupByLibrary.simpleMessage("多个衣橱？"),
         "multiOutfitDescription":

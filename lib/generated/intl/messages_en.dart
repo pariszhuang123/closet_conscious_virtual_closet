@@ -281,7 +281,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "mid": MessageLookupByLibrary.simpleMessage("Mid"),
         "multi": MessageLookupByLibrary.simpleMessage("Multi"),
         "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "We’re exploring adding multiple closets (temporary, permanent, disappearing)—would you use this?"),
+            "We’re exploring adding multiple closets (permanent, disappearing)—would you use this?"),
         "multiClosetFeatureTitle":
             MessageLookupByLibrary.simpleMessage("Multiple Closets?"),
         "multiOutfitDescription": MessageLookupByLibrary.simpleMessage(
