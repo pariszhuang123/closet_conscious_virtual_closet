@@ -1,6 +1,6 @@
 CREATE TABLE public.user_closets (
     closet_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID REFERENCES public.users_profiles(id) ON DELETE CASCADE,
+    user_id UUID REFERENCES public.user_profiles(id) ON DELETE CASCADE,
     closet_name TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW(),
@@ -11,7 +11,7 @@ CREATE TABLE public.user_closets (
 
 -- Table for shared preferences
 CREATE TABLE public.shared_preferences(
-   user_id UUID REFERENCES public.users_profiles(id) ON DELETE CASCADE,
+   user_id UUID REFERENCES public.user_profiles(id) ON DELETE CASCADE,
    filter JSONB NOT NULL DEFAULT '{}',
    closet_id UUID NOT NULL REFERENCES public.user_closets(closet_id),
    created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -31,7 +31,7 @@ COMMENT ON TABLE public.user_closets IS 'Stores user closets, each closet can be
 COMMENT ON COLUMN public.user_closets.closet_id IS 'Primary key: Unique identifier for each closet, auto-generated UUID.';
 
 -- User ID: Links the closet to a user.
-COMMENT ON COLUMN public.user_closets.user_id IS 'Foreign key to users_profiles table. Links this closet to the owner (user).';
+COMMENT ON COLUMN public.user_closets.user_id IS 'Foreign key to user_profiles table. Links this closet to the owner (user).';
 
 -- Closet Name: Name assigned by the user for each closet.
 COMMENT ON COLUMN public.user_closets.closet_name IS 'User-defined name for the closet (e.g., "Summer Wardrobe"). Each user will have a unique default closet ("cc_closet").';
@@ -55,7 +55,7 @@ COMMENT ON COLUMN public.user_closets.valid_date IS 'For disappear-type closets,
 COMMENT ON TABLE public.shared_preferences IS 'Stores user-defined preferences for displaying, filtering, and sorting closets.';
 
 -- User ID: Links the preference to a user.
-COMMENT ON COLUMN public.shared_preferences.user_id IS 'Foreign key to users_profiles table. Links the preferences to the user.';
+COMMENT ON COLUMN public.shared_preferences.user_id IS 'Foreign key to user_profiles table. Links the preferences to the user.';
 
 -- Filter: JSON object storing the filtering options for closets.
 COMMENT ON COLUMN public.shared_preferences.filter IS 'JSON object storing filtering preferences for closets, defaulting to an empty object ({}).';
