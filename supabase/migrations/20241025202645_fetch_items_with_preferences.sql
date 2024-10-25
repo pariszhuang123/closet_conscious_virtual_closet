@@ -28,53 +28,53 @@ begin
 
   offset_val := p_current_page * items_per_page;
 
-  -- Execute dynamic SQL for sorting and pagination
-  return query execute format(
-    $sql$
-      select
-        i.item_id,
-        i.image_url,
-        i.name,
-        i.item_type
-      from
-        items i
-      left join items_accessory_basic a on i.item_id = a.item_id and i.item_type = 'accessory'
-      left join items_clothing_basic c on i.item_id = c.item_id and i.item_type = 'clothing'
-      left join items_shoes_basic s on i.item_id = s.item_id and i.item_type = 'shoes'
-      join public.shared_preferences sp on i.current_user_id = sp.user_id
-      where
-        i.status = 'active'
-        and (sp.all_closet OR i.closet_id = sp.closet_id)  -- Closet filter
-        and (
-          sp.filter = '{}'::jsonb or sp.filter is null
-          or (
-            (sp.filter->>'item_type' is null or i.item_type = sp.filter->>'item_type')
-            and (sp.filter->>'name' is null or i.name ILIKE '%' || sp.filter->>'name' || '%')
-            and (sp.filter->>'occasion' is null or i.occasion = sp.filter->>'occasion')
-            and (sp.filter->>'season' is null or i.season = sp.filter->>'season')
-            and (sp.filter->>'colour' is null or i.colour = sp.filter->>'colour')
-            and (sp.filter->>'colour_variations' is null or i.colour_variations = sp.filter->>'colour_variations')
-            and (sp.filter->>'accessory_type' is null or (i.item_type = 'accessory' and a.accessory_type = sp.filter->>'accessory_type'))
-            and (sp.filter->>'clothing_type' is null or (i.item_type = 'clothing' and c.clothing_type = sp.filter->>'clothing_type'))
-            and (sp.filter->>'clothing_layer' is null or (i.item_type = 'clothing' and c.clothing_layer = sp.filter->>'clothing_layer'))
-            and (sp.filter->>'shoes_type' is null or (i.item_type = 'shoes' and s.shoes_type = sp.filter->>'shoes_type'))
-          )
+-- Execute dynamic SQL for sorting and pagination
+return query execute format(
+  $sql$
+    select
+      i.item_id,
+      i.image_url,
+      i.name,
+      i.item_type
+    from
+      items i
+    left join items_accessory_basic a on i.item_id = a.item_id and i.item_type = 'accessory'
+    left join items_clothing_basic c on i.item_id = c.item_id and i.item_type = 'clothing'
+    left join items_shoes_basic s on i.item_id = s.item_id and i.item_type = 'shoes'
+    join public.shared_preferences sp on i.current_user_id = sp.user_id
+    where
+      i.status = 'active'
+      and (sp.all_closet OR i.closet_id = sp.closet_id)  -- Closet filter
+      and (
+        sp.filter = '{}'::jsonb or sp.filter is null
+        or (
+          (sp.filter->>'item_type' is null or i.item_type = sp.filter->>'item_type')
+          and (sp.filter->>'name' is null or i.name ILIKE '%%' || sp.filter->>'name' || '%%')
+          and (sp.filter->>'occasion' is null or i.occasion = sp.filter->>'occasion')
+          and (sp.filter->>'season' is null or i.season = sp.filter->>'season')
+          and (sp.filter->>'colour' is null or i.colour = sp.filter->>'colour')
+          and (sp.filter->>'colour_variations' is null or i.colour_variations = sp.filter->>'colour_variations')
+          and (sp.filter->>'accessory_type' is null or (i.item_type = 'accessory' and a.accessory_type = sp.filter->>'accessory_type'))
+          and (sp.filter->>'clothing_type' is null or (i.item_type = 'clothing' and c.clothing_type = sp.filter->>'clothing_type'))
+          and (sp.filter->>'clothing_layer' is null or (i.item_type = 'clothing' and c.clothing_layer = sp.filter->>'clothing_layer'))
+          and (sp.filter->>'shoes_type' is null or (i.item_type = 'shoes' and s.shoes_type = sp.filter->>'shoes_type'))
         )
-      order by
-        case when sort_column = 'updated_at' then i.updated_at
-             when sort_column = 'created_at' then i.created_at
-             when sort_column = 'amount_spent' then i.amount_spent
-             when sort_column = 'item_last_worn' then i.item_last_worn
-             when sort_column = 'worn_in_outfit' then i.worn_in_outfit
-             when sort_column = 'price_per_wear' then i.price_per_wear
-             else i.updated_at
-        end %s
-      offset %L limit %L
-    $sql$,
-    sort_direction,
-    offset_val,
-    items_per_page
-  );
+      )
+    order by
+      case when sort_column = 'updated_at' then i.updated_at
+           when sort_column = 'created_at' then i.created_at
+           when sort_column = 'amount_spent' then i.amount_spent
+           when sort_column = 'item_last_worn' then i.item_last_worn
+           when sort_column = 'worn_in_outfit' then i.worn_in_outfit
+           when sort_column = 'price_per_wear' then i.price_per_wear
+           else i.updated_at
+      end %s
+    offset %L limit %L
+  $sql$,
+  sort_direction,
+  offset_val,
+  items_per_page
+);
 
 end;
 $$;
