@@ -1,4 +1,3 @@
-// closet_provider.dart
 import 'package:closet_conscious/user_management/core/data/services/user_fetch_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +5,7 @@ import '../../item_management/streak_item/presentation/bloc/upload_item_streak_b
 import '../../item_management/core/presentation/bloc/navigate_item_bloc.dart';
 import '../../user_management/user_update/presentation/bloc/version_bloc.dart';
 import '../../item_management/core/data/services/item_fetch_service.dart';
+import '../../item_management/view_items/presentation/bloc/view_items_bloc.dart'; // Import ViewItemsBloc
 import 'closet_screen.dart';
 
 class MyClosetProvider extends StatelessWidget {
@@ -31,8 +31,11 @@ class MyClosetProvider extends StatelessWidget {
             itemFetchService: itemFetchService,
           ),
         ),
-        BlocProvider<VersionBloc>( // Adding VersionBloc here
-          create: (context) => VersionBloc(userFetchSupabaseService)..add(CheckVersionEvent()), // Dispatch the initial event
+        BlocProvider<VersionBloc>(
+          create: (context) => VersionBloc(userFetchSupabaseService)..add(CheckVersionEvent()),
+        ),
+        BlocProvider<ViewItemsBloc>(
+          create: (context) => ViewItemsBloc(itemFetchService)..add(FetchItemsEvent(0, 9)), // Add ViewItemsBloc and dispatch the FetchItemsEvent
         ),
       ],
       child: MyClosetScreen(

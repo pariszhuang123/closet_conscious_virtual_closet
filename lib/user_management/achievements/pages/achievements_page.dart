@@ -6,6 +6,7 @@ import '../../core/data/services/user_fetch_service.dart';
 import '../../../core/theme/my_closet_theme.dart';
 import '../../../core/theme/my_outfit_theme.dart';
 import '../../../../generated/l10n.dart';
+import '../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 
 final CustomLogger logger = CustomLogger('AchievementsPage');
 
@@ -54,7 +55,7 @@ class AchievementsPageState extends State<AchievementsPage> {
             future: _futureAchievements,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: ClosetProgressIndicator());
               } else if (snapshot.hasError) {
                 _logger.e('Error fetching achievements: ${snapshot.error}');
                 return const Center(child: Text('Error loading achievements'));

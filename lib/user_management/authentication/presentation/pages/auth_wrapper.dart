@@ -5,6 +5,7 @@ import '../../../../core/utilities/routes.dart';
 import '../../../../screens/homepage/home_page_provider.dart';
 import 'login_screen.dart';
 import '../../../../core/utilities/logger.dart';
+import '../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 
 class AuthWrapper extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -61,7 +62,7 @@ class AuthWrapperState extends State<AuthWrapper> {
           } else {
             return Container(
               color: Theme.of(context).colorScheme.surface, // Use the surface color from the theme
-              child: const Center(child: CircularProgressIndicator()),
+              child: const Center(child: ClosetProgressIndicator()),
             );
           }
         },

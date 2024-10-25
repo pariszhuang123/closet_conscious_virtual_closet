@@ -6,6 +6,7 @@ import '../../user_management/authentication/presentation/pages/login_screen.dar
 import '../../core/utilities/logger.dart';
 import '../closet/closet_provider.dart';
 import '../../user_management/user_update/presentation/widgets/update_required_page.dart';
+import '../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 
 class HomePageScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -57,7 +58,7 @@ class HomePageScreenState extends State<HomePageScreen> {
           builder: (context, versionState) {
             if (versionState is VersionChecking) {
               // Show loading spinner while version is being checked
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: ClosetProgressIndicator());
             } else if (versionState is VersionValid) {
               // Only proceed with AuthBloc logic if version is valid
               return BlocBuilder<AuthBloc, AuthState>(
@@ -71,7 +72,7 @@ class HomePageScreenState extends State<HomePageScreen> {
                     return LoginScreen(myClosetTheme: widget.myClosetTheme);
                   } else {
                     logger.i('Auth state is still loading');
-                    return const CircularProgressIndicator();
+                    return const ClosetProgressIndicator();
                   }
                 },
               );
@@ -83,7 +84,7 @@ class HomePageScreenState extends State<HomePageScreen> {
               // Show error if version checking fails
               return Center(child: Text(versionState.error));
             } else {
-              return const CircularProgressIndicator();
+              return const ClosetProgressIndicator();
             }
           },
         ),

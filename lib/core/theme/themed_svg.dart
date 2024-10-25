@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'my_closet_theme.dart';
 import 'my_outfit_theme.dart';
 import '../widgets/button/base_button/button_utility.dart';
+import '../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../core_enums.dart';
 
 class ThemedSvg extends StatelessWidget {
@@ -35,7 +36,7 @@ class ThemedSvg extends StatelessWidget {
       width: width,
       height: height,
       colorFilter: usePredefinedColor ? null : ColorFilter.mode(color, BlendMode.srcIn),
-      placeholderBuilder: (BuildContext context) => const CircularProgressIndicator(),
+      placeholderBuilder: (BuildContext context) => const ClosetProgressIndicator(),
     );
   }
 }

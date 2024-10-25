@@ -194,7 +194,7 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                       } else if (state is OutfitReviewInitial) {
                         logger.i("Dispatching initial CheckAndLoadOutfit with feedback: like");
                         context.read<OutfitReviewBloc>().add(CheckAndLoadOutfit(OutfitReviewFeedback.like));
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(child: OutfitProgressIndicator());
                       } else if (state is OutfitReviewLoading || state is ReviewSubmissionInProgress) {
                         // Show loading indicator for both loading and submission progress states
                         return  const Center(child: OutfitProgressIndicator(),

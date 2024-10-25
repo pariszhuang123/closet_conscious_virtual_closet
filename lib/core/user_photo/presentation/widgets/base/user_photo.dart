@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../data/services/core_fetch_services.dart';
 import '../../../../core_enums.dart';
+import '../../../../widgets/progress_indicator/closet_progress_indicator.dart';
 
 class UserPhoto extends StatelessWidget {
   final String imageUrl;
@@ -40,7 +41,7 @@ class UserPhoto extends StatelessWidget {
       ),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const ClosetProgressIndicator();
         } else if (snapshot.hasError) {
           return const Icon(Icons.error);
         } else if (snapshot.hasData) {
