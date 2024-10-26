@@ -1,13 +1,3 @@
--- Add a new column to the shared_preferences table
-ALTER TABLE public.shared_preferences
-ADD COLUMN item_name text NOT NULL DEFAULT 'cc_none',
-ADD COLUMN ignore_item_name BOOLEAN NOT NULL DEFAULT TRUE;
-
--- Add a comment to the new column
-COMMENT ON COLUMN public.shared_preferences.item_name IS 'Stores the name of the item. Default value is "cc_none", used when no specific name is provided.';
-COMMENT ON COLUMN public.shared_preferences.ignore_item_name IS 'Indicates whether the item name should be excluded from filters. Default is TRUE, meaning item name filtering is typically not active unless set to FALSE.';
-
-
 create or replace function fetch_items_with_preferences(p_current_page int)
 returns table(
   item_id uuid,
