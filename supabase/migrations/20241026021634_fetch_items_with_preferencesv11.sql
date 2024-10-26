@@ -39,17 +39,16 @@ return query execute format(
       i.item_type
     from
       public.items i
-    left join public.items_accessory_basic a on i.item_id = a.item_id and i.item_type = 'accessory'
-    left join public.items_clothing_basic c on i.item_id = c.item_id and i.item_type = 'clothing'
-    left join public.items_shoes_basic s on i.item_id = s.item_id and i.item_type = 'shoes'
-    join public.shared_preferences sp on i.current_owner_id = sp.user_id
-    where
+    LEFT JOIN public.items_accessory_basic a ON i.item_id = a.item_id AND i.item_type = 'accessory'
+    LEFT JOIN public.items_clothing_basic c ON i.item_id = c.item_id AND i.item_type = 'clothing'
+    LEFT JOIN public.items_shoes_basic s ON i.item_id = s.item_id AND i.item_type = 'shoes'
+    JOIN public.shared_preferences sp ON i.current_owner_id = sp.user_id
+    WHERE
       i.status = 'active'
-      and (sp.all_closet OR i.closet_id = sp.closet_id)  -- Closet filter
-      and (sp.ignore_item_name OR i.name ILIKE '%%' || sp.item_name || '%%')
-      and (
-        sp.filter = '{}'::jsonb or sp.filter is null
-        or (
+      AND (sp.all_closet OR i.closet_id = sp.closet_id)  -- Closet filter
+      AND (
+        sp.filter = '{}'::jsonb OR sp.filter IS NULL
+        OR (
           (sp.filter->'item_type' IS NULL OR i.item_type = ANY(ARRAY(SELECT jsonb_array_elements_text(sp.filter->'item_type'))))
           AND (sp.filter->'occasion' IS NULL OR i.occasion = ANY(ARRAY(SELECT jsonb_array_elements_text(sp.filter->'occasion'))))
           AND (sp.filter->'season' IS NULL OR i.season = ANY(ARRAY(SELECT jsonb_array_elements_text(sp.filter->'season'))))

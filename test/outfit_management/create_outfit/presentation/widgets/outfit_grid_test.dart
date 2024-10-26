@@ -209,21 +209,17 @@ void main() {
       testWidgets('displays items in grid when items are loaded', (
           WidgetTester tester) async {
         final items = [
-          ClosetItemMinimal(
+          const ClosetItemMinimal(
             itemId: '1',
             imageUrl: 'url1',
             name: 'Item 1',
             itemType: 'clothing',
-            amountSpent: 50,
-            updatedAt: DateTime.now(),
           ),
-          ClosetItemMinimal(
+          const ClosetItemMinimal(
             itemId: '2',
             imageUrl: 'url2',
             name: 'Item 2',
             itemType: 'clothing',
-            amountSpent: 100,
-            updatedAt: DateTime.now(),
           ),
         ];
 
@@ -279,8 +275,6 @@ void main() {
                 imageUrl: 'url$index',
                 name: 'Item $index',
                 itemType: 'clothing',
-                amountSpent: 50,
-                updatedAt: DateTime.now(),
               ),
         );
 
@@ -333,13 +327,11 @@ void main() {
       testWidgets('logs correct item count and category on load', (
           WidgetTester tester) async {
         final items = [
-          ClosetItemMinimal(
+          const ClosetItemMinimal(
             itemId: '1',
             imageUrl: 'url1',
             name: 'Item 1',
             itemType: 'clothing',
-            amountSpent: 50,
-            updatedAt: DateTime.now(),
           ),
         ];
 

@@ -10,18 +10,31 @@ class ItemFetchService {
 
   ItemFetchService() : logger = CustomLogger('ItemFetchService');
 
-  Future<List<ClosetItemMinimal>> fetchItems(int currentPage, int batchSize) async {
+  Future<List<ClosetItemMinimal>> fetchItems(int currentPage) async {
     try {
-      logger.d('Fetching items for page: $currentPage with batch size: $batchSize');
-      final data = await Supabase.instance.client
-          .from('items')
-          .select('item_id, image_url, name, item_type, updated_at')
-          .eq('status', 'active')
-          .order('updated_at', ascending: false)
-          .range(currentPage * batchSize, (currentPage + 1) * batchSize - 1);
+      logger.d('Fetching items for page: $currentPage using fetch_items_with_preferences RPC');
 
-      logger.i('Fetched ${data.length} items');
-      return data.map<ClosetItemMinimal>((item) => ClosetItemMinimal.fromMap(item)).toList();
+      // Call the fetch_items_with_preferences RPC function
+      final response = await Supabase.instance.client
+          .rpc('fetch_items_with_preferences', params: {'p_current_page': currentPage});
+
+      if (response == null) {
+        logger.w('No data returned from fetch_items_with_preferences');
+        return [];
+      }
+
+      // Log each item in the response
+      for (var item in response as List<dynamic>) {
+        logger.d('Item data: $item');
+      }
+
+      // Map the response to ClosetItemMinimal objects
+      final items = (response)
+          .map<ClosetItemMinimal>((item) => ClosetItemMinimal.fromMap(item))
+          .toList();
+
+      logger.i('Fetched ${items.length} items');
+      return items;
     } catch (error) {
       logger.e('Error fetching items: $error');
       rethrow;

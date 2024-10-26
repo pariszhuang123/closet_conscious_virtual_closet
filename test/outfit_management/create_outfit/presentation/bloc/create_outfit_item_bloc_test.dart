@@ -51,21 +51,17 @@ void main() {
           any(),
           any(),
         )).thenAnswer((_) async => [
-          ClosetItemMinimal(
+          const ClosetItemMinimal(
             itemId: '1',
             imageUrl: 'url1',
             name: 'item1',
-            amountSpent: 5.0,
             itemType: 'clothing',
-            updatedAt: DateTime.parse('2024-08-20T07:20:06.923036Z'),
           ),
-          ClosetItemMinimal(
+          const ClosetItemMinimal(
             itemId: '2',
             imageUrl: 'url2',
             name: 'item2',
-            amountSpent: 10.0,
             itemType: 'clothing',
-            updatedAt: DateTime.parse('2024-08-21T07:20:06.923036Z'),
           ),
         ]);
 
@@ -74,8 +70,8 @@ void main() {
       act: (bloc) => bloc.add(FetchMoreItemsEvent()),
       expect: () => [
         // First emission: After fetching items
-        CreateOutfitItemState(
-          selectedItemIds: const {
+        const CreateOutfitItemState(
+          selectedItemIds: {
             OutfitItemCategory.clothing: [],
           },
           categoryItems: {
@@ -84,24 +80,20 @@ void main() {
                 itemId: '1',
                 imageUrl: 'url1',
                 name: 'item1',
-                amountSpent: 5.0,
                 itemType: 'clothing',
-                updatedAt: DateTime.parse('2024-08-20T07:20:06.923036Z'),
               ),
               ClosetItemMinimal(
                 itemId: '2',
                 imageUrl: 'url2',
                 name: 'item2',
-                amountSpent: 10.0,
                 itemType: 'clothing',
-                updatedAt: DateTime.parse('2024-08-21T07:20:06.923036Z'),
               ),
             ],
           },
-          categoryPages: const {
+          categoryPages: {
             OutfitItemCategory.clothing: 1,
           },
-          categoryHasReachedMax: const {
+          categoryHasReachedMax: {
             OutfitItemCategory.clothing: false,
           },
           currentCategory: OutfitItemCategory.clothing,
@@ -110,8 +102,8 @@ void main() {
           hasSelectedItems: false,
         ),
         // Second emission: After determining that hasReachedMax should be true
-        CreateOutfitItemState(
-          selectedItemIds: const {
+        const CreateOutfitItemState(
+          selectedItemIds: {
             OutfitItemCategory.clothing: [],
           },
           categoryItems: {
@@ -120,24 +112,20 @@ void main() {
                 itemId: '1',
                 imageUrl: 'url1',
                 name: 'item1',
-                amountSpent: 5.0,
                 itemType: 'clothing',
-                updatedAt: DateTime.parse('2024-08-20T07:20:06.923036Z'),
               ),
               ClosetItemMinimal(
                 itemId: '2',
                 imageUrl: 'url2',
                 name: 'item2',
-                amountSpent: 10.0,
                 itemType: 'clothing',
-                updatedAt: DateTime.parse('2024-08-21T07:20:06.923036Z'),
               ),
             ],
           },
-          categoryPages: const {
+          categoryPages: {
             OutfitItemCategory.clothing: 1,
           },
-          categoryHasReachedMax: const {
+          categoryHasReachedMax: {
             OutfitItemCategory.clothing: true,
           },
           currentCategory: OutfitItemCategory.clothing,
@@ -162,15 +150,15 @@ void main() {
         // Mock the service to return exactly 9 items
         when(() => mockOutfitFetchService.fetchCreateOutfitItems(any(), any(), any()))
             .thenAnswer((_) async => [
-          ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', amountSpent: 5, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')),
-          ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', amountSpent: 10, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-21 07:20:06.923036+00')),
-          ClosetItemMinimal(itemId: '3', imageUrl: 'url3', name: 'item3', amountSpent: 15, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-22 07:20:06.923036+00')),
-          ClosetItemMinimal(itemId: '4', imageUrl: 'url4', name: 'item4', amountSpent: 20, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-23 07:20:06.923036+00')),
-          ClosetItemMinimal(itemId: '5', imageUrl: 'url5', name: 'item5', amountSpent: 25, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-24 07:20:06.923036+00')),
-          ClosetItemMinimal(itemId: '6', imageUrl: 'url6', name: 'item6', amountSpent: 30, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-25 07:20:06.923036+00')),
-          ClosetItemMinimal(itemId: '7', imageUrl: 'url7', name: 'item7', amountSpent: 35, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-26 07:20:06.923036+00')),
-          ClosetItemMinimal(itemId: '8', imageUrl: 'url8', name: 'item8', amountSpent: 40, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-27 07:20:06.923036+00')),
-          ClosetItemMinimal(itemId: '9', imageUrl: 'url9', name: 'item9', amountSpent: 45, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-28 07:20:06.923036+00')),
+          const ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', itemType: 'clothing'),
+          const ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', itemType: 'clothing'),
+          const ClosetItemMinimal(itemId: '3', imageUrl: 'url3', name: 'item3', itemType: 'clothing'),
+          const ClosetItemMinimal(itemId: '4', imageUrl: 'url4', name: 'item4', itemType: 'clothing'),
+          const ClosetItemMinimal(itemId: '5', imageUrl: 'url5', name: 'item5', itemType: 'clothing'),
+          const ClosetItemMinimal(itemId: '6', imageUrl: 'url6', name: 'item6', itemType: 'clothing'),
+          const ClosetItemMinimal(itemId: '7', imageUrl: 'url7', name: 'item7', itemType: 'clothing'),
+          const ClosetItemMinimal(itemId: '8', imageUrl: 'url8', name: 'item8', itemType: 'clothing'),
+          const ClosetItemMinimal(itemId: '9', imageUrl: 'url9', name: 'item9', itemType: 'clothing'),
         ]);
         return bloc;
       },
@@ -180,15 +168,15 @@ void main() {
         bloc.state.copyWith(
           categoryItems: {
             OutfitItemCategory.clothing: [
-              ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', amountSpent: 5, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-20 07:20:06.923036+00')),
-              ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', amountSpent: 10, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-21 07:20:06.923036+00')),
-              ClosetItemMinimal(itemId: '3', imageUrl: 'url3', name: 'item3', amountSpent: 15, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-22 07:20:06.923036+00')),
-              ClosetItemMinimal(itemId: '4', imageUrl: 'url4', name: 'item4', amountSpent: 20, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-23 07:20:06.923036+00')),
-              ClosetItemMinimal(itemId: '5', imageUrl: 'url5', name: 'item5', amountSpent: 25, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-24 07:20:06.923036+00')),
-              ClosetItemMinimal(itemId: '6', imageUrl: 'url6', name: 'item6', amountSpent: 30, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-25 07:20:06.923036+00')),
-              ClosetItemMinimal(itemId: '7', imageUrl: 'url7', name: 'item7', amountSpent: 35, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-26 07:20:06.923036+00')),
-              ClosetItemMinimal(itemId: '8', imageUrl: 'url8', name: 'item8', amountSpent: 40, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-27 07:20:06.923036+00')),
-              ClosetItemMinimal(itemId: '9', imageUrl: 'url9', name: 'item9', amountSpent: 45, itemType: 'clothing', updatedAt: DateTime.parse('2024-08-28 07:20:06.923036+00')),
+              const ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', itemType: 'clothing'),
+              const ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', itemType: 'clothing'),
+              const ClosetItemMinimal(itemId: '3', imageUrl: 'url3', name: 'item3', itemType: 'clothing'),
+              const ClosetItemMinimal(itemId: '4', imageUrl: 'url4', name: 'item4', itemType: 'clothing'),
+              const ClosetItemMinimal(itemId: '5', imageUrl: 'url5', name: 'item5', itemType: 'clothing'),
+              const ClosetItemMinimal(itemId: '6', imageUrl: 'url6', name: 'item6', itemType: 'clothing'),
+              const ClosetItemMinimal(itemId: '7', imageUrl: 'url7', name: 'item7', itemType: 'clothing'),
+              const ClosetItemMinimal(itemId: '8', imageUrl: 'url8', name: 'item8', itemType: 'clothing'),
+              const ClosetItemMinimal(itemId: '9', imageUrl: 'url9', name: 'item9', itemType: 'clothing'),
             ]
           },
           categoryPages: {OutfitItemCategory.clothing: 1}, // Increment page count for the category
@@ -296,13 +284,11 @@ void main() {
           any(),
           any(),
         )).thenAnswer((_) async => [
-          ClosetItemMinimal(
+          const ClosetItemMinimal(
             itemId: '1',
             imageUrl: 'url1',
             name: 'item1',
-            amountSpent: 5.0,
             itemType: 'clothing',
-            updatedAt: DateTime.parse('2024-08-20T07:20:06.923036Z'),
           ),
         ]);
         return bloc;
@@ -329,8 +315,8 @@ void main() {
           hasSelectedItems: false,
         ),
         // Second emission: After successfully fetching items (success state)
-        CreateOutfitItemState(
-          selectedItemIds: const {
+        const CreateOutfitItemState(
+          selectedItemIds: {
             OutfitItemCategory.clothing: [],
           },
           categoryItems: {
@@ -339,16 +325,14 @@ void main() {
                 itemId: '1',
                 imageUrl: 'url1',
                 name: 'item1',
-                amountSpent: 5.0,
                 itemType: 'clothing',
-                updatedAt: DateTime.parse('2024-08-20T07:20:06.923036Z'),
               ),
             ],
           },
-          categoryPages: const {
+          categoryPages: {
             OutfitItemCategory.clothing: 1,
           },
-          categoryHasReachedMax: const {
+          categoryHasReachedMax: {
             OutfitItemCategory.clothing: true, // Fewer than 9 items fetched
           },
           currentCategory: OutfitItemCategory.clothing,
