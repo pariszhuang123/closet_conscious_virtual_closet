@@ -7,10 +7,9 @@ abstract class ViewItemsEvent extends Equatable {
 
 class FetchItemsEvent extends ViewItemsEvent {
   final int page;
-  final int batchSize;
 
-  FetchItemsEvent(this.page, this.batchSize);
+  FetchItemsEvent(this.page);
 
   @override
-  List<Object?> get props => [page, batchSize]; // Add all fields for comparison
+  List<Object?> get props => [page]; // Add all fields for comparison
 }

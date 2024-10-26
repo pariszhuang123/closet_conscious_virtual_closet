@@ -22,13 +22,13 @@ class UserPhoto extends StatelessWidget {
       case ImageSize.itemInteraction:
         return {'width': 275, 'height': 275}; // Dimensions for item interaction screen
       case ImageSize.itemGrid2:
-        return {'width': 225, 'height': 225}; // Grid 2 dimensions
+        return {'width': 275, 'height': 275}; // Grid 2 dimensions
       case ImageSize.itemGrid3:
         return {'width': 175, 'height': 175}; // Dimensions for item grid (3 per row)
       case ImageSize.itemGrid5:
-        return {'width': 100, 'height': 100}; // Dimensions for item grid (5 per row)
+        return {'width': 110, 'height': 110}; // Dimensions for item grid (5 per row)
       case ImageSize.itemGrid7:
-        return {'width': 50, 'height': 50}; // Grid 7 dimensions
+        return {'width': 60, 'height': 60}; // Grid 7 dimensions
 
       default:
         return {'width': 175, 'height': 175}; // Fallback dimensions

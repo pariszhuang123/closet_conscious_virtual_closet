@@ -42,7 +42,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   void initState() {
     super.initState();
     // Dispatch initial item fetch event
-    context.read<ViewItemsBloc>().add(FetchItemsEvent(0, 9));
+    context.read<ViewItemsBloc>().add(FetchItemsEvent(0));
     _triggerItemUploadAchievement();
     _triggerItemPicEditedAchievement();
     _triggerItemGiftedAchievement();
@@ -52,7 +52,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
         final currentPage = (context.read<ViewItemsBloc>().state as ItemsLoaded).currentPage;
-        context.read<ViewItemsBloc>().add(FetchItemsEvent(currentPage, 9));
+        context.read<ViewItemsBloc>().add(FetchItemsEvent(currentPage));
       }
     });
   }

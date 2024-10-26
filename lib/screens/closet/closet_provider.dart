@@ -35,7 +35,7 @@ class MyClosetProvider extends StatelessWidget {
           create: (context) => VersionBloc(userFetchSupabaseService)..add(CheckVersionEvent()),
         ),
         BlocProvider<ViewItemsBloc>(
-          create: (context) => ViewItemsBloc(itemFetchService)..add(FetchItemsEvent(0, 9)), // Add ViewItemsBloc and dispatch the FetchItemsEvent
+          create: (context) => ViewItemsBloc(itemFetchService)..add(FetchItemsEvent(0)), // Add ViewItemsBloc and dispatch the FetchItemsEvent
         ),
       ],
       child: MyClosetScreen(
