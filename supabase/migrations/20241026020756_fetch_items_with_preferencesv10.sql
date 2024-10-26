@@ -1,6 +1,6 @@
 -- Add a new column to the shared_preferences table
 ALTER TABLE public.shared_preferences
-ADD COLUMN item_name text NOT NULL DEFAULT "cc_none",
+ADD COLUMN item_name text NOT NULL DEFAULT 'cc_none',
 ADD COLUMN ignore_item_name BOOLEAN NOT NULL DEFAULT TRUE;
 
 -- Add a comment to the new column
