@@ -23,6 +23,7 @@ import '../../core/screens/achievement_completed_screen.dart';
 import '../../core/theme/ui_constant.dart';
 import '../../core/widgets/button/themed_elevated_button.dart';
 import '../../core/widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../item_management/core/data/services/item_fetch_service.dart';
 
 class MyClosetScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -38,11 +39,14 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   final ScrollController _scrollController = ScrollController();
   final CustomLogger logger = CustomLogger('MyClosetPage');
 
+  late Future<int> crossAxisCountFuture;
+
   @override
   void initState() {
     super.initState();
     // Dispatch initial item fetch event
     context.read<ViewItemsBloc>().add(FetchItemsEvent(0));
+    crossAxisCountFuture = _getCrossAxisCount();
     _triggerItemUploadAchievement();
     _triggerItemPicEditedAchievement();
     _triggerItemGiftedAchievement();
@@ -51,10 +55,20 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     context.read<UploadStreakBloc>().add(CheckUploadStatus());
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-        final currentPage = (context.read<ViewItemsBloc>().state as ItemsLoaded).currentPage;
-        context.read<ViewItemsBloc>().add(FetchItemsEvent(currentPage));
+        final currentState = context
+            .read<ViewItemsBloc>()
+            .state;
+        if (currentState is ItemsLoaded) {
+          final currentPage = currentState.currentPage;
+          context.read<ViewItemsBloc>().add(FetchItemsEvent(currentPage));
+        }
       }
     });
+  }
+
+  Future<int> _getCrossAxisCount() async {
+    final itemFetchService = ItemFetchService();
+    return await itemFetchService.fetchCrossAxisCount();
   }
 
   void _onItemTapped(int index) {
@@ -144,7 +158,18 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     final costOfNewItemsData = TypeDataList.costOfNewItems(context);
     final numberOfNewItemsData = TypeDataList.numberOfNewItems(context);
 
-    return MultiBlocListener(
+    return FutureBuilder<int>(
+        future: crossAxisCountFuture,
+        builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        logger.e("Error fetching crossAxisCount: ${snapshot.error}");
+        return const Center(child: Text("Error loading grid"));
+      } else {
+        final crossAxisCount = snapshot.data ?? 3;
+
+        return MultiBlocListener(
       listeners: [
         BlocListener<VersionBloc, VersionState>(
           listener: (context, versionState) {
@@ -321,6 +346,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                                   scrollController: _scrollController,
                                   myClosetTheme: widget.myClosetTheme,
                                   logger: logger,
+                                  crossAxisCount: crossAxisCount,
                                 ),
                               ),
                               if (!isUploadCompleted)
@@ -362,6 +388,9 @@ class MyClosetScreenState extends State<MyClosetScreen> {
           return const Center(child: ClosetProgressIndicator());
         },
       ),
+        );
+      }
+        },
     );
   }
 }

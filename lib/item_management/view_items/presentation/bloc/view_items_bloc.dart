@@ -20,42 +20,52 @@ class ViewItemsBloc extends Bloc<ViewItemsEvent, ViewItemsState> {
 
   // Handler for FetchItemsEvent
   Future<void> _onFetchItems(FetchItemsEvent event, Emitter<ViewItemsState> emit) async {
-    if (_isFetching || !_hasMoreItems) return;
+    _logger.i('Received FetchItemsEvent for page: ${event.page}');
+    _logger.i('Current state: $state');
+    _logger.i('Flags - _isFetching: $_isFetching, _hasMoreItems: $_hasMoreItems');
 
+
+    // Exit early if currently fetching or if no more items are available
+    if (_isFetching || !_hasMoreItems) {
+      _logger.i('Fetching aborted. Either already fetching or no more items.');
+      return;
+    }
+
+    // Set _isFetching to prevent duplicate fetches
     _isFetching = true;
-    final currentState = state;
 
-    _logger.i('Fetching items for page ${event.page} using RPC');
-
-    if (currentState is! ItemsLoaded || event.page == 0) {
+    // Emit loading state only if it's a fresh fetch (page 0)
+    if (state is! ItemsLoaded || event.page == 0) {
       emit(ItemsLoading());
       _logger.i('Emitted ItemsLoading state');
     }
 
     try {
-      // Call the fetchItems function, which now uses the RPC function
+      // Fetch items with the current page
       final items = await _itemFetchService.fetchItems(event.page);
 
-      // Check if there are fewer items than expected, indicating no more pages
+      // Update _hasMoreItems based on the result
       if (items.isEmpty) {
         _hasMoreItems = false;
-        _logger.i('No more items to fetch. Disabling further fetching.');
+        _logger.i('No more items to fetch. _hasMoreItems set to false.');
       }
 
-      if (currentState is ItemsLoaded) {
-        _logger.i('Fetched ${items.length} items, appending to the existing list');
-        final updatedItems = List<ClosetItemMinimal>.from(currentState.items)..addAll(items);
+      // Update state with new or appended items
+      if (state is ItemsLoaded) {
+        final updatedItems = List<ClosetItemMinimal>.from((state as ItemsLoaded).items)..addAll(items);
         emit(ItemsLoaded(updatedItems, event.page + 1));
         _logger.i('Emitted ItemsLoaded with ${updatedItems.length} total items');
       } else {
-        _logger.i('Fetched ${items.length} items, emitting ItemsLoaded');
         emit(ItemsLoaded(items, event.page + 1));
+        _logger.i('Emitted ItemsLoaded with initial ${items.length} items');
       }
     } catch (e) {
       _logger.e('Error fetching items: $e');
       emit(ItemsError(e.toString()));
     } finally {
+      // Always reset _isFetching, regardless of success or failure
       _isFetching = false;
+      _logger.i('Resetting _isFetching to false');
     }
   }
 }
