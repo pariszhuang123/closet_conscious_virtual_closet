@@ -7,7 +7,7 @@ class EnhancedUserPhoto extends StatelessWidget {
   final bool isSelected;
   final bool isDisliked;
   final VoidCallback onPressed;
-  final String itemName;
+  final String? itemName;
   final String itemId;
   final ImageSize imageSize;
 
@@ -17,7 +17,7 @@ class EnhancedUserPhoto extends StatelessWidget {
     required this.isSelected,
     required this.isDisliked,
     required this.onPressed,
-    required this.itemName,
+    this.itemName,
     required this.itemId,
     required this.imageSize,
   });
@@ -50,13 +50,14 @@ class EnhancedUserPhoto extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Flexible(
-              child: Text(
-                itemName,
-                style: Theme.of(context).textTheme.bodyMedium,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              ),
+            if (itemName != null) // Only show if itemName is not null
+              Flexible(
+                child: Text(
+                  itemName!,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
             ),
           ],
         ),

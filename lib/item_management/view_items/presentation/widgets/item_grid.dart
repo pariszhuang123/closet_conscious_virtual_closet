@@ -41,17 +41,18 @@ class ItemGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageSize = _getImageSize(crossAxisCount);
     final showItemName = !(crossAxisCount == 5 || crossAxisCount == 7);
+    final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
 
     return BaseGrid<ClosetItemMinimal>(
       items: items,
       scrollController: scrollController,
       logger: logger,
       crossAxisCount: crossAxisCount,
-      childAspectRatio: 2 / 3,
+      childAspectRatio: childAspectRatio,
       itemBuilder: (context, item, index) {
         return EnhancedUserPhoto(
           imageUrl: item.imageUrl,
-          itemName: showItemName ? item.name : "",
+          itemName: showItemName ? item.name : null,
           itemId: item.itemId,
           imageSize: imageSize,
           isSelected: false,
