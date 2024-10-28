@@ -98,6 +98,7 @@ void main() {
               scrollController: scrollController,
               logger: mockLogger,
               items: items,
+              crossAxisCount: 3,
             ),
           ),
         ),

@@ -13,16 +13,38 @@ class OutfitGrid extends StatelessWidget {
   final ScrollController scrollController;
   final CustomLogger logger;
   final List<ClosetItemMinimal> items;  // Add this line
+  final int crossAxisCount;
+
 
   const OutfitGrid({
     super.key,
     required this.scrollController,
     required this.logger,
     required this.items,  // Ensure this is passed
+    required this.crossAxisCount,
   });
+
+  ImageSize _getImageSize(int crossAxisCount) {
+    switch (crossAxisCount) {
+      case 2:
+        return ImageSize.itemGrid2;
+      case 3:
+        return ImageSize.itemGrid3;
+      case 5:
+        return ImageSize.itemGrid5;
+      case 7:
+        return ImageSize.itemGrid7;
+      default:
+        return ImageSize.itemGrid3; // Default to itemGrid3 if not matched
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final imageSize = _getImageSize(crossAxisCount);
+    final showItemName = !(crossAxisCount == 5 || crossAxisCount == 7);
+    final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
+
     return BlocBuilder<CreateOutfitItemBloc, CreateOutfitItemState>(
       builder: (context, state) {
         if (state.saveStatus == SaveStatus.failure) {
@@ -53,18 +75,18 @@ class OutfitGrid extends StatelessWidget {
 
                 return EnhancedUserPhoto(
                   imageUrl: item.imageUrl,
-                  imageSize: ImageSize.itemGrid3,
+                  imageSize: imageSize,
                   isSelected: isSelected,
                   isDisliked: false,
                   onPressed: () {
                     context.read<CreateOutfitItemBloc>().add(ToggleSelectItemEvent(selectedCategory, item.itemId));
                   },
-                  itemName: item.name,
+                  itemName: showItemName ? item.name : null,
                   itemId: item.itemId,
                 );
               },
-              crossAxisCount: 3,
-              childAspectRatio: 2 / 3,
+              crossAxisCount: crossAxisCount,
+              childAspectRatio: childAspectRatio,
             ),
           );
         }

@@ -1,7 +1,8 @@
-import 'package:closet_conscious/core/theme/my_closet_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/data/services/core_fetch_services.dart';
+import '../../core/theme/my_closet_theme.dart';
 import '../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../core/utilities/routes.dart';
 import '../../core/utilities/logger.dart';
@@ -23,7 +24,6 @@ import '../../core/screens/achievement_completed_screen.dart';
 import '../../core/theme/ui_constant.dart';
 import '../../core/widgets/button/themed_elevated_button.dart';
 import '../../core/widgets/progress_indicator/closet_progress_indicator.dart';
-import '../../item_management/core/data/services/item_fetch_service.dart';
 
 class MyClosetScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -67,8 +67,8 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   }
 
   Future<int> _getCrossAxisCount() async {
-    final itemFetchService = ItemFetchService();
-    return await itemFetchService.fetchCrossAxisCount();
+    final coreFetchService = CoreFetchService('');
+    return await coreFetchService.fetchCrossAxisCount();
   }
 
   void _onItemTapped(int index) {

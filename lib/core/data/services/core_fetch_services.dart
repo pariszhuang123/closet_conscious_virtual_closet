@@ -105,4 +105,18 @@ class CoreFetchService {
       rethrow;
     }
   }
+  Future<int> fetchCrossAxisCount() async {
+    final data = await Supabase.instance.client
+        .from('shared_preferences')
+        .select('grid')
+        .single();
+
+    if (data.isNotEmpty) {
+      return data['grid'] as int? ?? 3; // Default to 3 if null
+    } else {
+      // Handle error, log if needed
+      return 3; // Default to 3 if error
+    }
+  }
+
 }
