@@ -3089,6 +3089,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Failed to save outfit. Please try again.`
+  String get failedToSaveOutfit {
+    return Intl.message(
+      'Failed to save outfit. Please try again.',
+      name: 'failedToSaveOutfit',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

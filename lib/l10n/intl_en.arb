@@ -303,5 +303,6 @@
   "hintEventName": "Enter the event or special moment.",
   "update_required_title": "Time to Refresh!",
   "update_required_content": "We’ve made some improvements you’ll love! Update now to keep your wardrobe fresh and sustainable.",
-  "update_button_text": "Let’s Do It!"
+  "update_button_text": "Let’s Do It!",
+  "failedToSaveOutfit": "Failed to save outfit. Please try again."
 }

@@ -19,8 +19,6 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
       : logger = CustomLogger('CreateOutfitItemBlocLogger'),
         super(CreateOutfitItemState.initial()) {
     on<FetchMoreItemsEvent>(_onFetchMoreItems);
-    on<ToggleSelectItemEvent>(_onToggleSelectItem);
-    on<SaveOutfitEvent>(_onSaveOutfit);
     on<SelectCategoryEvent>(_onSelectCategory);
   }
 
@@ -99,81 +97,6 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
       }
     } catch (error) {
       logger.e('Error fetching more items for category $currentCategory: $error');
-      emit(state.copyWith(saveStatus: SaveStatus.failure));
-    }
-  }
-
-
-  void _onToggleSelectItem(ToggleSelectItemEvent event,
-      Emitter<CreateOutfitItemState> emit) {
-    final updatedSelectedItemIds = Map<OutfitItemCategory, List<String>>.from(
-        state.selectedItemIds);
-    final selectedItems = List<String>.from(
-        updatedSelectedItemIds[event.category] ?? []);
-
-    if (selectedItems.contains(event.itemId)) {
-      selectedItems.remove(event.itemId);
-      logger.d(
-          'Deselected item ID: ${event.itemId} in category: ${event.category}');
-    } else {
-      selectedItems.add(event.itemId);
-      logger.d(
-          'Selected item ID: ${event.itemId} in category: ${event.category}');
-    }
-
-    updatedSelectedItemIds[event.category] = selectedItems;
-
-    // Calculate if any items are selected across all categories
-    final hasSelectedItems = updatedSelectedItemIds.values.any((items) =>
-    items.isNotEmpty);
-
-    emit(state.copyWith(
-      selectedItemIds: updatedSelectedItemIds,
-      hasSelectedItems: hasSelectedItems,
-    ));
-
-    // Log to ensure state update
-    logger.d('Updated selected item IDs in state: ${state.selectedItemIds}');
-  }
-
-  Future<void> _onSaveOutfit(SaveOutfitEvent event,
-      Emitter<CreateOutfitItemState> emit) async {
-    emit(state.copyWith(saveStatus: SaveStatus.inProgress));
-
-    final allSelectedItemIds = state.selectedItemIds.values.expand((i) => i)
-        .toList();
-
-    logger.i(
-        'All selected item IDs being sent to Supabase: $allSelectedItemIds');
-
-    if (allSelectedItemIds.isEmpty) {
-      logger.e('No items selected, cannot save outfit.');
-      emit(state.copyWith(saveStatus: SaveStatus.failure));
-      return;
-    }
-
-    try {
-      final response = await outfitSaveService.saveOutfitItems(
-        allSelectedItemIds: allSelectedItemIds,
-      );
-
-      if (response['status'] == 'success') {
-        final outfitId = response['outfit_id'];
-        logger.d('Successfully saved outfit with ID: $outfitId');
-
-        emit(
-          state.copyWith(saveStatus: SaveStatus.success, outfitId: outfitId),
-        );
-
-      } else if (response['status'] == 'error') {
-        logger.e('Error in response: ${response['message']}');
-        emit(state.copyWith(saveStatus: SaveStatus.failure));
-      } else {
-        logger.e('Unexpected response format: $response');
-        emit(state.copyWith(saveStatus: SaveStatus.failure));
-      }
-    } catch (error) {
-      logger.e('Error saving selected items: $error');
       emit(state.copyWith(saveStatus: SaveStatus.failure));
     }
   }

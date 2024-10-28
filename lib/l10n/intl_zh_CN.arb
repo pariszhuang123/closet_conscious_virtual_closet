@@ -303,5 +303,6 @@
   "hintEventName": "输入这个场合或特别时刻。",
   "update_required_title": "是时候更新啦！",
   "update_required_content": "我们做了一些您会喜欢的改进！ 立即更新，让您的衣橱保持新鲜和可持续性。",
-  "update_button_text": "马上行动！"
+  "update_button_text": "马上行动！",
+  "failedToSaveOutfit": "保存搭配失败，请重试。"
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../outfit_management/select_outfit_items/presentation/bloc/select_outfit_items_bloc.dart';
 import '../../core/data/services/core_fetch_services.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/arrange_premium_bottom_sheet.dart';
 import '../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_stylist_usage_bottom_sheet.dart';
@@ -82,7 +83,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
 
   void _onSaveOutfit() {
     logger.i('Save outfit button pressed');
-    context.read<CreateOutfitItemBloc>().add(const SaveOutfitEvent());
+    context.read<SelectionOutfitItemsBloc>().add(SaveOutfitEvent());
   }
 
   void _checkNavigationToReview(BuildContext context) {
@@ -376,6 +377,19 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               }
             },
           ),
+          BlocListener<SelectionOutfitItemsBloc, SelectionOutfitItemsState>(
+            listener: (context, state) {
+              if (state.saveStatus == SaveStatus.success && state.outfitId != null) {
+                logger.i('Navigating to OutfitWearProvider for outfitId: ${state.outfitId}');
+                Navigator.pushNamed(context, AppRoutes.wearOutfit, arguments: state.outfitId);
+              }
+              if (state.saveStatus == SaveStatus.failure) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(S.of(context).failedToSaveOutfit)),
+                );
+              }
+            },
+          ),
           BlocListener<CreateOutfitItemBloc, CreateOutfitItemState>(
             listener: (context, state) {
               logger.i(
@@ -491,18 +505,14 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: BlocBuilder<
-                        CreateOutfitItemBloc,
-                        CreateOutfitItemState>(
+                    child: BlocBuilder<SelectionOutfitItemsBloc, SelectionOutfitItemsState>(
                       builder: (context, state) {
                         logger.i(
-                            'CreateOutfitItemBloc bottom button builder triggered with state: $state');
+                            'SelectionOutfitItemBloc bottom button builder triggered with state: $state');
                         return state.hasSelectedItems
                             ? ElevatedButton(
                           onPressed: _onSaveOutfit,
-                          child: Text(S
-                              .of(context)
-                              .OutfitDay),
+                          child: Text(S.of(context).OutfitDay),
                         )
                             : const SizedBox.shrink();
                       },

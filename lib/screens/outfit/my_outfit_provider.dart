@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import '../../outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
+import '../../outfit_management/select_outfit_items/presentation/bloc/select_outfit_items_bloc.dart';
 import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../outfit_management/core/data/services/outfits_save_services.dart';
 import '../../outfit_management/core/outfit_enums.dart';
@@ -30,6 +31,12 @@ class MyOutfitProvider extends StatelessWidget {
             final outfitFetchService = GetIt.instance<OutfitFetchService>();
             final outfitSaveService = GetIt.instance<OutfitSaveService>();
             return NavigateOutfitBloc(outfitFetchService: outfitFetchService, outfitSaveService: outfitSaveService);
+          },
+        ),
+        BlocProvider(
+          create: (context) {
+            final outfitSaveService = GetIt.instance<OutfitSaveService>();
+            return SelectionOutfitItemsBloc(outfitSaveService);
           },
         ),
       ],

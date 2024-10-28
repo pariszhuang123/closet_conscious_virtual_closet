@@ -201,6 +201,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "eyewear": MessageLookupByLibrary.simpleMessage("Eyewear"),
         "failedToLoadItems": MessageLookupByLibrary.simpleMessage(
             "Failed to load items. Please try again!"),
+        "failedToSaveOutfit": MessageLookupByLibrary.simpleMessage(
+            "Failed to save outfit. Please try again."),
         "failedToSubmitScore":
             MessageLookupByLibrary.simpleMessage("Failed to submit score."),
         "filterSearchPremiumFeature":
