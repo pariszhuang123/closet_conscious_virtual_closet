@@ -13,30 +13,35 @@ class OutfitFetchService {
     CustomLogger? logger,
   }) : logger = logger ?? CustomLogger('OutfitFetchServiceLogger');
 
-  Future<List<ClosetItemMinimal>> fetchCreateOutfitItems(
-      OutfitItemCategory category, int currentPage, int batchSize) async {
-    if (currentPage < 0 || batchSize <= 0) {
-      throw ArgumentError(
-          'Invalid pagination parameters: currentPage: $currentPage, batchSize: $batchSize');
+  Future<List<ClosetItemMinimal>> fetchCreateOutfitItemsRPC(int currentPage, OutfitItemCategory category) async {
+    try {
+      // Convert category enum to string
+      final categoryString = category.toString().split('.').last;
+      logger.d('Fetching items for page $currentPage with category filter: $categoryString');
+
+      // Call the RPC function with the converted category string
+      final response = await client.rpc('fetch_outfit_items_with_preferences', params: {
+        'p_current_page': currentPage,
+        'p_category': categoryString
+      }).select();
+
+      logger.d('RPC response received with ${response.length} items');
+
+      // Map the response to a list of ClosetItemMinimal objects
+      final items = (response as List).map((item) => ClosetItemMinimal.fromMap(item)).toList();
+
+      for (var item in items) {
+        logger.d('Item received with itemType: ${item.itemType}');
+      }
+
+      logger.d('Returning all ${items.length} items without category filtering');
+      return items; // Return all items if no category filter is applied
+    } catch (error) {
+      logger.e('RPC Error when fetching items for page $currentPage with category "$category": $error');
+      throw Exception('Failed to fetch items via RPC');
     }
-    return _executeQuery(
-          () =>
-          client
-              .from('items')
-              .select('item_id, image_url, name, item_type, updated_at')
-              .eq('status', 'active')
-              .eq('item_type', category
-              .toString()
-              .split('.')
-              .last)
-              .order('updated_at', ascending: true)
-              .range(currentPage * batchSize, (currentPage + 1) * batchSize - 1)
-              .then((data) =>
-              data.map<ClosetItemMinimal>((item) =>
-                  ClosetItemMinimal.fromMap(item)).toList()),
-      'fetchCreateOutfitItems - Fetching items for category $category, page $currentPage, batch size $batchSize',
-    );
   }
+
 
   Future<List<OutfitItemMinimal>> fetchOutfitItems(String outfitId) async {
     final response = await _executeQuery(

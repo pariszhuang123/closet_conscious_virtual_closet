@@ -46,8 +46,7 @@ void main() {
       'emits [success (hasReachedMax: false), success (hasReachedMax: true)] when FetchMoreItemsEvent is successful and fewer than 9 items are fetched',
       build: () {
         // Mocking fewer than 9 items to trigger hasReachedMax = true for a specific category
-        when(() => mockOutfitFetchService.fetchCreateOutfitItems(
-          any(),
+        when(() => mockOutfitFetchService.fetchCreateOutfitItemsRPC(
           any(),
           any(),
         )).thenAnswer((_) async => [
@@ -135,11 +134,10 @@ void main() {
         ),
       ],
       verify: (_) {
-        verify(() => mockOutfitFetchService.fetchCreateOutfitItems(
-          OutfitItemCategory.clothing,
+        verify(() => mockOutfitFetchService.fetchCreateOutfitItemsRPC(
           0,
-          9,
-        )).called(1);
+          OutfitItemCategory.clothing,
+               )).called(1);
       },
     );
 
@@ -148,7 +146,7 @@ void main() {
       'emits states [inProgress, success] when FetchMoreItemsEvent is successful and a full batch of 9 items is fetched',
       build: () {
         // Mock the service to return exactly 9 items
-        when(() => mockOutfitFetchService.fetchCreateOutfitItems(any(), any(), any()))
+        when(() => mockOutfitFetchService.fetchCreateOutfitItemsRPC(any(), any()))
             .thenAnswer((_) async => [
           const ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', itemType: 'clothing'),
           const ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', itemType: 'clothing'),
@@ -190,7 +188,7 @@ void main() {
     blocTest<CreateOutfitItemBloc, CreateOutfitItemState>(
       'emits states [inProgress, failure] when FetchMoreItemsEvent fails',
       build: () {
-        when(() => mockOutfitFetchService.fetchCreateOutfitItems(any(), any(), any()))
+        when(() => mockOutfitFetchService.fetchCreateOutfitItemsRPC(any(), any()))
             .thenThrow(Exception('fetch error'));
         return bloc;
       },
@@ -279,10 +277,10 @@ void main() {
       'emits [inProgress, success] when SelectCategoryEvent is successful',
       build: () {
         // Mock the fetch service to return an item for the specific category
-        when(() => mockOutfitFetchService.fetchCreateOutfitItems(
+        when(() => mockOutfitFetchService.fetchCreateOutfitItemsRPC(
           any(),
           any(),
-          any(),
+
         )).thenAnswer((_) async => [
           const ClosetItemMinimal(
             itemId: '1',
@@ -342,10 +340,9 @@ void main() {
         ),
       ],
       verify: (_) {
-        verify(() => mockOutfitFetchService.fetchCreateOutfitItems(
-          OutfitItemCategory.clothing,
+        verify(() => mockOutfitFetchService.fetchCreateOutfitItemsRPC(
           0,
-          9,
+          OutfitItemCategory.clothing,
         )).called(1);
       },
     );

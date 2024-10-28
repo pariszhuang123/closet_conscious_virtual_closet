@@ -24,36 +24,30 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
     on<SelectCategoryEvent>(_onSelectCategory);
   }
 
-  // Adjusted to ensure fetching starts from page 0 when selecting a category
   Future<void> _onSelectCategory(SelectCategoryEvent event, Emitter<CreateOutfitItemState> emit) async {
-    // Reset the pagination for the new category
     logger.d('Selecting category: ${event.category}');
-
     emit(state.copyWith(
       currentCategory: event.category,
       saveStatus: SaveStatus.inProgress,
-      categoryPages: {...state.categoryPages, event.category: 0},  // Reset page to 0 for the selected category
-      categoryHasReachedMax: {...state.categoryHasReachedMax, event.category: false},  // Reset max reached flag
+      categoryPages: {...state.categoryPages, event.category: 0},
+      categoryHasReachedMax: {...state.categoryHasReachedMax, event.category: false},
     ));
 
     try {
-      logger.d('Fetching items for category: ${event.category}, page: 0, batch size: 9');
-      final items = await outfitFetchService.fetchCreateOutfitItems(event.category, 0, 9);
+      // Fetch items filtered by the selected category starting from page 0
+      final items = await outfitFetchService.fetchCreateOutfitItemsRPC(0, event.category);
 
-      logger.d('Fetched ${items.length} items for category: ${event.category} on page 0');
-
-      // Update state with fetched items for the category
-      final updatedCategoryItems = Map<OutfitItemCategory, List<ClosetItemMinimal>>.from(state.categoryItems)
-        ..[event.category] = items;
+      final updatedCategoryItems = {
+        ...state.categoryItems,
+        event.category: items,
+      };
 
       emit(state.copyWith(
         categoryItems: updatedCategoryItems,
-        categoryPages: {...state.categoryPages, event.category: 1},  // Start from page 1 for the next fetch
+        categoryPages: {...state.categoryPages, event.category: 1},
         categoryHasReachedMax: {...state.categoryHasReachedMax, event.category: items.length < 9},
         saveStatus: SaveStatus.success,
       ));
-
-      logger.d('Category ${event.category} has ${updatedCategoryItems[event.category]!.length} items in total after fetch.');
     } catch (error) {
       logger.e('Error fetching items for category ${event.category}: $error');
       emit(state.copyWith(saveStatus: SaveStatus.failure));
@@ -63,60 +57,51 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
   Future<void> _onFetchMoreItems(FetchMoreItemsEvent event, Emitter<CreateOutfitItemState> emit) async {
     final currentCategory = state.currentCategory;
 
-    // Check if the category has already reached max
+    // Check if max has been reached for the current category
     if (state.categoryHasReachedMax[currentCategory] == true) {
       logger.d('No more items to fetch for category: $currentCategory. Reached max limit.');
       return;
     }
 
-    // Get the current page for the selected category
-    final currentPage = state.categoryPages[currentCategory] ?? 0; // Start from page 0 if null
-
-    logger.d('Fetching more items for category: $currentCategory, current page: $currentPage');
+    final currentPage = state.categoryPages[currentCategory] ?? 0;
 
     try {
-      final newItems = await outfitFetchService.fetchCreateOutfitItems(
-        currentCategory,
-        currentPage, // Fetch the current page
-        9,           // Batch size 9
-      );
+      // Fetch more items, specifying page but not filtering here; do category filtering afterward
+      final allNewItems = await outfitFetchService.fetchCreateOutfitItemsRPC(currentPage, currentCategory);
 
-      logger.d('Fetched ${newItems.length} items for page $currentPage for category: $currentCategory');
+      // Filter items by current category
+      final newItems = allNewItems
+          .where((item) => item.itemType.toLowerCase() == currentCategory.toString().split('.').last.toLowerCase())
+          .toList();
+
+      logger.d('Fetched ${newItems.length} new items for category $currentCategory on page $currentPage');
 
       if (newItems.isEmpty) {
-        logger.d('No items returned, setting hasReachedMax for category: $currentCategory to true.');
         emit(state.copyWith(
           categoryHasReachedMax: {...state.categoryHasReachedMax, currentCategory: true},
         ));
       } else {
-        // Filter out any duplicates
         final filteredNewItems = newItems.where((newItem) =>
         !state.categoryItems[currentCategory]!.any((existingItem) => existingItem.itemId == newItem.itemId)
         ).toList();
 
-        logger.d('After filtering, ${filteredNewItems.length} new items will be added.');
+        final updatedCategoryItems = {
+          ...state.categoryItems,
+          currentCategory: [...state.categoryItems[currentCategory]!, ...filteredNewItems],
+        };
 
-        if (filteredNewItems.isNotEmpty) {
-          final updatedCategoryItems = Map<OutfitItemCategory, List<ClosetItemMinimal>>.from(state.categoryItems)
-            ..update(currentCategory, (existingItems) => [...existingItems, ...filteredNewItems]);
+        emit(state.copyWith(
+          categoryItems: updatedCategoryItems,
+          categoryPages: {...state.categoryPages, currentCategory: currentPage + 1},
+          saveStatus: SaveStatus.success,
+        ));
 
-          // Log total number of items in the category after appending
-          logger.d('Category $currentCategory now has ${updatedCategoryItems[currentCategory]!.length} items after appending.');
-
-          // Now increment the page only after a successful fetch
-          emit(state.copyWith(
-            categoryItems: updatedCategoryItems,
-            categoryPages: {...state.categoryPages, currentCategory: currentPage + 1},  // Increment the page here
-            saveStatus: SaveStatus.success,
-          ));
-        }
-
-        // Check if fewer than 9 items were fetched, indicating it's the last page
-        if (newItems.length < 9) {
-          logger.d('Fetched the last batch of items for category: $currentCategory.');
+        // Check if we reached the end for this category
+        if (newItems.isEmpty) { // Adjust according to page size
           emit(state.copyWith(
             categoryHasReachedMax: {...state.categoryHasReachedMax, currentCategory: true},
           ));
+          logger.d('Reached max for category $currentCategory with ${newItems.length} items fetched.');
         }
       }
     } catch (error) {
@@ -124,6 +109,7 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
       emit(state.copyWith(saveStatus: SaveStatus.failure));
     }
   }
+
 
   void _onToggleSelectItem(ToggleSelectItemEvent event,
       Emitter<CreateOutfitItemState> emit) {
