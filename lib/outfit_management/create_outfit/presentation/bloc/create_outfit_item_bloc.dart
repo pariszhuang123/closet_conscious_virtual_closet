@@ -96,13 +96,6 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
           saveStatus: SaveStatus.success,
         ));
 
-        // Check if we reached the end for this category
-        if (newItems.isEmpty) { // Adjust according to page size
-          emit(state.copyWith(
-            categoryHasReachedMax: {...state.categoryHasReachedMax, currentCategory: true},
-          ));
-          logger.d('Reached max for category $currentCategory with ${newItems.length} items fetched.');
-        }
       }
     } catch (error) {
       logger.e('Error fetching more items for category $currentCategory: $error');
