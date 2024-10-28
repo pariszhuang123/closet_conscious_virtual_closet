@@ -1830,11 +1830,21 @@ class S {
     );
   }
 
-  /// `Please upload some items to your closet!`
-  String get noItemsInCategory {
+  /// `Your outfit canvas is waiting!\nAdd items to your closet or adjust filters to see more.`
+  String get noItemsInOutfitCategory {
     return Intl.message(
-      'Please upload some items to your closet!',
-      name: 'noItemsInCategory',
+      'Your outfit canvas is waiting!\nAdd items to your closet or adjust filters to see more.',
+      name: 'noItemsInOutfitCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No items yet!\nAdd to your closet or change filters to explore.`
+  String get noItemsInCloset {
+    return Intl.message(
+      'No items yet!\nAdd to your closet or change filters to explore.',
+      name: 'noItemsInCloset',
       desc: '',
       args: [],
     );

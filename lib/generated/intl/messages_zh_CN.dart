@@ -271,8 +271,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("仍然离线，但您的衣橱值得等待！ ✨"),
         "noInternetTitle": MessageLookupByLibrary.simpleMessage("哎呀，您已离线！"),
         "noItemsFound": MessageLookupByLibrary.simpleMessage("未找到物品。"),
-        "noItemsInCategory":
-            MessageLookupByLibrary.simpleMessage("请上传一些物品到您的衣橱！"),
+        "noItemsInCloset":
+            MessageLookupByLibrary.simpleMessage("暂无物品！添加衣橱物品或调整筛选条件。"),
+        "noItemsInOutfitCategory":
+            MessageLookupByLibrary.simpleMessage("添加衣橱物品，或调整筛选以创建穿搭。"),
         "noNewClothes1215Achievement":
             MessageLookupByLibrary.simpleMessage("可持续时尚偶像！"),
         "noNewClothes1215AchievementMessage":

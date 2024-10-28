@@ -28,7 +28,7 @@ class OutfitGrid extends StatelessWidget {
         if (state.saveStatus == SaveStatus.failure) {
           return Center(child: Text(S.of(context).failedToLoadItems));
         } else if (state.saveStatus == SaveStatus.initial || items.isEmpty) {  // Use the items from the parameter
-          return Center(child: Text(S.of(context).noItemsInCategory));
+          return Center(child: Text(S.of(context).noItemsInOutfitCategory));
         } else {
           final selectedCategory = state.currentCategory;
 

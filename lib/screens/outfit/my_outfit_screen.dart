@@ -467,7 +467,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                           false; // Reset the flag when no items are available
                           return Center(child: Text(S
                               .of(context)
-                              .noItemsInCategory));
+                              .noItemsInOutfitCategory));
                         }
                         // If items are available, show the OutfitGrid
                         else {

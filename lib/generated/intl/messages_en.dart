@@ -307,8 +307,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "noInternetTitle":
             MessageLookupByLibrary.simpleMessage("Uh-oh, You\'re Offline!"),
         "noItemsFound": MessageLookupByLibrary.simpleMessage("No items found."),
-        "noItemsInCategory": MessageLookupByLibrary.simpleMessage(
-            "Please upload some items to your closet!"),
+        "noItemsInCloset": MessageLookupByLibrary.simpleMessage(
+            "No items yet!\nAdd to your closet or change filters to explore."),
+        "noItemsInOutfitCategory": MessageLookupByLibrary.simpleMessage(
+            "Your outfit canvas is waiting!\nAdd items to your closet or adjust filters to see more."),
         "noNewClothes1215Achievement":
             MessageLookupByLibrary.simpleMessage("Icon of Sustainability!"),
         "noNewClothes1215AchievementMessage": MessageLookupByLibrary.simpleMessage(

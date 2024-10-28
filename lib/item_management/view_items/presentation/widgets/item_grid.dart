@@ -5,6 +5,7 @@ import '../../../core/data/models/closet_item_minimal.dart';
 import '../../../../core/widgets/layout/base_grid.dart';
 import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import '../../../../core/core_enums.dart';
+import '../../../../generated/l10n.dart';
 
 class ItemGrid extends StatelessWidget {
   final List<ClosetItemMinimal> items;
@@ -42,6 +43,12 @@ class ItemGrid extends StatelessWidget {
     final imageSize = _getImageSize(crossAxisCount);
     final showItemName = !(crossAxisCount == 5 || crossAxisCount == 7);
     final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
+
+    if (items.isEmpty) {
+      // Show a message if there are no items
+      return Center(child: Text(S.of(context)
+          .noItemsInCloset));
+    }
 
     return BaseGrid<ClosetItemMinimal>(
       items: items,

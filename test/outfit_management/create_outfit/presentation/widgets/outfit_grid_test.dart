@@ -149,7 +149,7 @@ void main() {
                 find.byType(OutfitGrid));
             final String expectedNoItemsText = S
                 .of(context)
-                .noItemsInCategory;
+                .noItemsInOutfitCategory;
 
             // Verify that the no items message is displayed
             expect(find.text(expectedNoItemsText), findsOneWidget);
