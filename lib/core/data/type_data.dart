@@ -8,7 +8,6 @@ class TypeData {
   final VoidCallback? onPressed;
   final bool usePredefinedColor;
 
-
   TypeData(
       this.key,
       this.getName,
