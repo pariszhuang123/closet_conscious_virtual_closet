@@ -254,6 +254,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "gridSize3": MessageLookupByLibrary.simpleMessage("3 items per row"),
         "gridSize5": MessageLookupByLibrary.simpleMessage("5 items per row"),
         "gridSize7": MessageLookupByLibrary.simpleMessage("7 items per row"),
+        "gridSizePickerTitle":
+            MessageLookupByLibrary.simpleMessage("Grid Size Picker"),
         "hat": MessageLookupByLibrary.simpleMessage("Hat"),
         "highestStreak": MessageLookupByLibrary.simpleMessage(
             "Your all-time record of no new clothes!"),
@@ -459,6 +461,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "social": MessageLookupByLibrary.simpleMessage("Social"),
         "somethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Something went wrong! 😱"),
+        "sortCategoryPickerTitle":
+            MessageLookupByLibrary.simpleMessage("Sort Category Picker"),
+        "sortOrderPickerTitle":
+            MessageLookupByLibrary.simpleMessage("Sort Order Picker"),
         "specificTypeFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Specific Type field is not filled."),
         "spendingTooltip": MessageLookupByLibrary.simpleMessage(

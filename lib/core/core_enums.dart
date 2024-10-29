@@ -22,6 +22,6 @@ enum EmailType {
 }
 
 enum SaveStatus {
-  initial, success, failure, inProgress
+  initial, inProgress,success, loadSuccess, saveSuccess, failure
 }
 

@@ -7,7 +7,9 @@ import '../presentation/bloc/customize_bloc.dart';
 import 'customize_screen.dart';
 
 class CustomizeProvider extends StatelessWidget {
-  const CustomizeProvider({super.key});
+  final bool isFromMyCloset;
+
+  const CustomizeProvider({super.key, required this.isFromMyCloset});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class CustomizeProvider extends StatelessWidget {
         customizeBloc.add(LoadCustomizeEvent()); // Load initial arrangement settings
         return customizeBloc;
       },
-      child: const CustomizeScreen(), // Provide ArrangeScreen with the initialized ArrangeBloc
+      child: CustomizeScreen(isFromMyCloset: isFromMyCloset), // Provide ArrangeScreen with the initialized ArrangeBloc
     );
   }
 }

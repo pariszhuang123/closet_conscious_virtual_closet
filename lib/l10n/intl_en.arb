@@ -318,5 +318,8 @@
   "descending": "Descending",
   "customizeClosetView": "Customize Closet View",
   "resetToDefault": "Reset to Default",
-  "saveCustomization": "Save Customization"
+  "saveCustomization": "Save Customization",
+  "gridSizePickerTitle": "Grid Size Picker",
+  "sortCategoryPickerTitle": "Sort Category Picker",
+  "sortOrderPickerTitle": "Sort Order Picker"
 }

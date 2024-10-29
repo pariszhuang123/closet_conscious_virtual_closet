@@ -7,86 +7,119 @@ import '../../core_enums.dart';
 import '../../data/type_data.dart';
 import '../../widgets/layout/icon_row_builder.dart';
 import '../../../generated/l10n.dart';
+import '../../theme/my_closet_theme.dart';
+import '../../theme/my_outfit_theme.dart';
+import '../../widgets/button/themed_elevated_button.dart';
+import '../../utilities/routes.dart';
 
 class CustomizeScreen extends StatelessWidget {
-  const CustomizeScreen({super.key});
+  final bool isFromMyCloset;
+
+  const CustomizeScreen({super.key, required this.isFromMyCloset});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).customizeClosetView),
-        actions: [
-          // Reset to Default Icon Button
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            tooltip: S.of(context).resetToDefault,
-            onPressed: () {
-              context.read<CustomizeBloc>().add(ResetCustomizeEvent());
+    // Choose theme based on the `isFromMyCloset` parameter
+    ThemeData theme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
+
+    return Theme(
+      data: theme,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(S.of(context).customizeClosetView, style: theme.textTheme.titleLarge),
+          actions: [
+            // Reset to Default Icon Button
+            IconButton(
+              icon: const Icon(Icons.refresh),
+              tooltip: S.of(context).resetToDefault,
+              onPressed: () {
+                context.read<CustomizeBloc>().add(ResetCustomizeEvent());
+              },
+            ),
+          ],
+        ),
+        body: BlocListener<CustomizeBloc, CustomizeState>(
+          listener: (context, state) {
+            if (state.saveStatus == SaveStatus.saveSuccess) {
+              // Navigate based on isFromMyCloset
+              if (isFromMyCloset) {
+                Navigator.of(context).pushReplacementNamed(AppRoutes.myCloset);
+              } else {
+                Navigator.of(context).pushReplacementNamed(AppRoutes.createOutfit);
+              }
+            }
+          },
+          child: BlocBuilder<CustomizeBloc, CustomizeState>(
+            builder: (context, state) {
+              if (state.saveStatus == SaveStatus.inProgress) {
+                return const Center(child: ClosetProgressIndicator());
+              }
+
+              return Column(
+                children: [
+                  const SizedBox(height: 16),
+                  // Title for Grid Size Picker
+                  Text(S.of(context).gridSizePickerTitle, style: theme.textTheme.titleMedium),
+                  // Grid Size Picker using buildIconRows
+                  ...buildIconRows(
+                    TypeDataList.gridSizes(context),
+                    state.gridSize.toString(),
+                        (selectedKey) {
+                      context.read<CustomizeBloc>().add(
+                        UpdateCustomizeEvent(gridSize: int.parse(selectedKey)),
+                      );
+                    },
+                    context,
+                    isFromMyCloset,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Title for Sort Category Picker
+                  Text(S.of(context).sortCategoryPickerTitle, style: theme.textTheme.titleMedium),
+                  // Sort Category Picker using buildIconRows
+                  ...buildIconRows(
+                    TypeDataList.sortCategories(context),
+                    state.sortCategory,
+                        (selectedKey) {
+                      context.read<CustomizeBloc>().add(
+                        UpdateCustomizeEvent(sortCategory: selectedKey),
+                      );
+                    },
+                    context,
+                    isFromMyCloset,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Title for Sort Order Picker
+                  Text(S.of(context).sortOrderPickerTitle, style: theme.textTheme.titleMedium),
+                  // Sort Order Picker using buildIconRows
+                  ...buildIconRows(
+                    TypeDataList.sortOrder(context),
+                    state.sortOrder,
+                        (selectedKey) {
+                      context.read<CustomizeBloc>().add(
+                        UpdateCustomizeEvent(sortOrder: selectedKey),
+                      );
+                    },
+                    context,
+                    isFromMyCloset,
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Save Button using ThemedElevatedButton
+                  Center(
+                    child: ThemedElevatedButton(
+                      onPressed: () {
+                        context.read<CustomizeBloc>().add(SaveCustomizeEvent());
+                      },
+                      text: S.of(context).saveCustomization,
+                    ),
+                  ),
+                ],
+              );
             },
           ),
-        ],
-      ),
-      body: BlocBuilder<CustomizeBloc, CustomizeState>(
-        builder: (context, state) {
-          if (state.saveStatus == SaveStatus.inProgress) {
-            return const Center(child: ClosetProgressIndicator());
-          }
-
-          return Column(
-            children: [
-              // Grid Size Picker using buildIconRows
-              ...buildIconRows(
-                TypeDataList.gridSizes(context),
-                state.gridSize.toString(), // Pass the selected grid size as a string
-                    (selectedKey) {
-                  context.read<CustomizeBloc>().add(
-                    UpdateCustomizeEvent(gridSize: int.parse(selectedKey)),
-                  );
-                },
-                context,
-                false,
-              ),
-              const SizedBox(height: 16),
-
-              // Sort Category Picker using buildIconRows
-              ...buildIconRows(
-                TypeDataList.sortCategories(context),
-                state.sortCategory,
-                    (selectedKey) {
-                  context.read<CustomizeBloc>().add(
-                    UpdateCustomizeEvent(sortCategory: selectedKey),
-                  );
-                },
-                context,
-                false,
-              ),
-              const SizedBox(height: 16),
-
-              // Sort Order Picker using buildIconRows
-              ...buildIconRows(
-                TypeDataList.sortOrder(context),
-                state.sortOrder,
-                    (selectedKey) {
-                  context.read<CustomizeBloc>().add(
-                    UpdateCustomizeEvent(sortOrder: selectedKey),
-                  );
-                },
-                context,
-                false,
-              ),
-              const SizedBox(height: 24),
-
-              // Save Button
-              ElevatedButton(
-                onPressed: () {
-                  context.read<CustomizeBloc>().add(SaveCustomizeEvent());
-                },
-                child: Text(S.of(context).saveCustomization),
-              ),
-            ],
-          );
-        },
+        ),
       ),
     );
   }

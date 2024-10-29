@@ -3239,6 +3239,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Grid Size Picker`
+  String get gridSizePickerTitle {
+    return Intl.message(
+      'Grid Size Picker',
+      name: 'gridSizePickerTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort Category Picker`
+  String get sortCategoryPickerTitle {
+    return Intl.message(
+      'Sort Category Picker',
+      name: 'sortCategoryPickerTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort Order Picker`
+  String get sortOrderPickerTitle {
+    return Intl.message(
+      'Sort Order Picker',
+      name: 'sortOrderPickerTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

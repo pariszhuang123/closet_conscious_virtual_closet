@@ -48,7 +48,8 @@ class AppRoutes {
       case home:
         return MaterialPageRoute(builder: (_) => HomePageProvider(myClosetTheme: myClosetTheme));
       case AppRoutes.customize:
-        return MaterialPageRoute(builder: (_) => const CustomizeProvider());
+        final bool isFromMyCloset = settings.arguments as bool? ?? true;
+        return MaterialPageRoute(builder: (_) => CustomizeProvider(isFromMyCloset: isFromMyCloset));
       case myCloset:
         return MaterialPageRoute(
           builder: (_) => MyClosetProvider(myClosetTheme: myClosetTheme),

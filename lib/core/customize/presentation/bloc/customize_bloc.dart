@@ -42,7 +42,7 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
         gridSize: gridSize,
         sortCategory: sortCategory,
         sortOrder: sortOrder,
-        saveStatus: SaveStatus.success,
+        saveStatus: SaveStatus.loadSuccess,
       ));
     } catch (error) {
       logger.e('Error loading arrangement: $error');
@@ -66,7 +66,7 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
         sortCategory: state.sortCategory,
         sortOrder: state.sortOrder,
       );
-      emit(state.copyWith(saveStatus: SaveStatus.success));
+      emit(state.copyWith(saveStatus: SaveStatus.saveSuccess));
     } catch (error) {
       logger.e('Error saving arrangement: $error');
       emit(state.copyWith(saveStatus: SaveStatus.failure));

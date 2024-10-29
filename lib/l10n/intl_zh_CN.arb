@@ -318,5 +318,8 @@
   "descending": "降序",
   "customizeClosetView": "自定义衣橱视图",
   "resetToDefault": "重置为默认",
-  "saveCustomization": "保存自定义设置"
+  "saveCustomization": "保存自定义设置",
+  "gridSizePickerTitle": "网格大小选择器",
+  "sortCategoryPickerTitle": "分类选择器",
+  "sortOrderPickerTitle": "排序方式选择器"
 }

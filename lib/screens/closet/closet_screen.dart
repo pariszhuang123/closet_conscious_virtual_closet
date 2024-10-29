@@ -127,8 +127,11 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     );
   }
 
-  void _onArrangeButtonPressed(BuildContext context) {
-    Navigator.of(context).pushNamed(AppRoutes.customize);
+  void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
+    Navigator.of(context).pushNamed(
+      AppRoutes.customize,
+      arguments: isFromMyCloset, // Pass isFromMyCloset as an argument
+    );
   }
 
   void _onUploadCompletedButtonPressed() {
@@ -332,7 +335,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                                 onUploadButtonPressed: _onUploadButtonPressed,
                                 onFilterButtonPressed: _onFilterButtonPressed,
                                 onMultiClosetButtonPressed: _onMultiClosetButtonPressed,
-                                onArrangeButtonPressed: () => _onArrangeButtonPressed(context),
+                                onArrangeButtonPressed: () => _onArrangeButtonPressed(context, true),
                               ),
                               Expanded(
                                 child: ItemGrid(

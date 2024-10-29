@@ -225,6 +225,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "gridSize3": MessageLookupByLibrary.simpleMessage("每行3个项目"),
         "gridSize5": MessageLookupByLibrary.simpleMessage("每行5个项目"),
         "gridSize7": MessageLookupByLibrary.simpleMessage("每行7个项目"),
+        "gridSizePickerTitle": MessageLookupByLibrary.simpleMessage("网格大小选择器"),
         "hat": MessageLookupByLibrary.simpleMessage("帽子"),
         "highestStreak": MessageLookupByLibrary.simpleMessage("您历史最长的无新衣记录！"),
         "highestStreakTooltip":
@@ -402,6 +403,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "shortTagline": MessageLookupByLibrary.simpleMessage("在衣橱里购物"),
         "social": MessageLookupByLibrary.simpleMessage("社交"),
         "somethingWentWrong": MessageLookupByLibrary.simpleMessage("出了点问题！😱"),
+        "sortCategoryPickerTitle":
+            MessageLookupByLibrary.simpleMessage("分类选择器"),
+        "sortOrderPickerTitle": MessageLookupByLibrary.simpleMessage("排序方式选择器"),
         "specificTypeFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("具体类型未填写。"),
         "spendingTooltip": MessageLookupByLibrary.simpleMessage("您购买新物品的花费金额"),
