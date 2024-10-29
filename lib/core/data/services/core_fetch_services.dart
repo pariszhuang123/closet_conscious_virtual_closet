@@ -2,13 +2,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utilities/logger.dart';
 
 class CoreFetchService {
-  final String bucketName;
   final CustomLogger _logger = CustomLogger('CoreFetchService');
 
-  CoreFetchService(this.bucketName);
+  CoreFetchService();
 
   /// Extracts the relative path from a full URL
-  String extractRelativePath(String fullUrl) {
+  String extractRelativePath(String fullUrl, String bucketName) {
     try {
       _logger.d('Extracting relative path from URL: $fullUrl');
       Uri uri = Uri.parse(fullUrl);
@@ -27,10 +26,10 @@ class CoreFetchService {
   }
 
   /// Gets a transformed image URL with the specified width and height
-  Future<String> getTransformedImageUrl(String fullUrl, {int? width, int? height}) async {
+  Future<String> getTransformedImageUrl(String fullUrl, String bucketName, {int? width, int? height}) async {
     try {
       _logger.d('Getting transformed image URL for $fullUrl with width: $width, height: $height');
-      final relativePath = extractRelativePath(fullUrl);
+      final relativePath = extractRelativePath(fullUrl, bucketName);
 
       final String transformedImageUrl = Supabase.instance.client.storage
           .from(bucketName)
@@ -116,6 +115,23 @@ class CoreFetchService {
     } else {
       // Handle error, log if needed
       return 3; // Default to 3 if error
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchArrangementSettings() async {
+    try {
+      _logger.d('Fetching arrangement settings from Supabase...');
+      final data = await Supabase.instance.client
+          .from('shared_preferences')
+          .select('grid, sort, sort_order')
+          .single();
+
+
+      _logger.i('Arrangement settings fetched successfully.');
+      return data;
+    } catch (e) {
+      _logger.e('Error fetching arrangement settings: $e');
+      rethrow;
     }
   }
 

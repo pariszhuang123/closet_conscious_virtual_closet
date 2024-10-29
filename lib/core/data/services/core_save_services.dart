@@ -201,4 +201,61 @@ class CoreSaveService {
     }
   }
 
+  Future<void> saveArrangementSettings({
+    required int gridSize,
+    required String sortCategory,
+    required String sortOrder,
+  }) async {
+    try {
+      logger.d('Saving arrangement settings to Supabase...');
+
+      final authBloc = locator<AuthBloc>();
+      final userId = authBloc.userId;
+
+      if (userId == null) {
+        throw Exception("User not authenticated");
+      }
+
+      await Supabase.instance.client
+          .from('shared_preferences')
+          .update({
+        'grid': gridSize,
+        'sort': sortCategory,
+        'sort_order': sortOrder,
+      })
+          .eq('user_id', userId); // Ensures the update targets only the authenticated user's settings
+
+      logger.i('Arrangement settings saved successfully.');
+    } catch (e) {
+      logger.e('Error saving arrangement settings: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> resetArrangementSettings() async {
+    try {
+      logger.d('Resetting arrangement settings to default in Supabase...');
+      final authBloc = locator<AuthBloc>();
+      final userId = authBloc.userId;
+
+      if (userId == null) {
+        throw Exception("User not authenticated");
+      }
+
+      await Supabase.instance.client
+          .from('shared_preferences')
+          .update({
+        'grid': 3,
+        'sort': 'updated_at',
+        'sort_order': 'DESC',
+      })
+          .eq('user_id', userId); // Targets the update to the specific authenticated user
+
+      logger.i('Arrangement settings reset to default successfully.');
+    } catch (e) {
+      logger.e('Error resetting arrangement settings: $e');
+      rethrow;
+    }
+  }
+
 }

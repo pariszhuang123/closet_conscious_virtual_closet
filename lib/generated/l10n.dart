@@ -1660,10 +1660,10 @@ class S {
     );
   }
 
-  /// `Arrange`
+  /// `Customize`
   String get arrange {
     return Intl.message(
-      'Arrange',
+      'Customize',
       name: 'arrange',
       desc: '',
       args: [],
@@ -3095,6 +3095,146 @@ class S {
     return Intl.message(
       'Failed to save outfit. Please try again.',
       name: 'failedToSaveOutfit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `3 items per row`
+  String get gridSize3 {
+    return Intl.message(
+      '3 items per row',
+      name: 'gridSize3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `5 items per row`
+  String get gridSize5 {
+    return Intl.message(
+      '5 items per row',
+      name: 'gridSize5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `7 items per row`
+  String get gridSize7 {
+    return Intl.message(
+      '7 items per row',
+      name: 'gridSize7',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Updated At`
+  String get updatedAt {
+    return Intl.message(
+      'Updated At',
+      name: 'updatedAt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Created At`
+  String get createdAt {
+    return Intl.message(
+      'Created At',
+      name: 'createdAt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount Spent`
+  String get amountSpent {
+    return Intl.message(
+      'Amount Spent',
+      name: 'amountSpent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last Worn`
+  String get itemLastWorn {
+    return Intl.message(
+      'Last Worn',
+      name: 'itemLastWorn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Worn in Outfit`
+  String get wornInOutfit {
+    return Intl.message(
+      'Worn in Outfit',
+      name: 'wornInOutfit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Price Per Wear`
+  String get pricePerWear {
+    return Intl.message(
+      'Price Per Wear',
+      name: 'pricePerWear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ascending`
+  String get ascending {
+    return Intl.message(
+      'Ascending',
+      name: 'ascending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Descending`
+  String get descending {
+    return Intl.message(
+      'Descending',
+      name: 'descending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customize Closet View`
+  String get customizeClosetView {
+    return Intl.message(
+      'Customize Closet View',
+      name: 'customizeClosetView',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset to Default`
+  String get resetToDefault {
+    return Intl.message(
+      'Reset to Default',
+      name: 'resetToDefault',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save Customization`
+  String get saveCustomization {
+    return Intl.message(
+      'Save Customization',
+      name: 'saveCustomization',
       desc: '',
       args: [],
     );

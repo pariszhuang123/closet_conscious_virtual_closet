@@ -116,6 +116,7 @@ flutter:
 
     - assets/icons/general/
     - assets/icons/general/multi_closet/
+    - assets/icons/general/arrange/
 
     - assets/icons/my_closet/declutter/
     - assets/icons/my_closet/stats/

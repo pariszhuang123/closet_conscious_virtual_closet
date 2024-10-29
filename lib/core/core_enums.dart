@@ -20,3 +20,8 @@ enum ButtonType {
 enum EmailType {
   support, npsReview
 }
+
+enum SaveStatus {
+  initial, success, failure, inProgress
+}
+

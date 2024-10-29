@@ -14,6 +14,7 @@ import '../../outfit_management/review_outfit/presentation/page/outfit_review_pr
 import '../../outfit_management/wear_outfit/presentation/page/outfit_wear_provider.dart';
 import '../paywall/pages/payment_provider.dart';
 import '../user_photo/presentation/pages/photo_provider.dart';
+import '../customize/pages/customize_provider.dart';
 import '../core_enums.dart';
 import 'logger.dart';
 
@@ -33,6 +34,7 @@ class AppRoutes {
   static const String infoHub = '/info_hub';
   static const String achievementPage = '/achievements';
   static const String payment = '/payment';
+  static const String customize = '/customize';
 
   static final CustomLogger logger = CustomLogger('AppRoutes');
 
@@ -45,6 +47,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => LoginScreen(myClosetTheme: myClosetTheme));
       case home:
         return MaterialPageRoute(builder: (_) => HomePageProvider(myClosetTheme: myClosetTheme));
+      case AppRoutes.customize:
+        return MaterialPageRoute(builder: (_) => const CustomizeProvider());
       case myCloset:
         return MaterialPageRoute(
           builder: (_) => MyClosetProvider(myClosetTheme: myClosetTheme),

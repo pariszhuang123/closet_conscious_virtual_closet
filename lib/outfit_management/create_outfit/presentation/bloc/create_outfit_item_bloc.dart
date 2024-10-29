@@ -6,6 +6,7 @@ import '../../../core/data/services/outfits_fetch_services.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../core/data/services/outfits_save_services.dart';
 import '../../../core/outfit_enums.dart';
+import '../../../../core/core_enums.dart';
 
 part 'create_outfit_item_event.dart';
 part 'create_outfit_item_state.dart';

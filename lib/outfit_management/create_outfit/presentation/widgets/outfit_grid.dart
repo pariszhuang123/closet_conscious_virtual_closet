@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/outfit_enums.dart';
 import '../../../select_outfit_items/presentation/bloc/select_outfit_items_bloc.dart';
 import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
 import '../../../../core/utilities/logger.dart';

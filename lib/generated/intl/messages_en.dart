@@ -73,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "alright": MessageLookupByLibrary.simpleMessage("It’s alright\n🤷‍♀️"),
         "alright_feedback_sentence": MessageLookupByLibrary.simpleMessage(
             "Tap the items that don’t quite fit this outfit."),
+        "amountSpent": MessageLookupByLibrary.simpleMessage("Amount Spent"),
         "amountSpentFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Amount Spent field is not filled."),
         "amountSpentLabel":
@@ -80,11 +81,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "and": MessageLookupByLibrary.simpleMessage(" and the "),
         "appInformationSection":
             MessageLookupByLibrary.simpleMessage("App Information"),
-        "arrange": MessageLookupByLibrary.simpleMessage("Arrange"),
+        "arrange": MessageLookupByLibrary.simpleMessage("Customize"),
         "arrangeFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "Would you like to organize your closet by cost per wear or date added? Let us know!"),
         "arrangeFeatureTitle": MessageLookupByLibrary.simpleMessage(
             "Customize Your\nCloset Layout"),
+        "ascending": MessageLookupByLibrary.simpleMessage("Ascending"),
         "athletic": MessageLookupByLibrary.simpleMessage("Athletic"),
         "autumn": MessageLookupByLibrary.simpleMessage("Autumn"),
         "bag": MessageLookupByLibrary.simpleMessage("Bag"),
@@ -138,10 +140,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
         "costOfNewItems": MessageLookupByLibrary.simpleMessage(
             "Cost of new items you\'ve added"),
+        "createdAt": MessageLookupByLibrary.simpleMessage("Created At"),
         "currentStreak":
             MessageLookupByLibrary.simpleMessage("Your current no-buy streak."),
         "currentStreakTooltip": MessageLookupByLibrary.simpleMessage(
             "Your current streak of no purchases"),
+        "customizeClosetView":
+            MessageLookupByLibrary.simpleMessage("Customize Closet View"),
         "dark": MessageLookupByLibrary.simpleMessage("Dark"),
         "dataInsertedSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Data saved! You\'re all set."),
@@ -169,6 +174,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure? This action cannot be undone."),
         "deleteAccountTitle":
             MessageLookupByLibrary.simpleMessage("Delete Account"),
+        "descending": MessageLookupByLibrary.simpleMessage("Descending"),
         "dislike":
             MessageLookupByLibrary.simpleMessage("Not quite\nmy vibe 🤔"),
         "dislike_feedback_sentence": MessageLookupByLibrary.simpleMessage(
@@ -245,6 +251,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "gloves": MessageLookupByLibrary.simpleMessage("Gloves"),
         "green": MessageLookupByLibrary.simpleMessage("Green"),
         "grey": MessageLookupByLibrary.simpleMessage("Grey"),
+        "gridSize3": MessageLookupByLibrary.simpleMessage("3 items per row"),
+        "gridSize5": MessageLookupByLibrary.simpleMessage("5 items per row"),
+        "gridSize7": MessageLookupByLibrary.simpleMessage("7 items per row"),
         "hat": MessageLookupByLibrary.simpleMessage("Hat"),
         "highestStreak": MessageLookupByLibrary.simpleMessage(
             "Your all-time record of no new clothes!"),
@@ -258,6 +267,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "interestAcknowledged": MessageLookupByLibrary.simpleMessage(
             "Got it! We’ve noted your interest—stay tuned for updates! 🎉"),
         "interested": MessageLookupByLibrary.simpleMessage("Interested"),
+        "itemLastWorn": MessageLookupByLibrary.simpleMessage("Last Worn"),
         "itemNameFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Item Name field is not filled."),
         "itemNameLabel": MessageLookupByLibrary.simpleMessage("Item Name"),
@@ -381,6 +391,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "please_select_the_category_above":
             MessageLookupByLibrary.simpleMessage(
                 "Please select the category above"),
+        "pricePerWear": MessageLookupByLibrary.simpleMessage("Price Per Wear"),
         "privacyTerms": MessageLookupByLibrary.simpleMessage("Privacy Terms"),
         "privacyTermsUrl": MessageLookupByLibrary.simpleMessage(
             "https://www.notion.so/Privacy-Policy-9f21c7664efe4b03a8965252495dc1a6"),
@@ -392,10 +403,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "recommendClosetConscious": MessageLookupByLibrary.simpleMessage(
             "How likely are you to recommend Closet Conscious to a friend?"),
         "red": MessageLookupByLibrary.simpleMessage("Red"),
+        "resetToDefault":
+            MessageLookupByLibrary.simpleMessage("Reset to Default"),
         "retryConnection":
             MessageLookupByLibrary.simpleMessage("Try Again? 🚀"),
         "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
             "We’re considering a calendar view for your outfits. Would this help you stay organized?"),
+        "saveCustomization":
+            MessageLookupByLibrary.simpleMessage("Save Customization"),
         "scarf": MessageLookupByLibrary.simpleMessage("Scarf"),
         "seasonFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("Season field is not filled."),
@@ -496,6 +511,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "We’ve made some improvements you’ll love! Update now to keep your wardrobe fresh and sustainable."),
         "update_required_title":
             MessageLookupByLibrary.simpleMessage("Time to Refresh!"),
+        "updatedAt": MessageLookupByLibrary.simpleMessage("Updated At"),
         "upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "uploadConfirmationDescription": MessageLookupByLibrary.simpleMessage(
             "Confirm your closet upload! New items with a price will count as fresh additions, affecting your no-buy streak!"),
@@ -534,6 +550,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "white": MessageLookupByLibrary.simpleMessage("White"),
         "winter": MessageLookupByLibrary.simpleMessage("Winter"),
         "workplace": MessageLookupByLibrary.simpleMessage("Workplace"),
+        "wornInOutfit": MessageLookupByLibrary.simpleMessage("Worn in Outfit"),
         "yellow": MessageLookupByLibrary.simpleMessage("Yellow")
       };
 }

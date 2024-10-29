@@ -15,8 +15,20 @@ List<Widget> buildIconRows(
   int index = 0;
 
   while (index < typeDataList.length) {
-    int end = (index + 5) > typeDataList.length ? typeDataList.length : (index + 5);
-    List<TypeData> rowIcons = typeDataList.sublist(index, end);
+    // Determine the number of icons for the current row based on remaining items
+    int remainingItems = typeDataList.length - index;
+    int iconsInRow;
+
+    if (remainingItems == 6) {
+      iconsInRow = 3; // 3 + 3 layout for 6 items
+    } else if (remainingItems == 7) {
+      iconsInRow = 4; // 4 + 3 layout for 7 items
+    } else {
+      iconsInRow = remainingItems > 5 ? 5 : remainingItems; // Default case, max 5 per row
+    }
+
+    // Get the subset of icons for this row
+    List<TypeData> rowIcons = typeDataList.sublist(index, index + iconsInRow);
 
     rows.add(
       Row(
@@ -41,7 +53,7 @@ List<Widget> buildIconRows(
         }).toList(),
       ),
     );
-    index = end;
+    index += iconsInRow;
   }
   return rows;
 }

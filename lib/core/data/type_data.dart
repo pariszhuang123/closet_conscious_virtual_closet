@@ -248,5 +248,27 @@ class TypeDataList {
   static TypeData share(BuildContext context) {
     return TypeData('share', (context) => S.of(context).share, 'assets/icons/my_outfit/outfit_review/share_outfit.svg', false);
   }
-
+  static List<TypeData> gridSizes(BuildContext context) {
+    return [
+      TypeData('3', (context) => S.of(context).gridSize3, 'assets/icons/general/arrange/counter_3.svg', false),
+      TypeData('5', (context) => S.of(context).gridSize5, 'assets/icons/general/arrange/counter_5.svg', false),
+      TypeData('7', (context) => S.of(context).gridSize7, 'assets/icons/general/arrange/counter_7.svg', false),
+    ];
+  }
+  static List<TypeData> sortCategories(BuildContext context) {
+    return [
+      TypeData('updated_at', (context) => S.of(context).updatedAt, 'assets/icons/general/arrange/updated_at.svg', false),
+      TypeData('created_at', (context) => S.of(context).createdAt, 'assets/icons/general/arrange/created_at.svg', false),
+      TypeData('amount_spent', (context) => S.of(context).amountSpent, 'assets/icons/general/arrange/amount_spent.svg', false),
+      TypeData('item_last_worn', (context) => S.of(context).itemLastWorn, 'assets/icons/general/arrange/item_last_worn.svg', false),
+      TypeData('worn_in_outfit', (context) => S.of(context).wornInOutfit, 'assets/icons/general/arrange/worn_in_outfit.svg', false),
+      TypeData('price_per_wear', (context) => S.of(context).pricePerWear, 'assets/icons/general/arrange/price_per_wear.svg', false),
+    ];
+  }
+  static List<TypeData> sortOrder(BuildContext context) {
+    return [
+      TypeData('ASC', (context) => S.of(context).ascending, 'assets/icons/drawer/analytics/ascending.svg', false),
+      TypeData('DESC', (context) => S.of(context).descending, 'assets/icons/drawer/analytics/descending.svg', false),
+    ];
+  }
 }

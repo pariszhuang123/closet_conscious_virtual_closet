@@ -7,7 +7,7 @@ class UserPhoto extends StatelessWidget {
   final String imageUrl;
   final ImageSize imageSize;
 
-  final CoreFetchService fetchService = CoreFetchService('item_pics');
+  final CoreFetchService fetchService = CoreFetchService();
 
   UserPhoto({
     super.key,
@@ -43,6 +43,7 @@ class UserPhoto extends StatelessWidget {
     return FutureBuilder<String>(
       future: fetchService.getTransformedImageUrl(
         imageUrl,
+        'item_pics',
         width: dimensions['width'],
         height: dimensions['height'],
       ),

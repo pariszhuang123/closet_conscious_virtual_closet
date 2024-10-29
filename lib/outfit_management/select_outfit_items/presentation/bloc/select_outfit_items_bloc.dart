@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/utilities/logger.dart';
-import '../../../core/outfit_enums.dart';
+import '../../../../core/core_enums.dart';
 import '../../../core/data/services/outfits_save_services.dart';
 
 part 'select_outfit_items_event.dart';

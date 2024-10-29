@@ -17,7 +17,6 @@ import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/filter_premium_bottom_sheet.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/multi_closet_premium_bottom_sheet.dart';
-import '../../core/widgets/bottom_sheet/premium_bottom_sheet/arrange_premium_bottom_sheet.dart';
 import '../../item_management/upload_item/presentation/widgets/upload_confirmation_bottom_sheet.dart';
 import '../app_drawer.dart';
 import '../../core/screens/achievement_completed_screen.dart';
@@ -67,7 +66,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   }
 
   Future<int> _getCrossAxisCount() async {
-    final coreFetchService = CoreFetchService('');
+    final coreFetchService = CoreFetchService();
     return await coreFetchService.fetchCrossAxisCount();
   }
 
@@ -128,13 +127,8 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     );
   }
 
-  void _onArrangeButtonPressed() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return const ArrangeFeatureBottomSheet(isFromMyCloset: true);
-      },
-    );
+  void _onArrangeButtonPressed(BuildContext context) {
+    Navigator.of(context).pushNamed(AppRoutes.customize);
   }
 
   void _onUploadCompletedButtonPressed() {
@@ -338,7 +332,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                                 onUploadButtonPressed: _onUploadButtonPressed,
                                 onFilterButtonPressed: _onFilterButtonPressed,
                                 onMultiClosetButtonPressed: _onMultiClosetButtonPressed,
-                                onArrangeButtonPressed: _onArrangeButtonPressed,
+                                onArrangeButtonPressed: () => _onArrangeButtonPressed(context),
                               ),
                               Expanded(
                                 child: ItemGrid(

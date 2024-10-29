@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:closet_conscious/core/utilities/logger.dart';
+import 'package:closet_conscious/core/core_enums.dart';
 import 'package:closet_conscious/item_management/core/data/models/closet_item_minimal.dart';
 import 'package:closet_conscious/outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
 import 'package:closet_conscious/outfit_management/create_outfit/presentation/widgets/outfit_grid.dart';

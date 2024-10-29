@@ -68,15 +68,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "alright": MessageLookupByLibrary.simpleMessage("还不错 🤷‍♀️"),
         "alright_feedback_sentence":
             MessageLookupByLibrary.simpleMessage("点击不太适合这个造型的物品。"),
+        "amountSpent": MessageLookupByLibrary.simpleMessage("花费金额"),
         "amountSpentFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("花费金额未填写。"),
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
         "and": MessageLookupByLibrary.simpleMessage(" 和 "),
         "appInformationSection": MessageLookupByLibrary.simpleMessage("应用信息"),
-        "arrange": MessageLookupByLibrary.simpleMessage("排列"),
+        "arrange": MessageLookupByLibrary.simpleMessage("衣橱布局"),
         "arrangeFeatureDescription":
             MessageLookupByLibrary.simpleMessage("您想根据穿着成本或添加日期来组织衣橱吗？告诉我们吧！"),
-        "arrangeFeatureTitle": MessageLookupByLibrary.simpleMessage("自定义衣橱布局"),
+        "arrangeFeatureTitle": MessageLookupByLibrary.simpleMessage("自定衣橱布局"),
+        "ascending": MessageLookupByLibrary.simpleMessage("升序"),
         "athletic": MessageLookupByLibrary.simpleMessage("运动"),
         "autumn": MessageLookupByLibrary.simpleMessage("秋季"),
         "bag": MessageLookupByLibrary.simpleMessage("包"),
@@ -121,9 +123,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "congratulations": MessageLookupByLibrary.simpleMessage("恭喜！🎉"),
         "contactUs": MessageLookupByLibrary.simpleMessage("联系我们"),
         "costOfNewItems": MessageLookupByLibrary.simpleMessage("您添加的新物品的费用"),
+        "createdAt": MessageLookupByLibrary.simpleMessage("创建时间"),
         "currentStreak": MessageLookupByLibrary.simpleMessage("您的当前无购买记录。"),
         "currentStreakTooltip":
             MessageLookupByLibrary.simpleMessage("您的当前无购买记录"),
+        "customizeClosetView": MessageLookupByLibrary.simpleMessage("自定义衣橱视图"),
         "dark": MessageLookupByLibrary.simpleMessage("深色"),
         "dataInsertedSuccessfully":
             MessageLookupByLibrary.simpleMessage("数据已保存！一切准备就绪。"),
@@ -148,6 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteAccountImpact":
             MessageLookupByLibrary.simpleMessage("\n\n警告：删除账号不可逆。"),
         "deleteAccountTitle": MessageLookupByLibrary.simpleMessage("删除账号"),
+        "descending": MessageLookupByLibrary.simpleMessage("降序"),
         "dislike": MessageLookupByLibrary.simpleMessage("不太适合我 🤔"),
         "dislike_feedback_sentence":
             MessageLookupByLibrary.simpleMessage("点击不合适这个造型的物品。"),
@@ -217,6 +222,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "gloves": MessageLookupByLibrary.simpleMessage("手套"),
         "green": MessageLookupByLibrary.simpleMessage("绿色"),
         "grey": MessageLookupByLibrary.simpleMessage("灰色"),
+        "gridSize3": MessageLookupByLibrary.simpleMessage("每行3个项目"),
+        "gridSize5": MessageLookupByLibrary.simpleMessage("每行5个项目"),
+        "gridSize7": MessageLookupByLibrary.simpleMessage("每行7个项目"),
         "hat": MessageLookupByLibrary.simpleMessage("帽子"),
         "highestStreak": MessageLookupByLibrary.simpleMessage("您历史最长的无新衣记录！"),
         "highestStreakTooltip":
@@ -228,6 +236,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "interestAcknowledged":
             MessageLookupByLibrary.simpleMessage("已记录您的兴趣——敬请期待更新！🎉"),
         "interested": MessageLookupByLibrary.simpleMessage("有兴趣"),
+        "itemLastWorn": MessageLookupByLibrary.simpleMessage("最后穿着"),
         "itemNameFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("物品名称未填写。"),
         "itemNameLabel": MessageLookupByLibrary.simpleMessage("物品名称"),
@@ -343,6 +352,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("请输入有效金额（0 或更高）。"),
         "please_select_the_category_above":
             MessageLookupByLibrary.simpleMessage("请先选择上方的类别"),
+        "pricePerWear": MessageLookupByLibrary.simpleMessage("每次穿着价格"),
         "privacyTerms": MessageLookupByLibrary.simpleMessage("隐私条款"),
         "privacyTermsUrl": MessageLookupByLibrary.simpleMessage(
             "https://inky-twill-3ab.notion.site/5c881235e92240d9a008e0fe6bb80f0b"),
@@ -354,9 +364,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "recommendClosetConscious":
             MessageLookupByLibrary.simpleMessage("您有多大可能向朋友推荐环保衣橱？"),
         "red": MessageLookupByLibrary.simpleMessage("红色"),
+        "resetToDefault": MessageLookupByLibrary.simpleMessage("重置为默认"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("再试一次？🚀"),
         "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
             "我们正在考虑为您的造型添加日历视图。这有助于您保持组织吗？"),
+        "saveCustomization": MessageLookupByLibrary.simpleMessage("保存自定义设置"),
         "scarf": MessageLookupByLibrary.simpleMessage("围巾"),
         "seasonFieldNotFilled": MessageLookupByLibrary.simpleMessage("季节未填写。"),
         "selectAccessoryType": MessageLookupByLibrary.simpleMessage("选择配饰类型"),
@@ -434,6 +446,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "我们做了一些您会喜欢的改进！ 立即更新，让您的衣橱保持新鲜和可持续性。"),
         "update_required_title":
             MessageLookupByLibrary.simpleMessage("是时候更新啦！"),
+        "updatedAt": MessageLookupByLibrary.simpleMessage("更新时间"),
         "upload": MessageLookupByLibrary.simpleMessage("上传"),
         "uploadConfirmationDescription": MessageLookupByLibrary.simpleMessage(
             "确认您的衣橱上传！有价格的新物品将被视为新的添加，会影响您的不购买记录！"),
@@ -472,6 +485,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "white": MessageLookupByLibrary.simpleMessage("白色"),
         "winter": MessageLookupByLibrary.simpleMessage("冬季"),
         "workplace": MessageLookupByLibrary.simpleMessage("工作场所"),
+        "wornInOutfit": MessageLookupByLibrary.simpleMessage("穿着次数"),
         "yellow": MessageLookupByLibrary.simpleMessage("黄色")
       };
 }

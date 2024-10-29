@@ -11,7 +11,7 @@ void setupCoreServices() {
 
   coreLocator.registerFactory(() => CustomLogger('MainCommonLogger'), instanceName: 'MainCommonLogger');
 
-  coreLocator.registerLazySingleton(() => CoreFetchService('your_bucket_name'));  // Register CoreFetchService
+  coreLocator.registerLazySingleton(() => CoreFetchService());  // Register CoreFetchService
   coreLocator.registerLazySingleton(() => CoreSaveService());  // Register CoreSaveService
 
 }
