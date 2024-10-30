@@ -57,6 +57,10 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   @override
   void initState() {
     super.initState();
+    logger.i('MyOutfitScreen initialized with selectedItemIds: ${widget.selectedItemIds}');
+
+    context.read<SelectionOutfitItemsBloc>().add(SetSelectedItemsEvent(widget.selectedItemIds));
+
     logger.i('MyOutfitView initialized');
     crossAxisCountFuture = _getCrossAxisCount();
     _fetchOutfitsCount();
@@ -155,10 +159,10 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItems = context.read<SelectionOutfitItemsBloc>().state.selectedItemIds;
+    final selectedItemIds = context.read<SelectionOutfitItemsBloc>().state.selectedItemIds;
     Navigator.of(context).pushNamed(
       AppRoutes.customize,
-      arguments: {'isFromMyCloset': isFromMyCloset, 'selectedItems': selectedItems},
+      arguments: {'isFromMyCloset': isFromMyCloset, 'selectedItemIds': selectedItemIds},
     );
   }
 

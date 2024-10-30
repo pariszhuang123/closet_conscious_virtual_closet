@@ -15,9 +15,22 @@ class SelectionOutfitItemsBloc extends Bloc<SelectionOutfitItemsEvent, Selection
   SelectionOutfitItemsBloc(this.outfitSaveService)
       : logger = CustomLogger('SelectionOutfitItemsBlocLogger'),
         super(SelectionOutfitItemsState.initial()) {
+    on<SetSelectedItemsEvent>(_onSetSelectedItems); // Add this line
     on<ToggleSelectItemEvent>(_onToggleSelectItem);
     on<ClearSelectedItemsEvent>(_onClearSelectedItems);
     on<SaveOutfitEvent>(_onSaveOutfit);
+  }
+
+  void _onSetSelectedItems(SetSelectedItemsEvent event, Emitter<SelectionOutfitItemsState> emit) {
+    final updatedSelectedItemIds = List<String>.from(event.selectedItemIds);
+    final hasSelectedItems = updatedSelectedItemIds.isNotEmpty;
+
+    emit(state.copyWith(
+      selectedItemIds: updatedSelectedItemIds,
+      hasSelectedItems: hasSelectedItems,
+    ));
+
+    logger.d('Set selected items to: $updatedSelectedItemIds');
   }
 
   void _onToggleSelectItem(ToggleSelectItemEvent event, Emitter<SelectionOutfitItemsState> emit) {

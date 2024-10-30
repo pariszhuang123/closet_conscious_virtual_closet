@@ -50,7 +50,7 @@ class AppRoutes {
       case AppRoutes.customize:
         final args = settings.arguments as Map<String, dynamic>? ?? {};
         final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
-        final List<String> selectedItemIds = args['selectedItems'] as List<String>? ?? [];
+        final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
         logger.d("Navigating to Customize with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds");
         return MaterialPageRoute(
           builder: (_) => CustomizeProvider(
@@ -64,7 +64,7 @@ class AppRoutes {
         );
       case createOutfit:
         final args = settings.arguments as Map<String, dynamic>? ?? {};
-        final List<String> selectedItemIds = args['selectedItems'] as List<String>? ?? [];
+        final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
         logger.d("Navigating to Create Outfit with selectedItemIds: $selectedItemIds");
         return MaterialPageRoute(
           builder: (_) => MyOutfitProvider(

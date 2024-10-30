@@ -7,6 +7,15 @@ abstract class SelectionOutfitItemsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class SetSelectedItemsEvent extends SelectionOutfitItemsEvent {
+  final List<String> selectedItemIds;
+
+  const SetSelectedItemsEvent(this.selectedItemIds);
+
+  @override
+  List<Object> get props => [selectedItemIds];
+}
+
 class ToggleSelectItemEvent extends SelectionOutfitItemsEvent {
   final String itemId;
 
