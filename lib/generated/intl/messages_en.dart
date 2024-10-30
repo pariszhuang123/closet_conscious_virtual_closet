@@ -147,6 +147,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Your current streak of no purchases"),
         "customizeClosetView":
             MessageLookupByLibrary.simpleMessage("Customize Closet View"),
+        "customizeDescription": MessageLookupByLibrary.simpleMessage(
+            "Upgrade to customize your closet view, sort with ease,\nand cherish each piece in your collection."),
+        "customizeTitle":
+            MessageLookupByLibrary.simpleMessage("Personalized Closet View"),
         "dark": MessageLookupByLibrary.simpleMessage("Dark"),
         "dataInsertedSuccessfully": MessageLookupByLibrary.simpleMessage(
             "Data saved! You\'re all set."),

@@ -11,7 +11,8 @@ import '../../theme/my_closet_theme.dart';
 import '../../theme/my_outfit_theme.dart';
 import '../../widgets/button/themed_elevated_button.dart';
 import '../../utilities/routes.dart';
-import '../../utilities/logger.dart'; // Import the logger
+import '../../utilities/logger.dart';
+import '../../paywall/data/feature_key.dart';
 
 class CustomizeScreen extends StatelessWidget {
   final bool isFromMyCloset;
@@ -30,6 +31,7 @@ class CustomizeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<CustomizeBloc>().add(CheckCustomizeAccessEvent());
     // Log theme selection
     ThemeData theme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
     _logger.d('Theme selected: ${isFromMyCloset ? "myClosetTheme" : "myOutfitTheme"}');
@@ -64,6 +66,19 @@ class CustomizeScreen extends StatelessWidget {
                   arguments: {'selectedItemIds': selectedItemIds},
                 );
               }
+            }
+            if (state.accessStatus == AccessStatus.denied) {
+              _logger.i('AccessStatus: denied, navigating to payment screen');
+              Navigator.pushReplacementNamed(
+                context,
+                AppRoutes.payment,
+                arguments: {
+                  'featureKey': FeatureKey.customize, // Pass necessary data
+                  'isFromMyCloset': isFromMyCloset,
+                  'previousRoute': isFromMyCloset ? AppRoutes.myCloset : AppRoutes.createOutfit,
+                  'nextRoute': AppRoutes.customize,
+                },
+              );
             }
           },
           child: BlocBuilder<CustomizeBloc, CustomizeState>(

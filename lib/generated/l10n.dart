@@ -2950,6 +2950,26 @@ class S {
     );
   }
 
+  /// `Personalized Closet View`
+  String get customizeTitle {
+    return Intl.message(
+      'Personalized Closet View',
+      name: 'customizeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upgrade to customize your closet view, sort with ease,\nand cherish each piece in your collection.`
+  String get customizeDescription {
+    return Intl.message(
+      'Upgrade to customize your closet view, sort with ease,\nand cherish each piece in your collection.',
+      name: 'customizeDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Unlock Now`
   String get purchase_button {
     return Intl.message(

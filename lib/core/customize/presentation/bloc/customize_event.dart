@@ -27,3 +27,6 @@ class UpdateCustomizeEvent extends CustomizeEvent {
 class SaveCustomizeEvent extends CustomizeEvent {}
 
 class ResetCustomizeEvent extends CustomizeEvent {}
+
+class CheckCustomizeAccessEvent extends CustomizeEvent {}
+

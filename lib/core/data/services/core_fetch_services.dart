@@ -135,4 +135,21 @@ class CoreFetchService {
     }
   }
 
+  Future<bool> accessCustomizePage() async {
+    _logger.i('Starting access check for customize page.');
+
+    try {
+      final result = await Supabase.instance.client.rpc('check_user_access_to_access_customize_page');
+      if (result is bool) {
+        _logger.i('Access check completed successfully. Result: $result');
+        return result;
+      } else {
+        _logger.e('Unexpected result type from RPC: $result');
+        throw Exception('Unexpected result from RPC: $result');
+      }
+    } catch (error) {
+      _logger.e('Error during access check for customize page: $error');
+      throw Exception('Failed to access customize page: $error');
+    }
+  }
 }

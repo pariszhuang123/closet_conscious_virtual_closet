@@ -290,6 +290,8 @@
   "selfieGoldDescription": "Unlimited selfies! Capture your looks whenever inspiration strikes.",
   "multiOutfitTitle": "Multi Outfit Premium Feature",
   "multiOutfitDescription": "Create multiple outfits a day and keep experimenting with your style!",
+  "customizeTitle": "Personalized Closet View",
+  "customizeDescription": "Upgrade to customize your closet view, sort with ease,\nand cherish each piece in your collection.",
   "purchase_button": "Unlock Now",
   "loading_text": "Loading... Fashion magic in progress 🧙‍♂️✨",
   "uploadItemBronzeSuccessTitle": "Congrats! 200 More Items to Your Conscious Closet",
@@ -322,4 +324,5 @@
   "gridSizePickerTitle": "Grid Size Picker",
   "sortCategoryPickerTitle": "Sort Category Picker",
   "sortOrderPickerTitle": "Sort Order Picker"
+
 }

@@ -128,6 +128,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "currentStreakTooltip":
             MessageLookupByLibrary.simpleMessage("您的当前无购买记录"),
         "customizeClosetView": MessageLookupByLibrary.simpleMessage("自定义衣橱视图"),
+        "customizeDescription": MessageLookupByLibrary.simpleMessage(
+            "升级定制你的衣橱视图，轻松排序，提升风格管理，珍惜每一件衣物"),
+        "customizeTitle": MessageLookupByLibrary.simpleMessage("个性化衣橱视图"),
         "dark": MessageLookupByLibrary.simpleMessage("深色"),
         "dataInsertedSuccessfully":
             MessageLookupByLibrary.simpleMessage("数据已保存！一切准备就绪。"),

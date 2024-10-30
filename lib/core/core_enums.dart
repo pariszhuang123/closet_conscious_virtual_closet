@@ -25,3 +25,4 @@ enum SaveStatus {
   initial, inProgress,success, loadSuccess, saveSuccess, failure
 }
 
+enum AccessStatus { pending, granted, denied, error }

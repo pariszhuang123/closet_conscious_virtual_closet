@@ -4,14 +4,12 @@ import '../data/feature_key.dart';
 
 class FeatureData {
   final String Function(BuildContext) getTitle;
-  final double price;
   final FeatureKey featureKey;
   final List<FeaturePart> parts; // Each part can have an image and description
   final bool isUsageFeature; // Distinguishes between usage and one-off features
 
   FeatureData({
     required this.getTitle,
-    required this.price,
     required this.featureKey,
     required this.parts,
     required this.isUsageFeature,
@@ -34,7 +32,6 @@ class FeatureDataList {
     return [
       FeatureData(
         getTitle: (context) => S.of(context).uploadItemBronzeTitle,
-        price: 19.99,
         featureKey: FeatureKey.uploadItemBronze,
         isUsageFeature: true,
         parts: [
@@ -46,9 +43,8 @@ class FeatureDataList {
       ),
       FeatureData(
         getTitle: (context) => S.of(context).uploadItemSilverTitle,
-        price: 19.99,
         featureKey: FeatureKey.uploadItemSilver,
-        isUsageFeature: false,
+        isUsageFeature: true,
         parts: [
           FeaturePart(
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/upload_item.jpg',
@@ -58,9 +54,8 @@ class FeatureDataList {
       ),
       FeatureData(
         getTitle: (context) => S.of(context).uploadItemGoldTitle,
-        price: 19.99,
         featureKey: FeatureKey.uploadItemGold,
-        isUsageFeature: false,
+        isUsageFeature: true,
         parts: [
           FeaturePart(
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/upload_item.jpg',
@@ -70,9 +65,8 @@ class FeatureDataList {
       ),
       FeatureData(
         getTitle: (context) => S.of(context).editItemBronzeTitle,
-        price: 19.99,
         featureKey: FeatureKey.editItemBronze,
-        isUsageFeature: false,
+        isUsageFeature: true,
         parts: [
           FeaturePart(
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
@@ -82,9 +76,8 @@ class FeatureDataList {
       ),
       FeatureData(
         getTitle: (context) => S.of(context).editItemSilverTitle,
-        price: 19.99,
         featureKey: FeatureKey.editItemSilver,
-        isUsageFeature: false,
+        isUsageFeature: true,
         parts: [
           FeaturePart(
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
@@ -94,9 +87,8 @@ class FeatureDataList {
       ),
       FeatureData(
         getTitle: (context) => S.of(context).editItemGoldTitle,
-        price: 19.99,
         featureKey: FeatureKey.editItemGold,
-        isUsageFeature: false,
+        isUsageFeature: true,
         parts: [
           FeaturePart(
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
@@ -106,9 +98,8 @@ class FeatureDataList {
       ),
       FeatureData(
         getTitle: (context) => S.of(context).selfieBronzeTitle,
-        price: 19.99,
         featureKey: FeatureKey.selfieBronze,
-        isUsageFeature: false,
+        isUsageFeature: true,
         parts: [
           FeaturePart(
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/selfie.jpg',
@@ -118,9 +109,8 @@ class FeatureDataList {
       ),
       FeatureData(
         getTitle: (context) => S.of(context).selfieSilverTitle,
-        price: 19.99,
         featureKey: FeatureKey.selfieSilver,
-        isUsageFeature: false,
+        isUsageFeature: true,
         parts: [
           FeaturePart(
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/selfie.jpg',
@@ -130,9 +120,8 @@ class FeatureDataList {
       ),
       FeatureData(
         getTitle: (context) => S.of(context).selfieGoldTitle,
-        price: 19.99,
         featureKey: FeatureKey.selfieGold,
-        isUsageFeature: false,
+        isUsageFeature: true,
         parts: [
           FeaturePart(
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/selfie.jpg',
@@ -143,13 +132,23 @@ class FeatureDataList {
 
       FeatureData(
         getTitle: (context) => S.of(context).multiOutfitTitle,
-        price: 19.99,
         featureKey: FeatureKey.multiOutfit,
         isUsageFeature: false,
         parts: [
           FeaturePart(
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/multi_outfit.jpg',
             getDescription: (context) => S.of(context).multiOutfitDescription,
+          ),
+        ],
+      ),
+      FeatureData(
+        getTitle: (context) => S.of(context).customizeTitle,
+        featureKey: FeatureKey.customize ,
+        isUsageFeature: false,
+        parts: [
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/customize.jpg',
+            getDescription: (context) => S.of(context).customizeDescription,
           ),
         ],
       ),

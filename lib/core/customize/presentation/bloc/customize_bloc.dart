@@ -28,6 +28,7 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
     on<UpdateCustomizeEvent>(_onUpdateCustomize);
     on<SaveCustomizeEvent>(_onSaveCustomize);
     on<ResetCustomizeEvent>(_onResetCustomize);
+    on<CheckCustomizeAccessEvent>(_onCheckCustomizeAccess);
   }
 
   Future<void> _onLoadCustomize(LoadCustomizeEvent event, Emitter<CustomizeState> emit) async {
@@ -86,6 +87,26 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
     } catch (error) {
       logger.e('Error resetting arrangement: $error');
       emit(state.copyWith(saveStatus: SaveStatus.failure));
+    }
+  }
+  Future<void> _onCheckCustomizeAccess(
+      CheckCustomizeAccessEvent event,
+      Emitter<CustomizeState> emit) async {
+    logger.i('Checking if the user has access to the customize page.');
+    try {
+      bool canAccessCustomizePage = await fetchService.accessCustomizePage();
+
+      if (canAccessCustomizePage) {
+        emit(state.copyWith(accessStatus: AccessStatus.granted));
+        logger.i('Customize page access granted.');
+      } else {
+        emit(state.copyWith(accessStatus: AccessStatus.denied));
+        logger.w('Customize access denied.');
+      }
+    } catch (error) {
+      logger.e('Error checking customize access: $error');
+      emit(state.copyWith(accessStatus: AccessStatus.error,
+      ));
     }
   }
 }
