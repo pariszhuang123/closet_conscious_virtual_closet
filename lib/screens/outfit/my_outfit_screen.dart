@@ -4,7 +4,6 @@ import 'package:get_it/get_it.dart';
 
 import '../../outfit_management/select_outfit_items/presentation/bloc/select_outfit_items_bloc.dart';
 import '../../core/data/services/core_fetch_services.dart';
-import '../../core/widgets/bottom_sheet/premium_bottom_sheet/arrange_premium_bottom_sheet.dart';
 import '../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_stylist_usage_bottom_sheet.dart';
 import '../../core/utilities/logger.dart';
 import '../app_drawer.dart';
@@ -30,8 +29,13 @@ import '../../core/paywall/data/feature_key.dart';
 
 class MyOutfitScreen extends StatefulWidget {
   final ThemeData myOutfitTheme;
+  final List<String> selectedItemIds;
 
-  const MyOutfitScreen({super.key, required this.myOutfitTheme});
+  const MyOutfitScreen({
+    super.key,
+    required this.myOutfitTheme,
+    required this.selectedItemIds,
+  });
 
   @override
   MyOutfitScreenState createState() => MyOutfitScreenState();
@@ -150,13 +154,11 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     );
   }
 
-  void _onArrangeButtonPressed() {
-    logger.i('Arrange button pressed, showing arrange interest form...');
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return const ArrangeFeatureBottomSheet(isFromMyCloset: false);
-      },
+  void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
+    final selectedItems = context.read<SelectionOutfitItemsBloc>().state.selectedItemIds;
+    Navigator.of(context).pushNamed(
+      AppRoutes.customize,
+      arguments: {'isFromMyCloset': isFromMyCloset, 'selectedItems': selectedItems},
     );
   }
 
@@ -463,7 +465,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                     theme: widget.myOutfitTheme,
                     outfitCount: newOutfitCount,
                     onFilterButtonPressed: _onFilterButtonPressed,
-                    onArrangeButtonPressed: _onArrangeButtonPressed,
+                    onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
                     onCalendarButtonPressed: _onCalendarButtonPressed,
                     onStylistButtonPressed: _onAiStylistButtonPressed,
                   ),

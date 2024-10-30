@@ -11,16 +11,28 @@ import '../../theme/my_closet_theme.dart';
 import '../../theme/my_outfit_theme.dart';
 import '../../widgets/button/themed_elevated_button.dart';
 import '../../utilities/routes.dart';
+import '../../utilities/logger.dart'; // Import the logger
 
 class CustomizeScreen extends StatelessWidget {
   final bool isFromMyCloset;
+  final List<String> selectedItemIds;
 
-  const CustomizeScreen({super.key, required this.isFromMyCloset});
+  // Initialize logger for CustomizeScreen
+  final CustomLogger _logger = CustomLogger('CustomizeScreen');
+
+  CustomizeScreen({
+    super.key,
+    required this.isFromMyCloset,
+    required this.selectedItemIds,
+  }) {
+    _logger.i('CustomizeScreen initialized with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds');
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Choose theme based on the `isFromMyCloset` parameter
+    // Log theme selection
     ThemeData theme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
+    _logger.d('Theme selected: ${isFromMyCloset ? "myClosetTheme" : "myOutfitTheme"}');
 
     return Theme(
       data: theme,
@@ -33,6 +45,7 @@ class CustomizeScreen extends StatelessWidget {
               icon: const Icon(Icons.refresh),
               tooltip: S.of(context).resetToDefault,
               onPressed: () {
+                _logger.i('Reset to Default button pressed');
                 context.read<CustomizeBloc>().add(ResetCustomizeEvent());
               },
             ),
@@ -41,17 +54,22 @@ class CustomizeScreen extends StatelessWidget {
         body: BlocListener<CustomizeBloc, CustomizeState>(
           listener: (context, state) {
             if (state.saveStatus == SaveStatus.saveSuccess) {
+              _logger.i('SaveStatus: saveSuccess, navigating to appropriate screen');
               // Navigate based on isFromMyCloset
               if (isFromMyCloset) {
                 Navigator.of(context).pushReplacementNamed(AppRoutes.myCloset);
               } else {
-                Navigator.of(context).pushReplacementNamed(AppRoutes.createOutfit);
+                Navigator.of(context).pushReplacementNamed(
+                  AppRoutes.createOutfit,
+                  arguments: {'selectedItemIds': selectedItemIds},
+                );
               }
             }
           },
           child: BlocBuilder<CustomizeBloc, CustomizeState>(
             builder: (context, state) {
               if (state.saveStatus == SaveStatus.inProgress) {
+                _logger.d('SaveStatus: inProgress, showing ClosetProgressIndicator');
                 return const Center(child: ClosetProgressIndicator());
               }
 
@@ -65,6 +83,7 @@ class CustomizeScreen extends StatelessWidget {
                     TypeDataList.gridSizes(context),
                     state.gridSize.toString(),
                         (selectedKey) {
+                      _logger.d('Grid Size Picker selected: $selectedKey');
                       context.read<CustomizeBloc>().add(
                         UpdateCustomizeEvent(gridSize: int.parse(selectedKey)),
                       );
@@ -81,6 +100,7 @@ class CustomizeScreen extends StatelessWidget {
                     TypeDataList.sortCategories(context),
                     state.sortCategory,
                         (selectedKey) {
+                      _logger.d('Sort Category Picker selected: $selectedKey');
                       context.read<CustomizeBloc>().add(
                         UpdateCustomizeEvent(sortCategory: selectedKey),
                       );
@@ -97,6 +117,7 @@ class CustomizeScreen extends StatelessWidget {
                     TypeDataList.sortOrder(context),
                     state.sortOrder,
                         (selectedKey) {
+                      _logger.d('Sort Order Picker selected: $selectedKey');
                       context.read<CustomizeBloc>().add(
                         UpdateCustomizeEvent(sortOrder: selectedKey),
                       );
@@ -110,6 +131,7 @@ class CustomizeScreen extends StatelessWidget {
                   Center(
                     child: ThemedElevatedButton(
                       onPressed: () {
+                        _logger.i('Save Button pressed');
                         context.read<CustomizeBloc>().add(SaveCustomizeEvent());
                       },
                       text: S.of(context).saveCustomization,

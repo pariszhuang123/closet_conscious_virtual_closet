@@ -130,7 +130,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
     Navigator.of(context).pushNamed(
       AppRoutes.customize,
-      arguments: isFromMyCloset, // Pass isFromMyCloset as an argument
+      arguments: {'isFromMyCloset': isFromMyCloset}, // Pass isFromMyCloset as an argument
     );
   }
 

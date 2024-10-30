@@ -48,18 +48,33 @@ class AppRoutes {
       case home:
         return MaterialPageRoute(builder: (_) => HomePageProvider(myClosetTheme: myClosetTheme));
       case AppRoutes.customize:
-        final bool isFromMyCloset = settings.arguments as bool? ?? true;
-        return MaterialPageRoute(builder: (_) => CustomizeProvider(isFromMyCloset: isFromMyCloset));
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
+        final List<String> selectedItemIds = args['selectedItems'] as List<String>? ?? [];
+        logger.d("Navigating to Customize with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds");
+        return MaterialPageRoute(
+          builder: (_) => CustomizeProvider(
+            isFromMyCloset: isFromMyCloset,
+            selectedItemIds: selectedItemIds,
+          ),
+        );
       case myCloset:
         return MaterialPageRoute(
           builder: (_) => MyClosetProvider(myClosetTheme: myClosetTheme),
         );
       case createOutfit:
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        final List<String> selectedItemIds = args['selectedItems'] as List<String>? ?? [];
+        logger.d("Navigating to Create Outfit with selectedItemIds: $selectedItemIds");
         return MaterialPageRoute(
-          builder: (_) => MyOutfitProvider(myOutfitTheme: myOutfitTheme),
+          builder: (_) => MyOutfitProvider(
+            myOutfitTheme: myOutfitTheme,
+            selectedItemIds: selectedItemIds,
+          ),
         );
       case wearOutfit:
         final outfitId = settings.arguments as String;
+        logger.d("Navigating to Wear Outfit with outfitId: $outfitId");
         return MaterialPageRoute(
           builder: (_) => OutfitWearProvider(outfitId: outfitId),
         );
@@ -69,6 +84,7 @@ class AppRoutes {
         );
       case uploadItem:
         final imageUrl = settings.arguments as String;
+        logger.d("Navigating to Upload Item with imageUrl: $imageUrl");
         return MaterialPageRoute(
           builder: (_) => UploadItemProvider(imageUrl: imageUrl, myClosetTheme: myClosetTheme), // Pass the imageUrl
         );
@@ -79,13 +95,13 @@ class AppRoutes {
         );
       case selfiePhoto:
         final outfitId = settings.arguments as String;
-        logger.d("Navigating to selfiePhoto");
+        logger.d("Navigating to selfiePhoto with outfitId: $outfitId");
         return MaterialPageRoute(
           builder: (_) => PhotoProvider(outfitId: outfitId, cameraContext: CameraPermissionContext.selfie),
         );
       case editPhoto:
         final itemId = settings.arguments as String;
-        logger.d("Navigating to editPhoto");
+        logger.d("Navigating to editPhoto with itemId: $itemId");
         return MaterialPageRoute(
           builder: (_) => PhotoProvider(itemId: itemId, cameraContext: CameraPermissionContext.editItem),
         );
@@ -118,12 +134,13 @@ class AppRoutes {
         }
       case payment:
         final args = settings.arguments as Map<String, dynamic>;
+        logger.d("Navigating to Payment with arguments: $args");
         return MaterialPageRoute(
           builder: (_) => PaymentProvider(
             featureKey: args['featureKey'],
             isFromMyCloset: args['isFromMyCloset'],
-            previousRoute: args ['previousRoute'],
-            nextRoute: args ['nextRoute'],
+            previousRoute: args['previousRoute'],
+            nextRoute: args['nextRoute'],
             itemId: args['itemId'],
             outfitId: args['outfitId'],
           ),
