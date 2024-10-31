@@ -6,10 +6,11 @@ import '../../data/type_data.dart';
 
 List<Widget> buildIconRows(
     List<TypeData> typeDataList,
-    String? selectedKey,
+    List<String> selectedKeys,  // Holds selected values
     void Function(String) onTap,
     BuildContext context,
     bool isFromMyCloset,
+    bool allowMultiSelection,  // New parameter for selection mode
     ) {
   List<Widget> rows = [];
   int index = 0;
@@ -36,18 +37,29 @@ List<Widget> buildIconRows(
         children: rowIcons.map((type) {
           final key = type.key;
           final label = type.getName(context);
+
           return TextTypeButton(
-            key: UniqueKey(), // Use a unique key for each button instance
+            key: UniqueKey(),
             dataKey: key,
-            selectedKey: selectedKey ?? '',
+            selectedKeys: selectedKeys,
             label: label,
             assetPath: type.assetPath,
-            isSelected: selectedKey == key,
             isFromMyCloset: isFromMyCloset,
             buttonType: ButtonType.primary,
             usePredefinedColor: type.usePredefinedColor,
             onPressed: () {
-              onTap(key);
+              // Handle selection based on single or multi-select mode
+              List<String> updatedSelectedKeys = List.from(selectedKeys);
+              if (allowMultiSelection) {
+                if (updatedSelectedKeys.contains(key)) {
+                  updatedSelectedKeys.remove(key); // Deselect
+                } else {
+                  updatedSelectedKeys.add(key); // Select
+                }
+              } else {
+                updatedSelectedKeys = [key]; // Single-select mode
+              }
+              onTap(key); // Trigger the callback to update state with the new selection
             },
           );
         }).toList(),

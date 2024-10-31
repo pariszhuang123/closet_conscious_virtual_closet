@@ -34,10 +34,11 @@ class MetadataThirdPage extends StatelessWidget {
               child: Column(
                 children: buildIconRows(
                   TypeDataList.colors(context),
-                  selectedColour,
+                  selectedColour != null ? [selectedColour!] : [],  // Wrap in a list and handle null
                   onColourChanged,
                   context,
                   true,
+                  false,
                 ),
               ),
             ),
@@ -51,10 +52,11 @@ class MetadataThirdPage extends StatelessWidget {
                 child: Column(
                   children: buildIconRows(
                     TypeDataList.colorVariations(context),
-                    selectedColourVariation,
+                    selectedColourVariation != null ? [selectedColourVariation!] : [],  // Wrap in a list and handle null
                     onColourVariationChanged,
                     context,
                     true,
+                    false,
                   ),
                 ),
               ),

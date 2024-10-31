@@ -87,10 +87,11 @@ class MetadataFirstPage extends StatelessWidget {
               child: Column(
                 children: buildIconRows(
                   TypeDataList.itemGeneralTypes(context),
-                  selectedItemType,
+                  selectedItemType != null ? [selectedItemType!] : [],
                   onItemTypeChanged,
                   context,
                   true,
+                  false,
                 ),
               ),
             ),
@@ -103,10 +104,11 @@ class MetadataFirstPage extends StatelessWidget {
               child: Column(
                 children: buildIconRows(
                   TypeDataList.occasions(context),
-                  selectedOccasion,
+                  selectedOccasion != null ? [selectedOccasion!] : [],  // Wrap in a list and handle null
                   onOccasionChanged,
                   context,
                   true,
+                  false,
                 ),
               ),
             ),

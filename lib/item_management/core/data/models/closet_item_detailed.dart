@@ -3,18 +3,18 @@ import '../../../../core/utilities/logger.dart';
 class ClosetItemDetailed {
   final String itemId;
   final String imageUrl;
-  final String itemType;
+  final List<String> itemType;
   final String name;
   final double amountSpent;
-  final String occasion;
-  final String season;
-  final String colour;
-  final String? colourVariations;
+  final List<String> occasion;
+  final List<String> season;
+  final List<String> colour;
+  final List<String>? colourVariations;
   final DateTime updatedAt;
-  final String? clothingType;
-  final String? clothingLayer;
-  final String? shoesType;
-  final String? accessoryType;
+  final List<String>? clothingType;
+  final List<String>? clothingLayer;
+  final List<String>? shoesType;
+  final List<String>? accessoryType;
 
   static final CustomLogger _logger = CustomLogger('ClosetItemDetailed');
 
@@ -39,17 +39,27 @@ class ClosetItemDetailed {
     final item = ClosetItemDetailed(
       itemId: json['item_id'],
       imageUrl: json['image_url'],
-      itemType: json['item_type'],
+      itemType: List<String>.from(json['item_type'] ?? []),
       name: json['name'],
       amountSpent: json['amount_spent'],
-      occasion: json['occasion'],
-      season: json['season'],
-      colour: json['colour'],
-      colourVariations: json['colour_variations'],
-      clothingType: json['clothing_type'],  // No nested object
-      clothingLayer: json['clothing_layer'],  // No nested object
-      shoesType: json['shoes_type'],  // No nested object
-      accessoryType: json['accessory_type'],  // No nested object
+      occasion: List<String>.from(json['occasion'] ?? []),  // Handle occasion as a List
+      season: List<String>.from(json['season'] ?? []),  // Handle occasion as a List
+      colour: List<String>.from(json['colour'] ?? []),  // Handle occasion as a List
+      colourVariations: json['colour_variations'] != null
+          ? List<String>.from(json['colour_variations'])
+          : null,
+      clothingType: json['clothing_type'] != null
+          ? List<String>.from(json['clothing_type'])
+          : null,
+      clothingLayer: json['clothing_layer'] != null
+          ? List<String>.from(json['clothing_layer'])
+          : null,
+      shoesType: json['shoes_type'] != null
+          ? List<String>.from(json['shoes_type'])
+          : null,
+      accessoryType: json['accessory_type'] != null
+          ? List<String>.from(json['accessory_type'])
+          : null,
       updatedAt: DateTime.parse(json['updated_at']),
     );
 
@@ -62,14 +72,14 @@ class ClosetItemDetailed {
     _logger.d('Logging metadata for item: $itemId');
     _logger.i('Item ID: $itemId');
     _logger.i('Image URL: $imageUrl');
-    _logger.i('Item Type: $itemType');
+    _logger.i('Item Type: ${itemType.join(", ")}');
     _logger.i('Name: $name');
     _logger.i('Amount Spent: $amountSpent');
-    _logger.i('Occasion: $occasion');
-    _logger.i('Season: $season');
-    _logger.i('Colour: $colour');
-    _logger.i('Colour Variations: $colourVariations');
-    _logger.i('Clothing Type: $clothingType');
+    _logger.i('Occasion: ${occasion.join(", ")}');
+    _logger.i('Season: ${season.join(", ")}');
+    _logger.i('Colour: ${colour.join(", ")}');
+    _logger.i('Colour Variations: ${colourVariations?.join(", ")}');
+    _logger.i('Clothing Type: ${clothingType?.join(", ")}');
     _logger.i('Clothing Layer: $clothingLayer');
     _logger.i('Shoes Type: $shoesType');
     _logger.i('Accessory Type: $accessoryType');
@@ -80,18 +90,18 @@ class ClosetItemDetailed {
   ClosetItemDetailed copyWith({
     String? itemId,
     String? imageUrl,
-    String? itemType,
+    List<String>? itemType,
     String? name,
     double? amountSpent,
-    String? occasion,
-    String? season,
-    String? colour,
-    String? colourVariations,
+    List<String>? occasion,
+    List<String>? season,
+    List<String>? colour,
+    List<String>? colourVariations,
     DateTime? updatedAt,
-    String? clothingType,
-    String? clothingLayer,
-    String? shoesType,
-    String? accessoryType,
+    List<String>? clothingType,
+    List<String>? clothingLayer,
+    List <String>? shoesType,
+    List<String>? accessoryType,
   }) {
     _logger.d('Copying ClosetItemDetailed');
     return ClosetItemDetailed(

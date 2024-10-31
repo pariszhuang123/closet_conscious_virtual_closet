@@ -59,12 +59,18 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         colourVariations: event.updatedItem.colourVariations ?? currentItemState.colourVariations,
 
         // Reset irrelevant fields based on itemType
-        clothingType: event.updatedItem.itemType == 'clothing' ? event.updatedItem.clothingType : null,
-        clothingLayer: event.updatedItem.itemType == 'clothing' ? event.updatedItem.clothingLayer : null,
-
-        shoesType: event.updatedItem.itemType == 'shoes' ? event.updatedItem.shoesType : null,
-
-        accessoryType: event.updatedItem.itemType == 'accessory' ? event.updatedItem.accessoryType : null,
+        clothingType: event.updatedItem.itemType.contains('clothing')
+            ? event.updatedItem.clothingType ?? []
+            : [],
+        clothingLayer: event.updatedItem.itemType.contains('clothing')
+            ? event.updatedItem.clothingLayer
+            : null,
+        shoesType: event.updatedItem.itemType.contains('shoes')
+            ? (event.updatedItem.shoesType ?? [])
+            : [],
+        accessoryType: event.updatedItem.itemType.contains('accessory')
+            ? (event.updatedItem.accessoryType ?? [])
+            : [],
       );
 
       _logger.d("Item metadata changed: $updatedItem");
@@ -91,17 +97,17 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         // Call the ItemSaveService to save the edited metadata
         final success = await _itemSaveService.editItemMetadata(
           itemId: updatedItem.itemId,
-          itemType: updatedItem.itemType,
+          itemType: updatedItem.itemType.join(", "),
           name: updatedItem.name,
           amountSpent: updatedItem.amountSpent,
-          occasion: updatedItem.occasion,
-          season: updatedItem.season,
-          colour: updatedItem.colour,
-          clothingType: updatedItem.clothingType,
-          clothingLayer: updatedItem.clothingLayer,
-          shoesType: updatedItem.shoesType,
-          accessoryType: updatedItem.accessoryType,
-          colourVariations: updatedItem.colourVariations ?? 'cc_none',
+          occasion: updatedItem.occasion.join(", "),
+          season: updatedItem.season.join(", "),
+          colour: updatedItem.colour.join(", "),
+          clothingType: updatedItem.clothingType?.join(", "),
+          clothingLayer: updatedItem.clothingLayer?.join((", ")),
+          shoesType: updatedItem.shoesType?.join(", "),
+          accessoryType: updatedItem.accessoryType?.join(", "),
+          colourVariations: updatedItem.colourVariations?.join(", ") ?? 'cc_none',
         );
 
         if (success) {

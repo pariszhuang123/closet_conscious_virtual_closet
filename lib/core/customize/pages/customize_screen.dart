@@ -96,7 +96,7 @@ class CustomizeScreen extends StatelessWidget {
                   // Grid Size Picker using buildIconRows
                   ...buildIconRows(
                     TypeDataList.gridSizes(context),
-                    state.gridSize.toString(),
+                    [state.gridSize.toString()],
                         (selectedKey) {
                       _logger.d('Grid Size Picker selected: $selectedKey');
                       context.read<CustomizeBloc>().add(
@@ -105,6 +105,7 @@ class CustomizeScreen extends StatelessWidget {
                     },
                     context,
                     isFromMyCloset,
+                    false
                   ),
                   const SizedBox(height: 16),
 
@@ -113,7 +114,7 @@ class CustomizeScreen extends StatelessWidget {
                   // Sort Category Picker using buildIconRows
                   ...buildIconRows(
                     TypeDataList.sortCategories(context),
-                    state.sortCategory,
+                    [state.sortCategory],
                         (selectedKey) {
                       _logger.d('Sort Category Picker selected: $selectedKey');
                       context.read<CustomizeBloc>().add(
@@ -122,6 +123,7 @@ class CustomizeScreen extends StatelessWidget {
                     },
                     context,
                     isFromMyCloset,
+                    false
                   ),
                   const SizedBox(height: 16),
 
@@ -130,7 +132,7 @@ class CustomizeScreen extends StatelessWidget {
                   // Sort Order Picker using buildIconRows
                   ...buildIconRows(
                     TypeDataList.sortOrder(context),
-                    state.sortOrder,
+                    [state.sortOrder],
                         (selectedKey) {
                       _logger.d('Sort Order Picker selected: $selectedKey');
                       context.read<CustomizeBloc>().add(
@@ -139,6 +141,7 @@ class CustomizeScreen extends StatelessWidget {
                     },
                     context,
                     isFromMyCloset,
+                    false
                   ),
                   const SizedBox(height: 24),
 

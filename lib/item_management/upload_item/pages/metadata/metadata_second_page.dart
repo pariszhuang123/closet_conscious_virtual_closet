@@ -40,10 +40,11 @@ class MetadataSecondPage extends StatelessWidget {
               child: Column(
                 children: buildIconRows(
                   TypeDataList.seasons(context),
-                  selectedSeason,
+                  selectedSeason != null ? [selectedSeason!] : [],  // Handle nullable String
                   onSeasonChanged,
                   context,
                   true,
+                  false,
                 ),
               ),
             ),
@@ -57,10 +58,11 @@ class MetadataSecondPage extends StatelessWidget {
                 child: Column(
                   children: buildIconRows(
                     TypeDataList.shoeTypes(context),
-                    selectedSpecificType,
+                    selectedSpecificType != null ? [selectedSpecificType!] : [],  // Handle nullable String
                     onSpecificTypeChanged,
                     context,
                     true,
+                    false,
                   ),
                 ),
               ),
@@ -74,10 +76,11 @@ class MetadataSecondPage extends StatelessWidget {
                 child: Column(
                   children: buildIconRows(
                     TypeDataList.accessoryTypes(context),
-                    selectedSpecificType,
+                    selectedSpecificType != null ? [selectedSpecificType!] : [],  // Handle nullable String
                     onSpecificTypeChanged,
                     context,
                     true,
+                    false,
                   ),
                 ),
               ),
@@ -91,10 +94,11 @@ class MetadataSecondPage extends StatelessWidget {
                 child: Column(
                   children: buildIconRows(
                     TypeDataList.clothingTypes(context),
-                    selectedSpecificType,
+                    selectedSpecificType != null ? [selectedSpecificType!] : [],  // Handle nullable String
                     onSpecificTypeChanged,
                     context,
                     true,
+                    false,
                   ),
                 ),
               ),
@@ -107,10 +111,11 @@ class MetadataSecondPage extends StatelessWidget {
                 child: Column(
                   children: buildIconRows(
                     TypeDataList.clothingLayers(context),
-                    selectedClothingLayer,
+                    selectedClothingLayer != null ? [selectedClothingLayer!] : [],  // Handle nullable String
                     onClothingLayerChanged,
                     context,
                     true,
+                    false,
                   ),
                 ),
               ),

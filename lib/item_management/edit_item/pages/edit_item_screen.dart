@@ -133,24 +133,24 @@ class _EditItemScreenState extends State<EditItemScreen> {
       Map<String, String> tempErrors = {};
 
       // Check interdependent validations
-      if (item.itemType == 'clothing') {
+      if (item.itemType.contains ('clothing')) {
         if (item.clothingType == null || item.clothingType!.isEmpty) {
           tempErrors['clothing_type'] = S.of(context).clothingTypeRequired;
         }
         if (item.clothingLayer == null || item.clothingLayer!.isEmpty) {
           tempErrors['clothing_layer'] = S.of(context).clothingLayerFieldNotFilled;
         }
-      } else if (item.itemType == 'accessory') {
+      } else if (item.itemType.contains ('accessory')) {
         if (item.accessoryType == null || item.accessoryType!.isEmpty) {
           tempErrors['accessory_type'] = S.of(context).accessoryTypeRequired;
         }
-      } else if (item.itemType == 'shoes') {
+      } else if (item.itemType.contains ('shoes')) {
         if (item.shoesType == null || item.shoesType!.isEmpty) {
           tempErrors['shoes_type'] = S.of(context).shoesTypeRequired;
         }
       }
 
-      if (item.colour != 'black' && item.colour != 'white') {
+      if (!item.colour.contains ('black') && !item.colour.contains ('white')) {
         if (item.colourVariations == null || item.colourVariations!.isEmpty) {
           tempErrors['colour_variations'] = S.of(context).colourVariationFieldNotFilled;
         }
@@ -339,7 +339,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                               // Update the itemType and reset fields not related to the selected itemType
                               if (dataKey == 'clothing') {
                                 _dispatchMetadataChanged(state, currentItem.copyWith(
-                                  itemType: dataKey,
+                                  itemType: [dataKey],
                                   accessoryType: null,  // Reset accessoryType because it's not needed for clothing
                                   shoesType: null,      // Reset shoesType because it's not needed for clothing
                                 ));
@@ -349,7 +349,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                 _validationErrors.remove('clothing_layer');
                               } else if (dataKey == 'accessory') {
                                 _dispatchMetadataChanged(state, currentItem.copyWith(
-                                  itemType: dataKey,
+                                  itemType: [dataKey],
                                   clothingLayer: null,  // Reset clothingLayer because it's not needed for accessories
                                   clothingType: null,   // Reset clothingType because it's not needed for accessories
                                   shoesType: null,      // Reset shoesType because it's not needed for accessories
@@ -360,7 +360,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                 _validationErrors.remove('accessory_type');
                               } else if (dataKey == 'shoes') {
                                 _dispatchMetadataChanged(state, currentItem.copyWith(
-                                  itemType: dataKey,
+                                  itemType: [dataKey],
                                   clothingLayer: null,  // Reset clothingLayer because it's not needed for shoes
                                   clothingType: null,   // Reset clothingType because it's not needed for shoes
                                   accessoryType: null,  // Reset accessoryType because it's not needed for shoes
@@ -377,56 +377,56 @@ class _EditItemScreenState extends State<EditItemScreen> {
                             _isChanged = true;
                             _validationErrors = {};
                           });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(occasion: dataKey));
+                          _dispatchMetadataChanged(state, currentItem.copyWith(occasion: [dataKey]));
                         },
                         onSeasonChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
                             _validationErrors = {};
                           });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(season: dataKey));
+                          _dispatchMetadataChanged(state, currentItem.copyWith(season: [dataKey]));
                         },
                         onAccessoryTypeChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
                             _validationErrors = {};
                           });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(accessoryType: dataKey));
+                          _dispatchMetadataChanged(state, currentItem.copyWith(accessoryType: [dataKey]));
                         },
                         onClothingLayerChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
                             _validationErrors = {};
                           });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(clothingLayer: dataKey));
+                          _dispatchMetadataChanged(state, currentItem.copyWith(clothingLayer: [dataKey]));
                         },
                         onClothingTypeChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
                             _validationErrors = {};
                           });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(clothingType: dataKey));
+                          _dispatchMetadataChanged(state, currentItem.copyWith(clothingType: [dataKey]));
                         },
                         onShoeTypeChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
                             _validationErrors = {};
                           });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(shoesType: dataKey));
+                          _dispatchMetadataChanged(state, currentItem.copyWith(shoesType: [dataKey]));
                         },
                         onColourChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
                             _validationErrors = {};
                           });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(colour: dataKey));
+                          _dispatchMetadataChanged(state, currentItem.copyWith(colour: [dataKey]));
                         },
                         onColourVariationChanged: (dataKey) {
                           setState(() {
                             _isChanged = true;
                             _validationErrors = {};
                           });
-                          _dispatchMetadataChanged(state, currentItem.copyWith(colourVariations: dataKey));
+                          _dispatchMetadataChanged(state, currentItem.copyWith(colourVariations: [dataKey]));
 
                         },
                         theme: myClosetTheme,

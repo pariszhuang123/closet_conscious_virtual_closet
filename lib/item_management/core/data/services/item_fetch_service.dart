@@ -50,6 +50,43 @@ class ItemFetchService {
           .rpc('fetch_edit_item_details', params: {'_item_id': itemId})
           .single();
 
+      // Adjust fields in response if they are String instead of List<String>
+      response['item_type'] = response['item_type'] is String
+          ? [response['item_type']]
+          : List<String>.from(response['item_type'] ?? []);
+
+      response['occasion'] = response['occasion'] is String
+          ? [response['occasion']]
+          : List<String>.from(response['occasion'] ?? []);
+
+      response['season'] = response['season'] is String
+          ? [response['season']]
+          : List<String>.from(response['season'] ?? []);
+
+      response['colour'] = response['colour'] is String
+          ? [response['colour']]
+          : List<String>.from(response['colour'] ?? []);
+
+      response['colour_variations'] = response['colour_variations'] is String
+          ? [response['colour_variations']]
+          : List<String>.from(response['colour_variations'] ?? []);
+
+      response['clothing_type'] = response['clothing_type'] is String
+          ? [response['clothing_type']]
+          : List<String>.from(response['clothing_type'] ?? []);
+
+      response['clothing_layer'] = response['clothing_layer'] is String
+          ? [response['clothing_layer']]
+          : List<String>.from(response['clothing_layer'] ?? []);
+
+      response['shoes_type'] = response['shoes_type'] is String
+          ? [response['shoes_type']]
+          : List<String>.from(response['shoes_type'] ?? []);
+
+      response['accessory_type'] = response['accessory_type'] is String
+          ? [response['accessory_type']]
+          : List<String>.from(response['accessory_type'] ?? []);
+
       // Parse the response into a `ClosetItemDetailed` object
       final result = ClosetItemDetailed.fromJson(response);
       return result;

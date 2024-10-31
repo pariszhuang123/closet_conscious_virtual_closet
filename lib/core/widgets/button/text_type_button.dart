@@ -4,28 +4,27 @@ import 'base_button/button_utility.dart';
 
 class TextTypeButton extends TypeButton {
   final String dataKey;
-  final String selectedKey;
+  final List<String> selectedKeys;
   final String label;
 
-  const TextTypeButton({
-    super.key, // This is the widget key
-    required this.dataKey, // This is your custom key for selection logic
-    required this.selectedKey,
+  TextTypeButton({
+    super.key,
+    required this.dataKey,
+    required this.selectedKeys,
     required this.label,
     required super.assetPath,
     required super.onPressed,
     required super.isFromMyCloset,
     required super.buttonType,
     required super.usePredefinedColor,
-    super.isSelected,
     super.isHorizontal,
-
-  });
-
+  }) : super(isSelected: selectedKeys.contains(dataKey));  // Pass `isSelected` here
 
   @override
   Widget buildContent(BuildContext context) {
     final theme = Theme.of(context);
+    // Determine if this button is selected based on whether dataKey is in selectedKeys
+    final isSelected = selectedKeys.contains(dataKey);
     final textColor = ButtonUtils.getTextColor(theme, buttonType, isSelected);
 
     return Text(

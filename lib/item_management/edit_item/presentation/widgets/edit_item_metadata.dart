@@ -108,10 +108,11 @@ class EditItemMetadata extends StatelessWidget {
         Text(S.of(context).selectItemType, style: theme.textTheme.bodyMedium),
         ...buildIconRows(
           TypeDataList.itemGeneralTypes(context),
-          currentItem.itemType,
+          currentItem.itemType, // Pass first item if available
               (dataKey) => onItemTypeChanged(dataKey),
           context,
           true,
+          false,
         ),
         // If interdependent fields require validation, consider handling them via Bloc
         // or pass validation errors as props
@@ -121,10 +122,11 @@ class EditItemMetadata extends StatelessWidget {
         Text(S.of(context).selectOccasion, style: theme.textTheme.bodyMedium),
         ...buildIconRows(
           TypeDataList.occasions(context),
-          currentItem.occasion,
+          currentItem.occasion, // Pass first item if available
               (dataKey) => onOccasionChanged(dataKey),
           context,
           true,
+          false,
         ),
         const SizedBox(height: 12),
 
@@ -132,22 +134,24 @@ class EditItemMetadata extends StatelessWidget {
         Text(S.of(context).selectSeason, style: theme.textTheme.bodyMedium),
         ...buildIconRows(
           TypeDataList.seasons(context),
-          currentItem.season,
+          currentItem.season, // Pass first item if available
               (dataKey) => onSeasonChanged(dataKey),
           context,
           true,
+          false,
         ),
         const SizedBox(height: 12),
 
         // Shoe Type Selection (for shoes)
-        if (currentItem.itemType == 'shoes') ...[
+        if (currentItem.itemType.contains ('shoes')) ...[
           Text(S.of(context).selectShoeType, style: theme.textTheme.bodyMedium),
           ...buildIconRows(
             TypeDataList.shoeTypes(context),
-            currentItem.shoesType,
+            currentItem.shoesType ?? [], // Pass the first item if available
                 (dataKey) => onShoeTypeChanged(dataKey),
             context,
             true,
+            false,
           ),
           // Display validation error if any
           if (validationErrors['shoes_type'] != null)
@@ -162,14 +166,15 @@ class EditItemMetadata extends StatelessWidget {
         const SizedBox(height: 12),
 
         // Accessory Type Selection (for accessories)
-        if (currentItem.itemType == 'accessory') ...[
+        if (currentItem.itemType.contains ('accessory')) ...[
           Text(S.of(context).selectAccessoryType, style: theme.textTheme.bodyMedium),
           ...buildIconRows(
             TypeDataList.accessoryTypes(context),
-            currentItem.accessoryType,
+            currentItem.accessoryType != null && currentItem.accessoryType!.isNotEmpty ? [currentItem.accessoryType!.first] : [], // Pass the first item if available
                 (dataKey) => onAccessoryTypeChanged(dataKey),
             context,
             true,
+            false,
           ),
           // Display validation error if any
           if (validationErrors['accessory_type'] != null)
@@ -184,15 +189,16 @@ class EditItemMetadata extends StatelessWidget {
         const SizedBox(height: 12),
 
         // Clothing Type and Layer Selection (for clothing)
-        if (currentItem.itemType == 'clothing') ...[
+        if (currentItem.itemType.contains ('clothing')) ...[
           // Clothing Type Selection
           Text(S.of(context).selectClothingType, style: theme.textTheme.bodyMedium),
           ...buildIconRows(
             TypeDataList.clothingTypes(context),
-            currentItem.clothingType,
+            currentItem.clothingType != null && currentItem.clothingType!.isNotEmpty ? [currentItem.clothingType!.first] : [], // Pass the first item if available
                 (dataKey) => onClothingTypeChanged(dataKey),
             context,
             true,
+            false,
           ),
           // Display validation error if any
           if (validationErrors['clothing_type'] != null)
@@ -209,10 +215,11 @@ class EditItemMetadata extends StatelessWidget {
           Text(S.of(context).selectClothingLayer, style: theme.textTheme.bodyMedium),
           ...buildIconRows(
             TypeDataList.clothingLayers(context),
-            currentItem.clothingLayer,
+            currentItem.clothingLayer != null && currentItem.clothingLayer!.isNotEmpty ? [currentItem.clothingLayer!.first] : [], // Pass the first item if available
                 (dataKey) => onClothingLayerChanged(dataKey),
             context,
             true,
+            false,
           ),
           // Display validation error if any
           if (validationErrors['clothing_layer'] != null)
@@ -230,22 +237,24 @@ class EditItemMetadata extends StatelessWidget {
         Text(S.of(context).selectColour, style: theme.textTheme.bodyMedium),
         ...buildIconRows(
           TypeDataList.colors(context),
-          currentItem.colour,
+          currentItem.colour.isNotEmpty ? [currentItem.colour.first] : [], // Pass first item if available
               (dataKey) => onColourChanged(dataKey),
           context,
           true,
+          false,
         ),
         const SizedBox(height: 12),
 
         // Colour Variation Selection (if colour is not black or white)
-        if (currentItem.colour != 'black' && currentItem.colour != 'white') ...[
+        if (!currentItem.colour.contains ('black') && !currentItem.colour.contains('white')) ...[
           Text(S.of(context).selectColourVariation, style: theme.textTheme.bodyMedium),
           ...buildIconRows(
             TypeDataList.colorVariations(context),
-            currentItem.colourVariations,
+            currentItem.colourVariations != null && currentItem.colourVariations!.isNotEmpty ? [currentItem.colourVariations!.first] : [], // Pass the first item if available
                 (dataKey) => onColourVariationChanged(dataKey),
             context,
             true,
+            false,
           ),
           // Display validation error if any
           if (validationErrors['colour_variations'] != null)

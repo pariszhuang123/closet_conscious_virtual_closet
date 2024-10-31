@@ -8,6 +8,7 @@ class LoadItemEvent extends EditItemEvent {
   LoadItemEvent(this.itemId);
 }
 
+// Event triggered when metadata is changed
 class MetadataChangedEvent extends EditItemEvent {
   final ClosetItemDetailed updatedItem;
 
@@ -16,6 +17,7 @@ class MetadataChangedEvent extends EditItemEvent {
   });
 }
 
+// Event for submitting the form
 class SubmitFormEvent extends EditItemEvent {
   final String itemId;
   final String name;
@@ -34,14 +36,32 @@ class SubmitFormEvent extends EditItemEvent {
     required this.itemId,
     required this.name,
     required this.amountSpent,
-    required this.itemType,
-    required this.occasion,
-    required this.season,
-    required this.colour,
-    this.colourVariations,
-    this.clothingType,
-    this.clothingLayer,
-    this.shoesType,
-    this.accessoryType,
-  });
+    required List<String> itemType,        // Accepting List<String>
+    required List<String> occasion,        // Accepting List<String>
+    required List<String> season,          // Accepting List<String>
+    required List<String> colour,          // Accepting List<String>
+    List<String>? colourVariations,        // Accepting List<String>?
+    List<String>? clothingType,            // Accepting List<String>?
+    List<String>? clothingLayer,
+    List<String>? shoesType,               // Accepting List<String>?
+    List<String>? accessoryType,           // Accepting List<String>?
+  })  : itemType = itemType.isNotEmpty ? itemType.first : '',   // Converting to single String
+        occasion = occasion.isNotEmpty ? occasion.first : '',
+        season = season.isNotEmpty ? season.first : '',
+        colour = colour.isNotEmpty ? colour.first : '',
+        colourVariations = colourVariations != null && colourVariations.isNotEmpty
+            ? colourVariations.first
+            : null,
+        clothingType = clothingType != null && clothingType.isNotEmpty
+            ? clothingType.first
+            : null,
+        clothingLayer = clothingLayer != null && clothingLayer.isNotEmpty
+            ? clothingLayer.first
+            : null,
+      shoesType = shoesType != null && shoesType.isNotEmpty
+            ? shoesType.first
+            : null,
+        accessoryType = accessoryType != null && accessoryType.isNotEmpty
+            ? accessoryType.first
+            : null;
 }
