@@ -37,7 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Colour Variation"),
         "ItemNameHint": MessageLookupByLibrary.simpleMessage(
             "What’s this fabulous piece called?"),
-        "ItemNameLabel": MessageLookupByLibrary.simpleMessage("Name"),
+        "ItemNameLabel": MessageLookupByLibrary.simpleMessage("Item Name"),
         "ItemOccasionLabel": MessageLookupByLibrary.simpleMessage("Occasion"),
         "ItemSeasonLabel": MessageLookupByLibrary.simpleMessage("Season"),
         "OutfitDay": MessageLookupByLibrary.simpleMessage("Outfit of the Day"),
@@ -56,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Multi Closet"),
         "addYourComments":
             MessageLookupByLibrary.simpleMessage("Add your comments"),
+        "advancedFiltersTab":
+            MessageLookupByLibrary.simpleMessage("Advanced Filters"),
         "aiStylistFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "Unlock AI-powered outfit suggestions and receive personalized recommendations based on your unique style."),
         "aiStylistFeatureTitle":
@@ -66,6 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Smart Upload Usage Feature"),
         "aistylist": MessageLookupByLibrary.simpleMessage("AI Stylist"),
         "aiupload": MessageLookupByLibrary.simpleMessage("Smart\nUpload"),
+        "allClosetLabel": MessageLookupByLibrary.simpleMessage("All Closet"),
         "allClothesWornAchievement":
             MessageLookupByLibrary.simpleMessage("All Clothes, All You!"),
         "allClothesWornAchievementMessage": MessageLookupByLibrary.simpleMessage(
@@ -91,6 +94,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "autumn": MessageLookupByLibrary.simpleMessage("Autumn"),
         "bag": MessageLookupByLibrary.simpleMessage("Bag"),
         "base": MessageLookupByLibrary.simpleMessage("Base"),
+        "basicFiltersTab":
+            MessageLookupByLibrary.simpleMessage("Basic Filters"),
         "becomeAmbassador":
             MessageLookupByLibrary.simpleMessage("Become an Ambassador"),
         "belt": MessageLookupByLibrary.simpleMessage("Belt"),
@@ -219,6 +224,16 @@ class MessageLookup extends MessageLookupByLibrary {
             "Failed to save outfit. Please try again."),
         "failedToSubmitScore":
             MessageLookupByLibrary.simpleMessage("Failed to submit score."),
+        "filterClosetPageDescription": MessageLookupByLibrary.simpleMessage(
+            "Sort your closet by color, type, and more to find just what you need."),
+        "filterFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "Browse with ease! Filters help you quickly spot your best pieces."),
+        "filterFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("Find Your Favorites Faster"),
+        "filterItemsTitle":
+            MessageLookupByLibrary.simpleMessage("Filter Items"),
+        "filterOutfitPageDescription": MessageLookupByLibrary.simpleMessage(
+            "Focus on items that fit your style, mood, and plans."),
         "filterSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("Advanced Filters?"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
@@ -421,11 +436,14 @@ class MessageLookup extends MessageLookupByLibrary {
             "We’re considering a calendar view for your outfits. Would this help you stay organized?"),
         "saveCustomization":
             MessageLookupByLibrary.simpleMessage("Save Customization"),
+        "saveFilter": MessageLookupByLibrary.simpleMessage("Save Filter"),
         "scarf": MessageLookupByLibrary.simpleMessage("Scarf"),
         "seasonFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("Season field is not filled."),
         "selectAccessoryType":
             MessageLookupByLibrary.simpleMessage("Select Accessory Type"),
+        "selectClosetLabel":
+            MessageLookupByLibrary.simpleMessage("Select Closet"),
         "selectClothingLayer":
             MessageLookupByLibrary.simpleMessage("Select Clothing Layer"),
         "selectClothingType":

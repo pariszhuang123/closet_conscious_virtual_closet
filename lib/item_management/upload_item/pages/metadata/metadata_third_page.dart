@@ -33,7 +33,7 @@ class MetadataThirdPage extends StatelessWidget {
             SafeArea(
               child: Column(
                 children: buildIconRows(
-                  TypeDataList.colors(context),
+                  TypeDataList.colour(context),
                   selectedColour != null ? [selectedColour!] : [],  // Wrap in a list and handle null
                   onColourChanged,
                   context,
@@ -51,7 +51,7 @@ class MetadataThirdPage extends StatelessWidget {
               SafeArea(
                 child: Column(
                   children: buildIconRows(
-                    TypeDataList.colorVariations(context),
+                    TypeDataList.colourVariations(context),
                     selectedColourVariation != null ? [selectedColourVariation!] : [],  // Wrap in a list and handle null
                     onColourVariationChanged,
                     context,

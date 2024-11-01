@@ -15,7 +15,6 @@ import '../../user_management/user_update/presentation/widgets/update_required_p
 import '../../item_management/view_items/presentation/widgets/my_closet_container.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
-import '../../core/widgets/bottom_sheet/premium_bottom_sheet/filter_premium_bottom_sheet.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/multi_closet_premium_bottom_sheet.dart';
 import '../../item_management/upload_item/presentation/widgets/upload_confirmation_bottom_sheet.dart';
 import '../app_drawer.dart';
@@ -109,12 +108,10 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     Navigator.pushReplacementNamed(context, AppRoutes.uploadItemPhoto);
   }
 
-  void _onFilterButtonPressed() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return const PremiumFilterBottomSheet(isFromMyCloset: true);
-      },
+  void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
+    Navigator.of(context).pushNamed(
+      AppRoutes.filter,
+      arguments: {'isFromMyCloset': isFromMyCloset}, // Pass isFromMyCloset as an argument
     );
   }
 
@@ -333,7 +330,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                                 newItemsCount: newItemsCount,
                                 isUploadCompleted: isUploadCompleted,
                                 onUploadButtonPressed: _onUploadButtonPressed,
-                                onFilterButtonPressed: _onFilterButtonPressed,
+                                onFilterButtonPressed: () =>_onFilterButtonPressed(context, true),
                                 onMultiClosetButtonPressed: _onMultiClosetButtonPressed,
                                 onArrangeButtonPressed: () => _onArrangeButtonPressed(context, true),
                               ),

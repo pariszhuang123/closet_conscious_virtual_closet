@@ -33,7 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ItemColourVariationLabel":
             MessageLookupByLibrary.simpleMessage("颜色变化"),
         "ItemNameHint": MessageLookupByLibrary.simpleMessage("这件时尚单品叫什么名字？"),
-        "ItemNameLabel": MessageLookupByLibrary.simpleMessage("名称"),
+        "ItemNameLabel": MessageLookupByLibrary.simpleMessage("单品名称"),
         "ItemOccasionLabel": MessageLookupByLibrary.simpleMessage("场合"),
         "ItemSeasonLabel": MessageLookupByLibrary.simpleMessage("季节"),
         "OutfitDay": MessageLookupByLibrary.simpleMessage("今日造型"),
@@ -50,6 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "active": MessageLookupByLibrary.simpleMessage("活跃"),
         "addCloset_addCloset": MessageLookupByLibrary.simpleMessage("添加衣橱"),
         "addYourComments": MessageLookupByLibrary.simpleMessage("添加您的评论"),
+        "advancedFiltersTab": MessageLookupByLibrary.simpleMessage("高级筛选"),
         "aiStylistFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "解锁AI推荐造型。评论90个造型，获得个性化的风格推荐。"),
         "aiStylistFeatureTitle":
@@ -60,6 +61,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("智能上传使用功能"),
         "aistylist": MessageLookupByLibrary.simpleMessage("AI造型师"),
         "aiupload": MessageLookupByLibrary.simpleMessage("智能\n上传"),
+        "allClosetLabel": MessageLookupByLibrary.simpleMessage("所有衣橱"),
         "allClothesWornAchievement":
             MessageLookupByLibrary.simpleMessage("每件衣服，都是您的选择！"),
         "allClothesWornAchievementMessage":
@@ -83,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "autumn": MessageLookupByLibrary.simpleMessage("秋季"),
         "bag": MessageLookupByLibrary.simpleMessage("包"),
         "base": MessageLookupByLibrary.simpleMessage("基础层"),
+        "basicFiltersTab": MessageLookupByLibrary.simpleMessage("基本筛选"),
         "becomeAmbassador": MessageLookupByLibrary.simpleMessage("成为大使"),
         "belt": MessageLookupByLibrary.simpleMessage("皮带"),
         "black": MessageLookupByLibrary.simpleMessage("黑色"),
@@ -191,6 +194,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "failedToSaveOutfit":
             MessageLookupByLibrary.simpleMessage("保存搭配失败，请重试。"),
         "failedToSubmitScore": MessageLookupByLibrary.simpleMessage("提交评分失败。"),
+        "filterClosetPageDescription":
+            MessageLookupByLibrary.simpleMessage("按颜色、类别等整理衣橱，找到所需单品。"),
+        "filterFeatureDescription":
+            MessageLookupByLibrary.simpleMessage("轻松浏览！筛选功能助您迅速发现最佳单品。"),
+        "filterFeatureTitle": MessageLookupByLibrary.simpleMessage("快速找到心仪单品"),
+        "filterItemsTitle": MessageLookupByLibrary.simpleMessage("筛选项目"),
+        "filterOutfitPageDescription":
+            MessageLookupByLibrary.simpleMessage("专注于符合您风格、心情和计划的单品。"),
         "filterSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("高级筛选？"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("筛选"),
@@ -377,9 +388,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
             "我们正在考虑为您的造型添加日历视图。这有助于您保持组织吗？"),
         "saveCustomization": MessageLookupByLibrary.simpleMessage("保存自定义设置"),
+        "saveFilter": MessageLookupByLibrary.simpleMessage("保存筛选"),
         "scarf": MessageLookupByLibrary.simpleMessage("围巾"),
         "seasonFieldNotFilled": MessageLookupByLibrary.simpleMessage("季节未填写。"),
         "selectAccessoryType": MessageLookupByLibrary.simpleMessage("选择配饰类型"),
+        "selectClosetLabel": MessageLookupByLibrary.simpleMessage("选择衣橱"),
         "selectClothingLayer": MessageLookupByLibrary.simpleMessage("选择服装层次"),
         "selectClothingType": MessageLookupByLibrary.simpleMessage("选择服装类型"),
         "selectColour": MessageLookupByLibrary.simpleMessage("选择颜色"),

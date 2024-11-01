@@ -120,10 +120,10 @@ class S {
     );
   }
 
-  /// `Name`
+  /// `Item Name`
   String get ItemNameLabel {
     return Intl.message(
-      'Name',
+      'Item Name',
       name: 'ItemNameLabel',
       desc: '',
       args: [],
@@ -2990,6 +2990,46 @@ class S {
     );
   }
 
+  /// `Find Your Favorites Faster`
+  String get filterFeatureTitle {
+    return Intl.message(
+      'Find Your Favorites Faster',
+      name: 'filterFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Browse with ease! Filters help you quickly spot your best pieces.`
+  String get filterFeatureDescription {
+    return Intl.message(
+      'Browse with ease! Filters help you quickly spot your best pieces.',
+      name: 'filterFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort your closet by color, type, and more to find just what you need.`
+  String get filterClosetPageDescription {
+    return Intl.message(
+      'Sort your closet by color, type, and more to find just what you need.',
+      name: 'filterClosetPageDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Focus on items that fit your style, mood, and plans.`
+  String get filterOutfitPageDescription {
+    return Intl.message(
+      'Focus on items that fit your style, mood, and plans.',
+      name: 'filterOutfitPageDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Unlock Now`
   String get purchase_button {
     return Intl.message(
@@ -3305,6 +3345,66 @@ class S {
     return Intl.message(
       'Sort Order Picker',
       name: 'sortOrderPickerTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter Items`
+  String get filterItemsTitle {
+    return Intl.message(
+      'Filter Items',
+      name: 'filterItemsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Basic Filters`
+  String get basicFiltersTab {
+    return Intl.message(
+      'Basic Filters',
+      name: 'basicFiltersTab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Advanced Filters`
+  String get advancedFiltersTab {
+    return Intl.message(
+      'Advanced Filters',
+      name: 'advancedFiltersTab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Closet`
+  String get allClosetLabel {
+    return Intl.message(
+      'All Closet',
+      name: 'allClosetLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Closet`
+  String get selectClosetLabel {
+    return Intl.message(
+      'Select Closet',
+      name: 'selectClosetLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save Filter`
+  String get saveFilter {
+    return Intl.message(
+      'Save Filter',
+      name: 'saveFilter',
       desc: '',
       args: [],
     );

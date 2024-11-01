@@ -160,6 +160,26 @@ class FeatureDataList {
           ),
         ],
       ),
+      FeatureData(
+        getTitle: (context) => S.of(context).filterFeatureTitle,
+        featureKey: FeatureKey.filter,
+        isUsageFeature: false,
+        parts: [
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/customize.jpg',
+            getDescription: (context) => S.of(context).filterFeatureDescription,
+          ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/customize_closet.jpg',
+            getDescription: (context) => S.of(context).filterClosetPageDescription,
+          ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/customize_outfit.jpg',
+            getDescription: (context) => S.of(context).filterOutfitPageDescription,
+          ),
+        ],
+      ),
+
     ];
   }
 }

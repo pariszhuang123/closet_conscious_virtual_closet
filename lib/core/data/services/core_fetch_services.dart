@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../utilities/logger.dart';
+import '../../filter/data/models/filter_setting.dart';
 
 class CoreFetchService {
   final CustomLogger _logger = CustomLogger('CoreFetchService');
@@ -150,6 +151,45 @@ class CoreFetchService {
     } catch (error) {
       _logger.e('Error during access check for customize page: $error');
       throw Exception('Failed to access customize page: $error');
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchFilterSettings() async {
+    // Call the Supabase RPC function
+    final response = await Supabase.instance.client.rpc('fetch_filter_settings');
+
+    if (response == null) {
+      throw Exception('Error: RPC call returned null');
+    } else {
+      // Parse the filter data using the FilterSettings model
+      final FilterSettings filterSettings = FilterSettings.fromJson(response['f_filter'] ?? {});
+
+      // Construct the result with all relevant fields
+      return {
+        'filters': filterSettings,
+        'closetId': response['f_closet_id'] as String,
+        'allCloset': response['f_all_closet'] as bool,
+        'ignoreItemName': response['f_ignore_item_name'] as bool,
+        'itemName': response['f_item_name'] as String,
+      };
+    }
+  }
+
+  Future<bool> accessFilterPage() async {
+    _logger.i('Starting access check for filter page.');
+
+    try {
+      final result = await Supabase.instance.client.rpc('check_user_access_to_access_filter_page');
+      if (result is bool) {
+        _logger.i('Access check completed successfully. Result: $result');
+        return result;
+      } else {
+        _logger.e('Unexpected result type from RPC: $result');
+        throw Exception('Unexpected result from RPC: $result');
+      }
+    } catch (error) {
+      _logger.e('Error during access check for filter page: $error');
+      throw Exception('Failed to access filter page: $error');
     }
   }
 }

@@ -7,7 +7,7 @@
   "noInternetMessage": "We're on a coffee break ☕\nReconnect soon to keep rocking those eco-friendly looks!",
   "noInternetSnackBar": "Still offline, but your closet’s worth the wait! ✨",
   "retryConnection": "Try Again? 🚀",
-  "ItemNameLabel": "Name",
+  "ItemNameLabel": "Item Name",
   "ItemNameHint": "What’s this fabulous piece called?",
   "AmountLabel": "Amount",
   "AmountHint": "How much did this beauty cost?",
@@ -294,6 +294,10 @@
   "customizeDescription": "Personalize your view with grid size, sort category, and sort order.",
   "customizeClosetPageDescription": "Browse your closet in a flexible grid, sorted by your chosen category and order.",
   "customizeOutfitPageDescription": "Find items for your outfits in a flexible grid, sorted by category and order to make styling easy.",
+  "filterFeatureTitle": "Find Your Favorites Faster",
+  "filterFeatureDescription": "Browse with ease! Filters help you quickly spot your best pieces.",
+  "filterClosetPageDescription": "Sort your closet by color, type, and more to find just what you need.",
+  "filterOutfitPageDescription": "Focus on items that fit your style, mood, and plans.",
   "purchase_button": "Unlock Now",
   "loading_text": "Loading... Fashion magic in progress 🧙‍♂️✨",
   "uploadItemBronzeSuccessTitle": "Congrats! 200 More Items to Your Conscious Closet",
@@ -325,6 +329,11 @@
   "saveCustomization": "Save Customization",
   "gridSizePickerTitle": "Grid Size Picker",
   "sortCategoryPickerTitle": "Sort Category Picker",
-  "sortOrderPickerTitle": "Sort Order Picker"
-
+  "sortOrderPickerTitle": "Sort Order Picker",
+  "filterItemsTitle": "Filter Items",
+  "basicFiltersTab": "Basic Filters",
+  "advancedFiltersTab": "Advanced Filters",
+  "allClosetLabel": "All Closet",
+  "selectClosetLabel": "Select Closet",
+  "saveFilter": "Save Filter"
 }

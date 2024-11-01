@@ -13,7 +13,6 @@ import '../../outfit_management/create_outfit/presentation/widgets/outfit_featur
 import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../core/core_enums.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/calendar_premium_bottom_sheet.dart';
-import '../../core/widgets/bottom_sheet/premium_bottom_sheet/filter_premium_bottom_sheet.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
 import '../../core/utilities/routes.dart';
@@ -148,13 +147,11 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
         const CheckOutfitCreationAccessEvent());
   }
 
-  void _onFilterButtonPressed() {
-    logger.i('Filter button pressed, showing filter interest form...');
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return const PremiumFilterBottomSheet(isFromMyCloset: false);
-      },
+  void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
+    final selectedItemIds = context.read<SelectionOutfitItemsBloc>().state.selectedItemIds;
+    Navigator.of(context).pushNamed(
+      AppRoutes.filter,
+      arguments: {'isFromMyCloset': isFromMyCloset, 'selectedItemIds': selectedItemIds},
     );
   }
 
@@ -468,7 +465,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   OutfitFeatureContainer(
                     theme: widget.myOutfitTheme,
                     outfitCount: newOutfitCount,
-                    onFilterButtonPressed: _onFilterButtonPressed,
+                    onFilterButtonPressed:  () => _onFilterButtonPressed(context, false),
                     onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
                     onCalendarButtonPressed: _onCalendarButtonPressed,
                     onStylistButtonPressed: _onAiStylistButtonPressed,

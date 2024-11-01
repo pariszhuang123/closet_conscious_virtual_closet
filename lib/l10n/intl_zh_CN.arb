@@ -7,7 +7,7 @@
   "noInternetMessage": "我们正在享受一杯咖啡 ☕\n稍后重连，继续展现那些环保造型吧！",
   "noInternetSnackBar": "仍然离线，但您的衣橱值得等待！ ✨",
   "retryConnection": "再试一次？🚀",
-  "ItemNameLabel": "名称",
+  "ItemNameLabel": "单品名称",
   "ItemNameHint": "这件时尚单品叫什么名字？",
   "AmountLabel": "金额",
   "AmountHint": "这件美丽的单品花了多少钱？",
@@ -294,6 +294,10 @@
   "customizeDescription": "升级定制你的衣橱视图，轻松排序，提升风格管理，珍惜每一件衣物",
   "customizeClosetPageDescription": "按您选择的类别和顺序浏览您的衣橱，灵活网格显示。",
   "customizeOutfitPageDescription": "通过网格按类别和顺序浏览单品，轻松找到穿搭灵感。",
+  "filterFeatureTitle": "快速找到心仪单品",
+  "filterFeatureDescription": "轻松浏览！筛选功能助您迅速发现最佳单品。",
+  "filterClosetPageDescription": "按颜色、类别等整理衣橱，找到所需单品。",
+  "filterOutfitPageDescription": "专注于符合您风格、心情和计划的单品。",
   "purchase_button": "立即购买",
   "loading_text": "加载中... 时尚魔法正在进行中 🧙‍♂️✨",
   "uploadItemBronzeSuccessTitle": "恭喜！200件新物品加入您的环保衣橱",
@@ -325,5 +329,11 @@
   "saveCustomization": "保存自定义设置",
   "gridSizePickerTitle": "网格大小选择器",
   "sortCategoryPickerTitle": "分类选择器",
-  "sortOrderPickerTitle": "排序方式选择器"
+  "sortOrderPickerTitle": "排序方式选择器",
+  "filterItemsTitle": "筛选项目",
+  "basicFiltersTab": "基本筛选",
+  "advancedFiltersTab": "高级筛选",
+  "allClosetLabel": "所有衣橱",
+  "selectClosetLabel": "选择衣橱",
+  "saveFilter": "保存筛选"
 }

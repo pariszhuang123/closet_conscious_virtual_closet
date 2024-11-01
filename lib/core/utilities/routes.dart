@@ -15,6 +15,7 @@ import '../../outfit_management/wear_outfit/presentation/page/outfit_wear_provid
 import '../paywall/pages/payment_provider.dart';
 import '../user_photo/presentation/pages/photo_provider.dart';
 import '../customize/pages/customize_provider.dart';
+import '../filter/pages/filter_provider.dart';
 import '../core_enums.dart';
 import 'logger.dart';
 
@@ -35,6 +36,7 @@ class AppRoutes {
   static const String achievementPage = '/achievements';
   static const String payment = '/payment';
   static const String customize = '/customize';
+  static const String filter = '/filter';
 
   static final CustomLogger logger = CustomLogger('AppRoutes');
 
@@ -54,6 +56,17 @@ class AppRoutes {
         logger.d("Navigating to Customize with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds");
         return MaterialPageRoute(
           builder: (_) => CustomizeProvider(
+            isFromMyCloset: isFromMyCloset,
+            selectedItemIds: selectedItemIds,
+          ),
+        );
+      case AppRoutes.filter:
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
+        final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
+        logger.d("Navigating to Customize with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds");
+        return MaterialPageRoute(
+          builder: (_) => FilterProvider(
             isFromMyCloset: isFromMyCloset,
             selectedItemIds: selectedItemIds,
           ),

@@ -45,7 +45,7 @@ class TypeDataList {
     ];
   }
 
-  static List<TypeData> colors(BuildContext context) {
+  static List<TypeData> colour(BuildContext context) {
     return [
       TypeData('red', (context) => S.of(context).red, 'assets/icons/my_closet/upload/colouring/red.svg', true),
       TypeData('blue', (context) => S.of(context).blue, 'assets/icons/my_closet/upload/colouring/blue.svg', true),
@@ -59,7 +59,7 @@ class TypeDataList {
     ];
   }
 
-  static List<TypeData> colorVariations(BuildContext context) {
+  static List<TypeData> colourVariations(BuildContext context) {
     return [
       TypeData('light', (context) => S.of(context).light, 'assets/icons/my_closet/upload/colour_variation/light.svg', true),
       TypeData('medium', (context) => S.of(context).medium, 'assets/icons/my_closet/upload/colour_variation/medium.svg', true),

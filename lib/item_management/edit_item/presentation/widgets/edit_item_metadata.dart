@@ -236,7 +236,7 @@ class EditItemMetadata extends StatelessWidget {
         // Colour Selection
         Text(S.of(context).selectColour, style: theme.textTheme.bodyMedium),
         ...buildIconRows(
-          TypeDataList.colors(context),
+          TypeDataList.colour(context),
           currentItem.colour.isNotEmpty ? [currentItem.colour.first] : [], // Pass first item if available
               (dataKey) => onColourChanged(dataKey),
           context,
@@ -249,7 +249,7 @@ class EditItemMetadata extends StatelessWidget {
         if (!currentItem.colour.contains ('black') && !currentItem.colour.contains('white')) ...[
           Text(S.of(context).selectColourVariation, style: theme.textTheme.bodyMedium),
           ...buildIconRows(
-            TypeDataList.colorVariations(context),
+            TypeDataList.colourVariations(context),
             currentItem.colourVariations != null && currentItem.colourVariations!.isNotEmpty ? [currentItem.colourVariations!.first] : [], // Pass the first item if available
                 (dataKey) => onColourVariationChanged(dataKey),
             context,

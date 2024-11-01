@@ -11,6 +11,7 @@ import '../../../core/config/supabase_config.dart';
 import '../../../core/utilities/logger.dart';
 import '../../../user_management/user_service_locator.dart';
 import '../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
+import '../../filter/data/models/filter_setting.dart';
 
 class CoreSaveService {
   final CustomLogger logger;
@@ -255,6 +256,67 @@ class CoreSaveService {
     } catch (e) {
       logger.e('Error resetting arrangement settings: $e');
       rethrow;
+    }
+  }
+
+  Future<bool> saveFilterSettings({
+    required FilterSettings filterSettings,
+    required String closetId,
+    required bool allCloset,
+    required bool ignoreItemName,
+    required String itemName,
+  }) async {
+    // Convert filter settings to JSON format
+    final filterData = filterSettings.toJson();
+
+    // Save each part separately in the database
+    final response = await Supabase.instance.client
+        .from('user_preferences')
+        .update({
+      'new_filter': filterData, // Save as jsonb
+      'new_closet_id': closetId,
+      'new_all_closet': allCloset,
+      'new_ignore_item_name': ignoreItemName,
+      'new_item_name': itemName,
+    });
+
+    if (response.error != null) {
+      throw Exception('Error saving filter settings: ${response.error!.message}');
+    } else if (response.data['status'] == 'success') {
+      // Return true if the update was successful
+      return true;
+    } else {
+      // Return false if the update failed (or you could throw an error here)
+      throw Exception(response.data['message']);
+    }
+  }
+
+  // Save default selection for new users
+  Future<Map<String, dynamic>> saveDefaultSelection() async {
+    final response = await Supabase.instance.client.rpc('save_default_selection');
+
+    if (response == null) {
+      throw Exception('Error: RPC call returned null');
+    } else {
+      // Access filter data directly from the JSON response
+      final Map<String, dynamic> filters = response['r_filter'] ?? {};
+
+      // Construct the result with all relevant fields
+      return {
+        'filters': {
+          'itemType': filters['itemType'] ?? <String>[],
+          'occasion': filters['occasion'] ?? <String>[],
+          'season': filters['season'] ?? <String>[],
+          'colour': filters['colour'] ?? <String>[],
+          'colourVariations': filters['colourVariations'] ?? <String>[],
+          'clothingType': filters['clothingType'] ?? <String>[],
+          'shoesType': filters['shoesType'] ?? <String>[],
+          'accessoryType': filters['accessoryType'] ?? <String>[],
+        },
+        'closetId': response['r_closet_id'] as String,
+        'allCloset': response['r_all_closet'] as bool,
+        'ignoreItemName': response['r_ignore_item_name'] as bool,
+      };
     }
   }
 
