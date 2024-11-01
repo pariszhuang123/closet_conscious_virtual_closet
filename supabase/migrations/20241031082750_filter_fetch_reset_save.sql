@@ -48,7 +48,7 @@ declare
     current_user_id uuid := auth.uid();
 begin
   -- Update the user_preferences row for the authenticated user
-  update public.user_preferences
+  update public.shared_preferences
   set
       filter = new_filter,
       closet_id = new_closet_id,
@@ -85,6 +85,6 @@ as $$
         all_closet,
         ignore_item_name,
         item_name
-    from public.user_preferences
+    from public.shared_preferences
     where user_id = auth.uid();
 $$;
