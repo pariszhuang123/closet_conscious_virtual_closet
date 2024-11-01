@@ -49,15 +49,15 @@ class CoreFetchService {
     }
   }
 
-  /// Calls the check_user_access_to_upload_items function to fetch upload access status
+  /// Checks user access to upload items
   Future<Map<String, dynamic>> checkUserAccessToUploadItems() async {
     try {
       _logger.d('Checking user access to upload items');
       final response = await Supabase.instance.client.rpc('check_user_access_to_upload_items') as Map<String, dynamic>;
 
       if (response.isNotEmpty) {
-        _logger.i('User upload access fetched successfully');
-        return response;  // The response is already the data you need
+        _logger.i('User upload access fetched successfully: $response');
+        return response;
       } else {
         _logger.e('Unexpected response format or no data returned: $response');
         throw Exception('Unexpected response format or no data returned');
@@ -68,15 +68,15 @@ class CoreFetchService {
     }
   }
 
-  /// Calls the check_user_access_to_edit_items function to fetch edit access status
+  /// Checks user access to edit items
   Future<Map<String, dynamic>> checkUserAccessToEditItems() async {
     try {
       _logger.d('Checking user access to edit items');
       final response = await Supabase.instance.client.rpc('check_user_access_to_edit_items') as Map<String, dynamic>;
 
       if (response.isNotEmpty) {
-        _logger.i('User upload access fetched successfully');
-        return response;  // The response is already the data you need
+        _logger.i('User edit access fetched successfully: $response');
+        return response;
       } else {
         _logger.e('Unexpected response format or no data returned: $response');
         throw Exception('Unexpected response format or no data returned');
@@ -87,15 +87,15 @@ class CoreFetchService {
     }
   }
 
-  /// Calls the check_user_access_to_take_selfies function to fetch selfie access status
+  /// Checks user access to take selfies
   Future<Map<String, dynamic>> checkUserAccessToSelfie() async {
     try {
       _logger.d('Checking user access to take selfies');
       final response = await Supabase.instance.client.rpc('check_user_access_to_create_selfie') as Map<String, dynamic>;
 
       if (response.isNotEmpty) {
-        _logger.i('User upload access fetched successfully');
-        return response;  // The response is already the data you need
+        _logger.i('User selfie access fetched successfully: $response');
+        return response;
       } else {
         _logger.e('Unexpected response format or no data returned: $response');
         throw Exception('Unexpected response format or no data returned');
@@ -105,20 +105,31 @@ class CoreFetchService {
       rethrow;
     }
   }
-  Future<int> fetchCrossAxisCount() async {
-    final data = await Supabase.instance.client
-        .from('shared_preferences')
-        .select('grid')
-        .single();
 
-    if (data.isNotEmpty) {
-      return data['grid'] as int? ?? 3; // Default to 3 if null
-    } else {
-      // Handle error, log if needed
-      return 3; // Default to 3 if error
+  /// Fetches the cross-axis count from shared preferences
+  Future<int> fetchCrossAxisCount() async {
+    try {
+      _logger.d('Fetching cross-axis count from shared preferences');
+      final data = await Supabase.instance.client
+          .from('shared_preferences')
+          .select('grid')
+          .single();
+
+      if (data.isNotEmpty) {
+        final count = data['grid'] as int? ?? 3;
+        _logger.i('Cross-axis count fetched successfully: $count');
+        return count;
+      } else {
+        _logger.w('No data returned for cross-axis count, defaulting to 3');
+        return 3;
+      }
+    } catch (e) {
+      _logger.e('Error fetching cross-axis count: $e');
+      return 3;
     }
   }
 
+  /// Fetches arrangement settings from shared preferences
   Future<Map<String, dynamic>> fetchArrangementSettings() async {
     try {
       _logger.d('Fetching arrangement settings from Supabase...');
@@ -127,8 +138,7 @@ class CoreFetchService {
           .select('grid, sort, sort_order')
           .single();
 
-
-      _logger.i('Arrangement settings fetched successfully.');
+      _logger.i('Arrangement settings fetched successfully: $data');
       return data;
     } catch (e) {
       _logger.e('Error fetching arrangement settings: $e');
@@ -136,16 +146,17 @@ class CoreFetchService {
     }
   }
 
+  /// Checks access to customize page
   Future<bool> accessCustomizePage() async {
     _logger.i('Starting access check for customize page.');
 
     try {
       final result = await Supabase.instance.client.rpc('check_user_access_to_access_customize_page');
       if (result is bool) {
-        _logger.i('Access check completed successfully. Result: $result');
+        _logger.i('Access check for customize page completed successfully. Result: $result');
         return result;
       } else {
-        _logger.e('Unexpected result type from RPC: $result');
+        _logger.e('Unexpected result type from RPC for customize page access: $result');
         throw Exception('Unexpected result from RPC: $result');
       }
     } catch (error) {
@@ -154,37 +165,44 @@ class CoreFetchService {
     }
   }
 
+  /// Fetches filter settings from Supabase
   Future<Map<String, dynamic>> fetchFilterSettings() async {
-    // Call the Supabase RPC function
-    final response = await Supabase.instance.client.rpc('fetch_filter_settings');
+    try {
+      _logger.d('Fetching filter settings from Supabase...');
+      final response = await Supabase.instance.client.rpc('fetch_filter_settings');
 
-    if (response == null) {
-      throw Exception('Error: RPC call returned null');
-    } else {
-      // Parse the filter data using the FilterSettings model
-      final FilterSettings filterSettings = FilterSettings.fromJson(response['f_filter'] ?? {});
-
-      // Construct the result with all relevant fields
-      return {
-        'filters': filterSettings,
-        'closetId': response['f_closet_id'] as String,
-        'allCloset': response['f_all_closet'] as bool,
-        'ignoreItemName': response['f_ignore_item_name'] as bool,
-        'itemName': response['f_item_name'] as String,
-      };
+      if (response == null) {
+        _logger.e('RPC call for filter settings returned null');
+        throw Exception('Error: RPC call returned null');
+      } else {
+        final FilterSettings filterSettings = FilterSettings.fromJson(response['f_filter'] ?? {});
+        final result = {
+          'filters': filterSettings,
+          'closetId': response['f_closet_id'] as String,
+          'allCloset': response['f_all_closet'] as bool,
+          'ignoreItemName': response['f_ignore_item_name'] as bool,
+          'itemName': response['f_item_name'] as String,
+        };
+        _logger.i('Filter settings fetched successfully: $result');
+        return result;
+      }
+    } catch (e) {
+      _logger.e('Error fetching filter settings: $e');
+      rethrow;
     }
   }
 
+  /// Checks access to filter page
   Future<bool> accessFilterPage() async {
     _logger.i('Starting access check for filter page.');
 
     try {
       final result = await Supabase.instance.client.rpc('check_user_access_to_access_filter_page');
       if (result is bool) {
-        _logger.i('Access check completed successfully. Result: $result');
+        _logger.i('Access check for filter page completed successfully. Result: $result');
         return result;
       } else {
-        _logger.e('Unexpected result type from RPC: $result');
+        _logger.e('Unexpected result type from RPC for filter page access: $result');
         throw Exception('Unexpected result from RPC: $result');
       }
     } catch (error) {

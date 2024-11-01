@@ -7,7 +7,6 @@ import '../../../data/services/core_fetch_services.dart';
 import '../../../data/services/core_save_services.dart';
 import '../../data/models/filter_setting.dart';
 
-
 part 'filter_state.dart';
 part 'filter_event.dart';
 
@@ -21,6 +20,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     required this.saveService,
   }) : logger = CustomLogger('FilterBlocLogger'),
         super(const FilterState()) {
+    logger.i('FilterBloc initialized');
     on<LoadFilterEvent>(_onLoadFilter);
     on<UpdateFilterEvent>(_onUpdateFilter);
     on<SaveFilterEvent>(_onSaveFilter);
@@ -29,20 +29,19 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
   }
 
   Future<void> _onLoadFilter(LoadFilterEvent event, Emitter<FilterState> emit) async {
+    logger.i('Loading filter settings...');
     emit(state.copyWith(saveStatus: SaveStatus.inProgress));
 
     try {
-      // Fetch the structured filter settings data
       final filterData = await fetchService.fetchFilterSettings();
+      logger.i('Filter settings loaded successfully');
 
-      // Use the FilterSettings object directly from the response
       final FilterSettings filterSettings = filterData['filters'];
       final closetId = filterData['closetId'] as String;
       final allCloset = filterData['allCloset'] as bool;
       final ignoreItemName = filterData['ignoreItemName'] as bool;
       final itemName = filterData['itemName'] as String;
 
-      // Emit the updated state with the structured filter data
       emit(state.copyWith(
         saveStatus: SaveStatus.loadSuccess,
         itemType: filterSettings.itemType,
@@ -59,6 +58,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         ignoreItemName: ignoreItemName,
         searchQuery: itemName,
       ));
+      logger.i('Filter settings state updated successfully');
     } catch (error) {
       logger.e('Error fetching filters: $error');
       emit(state.copyWith(saveStatus: SaveStatus.failure));
@@ -66,6 +66,8 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
   }
 
   void _onUpdateFilter(UpdateFilterEvent event, Emitter<FilterState> emit) {
+    logger.i('Updating filter settings with event: $event');
+
     emit(state.copyWith(
       searchQuery: event.searchQuery ?? state.searchQuery,
       selectedCloset: event.selectedCloset ?? state.selectedCloset,
@@ -79,14 +81,15 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       shoesType: event.shoesType ?? state.shoesType,
       accessoryType: event.accessoryType ?? state.accessoryType,
     ));
+
+    logger.i('Filter settings updated with new state: ${state.toString()}');
   }
 
   Future<void> _onSaveFilter(SaveFilterEvent event, Emitter<FilterState> emit) async {
+    logger.i('Saving filter settings...');
     emit(state.copyWith(saveStatus: SaveStatus.inProgress));
 
     try {
-
-      // Prepare FilterSettings object from current state
       final filterSettings = FilterSettings(
         itemType: state.itemType,
         occasion: state.occasion,
@@ -99,21 +102,20 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         accessoryType: state.accessoryType,
       );
 
-      // Call the save service with the required data
       final isSuccess = await saveService.saveFilterSettings(
         filterSettings: filterSettings,
         closetId: state.closetId,
         allCloset: state.allCloset,
         ignoreItemName: state.ignoreItemName,
-        itemName: state.searchQuery, // Assuming searchQuery represents itemName here
+        itemName: state.searchQuery,
       );
 
       if (isSuccess) {
-        // Emit success state if the RPC returned success
         emit(state.copyWith(saveStatus: SaveStatus.saveSuccess));
+        logger.i('Filter settings saved successfully');
       } else {
-        // Optionally, handle cases where the status isn't successful but not an error
         emit(state.copyWith(saveStatus: SaveStatus.failure));
+        logger.w('Filter settings save failed without an error');
       }
     } catch (error) {
       logger.e('Error saving filters: $error');
@@ -121,30 +123,32 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     }
   }
 
-  void _onResetFilter(ResetFilterEvent event, Emitter<FilterState> emit) async {
+  Future<void> _onResetFilter(ResetFilterEvent event, Emitter<FilterState> emit) async {
+    logger.i('Resetting filter settings to default');
     emit(state.copyWith(saveStatus: SaveStatus.inProgress));
-    try {
-      // Directly get the structured data from saveDefaultSelection
-      final result = await saveService.saveDefaultSelection();
 
-      // Emit the state with the directly accessed data
+    try {
+      final result = await saveService.saveDefaultSelection();
+      logger.i('Default filter settings loaded successfully');
+
       emit(state.copyWith(
-          saveStatus: SaveStatus.saveSuccess,
-          itemType: result['filters']['itemType'],
-          occasion: result['filters']['occasion'],
-          season: result['filters']['season'],
-          colour: result['filters']['colour'],
-          colourVariations: result['filters']['colourVariations'],
-          clothingType: result['filters']['clothingType'],
-          clothingLayer: result['filters']['clothingLayer'],
-          shoesType: result['filters']['shoesType'],
-          accessoryType: result['filters']['accessoryType'],
-          closetId: result['closetId'],
-          allCloset: result['allCloset'],
-          ignoreItemName: result['ignoreItemName']
+        saveStatus: SaveStatus.saveSuccess,
+        itemType: result['filters']['itemType'],
+        occasion: result['filters']['occasion'],
+        season: result['filters']['season'],
+        colour: result['filters']['colour'],
+        colourVariations: result['filters']['colourVariations'],
+        clothingType: result['filters']['clothingType'],
+        clothingLayer: result['filters']['clothingLayer'],
+        shoesType: result['filters']['shoesType'],
+        accessoryType: result['filters']['accessoryType'],
+        closetId: result['closetId'],
+        allCloset: result['allCloset'],
+        ignoreItemName: result['ignoreItemName'],
       ));
+      logger.i('Filter settings reset and state updated');
     } catch (error) {
-      logger.e('Error saving filters: $error');
+      logger.e('Error resetting filters: $error');
       emit(state.copyWith(saveStatus: SaveStatus.failure));
     }
   }
@@ -153,6 +157,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       CheckFilterAccessEvent event,
       Emitter<FilterState> emit) async {
     logger.i('Checking if the user has access to the filter page.');
+
     try {
       bool canAccessFilterPage = await fetchService.accessFilterPage();
 
@@ -165,9 +170,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       }
     } catch (error) {
       logger.e('Error checking filter access: $error');
-      emit(state.copyWith(accessStatus: AccessStatus.error,
-      ));
+      emit(state.copyWith(accessStatus: AccessStatus.error));
     }
   }
-
 }

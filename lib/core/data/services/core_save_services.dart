@@ -2,8 +2,6 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sentry_flutter/sentry_flutter.dart';
-
-
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
@@ -20,13 +18,15 @@ class CoreSaveService {
 
   /// Function to handle Supabase RPC calls
   Future<Map<String, dynamic>> callSupabaseRpc(String rpcFunctionName) async {
+    logger.i('Calling RPC function: $rpcFunctionName');
     try {
       final response = await SupabaseConfig.client.rpc(rpcFunctionName).single();
-      logger.i('Full response: ${jsonEncode(response)}');
+      logger.i('RPC call successful. Response: ${jsonEncode(response)}');
 
       if (response.containsKey('status')) {
         return response;
       } else {
+        logger.e('Unexpected response format');
         throw Exception('Unexpected response format');
       }
     } catch (e) {
@@ -36,30 +36,31 @@ class CoreSaveService {
   }
 
   Future<Map<String, dynamic>?> saveAchievementBadge(String achievementName) async {
+    logger.i('Saving achievement badge: $achievementName');
     try {
       final response = await Supabase.instance.client
           .rpc('achievement_badge', params: {'p_achievement_name': achievementName})
           .single();
 
-      logger.i('Full response: ${jsonEncode(response)}');
+      logger.i('Achievement badge response: ${jsonEncode(response)}');
 
-      // Check if the response contains the status and is successful
       if (response.containsKey('status') && response['status'] == 'success') {
+        logger.i('Achievement badge saved successfully.');
         return response;
       } else {
-        logger.e('Unexpected response format');
+        logger.e('Unexpected response format for achievement badge');
         return null;
       }
     } catch (e) {
-      logger.e('Unexpected error: $e');
+      logger.e('Error saving achievement badge: $e');
       return null;
     }
   }
 
   /// Function to upload images to Supabase storage
   Future<String?> uploadImage(File imageFile) async {
+    logger.i('Uploading image to Supabase storage');
     try {
-      // Fetch the AuthBloc instance from the service locator
       final authBloc = locator<AuthBloc>();
       final userId = authBloc.userId;
 
@@ -77,7 +78,6 @@ class CoreSaveService {
           ),
         );
 
-        // Generate the public URL for the uploaded image
         String imageUrl = SupabaseConfig.client.storage
             .from('item_pics')
             .getPublicUrl(imagePath);
@@ -85,20 +85,20 @@ class CoreSaveService {
           't': DateTime.now().millisecondsSinceEpoch.toString()
         }).toString();
 
-        logger.i('Image uploaded successfully: $imageUrl');
+        logger.i('Image uploaded successfully. URL: $imageUrl');
         return imageUrl;
       } else {
-        logger.e('User not authenticated');
+        logger.e('User not authenticated, cannot upload image');
         return null;
       }
     } catch (e) {
       logger.e('Error uploading image: $e');
-      return null; // Return null in case of failure
+      return null;
     }
   }
 
   Future<void> processUploadedImage(String imageUrl, String outfitId) async {
-    logger.i('Starting processUploadedImage for outfit $outfitId');
+    logger.i('Processing uploaded image for outfit $outfitId');
     try {
       final response = await SupabaseConfig.client.rpc('upload_outfit_selfie', params: {
         '_image_url': imageUrl,
@@ -106,19 +106,19 @@ class CoreSaveService {
       });
 
       if (response is! Map<String, dynamic> || response['status'] != 'success') {
-        logger.w('processUploadedImage: RPC call returned an unexpected response for outfit $outfitId: $response');
-        throw Exception('RPC call failed');
+        logger.w('Unexpected response for image processing: $response');
+        throw Exception('Image processing RPC call failed');
       }
 
-      logger.i('processUploadedImage: Image processing completed successfully for outfit $outfitId');
+      logger.i('Image processing completed successfully for outfit $outfitId');
     } catch (e) {
-      logger.e('processUploadedImage: Error processing uploaded image for outfit $outfitId, error: $e');
+      logger.e('Error processing uploaded image for outfit $outfitId: $e');
       throw Exception('Processing uploaded image failed');
     }
   }
 
   Future<void> processEditItemImage(String imageUrl, String itemId) async {
-    logger.i('Starting processUploadedImage for item $itemId');
+    logger.i('Processing edited image for item $itemId');
     try {
       final response = await SupabaseConfig.client.rpc('update_item_photo', params: {
         '_image_url': imageUrl,
@@ -126,79 +126,51 @@ class CoreSaveService {
       });
 
       if (response is! Map<String, dynamic> || response['status'] != 'success') {
-        logger.w('processUploadedImage: RPC call returned an unexpected response for item $itemId: $response');
-        throw Exception('RPC call failed');
+        logger.w('Unexpected response for item image processing: $response');
+        throw Exception('Image processing RPC call failed');
       }
 
-      logger.i('processUploadedImage: Image processing completed successfully for item $itemId');
+      logger.i('Image processing completed successfully for item $itemId');
     } catch (e) {
-      logger.e('processUploadedImage: Error processing uploaded image for item $itemId, error: $e');
-      throw Exception('Processing uploaded image failed');
+      logger.e('Error processing edited image for item $itemId: $e');
+      throw Exception('Processing edited image failed');
     }
   }
 
   Future<Map<String, dynamic>?> verifyAndroidPurchaseWithSupabaseEdgeFunction(
-      String purchaseToken,
-      String productId,
-      ) async {
+      String purchaseToken, String productId) async {
+    logger.i('Verifying Android purchase with Supabase Edge Function');
     try {
-      // Construct the URL for your Edge Function
       const supabaseFunctionUrl = 'https://vrhytwexijijwhlicqfw.functions.supabase.co/purchase-verification-android';
-
-      // Fetch the JWT token from Supabase client (ensure you are authenticated)
       final accessToken = Supabase.instance.client.auth.currentSession?.accessToken;
 
       if (accessToken == null) {
         logger.e('Access token not found. User may not be authenticated.');
-        return {
-          'status': 'error',
-          'message': 'User not authenticated',
-        };
+        return {'status': 'error', 'message': 'User not authenticated'};
       }
 
-      // Make a POST request to the Edge Function
       final response = await http.post(
         Uri.parse(supabaseFunctionUrl),
         headers: {
           'Authorization': 'Bearer $accessToken',
           'Content-Type': 'application/json',
         },
-        body: jsonEncode({
-          'purchaseToken': purchaseToken,
-          'productId': productId,
-        }),
+        body: jsonEncode({'purchaseToken': purchaseToken, 'productId': productId}),
       );
 
       final responseData = jsonDecode(response.body) as Map<String, dynamic>;
 
-      final status = responseData['status'] as String?;
-
-      if (status == 'success') {
-        Sentry.addBreadcrumb(Breadcrumb(
-          message: 'Purchase verification succeeded',
-          data: {'response': responseData},
-          level: SentryLevel.info,
-        ));
+      if (responseData['status'] == 'success') {
         logger.i('Purchase verification successful: $responseData');
-        return {
-          'status': 'success',
-          'message': 'Purchase verified successfully'
-        };
+        return {'status': 'success', 'message': 'Purchase verified successfully'};
       } else {
-        Sentry.captureMessage('Failed to verify purchase', level: SentryLevel.error);
         logger.e('Failed to verify purchase: ${response.body}');
-        return {
-          'status': 'error',
-          'message': responseData['error'] ?? 'Unknown error occurred',
-        };
+        return {'status': 'error', 'message': responseData['error'] ?? 'Unknown error occurred'};
       }
     } catch (e, stackTrace) {
       Sentry.captureException(e, stackTrace: stackTrace);
-      logger.e('Error verifying purchase with Supabase Edge Function: $e');
-      return {
-        'status': 'error',
-        'message': 'An exception occurred: $e',
-      };
+      logger.e('Error verifying purchase: $e');
+      return {'status': 'error', 'message': 'An exception occurred: $e'};
     }
   }
 
@@ -207,9 +179,8 @@ class CoreSaveService {
     required String sortCategory,
     required String sortOrder,
   }) async {
+    logger.i('Saving arrangement settings with gridSize: $gridSize, sortCategory: $sortCategory, sortOrder: $sortOrder');
     try {
-      logger.d('Saving arrangement settings to Supabase...');
-
       final authBloc = locator<AuthBloc>();
       final userId = authBloc.userId;
 
@@ -223,8 +194,7 @@ class CoreSaveService {
         'grid': gridSize,
         'sort': sortCategory,
         'sort_order': sortOrder,
-      })
-          .eq('user_id', userId); // Ensures the update targets only the authenticated user's settings
+      }).eq('user_id', userId);
 
       logger.i('Arrangement settings saved successfully.');
     } catch (e) {
@@ -234,8 +204,8 @@ class CoreSaveService {
   }
 
   Future<void> resetArrangementSettings() async {
+    logger.i('Resetting arrangement settings to default');
     try {
-      logger.d('Resetting arrangement settings to default in Supabase...');
       final authBloc = locator<AuthBloc>();
       final userId = authBloc.userId;
 
@@ -249,8 +219,7 @@ class CoreSaveService {
         'grid': 3,
         'sort': 'updated_at',
         'sort_order': 'DESC',
-      })
-          .eq('user_id', userId); // Targets the update to the specific authenticated user
+      }).eq('user_id', userId);
 
       logger.i('Arrangement settings reset to default successfully.');
     } catch (e) {
@@ -266,43 +235,43 @@ class CoreSaveService {
     required bool ignoreItemName,
     required String itemName,
   }) async {
-    // Convert filter settings to JSON format
-    final filterData = filterSettings.toJson();
+    logger.i('Saving filter settings for closet: $closetId');
+    try {
+      final filterData = filterSettings.toJson();
 
-    // Save each part separately in the database
-    final response = await Supabase.instance.client
-        .from('user_preferences')
-        .update({
-      'new_filter': filterData, // Save as jsonb
-      'new_closet_id': closetId,
-      'new_all_closet': allCloset,
-      'new_ignore_item_name': ignoreItemName,
-      'new_item_name': itemName,
-    });
+      final response = await Supabase.instance.client.from('user_preferences').update({
+        'new_filter': filterData,
+        'new_closet_id': closetId,
+        'new_all_closet': allCloset,
+        'new_ignore_item_name': ignoreItemName,
+        'new_item_name': itemName,
+      });
 
-    if (response.error != null) {
-      throw Exception('Error saving filter settings: ${response.error!.message}');
-    } else if (response.data['status'] == 'success') {
-      // Return true if the update was successful
-      return true;
-    } else {
-      // Return false if the update failed (or you could throw an error here)
-      throw Exception(response.data['message']);
+      if (response.error == null && response.data['status'] == 'success') {
+        logger.i('Filter settings saved successfully.');
+        return true;
+      } else {
+        logger.e('Error saving filter settings: ${response.error?.message}');
+        return false;
+      }
+    } catch (e) {
+      logger.e('Exception while saving filter settings: $e');
+      return false;
     }
   }
 
-  // Save default selection for new users
   Future<Map<String, dynamic>> saveDefaultSelection() async {
-    final response = await Supabase.instance.client.rpc('save_default_selection');
+    logger.i('Saving default selection for new users');
+    try {
+      final response = await Supabase.instance.client.rpc('save_default_selection');
 
-    if (response == null) {
-      throw Exception('Error: RPC call returned null');
-    } else {
-      // Access filter data directly from the JSON response
-      final Map<String, dynamic> filters = response['r_filter'] ?? {};
+      if (response == null) {
+        logger.e('RPC call for default selection returned null');
+        throw Exception('RPC call returned null');
+      }
 
-      // Construct the result with all relevant fields
-      return {
+      final filters = response['r_filter'] ?? {};
+      final result = {
         'filters': {
           'itemType': filters['itemType'] ?? <String>[],
           'occasion': filters['occasion'] ?? <String>[],
@@ -317,7 +286,12 @@ class CoreSaveService {
         'allCloset': response['r_all_closet'] as bool,
         'ignoreItemName': response['r_ignore_item_name'] as bool,
       };
+
+      logger.i('Default selection saved successfully: $result');
+      return result;
+    } catch (e) {
+      logger.e('Error saving default selection: $e');
+      rethrow;
     }
   }
-
 }

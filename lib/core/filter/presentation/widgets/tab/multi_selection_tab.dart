@@ -19,6 +19,8 @@ class MultiSelectionTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    _logger.i('Building MultiSelectionTab widget');
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -29,8 +31,10 @@ class MultiSelectionTab extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.itemGeneralTypes(context),
             state.itemType ?? [],
-                (selectedKeys) {  // Update to accept List<String>
+                (selectedKeys) {
+              _logger.d('User selected item type: $selectedKeys');
               context.read<FilterBloc>().add(UpdateFilterEvent(itemType: selectedKeys));
+              _logger.i('Dispatched UpdateFilterEvent with itemType: $selectedKeys');
             },
             context,
             true,
@@ -43,8 +47,10 @@ class MultiSelectionTab extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.occasions(context),
             state.occasion ?? [],
-                (selectedKeys) {  // Update to accept List<String>
+                (selectedKeys) {
+              _logger.d('User selected occasion: $selectedKeys');
               context.read<FilterBloc>().add(UpdateFilterEvent(occasion: selectedKeys));
+              _logger.i('Dispatched UpdateFilterEvent with occasion: $selectedKeys');
             },
             context,
             true,
@@ -58,7 +64,9 @@ class MultiSelectionTab extends StatelessWidget {
             TypeDataList.seasons(context),
             state.season ?? [],
                 (selectedKeys) {
+              _logger.d('User selected season: $selectedKeys');
               context.read<FilterBloc>().add(UpdateFilterEvent(season: selectedKeys));
+              _logger.i('Dispatched UpdateFilterEvent with season: $selectedKeys');
             },
             context,
             true,
@@ -71,7 +79,9 @@ class MultiSelectionTab extends StatelessWidget {
             TypeDataList.clothingTypes(context),
             state.clothingType ?? [],
                 (selectedKeys) {
+              _logger.d('User selected clothing type: $selectedKeys');
               context.read<FilterBloc>().add(UpdateFilterEvent(clothingType: selectedKeys));
+              _logger.i('Dispatched UpdateFilterEvent with clothingType: $selectedKeys');
             },
             context,
             true,
@@ -84,7 +94,9 @@ class MultiSelectionTab extends StatelessWidget {
             TypeDataList.clothingLayers(context),
             state.clothingLayer ?? [],
                 (selectedKeys) {
+              _logger.d('User selected clothing layer: $selectedKeys');
               context.read<FilterBloc>().add(UpdateFilterEvent(clothingLayer: selectedKeys));
+              _logger.i('Dispatched UpdateFilterEvent with clothingLayer: $selectedKeys');
             },
             context,
             true,
@@ -97,7 +109,9 @@ class MultiSelectionTab extends StatelessWidget {
             TypeDataList.accessoryTypes(context),
             state.accessoryType ?? [],
                 (selectedKeys) {
+              _logger.d('User selected accessory type: $selectedKeys');
               context.read<FilterBloc>().add(UpdateFilterEvent(accessoryType: selectedKeys));
+              _logger.i('Dispatched UpdateFilterEvent with accessoryType: $selectedKeys');
             },
             context,
             true,
@@ -110,7 +124,9 @@ class MultiSelectionTab extends StatelessWidget {
             TypeDataList.shoeTypes(context),
             state.shoesType ?? [],
                 (selectedKeys) {
+              _logger.d('User selected shoe type: $selectedKeys');
               context.read<FilterBloc>().add(UpdateFilterEvent(shoesType: selectedKeys));
+              _logger.i('Dispatched UpdateFilterEvent with shoesType: $selectedKeys');
             },
             context,
             true,
@@ -123,7 +139,9 @@ class MultiSelectionTab extends StatelessWidget {
             TypeDataList.colour(context),
             state.colour ?? [],
                 (selectedKeys) {
+              _logger.d('User selected colour: $selectedKeys');
               context.read<FilterBloc>().add(UpdateFilterEvent(colour: selectedKeys));
+              _logger.i('Dispatched UpdateFilterEvent with colour: $selectedKeys');
             },
             context,
             true,
@@ -136,7 +154,9 @@ class MultiSelectionTab extends StatelessWidget {
             TypeDataList.colourVariations(context),
             state.colourVariations ?? [],
                 (selectedKeys) {
+              _logger.d('User selected colour variation: $selectedKeys');
               context.read<FilterBloc>().add(UpdateFilterEvent(colourVariations: selectedKeys));
+              _logger.i('Dispatched UpdateFilterEvent with colourVariations: $selectedKeys');
             },
             context,
             true,
