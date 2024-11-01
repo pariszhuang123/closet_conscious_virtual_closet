@@ -97,7 +97,8 @@ class CustomizeScreen extends StatelessWidget {
                   ...buildIconRows(
                     TypeDataList.gridSizes(context),
                     [state.gridSize.toString()],
-                        (selectedKey) {
+                          (selectedKeys) {  // Updated to receive a List<String>
+                        final selectedKey = selectedKeys.first;  // Use the first item from the list
                       _logger.d('Grid Size Picker selected: $selectedKey');
                       context.read<CustomizeBloc>().add(
                         UpdateCustomizeEvent(gridSize: int.parse(selectedKey)),
@@ -115,7 +116,8 @@ class CustomizeScreen extends StatelessWidget {
                   ...buildIconRows(
                     TypeDataList.sortCategories(context),
                     [state.sortCategory],
-                        (selectedKey) {
+                          (selectedKeys) {  // Updated to receive a List<String>
+                        final selectedKey = selectedKeys.first;  // Use the first item from the list
                       _logger.d('Sort Category Picker selected: $selectedKey');
                       context.read<CustomizeBloc>().add(
                         UpdateCustomizeEvent(sortCategory: selectedKey),
@@ -133,7 +135,8 @@ class CustomizeScreen extends StatelessWidget {
                   ...buildIconRows(
                     TypeDataList.sortOrder(context),
                     [state.sortOrder],
-                        (selectedKey) {
+                          (selectedKeys) {  // Updated to receive a List<String>
+                        final selectedKey = selectedKeys.first;  // Use the first item from the list
                       _logger.d('Sort Order Picker selected: $selectedKey');
                       context.read<CustomizeBloc>().add(
                         UpdateCustomizeEvent(sortOrder: selectedKey),

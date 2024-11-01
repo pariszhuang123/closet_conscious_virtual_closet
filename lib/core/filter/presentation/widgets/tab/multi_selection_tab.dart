@@ -5,11 +5,15 @@ import '../../../../widgets/layout/icon_row_builder.dart';
 import '../../../../data/type_data.dart';
 import '../../bloc/filter_bloc.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../utilities/logger.dart';
 
 class MultiSelectionTab extends StatelessWidget {
   final FilterState state;
+  final CustomLogger _logger = CustomLogger('MultiSelectionTab');
 
-  const MultiSelectionTab({super.key, required this.state});
+  MultiSelectionTab({super.key, required this.state}) {
+    _logger.i('MultiSelectionTab initialized with state: $state');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +29,8 @@ class MultiSelectionTab extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.itemGeneralTypes(context),
             state.itemType ?? [],
-                (dataKey) {
-              context.read<FilterBloc>().add(UpdateFilterEvent(itemType: [dataKey]));
+                (selectedKeys) {  // Update to accept List<String>
+              context.read<FilterBloc>().add(UpdateFilterEvent(itemType: selectedKeys));
             },
             context,
             true,
@@ -39,8 +43,8 @@ class MultiSelectionTab extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.occasions(context),
             state.occasion ?? [],
-                (dataKey) {
-              context.read<FilterBloc>().add(UpdateFilterEvent(occasion: [dataKey]));
+                (selectedKeys) {  // Update to accept List<String>
+              context.read<FilterBloc>().add(UpdateFilterEvent(occasion: selectedKeys));
             },
             context,
             true,
@@ -53,8 +57,8 @@ class MultiSelectionTab extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.seasons(context),
             state.season ?? [],
-                (dataKey) {
-              context.read<FilterBloc>().add(UpdateFilterEvent(season: [dataKey]));
+                (selectedKeys) {
+              context.read<FilterBloc>().add(UpdateFilterEvent(season: selectedKeys));
             },
             context,
             true,
@@ -66,8 +70,8 @@ class MultiSelectionTab extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.clothingTypes(context),
             state.clothingType ?? [],
-                (dataKey) {
-              context.read<FilterBloc>().add(UpdateFilterEvent(clothingType: [dataKey]));
+                (selectedKeys) {
+              context.read<FilterBloc>().add(UpdateFilterEvent(clothingType: selectedKeys));
             },
             context,
             true,
@@ -79,8 +83,8 @@ class MultiSelectionTab extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.clothingLayers(context),
             state.clothingLayer ?? [],
-                (dataKey) {
-              context.read<FilterBloc>().add(UpdateFilterEvent(clothingLayer: [dataKey]));
+                (selectedKeys) {
+              context.read<FilterBloc>().add(UpdateFilterEvent(clothingLayer: selectedKeys));
             },
             context,
             true,
@@ -92,8 +96,8 @@ class MultiSelectionTab extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.accessoryTypes(context),
             state.accessoryType ?? [],
-                (dataKey) {
-              context.read<FilterBloc>().add(UpdateFilterEvent(accessoryType: [dataKey]));
+                (selectedKeys) {
+              context.read<FilterBloc>().add(UpdateFilterEvent(accessoryType: selectedKeys));
             },
             context,
             true,
@@ -105,8 +109,8 @@ class MultiSelectionTab extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.shoeTypes(context),
             state.shoesType ?? [],
-                (dataKey) {
-              context.read<FilterBloc>().add(UpdateFilterEvent(shoesType: [dataKey]));
+                (selectedKeys) {
+              context.read<FilterBloc>().add(UpdateFilterEvent(shoesType: selectedKeys));
             },
             context,
             true,
@@ -118,8 +122,8 @@ class MultiSelectionTab extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.colour(context),
             state.colour ?? [],
-                (dataKey) {
-              context.read<FilterBloc>().add(UpdateFilterEvent(colour: [dataKey]));
+                (selectedKeys) {
+              context.read<FilterBloc>().add(UpdateFilterEvent(colour: selectedKeys));
             },
             context,
             true,
@@ -131,8 +135,8 @@ class MultiSelectionTab extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.colourVariations(context),
             state.colourVariations ?? [],
-                (dataKey) {
-              context.read<FilterBloc>().add(UpdateFilterEvent(colourVariations: [dataKey]));
+                (selectedKeys) {
+              context.read<FilterBloc>().add(UpdateFilterEvent(colourVariations: selectedKeys));
             },
             context,
             true,

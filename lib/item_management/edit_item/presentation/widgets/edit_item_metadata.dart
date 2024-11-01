@@ -109,7 +109,7 @@ class EditItemMetadata extends StatelessWidget {
         ...buildIconRows(
           TypeDataList.itemGeneralTypes(context),
           currentItem.itemType, // Pass first item if available
-              (dataKey) => onItemTypeChanged(dataKey),
+              (selectedKeys) => onItemTypeChanged(selectedKeys.first),
           context,
           true,
           false,
@@ -123,7 +123,7 @@ class EditItemMetadata extends StatelessWidget {
         ...buildIconRows(
           TypeDataList.occasions(context),
           currentItem.occasion, // Pass first item if available
-              (dataKey) => onOccasionChanged(dataKey),
+              (selectedKeys) => onOccasionChanged(selectedKeys.first),
           context,
           true,
           false,
@@ -135,7 +135,7 @@ class EditItemMetadata extends StatelessWidget {
         ...buildIconRows(
           TypeDataList.seasons(context),
           currentItem.season, // Pass first item if available
-              (dataKey) => onSeasonChanged(dataKey),
+              (selectedKeys) => onSeasonChanged(selectedKeys.first),
           context,
           true,
           false,
@@ -148,7 +148,7 @@ class EditItemMetadata extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.shoeTypes(context),
             currentItem.shoesType ?? [], // Pass the first item if available
-                (dataKey) => onShoeTypeChanged(dataKey),
+                (selectedKeys) => onShoeTypeChanged(selectedKeys.first),
             context,
             true,
             false,
@@ -171,7 +171,7 @@ class EditItemMetadata extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.accessoryTypes(context),
             currentItem.accessoryType != null && currentItem.accessoryType!.isNotEmpty ? [currentItem.accessoryType!.first] : [], // Pass the first item if available
-                (dataKey) => onAccessoryTypeChanged(dataKey),
+                (selectedKeys) => onAccessoryTypeChanged(selectedKeys.first),
             context,
             true,
             false,
@@ -195,7 +195,7 @@ class EditItemMetadata extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.clothingTypes(context),
             currentItem.clothingType != null && currentItem.clothingType!.isNotEmpty ? [currentItem.clothingType!.first] : [], // Pass the first item if available
-                (dataKey) => onClothingTypeChanged(dataKey),
+                (selectedKeys) => onClothingTypeChanged(selectedKeys.first),
             context,
             true,
             false,
@@ -216,7 +216,7 @@ class EditItemMetadata extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.clothingLayers(context),
             currentItem.clothingLayer != null && currentItem.clothingLayer!.isNotEmpty ? [currentItem.clothingLayer!.first] : [], // Pass the first item if available
-                (dataKey) => onClothingLayerChanged(dataKey),
+                (selectedKeys) => onClothingLayerChanged(selectedKeys.first),
             context,
             true,
             false,
@@ -238,7 +238,7 @@ class EditItemMetadata extends StatelessWidget {
         ...buildIconRows(
           TypeDataList.colour(context),
           currentItem.colour.isNotEmpty ? [currentItem.colour.first] : [], // Pass first item if available
-              (dataKey) => onColourChanged(dataKey),
+              (selectedKeys) => onColourChanged(selectedKeys.first),
           context,
           true,
           false,
@@ -251,7 +251,7 @@ class EditItemMetadata extends StatelessWidget {
           ...buildIconRows(
             TypeDataList.colourVariations(context),
             currentItem.colourVariations != null && currentItem.colourVariations!.isNotEmpty ? [currentItem.colourVariations!.first] : [], // Pass the first item if available
-                (dataKey) => onColourVariationChanged(dataKey),
+                (selectedKeys) => onColourVariationChanged(selectedKeys.first),
             context,
             true,
             false,

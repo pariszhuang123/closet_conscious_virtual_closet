@@ -35,7 +35,7 @@ class MetadataThirdPage extends StatelessWidget {
                 children: buildIconRows(
                   TypeDataList.colour(context),
                   selectedColour != null ? [selectedColour!] : [],  // Wrap in a list and handle null
-                  onColourChanged,
+                      (selectedKeys) => onColourChanged(selectedKeys.first), // Wrap in lambda
                   context,
                   true,
                   false,
@@ -53,7 +53,7 @@ class MetadataThirdPage extends StatelessWidget {
                   children: buildIconRows(
                     TypeDataList.colourVariations(context),
                     selectedColourVariation != null ? [selectedColourVariation!] : [],  // Wrap in a list and handle null
-                    onColourVariationChanged,
+                        (selectedKeys) => onColourVariationChanged(selectedKeys.first), // Wrap in lambda
                     context,
                     true,
                     false,

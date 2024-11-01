@@ -7,7 +7,7 @@ import '../../data/type_data.dart';
 List<Widget> buildIconRows(
     List<TypeData> typeDataList,
     List<String> selectedKeys,  // Holds selected values
-    void Function(String) onTap,
+    void Function(List<String>) onTap,
     BuildContext context,
     bool isFromMyCloset,
     bool allowMultiSelection,  // New parameter for selection mode
@@ -59,7 +59,7 @@ List<Widget> buildIconRows(
               } else {
                 updatedSelectedKeys = [key]; // Single-select mode
               }
-              onTap(key); // Trigger the callback to update state with the new selection
+              onTap(updatedSelectedKeys); // Trigger the callback to update state with the new selection
             },
           );
         }).toList(),

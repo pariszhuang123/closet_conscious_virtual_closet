@@ -75,6 +75,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       colour: event.colour ?? state.colour,
       colourVariations: event.colourVariations ?? state.colourVariations,
       clothingType: event.clothingType ?? state.clothingType,
+      clothingLayer: event.clothingLayer ?? state.clothingLayer,
       shoesType: event.shoesType ?? state.shoesType,
       accessoryType: event.accessoryType ?? state.accessoryType,
     ));
@@ -135,6 +136,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
           colour: result['filters']['colour'],
           colourVariations: result['filters']['colourVariations'],
           clothingType: result['filters']['clothingType'],
+          clothingLayer: result['filters']['clothingLayer'],
           shoesType: result['filters']['shoesType'],
           accessoryType: result['filters']['accessoryType'],
           closetId: result['closetId'],

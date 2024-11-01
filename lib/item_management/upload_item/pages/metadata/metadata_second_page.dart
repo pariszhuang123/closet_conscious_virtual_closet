@@ -41,7 +41,7 @@ class MetadataSecondPage extends StatelessWidget {
                 children: buildIconRows(
                   TypeDataList.seasons(context),
                   selectedSeason != null ? [selectedSeason!] : [],  // Handle nullable String
-                  onSeasonChanged,
+                      (selectedKeys) => onSeasonChanged(selectedKeys.first), // Wrap in lambda
                   context,
                   true,
                   false,
@@ -59,7 +59,7 @@ class MetadataSecondPage extends StatelessWidget {
                   children: buildIconRows(
                     TypeDataList.shoeTypes(context),
                     selectedSpecificType != null ? [selectedSpecificType!] : [],  // Handle nullable String
-                    onSpecificTypeChanged,
+                        (selectedKeys) => onSpecificTypeChanged(selectedKeys.first), // Wrap in lambda
                     context,
                     true,
                     false,
@@ -77,7 +77,7 @@ class MetadataSecondPage extends StatelessWidget {
                   children: buildIconRows(
                     TypeDataList.accessoryTypes(context),
                     selectedSpecificType != null ? [selectedSpecificType!] : [],  // Handle nullable String
-                    onSpecificTypeChanged,
+                        (selectedKeys) => onSpecificTypeChanged(selectedKeys.first), // Wrap in lambda
                     context,
                     true,
                     false,
@@ -95,7 +95,7 @@ class MetadataSecondPage extends StatelessWidget {
                   children: buildIconRows(
                     TypeDataList.clothingTypes(context),
                     selectedSpecificType != null ? [selectedSpecificType!] : [],  // Handle nullable String
-                    onSpecificTypeChanged,
+                        (selectedKeys) => onSpecificTypeChanged(selectedKeys.first), // Wrap in lambda
                     context,
                     true,
                     false,
@@ -112,7 +112,7 @@ class MetadataSecondPage extends StatelessWidget {
                   children: buildIconRows(
                     TypeDataList.clothingLayers(context),
                     selectedClothingLayer != null ? [selectedClothingLayer!] : [],  // Handle nullable String
-                    onClothingLayerChanged,
+                        (selectedKeys) => onClothingLayerChanged(selectedKeys.first), // Wrap in lambda
                     context,
                     true,
                     false,
