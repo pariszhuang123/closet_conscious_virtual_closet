@@ -1,3 +1,8 @@
+DROP FUNCTION IF EXISTS save_default_selection();
+
+DROP FUNCTION IF EXISTS fetch_filter_settings();
+
+
 create or replace function save_default_selection()
 returns jsonb
 language plpgsql
