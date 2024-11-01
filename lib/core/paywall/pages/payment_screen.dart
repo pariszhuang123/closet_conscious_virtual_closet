@@ -12,6 +12,7 @@ import '../../utilities/logger.dart';
 import '../../utilities/routes.dart';
 import '../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../widgets/progress_indicator/outfit_progress_indicator.dart';
+import '../presentation/widgets/feature_carousel.dart';
 
 
 class PaymentScreen extends StatefulWidget {
@@ -181,33 +182,12 @@ class PaymentScreenState extends State<PaymentScreen> {
                         ),
                         const SizedBox(height: 16),
 
-                        // Carousel for feature images
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 1 / 2,
-                          child: PageView.builder(
-                            itemCount: featureData.parts.length,
-                            onPageChanged: (index) {
-                              setState(() {
-                                currentIndex = index;
-                              });
-                              _logger.d('Carousel page changed to index $index');
-                            },
-                            itemBuilder: (context, index) {
-                              return Image.network(
-                                featureData.parts[index].imageUrl,
-                                fit: BoxFit.contain,
-                              );
-                            },
-                          ),
+                        FeatureCarousel(
+                          imageUrls: featureData.parts.map((part) => part.imageUrl).toList(),
+                          descriptions: featureData.parts.map((part) => part.getDescription(context)).toList(),
+                          theme: appliedTheme,
                         ),
-                        const SizedBox(height: 16),
 
-                        // Dynamic description based on the image shown in the carousel
-                        Text(
-                          featureData.parts[currentIndex].getDescription(context),
-                          style: appliedTheme.textTheme.titleMedium,
-                          textAlign: TextAlign.center,
-                        ),
                         const SizedBox(height: 24),
 
                         // Display price

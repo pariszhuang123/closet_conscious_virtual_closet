@@ -127,9 +127,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "currentStreak": MessageLookupByLibrary.simpleMessage("您的当前无购买记录。"),
         "currentStreakTooltip":
             MessageLookupByLibrary.simpleMessage("您的当前无购买记录"),
+        "customizeClosetPageDescription":
+            MessageLookupByLibrary.simpleMessage("按您选择的类别和顺序浏览您的衣橱，灵活网格显示。"),
         "customizeClosetView": MessageLookupByLibrary.simpleMessage("自定义衣橱视图"),
         "customizeDescription": MessageLookupByLibrary.simpleMessage(
             "升级定制你的衣橱视图，轻松排序，提升风格管理，珍惜每一件衣物"),
+        "customizeOutfitPageDescription":
+            MessageLookupByLibrary.simpleMessage("通过网格按类别和顺序浏览单品，轻松找到穿搭灵感。"),
         "customizeTitle": MessageLookupByLibrary.simpleMessage("个性化衣橱视图"),
         "dark": MessageLookupByLibrary.simpleMessage("深色"),
         "dataInsertedSuccessfully":

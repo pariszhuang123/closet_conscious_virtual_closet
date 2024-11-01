@@ -89,6 +89,7 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
       emit(state.copyWith(saveStatus: SaveStatus.failure));
     }
   }
+
   Future<void> _onCheckCustomizeAccess(
       CheckCustomizeAccessEvent event,
       Emitter<CustomizeState> emit) async {

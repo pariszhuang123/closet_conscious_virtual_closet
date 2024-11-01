@@ -145,10 +145,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Your current no-buy streak."),
         "currentStreakTooltip": MessageLookupByLibrary.simpleMessage(
             "Your current streak of no purchases"),
+        "customizeClosetPageDescription": MessageLookupByLibrary.simpleMessage(
+            "Browse your closet in a flexible grid, sorted by your chosen category and order."),
         "customizeClosetView":
             MessageLookupByLibrary.simpleMessage("Customize Closet View"),
         "customizeDescription": MessageLookupByLibrary.simpleMessage(
-            "Upgrade to customize your closet view, sort with ease,\nand cherish each piece in your collection."),
+            "Personalize your view with grid size, sort category, and sort order."),
+        "customizeOutfitPageDescription": MessageLookupByLibrary.simpleMessage(
+            "Find items for your outfits in a flexible grid, sorted by category and order to make styling easy."),
         "customizeTitle":
             MessageLookupByLibrary.simpleMessage("Personalized Closet View"),
         "dark": MessageLookupByLibrary.simpleMessage("Dark"),

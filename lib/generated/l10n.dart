@@ -2960,11 +2960,31 @@ class S {
     );
   }
 
-  /// `Upgrade to customize your closet view, sort with ease,\nand cherish each piece in your collection.`
+  /// `Personalize your view with grid size, sort category, and sort order.`
   String get customizeDescription {
     return Intl.message(
-      'Upgrade to customize your closet view, sort with ease,\nand cherish each piece in your collection.',
+      'Personalize your view with grid size, sort category, and sort order.',
       name: 'customizeDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Browse your closet in a flexible grid, sorted by your chosen category and order.`
+  String get customizeClosetPageDescription {
+    return Intl.message(
+      'Browse your closet in a flexible grid, sorted by your chosen category and order.',
+      name: 'customizeClosetPageDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Find items for your outfits in a flexible grid, sorted by category and order to make styling easy.`
+  String get customizeOutfitPageDescription {
+    return Intl.message(
+      'Find items for your outfits in a flexible grid, sorted by category and order to make styling easy.',
+      name: 'customizeOutfitPageDescription',
       desc: '',
       args: [],
     );

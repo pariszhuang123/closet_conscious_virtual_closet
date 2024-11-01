@@ -150,6 +150,14 @@ class FeatureDataList {
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/customize.jpg',
             getDescription: (context) => S.of(context).customizeDescription,
           ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/customize_closet.jpg',
+            getDescription: (context) => S.of(context).customizeClosetPageDescription,
+          ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/customize_outfit.jpg',
+            getDescription: (context) => S.of(context).customizeOutfitPageDescription,
+          ),
         ],
       ),
     ];
