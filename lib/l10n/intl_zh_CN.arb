@@ -335,5 +335,6 @@
   "advancedFiltersTab": "高级筛选",
   "allClosetLabel": "所有衣橱",
   "selectClosetLabel": "选择衣橱",
-  "saveFilter": "保存筛选"
+  "saveFilter": "保存筛选",
+  "noClosetsAvailable": "没有可用的衣柜"
 }

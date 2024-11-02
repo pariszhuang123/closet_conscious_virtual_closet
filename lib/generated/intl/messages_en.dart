@@ -336,6 +336,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "niche": MessageLookupByLibrary.simpleMessage("Niche"),
         "noAchievementFound": MessageLookupByLibrary.simpleMessage(
             "No achievements yet—start unlocking them today!"),
+        "noClosetsAvailable":
+            MessageLookupByLibrary.simpleMessage("No closets available"),
         "noImage": MessageLookupByLibrary.simpleMessage("No Image Available"),
         "noInternetMessage": MessageLookupByLibrary.simpleMessage(
             "We\'re on a coffee break ☕\nReconnect soon to keep rocking those eco-friendly looks!"),

@@ -3409,6 +3409,16 @@ class S {
       args: [],
     );
   }
+
+  /// `No closets available`
+  String get noClosetsAvailable {
+    return Intl.message(
+      'No closets available',
+      name: 'noClosetsAvailable',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -294,6 +294,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "niche": MessageLookupByLibrary.simpleMessage("小众"),
         "noAchievementFound":
             MessageLookupByLibrary.simpleMessage("尚无成就——今天就开始解锁吧！"),
+        "noClosetsAvailable": MessageLookupByLibrary.simpleMessage("没有可用的衣柜"),
         "noImage": MessageLookupByLibrary.simpleMessage("没有图片"),
         "noInternetMessage": MessageLookupByLibrary.simpleMessage(
             "我们正在享受一杯咖啡 ☕\n稍后重连，继续展现那些环保造型吧！"),

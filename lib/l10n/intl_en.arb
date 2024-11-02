@@ -335,5 +335,6 @@
   "advancedFiltersTab": "Advanced Filters",
   "allClosetLabel": "All Closet",
   "selectClosetLabel": "Select Closet",
-  "saveFilter": "Save Filter"
+  "saveFilter": "Save Filter",
+  "noClosetsAvailable": "No closets available"
 }
