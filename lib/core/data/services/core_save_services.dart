@@ -230,24 +230,24 @@ class CoreSaveService {
 
   Future<bool> saveFilterSettings({
     required FilterSettings filterSettings,
-    required String closetId,
+    required String selectedClosetId,
     required bool allCloset,
     required bool ignoreItemName,
     required String itemName,
   }) async {
-    logger.i('Saving filter settings for closet: $closetId');
+    logger.i('Saving filter settings for closet: $selectedClosetId');
     try {
       final filterData = filterSettings.toJson();
 
-      final response = await Supabase.instance.client.from('user_preferences').update({
+      final response = await Supabase.instance.client.rpc('update_filter_settings', params: {
         'new_filter': filterData,
-        'new_closet_id': closetId,
+        'new_closet_id': selectedClosetId,
         'new_all_closet': allCloset,
         'new_ignore_item_name': ignoreItemName,
         'new_item_name': itemName,
       });
 
-      if (response.error == null && response.data['status'] == 'success') {
+      if (response != null && response['status'] == 'success') {
         logger.i('Filter settings saved successfully.');
         return true;
       } else {
@@ -282,7 +282,7 @@ class CoreSaveService {
           'shoesType': filters['shoesType'] ?? <String>[],
           'accessoryType': filters['accessoryType'] ?? <String>[],
         },
-        'closetId': response['r_closet_id'] as String,
+        'selectedClosetId': response['r_closet_id'] as String,
         'allCloset': response['r_all_closet'] as bool,
         'ignoreItemName': response['r_ignore_item_name'] as bool,
       };

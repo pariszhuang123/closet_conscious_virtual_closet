@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../bloc/filter_bloc.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../utilities/logger.dart';
+import '../../widgets/closet_grid.dart';
 
 class SingleSelectionTab extends StatelessWidget {
   final FilterState state;
@@ -50,6 +50,21 @@ class SingleSelectionTab extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
+
+          // Conditional ClosetGrid Display
+          if (!state.allCloset) // Show ClosetGrid if allCloset is true
+            Expanded(
+              child: ClosetGrid(
+                closets: state.allClosetsDisplay, // Pass the closets list from state
+                scrollController: ScrollController(),
+                myClosetTheme: Theme.of(context),
+                logger: _logger,
+                selectedClosetId: state.selectedClosetId, // The currently selected closet ID
+                onSelectCloset: (closetId) {
+                  context.read<FilterBloc>().add(UpdateFilterEvent(selectedClosetId: closetId));
+                },
+              ),
+            ),
         ],
       ),
     );

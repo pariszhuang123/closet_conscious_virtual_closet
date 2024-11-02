@@ -165,7 +165,26 @@ class CoreFetchService {
     }
   }
 
-  /// Fetches filter settings from Supabase
+  Future<List<Map<String, dynamic>>> fetchAllClosets() async {
+    try {
+      final data = await Supabase.instance.client
+          .from('user_closets')
+          .select('closet_id, closet_name, closet_image')
+          .eq('type', 'permanent');
+
+      if (data.isEmpty) {
+        throw Exception('No closets found for this user');
+      }
+
+      return List<Map<String, dynamic>>.from(data);
+    } catch (e) {
+      // Log error if necessary
+      throw Exception('Error fetching closets: $e');
+    }
+  }
+
+
+/// Fetches filter settings from Supabase
   Future<Map<String, dynamic>> fetchFilterSettings() async {
     try {
       _logger.d('Fetching filter settings from Supabase...');
@@ -178,7 +197,7 @@ class CoreFetchService {
         final FilterSettings filterSettings = FilterSettings.fromJson(response['f_filter'] ?? {});
         final result = {
           'filters': filterSettings,
-          'closetId': response['f_closet_id'] as String,
+          'selectedClosetId': response['f_closet_id'] as String,
           'allCloset': response['f_all_closet'] as bool,
           'ignoreItemName': response['f_ignore_item_name'] as bool,
           'itemName': response['f_item_name'] as String,

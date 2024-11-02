@@ -6,6 +6,7 @@ import '../../../utilities/logger.dart';
 import '../../../data/services/core_fetch_services.dart';
 import '../../../data/services/core_save_services.dart';
 import '../../data/models/filter_setting.dart';
+import '../../data/models/multi_closet.dart';
 
 part 'filter_state.dart';
 part 'filter_event.dart';
@@ -33,17 +34,24 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     emit(state.copyWith(saveStatus: SaveStatus.inProgress));
 
     try {
+      // Fetch all closets for the user
+      final closetData = await fetchService.fetchAllClosets();
+      logger.i('Fetched all closets successfully: ${closetData.length} items');
+
+      final allClosetsDisplay = closetData.map((closetMap) => MultiCloset.fromMap(closetMap)).toList();
+
       final filterData = await fetchService.fetchFilterSettings();
       logger.i('Filter settings loaded successfully');
 
       final FilterSettings filterSettings = filterData['filters'];
-      final closetId = filterData['closetId'] as String;
+      final selectedClosetId = filterData['selectedClosetId'] as String;
       final allCloset = filterData['allCloset'] as bool;
       final ignoreItemName = filterData['ignoreItemName'] as bool;
       final itemName = filterData['itemName'] as String;
 
       emit(state.copyWith(
         saveStatus: SaveStatus.loadSuccess,
+        allClosetsDisplay: allClosetsDisplay,
         itemType: filterSettings.itemType,
         occasion: filterSettings.occasion,
         season: filterSettings.season,
@@ -53,7 +61,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         clothingLayer: filterSettings.clothingLayer,
         shoesType: filterSettings.shoesType,
         accessoryType: filterSettings.accessoryType,
-        closetId: closetId,
+        selectedClosetId: selectedClosetId,
         allCloset: allCloset,
         ignoreItemName: ignoreItemName,
         searchQuery: itemName,
@@ -70,7 +78,6 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
 
     emit(state.copyWith(
       searchQuery: event.searchQuery ?? state.searchQuery,
-      selectedCloset: event.selectedCloset ?? state.selectedCloset,
       itemType: event.itemType ?? state.itemType,
       occasion: event.occasion ?? state.occasion,
       season: event.season ?? state.season,
@@ -80,6 +87,8 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       clothingLayer: event.clothingLayer ?? state.clothingLayer,
       shoesType: event.shoesType ?? state.shoesType,
       accessoryType: event.accessoryType ?? state.accessoryType,
+      allCloset: event.allCloset ?? state.allCloset,
+      selectedClosetId: event.selectedClosetId ?? state.selectedClosetId,
     ));
 
     logger.i('Filter settings updated with new state: ${state.toString()}');
@@ -104,7 +113,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
 
       final isSuccess = await saveService.saveFilterSettings(
         filterSettings: filterSettings,
-        closetId: state.closetId,
+        selectedClosetId: state.selectedClosetId,
         allCloset: state.allCloset,
         ignoreItemName: state.ignoreItemName,
         itemName: state.searchQuery,
@@ -142,7 +151,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         clothingLayer: result['filters']['clothingLayer'],
         shoesType: result['filters']['shoesType'],
         accessoryType: result['filters']['accessoryType'],
-        closetId: result['closetId'],
+        selectedClosetId: result['selectedClosetId'],
         allCloset: result['allCloset'],
         ignoreItemName: result['ignoreItemName'],
       ));

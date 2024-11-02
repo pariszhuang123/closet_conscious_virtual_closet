@@ -46,16 +46,28 @@ class FilterSettings {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'itemType': itemType,
-      'occasion': occasion,
-      'season': season,
-      'colour': colour,
-      'colourVariations': colourVariations,
-      'clothingType': clothingType,
-      'clothingLayer': clothingLayer,
-      'shoesType': shoesType,
-      'accessoryType': accessoryType,
-    };
+    final Map<String, dynamic> json = {};
+
+    if (itemType != null && itemType!.isNotEmpty) json['itemType'] = itemType;
+    if (occasion != null && occasion!.isNotEmpty) json['occasion'] = occasion;
+    if (season != null && season!.isNotEmpty) json['season'] = season;
+    if (colour != null && colour!.isNotEmpty) json['colour'] = colour;
+    if (colourVariations != null && colourVariations!.isNotEmpty) {
+      json['colourVariations'] = colourVariations;
+    }
+    if (clothingType != null && clothingType!.isNotEmpty) {
+      json['clothingType'] = clothingType;
+    }
+    if (clothingLayer != null && clothingLayer!.isNotEmpty) {
+      json['clothingLayer'] = clothingLayer;
+    }
+    if (shoesType != null && shoesType!.isNotEmpty) {
+      json['shoesType'] = shoesType;
+    }
+    if (accessoryType != null && accessoryType!.isNotEmpty) {
+      json['accessoryType'] = accessoryType;
+    }
+
+    return json;
   }
 }

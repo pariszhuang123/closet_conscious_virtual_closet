@@ -2,7 +2,7 @@ part of 'filter_bloc.dart';
 
 class FilterState extends Equatable {
   final String searchQuery;
-  final String? selectedCloset;
+  final List<MultiCloset> allClosetsDisplay;
   final List<String>? itemType;
   final List<String>? occasion;
   final List<String>? season;
@@ -12,7 +12,7 @@ class FilterState extends Equatable {
   final List<String>? clothingLayer;
   final List<String>? shoesType;
   final List<String>? accessoryType;
-  final String closetId;
+  final String selectedClosetId;
   final bool allCloset;
   final bool ignoreItemName;
   final SaveStatus saveStatus;
@@ -20,7 +20,7 @@ class FilterState extends Equatable {
 
   const FilterState({
     this.searchQuery = '',
-    this.selectedCloset,
+    this.allClosetsDisplay = const [],
     this.itemType,
     this.occasion,
     this.season,
@@ -30,7 +30,7 @@ class FilterState extends Equatable {
     this.clothingLayer,
     this.shoesType,
     this.accessoryType,
-    this.closetId = '',
+    this.selectedClosetId = '',
     this.allCloset = false,
     this.ignoreItemName = true,
     this.saveStatus = SaveStatus.initial,
@@ -39,7 +39,7 @@ class FilterState extends Equatable {
 
   FilterState copyWith({
     String? searchQuery,
-    String? selectedCloset,
+    List<MultiCloset>? allClosetsDisplay,
     List<String>? itemType,
     List<String>? occasion,
     List<String>? season,
@@ -49,7 +49,7 @@ class FilterState extends Equatable {
     List<String>? clothingLayer,
     List<String>? shoesType,
     List<String>? accessoryType,
-    String? closetId,
+    String? selectedClosetId,
     bool? allCloset,
     bool? ignoreItemName,
     SaveStatus? saveStatus,
@@ -57,7 +57,7 @@ class FilterState extends Equatable {
   }) {
     return FilterState(
       searchQuery: searchQuery ?? this.searchQuery,
-      selectedCloset: selectedCloset ?? this.selectedCloset,
+      allClosetsDisplay: allClosetsDisplay ?? this.allClosetsDisplay, // Updated field name and type
       itemType: itemType ?? this.itemType,
       occasion: occasion ?? this.occasion,
       season: season ?? this.season,
@@ -67,7 +67,7 @@ class FilterState extends Equatable {
       clothingLayer: clothingLayer ?? this.clothingLayer,
       shoesType: shoesType ?? this.shoesType,
       accessoryType: accessoryType ?? this.accessoryType,
-      closetId: closetId ?? this.closetId,
+      selectedClosetId: selectedClosetId ?? this.selectedClosetId,
       allCloset: allCloset ?? this.allCloset,
       ignoreItemName: ignoreItemName ?? this.ignoreItemName,
       saveStatus: saveStatus ?? this.saveStatus,
@@ -78,7 +78,7 @@ class FilterState extends Equatable {
   @override
   List<Object?> get props => [
     searchQuery,
-    selectedCloset,
+    allClosetsDisplay,
     itemType,
     occasion,
     season,
@@ -88,7 +88,7 @@ class FilterState extends Equatable {
     clothingLayer,
     shoesType,
     accessoryType,
-    closetId,
+    selectedClosetId,
     allCloset,
     ignoreItemName,
     saveStatus,

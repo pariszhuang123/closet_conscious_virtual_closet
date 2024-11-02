@@ -63,10 +63,17 @@ class FilterScreen extends StatelessWidget {
           ),
           body: BlocListener<FilterBloc, FilterState>(
             listener: (context, state) {
-              // Handle success state for saving filter
               if (state.saveStatus == SaveStatus.saveSuccess) {
-                _logger.i('SaveStatus: saveSuccess, navigating back');
-                Navigator.of(context).pop();
+                _logger.i('SaveStatus: saveSuccess, navigating to appropriate screen');
+                // Navigate based on isFromMyCloset
+                if (isFromMyCloset) {
+                  Navigator.of(context).pushReplacementNamed(AppRoutes.myCloset);
+                } else {
+                  Navigator.of(context).pushReplacementNamed(
+                    AppRoutes.createOutfit,
+                    arguments: {'selectedItemIds': selectedItemIds},
+                  );
+                }
               }
               // Handle denied access state
               if (state.accessStatus == AccessStatus.denied) {
