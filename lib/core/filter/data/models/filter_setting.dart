@@ -23,24 +23,24 @@ class FilterSettings {
 
   factory FilterSettings.fromJson(Map<String, dynamic> json) {
     return FilterSettings(
-      itemType: List<String>.from(json['itemType'] ?? []),
+      itemType: List<String>.from(json['item_type'] ?? []),  // Matches "item_type" in database
       occasion: List<String>.from(json['occasion'] ?? []),
       season: List<String>.from(json['season'] ?? []),
       colour: List<String>.from(json['colour'] ?? []),
-      colourVariations: json['colourVariations'] != null
-          ? List<String>.from(json['colourVariations'])
+      colourVariations: json['colour_variations'] != null
+          ? List<String>.from(json['colour_variations'])      // Matches "colour_variations" in database
           : null,
-      clothingType: json['clothingType'] != null
-          ? List<String>.from(json['clothingType'])
+      clothingType: json['clothing_type'] != null
+          ? List<String>.from(json['clothing_type'])
           : null,
-      clothingLayer: json['clothingLayer'] != null
-          ? List<String>.from(json['clothingLayer'])
+      clothingLayer: json['clothing_layer'] != null
+          ? List<String>.from(json['clothing_layer'])
           : null,
-      shoesType: json['shoesType'] != null
-          ? List<String>.from(json['shoesType'])
+      shoesType: json['shoes_type'] != null
+          ? List<String>.from(json['shoes_type'])
           : null,
-      accessoryType: json['accessoryType'] != null
-          ? List<String>.from(json['accessoryType'])
+      accessoryType: json['accessory_type'] != null
+          ? List<String>.from(json['accessory_type'])
           : null,
     );
   }
@@ -48,24 +48,25 @@ class FilterSettings {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = {};
 
-    if (itemType != null && itemType!.isNotEmpty) json['itemType'] = itemType;
+    // Use snake_case for database compatibility
+    if (itemType != null && itemType!.isNotEmpty) json['item_type'] = itemType;
     if (occasion != null && occasion!.isNotEmpty) json['occasion'] = occasion;
     if (season != null && season!.isNotEmpty) json['season'] = season;
     if (colour != null && colour!.isNotEmpty) json['colour'] = colour;
     if (colourVariations != null && colourVariations!.isNotEmpty) {
-      json['colourVariations'] = colourVariations;
+      json['colour_variations'] = colourVariations;
     }
     if (clothingType != null && clothingType!.isNotEmpty) {
-      json['clothingType'] = clothingType;
+      json['clothing_type'] = clothingType;
     }
     if (clothingLayer != null && clothingLayer!.isNotEmpty) {
-      json['clothingLayer'] = clothingLayer;
+      json['clothing_layer'] = clothingLayer;
     }
     if (shoesType != null && shoesType!.isNotEmpty) {
-      json['shoesType'] = shoesType;
+      json['shoes_type'] = shoesType;
     }
     if (accessoryType != null && accessoryType!.isNotEmpty) {
-      json['accessoryType'] = accessoryType;
+      json['accessory_type'] = accessoryType;
     }
 
     return json;
