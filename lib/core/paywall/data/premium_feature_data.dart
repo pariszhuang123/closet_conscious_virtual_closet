@@ -166,15 +166,19 @@ class FeatureDataList {
         isUsageFeature: false,
         parts: [
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/customize.jpg',
-            getDescription: (context) => S.of(context).filterFeatureDescription,
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/filter_basic.jpg',
+            getDescription: (context) => S.of(context).basicFilterDescription,
           ),
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/customize_closet.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/filter_advance.jpg',
+            getDescription: (context) => S.of(context).advancedFilterDescription,
+          ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/filter_closet.jpg',
             getDescription: (context) => S.of(context).filterClosetPageDescription,
           ),
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/customize_outfit.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/filter_outfit.jpg',
             getDescription: (context) => S.of(context).filterOutfitPageDescription,
           ),
         ],

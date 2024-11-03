@@ -1,7 +1,6 @@
 part of 'filter_bloc.dart';
 
 class FilterState extends Equatable {
-  final String searchQuery;
   final bool hasMultiClosetFeature;
   final List<MultiCloset> allClosetsDisplay;
   final List<String>? itemType;
@@ -15,12 +14,11 @@ class FilterState extends Equatable {
   final List<String>? accessoryType;
   final String selectedClosetId;
   final bool allCloset;
-  final bool ignoreItemName;
+  final String itemName;
   final SaveStatus saveStatus;
   final AccessStatus accessStatus;
 
   const FilterState({
-    this.searchQuery = '',
     this.hasMultiClosetFeature = false,
     this.allClosetsDisplay = const [],
     this.itemType,
@@ -34,13 +32,12 @@ class FilterState extends Equatable {
     this.accessoryType,
     this.selectedClosetId = '',
     this.allCloset = false,
-    this.ignoreItemName = true,
+    this.itemName ='',
     this.saveStatus = SaveStatus.initial,
     this.accessStatus = AccessStatus.pending, // Default to unknown
   });
 
   FilterState copyWith({
-    String? searchQuery,
     bool? hasMultiClosetFeature,
     List<MultiCloset>? allClosetsDisplay,
     List<String>? itemType,
@@ -54,12 +51,11 @@ class FilterState extends Equatable {
     List<String>? accessoryType,
     String? selectedClosetId,
     bool? allCloset,
-    bool? ignoreItemName,
+    String? itemName,
     SaveStatus? saveStatus,
     AccessStatus? accessStatus,
   }) {
     return FilterState(
-      searchQuery: searchQuery ?? this.searchQuery,
       hasMultiClosetFeature: hasMultiClosetFeature ?? this.hasMultiClosetFeature,
       allClosetsDisplay: allClosetsDisplay ?? this.allClosetsDisplay, // Updated field name and type
       itemType: itemType ?? this.itemType,
@@ -73,7 +69,7 @@ class FilterState extends Equatable {
       accessoryType: accessoryType ?? this.accessoryType,
       selectedClosetId: selectedClosetId ?? this.selectedClosetId,
       allCloset: allCloset ?? this.allCloset,
-      ignoreItemName: ignoreItemName ?? this.ignoreItemName,
+      itemName: itemName ?? this.itemName,
       saveStatus: saveStatus ?? this.saveStatus,
       accessStatus: accessStatus ?? this.accessStatus,
     );
@@ -81,7 +77,6 @@ class FilterState extends Equatable {
 
   @override
   List<Object?> get props => [
-    searchQuery,
     hasMultiClosetFeature,
     allClosetsDisplay,
     itemType,
@@ -94,8 +89,8 @@ class FilterState extends Equatable {
     shoesType,
     accessoryType,
     selectedClosetId,
+    itemName,
     allCloset,
-    ignoreItemName,
     saveStatus,
     accessStatus
   ];

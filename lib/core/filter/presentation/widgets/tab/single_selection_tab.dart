@@ -6,17 +6,35 @@ import '../../../../utilities/logger.dart';
 import '../../widgets/closet_grid.dart';
 import '../../../../widgets/form/custom_text_form.dart';
 
-class SingleSelectionTab extends StatelessWidget {
+class SingleSelectionTab extends StatefulWidget {
   final FilterState state;
-  final CustomLogger _logger = CustomLogger('SingleSelectionTab');
 
-  SingleSelectionTab({super.key, required this.state}) {
-    _logger.i('SingleSelectionTab initialized with state: $state');
+  const SingleSelectionTab({super.key, required this.state});
+
+  @override
+  SingleSelectionTabState createState() => SingleSelectionTabState();
+}
+
+class SingleSelectionTabState extends State<SingleSelectionTab> {
+  final CustomLogger _logger = CustomLogger('SingleSelectionTab');
+  late TextEditingController _textController;
+
+  @override
+  void initState() {
+    super.initState();
+    _textController = TextEditingController(text: widget.state.itemName);
+    _logger.i('SingleSelectionTab initialized with state: ${widget.state}');
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _logger.i('Building SingleSelectionTab widget with state: $state');
+    _logger.i('Building SingleSelectionTab widget with state: ${widget.state}');
 
     return BlocBuilder<FilterBloc, FilterState>(
       builder: (context, state) {
@@ -49,15 +67,15 @@ class SingleSelectionTab extends StatelessWidget {
   Widget _buildItemNameInput(BuildContext context) {
     _logger.d('Building item name input field');
     return CustomTextFormField(
-      controller: TextEditingController(text: state.searchQuery),
+      controller: _textController,
       labelText: S.of(context).itemNameLabel,
       hintText: S.of(context).ItemNameFilterHint,
       labelStyle: Theme.of(context).textTheme.bodyMedium,
       focusedBorderColor: Theme.of(context).colorScheme.primary,
       onChanged: (value) {
         _logger.d('User entered item name: $value');
-        context.read<FilterBloc>().add(UpdateFilterEvent(searchQuery: value));
-        _logger.i('Dispatched UpdateFilterEvent with searchQuery: $value');
+        context.read<FilterBloc>().add(UpdateFilterEvent(itemName: value));
+        _logger.i('Dispatched UpdateFilterEvent with itemName: $value');
       },
     );
   }
@@ -70,20 +88,18 @@ class SingleSelectionTab extends StatelessWidget {
       children: [
         Text(S.of(context).allClosetLabel),
         Switch(
-          value: state.allCloset,
+          value: widget.state.allCloset,
           onChanged: (value) {
             _logger.d('User toggled allCloset switch: $value');
             context.read<FilterBloc>().add(UpdateFilterEvent(allCloset: value));
             _logger.i('Dispatched UpdateFilterEvent with allCloset: $value');
           },
           trackColor: WidgetStateProperty.resolveWith<Color>((states) {
-            // Track uses `onPrimary` color when active, `secondary` when inactive
             return states.contains(WidgetState.selected)
                 ? Theme.of(context).colorScheme.onPrimary
                 : Theme.of(context).colorScheme.onPrimary;
           }),
           thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
-            // Thumb uses `primary` color when active, `secondary` when inactive
             return states.contains(WidgetState.selected)
                 ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).colorScheme.secondary;
@@ -98,11 +114,11 @@ class SingleSelectionTab extends StatelessWidget {
     _logger.i('Rendering ClosetGrid as multi-closet feature is enabled and allCloset is false');
     return Expanded(
       child: ClosetGrid(
-        closets: state.allClosetsDisplay,
+        closets: widget.state.allClosetsDisplay,
         scrollController: ScrollController(),
         myClosetTheme: Theme.of(context),
         logger: _logger,
-        selectedClosetId: state.selectedClosetId,
+        selectedClosetId: widget.state.selectedClosetId,
         onSelectCloset: (closetId) {
           _logger.d('User selected closet with ID: $closetId');
           context.read<FilterBloc>().add(UpdateFilterEvent(selectedClosetId: closetId));

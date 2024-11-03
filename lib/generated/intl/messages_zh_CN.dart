@@ -51,6 +51,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "active": MessageLookupByLibrary.simpleMessage("活跃"),
         "addCloset_addCloset": MessageLookupByLibrary.simpleMessage("添加衣橱"),
         "addYourComments": MessageLookupByLibrary.simpleMessage("添加您的评论"),
+        "advancedFilterDescription": MessageLookupByLibrary.simpleMessage(
+            "精确搜索，匹配您的风格！按物品类型、场合、季节等筛选，呈现属于您的衣橱视图。"),
         "advancedFiltersTab": MessageLookupByLibrary.simpleMessage("高级筛选"),
         "aiStylistFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "解锁AI推荐造型。评论90个造型，获得个性化的风格推荐。"),
@@ -86,6 +88,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "autumn": MessageLookupByLibrary.simpleMessage("秋季"),
         "bag": MessageLookupByLibrary.simpleMessage("包"),
         "base": MessageLookupByLibrary.simpleMessage("基础层"),
+        "basicFilterDescription": MessageLookupByLibrary.simpleMessage(
+            "通过物品名称快速搜索，或在多衣橱[高级功能]中选择要查看的衣橱。"),
         "basicFiltersTab": MessageLookupByLibrary.simpleMessage("基本筛选"),
         "becomeAmbassador": MessageLookupByLibrary.simpleMessage("成为大使"),
         "belt": MessageLookupByLibrary.simpleMessage("皮带"),
@@ -197,8 +201,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "failedToSubmitScore": MessageLookupByLibrary.simpleMessage("提交评分失败。"),
         "filterClosetPageDescription":
             MessageLookupByLibrary.simpleMessage("按颜色、类别等整理衣橱，找到所需单品。"),
-        "filterFeatureDescription":
-            MessageLookupByLibrary.simpleMessage("轻松浏览！筛选功能助您迅速发现最佳单品。"),
         "filterFeatureTitle": MessageLookupByLibrary.simpleMessage("快速找到心仪单品"),
         "filterItemsTitle": MessageLookupByLibrary.simpleMessage("筛选项目"),
         "filterOutfitPageDescription":

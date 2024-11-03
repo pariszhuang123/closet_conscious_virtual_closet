@@ -58,6 +58,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Multi Closet"),
         "addYourComments":
             MessageLookupByLibrary.simpleMessage("Add your comments"),
+        "advancedFilterDescription": MessageLookupByLibrary.simpleMessage(
+            "Refine your search to fit your style! Filter by item type, occasion, season, and more for a closet view that’s all you."),
         "advancedFiltersTab":
             MessageLookupByLibrary.simpleMessage("Advanced Filters"),
         "aiStylistFeatureDescription": MessageLookupByLibrary.simpleMessage(
@@ -96,6 +98,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "autumn": MessageLookupByLibrary.simpleMessage("Autumn"),
         "bag": MessageLookupByLibrary.simpleMessage("Bag"),
         "base": MessageLookupByLibrary.simpleMessage("Base"),
+        "basicFilterDescription": MessageLookupByLibrary.simpleMessage(
+            "Quickly search by item name or, with multi-closet [premium feature], choose which closet to explore."),
         "basicFiltersTab":
             MessageLookupByLibrary.simpleMessage("Basic Filters"),
         "becomeAmbassador":
@@ -228,8 +232,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Failed to submit score."),
         "filterClosetPageDescription": MessageLookupByLibrary.simpleMessage(
             "Sort your closet by color, type, and more to find just what you need."),
-        "filterFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "Browse with ease! Filters help you quickly spot your best pieces."),
         "filterFeatureTitle":
             MessageLookupByLibrary.simpleMessage("Find Your Favorites Faster"),
         "filterItemsTitle":

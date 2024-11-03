@@ -47,7 +47,6 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       final FilterSettings filterSettings = filterData['filters'];
       final selectedClosetId = filterData['selectedClosetId'] as String;
       final allCloset = filterData['allCloset'] as bool;
-      final ignoreItemName = filterData['ignoreItemName'] as bool;
       final itemName = filterData['itemName'] as String;
 
       emit(state.copyWith(
@@ -64,8 +63,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         accessoryType: filterSettings.accessoryType,
         selectedClosetId: selectedClosetId,
         allCloset: allCloset,
-        ignoreItemName: ignoreItemName,
-        searchQuery: itemName,
+        itemName: itemName,
       ));
       logger.i('Filter settings state updated successfully');
     } catch (error) {
@@ -113,7 +111,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
 
     // Emit the new state with permanent resets for deselected fields
     emit(state.copyWith(
-      searchQuery: event.searchQuery ?? state.searchQuery,
+      itemName: event.itemName ?? state.itemName,
       itemType: updatedItemType,
       occasion: event.occasion ?? state.occasion,
       season: event.season ?? state.season,
@@ -151,8 +149,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         filterSettings: filterSettings,
         selectedClosetId: state.selectedClosetId,
         allCloset: state.allCloset,
-        ignoreItemName: state.ignoreItemName,
-        itemName: state.searchQuery,
+        itemName: state.itemName,
       );
 
       if (isSuccess) {
@@ -189,7 +186,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         accessoryType: result['filters']['accessoryType'],
         selectedClosetId: result['selectedClosetId'],
         allCloset: result['allCloset'],
-        ignoreItemName: result['ignoreItemName'],
+        itemName: result['itemName'] ?? '',
       ));
       logger.i('Filter settings reset and state updated');
     } catch (error) {

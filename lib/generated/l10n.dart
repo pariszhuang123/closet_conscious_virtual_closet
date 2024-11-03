@@ -3010,11 +3010,21 @@ class S {
     );
   }
 
-  /// `Browse with ease! Filters help you quickly spot your best pieces.`
-  String get filterFeatureDescription {
+  /// `Quickly search by item name or, with multi-closet [premium feature], choose which closet to explore.`
+  String get basicFilterDescription {
     return Intl.message(
-      'Browse with ease! Filters help you quickly spot your best pieces.',
-      name: 'filterFeatureDescription',
+      'Quickly search by item name or, with multi-closet [premium feature], choose which closet to explore.',
+      name: 'basicFilterDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refine your search to fit your style! Filter by item type, occasion, season, and more for a closet view that’s all you.`
+  String get advancedFilterDescription {
+    return Intl.message(
+      'Refine your search to fit your style! Filter by item type, occasion, season, and more for a closet view that’s all you.',
+      name: 'advancedFilterDescription',
       desc: '',
       args: [],
     );

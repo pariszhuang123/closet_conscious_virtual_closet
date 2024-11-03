@@ -237,7 +237,6 @@ Future<List<Map<String, dynamic>>> fetchAllClosets() async {
           'filters': filterSettings,
           'selectedClosetId': response['f_closet_id'] as String,
           'allCloset': response['f_all_closet'] as bool,
-          'ignoreItemName': response['f_ignore_item_name'] as bool,
           'itemName': response['f_item_name'] as String,
         };
         _logger.i('Filter settings fetched successfully: $result');

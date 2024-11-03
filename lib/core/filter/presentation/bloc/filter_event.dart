@@ -12,7 +12,7 @@ class LoadFilterEvent extends FilterEvent {}
 
 // Update filter fields with user selections
 class UpdateFilterEvent extends FilterEvent {
-  final String? searchQuery;
+  final String? itemName;
   final String? selectedClosetId;
   final List<String>? itemType;
   final List<String>? occasion;
@@ -26,7 +26,7 @@ class UpdateFilterEvent extends FilterEvent {
   final bool? allCloset;
 
   const UpdateFilterEvent({
-    this.searchQuery,
+    this.itemName,
     this.selectedClosetId,
     this.itemType,
     this.occasion,
@@ -42,7 +42,7 @@ class UpdateFilterEvent extends FilterEvent {
 
   @override
   List<Object?> get props => [
-    searchQuery,
+    itemName,
     selectedClosetId,
     itemType,
     occasion,

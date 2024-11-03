@@ -232,7 +232,6 @@ class CoreSaveService {
     required FilterSettings filterSettings,
     required String selectedClosetId,
     required bool allCloset,
-    required bool ignoreItemName,
     required String itemName,
   }) async {
     logger.i('Saving filter settings for closet: $selectedClosetId');
@@ -243,7 +242,6 @@ class CoreSaveService {
         'new_filter': filterData,
         'new_closet_id': selectedClosetId,
         'new_all_closet': allCloset,
-        'new_ignore_item_name': ignoreItemName,
         'new_item_name': itemName,
       });
 
@@ -284,7 +282,7 @@ class CoreSaveService {
         },
         'selectedClosetId': response['r_closet_id'] as String,
         'allCloset': response['r_all_closet'] as bool,
-        'ignoreItemName': response['r_ignore_item_name'] as bool,
+        'itemName': response['r_item_name'] as String,
       };
 
       logger.i('Default selection saved successfully: $result');
