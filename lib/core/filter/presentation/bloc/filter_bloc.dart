@@ -23,6 +23,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         super(const FilterState()) {
     logger.i('FilterBloc initialized');
     on<LoadFilterEvent>(_onLoadFilter);
+    on<CheckMultiClosetFeatureEvent>(_onCheckMultiClosetFeature); // Add the new event handler
     on<UpdateFilterEvent>(_onUpdateFilter);
     on<SaveFilterEvent>(_onSaveFilter);
     on<ResetFilterEvent>(_onResetFilter);
@@ -73,20 +74,55 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     }
   }
 
+  Future<void> _onCheckMultiClosetFeature(
+      CheckMultiClosetFeatureEvent event, Emitter<FilterState> emit) async {
+    logger.i('Checking multi_closet feature for user.');
+
+    try {
+      // Use fetchService to check if the user has multi_closet access
+      final hasFeature = await fetchService.checkMultiClosetFeature();
+      logger.i('Multi-closet feature access: $hasFeature');
+
+      // Update state with the result
+      emit(state.copyWith(hasMultiClosetFeature: hasFeature));
+    } catch (error) {
+      logger.e('Error checking multi_closet feature: $error');
+      emit(state.copyWith(hasMultiClosetFeature: false)); // Default to false on error
+    }
+  }
+
   void _onUpdateFilter(UpdateFilterEvent event, Emitter<FilterState> emit) {
     logger.i('Updating filter settings with event: $event');
 
+    // Determine which item types were previously selected
+    final previousItemType = state.itemType ?? [];
+    final updatedItemType = event.itemType ?? state.itemType;
+
+    // Check if 'clothing' was deselected
+    bool clothingDeselected = previousItemType.contains('clothing') && !(updatedItemType?.contains('clothing') ?? false);
+
+    // Check if 'shoes' was deselected
+    bool shoesDeselected = previousItemType.contains('shoes') && !(updatedItemType?.contains('shoes') ?? false);
+
+    // Check if 'accessory' was deselected
+    bool accessoryDeselected = previousItemType.contains('accessory') && !(updatedItemType?.contains('accessory') ?? false);
+
+    // Check if 'black' or 'white' was selected in colour to determine if colourVariations should be cleared
+    final updatedColour = event.colour ?? state.colour;
+    bool resetColourVariations = updatedColour?.contains('black') == true || updatedColour?.contains('white') == true;
+
+    // Emit the new state with permanent resets for deselected fields
     emit(state.copyWith(
       searchQuery: event.searchQuery ?? state.searchQuery,
-      itemType: event.itemType ?? state.itemType,
+      itemType: updatedItemType,
       occasion: event.occasion ?? state.occasion,
       season: event.season ?? state.season,
-      colour: event.colour ?? state.colour,
-      colourVariations: event.colourVariations ?? state.colourVariations,
-      clothingType: event.clothingType ?? state.clothingType,
-      clothingLayer: event.clothingLayer ?? state.clothingLayer,
-      shoesType: event.shoesType ?? state.shoesType,
-      accessoryType: event.accessoryType ?? state.accessoryType,
+      colour: updatedColour,
+      colourVariations: resetColourVariations ? [] : (event.colourVariations ?? state.colourVariations),
+      clothingType: clothingDeselected ? [] : (event.clothingType ?? state.clothingType),
+      clothingLayer: clothingDeselected ? [] : (event.clothingLayer ?? state.clothingLayer),
+      shoesType: shoesDeselected ? [] : (event.shoesType ?? state.shoesType),
+      accessoryType: accessoryDeselected ? [] : (event.accessoryType ?? state.accessoryType),
       allCloset: event.allCloset ?? state.allCloset,
       selectedClosetId: event.selectedClosetId ?? state.selectedClosetId,
     ));
@@ -141,7 +177,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       logger.i('Default filter settings loaded successfully');
 
       emit(state.copyWith(
-        saveStatus: SaveStatus.saveSuccess,
+        saveStatus: SaveStatus.success,
         itemType: result['filters']['itemType'],
         occasion: result['filters']['occasion'],
         season: result['filters']['season'],

@@ -32,6 +32,7 @@ class FilterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<FilterBloc>().add(CheckFilterAccessEvent());
+    context.read<FilterBloc>().add(CheckMultiClosetFeatureEvent());
     // Select theme based on isFromMyCloset
     ThemeData theme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
     _logger.d('Theme selected: ${isFromMyCloset ? "myClosetTheme" : "myOutfitTheme"}');

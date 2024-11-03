@@ -165,7 +165,45 @@ class CoreFetchService {
     }
   }
 
-  Future<List<Map<String, dynamic>>> fetchAllClosets() async {
+  Future<bool> checkMultiClosetFeature() async {
+    _logger.d('Starting check for multi_closet feature.');
+
+    try {
+      // Fetching the one_off_features JSON data
+      final data = await Supabase.instance.client
+          .from('premium_services')
+          .select('one_off_features')
+          .single();
+
+      _logger.i('Fetched data: $data'); // Log the entire response for debugging
+
+      // Check if data is null or empty
+      if (data.isEmpty) {
+        _logger.e('Error: No data found in response.');
+        return false; // Return false if there's no data
+      }
+
+      // Extract one_off_features JSON field
+      final features = data['one_off_features'];
+      _logger.d(
+          'Extracted features data: $features'); // Log the one_off_features data for debugging
+
+      // Check if the specific key exists in the JSON
+      final hasMultiClosetFeature = features != null && features.containsKey(
+          'com.makinglifeeasie.closetconscious.multicloset');
+      _logger.i(
+          'Has multi_closet feature: $hasMultiClosetFeature'); // Log the result for debugging
+
+      return hasMultiClosetFeature;
+    } catch (e) {
+      _logger.e(
+          'Exception caught during checkMultiClosetFeature: $e'); // Log any exceptions for debugging
+      return false; // Return false if there's an error
+    }
+  }
+
+
+Future<List<Map<String, dynamic>>> fetchAllClosets() async {
     try {
       final data = await Supabase.instance.client
           .from('user_closets')

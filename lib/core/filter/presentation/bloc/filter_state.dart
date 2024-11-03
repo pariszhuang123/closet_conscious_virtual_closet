@@ -2,6 +2,7 @@ part of 'filter_bloc.dart';
 
 class FilterState extends Equatable {
   final String searchQuery;
+  final bool hasMultiClosetFeature;
   final List<MultiCloset> allClosetsDisplay;
   final List<String>? itemType;
   final List<String>? occasion;
@@ -20,6 +21,7 @@ class FilterState extends Equatable {
 
   const FilterState({
     this.searchQuery = '',
+    this.hasMultiClosetFeature = false,
     this.allClosetsDisplay = const [],
     this.itemType,
     this.occasion,
@@ -39,6 +41,7 @@ class FilterState extends Equatable {
 
   FilterState copyWith({
     String? searchQuery,
+    bool? hasMultiClosetFeature,
     List<MultiCloset>? allClosetsDisplay,
     List<String>? itemType,
     List<String>? occasion,
@@ -57,6 +60,7 @@ class FilterState extends Equatable {
   }) {
     return FilterState(
       searchQuery: searchQuery ?? this.searchQuery,
+      hasMultiClosetFeature: hasMultiClosetFeature ?? this.hasMultiClosetFeature,
       allClosetsDisplay: allClosetsDisplay ?? this.allClosetsDisplay, // Updated field name and type
       itemType: itemType ?? this.itemType,
       occasion: occasion ?? this.occasion,
@@ -78,6 +82,7 @@ class FilterState extends Equatable {
   @override
   List<Object?> get props => [
     searchQuery,
+    hasMultiClosetFeature,
     allClosetsDisplay,
     itemType,
     occasion,

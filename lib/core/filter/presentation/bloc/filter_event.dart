@@ -56,6 +56,8 @@ class UpdateFilterEvent extends FilterEvent {
   ];
 }
 
+class CheckMultiClosetFeatureEvent extends FilterEvent {}
+
 // Save the user's filter settings
 class SaveFilterEvent extends FilterEvent {}
 
