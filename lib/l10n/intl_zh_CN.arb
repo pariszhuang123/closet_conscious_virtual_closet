@@ -9,6 +9,7 @@
   "retryConnection": "再试一次？🚀",
   "ItemNameLabel": "单品名称",
   "ItemNameHint": "这件时尚单品叫什么名字？",
+  "ItemNameFilterHint": "有名字在心中吗？",
   "AmountLabel": "金额",
   "AmountHint": "这件美丽的单品花了多少钱？",
   "ItemOccasionLabel": "场合",

@@ -32,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ItemColourLabel": MessageLookupByLibrary.simpleMessage("颜色"),
         "ItemColourVariationLabel":
             MessageLookupByLibrary.simpleMessage("颜色变化"),
+        "ItemNameFilterHint": MessageLookupByLibrary.simpleMessage("有名字在心中吗？"),
         "ItemNameHint": MessageLookupByLibrary.simpleMessage("这件时尚单品叫什么名字？"),
         "ItemNameLabel": MessageLookupByLibrary.simpleMessage("单品名称"),
         "ItemOccasionLabel": MessageLookupByLibrary.simpleMessage("场合"),

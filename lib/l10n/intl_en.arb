@@ -9,6 +9,7 @@
   "retryConnection": "Try Again? 🚀",
   "ItemNameLabel": "Item Name",
   "ItemNameHint": "What’s this fabulous piece called?",
+  "ItemNameFilterHint": "Got a name in mind?",
   "AmountLabel": "Amount",
   "AmountHint": "How much did this beauty cost?",
   "ItemOccasionLabel": "Occasion",

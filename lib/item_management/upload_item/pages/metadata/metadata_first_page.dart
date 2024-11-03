@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/data/type_data.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/widgets/layout/icon_row_builder.dart';
-import '../../presentation/bloc/upload_item_bloc.dart';
+import '../../../../core/widgets/form/custom_text_form.dart';
 
 class MetadataFirstPage extends StatelessWidget {
   final TextEditingController itemNameController;
@@ -34,49 +33,22 @@ class MetadataFirstPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextFormField(
+            CustomTextFormField(
               controller: itemNameController,
-              decoration: InputDecoration(
-                labelText: S.of(context).item_name,
-                prefixIcon: const Icon(Icons.edit),
-                iconColor: myClosetTheme.iconTheme.color,
-                labelStyle: myClosetTheme.textTheme.bodyMedium,
-                border: InputBorder.none,  // No underline when not focused
-                focusedBorder: UnderlineInputBorder( // Underline when focused
-                  borderSide: BorderSide(
-                    color: myClosetTheme.colorScheme.primary,  // Customize underline color
-                    width: 2.0,
-                  ),
-                ),
-              ),
+              labelText: S.of(context).item_name,
+              hintText: S.of(context).ItemNameHint, // No hint text for item name
+              labelStyle: myClosetTheme.textTheme.bodyMedium,
+              focusedBorderColor: myClosetTheme.colorScheme.primary,
             ),
             const SizedBox(height: 12),
-            TextFormField(
+            CustomTextFormField(
               controller: amountSpentController,
-              decoration: InputDecoration(
-                labelText: S.of(context).amountSpentLabel,
-                hintText: S.of(context).enterAmountSpentHint,
-                prefixIcon: const Icon(Icons.edit),
-                iconColor: myClosetTheme.iconTheme.color,
-                errorText: amountSpentError,
-                labelStyle: myClosetTheme.textTheme.bodyMedium,
-                border: InputBorder.none,  // No underline when not focused
-                focusedBorder: UnderlineInputBorder( // Underline when focused
-                  borderSide: BorderSide(
-                    color: myClosetTheme.colorScheme.primary,  // Customize underline color
-                    width: 2.0,
-                  ),
-                ),
-              ),
+              labelText: S.of(context).amountSpentLabel,
+              hintText: S.of(context).enterAmountSpentHint,
+              labelStyle: myClosetTheme.textTheme.bodyMedium,
+              focusedBorderColor: myClosetTheme.colorScheme.primary,
+              errorText: amountSpentError,
               keyboardType: TextInputType.number,
-              onChanged: (value) {
-                context.read<UploadItemBloc>().add(ValidateFormPage1(
-                  itemName: itemNameController.text.trim(),
-                  amountSpentText: value,
-                  selectedItemType: selectedItemType,
-                  selectedOccasion: selectedOccasion,
-                ));
-              },
             ),
             const SizedBox(height: 12),
             Text(
@@ -104,8 +76,10 @@ class MetadataFirstPage extends StatelessWidget {
               child: Column(
                 children: buildIconRows(
                   TypeDataList.occasions(context),
-                  selectedOccasion != null ? [selectedOccasion!] : [],  // Wrap in a list and handle null
-                      (selectedKeys) => onOccasionChanged(selectedKeys.first),
+                  selectedOccasion != null ? [selectedOccasion!] : [],
+                      (selectedKeys) {
+                    onOccasionChanged(selectedKeys.first);
+                  },
                   context,
                   true,
                   false,

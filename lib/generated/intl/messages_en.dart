@@ -35,6 +35,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ItemColourLabel": MessageLookupByLibrary.simpleMessage("Colour"),
         "ItemColourVariationLabel":
             MessageLookupByLibrary.simpleMessage("Colour Variation"),
+        "ItemNameFilterHint":
+            MessageLookupByLibrary.simpleMessage("Got a name in mind?"),
         "ItemNameHint": MessageLookupByLibrary.simpleMessage(
             "What’s this fabulous piece called?"),
         "ItemNameLabel": MessageLookupByLibrary.simpleMessage("Item Name"),

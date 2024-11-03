@@ -4,6 +4,7 @@ import '../../bloc/filter_bloc.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../utilities/logger.dart';
 import '../../widgets/closet_grid.dart';
+import '../../../../widgets/form/custom_text_form.dart';
 
 class SingleSelectionTab extends StatelessWidget {
   final FilterState state;
@@ -47,9 +48,12 @@ class SingleSelectionTab extends StatelessWidget {
   /// Builds the item name input field with logging
   Widget _buildItemNameInput(BuildContext context) {
     _logger.d('Building item name input field');
-    return TextFormField(
-      initialValue: state.searchQuery,
-      decoration: InputDecoration(labelText: S.of(context).itemNameLabel),
+    return CustomTextFormField(
+      controller: TextEditingController(text: state.searchQuery),
+      labelText: S.of(context).itemNameLabel,
+      hintText: S.of(context).ItemNameFilterHint,
+      labelStyle: Theme.of(context).textTheme.bodyMedium,
+      focusedBorderColor: Theme.of(context).colorScheme.primary,
       onChanged: (value) {
         _logger.d('User entered item name: $value');
         context.read<FilterBloc>().add(UpdateFilterEvent(searchQuery: value));
@@ -72,6 +76,18 @@ class SingleSelectionTab extends StatelessWidget {
             context.read<FilterBloc>().add(UpdateFilterEvent(allCloset: value));
             _logger.i('Dispatched UpdateFilterEvent with allCloset: $value');
           },
+          trackColor: WidgetStateProperty.resolveWith<Color>((states) {
+            // Track uses `onPrimary` color when active, `secondary` when inactive
+            return states.contains(WidgetState.selected)
+                ? Theme.of(context).colorScheme.onPrimary
+                : Theme.of(context).colorScheme.onPrimary;
+          }),
+          thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
+            // Thumb uses `primary` color when active, `secondary` when inactive
+            return states.contains(WidgetState.selected)
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.secondary;
+          }),
         ),
       ],
     );

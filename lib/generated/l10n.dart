@@ -140,6 +140,16 @@ class S {
     );
   }
 
+  /// `Got a name in mind?`
+  String get ItemNameFilterHint {
+    return Intl.message(
+      'Got a name in mind?',
+      name: 'ItemNameFilterHint',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Amount`
   String get AmountLabel {
     return Intl.message(

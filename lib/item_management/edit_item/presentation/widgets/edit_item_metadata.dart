@@ -3,6 +3,7 @@ import '../../../../core/data/type_data.dart';
 import '../../../../generated/l10n.dart';
 import '../../../core/data/models/closet_item_detailed.dart';
 import '../../../../core/widgets/layout/icon_row_builder.dart';
+import '../../../../core/widgets/form/custom_text_form.dart';
 
 class EditItemMetadata extends StatelessWidget {
   final ClosetItemDetailed currentItem;
@@ -49,46 +50,31 @@ class EditItemMetadata extends StatelessWidget {
     return Column(
       children: [
         // Item Name Field
-        TextFormField(
+        CustomTextFormField(
           controller: itemNameController,
-          decoration: InputDecoration(
-            labelText: S.of(context).item_name,
-            labelStyle: theme.textTheme.bodyMedium,
-            border: InputBorder.none,
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: theme.colorScheme.primary,
-                width: 2.0,
-              ),
-            ),
-            errorText: validationErrors['item_name'], // Display error
-          ),
+          labelText: S.of(context).item_name,
+          hintText: S.of(context).ItemNameHint,
+          labelStyle: theme.textTheme.bodyMedium,
+          focusedBorderColor: theme.colorScheme.primary,
+          errorText: validationErrors['item_name'],
           validator: (value) {
             if (value == null || value.isEmpty) {
               return S.of(context).pleaseEnterItemName;
             }
-            return null;
+            return null; // No error if validation passes
           },
           onChanged: onNameChanged,
         ),
         const SizedBox(height: 12),
 
         // Amount Spent Field
-        TextFormField(
+        CustomTextFormField(
           controller: amountSpentController,
-          decoration: InputDecoration(
-            labelText: S.of(context).amountSpentLabel,
-            hintText: S.of(context).enterAmountSpentHint,
-            labelStyle: theme.textTheme.bodyMedium,
-            border: InputBorder.none,
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: theme.colorScheme.primary,
-                width: 2.0,
-              ),
-            ),
-            errorText: validationErrors['amount_spent'], // Display error
-          ),
+          labelText: S.of(context).amountSpentLabel,
+          hintText: S.of(context).enterAmountSpentHint,
+          labelStyle: theme.textTheme.bodyMedium,
+          focusedBorderColor: theme.colorScheme.primary,
+          errorText: validationErrors['amount_spent'],
           keyboardType: TextInputType.number,
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -98,11 +84,12 @@ class EditItemMetadata extends StatelessWidget {
             if (parsedValue == null || parsedValue < 0) {
               return S.of(context).please_enter_valid_amount;
             }
-            return null;
+            return null; // No error if validation passes
           },
           onChanged: onAmountSpentChanged,
         ),
         const SizedBox(height: 12),
+
 
         // Item Type Selection
         Text(S.of(context).selectItemType, style: theme.textTheme.bodyMedium),
