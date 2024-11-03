@@ -56,7 +56,7 @@ begin
       ignore_item_name = case
                             when new_item_name is null or new_item_name = '' then TRUE
                             else FALSE
-                         end
+                         end,
       item_name = case
                      when new_item_name is null or new_item_name = '' then 'cc_none'
                      else new_item_name
