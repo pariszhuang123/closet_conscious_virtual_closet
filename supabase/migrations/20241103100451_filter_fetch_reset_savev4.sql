@@ -1,8 +1,3 @@
-ALTER TABLE public.user_closets
-ADD COLUMN closet_image TEXT NOT NULL DEFAULT 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/item_pics/cc_none/CC_Logo.png';
-
-COMMENT ON COLUMN public.user_closets.closet_image IS 'URL of the closet image. Defaults to a placeholder logo if no image is provided.';
-
 create or replace function save_default_selection()
 returns jsonb
 language plpgsql
