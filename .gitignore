@@ -58,3 +58,7 @@ supabase/.branches/
 
 # Exclude local.properties
 local.properties
+
+# Ignore flutter plugins
+.flutter-plugins-dependencies
+.flutter-plugins
