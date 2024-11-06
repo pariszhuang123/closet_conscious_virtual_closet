@@ -11,12 +11,16 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   final String itemId;
   final ItemSaveService _itemSaveService;
   final ItemFetchService _itemFetchService;
-  final CustomLogger _logger = CustomLogger('ItemEditBloc');
+  final CustomLogger _logger;
 
   EditItemBloc({
     required this.itemId,
-  }) : _itemSaveService = ItemSaveService(),
-        _itemFetchService = ItemFetchService(),
+    ItemSaveService? itemSaveService,
+    ItemFetchService? itemFetchService,
+    CustomLogger? logger,
+  })  : _itemSaveService = itemSaveService ?? ItemSaveService(),
+        _itemFetchService = itemFetchService ?? ItemFetchService(),
+        _logger = logger ?? CustomLogger('ItemEditBloc'),
         super(EditItemInitial()) {
     // Register event handlers
     on<LoadItemEvent>(_onLoadItem);

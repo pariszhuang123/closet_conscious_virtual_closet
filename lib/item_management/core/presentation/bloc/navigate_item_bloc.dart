@@ -13,16 +13,19 @@ class NavigateItemBloc extends Bloc<NavigateItemEvent, NavigateItemState> {
   final CustomLogger logger;
   final AuthBloc authBloc;
 
-  NavigateItemBloc({required this.itemFetchService})
-      : logger = CustomLogger('NavigateItemBlocLogger'),
-        authBloc = locator<AuthBloc>(),
+  NavigateItemBloc({
+    ItemFetchService? itemFetchService,
+    CustomLogger? logger,
+    AuthBloc? authBloc,
+  })  : itemFetchService = itemFetchService ?? ItemFetchService(),
+        logger = logger ?? CustomLogger('NavigateItemBlocLogger'),
+        authBloc = authBloc ?? locator<AuthBloc>(),
         super(InitialNavigateItemState()) {
     on<FetchFirstItemUploadedAchievementEvent>(_onFetchFirstItemUploadedAchievement);
     on<FetchFirstItemPicEditedAchievementEvent>(_onFetchFirstItemPicEditedAchievement);
     on<FetchFirstItemGiftedAchievementEvent>(_onFetchFirstItemGiftedAchievement);
     on<FetchFirstItemSoldAchievementEvent>(_onFetchFirstItemSoldAchievement);
     on<FetchFirstItemSwapAchievementEvent>(_onFetchFirstItemSwapAchievement);
-
   }
 
   Future<void> _onFetchFirstItemUploadedAchievement(

@@ -10,10 +10,14 @@ part 'upload_item_state.dart';
 class UploadItemBloc extends Bloc<UploadItemEvent, UploadItemState> {
   final String userId;
   final ItemSaveService _itemSaveService;
-  final CustomLogger _logger = CustomLogger('ItemUploadBloc');
+  final CustomLogger _logger;
 
-  UploadItemBloc({required this.userId})
-      : _itemSaveService = ItemSaveService(),
+  UploadItemBloc({
+    required this.userId,
+    ItemSaveService? itemSaveService,
+    CustomLogger? logger,
+  })  : _itemSaveService = itemSaveService ?? ItemSaveService(),
+        _logger = logger ?? CustomLogger('UploadItemBloc'),
         super(UploadItemInitial()) {
     on<StartUploadItem>(_onStartUpload);
     on<ValidateFormPage1>(_onValidateFormPage1);

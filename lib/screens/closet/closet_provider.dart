@@ -24,7 +24,7 @@ class MyClosetProvider extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<UploadStreakBloc>(
-          create: (context) => UploadStreakBloc(itemFetchService)..add(CheckUploadStatus()),
+          create: (context) => UploadStreakBloc()..add(CheckUploadStatus()),
         ),
         BlocProvider<NavigateItemBloc>(
           create: (context) => NavigateItemBloc(
@@ -35,7 +35,7 @@ class MyClosetProvider extends StatelessWidget {
           create: (context) => VersionBloc(userFetchSupabaseService)..add(CheckVersionEvent()),
         ),
         BlocProvider<ViewItemsBloc>(
-          create: (context) => ViewItemsBloc(itemFetchService)..add(FetchItemsEvent(0)), // Add ViewItemsBloc and dispatch the FetchItemsEvent
+          create: (context) => ViewItemsBloc()..add(FetchItemsEvent(0)),
         ),
       ],
       child: MyClosetScreen(

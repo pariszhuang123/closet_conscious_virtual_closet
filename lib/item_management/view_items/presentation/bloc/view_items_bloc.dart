@@ -10,11 +10,16 @@ part 'view_items_state.dart';
 
 class ViewItemsBloc extends Bloc<ViewItemsEvent, ViewItemsState> {
   final ItemFetchService _itemFetchService;
-  final CustomLogger _logger = CustomLogger('ViewItemsBloc');
+  final CustomLogger _logger;
   bool _hasMoreItems = true;
   bool _isFetching = false;
 
-  ViewItemsBloc(this._itemFetchService) : super(ItemsLoading()) {
+  ViewItemsBloc({
+    ItemFetchService? itemFetchService,
+    CustomLogger? logger,
+  })  : _itemFetchService = itemFetchService ?? ItemFetchService(),
+        _logger = logger ?? CustomLogger('ViewItemsBloc'),
+        super(ItemsLoading()) {
     on<FetchItemsEvent>(_onFetchItems);
   }
 

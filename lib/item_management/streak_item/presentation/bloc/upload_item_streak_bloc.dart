@@ -10,8 +10,11 @@ class UploadStreakBloc extends Bloc<UploadStreakEvent, UploadStreakState> {
   final ItemFetchService _itemFetchService;
   final CustomLogger _logger;
 
-  UploadStreakBloc(this._itemFetchService)
-      : _logger = CustomLogger('UploadStreakBloc'),
+  UploadStreakBloc({
+    ItemFetchService? itemFetchService,
+    CustomLogger? logger,
+  })  : _itemFetchService = itemFetchService ?? ItemFetchService(),
+        _logger = logger ?? CustomLogger('UploadStreakBloc'),
         super(UploadStreakInitial()) {
     on<CheckUploadStatus>(_onCheckUploadStatus);
     on<CompleteUpload>(_onCompleteUpload);
