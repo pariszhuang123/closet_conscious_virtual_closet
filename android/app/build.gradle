@@ -57,8 +57,8 @@ android {
         applicationId "com.makinglifeeasie.closetconscious"
         minSdkVersion 27
         targetSdkVersion 34
-        versionCode buildNumber.toInteger()  // Automatically use build number for versionCode
-        versionName buildVersionName         // Version name format: "1.0.123"
+        versionCode buildNumber.toInteger()
+        versionName versionName
     }
     flavorDimensions "default"
 
