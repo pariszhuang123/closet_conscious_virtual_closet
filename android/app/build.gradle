@@ -29,9 +29,6 @@ def buildNumber = (System.getenv("BUILD_NUMBER") ?: '1').toInteger()
 // Create the version name using major, minor, and patch versions
 def versionName = "${majorVersion}.${minorVersion}.${patchVersion}"
 
-// Set the versionCode as the build number, ensuring a unique integer for each release
-versionCode buildNumber
-
 
 android {
 
