@@ -10,7 +10,8 @@ platform :android do
         project_dir: "./android",
         properties: {
           "target" => "lib/main_prod.dart",  # Passing the target as a Gradle property
-          "BUILD_NUMBER" => ENV["BUILD_NUMBER"]  # Ensure BUILD_NUMBER is passed from the GitHub Actions environment
+          "versionCode" => ENV["BUILD_NUMBER"],  # Pass BUILD_NUMBER as versionCode
+          "versionName" => ENV["VERSION_NAME"]  # Optional: pass versionName if needed
         }
       )  # <-- Closing the gradle block
 

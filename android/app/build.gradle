@@ -20,13 +20,18 @@ if (keystorePropertiesFile.exists()) {
 
 // Define the major and minor version manually
 def majorVersion = 1
-def minorVersion = 5  // You can manually update this for each release
+def minorVersion = 6  // You can manually update this for each release
+def patchVersion = 0
 
 // Get the build number from the environment variable (set in GitHub Actions)
 def buildNumber = System.getenv("BUILD_NUMBER") ?: '1'
 
-// Create the version name using major, minor, and build numbers
-def buildVersionName = "${majorVersion}.${minorVersion}.${buildNumber}"
+// Create the version name using major, minor, and patch versions
+def versionName = "${majorVersion}.${minorVersion}.${patchVersion}"
+
+// Set the versionCode as the build number, ensuring a unique integer for each release
+def versionCode = buildNumber.toInteger()
+
 
 android {
 
