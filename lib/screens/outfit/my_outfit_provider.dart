@@ -28,7 +28,7 @@ class MyOutfitProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _logger.d('Building MyOutfitProvider widget');
+    _logger.d('Building MyOutfitProvider widgets');
 
     return MultiBlocProvider(
       providers: [

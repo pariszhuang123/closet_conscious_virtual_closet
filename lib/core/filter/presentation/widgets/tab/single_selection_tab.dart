@@ -34,7 +34,7 @@ class SingleSelectionTabState extends State<SingleSelectionTab> {
 
   @override
   Widget build(BuildContext context) {
-    _logger.i('Building SingleSelectionTab widget with state: ${widget.state}');
+    _logger.i('Building SingleSelectionTab widgets with state: ${widget.state}');
 
     return BlocBuilder<FilterBloc, FilterState>(
       builder: (context, state) {

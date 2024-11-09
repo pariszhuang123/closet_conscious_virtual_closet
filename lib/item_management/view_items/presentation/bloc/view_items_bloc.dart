@@ -25,7 +25,7 @@ class ViewItemsBloc extends Bloc<ViewItemsEvent, ViewItemsState> {
 
   // Handler for FetchItemsEvent
   Future<void> _onFetchItems(FetchItemsEvent event, Emitter<ViewItemsState> emit) async {
-    _logger.i('Received FetchItemsEvent for page: ${event.page}');
+    _logger.i('Received FetchItemsEvent for pages: ${event.page}');
     _logger.i('Current state: $state');
     _logger.i('Flags - _isFetching: $_isFetching, _hasMoreItems: $_hasMoreItems');
 
@@ -39,14 +39,14 @@ class ViewItemsBloc extends Bloc<ViewItemsEvent, ViewItemsState> {
     // Set _isFetching to prevent duplicate fetches
     _isFetching = true;
 
-    // Emit loading state only if it's a fresh fetch (page 0)
+    // Emit loading state only if it's a fresh fetch (pages 0)
     if (state is! ItemsLoaded || event.page == 0) {
       emit(ItemsLoading());
       _logger.i('Emitted ItemsLoading state');
     }
 
     try {
-      // Fetch items with the current page
+      // Fetch items with the current pages
       final items = await _itemFetchService.fetchItems(event.page);
 
       // Update _hasMoreItems based on the result

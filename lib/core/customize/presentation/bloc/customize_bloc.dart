@@ -93,13 +93,13 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
   Future<void> _onCheckCustomizeAccess(
       CheckCustomizeAccessEvent event,
       Emitter<CustomizeState> emit) async {
-    logger.i('Checking if the user has access to the customize page.');
+    logger.i('Checking if the user has access to the customize pages.');
     try {
       bool canAccessCustomizePage = await fetchService.accessCustomizePage();
 
       if (canAccessCustomizePage) {
         emit(state.copyWith(accessStatus: AccessStatus.granted));
-        logger.i('Customize page access granted.');
+        logger.i('Customize pages access granted.');
       } else {
         emit(state.copyWith(accessStatus: AccessStatus.denied));
         logger.w('Customize access denied.');

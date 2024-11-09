@@ -26,54 +26,54 @@ class UploadItemBloc extends Bloc<UploadItemEvent, UploadItemState> {
   }
 
   void _onValidateFormPage1(ValidateFormPage1 event, Emitter<UploadItemState> emit) {
-    _logger.i('Validating form page 1: $event');
+    _logger.i('Validating form pages 1: $event');
     final amountSpent = double.tryParse(event.amountSpentText);
 
     if (event.itemName.isEmpty) {
-      _logger.w('Form page 1 validation failed: item name required');
+      _logger.w('Form pages 1 validation failed: item name required');
       emit(const FormInvalidPage1('item_name_required'));
     } else if (event.amountSpentText.isEmpty || amountSpent == null || amountSpent < 0) {
-      _logger.w('Form page 1 validation failed: invalid amount spent');
+      _logger.w('Form pages 1 validation failed: invalid amount spent');
       emit(const FormInvalidPage1('invalid_amount_spent'));
     } else if (event.selectedItemType == null) {
-      _logger.w('Form page 1 validation failed: item type required');
+      _logger.w('Form pages 1 validation failed: item type required');
       emit(const FormInvalidPage1('item_type_required'));
     } else if (event.selectedOccasion == null) {
-      _logger.w('Form page 1 validation failed: occasion required');
+      _logger.w('Form pages 1 validation failed: occasion required');
       emit(const FormInvalidPage1('occasion_required'));
     } else {
-      _logger.i('Form page 1 validation passed');
+      _logger.i('Form pages 1 validation passed');
       emit(FormValidPage1());
     }
   }
 
   void _onValidateFormPage2(ValidateFormPage2 event, Emitter<UploadItemState> emit) {
-    _logger.i('Validating form page 2: $event');
+    _logger.i('Validating form pages 2: $event');
     if (event.selectedSeason == null) {
-      _logger.w('Form page 2 validation failed: season required');
+      _logger.w('Form pages 2 validation failed: season required');
       emit(const FormInvalidPage2('season_required'));
     } else if (event.selectedSpecificType == null) {
-      _logger.w('Form page 2 validation failed: specific type required');
+      _logger.w('Form pages 2 validation failed: specific type required');
       emit(const FormInvalidPage2('specific_type_required'));
     } else if (event.selectedItemType == 'clothing' && event.selectedClothingLayer == null) {
-      _logger.w('Form page 2 validation failed: clothing layer required');
+      _logger.w('Form pages 2 validation failed: clothing layer required');
       emit(const FormInvalidPage2('clothing_layer_required'));
     } else {
-      _logger.i('Form page 2 validation passed');
+      _logger.i('Form pages 2 validation passed');
       emit(FormValidPage2());
     }
   }
 
   void _onValidateFormPage3(ValidateFormPage3 event, Emitter<UploadItemState> emit) {
-    _logger.i('Validating form page 3: $event');
+    _logger.i('Validating form pages 3: $event');
     if (event.selectedColour == null) {
-      _logger.w('Form page 3 validation failed: color required');
+      _logger.w('Form pages 3 validation failed: color required');
       emit(const FormInvalidPage3('color_required'));
     } else if (event.selectedColour != 'black' && event.selectedColour != 'white' && event.selectedColourVariation == null) {
-      _logger.w('Form page 3 validation failed: color variation required');
+      _logger.w('Form pages 3 validation failed: color variation required');
       emit(const FormInvalidPage3('color_variation_required'));
     } else {
-      _logger.i('Form page 3 validation passed');
+      _logger.i('Form pages 3 validation passed');
       emit(FormValidPage3());
     }
   }

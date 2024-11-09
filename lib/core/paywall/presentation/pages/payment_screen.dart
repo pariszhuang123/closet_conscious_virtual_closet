@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import '../presentation/bloc/payment_bloc.dart';
-import '../../widgets/button/themed_elevated_button.dart';
-import '../data/premium_feature_data.dart';
-import '../data/feature_key.dart';
-import '../../../generated/l10n.dart';
-import '../../theme/my_closet_theme.dart';
-import '../../theme/my_outfit_theme.dart';
-import '../../utilities/logger.dart';
-import '../../utilities/routes.dart';
-import '../../widgets/progress_indicator/closet_progress_indicator.dart';
-import '../../widgets/progress_indicator/outfit_progress_indicator.dart';
-import '../presentation/widgets/feature_carousel.dart';
+import '../../presentation/bloc/payment_bloc.dart';
+import '../../../widgets/button/themed_elevated_button.dart';
+import '../../data/premium_feature_data.dart';
+import '../../data/feature_key.dart';
+import '../../../../generated/l10n.dart';
+import '../../../theme/my_closet_theme.dart';
+import '../../../theme/my_outfit_theme.dart';
+import '../../../utilities/logger.dart';
+import '../../../utilities/routes.dart';
+import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../../widgets/progress_indicator/outfit_progress_indicator.dart';
+import '../../presentation/widgets/feature_carousel.dart';
 
 
 class PaymentScreen extends StatefulWidget {

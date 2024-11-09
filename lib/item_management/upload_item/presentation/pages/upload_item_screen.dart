@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/user_photo/presentation/widgets/image_display_widget.dart';
-import '../../../core/utilities/routes.dart';
-import '../../../generated/l10n.dart';
-import '../presentation/bloc/upload_item_bloc.dart';
-import '../../../core/widgets/feedback/custom_snack_bar.dart';
-import '../../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_upload_usage_bottom_sheet.dart';
-import '../presentation/widgets/sliding_progress_button.dart';
-import '../presentation/widgets/upload_item_additional_feature.dart';
-import '../../../core/utilities/logger.dart';
+import '../../../../core/user_photo/presentation/widgets/image_display_widget.dart';
+import '../../../../core/utilities/routes.dart';
+import '../../../../generated/l10n.dart';
+import '../../presentation/bloc/upload_item_bloc.dart';
+import '../../../../core/widgets/feedback/custom_snack_bar.dart';
+import '../../../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_upload_usage_bottom_sheet.dart';
+import '../../presentation/widgets/sliding_progress_button.dart';
+import '../../presentation/widgets/upload_item_additional_feature.dart';
+import '../../../../core/utilities/logger.dart';
 import 'metadata/metadata_first_page.dart';
 import 'metadata/metadata_second_page.dart';
 import 'metadata/metadata_third_page.dart';
@@ -72,11 +72,11 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
   }
 
   void _handleNext(BuildContext context) {
-    _logger.i('Handling "Next" button press, current page: $_currentPage');
+    _logger.i('Handling "Next" button press, current pages: $_currentPage');
     final uploadBloc = context.read<UploadItemBloc>();
 
     if (_currentPage == 0) {
-      _logger.i('Validating form on page 1');
+      _logger.i('Validating form on pages 1');
       uploadBloc.add(ValidateFormPage1(
         itemName: _itemNameController.text.trim(),
         amountSpentText: _amountSpentController.text,
@@ -84,7 +84,7 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
         selectedOccasion: selectedOccasion,
       ));
     } else if (_currentPage == 1) {
-      _logger.i('Validating form on page 2');
+      _logger.i('Validating form on pages 2');
       uploadBloc.add(ValidateFormPage2(
         selectedSeason: selectedSeason,
         selectedSpecificType: selectedSpecificType,
@@ -92,7 +92,7 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
         selectedClothingLayer: selectedClothingLayer,
       ));
     } else if (_currentPage == 2) {
-      _logger.i('Validating form on page 3');
+      _logger.i('Validating form on pages 3');
       uploadBloc.add(ValidateFormPage3(
         selectedColour: selectedColour,
         selectedColourVariation: selectedColourVariation,
@@ -200,7 +200,7 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
             theme: widget.myClosetTheme,
           ).show(context);
         } else if (state is FormValidPage1) {
-          _logger.i('Form page 1 validated successfully, moving to next page');
+          _logger.i('Form pages 1 validated successfully, moving to next pages');
           _pageController.nextPage(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
@@ -209,10 +209,10 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
             _currentPage = 1;
           });
         } else if (state is FormInvalidPage1) {
-          _logger.w('Form page 1 invalid: ${state.errorMessage}');
+          _logger.w('Form pages 1 invalid: ${state.errorMessage}');
           _showErrorMessage(state.errorMessage);
         } else if (state is FormValidPage2) {
-          _logger.i('Form page 2 validated successfully, moving to next page');
+          _logger.i('Form pages 2 validated successfully, moving to next pages');
           _pageController.nextPage(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
@@ -221,13 +221,13 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
             _currentPage = 2;
           });
         } else if (state is FormInvalidPage2) {
-          _logger.w('Form page 2 invalid: ${state.errorMessage}');
+          _logger.w('Form pages 2 invalid: ${state.errorMessage}');
           _showErrorMessage(state.errorMessage);
         } else if (state is FormInvalidPage3) {
-          _logger.w('Form page 3 invalid: ${state.errorMessage}');
+          _logger.w('Form pages 3 invalid: ${state.errorMessage}');
           _showErrorMessage(state.errorMessage);
         } else if (state is FormValidPage3) {
-          _logger.i('Form page 3 validated successfully, starting upload');
+          _logger.i('Form pages 3 validated successfully, starting upload');
           _handleUpload(context);
         }
       },

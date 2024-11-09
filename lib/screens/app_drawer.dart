@@ -154,7 +154,7 @@ class AppDrawer extends StatelessWidget {
         .state;
     if (authState is Authenticated) {
       final String userId = authState.user.id;
-      logger.d('Navigating to achievements page with userId: $userId');
+      logger.d('Navigating to achievements pages with userId: $userId');
       Navigator.pushNamed(
         context,
         AppRoutes.achievementPage,

@@ -14,7 +14,7 @@ class RequestCameraPermission extends UploadItemEvent {}
 
 class AppResumed extends UploadItemEvent {}
 
-// Event to validate form on page 1
+// Event to validate form on pages 1
 class ValidateFormPage1 extends UploadItemEvent {
   final String itemName;
   final String amountSpentText;
@@ -32,7 +32,7 @@ class ValidateFormPage1 extends UploadItemEvent {
   List<Object?> get props => [itemName, amountSpentText, selectedItemType, selectedOccasion];
 }
 
-// Event to validate form on page 2
+// Event to validate form on pages 2
 class ValidateFormPage2 extends UploadItemEvent {
   final String? selectedSeason;
   final String? selectedSpecificType;
@@ -50,7 +50,7 @@ class ValidateFormPage2 extends UploadItemEvent {
   List<Object?> get props => [selectedSeason, selectedSpecificType, selectedItemType, selectedClothingLayer];
 }
 
-// Event to validate form on page 3
+// Event to validate form on pages 3
 class ValidateFormPage3 extends UploadItemEvent {
   final String? selectedColour;
   final String? selectedColourVariation;

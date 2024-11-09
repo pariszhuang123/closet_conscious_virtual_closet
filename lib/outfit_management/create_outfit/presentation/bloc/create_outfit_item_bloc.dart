@@ -33,7 +33,7 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
     ));
 
     try {
-      // Fetch items filtered by the selected category starting from page 0
+      // Fetch items filtered by the selected category starting from pages 0
       final items = await outfitFetchService.fetchCreateOutfitItemsRPC(0, event.category);
 
       final updatedCategoryItems = {
@@ -65,7 +65,7 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
     final currentPage = state.categoryPages[currentCategory] ?? 0;
 
     try {
-      // Fetch more items, specifying page but not filtering here; do category filtering afterward
+      // Fetch more items, specifying pages but not filtering here; do category filtering afterward
       final allNewItems = await outfitFetchService.fetchCreateOutfitItemsRPC(currentPage, currentCategory);
 
       // Filter items by current category
@@ -73,7 +73,7 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
           .where((item) => item.itemType.toLowerCase() == currentCategory.toString().split('.').last.toLowerCase())
           .toList();
 
-      logger.d('Fetched ${newItems.length} new items for category $currentCategory on page $currentPage');
+      logger.d('Fetched ${newItems.length} new items for category $currentCategory on pages $currentPage');
 
       if (newItems.isEmpty) {
         emit(state.copyWith(

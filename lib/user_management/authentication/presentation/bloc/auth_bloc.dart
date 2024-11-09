@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../application/usecases/sign_in_with_google.dart';
+import '../../application/usecases/sign_in_with_apple.dart';
 import '../../application/usecases/get_current_user.dart';
 import '../../application/usecases/sign_out.dart';
 import '../../application/usecases/delete_user_account.dart';
@@ -10,20 +11,24 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignInWithGoogle _signInWithGoogle;
+  final SignInWithApple _signInWithApple;
   final GetCurrentUser _getCurrentUser;
   final SignOut _signOut;
   final CustomLogger _logger = CustomLogger('AuthBloc');
 
   AuthBloc({
     required SignInWithGoogle signInWithGoogle,
+    required SignInWithApple signInWithApple,
     required GetCurrentUser getCurrentUser,
     required SignOut signOut,
     required DeleteUserAccount deleteUserAccount,
   })  : _signInWithGoogle = signInWithGoogle,
+        _signInWithApple = signInWithApple,
         _getCurrentUser = getCurrentUser,
         _signOut = signOut,
         super(Unauthenticated()) {
     on<SignInEvent>(_onSignIn);
+    on<SignInWithAppleEvent>(_onSignInWithApple);
     on<SignOutEvent>(_onSignOut);
     on<CheckAuthStatusEvent>(_onCheckAuthStatus);
   }
@@ -37,6 +42,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else {
       _logger.w('Sign in failed');
       emit(Unauthenticated());  // Emit Unauthenticated if sign in fails
+    }
+  }
+
+  Future<void> _onSignInWithApple(SignInWithAppleEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    final user = await _signInWithApple();
+    if (user != null) {
+      _logger.i('User signed in with Apple: ${user.id}');
+      emit(Authenticated(user));
+    } else {
+      _logger.w('Apple Sign-In failed');
+      emit(Unauthenticated());
     }
   }
 

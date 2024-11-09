@@ -12,7 +12,7 @@ class ConnectivityProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ConnectivityBloc, ConnectivityState>(
       builder: (context, state) {
-        // Ensure Directionality is present in the widget tree
+        // Ensure Directionality is present in the widgets tree
         return Directionality(
           textDirection: TextDirection.ltr, // This ensures Directionality for the Stack
           child: Stack(

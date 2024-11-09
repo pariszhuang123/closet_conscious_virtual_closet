@@ -19,7 +19,7 @@ class MultiSelectionTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    _logger.i('Building MultiSelectionTab widget');
+    _logger.i('Building MultiSelectionTab widgets');
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),

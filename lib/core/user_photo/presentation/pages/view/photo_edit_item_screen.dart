@@ -131,7 +131,7 @@ class PhotoEditItemScreenState extends State<PhotoEditItemScreen> with WidgetsBi
 
   @override
   Widget build(BuildContext context) {
-    widget._logger.d('Building PhotoEditItemView'); // Log when the widget is built
+    widget._logger.d('Building PhotoEditItemView'); // Log when the widgets is built
 
     return Scaffold(
       body: MultiBlocListener(

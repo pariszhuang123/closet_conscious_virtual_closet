@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../presentation/bloc/edit_item_bloc.dart';
+import '../../presentation/bloc/edit_item_bloc.dart';
 import 'edit_item_screen.dart';
 
 class EditItemProvider extends StatelessWidget {

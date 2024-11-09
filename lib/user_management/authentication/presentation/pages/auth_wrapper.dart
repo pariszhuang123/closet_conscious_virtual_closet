@@ -23,7 +23,7 @@ class AuthWrapperState extends State<AuthWrapper> {
   @override
   void initState() {
     super.initState();
-    // Dispatch the event to check authentication status when the widget is first created
+    // Dispatch the event to check authentication status when the widgets is first created
     context.read<AuthBloc>().add(CheckAuthStatusEvent());
   }
 

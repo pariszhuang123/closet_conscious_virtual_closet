@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../core/utilities/logger.dart';
-import '../widget/achievement_grid.dart';
-import '../data/models/achievement_model.dart';
-import '../../core/data/services/user_fetch_service.dart';
-import '../../../core/theme/my_closet_theme.dart';
-import '../../../core/theme/my_outfit_theme.dart';
-import '../../../../generated/l10n.dart';
-import '../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../../../core/utilities/logger.dart';
+import '../widgets/achievement_grid.dart';
+import '../../data/models/achievement_model.dart';
+import '../../../core/data/services/user_fetch_service.dart';
+import '../../../../core/theme/my_closet_theme.dart';
+import '../../../../core/theme/my_outfit_theme.dart';
+import '../../../../../generated/l10n.dart';
+import '../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 
 final CustomLogger logger = CustomLogger('AchievementsPage');
 

@@ -27,6 +27,26 @@ class SupabaseService {
     }
   }
 
+  Future<void> signInWithApple(String idToken, String rawNonce) async {
+    _logger.i('Attempting to sign in with Apple');
+    try {
+      final response = await supabaseClient.auth.signInWithIdToken(
+        provider: OAuthProvider.apple,
+        idToken: idToken,
+        nonce: rawNonce, // Use rawNonce here
+      );
+
+      if (response.user == null) {
+        throw const AuthException('Sign in failed: user is null');
+      }
+
+      _logger.i('Apple Sign-In successful');
+    } catch (e) {
+      _logger.e('Error during Apple Sign-In: $e');
+      rethrow;
+    }
+  }
+
   Stream<AuthState> get onAuthStateChange => supabaseClient.auth.onAuthStateChange;
 
   Future<void> signOut() async {

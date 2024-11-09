@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../generated/l10n.dart';
-import '../presentation/bloc/filter_bloc.dart';
-import '../presentation/widgets/tab/single_selection_tab.dart';
-import '../presentation/widgets/tab/multi_selection_tab.dart';
-import '../../theme/my_closet_theme.dart';
-import '../../theme/my_outfit_theme.dart';
-import '../../widgets/button/themed_elevated_button.dart';
-import '../../utilities/logger.dart';
-import '../../widgets/progress_indicator/closet_progress_indicator.dart';
-import '../../core_enums.dart';
-import '../../utilities/routes.dart';
-import '../../paywall/data/feature_key.dart';
+import '../../../../generated/l10n.dart';
+import '../../presentation/bloc/filter_bloc.dart';
+import '../../presentation/widgets/tab/single_selection_tab.dart';
+import '../../presentation/widgets/tab/multi_selection_tab.dart';
+import '../../../theme/my_closet_theme.dart';
+import '../../../theme/my_outfit_theme.dart';
+import '../../../widgets/button/themed_elevated_button.dart';
+import '../../../utilities/logger.dart';
+import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../../core_enums.dart';
+import '../../../utilities/routes.dart';
+import '../../../paywall/data/feature_key.dart';
 
 class FilterScreen extends StatelessWidget {
   final bool isFromMyCloset;

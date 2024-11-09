@@ -124,7 +124,7 @@ class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindin
 
   @override
   Widget build(BuildContext context) {
-    widget._logger.d('Building PhotoSelfieView'); // Log when the widget is built
+    widget._logger.d('Building PhotoSelfieView'); // Log when the widgets is built
 
     return Theme(
       data: myOutfitTheme, // Apply your custom theme here

@@ -198,14 +198,14 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
   Future<void> _onCheckFilterAccess(
       CheckFilterAccessEvent event,
       Emitter<FilterState> emit) async {
-    logger.i('Checking if the user has access to the filter page.');
+    logger.i('Checking if the user has access to the filter pages.');
 
     try {
       bool canAccessFilterPage = await fetchService.accessFilterPage();
 
       if (canAccessFilterPage) {
         emit(state.copyWith(accessStatus: AccessStatus.granted));
-        logger.i('Filter page access granted.');
+        logger.i('Filter pages access granted.');
       } else {
         emit(state.copyWith(accessStatus: AccessStatus.denied));
         logger.w('Filter access denied.');

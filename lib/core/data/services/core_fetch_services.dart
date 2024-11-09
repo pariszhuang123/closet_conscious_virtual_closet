@@ -146,22 +146,22 @@ class CoreFetchService {
     }
   }
 
-  /// Checks access to customize page
+  /// Checks access to customize pages
   Future<bool> accessCustomizePage() async {
-    _logger.i('Starting access check for customize page.');
+    _logger.i('Starting access check for customize pages.');
 
     try {
       final result = await Supabase.instance.client.rpc('check_user_access_to_access_customize_page');
       if (result is bool) {
-        _logger.i('Access check for customize page completed successfully. Result: $result');
+        _logger.i('Access check for customize pages completed successfully. Result: $result');
         return result;
       } else {
-        _logger.e('Unexpected result type from RPC for customize page access: $result');
+        _logger.e('Unexpected result type from RPC for customize pages access: $result');
         throw Exception('Unexpected result from RPC: $result');
       }
     } catch (error) {
-      _logger.e('Error during access check for customize page: $error');
-      throw Exception('Failed to access customize page: $error');
+      _logger.e('Error during access check for customize pages: $error');
+      throw Exception('Failed to access customize pages: $error');
     }
   }
 
@@ -248,22 +248,22 @@ Future<List<Map<String, dynamic>>> fetchAllClosets() async {
     }
   }
 
-  /// Checks access to filter page
+  /// Checks access to filter pages
   Future<bool> accessFilterPage() async {
-    _logger.i('Starting access check for filter page.');
+    _logger.i('Starting access check for filter pages.');
 
     try {
       final result = await Supabase.instance.client.rpc('check_user_access_to_access_filter_page');
       if (result is bool) {
-        _logger.i('Access check for filter page completed successfully. Result: $result');
+        _logger.i('Access check for filter pages completed successfully. Result: $result');
         return result;
       } else {
-        _logger.e('Unexpected result type from RPC for filter page access: $result');
+        _logger.e('Unexpected result type from RPC for filter pages access: $result');
         throw Exception('Unexpected result from RPC: $result');
       }
     } catch (error) {
-      _logger.e('Error during access check for filter page: $error');
-      throw Exception('Failed to access filter page: $error');
+      _logger.e('Error during access check for filter pages: $error');
+      throw Exception('Failed to access filter pages: $error');
     }
   }
 }

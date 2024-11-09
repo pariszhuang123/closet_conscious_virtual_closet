@@ -77,7 +77,7 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
 
   @override
   void dispose() {
-    // Dispose of the controller when the widget is disposed
+    // Dispose of the controller when the widgets is disposed
     _eventNameController.dispose();
     super.dispose();
   }

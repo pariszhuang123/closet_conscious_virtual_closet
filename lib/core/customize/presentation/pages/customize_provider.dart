@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/services/core_fetch_services.dart';
-import '../../data/services/core_save_services.dart';
-import '../presentation/bloc/customize_bloc.dart';
+import '../../../data/services/core_fetch_services.dart';
+import '../../../data/services/core_save_services.dart';
+import '../../presentation/bloc/customize_bloc.dart';
 import 'customize_screen.dart';
-import '../../../core/utilities/logger.dart'; // Import your logger
+import '../../../../core/utilities/logger.dart'; // Import your logger
 
 class CustomizeProvider extends StatelessWidget {
   final bool isFromMyCloset;
@@ -26,7 +26,7 @@ class CustomizeProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _logger.d('Building CustomizeProvider widget');
+    _logger.d('Building CustomizeProvider widgets');
 
     return BlocProvider(
       create: (context) {

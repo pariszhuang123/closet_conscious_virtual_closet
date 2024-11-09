@@ -85,7 +85,7 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    // Determine the theme and colors based on originating page
+    // Determine the theme and colors based on originating pages
     ThemeData theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
     ColorScheme colorScheme = theme.colorScheme;
 

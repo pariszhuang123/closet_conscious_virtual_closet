@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/gestures.dart';
 import '../widgets/sign_in_button_google.dart';
+import '../widgets/sign_in_button_apple.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/screens/webview_screen.dart';
 import '../.././../../core/widgets/feedback/custom_snack_bar.dart';
@@ -59,7 +60,12 @@ class LoginScreenState extends State<LoginScreen> {
                 onDisabledPressed: _showTermsSnackbar, // Show snackbar if disabled
               ),
             const SizedBox(height: 16),
-
+            if (Platform.isIOS)
+              SignInButtonApple(
+                enabled: _isTermsAccepted,
+                onDisabledPressed: _showTermsSnackbar,
+              ),
+            const SizedBox(height: 16),
             // Checkbox and Terms
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,

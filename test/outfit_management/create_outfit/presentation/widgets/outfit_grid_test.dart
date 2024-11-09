@@ -82,7 +82,7 @@ void main() {
       scrollController.dispose();
     });
 
-    // Helper method to build the widget under test
+    // Helper method to build the widgets under test
     Widget buildWidgetUnderTest(List<ClosetItemMinimal> items) {
       return MaterialApp(
         localizationsDelegates: const [
@@ -106,7 +106,7 @@ void main() {
       );
     }
 
-    group('OutfitGrid widget tests', () {
+    group('OutfitGrid widgets tests', () {
       testWidgets('displays noItemsInCategory message when items list is empty',
               (WidgetTester tester) async {
             // Stub the bloc state to simulate initial or empty state
@@ -142,9 +142,9 @@ void main() {
               ]),
             );
 
-            // Build the widget with an empty items list
+            // Build the widgets with an empty items list
             await tester.pumpWidget(buildWidgetUnderTest([]));
-            await tester.pump(); // Rebuild the widget with the new state
+            await tester.pump(); // Rebuild the widgets with the new state
 
             // Access the localized string
             final BuildContext context = tester.element(
@@ -193,9 +193,9 @@ void main() {
               ]),
             );
 
-            // Build the widget with an empty items list
+            // Build the widgets with an empty items list
             await tester.pumpWidget(buildWidgetUnderTest([]));
-            await tester.pump(); // Rebuild the widget with the new state
+            await tester.pump(); // Rebuild the widgets with the new state
 
             // Access the localized string
             final BuildContext context = tester.element(
@@ -231,7 +231,7 @@ void main() {
           selectedItemIds: const {OutfitItemCategory.clothing: []},
           currentCategory: OutfitItemCategory.clothing,
           categoryPages: const {OutfitItemCategory.clothing: 1},
-          // Set page to 1 for clothing
+          // Set pages to 1 for clothing
           categoryHasReachedMax: const {OutfitItemCategory.clothing: false},
           // Max not reached yet
           categoryItems: {
@@ -258,9 +258,9 @@ void main() {
           ]),
         );
 
-        // Build the widget with the loaded items
+        // Build the widgets with the loaded items
         await tester.pumpWidget(buildWidgetUnderTest(items));
-        await tester.pump(); // Rebuild the widget with the new state
+        await tester.pump(); // Rebuild the widgets with the new state
 
         // Verify that the GridView and EnhancedUserPhoto widgets are displayed correctly
         expect(find.byType(GridView), findsOneWidget);
@@ -286,7 +286,7 @@ void main() {
           selectedItemIds: const {OutfitItemCategory.clothing: []},
           currentCategory: OutfitItemCategory.clothing,
           categoryPages: const {OutfitItemCategory.clothing: 1},
-          // Set current page for clothing
+          // Set current pages for clothing
           categoryHasReachedMax: const {OutfitItemCategory.clothing: false},
           // Max not reached yet
           categoryItems: {
@@ -313,9 +313,9 @@ void main() {
           ]),
         );
 
-        // Build the widget with a large items list to enable scrolling
+        // Build the widgets with a large items list to enable scrolling
         await tester.pumpWidget(buildWidgetUnderTest(items));
-        await tester.pump(); // Rebuild the widget with the new state
+        await tester.pump(); // Rebuild the widgets with the new state
 
         // Simulate scrolling to the bottom
         scrollController.jumpTo(scrollController.position.maxScrollExtent);
@@ -343,7 +343,7 @@ void main() {
           selectedItemIds: const {OutfitItemCategory.clothing: []},
           currentCategory: OutfitItemCategory.clothing,
           categoryPages: const {OutfitItemCategory.clothing: 1},
-          // Set current page for clothing
+          // Set current pages for clothing
           categoryHasReachedMax: const {OutfitItemCategory.clothing: false},
           // Max not reached yet
           categoryItems: {
@@ -370,9 +370,9 @@ void main() {
           ]),
         );
 
-        // Build the widget with the loaded items
+        // Build the widgets with the loaded items
         await tester.pumpWidget(buildWidgetUnderTest(items));
-        await tester.pumpAndSettle(); // Rebuild the widget with the new state
+        await tester.pumpAndSettle(); // Rebuild the widgets with the new state
 
         // Verify that the logger was called at least once
         verify(() =>

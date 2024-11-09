@@ -100,7 +100,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
 
     if (userId != null) {
       logger.i(
-          'Attempting to check navigation to review page with userId: $userId');
+          'Attempting to check navigation to review pages with userId: $userId');
       context.read<NavigateOutfitBloc>().add(
           CheckNavigationToReviewEvent(userId: userId));
     } else {
@@ -258,7 +258,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               }
               if (state is FetchAndSaveClothingAchievementMilestoneSuccessState) {
                 logger.i(
-                    'Navigating to achievement page for achievement: ${state
+                    'Navigating to achievement pages for achievement: ${state
                         .badgeUrl}');
                 _isNavigating =
                 true; // Set navigating to true when navigating to review page
@@ -284,7 +284,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               }
               if (state is FetchAndSaveNoBuyMilestoneSuccessState) {
                 logger.i(
-                    'Navigating to achievement page for achievement: ${state
+                    'Navigating to achievement pages for achievement: ${state
                         .badgeUrl}');
                 _isNavigating =
                 true; // Set navigating to true when navigating to review page
@@ -310,7 +310,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               }
               if (state is FetchFirstOutfitMilestoneSuccessState) {
                 logger.i(
-                    'Navigating to achievement page for achievement: ${state
+                    'Navigating to achievement pages for achievement: ${state
                         .badgeUrl}');
                 _isNavigating =
                 true; // Set navigating to true when navigating to review page
@@ -336,7 +336,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               }
               if (state is FetchFirstSelfieTakenMilestoneSuccessState) {
                 logger.i(
-                    'Navigating to achievement page for achievement: ${state
+                    'Navigating to achievement pages for achievement: ${state
                         .badgeUrl}');
                 _isNavigating =
                 true; // Set navigating to true when navigating to review page

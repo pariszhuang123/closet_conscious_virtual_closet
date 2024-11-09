@@ -36,7 +36,7 @@ class ClosetProgressIndicatorState extends State<ClosetProgressIndicator>
         child: Icon(
           Icons.dry_cleaning_outlined, // Use your custom icon here
           size: widget.size, // Adjust the size as needed
-          color: Theme.of(context).primaryColor, // Use the color passed to the widget
+          color: Theme.of(context).primaryColor, // Use the color passed to the widgets
         ),
       ),
     );

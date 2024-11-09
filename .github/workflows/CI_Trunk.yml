@@ -87,7 +87,7 @@ jobs:
       - name: Run linting and static analysis
         run: flutter analyze
 
-      - name: Run unit and widget tests
+      - name: Run unit and widgets tests
         run: flutter test
 
       - name: Set Build Number

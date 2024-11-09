@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../presentation/bloc/edit_item_bloc.dart';
-import '../../declutter_items/presentation/widgets/declutter_options_bottom_sheet.dart';
-import '../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
-import '../../../generated/l10n.dart';
-import '../../../core/widgets/bottom_sheet/premium_bottom_sheet/swap_premium_bottom_sheet.dart';
-import '../../../core/widgets/bottom_sheet/premium_bottom_sheet/metadata_premium_bottom_sheet.dart';
-import '../../../core/utilities/routes.dart';
-import '../../core/data/models/closet_item_detailed.dart';
-import '../../../core/utilities/logger.dart';
-import '../../../core/widgets/feedback/custom_snack_bar.dart';
-import '../presentation/widgets/edit_item_metadata.dart';  // Import the new file
-import '../presentation/widgets/edit_item_image_with_additional_features.dart';
+import '../../presentation/bloc/edit_item_bloc.dart';
+import '../../../declutter_items/presentation/widgets/declutter_options_bottom_sheet.dart';
+import '../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../../../generated/l10n.dart';
+import '../../../../core/widgets/bottom_sheet/premium_bottom_sheet/swap_premium_bottom_sheet.dart';
+import '../../../../core/widgets/bottom_sheet/premium_bottom_sheet/metadata_premium_bottom_sheet.dart';
+import '../../../../core/utilities/routes.dart';
+import '../../../core/data/models/closet_item_detailed.dart';
+import '../../../../core/utilities/logger.dart';
+import '../../../../core/widgets/feedback/custom_snack_bar.dart';
+import '../../presentation/widgets/edit_item_metadata.dart';  // Import the new file
+import '../../presentation/widgets/edit_item_image_with_additional_features.dart';
 
 class EditItemScreen extends StatefulWidget {
   final String itemId;

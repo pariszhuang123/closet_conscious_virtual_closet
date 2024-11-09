@@ -79,7 +79,7 @@ class HomePageScreenState extends State<HomePageScreen> {
             } else if (versionState is VersionUpdateRequired) {
               // Prevent further action if update is required
               logger.i('Update required, blocking further actions');
-              return const SizedBox(); // Block the app with an empty widget until the user updates
+              return const SizedBox(); // Block the app with an empty widgets until the user updates
             } else if (versionState is VersionError) {
               // Show error if version checking fails
               return Center(child: Text(versionState.error));

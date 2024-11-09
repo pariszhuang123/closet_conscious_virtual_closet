@@ -103,7 +103,7 @@ class BasePremiumBottomSheetState extends State<BasePremiumBottomSheet> {
     ThemeData theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
 
     return Theme(
-      data: theme, // Wrap the widget tree with the selected theme
+      data: theme, // Wrap the widgets tree with the selected theme
       child: Container(
         color: theme.colorScheme.surface,
         padding: const EdgeInsets.all(16.0),

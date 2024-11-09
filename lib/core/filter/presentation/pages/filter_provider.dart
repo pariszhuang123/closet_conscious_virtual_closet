@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/services/core_fetch_services.dart';
-import '../../data/services/core_save_services.dart';
-import '../presentation/bloc/filter_bloc.dart';
+import '../../../data/services/core_fetch_services.dart';
+import '../../../data/services/core_save_services.dart';
+import '../../presentation/bloc/filter_bloc.dart';
 import 'filter_screen.dart';
-import '../../../core/utilities/logger.dart'; // Import your logger
+import '../../../../core/utilities/logger.dart'; // Import your logger
 
 class FilterProvider extends StatelessWidget {
   final bool isFromMyCloset;
@@ -26,7 +26,7 @@ class FilterProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _logger.d('Building FilterProvider widget');
+    _logger.d('Building FilterProvider widgets');
 
     return BlocProvider(
       create: (context) {

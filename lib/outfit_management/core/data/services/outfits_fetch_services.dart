@@ -17,7 +17,7 @@ class OutfitFetchService {
     try {
       // Convert category enum to string
       final categoryString = category.toString().split('.').last;
-      logger.d('Fetching items for page $currentPage with category filter: $categoryString');
+      logger.d('Fetching items for pages $currentPage with category filter: $categoryString');
 
       // Call the RPC function with the converted category string
       final response = await client.rpc('fetch_outfit_items_with_preferences', params: {
@@ -37,7 +37,7 @@ class OutfitFetchService {
       logger.d('Returning all ${items.length} items without category filtering');
       return items; // Return all items if no category filter is applied
     } catch (error) {
-      logger.e('RPC Error when fetching items for page $currentPage with category "$category": $error');
+      logger.e('RPC Error when fetching items for pages $currentPage with category "$category": $error');
       throw Exception('Failed to fetch items via RPC');
     }
   }

@@ -105,7 +105,7 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
     Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
   }
 
-  // Now you can safely check if the widget is mounted
+  // Now you can safely check if the widgets is mounted
   void _navigateToUploadItem(BuildContext context, String imageUrl) {
     widget._logger.d('Preparing to navigate to UploadItem with imageUrl: $imageUrl');
 
@@ -118,7 +118,7 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
       );
       widget._logger.d('Navigation call successful, Image URL: $imageUrl');
     } else {
-      widget._logger.e("Unable to navigate, widget is not mounted");
+      widget._logger.e("Unable to navigate, widgets is not mounted");
     }
   }
 
@@ -135,7 +135,7 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
 
   @override
   Widget build(BuildContext context) {
-    widget._logger.d('Building PhotoUploadItemView'); // Log when the widget is built
+    widget._logger.d('Building PhotoUploadItemView'); // Log when the widgets is built
 
     return Scaffold(
       body: MultiBlocListener(

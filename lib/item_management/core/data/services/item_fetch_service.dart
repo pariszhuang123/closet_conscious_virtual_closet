@@ -12,7 +12,7 @@ class ItemFetchService {
 
   Future<List<ClosetItemMinimal>> fetchItems(int currentPage) async {
     try {
-      logger.d('Fetching items for page: $currentPage using fetch_items_with_preferences RPC');
+      logger.d('Fetching items for pages: $currentPage using fetch_items_with_preferences RPC');
 
       // Call the fetch_items_with_preferences RPC function
       final response = await Supabase.instance.client

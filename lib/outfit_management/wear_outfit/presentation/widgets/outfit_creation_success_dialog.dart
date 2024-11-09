@@ -22,7 +22,7 @@ class OutfitCreationSuccessDialogState extends State<OutfitCreationSuccessDialog
 
     // Schedule the navigation after a short delay
     Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {  // Check if the widget is still mounted
+      if (mounted) {  // Check if the widgets is still mounted
         Navigator.of(context).pushReplacementNamed(AppRoutes.createOutfit);
       }
     });

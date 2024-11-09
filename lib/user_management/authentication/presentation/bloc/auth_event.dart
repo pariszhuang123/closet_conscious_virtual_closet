@@ -8,4 +8,6 @@ class SignOutEvent extends AuthEvent {}
 
 class CheckAuthStatusEvent extends AuthEvent {}
 
+class SignInWithAppleEvent extends AuthEvent {}
+
 class DeleteAccountEvent extends AuthEvent {}

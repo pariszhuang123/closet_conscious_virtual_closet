@@ -9,7 +9,7 @@ class SlidingProgressButton extends StatelessWidget {
   final bool isUploadingItem;  // Pass the loading state from the Bloc
   final int totalSteps;
   final ThemeData myClosetTheme;
-  final int currentPage;  // Track current page (or step)
+  final int currentPage;  // Track current pages (or step)
 
   const SlidingProgressButton({
     super.key,

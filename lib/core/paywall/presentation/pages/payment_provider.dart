@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../presentation/bloc/payment_bloc.dart';
+import '../../presentation/bloc/payment_bloc.dart';
 import 'payment_screen.dart';
-import '../data/feature_key.dart';
+import '../../data/feature_key.dart';
 
 class PaymentProvider extends StatelessWidget {
   final FeatureKey featureKey;
