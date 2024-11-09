@@ -53,7 +53,10 @@ class NpsDialog extends StatelessWidget {
     if (success) {
       logger.i('NPS score successfully recorded.');
       if (score >= 9) {
-        await appStoreReview.startReviewFlow(context); // Updated to use startReviewFlow
+        await appStoreReview.startReviewFlow(context);
+        if (context.mounted) {
+          Navigator.of(context).pushReplacementNamed(AppRoutes.createOutfit);
+        }
       } else {
         launchEmail(context, EmailType.npsReview);
         if (context.mounted) {
