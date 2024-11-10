@@ -129,9 +129,10 @@ jobs:
       - name: Deploy purchase-verification-android Edge Function
         run: |
           supabase functions deploy purchase-verification-android \
-            --project-ref $SUPABASE_PROJECT_ID \
+            --project-ref $SUPABASE_PROJECT_ID
 
-  deploy_prod_ui:
+  # Android Production Build
+  deploy_prod_android:
     needs: deploy_prod_supabase
     runs-on: ubuntu-latest
     environment: prod
@@ -236,3 +237,109 @@ jobs:
           RELEASE_NOTES: ${{ env.RELEASE_NOTES }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: config/google_play_key.json
           FASTLANE_SKIP_CONFIRMATIONS: true
+
+  # iOS Production Build
+  deploy_prod_ios:
+    needs: deploy_prod_supabase
+    runs-on: macos-latest
+    environment: prod
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures full Git history including tags
+
+      # Install Ruby and Fastlane
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.5'
+      - name: Install Fastlane
+        run: gem install fastlane
+
+      # Setup Flutter
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 'stable'
+
+      # Cache Flutter dependencies
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .flutter-plugins
+            .flutter-plugins-dependencies
+            build/
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
+      # Cache CocoaPods dependencies
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: |
+            Pods
+            ~/Library/Caches/CocoaPods
+          key: ${{ runner.os }}-cocoapods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cocoapods-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Set Build Number
+        id: versioning
+        run: |
+          versionCode=$(git rev-list --count HEAD)
+          echo "BUILD_NUMBER=$versionCode" >> $GITHUB_ENV
+
+      # Install CocoaPods for iOS dependencies
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod install
+          cd ..
+
+      # Create app_config_prod.json with environment variables
+      - name: Create app_config_prod.json
+        run: |
+          mkdir -p config
+          echo '{
+          "SUPABASE_URL": "${{ secrets.SUPABASE_URL }}",
+          "SUPABASE_ANON_KEY": "${{ secrets.SUPABASE_ANON_KEY }}",
+          "SUPABASE_SERVICE_ROLE_KEY": "${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}",
+          "WEB_CLIENT_ID": "${{ secrets.WEB_CLIENT_ID }}",
+          "IOS_CLIENT_ID": "${{ secrets.IOS_CLIENT_ID }}"
+          }' > config/app_config_prod.json
+
+      - name: Decode and Save App Store Connect API Key
+        run: |
+          echo "${{ secrets.APP_STORE_CONNECT_API_KEY }}" | base64 --decode > AuthKey_SH96BHL99W.p8
+
+      # Build IPA for production
+      - name: Build IPA for production
+        run: |
+          flutter build ipa --release --flavor prod --dart-define=ENV=prod --build-name=${{ env.VERSION_NAME }} --build-number=$BUILD_NUMBER
+
+      - name: Fetch Git commit messages for release notes
+        run: |
+          release_notes=$(git log -1 --oneline | sed "s/'//g")
+          if [ -z "$release_notes" ]; then
+            release_notes="No new commit messages."
+          fi
+          echo "RELEASE_NOTES=$release_notes" >> $GITHUB_ENV
+
+      - name: Build and upload iOS to TestFlight
+        run: fastlane ios upload_to_testflight
+        env:
+          APP_STORE_CONNECT_API_KEY: AuthKey_SH96BHL99W.p8
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          RELEASE_NOTES: ${{ env.RELEASE_NOTES }}
+          FASTLANE_SKIP_CONFIRMATIONS: true
+
