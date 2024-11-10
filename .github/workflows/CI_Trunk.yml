@@ -324,7 +324,7 @@ jobs:
       # Build IPA for production
       - name: Build IPA for production
         run: |
-          flutter build ipa --release --flavor prod --dart-define=ENV=prod --build-name=${{ env.VERSION_NAME }} --build-number=$BUILD_NUMBER
+          flutter build ipa --release --flavor prod --target=lib/main_prod.dart --dart-define=ENV=prod --build-name=${{ env.VERSION_NAME }} --build-number=$BUILD_NUMBER
 
       - name: Fetch Git commit messages for release notes
         run: |
