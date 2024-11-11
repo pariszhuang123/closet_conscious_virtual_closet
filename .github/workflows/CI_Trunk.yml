@@ -297,6 +297,7 @@ jobs:
         run: |
           versionCode=$(git rev-list --count HEAD)
           echo "BUILD_NUMBER=$versionCode" >> $GITHUB_ENV
+          echo "VERSION_NAME=1.6.0" >> $GITHUB_ENV
 
       # Install CocoaPods for iOS dependencies
       - name: Install CocoaPods
@@ -321,16 +322,29 @@ jobs:
         run: |
           echo "${{ secrets.APP_STORE_CONNECT_API_KEY }}" | base64 --decode > AuthKey_SH96BHL99W.p8
 
-      - name: Prepare iOS build files
-        run: flutter build ios --flavor Runner-prod --target=lib/main_prod.dart --dart-define=ENV=prod --build-name=1.6.0 --build-number=${{ github.run_number }}
-
       - name: Archive iOS with xcodebuild
+        env:
+          CI: true
+          VERSION_NAME: ${{ env.VERSION_NAME }}
+          BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
         run: |
-          xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner-prod -configuration Release -archivePath $PWD/build/Runner.xcarchive archive -allowProvisioningUpdates
+          xcodebuild -workspace ios/Runner.xcworkspace \
+            -scheme Runner-prod \
+            -configuration Release \
+            -archivePath $PWD/build/Runner.xcarchive \
+            archive \
+            -allowProvisioningUpdates \
+            MARKETING_VERSION=$VERSION_NAME \
+            CURRENT_PROJECT_VERSION=$BUILD_NUMBER
 
+      # Export the archived app to an IPA
       - name: Export iOS IPA
         run: |
-          xcodebuild -exportArchive -archivePath $PWD/build/Runner.xcarchive -exportOptionsPlist ios/Runner/ExportOptions.plist -exportPath $PWD/build/Runner -allowProvisioningUpdates
+          xcodebuild -exportArchive \
+          -archivePath $PWD/build/Runner.xcarchive \
+          -exportOptionsPlist ios/Runner/ExportOptions.plist \
+          -exportPath $PWD/build/Runner \
+          -allowProvisioningUpdates
 
       - name: Fetch Git commit messages for release notes
         run: |
