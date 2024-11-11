@@ -321,12 +321,8 @@ jobs:
         run: |
           echo "${{ secrets.APP_STORE_CONNECT_API_KEY }}" | base64 --decode > AuthKey_SH96BHL99W.p8
 
-      - name: Build iOS with Flutter
-        env:
-          BUILD_NUMBER: ${{ github.run_number }}
-          CI: true  # Enables automatic provisioning in CI
-        run: |
-          flutter build ios --release --flavor Runner-prod --target=lib/main_prod.dart --dart-define=ENV=prod --build-name=1.6.0 --build-number=$BUILD_NUMBER
+      - name: Prepare iOS build files
+        run: flutter build ios --flavor Runner-prod --target=lib/main_prod.dart --dart-define=ENV=prod --build-name=1.6.0 --build-number=${{ github.run_number }}
 
       - name: Archive iOS with xcodebuild
         run: |
