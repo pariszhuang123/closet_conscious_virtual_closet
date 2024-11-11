@@ -323,8 +323,11 @@ jobs:
 
       # Build IPA for production
       - name: Build IPA for production
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+          CI: true  # This enables automatic provisioning
         run: |
-          flutter build ipa --release --flavor Runner-prod --target=lib/main_prod.dart --dart-define=ENV=prod --build-name=${{ env.VERSION_NAME }} --build-number=$BUILD_NUMBER -allowProvisioningUpdates
+          flutter build ipa --release --flavor Runner-prod --target=lib/main_prod.dart --dart-define=ENV=prod --build-name=${{ env.VERSION_NAME }} --build-number=$BUILD_NUMBER 
 
       - name: Fetch Git commit messages for release notes
         run: |
