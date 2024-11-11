@@ -327,7 +327,9 @@ jobs:
           BUILD_NUMBER: ${{ github.run_number }}
           CI: true  # This enables automatic provisioning
         run: |
-          flutter build ipa --release --flavor Runner-prod --target=lib/main_prod.dart --dart-define=ENV=prod --build-name=${{ env.VERSION_NAME }} --build-number=$BUILD_NUMBER 
+          flutter build ipa --release --flavor Runner-prod --target=lib/main_prod.dart --dart-define=ENV=prod --build-name=1.6.0 --build-number=$BUILD_NUMBER 
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner-prod -configuration Release -archivePath $PWD/build/Runner.xcarchive archive -allowProvisioningUpdates
+          xcodebuild -exportArchive -archivePath $PWD/build/Runner.xcarchive -exportOptionsPlist ios/Runner/ExportOptions.plist -exportPath $PWD/build/Runner -allowProvisioningUpdates
 
       - name: Fetch Git commit messages for release notes
         run: |
