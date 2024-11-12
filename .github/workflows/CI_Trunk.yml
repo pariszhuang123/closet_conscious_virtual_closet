@@ -338,6 +338,7 @@ jobs:
         env:
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
         run: |
+          mkdir -p fastlane
           echo "$APP_STORE_CONNECT_API_KEY" | base64 --decode > fastlane/AuthKey_SH96BHL99W.p8
           chmod 644 fastlane/AuthKey_SH96BHL99W.p8  # Set permissions if necessary
 
