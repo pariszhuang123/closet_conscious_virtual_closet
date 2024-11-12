@@ -347,7 +347,7 @@ jobs:
           echo "RELEASE_NOTES=$release_notes" >> $GITHUB_ENV
 
       - name: Build and upload iOS to TestFlight
-        run: fastlane ios upload_to_testflight
+        run: fastlane ios deploy_to_testflight
         env:
           APP_STORE_CONNECT_API_KEY: AuthKey_SH96BHL99W.p8
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
