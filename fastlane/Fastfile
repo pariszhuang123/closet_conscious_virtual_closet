@@ -57,10 +57,11 @@ platform :ios do
         output_name: "Runner.ipa",
         export_options: {
             provisioningProfiles: {
-            "com.makinglifeeasie.closetconscious" => "ClosetConscious_AppStore_Profile"  # Replace with your profile's exact name
+            "com.makinglifeeasie.closetconscious" => "8b673031-9521-4c9a-bfb4-13d0176c824b"  # Replace with your profile's exact name
             }
         },
-        clean: true
+        clean: true,
+        buildlog_path: "./fastlane/logs"  # Saves the build log in the specified directory
       )
 
       # Upload to TestFlight

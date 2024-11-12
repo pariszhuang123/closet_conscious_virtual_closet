@@ -379,7 +379,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: fastlane-log
-          path: ~/Library/Logs/gym/Runner-Runner-prod.log
+          path: fastlane/logs
 
       # Upload dSYM files to Sentry
       - name: Upload Debug Symbols to Sentry
