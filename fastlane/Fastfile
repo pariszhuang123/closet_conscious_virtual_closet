@@ -65,7 +65,9 @@ platform :ios do
             signingStyle: "manual"  # Explicitly set manual signing
         },
         clean: true,
-        buildlog_path: "./fastlane/logs"  # Saves the build log in the specified directory
+        buildlog_path: "./fastlane/logs",  # Saves the build log in the specified directory
+        xcargs: "FLUTTER_SUPPRESS_ANALYTICS=1",  # Pass the environment variable to Xcode
+        verbose: true  # Enable verbose logging
       )
 
       # Upload to TestFlight
