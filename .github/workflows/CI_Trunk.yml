@@ -272,19 +272,6 @@ jobs:
         with:
           sdk: 'stable'
 
-      # Cache Flutter dependencies
-      - name: Cache Flutter dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.pub-cache
-            .flutter-plugins
-            .flutter-plugins-dependencies
-            build/
-          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-flutter-
-
       # Step 1: Attempt to Restore CocoaPods Cache
       - name: Restore CocoaPods Cache
         uses: actions/cache@v4
@@ -303,7 +290,19 @@ jobs:
           path: ~/Library/Developer/Xcode/DerivedData
           key: ${{ runner.os }}-deriveddata-${{ hashFiles('Podfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-deriveddata-        
+            ${{ runner.os }}-deriveddata-            
+
+      # Restore Cache for Flutter dependencies
+      - name: Restore Flutter Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .flutter-plugins
+            .flutter-plugins-dependencies
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
 
       # Step 3: Verify CocoaPods and Xcode DerivedData Cache Restoration
       # List the CocoaPods cache directory
@@ -329,15 +328,51 @@ jobs:
           pod install
           cd ..
 
-      # Step 5: Update CocoaPods and Xcode DerivedData Cache
-      - name: Update CocoaPods and Xcode DerivedData Cache
+      # Build iOS (to create DerivedData)
+      - name: Build iOS app (populate DerivedData)
+        run: flutter build ios --no-codesign
+
+      # Save/Update Cache for CocoaPods
+      - name: Cache CocoaPods
         uses: actions/cache@v4
         with:
           path: |
-            ios/Pods
-            ~/Library/Caches/CocoaPods
-            ~/Library/Developer/Xcode/DerivedData
+            ios/Pods  # Caches the installed Pods in the ios directory
+            ~/Library/Caches/CocoaPods  # Caches CocoaPods system cache
           key: ${{ runner.os }}-cocoapods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cocoapods-
+
+      # Save/Update Cache for Xcode DerivedData
+      - name: Cache Xcode DerivedData
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Developer/Xcode/DerivedData
+          key: ${{ runner.os }}-deriveddata-${{ hashFiles('Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-deriveddata-
+
+      # Save/Update Cache for Flutter dependencies
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .flutter-plugins
+            .flutter-plugins-dependencies
+            build/
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
+      - name: List CocoaPods Cache Directory
+        run: ls -la ~/Library/Caches/CocoaPods || echo "CocoaPods cache directory is empty or does not exist"
+
+      - name: List iOS Pods Directory
+        run: ls -la ios/Pods || echo "Pods directory is empty or does not exist"
+
+      - name: List Xcode DerivedData Directory
+        run: ls -la ~/Library/Developer/Xcode/DerivedData || echo "DerivedData directory is empty or does not exist"
 
       - name: Set Build Number
         id: versioning
