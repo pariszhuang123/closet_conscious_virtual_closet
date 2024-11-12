@@ -49,9 +49,9 @@ platform :ios do
 
       # Build the app for release
       gym(
-        workspace: "Runner.xcworkspace",
-        scheme: "Runner",
-        configuration: "Release",
+        workspace: "ios/Runner.xcworkspace",  # Updated path
+        scheme: "Runner-prod",
+        configuration: "Release-Runner-prod",
         export_method: "app-store",
         output_directory: "./build/ios",
         output_name: "Runner.ipa",
