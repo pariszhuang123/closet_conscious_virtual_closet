@@ -250,6 +250,8 @@ jobs:
     runs-on: macos-latest
     environment: prod
     timeout-minutes: 30  # Set a 30-minute timeout for the job
+    env:
+      FLUTTER_SUPPRESS_ANALYTICS: 'true'  # Add this line to suppress Flutter analytics globally
 
     steps:
       - uses: actions/checkout@v4
@@ -272,7 +274,11 @@ jobs:
         with:
           sdk: 'stable'
 
-      # Step 1: Attempt to Restore CocoaPods Cache
+      # **Add the Disable Flutter Analytics step**
+      - name: Disable Flutter Analytics
+        run: flutter config --no-analytics
+
+          # Step 1: Attempt to Restore CocoaPods Cache
       - name: Restore CocoaPods Cache
         uses: actions/cache@v4
         with:
@@ -312,6 +318,7 @@ jobs:
       - name: Install CocoaPods
         run: |
           cd ios
+          pod repo update
           pod install
           cd ..
 
