@@ -338,8 +338,9 @@ jobs:
         env:
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
         run: |
-          echo "$APP_STORE_CONNECT_API_KEY" | base64 --decode > AuthKey_SH96BHL99W.p8
-          chmod 644 AuthKey_SH96BHL99W.p8  # Set read permissions
+          echo "$APP_STORE_CONNECT_API_KEY" | base64 --decode > fastlane/AuthKey_SH96BHL99W.p8
+        # Set permissions if necessary
+          chmod 644 fastlane/AuthKey_SH96BHL99W.p8
 
       - name: Verify .p8 file
         run: |
