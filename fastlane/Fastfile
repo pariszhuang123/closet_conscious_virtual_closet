@@ -59,6 +59,7 @@ platform :ios do
             provisioningProfiles: {
             "com.makinglifeeasie.closetconscious" => "8b673031-9521-4c9a-bfb4-13d0176c824b"  # Replace with your profile's exact name
             }
+            signingStyle: "manual"  # Explicitly set manual signing
         },
         clean: true,
         buildlog_path: "./fastlane/logs"  # Saves the build log in the specified directory

@@ -322,7 +322,7 @@ jobs:
         run: |
           echo "$PROVISIONING_PROFILE_BASE64" | base64 --decode > profile.mobileprovision
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+          cp profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/com.makinglifeeasie.closetconscious.mobileprovision
 
       - name: Check Installed Provisioning Profile
         run: ls ~/Library/MobileDevice/Provisioning\ Profiles/
