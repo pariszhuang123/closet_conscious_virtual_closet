@@ -315,6 +315,15 @@ jobs:
           echo "$CERTIFICATE_BASE64" | base64 --decode > certificate.p12
           security import certificate.p12 -k ios-build.keychain -P "$P12_PASSWORD" -A -T /usr/bin/codesign
 
+      # Decode and Install Provisioning Profile
+      - name: Install Provisioning Profile
+        env:
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+        run: |
+          echo "$PROVISIONING_PROFILE_BASE64" | base64 --decode > profile.mobileprovision
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+
       # Install CocoaPods for iOS dependencies
       - name: Install CocoaPods
         run: |
