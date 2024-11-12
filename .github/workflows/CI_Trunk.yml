@@ -354,7 +354,6 @@ jobs:
       - name: Build and upload iOS to TestFlight
         run: fastlane ios deploy_to_testflight
         env:
-          APP_STORE_CONNECT_API_KEY: AuthKey_SH96BHL99W.p8
           APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           RELEASE_NOTES: ${{ env.RELEASE_NOTES }}
