@@ -38,6 +38,7 @@ end
 platform :ios do
   desc "Deploy to TestFlight"
   lane :deploy_to_testflight do
+        UI.message("FLUTTER_ROOT in Fastlane is: #{ENV['FLUTTER_ROOT']}")
     begin
       # Set the environment variable to suppress Flutter analytics
       ENV["FLUTTER_SUPPRESS_ANALYTICS"] = "true"

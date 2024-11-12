@@ -274,6 +274,18 @@ jobs:
         with:
           sdk: 'stable'
 
+      - name: Find Flutter Root
+        id: flutter_root
+        shell: bash
+        run: |
+          FLUTTER_BIN=$(which flutter)
+          echo "Flutter binary is at: $FLUTTER_BIN"
+          FLUTTER_ROOT=$(dirname $(dirname $FLUTTER_BIN))
+          echo "FLUTTER_ROOT=$FLUTTER_ROOT" >> $GITHUB_ENV
+
+      - name: Print Flutter Root
+        run: echo "FLUTTER_ROOT is $FLUTTER_ROOT"
+
       # **Add the Disable Flutter Analytics step**
       - name: Disable Flutter Analytics
         run: flutter config --no-analytics
@@ -313,6 +325,13 @@ jobs:
       # Step 4: Run flutter pub get to install dependencies
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Build iOS App
+        env:
+          FLUTTER_ROOT: ${{ env.FLUTTER_ROOT }}
+        run: |
+          flutter clean
+          flutter build ios --release --no-codesign
 
       # Install CocoaPods for iOS dependencies
       - name: Install CocoaPods
