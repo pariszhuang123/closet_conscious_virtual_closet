@@ -376,7 +376,7 @@ jobs:
           FASTLANE_SKIP_CONFIRMATIONS: true
 
       - name: Upload Fastlane Log
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: fastlane-log
           path: ~/Library/Logs/gym/Runner-Runner-prod.log
