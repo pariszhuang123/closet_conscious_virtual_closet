@@ -47,15 +47,6 @@ platform :ios do
         in_house: false  # Set to true if using an Enterprise account
       )
 
-      # Sync certificates and provisioning profiles
-      match(
-        type: "appstore",
-        app_identifier: "com.makinglifeeasie.closetconscious",
-        readonly: true,
-        keychain_name: "ios-build.keychain",
-        api_key: api_key  # Pass the API key hash here
-      )
-
       # Build the app for release
       gym(
         workspace: "Runner.xcworkspace",
