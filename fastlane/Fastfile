@@ -60,6 +60,7 @@ platform :ios do
             "com.makinglifeeasie.closetconscious" => "AppStore"
           }
         },
+        xcargs: "-allowProvisioningUpdates",
         silent: true,
         clean: true
       )
