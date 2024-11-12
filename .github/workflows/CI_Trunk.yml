@@ -339,13 +339,12 @@ jobs:
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
         run: |
           echo "$APP_STORE_CONNECT_API_KEY" | base64 --decode > fastlane/AuthKey_SH96BHL99W.p8
-        # Set permissions if necessary
-          chmod 644 fastlane/AuthKey_SH96BHL99W.p8
+          chmod 644 fastlane/AuthKey_SH96BHL99W.p8  # Set permissions if necessary
 
       - name: Verify .p8 file
         run: |
-          ls -la AuthKey_SH96BHL99W.p8
-          readlink -f AuthKey_SH96BHL99W.p8  # Print absolute path
+          ls -la fastlane/AuthKey_SH96BHL99W.p8
+          readlink -f fastlane/AuthKey_SH96BHL99W.p8  # Print absolute path
 
       - name: Fetch Git commit messages for release notes
         run: |
