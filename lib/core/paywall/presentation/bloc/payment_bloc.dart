@@ -93,11 +93,12 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       if (purchaseDetails.status == PurchaseStatus.pending) {
         add(PaymentPending());
       } else if (purchaseDetails.status == PurchaseStatus.error) {
-        // Handle failed purchase
         add(PurchaseFailure(purchaseDetails.error?.message ?? 'Unknown error occurred during purchase.'));
       } else if (purchaseDetails.status == PurchaseStatus.purchased) {
-        // Only handle new purchases, no restoration needed
-        _verifyAndDeliverAndroidPurchase(purchaseDetails);
+        // Use event.isIOS to call verification with the correct platform flag
+        final isIOS = purchaseDetails.verificationData.source == "App Store";
+        // Pass productID and platform information to the verification method
+        _verifyAndDeliverPurchase(purchaseDetails, isIOS: isIOS);
       }
 
       if (purchaseDetails.pendingCompletePurchase) {
@@ -111,35 +112,41 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     add(PurchaseFailure(error.toString()));
   }
 
-  Future<void> _verifyAndDeliverAndroidPurchase(PurchaseDetails purchaseDetails) async {
-        // Get the purchaseToken and productId and send them to the Supabase Edge Function
-    String purchaseToken = purchaseDetails.verificationData.serverVerificationData;
+  Future<void> _verifyAndDeliverPurchase(PurchaseDetails purchaseDetails, {required bool isIOS}) async {
+    String purchaseToken;
     String productId = purchaseDetails.productID;
+
+    // Set up the necessary data based on platform
+    if (isIOS) {
+      // For iOS, use the receipt data
+      purchaseToken = purchaseDetails.verificationData.localVerificationData; // base64 receipt
+    } else {
+      // For Android, use serverVerificationData as the purchaseToken
+      purchaseToken = purchaseDetails.verificationData.serverVerificationData;
+    }
 
     Sentry.addBreadcrumb(Breadcrumb(
       message: 'Verifying purchase with Supabase Edge function',
-      data: {'purchaseToken': purchaseDetails.verificationData.serverVerificationData, 'productId': purchaseDetails.productID},
+      data: {'purchaseToken': purchaseToken, 'productId': productId, 'isIOS': isIOS},
       level: SentryLevel.info,
     ));
 
-    // Call the method from core_save_services.dart to verify the purchase
-    final verificationResult = await _coreSaveService.verifyAndroidPurchaseWithSupabaseEdgeFunction(
-      purchaseToken,
-      productId,
-    );
+    // Verify purchase with Supabase Edge Function using core save service
+    final verificationResult = isIOS
+        ? await _coreSaveService.verifyIOSPurchaseWithSupabaseEdgeFunction(purchaseToken, productId)
+        : await _coreSaveService.verifyAndroidPurchaseWithSupabaseEdgeFunction(purchaseToken, productId);
 
     if (verificationResult != null && verificationResult['status'] == 'success') {
       _logger.i('Purchase verified and persisted successfully for product: $productId');
       Sentry.addBreadcrumb(Breadcrumb(
         message: 'Purchase verified successfully',
-        data: {'productId': purchaseDetails.productID},
+        data: {'productId': productId},
         level: SentryLevel.info,
       ));
-      // Emit a simple success state
       add(PurchaseSuccess());
     } else {
       _logger.e('Invalid purchase: $productId');
-      Sentry.captureMessage('Purchase verification failed for product: ${purchaseDetails.productID}', level: SentryLevel.error);
+      Sentry.captureMessage('Purchase verification failed for product: $productId', level: SentryLevel.error);
       add(PurchaseFailure('Invalid purchase. Please try again.'));
     }
   }

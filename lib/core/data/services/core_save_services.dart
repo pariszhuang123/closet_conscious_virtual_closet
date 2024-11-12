@@ -174,6 +174,44 @@ class CoreSaveService {
     }
   }
 
+  Future<Map<String, dynamic>?> verifyIOSPurchaseWithSupabaseEdgeFunction(
+      String receiptData, String productId) async {
+    logger.i('Verifying iOS purchase with Supabase Edge Function');
+
+    try {
+      const supabaseFunctionUrl = 'https://vrhytwexijijwhlicqfw.functions.supabase.co/purchase-verification-ios';
+      final accessToken = Supabase.instance.client.auth.currentSession?.accessToken;
+
+      if (accessToken == null) {
+        logger.e('Access token not found. User may not be authenticated.');
+        return {'status': 'error', 'message': 'User not authenticated'};
+      }
+
+      final response = await http.post(
+        Uri.parse(supabaseFunctionUrl),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({'receiptData': receiptData, 'productId': productId}),
+      );
+
+      final responseData = jsonDecode(response.body) as Map<String, dynamic>;
+
+      if (responseData['status'] == 'success') {
+        logger.i('iOS purchase verification successful: $responseData');
+        return {'status': 'success', 'message': 'iOS purchase verified successfully'};
+      } else {
+        logger.e('Failed to verify iOS purchase: ${response.body}');
+        return {'status': 'error', 'message': responseData['error'] ?? 'Unknown error occurred'};
+      }
+    } catch (e, stackTrace) {
+      Sentry.captureException(e, stackTrace: stackTrace);
+      logger.e('Error verifying iOS purchase: $e');
+      return {'status': 'error', 'message': 'An exception occurred: $e'};
+    }
+  }
+
   Future<void> saveArrangementSettings({
     required int gridSize,
     required String sortCategory,

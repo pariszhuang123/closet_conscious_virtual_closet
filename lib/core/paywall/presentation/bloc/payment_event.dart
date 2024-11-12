@@ -4,8 +4,9 @@ abstract class PaymentEvent {}
 
 class ProcessPayment extends PaymentEvent {
   final FeatureKey featureKey;
+  final bool isIOS; // Pass platform information
 
-  ProcessPayment(this.featureKey);
+  ProcessPayment(this.featureKey, {required this.isIOS});
 }
 
 class PaymentPending extends PaymentEvent {}

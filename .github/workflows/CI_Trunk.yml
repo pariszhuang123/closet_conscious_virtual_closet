@@ -125,10 +125,16 @@ jobs:
       - run: supabase link --project-ref $SUPABASE_PROJECT_ID
       - run: supabase db push
 
-      # Deploy the Edge Function for purchase verification
+      # Deploy the Edge Function for purchase verification for android
       - name: Deploy purchase-verification-android Edge Function
         run: |
           supabase functions deploy purchase-verification-android \
+            --project-ref $SUPABASE_PROJECT_ID
+
+      # Deploy the Edge Function for purchase verification for ios
+      - name: Deploy purchase-verification-ios Edge Function
+        run: |
+          supabase functions deploy purchase-verification-ios \
             --project-ref $SUPABASE_PROJECT_ID
 
   # Android Production Build
@@ -243,6 +249,7 @@ jobs:
     needs: deploy_prod_supabase
     runs-on: macos-latest
     environment: prod
+    timeout-minutes: 30  # Set a 30-minute timeout for the job
 
     steps:
       - uses: actions/checkout@v4
@@ -283,11 +290,25 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            Pods
+            ios/Pods
             ~/Library/Caches/CocoaPods
           key: ${{ runner.os }}-cocoapods-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-cocoapods-
+
+      - name: Check CocoaPods Cache Directory
+        run: ls -la ~/Library/Caches/CocoaPods
+
+      - name: Cache Xcode DerivedData
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Developer/Xcode/DerivedData
+          key: ${{ runner.os }}-deriveddata-${{ hashFiles('Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-deriveddata-
+
+      - name: Check Xcode DerivedData Directory
+        run: ls -la ~/Library/Developer/Xcode/DerivedData
 
       - name: Install dependencies
         run: flutter pub get
@@ -298,6 +319,13 @@ jobs:
           versionCode=$(git rev-list --count HEAD)
           echo "BUILD_NUMBER=$versionCode" >> $GITHUB_ENV
           echo "VERSION_NAME=1.6.0" >> $GITHUB_ENV
+
+      # Clean Xcode DerivedData and Pods Cache
+      - name: Clean Xcode DerivedData and Pods Cache
+        run: |
+          rm -rf ~/Library/Developer/Xcode/DerivedData
+          rm -rf ios/Pods
+          pod cache clean --all
 
       # Create and configure a temporary keychain
       - name: Setup Keychain for CI

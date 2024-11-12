@@ -200,8 +200,9 @@ class PaymentScreenState extends State<PaymentScreen> {
                               ? null
                               : () {
                             _logger.i('Processing payment for featureKey: ${featureData.featureKey.key}');
+                            final isIOS = Theme.of(context).platform == TargetPlatform.iOS;
                             BlocProvider.of<PaymentBloc>(context).add(
-                              ProcessPayment(featureData.featureKey),
+                              ProcessPayment(featureData.featureKey, isIOS: isIOS),
                             );
                           },
                         ),
