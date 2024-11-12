@@ -11,7 +11,7 @@ create or replace function public.edit_item_metadata(
   _clothing_layer text,
   _accessory_type text,
   _shoes_type text,
-  _colour_variations text
+  _colour_variations text default 'cc_none'  -- Keep the default here
 )
 returns json
 language plpgsql
