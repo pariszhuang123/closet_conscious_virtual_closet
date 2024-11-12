@@ -39,32 +39,27 @@ platform :ios do
   desc "Deploy to TestFlight"
   lane :upload_to_testflight do
     begin
-      # Make sure the API key path is set up by GitHub Actions
-      api_key_path = ENV["APP_STORE_CONNECT_API_KEY_PATH"]
-
-      # Set the version and build number from the environment
-      build_number = ENV["BUILD_NUMBER"]
-      version_name = ENV["VERSION_NAME"]
-
-      # Update the version and build number in Info.plist if needed (optional)
-      # Use this only if you're not using `pubspec.yaml` to manage them automatically
-      # increment_build_number(build_number: build_number)
-      # increment_version_number(version_number: version_name)
+      # Sync certificates and provisioning profiles
+      match(
+        type: "appstore",
+        app_identifier: "com.makinglifeeasie.closetconscious",
+        readonly: true,
+        keychain_name: "ios-build.keychain"
+      )
 
       # Build the app for release
       gym(
         workspace: "Runner.xcworkspace",
         scheme: "Runner",
         configuration: "Release",
-        export_method: "app-store",  # Export method for TestFlight
-        output_directory: "./build/ios",  # Output directory for the .ipa file
-        output_name: "Runner.ipa",  # Name of the output .ipa file
+        export_method: "app-store",
+        output_directory: "./build/ios",
+        output_name: "Runner.ipa",
         export_options: {
           provisioningProfiles: {
             "com.makinglifeeasie.closetconscious" => "AppStore"
           }
         },
-        build_path: "./build/ios",
         silent: true,
         clean: true
       )
@@ -72,12 +67,13 @@ platform :ios do
       # Upload to TestFlight
       upload_to_testflight(
         ipa: "./build/ios/Runner.ipa",
-        api_key_path: api_key_path,
-        skip_waiting_for_build_processing: false,  # Set to true if you want to skip waiting
-        skip_submission: true,  # Set to false if you want to auto-submit for beta review
-        distribute_external: false,  # Set to true if distributing to external testers
+        api_key_path: ENV["APP_STORE_CONNECT_API_KEY_PATH"],
+        skip_waiting_for_build_processing: false,
+        skip_submission: true,
+        distribute_external: false,
         release_notes: ENV["RELEASE_NOTES"]
       )
+
     rescue => exception
       UI.error("Failed to deploy to TestFlight: #{exception.message}")
       raise exception

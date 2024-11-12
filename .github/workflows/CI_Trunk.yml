@@ -299,6 +299,22 @@ jobs:
           echo "BUILD_NUMBER=$versionCode" >> $GITHUB_ENV
           echo "VERSION_NAME=1.6.0" >> $GITHUB_ENV
 
+      # Create and configure a temporary keychain
+      - name: Setup Keychain for CI
+        run: |
+          security create-keychain -p "" ios-build.keychain
+          security default-keychain -s ios-build.keychain
+          security unlock-keychain -p "" ios-build.keychain
+          security set-keychain-settings -t 3600 -u ios-build.keychain        
+
+      - name: Import Certificate to Keychain
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.APPLE_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+        run: |
+          echo "$CERTIFICATE_BASE64" | base64 --decode > certificate.p12
+          security import certificate.p12 -k ios-build.keychain -P "$P12_PASSWORD" -A -T /usr/bin/codesign
+
       # Install CocoaPods for iOS dependencies
       - name: Install CocoaPods
         run: |
@@ -322,30 +338,6 @@ jobs:
         run: |
           echo "${{ secrets.APP_STORE_CONNECT_API_KEY }}" | base64 --decode > AuthKey_SH96BHL99W.p8
 
-      - name: Archive iOS with xcodebuild
-        env:
-          CI: true
-          VERSION_NAME: ${{ env.VERSION_NAME }}
-          BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
-        run: |
-          xcodebuild -workspace ios/Runner.xcworkspace \
-            -scheme Runner-prod \
-            -configuration Release \
-            -archivePath $PWD/build/Runner.xcarchive \
-            archive \
-            -allowProvisioningUpdates \
-            MARKETING_VERSION=$VERSION_NAME \
-            CURRENT_PROJECT_VERSION=$BUILD_NUMBER
-
-      # Export the archived app to an IPA
-      - name: Export iOS IPA
-        run: |
-          xcodebuild -exportArchive \
-          -archivePath $PWD/build/Runner.xcarchive \
-          -exportOptionsPlist ios/Runner/ExportOptions.plist \
-          -exportPath $PWD/build/Runner \
-          -allowProvisioningUpdates
-
       - name: Fetch Git commit messages for release notes
         run: |
           release_notes=$(git log -1 --oneline | sed "s/'//g")
@@ -363,3 +355,9 @@ jobs:
           RELEASE_NOTES: ${{ env.RELEASE_NOTES }}
           FASTLANE_SKIP_CONFIRMATIONS: true
 
+      # Upload dSYM files to Sentry
+      - name: Upload Debug Symbols to Sentry
+        if: success()
+        run: |
+          curl -sL https://sentry.io/get-cli/ | bash
+          sentry-cli --auth-token ${{ secrets.SENTRY_AUTH_TOKEN }} upload-dsym ./build/ios/Runner.xcarchive/dSYMs
