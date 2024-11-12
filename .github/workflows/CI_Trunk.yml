@@ -335,8 +335,10 @@ jobs:
           }' > config/app_config_prod.json
 
       - name: Decode and Save App Store Connect API Key
+        env:
+          APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
         run: |
-          echo "${{ secrets.APP_STORE_CONNECT_API_KEY }}" | base64 --decode > AuthKey_SH96BHL99W.p8
+          echo "$APP_STORE_CONNECT_API_KEY" | base64 --decode > AuthKey_SH96BHL99W.p8
 
       - name: Fetch Git commit messages for release notes
         run: |
