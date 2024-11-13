@@ -40,7 +40,6 @@ platform :ios do
   lane :deploy_to_testflight do
         setup_ci(force: true)
         sh "rm -rf ~/Library/Developer/Xcode/DerivedData" # Clean derived data
-        match(readonly: true)
         UI.message("FLUTTER_ROOT in Fastlane is: #{ENV['FLUTTER_ROOT']}")
     begin
       # Set the environment variable to suppress Flutter analytics
