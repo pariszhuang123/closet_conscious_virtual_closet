@@ -394,6 +394,9 @@ jobs:
           echo "$CERTIFICATE_BASE64" | base64 --decode > certificate.p12
           security import certificate.p12 -k ios-build.keychain -P "$P12_PASSWORD" -A -T /usr/bin/codesign
 
+      - name: List Keychain Identities
+        run: security find-identity -v -p codesigning ios-build.keychain
+
       # Decode and Install Provisioning Profile
       - name: Install Provisioning Profile
         env:
