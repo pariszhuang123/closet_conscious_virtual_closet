@@ -39,7 +39,8 @@ platform :ios do
   desc "Deploy to TestFlight"
   lane :deploy_to_testflight do
         setup_ci(force: true)
-        sh("security find-identity -v -p codesigning ios-build.keychain")  # Log available identities
+        sh "rm -rf ~/Library/Developer/Xcode/DerivedData" # Clean derived data
+        match(readonly: true)
         UI.message("FLUTTER_ROOT in Fastlane is: #{ENV['FLUTTER_ROOT']}")
     begin
       # Set the environment variable to suppress Flutter analytics
@@ -77,14 +78,14 @@ platform :ios do
       )
 
       # Upload to TestFlight
-      upload_to_testflight(
-        ipa: "./build/ios/Runner.ipa",
-        api_key: api_key,
-        skip_waiting_for_build_processing: false,
-        skip_submission: true,
-        distribute_external: false,
-        release_notes: ENV["RELEASE_NOTES"]
-      )
+      # upload_to_testflight(
+        # ipa: "./build/ios/Runner.ipa",
+        # api_key: api_key,
+        # skip_waiting_for_build_processing: false,
+        # skip_submission: true,
+        # distribute_external: false,
+        # release_notes: ENV["RELEASE_NOTES"]
+      # )
 
     rescue => exception
       UI.error("Failed to deploy to TestFlight: #{exception.message}")
