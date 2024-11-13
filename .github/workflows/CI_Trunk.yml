@@ -331,7 +331,7 @@ jobs:
           FLUTTER_ROOT: ${{ env.FLUTTER_ROOT }}
         run: |
           flutter clean
-          flutter build ios --release --no-codesign
+          flutter build ios --release --no-codesign --target=lib/main_prod.dart
 
       # Install CocoaPods for iOS dependencies
       - name: Install CocoaPods

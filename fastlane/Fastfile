@@ -67,7 +67,7 @@ platform :ios do
         },
         clean: true,
         buildlog_path: "./fastlane/logs",  # Saves the build log in the specified directory
-        xcargs: "FLUTTER_SUPPRESS_ANALYTICS=1",  # Pass the environment variable to Xcode
+        xcargs: "FLUTTER_SUPPRESS_ANALYTICS=1 FLUTTER_ROOT=#{ENV['FLUTTER_ROOT']} FLUTTER_TARGET=lib/main_prod.dart",
         verbose: true  # Enable verbose logging
       )
 
