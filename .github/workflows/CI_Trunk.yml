@@ -378,13 +378,9 @@ jobs:
           echo "BUILD_NUMBER=$versionCode" >> $GITHUB_ENV
           echo "VERSION_NAME=1.6.0" >> $GITHUB_ENV
 
-      # Create and configure a temporary keychain
-      - name: Setup Keychain for CI
-        run: |
-          security create-keychain -p "" ios-build.keychain
-          security default-keychain -s ios-build.keychain
-          security unlock-keychain -p "" ios-build.keychain
-          security set-keychain-settings -t 3600 -u ios-build.keychain        
+      # Run Fastlane's setup_ci to create a temporary keychain
+      - name: Set up CI Environment with Fastlane
+        run: fastlane run setup_ci force:true
 
       - name: Import Certificate to Keychain
         env:
@@ -392,10 +388,10 @@ jobs:
           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
         run: |
           echo "$CERTIFICATE_BASE64" | base64 --decode > certificate.p12
-          security import certificate.p12 -k ios-build.keychain -P "$P12_PASSWORD" -A -T /usr/bin/codesign
+          security import certificate.p12 -k $(security default-keychain | tr -d '"') -P "$P12_PASSWORD" -A -T /usr/bin/codesign
 
-      - name: List Keychain Identities
-        run: security find-identity -v -p codesigning ios-build.keychain
+      - name: Verify Keychain Identities
+        run: security find-identity -v -p codesigning $(security default-keychain | tr -d '"')
 
       # Decode and Install Provisioning Profile
       - name: Install Provisioning Profile
