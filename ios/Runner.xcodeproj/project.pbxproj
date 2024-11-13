@@ -367,7 +367,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
+			shellScript = "#!/bin/sh\nset -e  # Exit immediately if a command exits with a non-zero status.\nset -x  # Enable shell debugging.\n\necho \"Starting Run Script\"\n\n# Print environment variables\necho \"FLUTTER_ROOT: $FLUTTER_ROOT\"\necho \"FLUTTER_TARGET: $FLUTTER_TARGET\"\n\n# Check if FLUTTER_ROOT is set\nif [ -z \"$FLUTTER_ROOT\" ]; then\n  echo \"Error: FLUTTER_ROOT is not set.\"\n  exit 1\nfi\n\n# Check if FLUTTER_TARGET is set\nif [ -z \"$FLUTTER_TARGET\" ]; then\n  echo \"FLUTTER_TARGET is not set. Defaulting to lib/main.dart\"\n  export FLUTTER_TARGET=lib/main.dart\nfi\n\n# Ensure xcode_backend.sh exists\nif [ ! -f \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" ]; then\n  echo \"Error: xcode_backend.sh not found at $FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\"\n  exit 1\nfi\n\n# Ensure xcode_backend.sh is executable\nchmod +x \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\"\n\n# Run the Flutter build script with verbose output and no interaction\necho \"Running xcode_backend.sh\"\n\"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build --no-interactive --verbose\n\necho \"Finished Run Script\"\n";
 		};
 		C4961BB58D3B57C49EA3E14D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
