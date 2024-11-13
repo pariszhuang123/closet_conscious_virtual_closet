@@ -38,7 +38,6 @@ end
 platform :ios do
   desc "Deploy to TestFlight"
   lane :deploy_to_testflight do
-        setup_ci
         sh("security find-identity -v -p codesigning ios-build.keychain")  # Log available identities
         UI.message("FLUTTER_ROOT in Fastlane is: #{ENV['FLUTTER_ROOT']}")
     begin
@@ -70,8 +69,6 @@ platform :ios do
         clean: true,
         buildlog_path: "./fastlane/logs",  # Saves the build log in the specified directory
         xcargs: "FLUTTER_SUPPRESS_ANALYTICS=1 FLUTTER_ROOT=#{ENV['FLUTTER_ROOT']} FLUTTER_TARGET=lib/main_prod.dart",
-        keychain_path: "~/Library/Keychains/ios-build.keychain",  # Use the GitHub Actions keychain
-        export_team_id: "M7SBU9RGY5",                             # Specify the team ID
         verbose: true  # Enable verbose logging
       )
 
