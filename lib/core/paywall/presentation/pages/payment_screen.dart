@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
@@ -200,7 +201,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                               ? null
                               : () {
                             _logger.i('Processing payment for featureKey: ${featureData.featureKey.key}');
-                            final isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+                            final isIOS = Platform.isIOS; // Updated platform check
                             BlocProvider.of<PaymentBloc>(context).add(
                               ProcessPayment(featureData.featureKey, isIOS: isIOS),
                             );
