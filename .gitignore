@@ -60,5 +60,14 @@ supabase/.branches/
 local.properties
 
 # Ignore flutter plugins
-.flutter-plugins-dependencies
-.flutter-plugins
+.flutter-plugins-dependencies*
+.flutter-plugins*
+
+# Flutter build outputs
+ios/Flutter/Generated*.xcconfig
+ios/Flutter/flutter_export_environment*.sh
+macos/Flutter/Generated*.xcconfig
+macos/Flutter/flutter_export_environment*.sh
+
+# Ignore the unused lib/main.dart if using main_prod.dart and main_dev.dart
+lib/main.dart
