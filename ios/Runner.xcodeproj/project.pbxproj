@@ -313,7 +313,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin\n";
 		};
 		4A8B3CAB8671ADFA407F91E7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -367,7 +367,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
+			shellScript = "# Check if FLUTTER_ROOT is set, otherwise set it explicitly\nif [ -z \"$FLUTTER_ROOT\" ]; then\n  export FLUTTER_ROOT=\"/Users/runner/hostedtoolcache/flutter/stable-3.24.0-arm64\"\n  echo \"FLUTTER_ROOT was not set. Manually setting FLUTTER_ROOT to: $FLUTTER_ROOT\"\nelse\n  echo \"Using existing FLUTTER_ROOT: $FLUTTER_ROOT\"\nfi\n\n# Print FLUTTER_ROOT for verification\necho \"FLUTTER_ROOT is set to: $FLUTTER_ROOT\"\n\n# Start running xcode_backend.sh with debug information\necho \"Starting Flutter Xcode backend build...\"\nset -x  # Enable verbose mode to show each command\n\"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\nset +x  # Disable verbose mode\n\necho \"Completed Flutter Xcode backend build.\"\n";
 		};
 		C4961BB58D3B57C49EA3E14D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -785,8 +785,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = M7SBU9RGY5;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = M7SBU9RGY5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -822,6 +824,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.makinglifeeasie.closetconscious;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = ClosetConscious_AppStore_Profile;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
