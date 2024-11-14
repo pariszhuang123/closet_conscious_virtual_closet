@@ -38,8 +38,10 @@ end
 platform :ios do
   desc "Deploy to TestFlight"
   lane :deploy_to_testflight do
-        setup_ci(force: true)
-        sh "security unlock-keychain -p '' /Users/runner/Library/Keychains/fastlane_tmp_keychain-db"
+        setup_ci
+        sh "security set-keychain-settings -t 3600 -u /Users/runner/Library/Keychains/fastlane_tmp_keychain-db"
+        sh "security unlock-keychain -p "" /Users/runner/Library/Keychains/fastlane_tmp_keychain-db"
+        UI.message("Creating temporary keychain: \"#{keychain_name}\".")
         sh "rm -rf ~/Library/Developer/Xcode/DerivedData" # Clean derived data
         UI.message("FLUTTER_ROOT in Fastlane is: #{ENV['FLUTTER_ROOT']}")
     begin
