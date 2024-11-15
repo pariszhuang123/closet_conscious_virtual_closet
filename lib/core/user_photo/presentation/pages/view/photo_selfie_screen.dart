@@ -1,3 +1,4 @@
+import 'dart:io'; // Import for platform checks
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/photo_bloc.dart';
@@ -7,7 +8,7 @@ import '../../../../core_enums.dart';
 import '../../../../utilities/routes.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../widgets/progress_indicator/outfit_progress_indicator.dart';
-import '../../../../theme/my_outfit_theme.dart';  // Import your custom theme
+import '../../../../theme/my_outfit_theme.dart'; // Import your custom theme
 import '../../../../paywall/data/feature_key.dart';
 
 class PhotoSelfieScreen extends StatefulWidget {
@@ -15,82 +16,110 @@ class PhotoSelfieScreen extends StatefulWidget {
   final String? outfitId;
   final CustomLogger _logger = CustomLogger('PhotoSelfieScreen');
 
-  // Constructor accepting the context (selfie)
   PhotoSelfieScreen({
     super.key,
     required this.cameraContext,
-    this.outfitId});
+    this.outfitId,
+  });
 
   @override
   PhotoSelfieScreenState createState() => PhotoSelfieScreenState();
 }
 
-late PhotoBloc _photoBloc;
-late NavigateCoreBloc _navigateCoreBloc;
-late CameraPermissionHelper _cameraPermissionHelper;
-
 class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindingObserver {
-  bool _cameraInitialized = false; // Track if the camera has been initialized
-  bool _selfieAccessGranted = false; // Track if edit access is granted
+  late final PhotoBloc _photoBloc;
+  late final NavigateCoreBloc _navigateCoreBloc;
+  late final CameraPermissionHelper _cameraPermissionHelper;
+  bool _cameraInitialized = false;
+  bool _selfieAccessGranted = false;
 
   @override
   void initState() {
     super.initState();
-    _photoBloc = context.read<PhotoBloc>(); // Access the bloc here safely
-    _navigateCoreBloc = context.read<NavigateCoreBloc>(); // Access the bloc here safely
+    _photoBloc = context.read<PhotoBloc>();
+    _navigateCoreBloc = context.read<NavigateCoreBloc>();
+    _cameraPermissionHelper = CameraPermissionHelper();
     _triggerSelfieCreation();
-    _cameraPermissionHelper = CameraPermissionHelper(); // Initialize CameraPermissionHelper
     WidgetsBinding.instance.addObserver(this); // Add lifecycle observer
-    widget._logger.d('Initializing PhotoSelfieView');
-  }
+    widget._logger.d('Initializing PhotoSelfieScreen');
 
-  void _triggerSelfieCreation() {
-    widget._logger.i('Checking if selfie can be triggered');
-    context.read<NavigateCoreBloc>().add(const CheckSelfieCreationAccessEvent());
+    // Platform-specific permission check
+    if (Platform.isIOS) {
+      widget._logger.d('iOS: Checking camera permission at startup');
+      _checkCameraPermissionIOS();
+    } else if (Platform.isAndroid) {
+      widget._logger.d('Android: Skipping initial camera permission check');
+    }
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    // Moved permission check here to safely access inherited widgets like Theme.of(context)
     if (!_cameraInitialized && _selfieAccessGranted) {
-      _checkCameraPermission();
+      widget._logger.d('Dependencies changed: checking camera permission');
+      _checkCameraPermission(); // Safe to call here
     }
   }
 
-  // Check camera permission on initial load
-  void _checkCameraPermission() {
-    widget._logger.d('Checking camera permission');
-    context.read<PhotoBloc>().add(CheckCameraPermission(
+  void _checkCameraPermissionIOS() {
+    widget._logger.d('Dispatching CheckCameraPermission event for iOS');
+    _photoBloc.add(CheckCameraPermission(
       cameraContext: widget.cameraContext,
       context: context,
-      onClose: () {
-        widget._logger.i('Camera permission check failed, navigating to WearOutfit');
-        _navigateToWearOutfit(context);
-      },
-      theme: Theme.of(context),  // Safe to access Theme here
+      onClose: _navigateToWearOutfit,
     ));
   }
 
-  // Detect app lifecycle changes
+  void _checkCameraPermission() {
+    widget._logger.d('Checking camera permission');
+    _photoBloc.add(CheckCameraPermission(
+      cameraContext: widget.cameraContext,
+      context: context,
+      theme: Theme.of(context),
+      onClose: () {
+        widget._logger.i('Camera permission check failed, navigating to WearOutfit');
+        _navigateToWearOutfit();
+      },
+    ));
+  }
+
+  void _triggerSelfieCreation() {
+    widget._logger.i('Checking if selfie creation can be triggered');
+    _navigateCoreBloc.add(const CheckSelfieCreationAccessEvent());
+  }
+
+  void _navigateSafely(String routeName, {Object? arguments}) {
+    if (mounted) {
+      widget._logger.d('Navigating to $routeName with arguments: $arguments');
+      Navigator.pushReplacementNamed(context, routeName, arguments: arguments);
+    } else {
+      widget._logger.e("Cannot navigate to $routeName, widget is not mounted");
+    }
+  }
+
+  void _navigateToWearOutfit() {
+    widget._logger.d('Navigating to Wear Outfit');
+    _navigateSafely(
+      AppRoutes.wearOutfit,
+      arguments: widget.outfitId,
+    );
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed && !_cameraInitialized) {
-      // App has resumed, check permissions again only if camera is not initialized
       widget._logger.d('App resumed, checking camera permission again');
       _checkCameraPermission();
     }
   }
 
-  // Handle camera initialization
   void _handleCameraInitialized() {
     widget._logger.d('Camera initialized');
     _cameraInitialized = true; // Set the flag to true when the camera is initialized
   }
 
-  // Use CameraPermissionHelper to handle camera permission
   void _handleCameraPermission(BuildContext context) {
     widget._logger.d('Handling camera permission');
     _cameraPermissionHelper.checkAndRequestPermission(
@@ -99,58 +128,45 @@ class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindin
       cameraContext: widget.cameraContext,
       onClose: () {
         widget._logger.i('Permission handling closed, navigating to WearOutfit');
-        _navigateToWearOutfit(context);
+        _navigateToWearOutfit();
       },
     );
   }
 
-  // Navigate to Wear Outfit route
-  void _navigateToWearOutfit(BuildContext context) {
-    widget._logger.d('Navigating to Wear Outfit');
-    Navigator.pushReplacementNamed(
-      context,
-      AppRoutes.wearOutfit,
-        arguments: widget.outfitId);
-  }
 
   @override
   void dispose() {
-    widget._logger.i('Disposing PhotoSelfieView');
-    WidgetsBinding.instance.removeObserver(this); // Remove observer
-    _photoBloc.close(); // Close the BLoC stream
-    _navigateCoreBloc.close();
+    widget._logger.i('Disposing PhotoSelfieScreen');
+    WidgetsBinding.instance.removeObserver(this); // Remove lifecycle observer
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    widget._logger.d('Building PhotoSelfieView'); // Log when the widgets is built
+    widget._logger.d('Building PhotoSelfieScreen');
 
     return Theme(
-      data: myOutfitTheme, // Apply your custom theme here
+      data: myOutfitTheme, // Apply your custom theme
       child: Scaffold(
         body: MultiBlocListener(
           listeners: [
-            // NavigateCoreBloc Listener
             BlocListener<NavigateCoreBloc, NavigateCoreState>(
               listener: (context, state) {
                 if (state is BronzeSelfieDeniedState) {
                   widget._logger.i('Bronze selfie access denied, navigating to payment screen.');
-                  Navigator.pushReplacementNamed(
-                    context,
+                  _navigateSafely(
                     AppRoutes.payment,
                     arguments: {
-                      'featureKey': FeatureKey.selfieBronze,  // Pass necessary data
+                      'featureKey': FeatureKey.selfieBronze,
                       'isFromMyCloset': true,
                       'previousRoute': AppRoutes.wearOutfit,
                       'nextRoute': AppRoutes.createOutfit,
-                      'outfitId': widget.outfitId,  // Use outfitId or other identifier
+                      'outfitId': widget.outfitId,
                     },
                   );
                 } else if (state is SilverSelfieDeniedState) {
                   widget._logger.i('Silver selfie access denied, navigating to payment screen');
-                  Navigator.pushReplacementNamed(
-                    context,
+                  _navigateSafely(
                     AppRoutes.payment,
                     arguments: {
                       'featureKey': FeatureKey.selfieSilver,
@@ -162,8 +178,7 @@ class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindin
                   );
                 } else if (state is GoldSelfieDeniedState) {
                   widget._logger.i('Gold selfie access denied, navigating to payment screen');
-                  Navigator.pushReplacementNamed(
-                    context,
+                  _navigateSafely(
                     AppRoutes.payment,
                     arguments: {
                       'featureKey': FeatureKey.selfieGold,
@@ -174,63 +189,46 @@ class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindin
                     },
                   );
                 } else if (state is ItemAccessGrantedState) {
-                  widget._logger.w('User has selfie access');
-                  _selfieAccessGranted = true;  // Set selfie access flag
-                  widget._logger.d('Selfie access flag set: $_selfieAccessGranted');
-
-                  // Now that access is granted, trigger camera permission check
+                  _selfieAccessGranted = true;
+                  widget._logger.d('Selfie access granted: $_selfieAccessGranted');
                   if (!_cameraInitialized) {
-                    _checkCameraPermission();  // Trigger camera permission only after access granted
+                    _checkCameraPermission();
                   }
                 } else if (state is ItemAccessErrorState) {
                   widget._logger.e('Error checking selfie access');
-                  // Handle error state
                 }
               },
             ),
-
-            // PhotoBloc Listener
             BlocListener<PhotoBloc, PhotoState>(
               listener: (context, state) {
                 if (state is CameraPermissionDenied) {
                   widget._logger.w('Camera permission denied');
-                  _handleCameraPermission(context); // Delegate permission handling to CameraPermissionHelper
+                  _handleCameraPermission(context);
                 } else if (state is CameraPermissionGranted && !_cameraInitialized) {
-                  widget._logger.i('Camera permission granted, ready to capture photo');
-                  _handleCameraInitialized(); // Mark camera as initialized
+                  _handleCameraInitialized();
                   if (widget.outfitId != null) {
-                    context.read<PhotoBloc>().add(CaptureSelfiePhoto(widget.outfitId!));  // Use '!' to assert it's not null
+                    context.read<PhotoBloc>().add(CaptureSelfiePhoto(widget.outfitId!));
                   } else {
                     widget._logger.e('Outfit ID is null. Cannot capture selfie.');
-                    _navigateToWearOutfit(context);  // Handle the error by navigating back or showing a message
+                    _navigateToWearOutfit();
                   }
                 } else if (state is PhotoCaptureFailure) {
                   widget._logger.e('Photo capture failed');
-                  _navigateToWearOutfit(context);
+                  _navigateToWearOutfit();
                 } else if (state is SelfieCaptureSuccess) {
-                  widget._logger.i('Photo upload succeeded with outfitId: ${state.outfitId}');
-                  _navigateToWearOutfit(context);
+                  widget._logger.i('Selfie upload succeeded with outfitId: ${state.outfitId}');
+                  _navigateToWearOutfit();
                 }
               },
             ),
           ],
           child: BlocBuilder<PhotoBloc, PhotoState>(
             builder: (context, state) {
-              if (state is PhotoCaptureInProgress) {
-                widget._logger.d('Photo capture in progress');
-                return const OutfitProgressIndicator(
-                  size: 24.0,
-                );
-              } else if (state is CameraPermissionGranted && !_cameraInitialized) {
-                widget._logger.d('Camera permission granted, capturing photo...');
-                return const OutfitProgressIndicator(
-                  size: 24.0,
-                );
+              if (state is PhotoCaptureInProgress || (state is CameraPermissionGranted && !_cameraInitialized)) {
+                return const OutfitProgressIndicator(size: 24.0);
               } else {
                 widget._logger.d('Waiting for camera permission...');
-                return const OutfitProgressIndicator(
-                  size: 24.0,
-                );
+                return const OutfitProgressIndicator(size: 24.0);
               }
             },
           ),

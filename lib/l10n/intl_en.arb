@@ -220,7 +220,7 @@
   "npsExplanation": "On a scale from 0 to 10:\n0: Not at all likely\n10: Extremely likely",
   "termsNotAcceptedMessage": "You need to accept the terms and conditions before signing in.",
   "unknownError": "Uh-oh, something went wrong. Please try again later!",
-  "permission_needed": "This permission is required for the app to function properly.",
+  "permission_needed": "This permission is\nrequired for the app\nto function properly.",
   "camera_upload_item_permission_explanation": "We need camera access to help you upload photos of your clothes.",
   "camera_edit_item_permission_explanation": "Let us use your camera to update your item photos.",
   "camera_selfie_permission_explanation": "We need access to your camera for your stunning outfit selfies!",

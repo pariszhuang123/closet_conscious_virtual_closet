@@ -4,13 +4,13 @@ abstract class PhotoEvent {}
 
 class CheckCameraPermission extends PhotoEvent {
   final BuildContext context;
-  final ThemeData theme;
+  final ThemeData? theme;
   final CameraPermissionContext cameraContext;
   final VoidCallback onClose;
 
   CheckCameraPermission({
     required this.context,
-    required this.theme,
+    this.theme,
     required this.cameraContext,
     required this.onClose,
   });

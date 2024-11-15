@@ -9,20 +9,19 @@ class CameraPermissionHelper {
   final PermissionService _permissionService = PermissionService();
   final CustomLogger _logger = CustomLogger('CameraPermissionHelper'); // Initialize CustomLogger
 
-  Future<void> checkAndRequestPermission({
+  Future<bool> checkAndRequestPermission({
     required BuildContext context, // Named parameter for context
-    required ThemeData theme, // Named parameter for theme
+    ThemeData? theme, // Make theme nullable
     required CameraPermissionContext cameraContext, // Named parameter for camera context
     required VoidCallback onClose, // Named parameter for the onClose callback
   }) async {
-    // Log the start of permission checking
     _logger.i('Checking camera permission...');
 
     // Capture necessary data from the context before the async operation
     String explanation = _permissionService.getPermissionExplanation(
       context,
       Permission.camera,
-      cameraContext: cameraContext,  // Use the dynamic context
+      cameraContext: cameraContext,
     );
     _logger.d('Permission explanation: $explanation');
 
@@ -30,10 +29,14 @@ class CameraPermissionHelper {
     PermissionStatus status = await _permissionService.checkPermission(Permission.camera);
     _logger.i('Camera permission status: $status');
 
-    if (status.isDenied) {
-      _logger.w('Permission denied. Prompting user to open settings.');
-      // Show the settings dialog with the captured explanation
-      if (context.mounted) { // Ensure the context is still valid
+    if (status.isGranted) {
+      _logger.i('Camera permission granted.');
+      return true;
+    }
+
+    if (status.isDenied || status.isPermanentlyDenied) {
+      _logger.w('Permission denied or permanently denied. Prompting user to open settings.');
+      if (context.mounted) {
         SettingsDialog.show(
           context: context,
           permission: Permission.camera,
@@ -43,9 +46,10 @@ class CameraPermissionHelper {
         );
         _logger.d('Settings dialog shown.');
       }
-    } else {
-      _logger.i('Permission is not denied. Handling other statuses...');
-      // Handle other permission statuses as needed
+      return false;
     }
+
+    // Return false if permission is restricted, limited, or any other status
+    return false;
   }
 }

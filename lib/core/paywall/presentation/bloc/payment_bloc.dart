@@ -19,6 +19,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   // Store products and purchases
   List<ProductDetails> _products = [];
   bool _isAvailable = false;
+  bool _isIOSPurchase = false;
 
   PaymentBloc() : super(PaymentInitial()) {
     on<ProcessPayment>(_onProcessPayment);
@@ -70,6 +71,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     emit(PaymentPendingState());
 
     try {
+      final isIOS = event.isIOS;
+      _isIOSPurchase = isIOS;
+
       final product = _products.firstWhere(
             (product) => product.id == event.featureKey.key,
         orElse: () => throw Exception('Product not found'),
@@ -95,10 +99,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       } else if (purchaseDetails.status == PurchaseStatus.error) {
         add(PurchaseFailure(purchaseDetails.error?.message ?? 'Unknown error occurred during purchase.'));
       } else if (purchaseDetails.status == PurchaseStatus.purchased) {
-        // Use event.isIOS to call verification with the correct platform flag
-        final isIOS = purchaseDetails.verificationData.source == "App Store";
-        // Pass productID and platform information to the verification method
-        _verifyAndDeliverPurchase(purchaseDetails, isIOS: isIOS);
+        _verifyAndDeliverPurchase(purchaseDetails, isIOS: _isIOSPurchase);
       }
 
       if (purchaseDetails.pendingCompletePurchase) {

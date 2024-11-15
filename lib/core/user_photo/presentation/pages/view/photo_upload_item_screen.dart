@@ -1,3 +1,4 @@
+import 'dart:io'; // Import for platform checks
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/photo_bloc.dart';
@@ -9,72 +10,95 @@ import '../../../../utilities/logger.dart';
 import '../../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../../paywall/data/feature_key.dart';
 
-
 class PhotoUploadItemScreen extends StatefulWidget {
   final CameraPermissionContext cameraContext;
-  final CustomLogger _logger = CustomLogger('PhotoUploadItemScreen'); // Instantiate the logger
+  final CustomLogger _logger = CustomLogger('PhotoUploadItemScreen');
 
-  // Constructor accepting the context (either item or selfie)
   PhotoUploadItemScreen({super.key, required this.cameraContext});
 
   @override
   PhotoUploadItemScreenState createState() => PhotoUploadItemScreenState();
 }
 
-late PhotoBloc _photoBloc;
-late NavigateCoreBloc _navigateCoreBloc;
-late CameraPermissionHelper _cameraPermissionHelper;
-
 class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with WidgetsBindingObserver {
-  bool _cameraInitialized = false; // Track if the camera has been initialized
-  bool _uploadAccessGranted = false; // Track if upload access is granted
+  late final PhotoBloc _photoBloc;
+  late final NavigateCoreBloc _navigateCoreBloc;
+  late CameraPermissionHelper _cameraPermissionHelper;
+  bool _cameraInitialized = false;
+  bool _uploadAccessGranted = false;
 
   @override
   void initState() {
     super.initState();
-    _photoBloc = context.read<PhotoBloc>(); // Access the bloc here safely
-    _navigateCoreBloc = context.read<NavigateCoreBloc>(); // Access the bloc here safely
+    _photoBloc = context.read<PhotoBloc>();
+    _navigateCoreBloc = context.read<NavigateCoreBloc>();
+    _cameraPermissionHelper = CameraPermissionHelper();
     _triggerUploadItemCreation();
-    _cameraPermissionHelper = CameraPermissionHelper(); // Initialize CameraPermissionHelper
-    WidgetsBinding.instance.addObserver(this); // Add lifecycle observer
+    WidgetsBinding.instance.addObserver(this);
     widget._logger.d('Initializing PhotoUploadItemView');
-  }
 
-  void _triggerUploadItemCreation() {
-    widget._logger.i('Checking if upload item can be triggered');
-    context.read<NavigateCoreBloc>().add(const CheckUploadItemCreationAccessEvent());
+    if (Platform.isIOS) {
+      widget._logger.d('iOS: Checking camera permission upfront');
+      _checkCameraPermissionIOS(); // Call iOS-specific permission check
+    } else if (Platform.isAndroid) {
+      widget._logger.d('Android: Deferring camera permission check');
+      // Delay permission check until access is triggered
+    }
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    // Only check camera permission if upload access has been granted
     if (!_cameraInitialized && _uploadAccessGranted) {
-      _checkCameraPermission();
+      widget._logger.d('Dependencies changed: checking camera permission');
+      _checkCameraPermission(); // Safe to call here
     }
   }
-  // Check camera permission on initial load
-  void _checkCameraPermission() {
-    widget._logger.d('Checking camera permission');
-    context.read<PhotoBloc>().add(CheckCameraPermission(
+
+  void _checkCameraPermissionIOS() {
+    widget._logger.d('Dispatching CheckCameraPermission event for iOS');
+    _photoBloc.add(CheckCameraPermission(
       cameraContext: widget.cameraContext,
       context: context,
-      onClose: () {
-        widget._logger.i('Camera permission check failed, navigating to MyCloset');
-        _navigateToMyCloset(context);
-      },
-      theme: Theme.of(context),  // Safe to access Theme here
+      onClose: _navigateToMyCloset,
     ));
   }
 
-  // Detect app lifecycle changes
+  void _checkCameraPermission() {
+    widget._logger.d('Dispatching CheckCameraPermission event to PhotoBloc');
+    _photoBloc.add(CheckCameraPermission(
+      cameraContext: widget.cameraContext,
+      context: context,
+      theme: Theme.of(context),
+      onClose: _navigateToMyCloset,
+    ));
+  }
+
+  void _triggerUploadItemCreation() {
+    widget._logger.i('Checking if upload item can be triggered');
+    _navigateCoreBloc.add(const CheckUploadItemCreationAccessEvent());
+  }
+
+  void _navigateSafely(String routeName, {Object? arguments}) {
+    if (mounted) {
+      widget._logger.d('Navigating to $routeName with arguments: $arguments');
+      Navigator.pushReplacementNamed(context, routeName, arguments: arguments);
+    } else {
+      widget._logger.e("Cannot navigate to $routeName, widget is not mounted");
+    }
+  }
+
+  void _navigateToMyCloset() {
+    widget._logger.d('Navigating to MyCloset');
+    _navigateSafely(AppRoutes.myCloset);
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed && !_cameraInitialized) {
-      // App has resumed, check permissions again only if camera is not initialized
-      widget._logger.d('App resumed, checking camera permission again');
+      widget._logger.d('App resumed on iOS, checking camera permission again');
       _checkCameraPermission();
     }
   }
@@ -85,6 +109,7 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
     _cameraInitialized = true; // Set the flag to true when the camera is initialized
   }
 
+
   // Use CameraPermissionHelper to handle camera permission
   void _handleCameraPermission(BuildContext context) {
     widget._logger.d('Handling camera permission');
@@ -94,15 +119,9 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
       cameraContext: widget.cameraContext,
       onClose: () {
         widget._logger.i('Permission handling closed, navigating to MyCloset');
-        _navigateToMyCloset(context);
+        _navigateToMyCloset();
       },
     );
-  }
-
-  // Navigate to MyCloset route
-  void _navigateToMyCloset(BuildContext context) {
-    widget._logger.d('Navigating to MyCloset');
-    Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
   }
 
   // Now you can safely check if the widgets is mounted
@@ -122,20 +141,16 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
     }
   }
 
-
-
   @override
   void dispose() {
     widget._logger.i('Disposing PhotoUploadItemView');
-    WidgetsBinding.instance.removeObserver(this); // Remove observer
-    _photoBloc.close(); // Close the BLoC stream
-    _navigateCoreBloc.close();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    widget._logger.d('Building PhotoUploadItemView'); // Log when the widgets is built
+    widget._logger.d('Building PhotoUploadItemView');
 
     return Scaffold(
       body: MultiBlocListener(
@@ -143,53 +158,34 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
           BlocListener<NavigateCoreBloc, NavigateCoreState>(
             listener: (context, state) {
               if (state is BronzeUploadItemDeniedState) {
-                widget._logger.i('Bronze upload item access denied, navigating to payment screen.');
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.payment,
-                  arguments: {
-                    'featureKey': FeatureKey.uploadItemBronze,  // Pass necessary data
-                    'isFromMyCloset': true,
-                    'previousRoute': AppRoutes.myCloset,
-                    'nextRoute': AppRoutes.uploadItemPhoto
-                  },
-                );
+                _navigateSafely(AppRoutes.payment, arguments: {
+                  'featureKey': FeatureKey.uploadItemBronze,
+                  'isFromMyCloset': true,
+                  'previousRoute': AppRoutes.myCloset,
+                  'nextRoute': AppRoutes.uploadItemPhoto,
+                });
               } else if (state is SilverUploadItemDeniedState) {
-                widget._logger.i('Silver upload item access denied, navigating to payment screen');
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.payment,
-                  arguments: {
-                    'featureKey': FeatureKey.uploadItemSilver,  // Pass necessary data
-                    'isFromMyCloset': true,
-                    'previousRoute': AppRoutes.myCloset,
-                    'nextRoute': AppRoutes.uploadItemPhoto
-                  },
-                );
+                _navigateSafely(AppRoutes.payment, arguments: {
+                  'featureKey': FeatureKey.uploadItemSilver,
+                  'isFromMyCloset': true,
+                  'previousRoute': AppRoutes.myCloset,
+                  'nextRoute': AppRoutes.uploadItemPhoto,
+                });
               } else if (state is GoldUploadItemDeniedState) {
-                widget._logger.i('Gold upload item access denied, navigating to payment screen');
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.payment,
-                  arguments: {
-                    'featureKey': FeatureKey.uploadItemGold,  // Pass necessary data
-                    'isFromMyCloset': true,
-                    'previousRoute': AppRoutes.myCloset,
-                    'nextRoute': AppRoutes.uploadItemPhoto
-                  },
-                );
+                _navigateSafely(AppRoutes.payment, arguments: {
+                  'featureKey': FeatureKey.uploadItemGold,
+                  'isFromMyCloset': true,
+                  'previousRoute': AppRoutes.myCloset,
+                  'nextRoute': AppRoutes.uploadItemPhoto,
+                });
               } else if (state is ItemAccessGrantedState) {
-                widget._logger.w('User has no upload access');
-                _uploadAccessGranted = true;  // Set upload access flag
+                _uploadAccessGranted = true;
                 widget._logger.d('Upload access flag set: $_uploadAccessGranted');
-
-                // Now that access is granted, trigger camera permission check
                 if (!_cameraInitialized) {
-                  _checkCameraPermission();  // Trigger camera permission only after access granted
+                  _checkCameraPermission();
                 }
               } else if (state is ItemAccessErrorState) {
                 widget._logger.e('Error checking upload access');
-                // Handle error state
               }
             },
           ),
@@ -204,7 +200,7 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
                 context.read<PhotoBloc>().add(CapturePhoto());
               } else if (state is PhotoCaptureFailure) {
                 widget._logger.e('Photo capture failed');
-                _navigateToMyCloset(context);
+                _navigateToMyCloset();
               } else if (state is PhotoCaptureSuccess) {
                 widget._logger.i('Photo upload succeeded with URL: ${state.imageUrl}');
                 _navigateToUploadItem(context, state.imageUrl);

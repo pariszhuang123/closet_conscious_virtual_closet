@@ -1,3 +1,4 @@
+import 'package:closet_conscious/core/theme/my_closet_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../generated/l10n.dart';
@@ -8,7 +9,7 @@ class SettingsDialog {
   static void show({
     required BuildContext context,
     required Permission permission,
-    required ThemeData theme,
+    ThemeData? theme, // Make theme nullable
     required String explanation, // Pass the explanation specific to the permission
     VoidCallback? onClose, // Optional: route to redirect after settings update
   }) {
@@ -23,7 +24,7 @@ class SettingsDialog {
           Align(
             alignment: Alignment.center,
             child: ThemedElevatedButton( // Use ThemedElevatedButton here
-              ongitPressed: () {
+              onPressed: () {
                 openAppSettings();
               },
               text: S.of(context).open_settings, // Button text
@@ -31,9 +32,9 @@ class SettingsDialog {
           ),
         ],
       ),
-      theme: theme,
+      theme: myClosetTheme,
       iconButton: IconButton(
-        icon: Icon(Icons.close, color: theme.colorScheme.onSurface),
+        icon: Icon(Icons.close, color: myClosetTheme.colorScheme.onSurface),
         onPressed: () {
           Navigator.of(context).pop(); // Close the dialog
           if (onClose != null) {

@@ -42,7 +42,7 @@ class S {
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
     assert(instance != null,
-        'No instance of S present in the widgets tree. Did you add S.delegate in localizationsDelegates?');
+        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
     return instance!;
   }
 
@@ -2250,10 +2250,10 @@ class S {
     );
   }
 
-  /// `This permission is required for the app to function properly.`
+  /// `This permission is\nrequired for the app\nto function properly.`
   String get permission_needed {
     return Intl.message(
-      'This permission is required for the app to function properly.',
+      'This permission is\nrequired for the app\nto function properly.',
       name: 'permission_needed',
       desc: '',
       args: [],
