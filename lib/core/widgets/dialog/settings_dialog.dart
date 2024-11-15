@@ -23,7 +23,7 @@ class SettingsDialog {
           Align(
             alignment: Alignment.center,
             child: ThemedElevatedButton( // Use ThemedElevatedButton here
-              onPressed: () {
+              ongitPressed: () {
                 openAppSettings();
               },
               text: S.of(context).open_settings, // Button text

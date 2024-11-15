@@ -71,3 +71,6 @@ macos/Flutter/flutter_export_environment*.sh
 
 # Ignore the unused lib/main.dart if using main_prod.dart and main_dev.dart
 lib/main.dart
+
+# CocoaPods podspec file
+ios/Flutter/Flutter 2.podspec
