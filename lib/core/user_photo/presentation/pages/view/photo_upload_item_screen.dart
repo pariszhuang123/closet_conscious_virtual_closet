@@ -58,7 +58,7 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
 
   void _checkCameraPermissionIOS() {
     widget._logger.d('Dispatching CheckCameraPermission event for iOS');
-    _photoBloc.add(CheckCameraPermission(
+    _photoBloc.add(RequestCameraPermission(
       cameraContext: widget.cameraContext,
       context: context,
       onClose: _navigateToMyCloset,
