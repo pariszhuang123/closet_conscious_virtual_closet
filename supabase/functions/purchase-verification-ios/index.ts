@@ -82,10 +82,24 @@ serve(async (req) => {
       const data = await response.json();
       console.log('Apple receipt verification response:', data);
 
-      // Check the purchase status in Apple’s response
       if (data.status === 0) { // Status 0 indicates a valid receipt
-        const transactionId = data.receipt.transaction_id;
-        const purchaseDate = data.receipt.purchase_date_ms;
+        const inAppPurchases = data.receipt.in_app;
+
+        // Filter and sort the purchases for the given productId
+        const recentPurchase = inAppPurchases
+          .filter((purchase: any) => purchase.product_id === productId)
+          .sort((a: any, b: any) => parseInt(b.purchase_date_ms) - parseInt(a.purchase_date_ms))[0];
+
+        if (!recentPurchase) {
+          console.error(`No purchases found for product ID: ${productId}`);
+          return new Response(
+            JSON.stringify({ error: 'No purchases found for the specified product ID' }),
+            { status: 404 },
+          );
+        }
+
+        const transactionId = recentPurchase.transaction_id;
+        const purchaseDate = parseInt(recentPurchase.purchase_date_ms);
         const countryCode = 'cc_none'; // Default or retrieve if applicable
 
         // Persist the purchase in Supabase using an RPC function
