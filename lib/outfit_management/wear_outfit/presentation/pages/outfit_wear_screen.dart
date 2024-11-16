@@ -109,7 +109,8 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
     // Dismiss the keyboard
     FocusScope.of(context).unfocus();
     },
-    child: SafeArea(
+      behavior: HitTestBehavior.translucent,
+      child: SafeArea(
           child: Scaffold(
             body: Theme(
               data: myOutfitTheme,
