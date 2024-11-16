@@ -8,6 +8,7 @@ class CameraPermissionGranted extends PhotoState {}
 
 class CameraPermissionDenied extends PhotoState {}
 
+class CameraPermissionPermanentlyDenied extends PhotoState {}
 
 class PhotoCaptureInProgress extends PhotoState {}
 

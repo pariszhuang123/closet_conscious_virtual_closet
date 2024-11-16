@@ -63,7 +63,7 @@ class PhotoEditItemScreenState extends State<PhotoEditItemScreen> with WidgetsBi
 
   void _checkCameraPermissionIOS() {
     widget._logger.d('Dispatching CheckCameraPermission event for iOS');
-    _photoBloc.add(RequestCameraPermission(
+    _photoBloc.add(CheckOrRequestCameraPermission(
       cameraContext: widget.cameraContext,
       context: context,
       onClose: _navigateToEditItem,
@@ -72,7 +72,7 @@ class PhotoEditItemScreenState extends State<PhotoEditItemScreen> with WidgetsBi
 
   void _checkCameraPermission() {
     widget._logger.d('Dispatching CheckCameraPermission event');
-    _photoBloc.add(CheckCameraPermission(
+    _photoBloc.add(CheckOrRequestCameraPermission(
       cameraContext: widget.cameraContext,
       context: context,
       theme: Theme.of(context),
