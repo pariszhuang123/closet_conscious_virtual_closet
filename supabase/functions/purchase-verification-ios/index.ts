@@ -13,12 +13,6 @@ if (!SUPABASE_JWT_SECRET) {
   throw new Error('Supabase JWT secret is not set in environment variables');
 }
 
-// Shared secret for Apple iOS in-app purchase validation
-const APPLE_SHARED_SECRET = Deno.env.get('APPLE_SHARED_SECRET')!;
-if (!APPLE_SHARED_SECRET) {
-  throw new Error('Apple shared secret is not set in environment variables');
-}
-
 serve(async (req) => {
   try {
     console.log('Received iOS purchase verification request');
@@ -75,7 +69,6 @@ serve(async (req) => {
     // Prepare the request payload with receipt data and shared secret
     const body = JSON.stringify({
       'receipt-data': receiptData,
-      'password': APPLE_SHARED_SECRET, // Insert the shared secret here
     });
 
     // Send receipt to Apple for verification
