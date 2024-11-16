@@ -202,6 +202,7 @@ class PaymentScreenState extends State<PaymentScreen> {
                               : () {
                             _logger.i('Processing payment for featureKey: ${featureData.featureKey.key}');
                             final isIOS = Platform.isIOS; // Updated platform check
+                            _logger.i('Platform check - isIOS: $isIOS');
                             BlocProvider.of<PaymentBloc>(context).add(
                               ProcessPayment(featureData.featureKey, isIOS: isIOS),
                             );

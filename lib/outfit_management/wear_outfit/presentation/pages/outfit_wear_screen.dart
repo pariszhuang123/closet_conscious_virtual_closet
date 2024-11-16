@@ -18,7 +18,7 @@ import '../widgets/outfit_creation_success_dialog.dart';
 import '../../../../core/theme/my_outfit_theme.dart';
 import '../../../../core/widgets/button/themed_elevated_button.dart';
 import '../../../../core/core_enums.dart';
-import '../../../../core/widgets/form/custom_text_form.dart';
+import '../widgets/event_name_input.dart';
 
 
 class OutfitWearScreen extends StatefulWidget {
@@ -104,7 +104,12 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
             );
           }
         },
-        child: SafeArea(
+    child: GestureDetector(
+    onTap: () {
+    // Dismiss the keyboard
+    FocusScope.of(context).unfocus();
+    },
+    child: SafeArea(
           child: Scaffold(
             body: Theme(
               data: myOutfitTheme,
@@ -139,13 +144,8 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
                     // Add text field for event name
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: CustomTextFormField(
+                      child: EventNameInput(
                         controller: _eventNameController,
-                        labelText: S.of(context).enterEventName,
-                        hintText: S.of(context).hintEventName,
-                        labelStyle: Theme.of(context).textTheme.bodyMedium,
-                        focusedBorderColor: myOutfitTheme.colorScheme.primary,
-                        enabledBorderColor: myOutfitTheme.colorScheme.secondary, // Optional
                         onChanged: (value) {
                           logger.d('User entered event name: $value');
                         },
@@ -229,6 +229,7 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
           ),
         ),
       ),
+      )
     );
   }
 }

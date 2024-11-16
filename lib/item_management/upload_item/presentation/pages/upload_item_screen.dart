@@ -233,14 +233,20 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
       },
       builder: (context, state) {
         _logger.i('Rendering UI based on state: $state');
-        return PopScope<Object?>(
-          canPop: false,
-          onPopInvokedWithResult: (bool didPop, Object? result) {
-            if (didPop) {
-              _logger.i('Preventing back navigation');
-            }
-          },
-          child: Theme(
+
+        return GestureDetector(
+            onTap: () {
+          // Dismiss the keyboard when tapping outside any interactive element
+          FocusScope.of(context).unfocus();
+        },
+        child: PopScope<Object?>(
+        canPop: false,
+        onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (didPop) {
+        _logger.i('Preventing back navigation');
+        }
+        },
+        child: Theme(
             data: widget.myClosetTheme,
             child: Scaffold(
               backgroundColor: widget.myClosetTheme.colorScheme.surface,
@@ -335,6 +341,7 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
               ),
             ),
           ),
+        )
         );
       },
     );

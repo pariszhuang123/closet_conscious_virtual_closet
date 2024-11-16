@@ -53,6 +53,10 @@ class _EditItemScreenState extends State<EditItemScreen> {
     super.dispose();
   }
 
+  // Dismiss the keyboard when tapping outside the input fields
+  void _dismissKeyboard() {
+    FocusScope.of(context).unfocus();
+  }
   // Route the user to PhotoProvider for image editing
   void _navigateToPhotoProvider() {
     _logger.d('Navigating to PhotoProvider for itemId: ${widget.itemId}');
@@ -272,8 +276,11 @@ class _EditItemScreenState extends State<EditItemScreen> {
         try {
           ClosetItemDetailed currentItem = getCurrentItem(state);
 
-          return Scaffold(
-            appBar: AppBar(
+          return GestureDetector(
+              onTap: _dismissKeyboard, // Dismiss keyboard globally
+
+              child: Scaffold(
+              appBar: AppBar(
               title: Text(S.of(context).editPageTitle),
             ),
             body: Column(
@@ -455,6 +462,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                 ),
               ],
             ),
+                  )
           );
         } catch (e) {
           _logger.e('Error retrieving item details: $e');

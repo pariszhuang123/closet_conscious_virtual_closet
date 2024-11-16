@@ -73,6 +73,14 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     try {
       final isIOS = event.isIOS;
       _isIOSPurchase = isIOS;
+      _logger.i('ProcessPayment event received - isIOSPurchase: $_isIOSPurchase');
+
+      // Add breadcrumb for process payment
+      Sentry.addBreadcrumb(Breadcrumb(
+        message: 'Processing payment',
+        data: {'isIOS': isIOS, 'featureKey': event.featureKey.key},
+        level: SentryLevel.info,
+      ));
 
       final product = _products.firstWhere(
             (product) => product.id == event.featureKey.key,
@@ -94,12 +102,20 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   void _onPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
     for (final purchaseDetails in purchaseDetailsList) {
       _logger.i('Purchase update: ${purchaseDetails.status}');
+
+      Sentry.addBreadcrumb(Breadcrumb(
+        message: 'Purchase update received',
+        data: {'status': purchaseDetails.status.name, 'isIOSPurchase': _isIOSPurchase},
+        level: SentryLevel.info,
+      ));
+
       if (purchaseDetails.status == PurchaseStatus.pending) {
         add(PaymentPending());
       } else if (purchaseDetails.status == PurchaseStatus.error) {
         add(PurchaseFailure(purchaseDetails.error?.message ?? 'Unknown error occurred during purchase.'));
       } else if (purchaseDetails.status == PurchaseStatus.purchased) {
         _verifyAndDeliverPurchase(purchaseDetails, isIOS: _isIOSPurchase);
+        _logger.i('Purchase update received - isIOSPurchase: $_isIOSPurchase');
       }
 
       if (purchaseDetails.pendingCompletePurchase) {
@@ -136,6 +152,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     final verificationResult = isIOS
         ? await _coreSaveService.verifyIOSPurchaseWithSupabaseEdgeFunction(purchaseToken, productId)
         : await _coreSaveService.verifyAndroidPurchaseWithSupabaseEdgeFunction(purchaseToken, productId);
+    _logger.i('Verifying purchase - isIOS: $isIOS');
 
     if (verificationResult != null && verificationResult['status'] == 'success') {
       _logger.i('Purchase verified and persisted successfully for product: $productId');

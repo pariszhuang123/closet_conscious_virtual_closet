@@ -55,7 +55,12 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
           // Do nothing, effectively preventing the back action
         }
       },
-      child: SafeArea(
+    child: GestureDetector(
+    onTap: () {
+    // Dismiss the keyboard
+    FocusScope.of(context).unfocus();
+    },
+    child: SafeArea(
         child: Scaffold(
           body: Theme(
             data: widget.myOutfitTheme,
@@ -296,6 +301,7 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
           ),
         ),
       ),
+    )
     );
   }
 }
