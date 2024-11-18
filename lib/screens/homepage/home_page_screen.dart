@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../user_management/user_update/presentation/bloc/version_bloc.dart';
 import '../../user_management/authentication/presentation/pages/login_screen.dart';
@@ -24,9 +26,12 @@ class HomePageScreenState extends State<HomePageScreen> {
   void initState() {
     super.initState();
     logger.i('HomePageScreen initState');
-    context.read<VersionBloc>().add(
-        CheckVersionEvent()); // Ensure this is within the correct context
-
+    try {
+      context.read<VersionBloc>().add(CheckVersionEvent());
+    } catch (e, stackTrace) {
+      logger.e('Error in VersionBloc CheckVersionEvent: $e');
+      Sentry.captureException(e, stackTrace: stackTrace);
+    }
   }
 
   @override
@@ -48,7 +53,7 @@ class HomePageScreenState extends State<HomePageScreen> {
             );
           } else if (versionState is VersionError) {
             logger.e('Error during version check: ${versionState.error}');
-            // Optionally show a snackbar or dialog for the error
+            Sentry.captureMessage('Version error: ${versionState.error}');
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(versionState.error)),
             );

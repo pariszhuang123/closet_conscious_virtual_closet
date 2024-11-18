@@ -1,4 +1,3 @@
-import 'dart:io'; // Import for platform checks
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/photo_bloc.dart';
@@ -36,14 +35,6 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
     _triggerUploadItemCreation();
     WidgetsBinding.instance.addObserver(this);
     widget._logger.d('Initializing PhotoUploadItemView');
-
-    if (Platform.isIOS) {
-      widget._logger.d('iOS: Checking camera permission upfront');
-      _checkCameraPermissionIOS(); // Call iOS-specific permission check
-    } else if (Platform.isAndroid) {
-      widget._logger.d('Android: Deferring camera permission check');
-      // Delay permission check until access is triggered
-    }
   }
 
   @override
@@ -54,15 +45,6 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
       widget._logger.d('Dependencies changed: checking camera permission');
       _checkCameraPermission(); // Safe to call here
     }
-  }
-
-  void _checkCameraPermissionIOS() {
-    widget._logger.d('Dispatching CheckCameraPermission event for iOS');
-    _photoBloc.add(CheckOrRequestCameraPermission(
-      cameraContext: widget.cameraContext,
-      context: context,
-      onClose: _navigateToMyCloset,
-    ));
   }
 
   void _checkCameraPermission() {
