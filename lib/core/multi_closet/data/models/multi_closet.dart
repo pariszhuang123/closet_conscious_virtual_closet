@@ -19,6 +19,16 @@ class MultiCloset extends Equatable {
     );
   }
 
+  MultiCloset copyWith({
+    String? closetName,
+  }) {
+    return MultiCloset(
+      closetId: closetId,
+      closetName: closetName ?? this.closetName,
+      closetImage: closetImage,
+    );
+  }
+
   @override
   List<Object?> get props => [closetId, closetName, closetImage];
 }

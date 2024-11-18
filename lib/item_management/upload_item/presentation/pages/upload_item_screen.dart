@@ -239,7 +239,8 @@ class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBinding
           // Dismiss the keyboard when tapping outside any interactive element
           FocusScope.of(context).unfocus();
         },
-        child: PopScope<Object?>(
+           behavior: HitTestBehavior.translucent,
+            child: PopScope<Object?>(
         canPop: false,
         onPopInvokedWithResult: (bool didPop, Object? result) {
         if (didPop) {

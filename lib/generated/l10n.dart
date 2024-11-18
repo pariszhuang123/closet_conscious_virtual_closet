@@ -740,6 +740,16 @@ class S {
     );
   }
 
+  /// `Public`
+  String get public_closet {
+    return Intl.message(
+      'Public',
+      name: 'public_closet',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Item Uploaded`
   String get itemUploaded_itemUploaded {
     return Intl.message(
@@ -785,6 +795,16 @@ class S {
     return Intl.message(
       'Closet',
       name: 'closetLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Main Closet`
+  String get defaultClosetName {
+    return Intl.message(
+      'Main Closet',
+      name: 'defaultClosetName',
       desc: '',
       args: [],
     );
@@ -1740,6 +1760,26 @@ class S {
     );
   }
 
+  /// `Share Your Closet\nwith the Community`
+  String get publicClosetFeatureTitle {
+    return Intl.message(
+      'Share Your Closet\nwith the Community',
+      name: 'publicClosetFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What if you could share items from your closet with neighbors and even host local sale events? Interested?`
+  String get publicClosetFeatureDescription {
+    return Intl.message(
+      'What if you could share items from your closet with neighbors and even host local sale events? Interested?',
+      name: 'publicClosetFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `More Item Details?`
   String get metadataFeatureTitle {
     return Intl.message(
@@ -2545,6 +2585,26 @@ class S {
     return Intl.message(
       '1,575 days of embracing what you have. You\'re rewriting the rules of fashion!',
       name: 'noNewClothes1575AchievementMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Beacon of Sustainability!`
+  String get noNewClothes1980Achievement {
+    return Intl.message(
+      'Beacon of Sustainability!',
+      name: 'noNewClothes1980Achievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,980 days of dedication to mindful choices! You're a shining example of sustainable living and an inspiration to us all. ✨🌏`
+  String get noNewClothes1980AchievementMessage {
+    return Intl.message(
+      '1,980 days of dedication to mindful choices! You\'re a shining example of sustainable living and an inspiration to us all. ✨🌏',
+      name: 'noNewClothes1980AchievementMessage',
       desc: '',
       args: [],
     );

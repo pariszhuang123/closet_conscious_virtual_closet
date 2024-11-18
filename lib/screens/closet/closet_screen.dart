@@ -16,6 +16,7 @@ import '../../item_management/view_items/presentation/widgets/my_closet_containe
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/multi_closet_premium_bottom_sheet.dart';
+import '../../core/widgets/bottom_sheet/premium_bottom_sheet/public_closet_premium_bottom_sheet.dart';
 import '../../item_management/upload_item/presentation/widgets/upload_confirmation_bottom_sheet.dart';
 import '../app_drawer.dart';
 import '../../core/screens/achievement_completed_screen.dart';
@@ -115,6 +116,13 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     );
   }
 
+  void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
+    Navigator.of(context).pushNamed(
+      AppRoutes.customize,
+      arguments: {'isFromMyCloset': isFromMyCloset}, // Pass isFromMyCloset as an argument
+    );
+  }
+
   void _onMultiClosetButtonPressed() {
     showModalBottomSheet(
       context: context,
@@ -124,10 +132,12 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     );
   }
 
-  void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
-    Navigator.of(context).pushNamed(
-      AppRoutes.customize,
-      arguments: {'isFromMyCloset': isFromMyCloset}, // Pass isFromMyCloset as an argument
+  void _onPublicClosetButtonPressed() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const PublicClosetFeatureBottomSheet(isFromMyCloset: true);
+      },
     );
   }
 
@@ -145,8 +155,9 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     final itemUploadData = TypeDataList.itemUploaded(context);
     final uploadData = TypeDataList.upload(context);
     final filterData = TypeDataList.filter(context);
-    final addClosetData = TypeDataList.addCloset(context);
     final arrangeData = TypeDataList.arrange(context);
+    final addClosetData = TypeDataList.addCloset(context);
+    final publicClosetData = TypeDataList.publicCloset(context);
     final currentStreakData = TypeDataList.currentStreak(context);
     final highestStreakData = TypeDataList.highestStreak(context);
     final costOfNewItemsData = TypeDataList.costOfNewItems(context);
@@ -317,8 +328,9 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                                 apparelCount: isUploadCompleted ? apparelCount : apparelCount,
                                 uploadData: uploadData,
                                 filterData: filterData,
-                                addClosetData: addClosetData,
                                 arrangeData: arrangeData,
+                                addClosetData: addClosetData,
+                                publicClosetData: publicClosetData,
                                 itemUploadData: itemUploadData,
                                 currentStreakData: isUploadCompleted ? currentStreakData : null,
                                 highestStreakData: isUploadCompleted ? highestStreakData : null,
@@ -331,8 +343,9 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                                 isUploadCompleted: isUploadCompleted,
                                 onUploadButtonPressed: _onUploadButtonPressed,
                                 onFilterButtonPressed: () =>_onFilterButtonPressed(context, true),
-                                onMultiClosetButtonPressed: _onMultiClosetButtonPressed,
                                 onArrangeButtonPressed: () => _onArrangeButtonPressed(context, true),
+                                onMultiClosetButtonPressed: _onMultiClosetButtonPressed,
+                                onPublicClosetButtonPressed: _onPublicClosetButtonPressed,
                               ),
                               Expanded(
                                 child: ItemGrid(

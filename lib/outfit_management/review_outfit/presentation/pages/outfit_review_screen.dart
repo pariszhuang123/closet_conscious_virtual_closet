@@ -60,7 +60,8 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
     // Dismiss the keyboard
     FocusScope.of(context).unfocus();
     },
-    child: SafeArea(
+      behavior: HitTestBehavior.translucent,
+      child: SafeArea(
         child: Scaffold(
           body: Theme(
             data: widget.myOutfitTheme,

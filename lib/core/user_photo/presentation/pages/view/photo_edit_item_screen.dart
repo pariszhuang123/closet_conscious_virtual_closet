@@ -1,4 +1,3 @@
-import 'dart:io'; // Import for platform checks
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/photo_bloc.dart';
@@ -41,14 +40,6 @@ class PhotoEditItemScreenState extends State<PhotoEditItemScreen> with WidgetsBi
     _triggerEditItemCreation();
     WidgetsBinding.instance.addObserver(this); // Add lifecycle observer
     widget._logger.d('Initializing PhotoEditItemScreen');
-
-    // Platform-specific permission check
-    if (Platform.isIOS) {
-      widget._logger.d('iOS: Checking camera permission at startup');
-      _checkCameraPermissionIOS();
-    } else if (Platform.isAndroid) {
-      widget._logger.d('Android: Delaying camera permission check');
-    }
   }
 
   @override
@@ -59,15 +50,6 @@ class PhotoEditItemScreenState extends State<PhotoEditItemScreen> with WidgetsBi
       widget._logger.d('Dependencies changed: checking camera permission');
       _checkCameraPermission(); // Safe to call here
     }
-  }
-
-  void _checkCameraPermissionIOS() {
-    widget._logger.d('Dispatching CheckCameraPermission event for iOS');
-    _photoBloc.add(CheckOrRequestCameraPermission(
-      cameraContext: widget.cameraContext,
-      context: context,
-      onClose: _navigateToEditItem,
-    ));
   }
 
   void _checkCameraPermission() {

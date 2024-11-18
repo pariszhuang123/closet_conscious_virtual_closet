@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../screens/closet/closet_provider.dart';
 import '../../screens/homepage/home_page_provider.dart';
@@ -43,9 +44,20 @@ class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings, ThemeData myClosetTheme, ThemeData myOutfitTheme) {
     // Log the route being navigated to and the arguments passed
     logger.i("Navigating to: ${settings.name} with arguments: ${settings.arguments}");
+    Sentry.addBreadcrumb(Breadcrumb(
+      message: "Navigating to ${settings.name}",
+      category: "navigation",
+      data: {"arguments": settings.arguments},
+      level: SentryLevel.info,
+    ));
 
     switch (settings.name) {
       case login:
+        Sentry.addBreadcrumb(Breadcrumb(
+          message: "Opening login screen",
+          category: "auth",
+          level: SentryLevel.info,
+        ));
         return MaterialPageRoute(builder: (_) => LoginScreen(myClosetTheme: myClosetTheme));
       case home:
         return MaterialPageRoute(builder: (_) => HomePageProvider(myClosetTheme: myClosetTheme));

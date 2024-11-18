@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
 import '../../core/widgets/button/navigation_type_button.dart';
 import '../core/core_enums.dart';
 import '../../core/data/type_data.dart';
@@ -19,16 +21,13 @@ class AppDrawer extends StatelessWidget {
   final bool isFromMyCloset;
   final UserSaveService userSaveService = UserSaveService();
 
-
   AppDrawer({super.key, required this.isFromMyCloset});
 
   final CustomLogger logger = CustomLogger('AppDrawer');
 
   @override
   Widget build(BuildContext context) {
-    logger.d('Building AppDrawer for ${isFromMyCloset
-        ? 'My Closet'
-        : 'Other Screen'}');
+    logger.d('Building AppDrawer for ${isFromMyCloset ? 'My Closet' : 'Other Screen'}');
 
     final achievementsItem = TypeDataList.drawerAchievements(context);
     final insightsItem = TypeDataList.drawerInsights(context);
@@ -44,27 +43,14 @@ class AppDrawer extends StatelessWidget {
             height: appBarHeight * 1.53, // Set the desired height here
             child: DrawerHeader(
               decoration: BoxDecoration(
-                color: Theme
-                    .of(context)
-                    .drawerTheme
-                    .backgroundColor,
+                color: Theme.of(context).drawerTheme.backgroundColor,
               ),
               margin: EdgeInsets.zero,
-              // Ensure the height is strictly as defined
               child: Center(
                 child: Text(
-                  S
-                      .of(context)
-                      .shortTagline,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(
-                    color: Theme
-                        .of(context)
-                        .colorScheme
-                        .onSecondary,
+                  S.of(context).shortTagline,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSecondary,
                   ),
                 ),
               ),
@@ -72,34 +58,21 @@ class AppDrawer extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              color: Theme
-                  .of(context).colorScheme.surface, // Set the body color to white
+              color: Theme.of(context).colorScheme.surface,
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: <Widget>[
-                  _buildNavigationButton(
-                      context, achievementsItem, null,
-                      _navigateToAchievementsPage),
+                  _buildNavigationButton(context, achievementsItem, null, _navigateToAchievementsPage),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(
-                      context, insightsItem, null, (ctx) =>
-                      _showUsageInsightsBottomSheet(ctx, isFromMyCloset)),
+                  _buildNavigationButton(context, insightsItem, null, (ctx) => _showUsageInsightsBottomSheet(ctx, isFromMyCloset)),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(
-                      context, infoHubItem, null, _navigateToInfoHub),
+                  _buildNavigationButton(context, infoHubItem, null, _navigateToInfoHub),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(
-                      context, contactUsItem, null, (ctx) =>
-                      launchEmail(context, EmailType.support)),
+                  _buildNavigationButton(context, contactUsItem, null, (ctx) => launchEmail(context, EmailType.support)),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(
-                      context, deleteAccountItem, null,
-                      _showDeleteAccountDialog),
-                  // Delete account button
+                  _buildNavigationButton(context, deleteAccountItem, null, _showDeleteAccountDialog),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(
-                      context, logOutItem, null, _logOut),
-                  // Normal log out button
+                  _buildNavigationButton(context, logOutItem, null, _logOut),
                 ],
               ),
             ),
@@ -109,8 +82,7 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildNavigationButton(BuildContext context, TypeData item,
-      String? route, void Function(BuildContext)? customAction) {
+  Widget _buildNavigationButton(BuildContext context, TypeData item, String? route, void Function(BuildContext)? customAction) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
@@ -123,10 +95,13 @@ class AppDrawer extends StatelessWidget {
           usePredefinedColor: false,
           onPressed: () async {
             logger.d('Navigation button pressed: ${item.getName(context)}');
+            Sentry.addBreadcrumb(Breadcrumb(
+              message: 'Button pressed',
+              data: {'button': item.getName(context)},
+            ));
             final navigator = Navigator.of(context);
             navigator.pop(); // Close the drawer
-            Future.delayed(
-                const Duration(milliseconds: 300)); // Allow drawer to close
+            Future.delayed(const Duration(milliseconds: 300)); // Allow drawer to close
             if (route != null) {
               logger.d('Navigating to route: $route');
               navigator.pushNamed(route);
@@ -136,7 +111,6 @@ class AppDrawer extends StatelessWidget {
             }
           },
           assetPath: item.assetPath,
-          // Ensure non-nullable
           isSelected: false,
           isHorizontal: true,
         ),
@@ -149,9 +123,7 @@ class AppDrawer extends StatelessWidget {
   }
 
   void _navigateToAchievementsPage(BuildContext context) {
-    final authState = context
-        .read<AuthBloc>()
-        .state;
+    final authState = context.read<AuthBloc>().state;
     if (authState is Authenticated) {
       final String userId = authState.user.id;
       logger.d('Navigating to achievements pages with userId: $userId');
@@ -165,35 +137,22 @@ class AppDrawer extends StatelessWidget {
       );
     } else {
       logger.e('No user ID found. User might not be authenticated.');
-      // Handle the case where user ID is not available
     }
   }
 
   void _navigateToInfoHub(BuildContext context) {
-    final String infoHubUrl = S
-        .of(context)
-        .infoHubUrl;
-    final String infoHubTitle = S
-        .of(context)
-        .infoHub;
+    final String infoHubUrl = S.of(context).infoHubUrl;
+    final String infoHubTitle = S.of(context).infoHub;
     logger.d('Navigating to Info Hub: $infoHubUrl');
-
     Navigator.pushNamed(
       context,
       AppRoutes.infoHub,
-      arguments: InfoHubArguments(
-        infoHubUrl,
-        isFromMyCloset,
-        infoHubTitle,
-      ),
+      arguments: InfoHubArguments(infoHubUrl, isFromMyCloset, infoHubTitle),
     );
   }
 
-  void _showUsageInsightsBottomSheet(BuildContext context,
-      bool isFromMyCloset) {
-    logger.d('Showing Usage Insights BottomSheet for ${isFromMyCloset
-        ? 'My Closet'
-        : 'Other Screen'}');
+  void _showUsageInsightsBottomSheet(BuildContext context, bool isFromMyCloset) {
+    logger.d('Showing Usage Insights BottomSheet for ${isFromMyCloset ? 'My Closet' : 'Other Screen'}');
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -204,64 +163,66 @@ class AppDrawer extends StatelessWidget {
 
   void _showDeleteAccountDialog(BuildContext context) {
     logger.w('Showing delete account dialog');
+    Sentry.addBreadcrumb(Breadcrumb(
+      message: 'Delete account dialog shown',
+    ));
 
-    final authBloc = context.read<
-        AuthBloc>(); // Access authBloc before async operations
-    final navigator = Navigator.of(context);
+    final authBloc = context.read<AuthBloc>();
+    final navigator = Navigator.of(context); // Capture the navigator early
 
     showDialog(
       context: context,
-      barrierDismissible: false, // Prevent closing by tapping outside
-      builder: (BuildContext dialogContext) { // Separate context for the dialog
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
         return DeleteAccountDialog(
           onDelete: () {
-            logger.i('Attempting to delete user account');
+            logger.i('Logging out and notifying backend for account deletion');
 
-            // Ensure the deletion process is awaited before logging out
-            userSaveService.notifyDeleteUserAccount().then((response) {
-              if (response['status'] == 'success') {
-                logger.i('Account deletion process succeeded');
+            // Step 1: Notify Supabase about account deletion
+            _notifyBackendForAccountDeletion();
 
-                // Log out the user after successful account deletion
-                authBloc.add(SignOutEvent());
-
-                // Navigate to login and clear the navigation stack after a short delay
-                Future.delayed(const Duration(milliseconds: 100), () {
-                  navigator.pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
-                });
-
-              } else {
-                logger.e('Failed to delete account: ${response['status']}');
-              }
-            }).catchError((e) {
-              logger.e('Error deleting account: $e');
-            });
-
-            // Close the dialog only after triggering the account deletion and logout
-            Navigator.pop(dialogContext);
+            // Step 2: Log out immediately
+            authBloc.add(SignOutEvent());
+            Navigator.of(dialogContext).pop(); // Close the dialog
+            navigator.pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
           },
           onClose: () {
-            Navigator.pop(dialogContext); // Close using dialogContext
+            Navigator.of(dialogContext).pop(); // Close using dialogContext
           },
         );
       },
     );
   }
 
+  void _notifyBackendForAccountDeletion() {
+    logger.i('Notifying Supabase for account deletion');
 
-  void _logOut(BuildContext context) {
-    logger.i('Logging out');
-    final navigator = Navigator.of(context);
-    final authBloc = context.read<AuthBloc>(); // Capture the AuthBloc before the async operation
-
-    navigator.pop(); // Close the drawer
-
-    authBloc.add(SignOutEvent());
-
-    // Navigate to login and clear the navigation stack
-    Future.delayed(const Duration(milliseconds: 100), () {
-      navigator.pushNamedAndRemoveUntil(
-          AppRoutes.login, (route) => false);
+    // Fire-and-forget notification
+    userSaveService.notifyDeleteUserAccount().then((_) {
+      logger.i('Successfully notified Supabase for account deletion');
+    }).catchError((e, stackTrace) {
+      logger.e('Error notifying Supabase for account deletion: $e');
+      Sentry.captureException(e, stackTrace: stackTrace);
     });
+  }
+
+  void _logOut(BuildContext context) async {
+    logger.i('Logging out');
+    Sentry.addBreadcrumb(Breadcrumb(
+      message: 'User logout initiated',
+    ));
+    final navigator = Navigator.of(context);
+    final authBloc = context.read<AuthBloc>();
+
+    navigator.pop();
+
+    try {
+      authBloc.add(SignOutEvent());
+      await Future.delayed(const Duration(milliseconds: 100));
+      navigator.pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
+    } catch (e, stackTrace) {
+      logger.e('Error during logout: $e');
+      await Sentry.captureException(e, stackTrace: stackTrace);
+    }
   }
 }

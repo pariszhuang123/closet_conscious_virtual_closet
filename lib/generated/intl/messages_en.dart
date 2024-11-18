@@ -185,6 +185,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "You’ve reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion."),
         "defaultAchievementTitle":
             MessageLookupByLibrary.simpleMessage("Achievement Unlocked!"),
+        "defaultClosetName":
+            MessageLookupByLibrary.simpleMessage("Main Closet"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
         "deleteAccountConfirmation": MessageLookupByLibrary.simpleMessage(
@@ -362,6 +364,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Master of Minimalism!"),
         "noNewClothes1575AchievementMessage": MessageLookupByLibrary.simpleMessage(
             "1,575 days of embracing what you have. You\'re rewriting the rules of fashion!"),
+        "noNewClothes1980Achievement":
+            MessageLookupByLibrary.simpleMessage("Beacon of Sustainability!"),
+        "noNewClothes1980AchievementMessage": MessageLookupByLibrary.simpleMessage(
+            "1,980 days of dedication to mindful choices! You\'re a shining example of sustainable living and an inspiration to us all. ✨🌏"),
         "noNewClothes225Achievement":
             MessageLookupByLibrary.simpleMessage("Eco-Warrior in the Making!"),
         "noNewClothes225AchievementMessage": MessageLookupByLibrary.simpleMessage(
@@ -427,6 +433,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "privacyTermsUrl": MessageLookupByLibrary.simpleMessage(
             "https://www.notion.so/Privacy-Policy-9f21c7664efe4b03a8965252495dc1a6"),
         "profileSection": MessageLookupByLibrary.simpleMessage("Profile"),
+        "publicClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "What if you could share items from your closet with neighbors and even host local sale events? Interested?"),
+        "publicClosetFeatureTitle": MessageLookupByLibrary.simpleMessage(
+            "Share Your Closet\nwith the Community"),
+        "public_closet": MessageLookupByLibrary.simpleMessage("Public"),
         "purchase_button": MessageLookupByLibrary.simpleMessage("Unlock Now"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "We’re thinking about adding advanced filters to help you find your items more easily. Sound good?"),

@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/gestures.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
 import '../widgets/sign_in_button_google.dart';
 import '../widgets/sign_in_button_apple.dart';
 import '../../../../generated/l10n.dart';
@@ -22,6 +24,11 @@ class LoginScreenState extends State<LoginScreen> {
   bool _isTermsAccepted = false;
 
   void _showTermsSnackbar() {
+    Sentry.addBreadcrumb(Breadcrumb(
+      message: "Terms not accepted snackbar displayed",
+      category: "login",
+      level: SentryLevel.info,
+    ));
     CustomSnackbar(
       message: S.of(context).termsNotAcceptedMessage, // Localized message
       theme: Theme.of(context), // Use the inherited myClosetTheme

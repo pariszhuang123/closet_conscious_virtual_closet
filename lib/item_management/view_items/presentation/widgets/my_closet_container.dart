@@ -11,8 +11,9 @@ class MyClosetContainer extends StatelessWidget {
   final ThemeData theme;
   final dynamic uploadData;
   final dynamic filterData;
-  final dynamic addClosetData;
   final dynamic arrangeData;
+  final dynamic addClosetData;
+  final dynamic publicClosetData;
   final dynamic itemUploadData;
   final dynamic currentStreakData;
   final dynamic highestStreakData;
@@ -26,16 +27,18 @@ class MyClosetContainer extends StatelessWidget {
   final bool isUploadCompleted;
   final VoidCallback onUploadButtonPressed;
   final VoidCallback onFilterButtonPressed;
-  final VoidCallback onMultiClosetButtonPressed;
   final VoidCallback onArrangeButtonPressed;
+  final VoidCallback onMultiClosetButtonPressed;
+  final VoidCallback onPublicClosetButtonPressed;
 
   const MyClosetContainer({
     super.key,
     required this.theme,
     required this.uploadData,
     required this.filterData,
-    required this.addClosetData,
     required this.arrangeData,
+    required this.addClosetData,
+    required this.publicClosetData,
     required this.itemUploadData,
     required this.currentStreakData,
     required this.highestStreakData,
@@ -49,8 +52,9 @@ class MyClosetContainer extends StatelessWidget {
     required this.isUploadCompleted,
     required this.onUploadButtonPressed,
     required this.onFilterButtonPressed,
-    required this.onMultiClosetButtonPressed,
     required this.onArrangeButtonPressed,
+    required this.onMultiClosetButtonPressed,
+    required this.onPublicClosetButtonPressed,
   });
 
   @override
@@ -79,7 +83,7 @@ class MyClosetContainer extends StatelessWidget {
                     onPressed: onFilterButtonPressed,
                     assetPath: filterData.assetPath ?? '',
                     isFromMyCloset: true,
-                    buttonType: ButtonType.secondary,
+                    buttonType: ButtonType.primary,
                     usePredefinedColor: false,
                   ),
                   NavigationTypeButton(
@@ -88,7 +92,7 @@ class MyClosetContainer extends StatelessWidget {
                     onPressed: onArrangeButtonPressed,
                     assetPath: arrangeData.assetPath ?? '',
                     isFromMyCloset: true,
-                    buttonType: ButtonType.secondary,
+                    buttonType: ButtonType.primary,
                     usePredefinedColor: false,
                   ),
                   NavigationTypeButton(
@@ -100,29 +104,49 @@ class MyClosetContainer extends StatelessWidget {
                     buttonType: ButtonType.secondary,
                     usePredefinedColor: false,
                   ),
-                ],
-              ),
-              // Show apparel count only when upload is not completed
-              if (!isUploadCompleted)
-                CustomTooltip(
-                  message: itemUploadData.getName(context),
-                  child: NumberTypeButton(
-                    count: apparelCount,
-                    assetPath: itemUploadData.assetPath ?? '',
+                  NavigationTypeButton(
+                    label: publicClosetData.getName(context),
+                    selectedLabel: '',
+                    onPressed: onPublicClosetButtonPressed,
+                    assetPath: publicClosetData.assetPath ?? '',
                     isFromMyCloset: true,
-                    isHorizontal: false,
                     buttonType: ButtonType.secondary,
                     usePredefinedColor: false,
                   ),
-                ),
+                ],
+              ),
             ],
           ),
         ),
         const SizedBox(height: 10.0),
+
+        if (!isUploadCompleted)
+          BaseContainerNoFormat(
+            theme: theme,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomTooltip(
+                    message: itemUploadData.getName(context),
+                    child: NumberTypeButton(
+                      count: apparelCount,
+                      assetPath: itemUploadData.assetPath ?? '',
+                      isFromMyCloset: true,
+                      isHorizontal: true,
+                      buttonType: ButtonType.secondary,
+                      usePredefinedColor: false,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
         // Show streak data, new items cost, and new items count only when upload is completed
-        Visibility(
-          visible: isUploadCompleted,
-          child: BaseContainerNoFormat(
+        if (isUploadCompleted)
+          BaseContainerNoFormat(
             theme: theme,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -181,7 +205,6 @@ class MyClosetContainer extends StatelessWidget {
               ),
             ),
           ),
-        ),
       ],
     );
   }

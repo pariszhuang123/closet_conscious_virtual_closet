@@ -160,6 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("您已达成一个新里程碑！继续努力，迈向环保时尚的旅程。"),
         "defaultAchievementTitle":
             MessageLookupByLibrary.simpleMessage("成就解锁！"),
+        "defaultClosetName": MessageLookupByLibrary.simpleMessage("主衣柜"),
         "delete": MessageLookupByLibrary.simpleMessage("删除"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("删除账号"),
         "deleteAccountConfirmation": MessageLookupByLibrary.simpleMessage(
@@ -318,6 +319,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("极简主义大师！"),
         "noNewClothes1575AchievementMessage":
             MessageLookupByLibrary.simpleMessage("1,575天珍惜已有之物。您正在重新定义时尚规则！"),
+        "noNewClothes1980Achievement":
+            MessageLookupByLibrary.simpleMessage("可持续发展的灯塔！"),
+        "noNewClothes1980AchievementMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "1980天坚持明智的选择！你是可持续生活的光辉榜样，激励着我们所有人。✨🌏"),
         "noNewClothes225Achievement":
             MessageLookupByLibrary.simpleMessage("环保战士在行动！"),
         "noNewClothes225AchievementMessage":
@@ -380,6 +386,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "privacyTermsUrl": MessageLookupByLibrary.simpleMessage(
             "https://inky-twill-3ab.notion.site/5c881235e92240d9a008e0fe6bb80f0b"),
         "profileSection": MessageLookupByLibrary.simpleMessage("个人资料"),
+        "publicClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
+            "如果您可以与邻居分享衣橱中的物品，甚至举办本地促销活动，您会感兴趣吗？"),
+        "publicClosetFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("与社区共享您的衣橱"),
+        "public_closet": MessageLookupByLibrary.simpleMessage("公共衣橱"),
         "purchase_button": MessageLookupByLibrary.simpleMessage("立即购买"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
             "我们考虑添加高级筛选功能，以帮助您更快找到物品。这个功能好吗？"),

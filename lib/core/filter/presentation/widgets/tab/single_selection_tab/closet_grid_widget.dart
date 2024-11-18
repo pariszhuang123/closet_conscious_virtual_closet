@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../utilities/logger.dart';
 import '../../../widgets/closet_grid.dart';
 import '../../../../../multi_closet/data/models/multi_closet.dart';
+import '../../../../../../generated/l10n.dart';
 
 class ClosetGridWidget extends StatelessWidget {
   final List<MultiCloset> closets; // Use MultiCloset here
@@ -20,9 +21,18 @@ class ClosetGridWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     logger.i('Rendering ClosetGrid');
+
+    final localizedClosets = closets.map((closet) {
+      return closet.copyWith(
+        closetName: closet.closetName == 'cc_closet'
+            ? S.of(context).defaultClosetName // Localized name
+            : closet.closetName,
+      );
+    }).toList();
+
     return Expanded(
       child: ClosetGrid(
-        closets: closets,
+        closets: localizedClosets,
         scrollController: ScrollController(),
         myClosetTheme: Theme.of(context),
         logger: logger,

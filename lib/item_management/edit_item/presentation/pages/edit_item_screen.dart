@@ -278,7 +278,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
           return GestureDetector(
               onTap: _dismissKeyboard, // Dismiss keyboard globally
-
+              behavior: HitTestBehavior.translucent,
               child: Scaffold(
               appBar: AppBar(
               title: Text(S.of(context).editPageTitle),
