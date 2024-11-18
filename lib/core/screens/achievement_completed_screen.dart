@@ -66,6 +66,10 @@ class AchievementScreenState extends State<AchievementScreen> {
         achievementTitle = S.of(context).noNewClothes1575Achievement;
         achievementMessage = S.of(context).noNewClothes1575AchievementMessage;
         break;
+      case 'no_new_clothes_1980':
+        achievementTitle = S.of(context).noNewClothes1980Achievement;
+        achievementMessage = S.of(context).noNewClothes1980AchievementMessage;
+        break;
       case 'no_new_clothes_225':
         achievementTitle = S.of(context).noNewClothes225Achievement;
         achievementMessage = S.of(context).noNewClothes225AchievementMessage;
