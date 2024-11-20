@@ -10,8 +10,6 @@ import '../../item_management/view_items/presentation/widgets/item_grid.dart';
 import '../../item_management/view_items/presentation/bloc/view_items_bloc.dart'; // Import ViewItemsBloc
 import '../../item_management/streak_item/presentation/bloc/upload_item_streak_bloc.dart';
 import '../../item_management/core/presentation/bloc/navigate_item_bloc.dart';
-import '../../user_management/user_update/presentation/bloc/version_bloc.dart';
-import '../../user_management/user_update/presentation/widgets/update_required_page.dart';
 import '../../item_management/view_items/presentation/widgets/my_closet_container.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
@@ -176,21 +174,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
 
         return MultiBlocListener(
       listeners: [
-        BlocListener<VersionBloc, VersionState>(
-          listener: (context, versionState) {
-            if (versionState is VersionUpdateRequired) {
-              logger.i('Version update required, navigating to UpdateRequiredPage');
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const UpdateRequiredPage(),
-                ),
-              );
-            } else if (versionState is VersionError) {
-              logger.e('Error during version check: ${versionState.error}');
-            }
-          },
-        ),
+
         BlocListener<NavigateItemBloc, NavigateItemState>(
           listener: (context, state) {
             if (state is FetchFirstItemUploadedMilestoneSuccessState) {

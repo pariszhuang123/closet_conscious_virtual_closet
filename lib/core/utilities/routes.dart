@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../screens/closet/closet_provider.dart';
-import '../../screens/homepage/home_page_provider.dart';
+import '../../user_management/authentication/presentation/pages/homepage/home_page_provider.dart';
 import '../../screens/outfit/my_outfit_provider.dart';
 import '../../user_management/achievements/presentation/pages/achievements_page.dart';
-import '../../user_management/authentication/presentation/pages/login_screen.dart';
+import '../../user_management/authentication/presentation/pages/login/login_screen.dart';
 import '../../item_management/upload_item/presentation/pages/upload_item_provider.dart';
 import '../../item_management/edit_item/presentation/pages/edit_item_provider.dart';
 import '../screens/webview_screen.dart';
@@ -21,7 +21,7 @@ import '../core_enums.dart';
 import 'logger.dart';
 
 class AppRoutes {
-  static const String login = '/';
+  static const String login = '/login';
   static const String home = '/home';
   static const String myCloset = '/my_closet';
   static const String createOutfit = '/create_outfit';
@@ -60,6 +60,11 @@ class AppRoutes {
         ));
         return MaterialPageRoute(builder: (_) => LoginScreen(myClosetTheme: myClosetTheme));
       case home:
+        Sentry.addBreadcrumb(Breadcrumb(
+          message: "Opening homepage",
+          category: "auth",
+          level: SentryLevel.info,
+        ));
         return MaterialPageRoute(builder: (_) => HomePageProvider(myClosetTheme: myClosetTheme));
       case AppRoutes.customize:
         final args = settings.arguments as Map<String, dynamic>? ?? {};

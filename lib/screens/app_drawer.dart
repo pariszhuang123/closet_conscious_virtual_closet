@@ -27,7 +27,7 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('Building AppDrawer for ${isFromMyCloset ? 'My Closet' : 'Other Screen'}');
+    logger.d('Building AppDrawer for ${isFromMyCloset ? 'My Closet' : 'My Outfit'}');
 
     final achievementsItem = TypeDataList.drawerAchievements(context);
     final insightsItem = TypeDataList.drawerInsights(context);
@@ -40,7 +40,7 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: appBarHeight * 1.53, // Set the desired height here
+            height: appBarHeight * 1.53,
             child: DrawerHeader(
               decoration: BoxDecoration(
                 color: Theme.of(context).drawerTheme.backgroundColor,
@@ -168,7 +168,6 @@ class AppDrawer extends StatelessWidget {
     ));
 
     final authBloc = context.read<AuthBloc>();
-    final navigator = Navigator.of(context); // Capture the navigator early
 
     showDialog(
       context: context,
@@ -184,7 +183,6 @@ class AppDrawer extends StatelessWidget {
             // Step 2: Log out immediately
             authBloc.add(SignOutEvent());
             Navigator.of(dialogContext).pop(); // Close the dialog
-            navigator.pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
           },
           onClose: () {
             Navigator.of(dialogContext).pop(); // Close using dialogContext
@@ -206,23 +204,10 @@ class AppDrawer extends StatelessWidget {
     });
   }
 
-  void _logOut(BuildContext context) async {
+  void _logOut(BuildContext context) {
     logger.i('Logging out');
-    Sentry.addBreadcrumb(Breadcrumb(
-      message: 'User logout initiated',
-    ));
-    final navigator = Navigator.of(context);
     final authBloc = context.read<AuthBloc>();
-
-    navigator.pop();
-
-    try {
-      authBloc.add(SignOutEvent());
-      await Future.delayed(const Duration(milliseconds: 100));
-      navigator.pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
-    } catch (e, stackTrace) {
-      logger.e('Error during logout: $e');
-      await Sentry.captureException(e, stackTrace: stackTrace);
-    }
+    logger.d('Current AuthState before logging out: ${authBloc.state}');
+    authBloc.add(SignOutEvent());
   }
 }
