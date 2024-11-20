@@ -31,6 +31,11 @@ class LoginScreenState extends State<LoginScreen> {
     context.read<AuthBloc>().add(SignInEvent());
   }
 
+  void _signInApple(BuildContext context) {
+    _logger.i("Dispatching SignInEvent for iOS.");
+    context.read<AuthBloc>().add(SignInWithAppleEvent());
+  }
+
   void _showTermsSnackbar() {
     _logger.i("Displaying snackbar for unaccepted terms.");
     Sentry.addBreadcrumb(Breadcrumb(
@@ -104,7 +109,7 @@ class LoginScreenState extends State<LoginScreen> {
               SignInButtonApple(
                 enabled: _isTermsAccepted,
                 onDisabledPressed: () => _showTermsSnackbar(),
-                onPressed: () => _signIn(context),
+                onPressed: () => _signInApple(context),
               ),
             const SizedBox(height: 16),
 
