@@ -36,7 +36,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
 
     try {
       // Fetch all closets for the user
-      final closetData = await fetchService.fetchAllClosets();
+      final closetData = await fetchService.fetchPermanentClosets();
       logger.i('Fetched all closets successfully: ${closetData.length} items');
 
       final allClosetsDisplay = closetData.map((closetMap) => MultiCloset.fromMap(closetMap)).toList();

@@ -53,7 +53,7 @@ class UpdateRequiredPage extends StatelessWidget {
             "https://play.google.com/store/apps/details?id=com.makinglifeeasie.closetconscious");
         logger.i('Platform is Android. Redirecting to Play Store.');
       } else if (Platform.isIOS) {
-        uri = Uri.parse("https://apps.apple.com/us/app/id1542311809");
+        uri = Uri.parse("https://apps.apple.com/us/app/closet-conscious/id6737871636");
         logger.i('Platform is iOS. Redirecting to App Store.');
       } else {
         logger.w('Unsupported platform for store redirection.');
