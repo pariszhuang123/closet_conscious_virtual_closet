@@ -35,6 +35,7 @@ Tree Rewards: Earn a tree for every five items you upload daily.
 ### #Social_Features
 Share Outfits: Post your outfits on social media directly from the app.
 Organize Swaps: Plan and organize clothing swap events with your friends or community.
+Sell Locally: Sell your items in your public closet to your community. 
 
 Architecture
 Closet Conscious is built with the following technologies:
