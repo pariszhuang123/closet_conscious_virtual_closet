@@ -16,6 +16,9 @@ import '../core/utilities/launch_email.dart';
 import '../core/data/models/arguments.dart';
 import '../user_management/core/data/services/user_save_service.dart';
 import '../core/widgets/dialog/delete_account_dialog.dart';
+import '../user_management/authentication/presentation/pages/auth_wrapper.dart';
+import '../core/theme/my_closet_theme.dart';
+import '../app.dart';
 
 class AppDrawer extends StatelessWidget {
   final bool isFromMyCloset;
@@ -27,7 +30,8 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('Building AppDrawer for ${isFromMyCloset ? 'My Closet' : 'My Outfit'}');
+    logger.d(
+        'Building AppDrawer for ${isFromMyCloset ? 'My Closet' : 'My Outfit'}');
 
     final achievementsItem = TypeDataList.drawerAchievements(context);
     final insightsItem = TypeDataList.drawerInsights(context);
@@ -43,14 +47,26 @@ class AppDrawer extends StatelessWidget {
             height: appBarHeight * 1.53,
             child: DrawerHeader(
               decoration: BoxDecoration(
-                color: Theme.of(context).drawerTheme.backgroundColor,
+                color: Theme
+                    .of(context)
+                    .drawerTheme
+                    .backgroundColor,
               ),
               margin: EdgeInsets.zero,
               child: Center(
                 child: Text(
-                  S.of(context).shortTagline,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSecondary,
+                  S
+                      .of(context)
+                      .shortTagline,
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .onSecondary,
                   ),
                 ),
               ),
@@ -58,19 +74,27 @@ class AppDrawer extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              color: Theme.of(context).colorScheme.surface,
+              color: Theme
+                  .of(context)
+                  .colorScheme
+                  .surface,
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: <Widget>[
-                  _buildNavigationButton(context, achievementsItem, null, _navigateToAchievementsPage),
+                  _buildNavigationButton(context, achievementsItem, null,
+                      _navigateToAchievementsPage),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(context, insightsItem, null, (ctx) => _showUsageInsightsBottomSheet(ctx, isFromMyCloset)),
+                  _buildNavigationButton(context, insightsItem, null, (ctx) =>
+                      _showUsageInsightsBottomSheet(ctx, isFromMyCloset)),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(context, infoHubItem, null, _navigateToInfoHub),
+                  _buildNavigationButton(
+                      context, infoHubItem, null, _navigateToInfoHub),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(context, contactUsItem, null, (ctx) => launchEmail(context, EmailType.support)),
+                  _buildNavigationButton(context, contactUsItem, null, (ctx) =>
+                      launchEmail(context, EmailType.support)),
                   _buildVerticalSpacing(),
-                  _buildNavigationButton(context, deleteAccountItem, null, _showDeleteAccountDialog),
+                  _buildNavigationButton(context, deleteAccountItem, null,
+                      _showDeleteAccountDialog),
                   _buildVerticalSpacing(),
                   _buildNavigationButton(context, logOutItem, null, _logOut),
                 ],
@@ -82,7 +106,8 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildNavigationButton(BuildContext context, TypeData item, String? route, void Function(BuildContext)? customAction) {
+  Widget _buildNavigationButton(BuildContext context, TypeData item,
+      String? route, void Function(BuildContext)? customAction) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
@@ -101,7 +126,8 @@ class AppDrawer extends StatelessWidget {
             ));
             final navigator = Navigator.of(context);
             navigator.pop(); // Close the drawer
-            Future.delayed(const Duration(milliseconds: 300)); // Allow drawer to close
+            Future.delayed(
+                const Duration(milliseconds: 300)); // Allow drawer to close
             if (route != null) {
               logger.d('Navigating to route: $route');
               navigator.pushNamed(route);
@@ -123,7 +149,9 @@ class AppDrawer extends StatelessWidget {
   }
 
   void _navigateToAchievementsPage(BuildContext context) {
-    final authState = context.read<AuthBloc>().state;
+    final authState = context
+        .read<AuthBloc>()
+        .state;
     if (authState is Authenticated) {
       final String userId = authState.user.id;
       logger.d('Navigating to achievements pages with userId: $userId');
@@ -141,8 +169,12 @@ class AppDrawer extends StatelessWidget {
   }
 
   void _navigateToInfoHub(BuildContext context) {
-    final String infoHubUrl = S.of(context).infoHubUrl;
-    final String infoHubTitle = S.of(context).infoHub;
+    final String infoHubUrl = S
+        .of(context)
+        .infoHubUrl;
+    final String infoHubTitle = S
+        .of(context)
+        .infoHub;
     logger.d('Navigating to Info Hub: $infoHubUrl');
     Navigator.pushNamed(
       context,
@@ -151,8 +183,11 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  void _showUsageInsightsBottomSheet(BuildContext context, bool isFromMyCloset) {
-    logger.d('Showing Usage Insights BottomSheet for ${isFromMyCloset ? 'My Closet' : 'Other Screen'}');
+  void _showUsageInsightsBottomSheet(BuildContext context,
+      bool isFromMyCloset) {
+    logger.d('Showing Usage Insights BottomSheet for ${isFromMyCloset
+        ? 'My Closet'
+        : 'Other Screen'}');
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -183,6 +218,14 @@ class AppDrawer extends StatelessWidget {
             // Step 2: Log out immediately
             authBloc.add(SignOutEvent());
             Navigator.of(dialogContext).pop(); // Close the dialog
+
+            // Step 3: Navigate to AuthWrapper
+            navigatorKey.currentState?.pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (_) => AuthWrapper(theme: myClosetTheme),
+              ),
+                  (route) => false,
+            );
           },
           onClose: () {
             Navigator.of(dialogContext).pop(); // Close using dialogContext
@@ -209,5 +252,12 @@ class AppDrawer extends StatelessWidget {
     final authBloc = context.read<AuthBloc>();
     logger.d('Current AuthState before logging out: ${authBloc.state}');
     authBloc.add(SignOutEvent());
+    navigatorKey.currentState?.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => AuthWrapper(theme: myClosetTheme)),
+          (route) => false, // Clear all previous routes
+    );
+
+    logger.i('Navigation to AuthWrapper completed.');
   }
+
 }

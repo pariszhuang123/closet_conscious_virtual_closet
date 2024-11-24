@@ -70,7 +70,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
 
   void _onItemTapped(int index) {
     if (index == 1) {
-      Navigator.pushReplacementNamed(context, '/create_outfit');
+      Navigator.pushReplacementNamed(context, AppRoutes.createOutfit);
     } else {
       setState(() {
         _selectedIndex = index;

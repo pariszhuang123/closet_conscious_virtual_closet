@@ -15,6 +15,7 @@ class MyOutfitProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
   final List<String> selectedItemIds;
 
+
   // Initialize logger for MyOutfitProvider
   final CustomLogger _logger = CustomLogger('MyOutfitProvider');
 
@@ -22,6 +23,7 @@ class MyOutfitProvider extends StatelessWidget {
     super.key,
     required this.myOutfitTheme,
     required this.selectedItemIds,
+
   }) {
     _logger.i('MyOutfitProvider initialized with selectedItemIds: $selectedItemIds');
   }
