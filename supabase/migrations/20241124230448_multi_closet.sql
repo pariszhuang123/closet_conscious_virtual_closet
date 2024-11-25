@@ -1,9 +1,9 @@
 CREATE OR REPLACE FUNCTION public.add_multi_closet(
     _closet_name TEXT,
     _closet_type TEXT,
+     _item_ids UUID[],
     _months_later INT DEFAULT 0,
-    _is_public BOOLEAN DEFAULT FALSE, -- Default value for permanent closets
-    _item_ids UUID[]
+    _is_public BOOLEAN DEFAULT FALSE -- Default value for permanent closets
 ) RETURNS JSON
 SET search_path = ''
 LANGUAGE plpgsql
