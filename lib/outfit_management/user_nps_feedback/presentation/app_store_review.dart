@@ -30,8 +30,6 @@ class AppStoreReview {
     if (Platform.isAndroid) {
       uri = Uri.parse(
           "https://play.google.com/store/apps/details?id=com.makinglifeeasie.closetconscious");
-    } else if (Platform.isIOS) {
-      uri = Uri.parse("https://apps.apple.com/us/app/closet-conscious/id6737871636");
     } else {
       logger.w('Unsupported platform for store review redirection.');
       return;

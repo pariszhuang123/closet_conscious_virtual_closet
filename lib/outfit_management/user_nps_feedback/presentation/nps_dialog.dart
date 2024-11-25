@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+
 import '../../../core/utilities/logger.dart';
 import '../../../user_management/user_service_locator.dart';
 import '../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
@@ -52,17 +54,22 @@ class NpsDialog extends StatelessWidget {
 
     if (success) {
       logger.i('NPS score successfully recorded.');
-      if (score >= 9) {
-        await appStoreReview.startReviewFlow(context);
-        if (context.mounted) {
-          Navigator.of(context).pushReplacementNamed(AppRoutes.createOutfit);
-        }
-      } else {
+      if (Platform.isIOS) {
+        // For iOS, launch email regardless of score
+        logger.i('Launching email for iOS.');
         launchEmail(context, EmailType.npsReview);
-        if (context.mounted) {
-          Navigator.of(context).pushReplacementNamed(AppRoutes.createOutfit);
+      } else if (Platform.isAndroid) {
+        // For Android, follow app store review logic
+        if (score >= 9) {
+          await appStoreReview.startReviewFlow(context);
+        } else {
+          launchEmail(context, EmailType.npsReview);
         }
       }
+      if (context.mounted) {
+        Navigator.of(context).pushReplacementNamed(AppRoutes.createOutfit);
+      }
+
     } else {
       logger.e('Failed to record NPS score.');
       CustomSnackbar(
