@@ -24,7 +24,8 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   bool _isTermsAccepted = false;
-  final CustomLogger _logger = CustomLogger('LoginScreen'); // Logger for debugging
+  final CustomLogger _logger = CustomLogger(
+      'LoginScreen'); // Logger for debugging
 
   void _signIn(BuildContext context) {
     _logger.i("Dispatching SignInEvent.");
@@ -44,7 +45,9 @@ class LoginScreenState extends State<LoginScreen> {
       level: SentryLevel.info,
     ));
     CustomSnackbar(
-      message: S.of(context).termsNotAcceptedMessage,
+      message: S
+          .of(context)
+          .termsNotAcceptedMessage,
       theme: Theme.of(context),
     ).show(context);
   }
@@ -54,11 +57,12 @@ class LoginScreenState extends State<LoginScreen> {
     try {
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => WebViewScreen(
-            url: url,
-            isFromMyCloset: true,
-            title: title,
-          ),
+          builder: (context) =>
+              WebViewScreen(
+                url: url,
+                isFromMyCloset: true,
+                title: title,
+              ),
         ),
       );
       _logger.i("Navigation to WebViewScreen successful.");
@@ -95,22 +99,21 @@ class LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 24),
 
-            // Google Sign-In Button
-            if (Platform.isAndroid)
-              SignInButtonGoogle(
-                enabled: _isTermsAccepted,
-                onDisabledPressed: () => _showTermsSnackbar(),
-                onPressed: () => _signIn(context),
-              ),
-            const SizedBox(height: 16),
-
-            // Apple Sign-In Button
+            // Apple Sign-In Button (iOS only)
             if (Platform.isIOS)
               SignInButtonApple(
                 enabled: _isTermsAccepted,
                 onDisabledPressed: () => _showTermsSnackbar(),
                 onPressed: () => _signInApple(context),
               ),
+            if (Platform.isIOS) const SizedBox(height: 16),
+
+            // Google Sign-In Button (Both iOS and Android)
+            SignInButtonGoogle(
+              enabled: _isTermsAccepted,
+              onDisabledPressed: () => _showTermsSnackbar(),
+              onPressed: () => _signIn(context),
+            ),
             const SizedBox(height: 16),
 
             // Terms Checkbox
@@ -123,19 +126,28 @@ class LoginScreenState extends State<LoginScreen> {
                     _logger.d("Terms checkbox toggled: $value");
                     setState(() {
                       _isTermsAccepted = value ?? false;
-                      _logger.i("Terms accepted state updated to: $_isTermsAccepted");
+                      _logger.i(
+                          "Terms accepted state updated to: $_isTermsAccepted");
                     });
                   },
                 ),
                 Expanded(
                   child: RichText(
                     text: TextSpan(
-                      text: S.of(context).termsAcknowledgement,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      text: S
+                          .of(context)
+                          .termsAcknowledgement,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyMedium,
                       children: <TextSpan>[
                         TextSpan(
-                          text: S.of(context).privacyTerms,
-                          style: Theme.of(context)
+                          text: S
+                              .of(context)
+                              .privacyTerms,
+                          style: Theme
+                              .of(context)
                               .textTheme
                               .bodyMedium
                               ?.copyWith(color: Colors.blue),
@@ -143,12 +155,18 @@ class LoginScreenState extends State<LoginScreen> {
                             ..onTap = () {
                               _logger.i("Privacy Terms link clicked.");
                               _navigateToWebView(
-                                S.of(context).privacyTermsUrl,
-                                S.of(context).privacyTerms,
+                                S
+                                    .of(context)
+                                    .privacyTermsUrl,
+                                S
+                                    .of(context)
+                                    .privacyTerms,
                               );
                             },
                         ),
-                        TextSpan(text: S.of(context).and),
+                        TextSpan(text: S
+                            .of(context)
+                            .and),
                         TextSpan(
                           text: S.of(context).termsAndConditions,
                           style: Theme.of(context)
