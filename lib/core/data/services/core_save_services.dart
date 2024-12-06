@@ -331,42 +331,6 @@ class CoreSaveService {
     }
   }
 
-  Future<void> saveClosetIdInSharedPreferences(String closetId) async {
-    logger.i('Starting saveClosetId with closetId: $closetId');
-
-    try {
-      // Retrieve userId from AuthBloc
-      final authBloc = locator<AuthBloc>();
-      final userId = authBloc.userId;
-
-      // Check if the user is authenticated
-      if (userId == null) {
-        logger.e('User is not authenticated. Cannot save closetId.');
-        throw Exception("User not authenticated");
-      }
-
-      logger.d('UserId retrieved: $userId');
-
-      // Perform the Supabase operation
-      final response = await Supabase.instance.client
-          .from('shared_preferences')
-          .update({
-        'closet_id': closetId, // Update only the closet_id column
-      })
-          .eq('user_id', userId);
-
-      // Handle Supabase response
-      if (response.error != null) {
-        logger.e('Supabase error: ${response.error!.message}');
-        throw Exception('Failed to save closetId: ${response.error!.message}');
-      }
-
-      logger.i('Closet ID saved successfully for userId: $userId');
-    } catch (e) {
-      logger.e('Error in saveClosetId: $e');
-      rethrow; // Propagate the error further
-    }
-  }
 }
 
 

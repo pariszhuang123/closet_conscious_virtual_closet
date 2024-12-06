@@ -13,7 +13,6 @@ import '../../item_management/core/presentation/bloc/navigate_item_bloc.dart';
 import '../../item_management/view_items/presentation/widgets/my_closet_container.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
-import '../../core/widgets/bottom_sheet/premium_bottom_sheet/multi_closet_premium_bottom_sheet.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/public_closet_premium_bottom_sheet.dart';
 import '../../item_management/upload_item/presentation/widgets/upload_confirmation_bottom_sheet.dart';
 import '../app_drawer.dart';
@@ -121,12 +120,10 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     );
   }
 
-  void _onMultiClosetButtonPressed() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return const MultiClosetFeatureBottomSheet(isFromMyCloset: true);
-      },
+  void _onMultiClosetButtonPressed(BuildContext context, bool isFromMyCloset) {
+    Navigator.of(context).pushNamed(
+      AppRoutes.viewMultiCloset,
+      arguments: {'isFromMyCloset': isFromMyCloset}, // Pass isFromMyCloset as an argument
     );
   }
 
@@ -168,7 +165,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
         return const Center(child: CircularProgressIndicator());
       } else if (snapshot.hasError) {
         logger.e("Error fetching crossAxisCount: ${snapshot.error}");
-        return const Center(child: Text("Error loading grid"));
+        return Center(child: Text(S.of(context).failedToLoadItems));
       } else {
         final crossAxisCount = snapshot.data ?? 3;
 
@@ -328,7 +325,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                                 onUploadButtonPressed: _onUploadButtonPressed,
                                 onFilterButtonPressed: () =>_onFilterButtonPressed(context, true),
                                 onArrangeButtonPressed: () => _onArrangeButtonPressed(context, true),
-                                onMultiClosetButtonPressed: _onMultiClosetButtonPressed,
+                                onMultiClosetButtonPressed:  () => _onMultiClosetButtonPressed(context, true),
                                 onPublicClosetButtonPressed: _onPublicClosetButtonPressed,
                               ),
                               Expanded(
@@ -352,11 +349,11 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                           items: [
                             BottomNavigationBarItem(
                               icon: const Icon(Icons.dry_cleaning_outlined),
-                              label: S.of(context).closetLabel,
+                              label: S.of(context).myClosetTitle,
                             ),
                             BottomNavigationBarItem(
                               icon: const Icon(Icons.wc_outlined),
-                              label: S.of(context).outfitLabel,
+                              label: S.of(context).myOutfitTitle,
                             ),
                           ],
                           currentIndex: _selectedIndex,

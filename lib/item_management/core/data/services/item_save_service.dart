@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import '../../../../core/config/supabase_config.dart';
 import '../../../../core/utilities/logger.dart';
+import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
+import '../../../../user_management/user_service_locator.dart';
+
 
 class ItemSaveService {
   final CustomLogger logger;
@@ -121,5 +124,140 @@ class ItemSaveService {
       return false;
     }
   }
+  Future<void> saveClosetIdInSharedPreferences(String closetId) async {
+    logger.i('Starting saveClosetId with closetId: $closetId');
+
+    try {
+      // Retrieve userId from AuthBloc
+      final authBloc = locator<AuthBloc>();
+      final userId = authBloc.userId;
+
+      // Check if the user is authenticated
+      if (userId == null) {
+        logger.e('User is not authenticated. Cannot save closetId.');
+        throw Exception("User not authenticated");
+      }
+
+      logger.d('UserId retrieved: $userId');
+
+      // Perform the Supabase operation
+      final response = await SupabaseConfig.client
+          .from('shared_preferences')
+          .update({
+        'closet_id': closetId, // Update only the closet_id column
+      })
+          .eq('user_id', userId);
+
+      // Handle Supabase response
+      if (response.error != null) {
+        logger.e('Supabase error: ${response.error!.message}');
+        throw Exception('Failed to save closetId: ${response.error!.message}');
+      }
+
+      logger.i('Closet ID saved successfully for userId: $userId');
+    } catch (e) {
+      logger.e('Error in saveClosetId: $e');
+      rethrow; // Propagate the error further
+    }
+  }
+
+  Future<Map<String, dynamic>> addMultiCloset({
+    required String closetName,
+    required String closetType,
+    required List<String> itemIds,
+    int? monthsLater, // Optional
+    bool? isPublic,   // Optional
+  }) async {
+    logger.i('Adding a new closet: $closetName');
+
+    try {
+      // Build parameters dynamically based on optional values
+      final params = {
+        '_closet_name': closetName,
+        '_closet_type': closetType,
+        '_item_ids': itemIds,
+      };
+
+      // Only include monthsLater if provided
+      if (monthsLater != null) {
+        params['_months_later'] = monthsLater;
+      }
+
+      // Only include isPublic if provided
+      if (isPublic != null) {
+        params['_is_public'] = isPublic;
+      }
+
+      final response = await SupabaseConfig.client.rpc('add_multi_closet', params: params).single();
+
+      if (response['status'] == 'success') {
+        logger.i('Closet added successfully: ${response['closet_id']}');
+        return response;
+      } else {
+        logger.e('Failed to add closet: ${response['message']}');
+        throw Exception(response['message']);
+      }
+    } catch (e) {
+      logger.e('Error adding closet: $e');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> editMultiCloset({
+    String? closetId, // Optional
+    String? closetName,
+    String? closetType,
+    String? validDate,
+    bool? isPublic,
+    List<String>? itemIds,
+    String? newClosetId,
+  }) async {
+    logger.i('Editing closet: ${closetId ?? "No closetId provided"}');
+
+    try {
+      final response = await SupabaseConfig.client.rpc('edit_multi_closet', params: {
+        'p_closet_id': closetId,
+        'p_closet_name': closetName,
+        'p_closet_type': closetType,
+        'p_valid_date': validDate,
+        'p_is_public': isPublic,
+        'p_item_ids': itemIds,
+        'p_new_closet_id': newClosetId,
+      }).single();
+
+      if (response['status'] == 'success') {
+        logger.i('Closet edited successfully: ${response['closet_id']}');
+        return response;
+      } else {
+        logger.e('Failed to edit closet: ${response['message']}');
+        throw Exception(response['message']);
+      }
+    } catch (e) {
+      logger.e('Error editing closet: $e');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> archiveMultiCloset(String closetId) async {
+    logger.i('Archiving closet: $closetId');
+
+    try {
+      final response = await SupabaseConfig.client.rpc('archive_multi_closet', params: {
+        'p_closet_id': closetId,
+      }).single();
+
+      if (response['status'] == 'success') {
+        logger.i('Closet archived successfully: ${response['message']}');
+        return response;
+      } else {
+        logger.e('Failed to archive closet: ${response['message']}');
+        throw Exception(response['message']);
+      }
+    } catch (e) {
+      logger.e('Error archiving closet: $e');
+      rethrow;
+    }
+  }
+
 }
 

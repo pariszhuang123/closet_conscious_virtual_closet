@@ -20,6 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(error) => "Error: ${error}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "AmountHint": MessageLookupByLibrary.simpleMessage(
@@ -42,6 +44,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ItemNameLabel": MessageLookupByLibrary.simpleMessage("Item Name"),
         "ItemOccasionLabel": MessageLookupByLibrary.simpleMessage("Occasion"),
         "ItemSeasonLabel": MessageLookupByLibrary.simpleMessage("Season"),
+        "MultiClosetFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("Manage Your Multi-Closets"),
         "OutfitDay": MessageLookupByLibrary.simpleMessage("Outfit of the Day"),
         "OutfitReview": MessageLookupByLibrary.simpleMessage("Outfit Review"),
         "Throw": MessageLookupByLibrary.simpleMessage("Throw"),
@@ -73,6 +77,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "aistylist": MessageLookupByLibrary.simpleMessage("AI Stylist"),
         "aiupload": MessageLookupByLibrary.simpleMessage("Smart\nUpload"),
         "allClosetLabel": MessageLookupByLibrary.simpleMessage("All Closet"),
+        "allClosets": MessageLookupByLibrary.simpleMessage("Edit All Closets"),
         "allClothesWornAchievement":
             MessageLookupByLibrary.simpleMessage("All Clothes, All You!"),
         "allClothesWornAchievementMessage": MessageLookupByLibrary.simpleMessage(
@@ -129,12 +134,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "clickUploadItemInCloset": MessageLookupByLibrary.simpleMessage(
             "Click Upload button to upload your first item in the closet."),
         "closetLabel": MessageLookupByLibrary.simpleMessage("Closet"),
+        "closetName": MessageLookupByLibrary.simpleMessage("Closet Name"),
+        "closetType": MessageLookupByLibrary.simpleMessage("Closet Type"),
         "closetUploadAchievement":
             MessageLookupByLibrary.simpleMessage("Virtual Closet Complete!"),
         "closetUploadAchievementMessage": MessageLookupByLibrary.simpleMessage(
             "Congratulations! You\'ve uploaded all your items to your virtual closet. Now you can style like a pro!"),
         "closetUploadComplete":
             MessageLookupByLibrary.simpleMessage("I uploaded my closet"),
+        "closet_created_successfully": MessageLookupByLibrary.simpleMessage(
+            "Closet created successfully!"),
         "clothing": MessageLookupByLibrary.simpleMessage("Clothing"),
         "clothingLayerFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Clothing Layer field is not filled."),
@@ -151,6 +160,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
         "costOfNewItems": MessageLookupByLibrary.simpleMessage(
             "Cost of new items you\'ve added"),
+        "createCloset": MessageLookupByLibrary.simpleMessage("Create Closet"),
+        "createMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
+            "Create a new multi-closet, organize items,\nand add metadata to keep your closets structured"),
+        "create_closet": MessageLookupByLibrary.simpleMessage("Create Closet"),
         "createdAt": MessageLookupByLibrary.simpleMessage("Created At"),
         "currentStreak":
             MessageLookupByLibrary.simpleMessage("Your current no-buy streak."),
@@ -196,10 +209,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteAccountTitle":
             MessageLookupByLibrary.simpleMessage("Delete Account"),
         "descending": MessageLookupByLibrary.simpleMessage("Descending"),
+        "disappearAfterMonths":
+            MessageLookupByLibrary.simpleMessage("Hidden for"),
+        "disappearingCloset":
+            MessageLookupByLibrary.simpleMessage("Disappearing Closet"),
         "dislike":
             MessageLookupByLibrary.simpleMessage("Not quite\nmy vibe 🤔"),
         "dislike_feedback_sentence": MessageLookupByLibrary.simpleMessage(
             "Tap the items that didn’t work in this outfit."),
+        "editAllMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
+            "Edit all multi-closets at once.\nTransfer items to a single closet and streamline your wardrobe."),
         "editItemBronzeDescription": MessageLookupByLibrary.simpleMessage(
             "Edit 200 more item images to keep your closet fresh."),
         "editItemBronzeTitle": MessageLookupByLibrary.simpleMessage(
@@ -213,6 +232,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "editItemSilverTitle": MessageLookupByLibrary.simpleMessage(
             "Silver Plan - Edit Item Images"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("Edit Item"),
+        "editSingleMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
+            "Edit a single multi-closet.\nTransfer items to another closet,\nupdate metadata,\nchange the multi-closet image,\nor archive the closet."),
         "enterAmountSpentHint":
             MessageLookupByLibrary.simpleMessage("Enter amount spent"),
         "enterEventName":
@@ -223,6 +244,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "We couldn’t declutter right now, but don’t worry—we’ll try again soon! 🌿"),
         "errorIncrement": MessageLookupByLibrary.simpleMessage(
             "Oops! We couldn’t record your interest. Please try again!"),
+        "error_creating_closet": m0,
         "event": MessageLookupByLibrary.simpleMessage("Event"),
         "everyday": MessageLookupByLibrary.simpleMessage("Everyday"),
         "eyewear": MessageLookupByLibrary.simpleMessage("Eyewear"),
@@ -322,11 +344,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "metadataFeatureTitle":
             MessageLookupByLibrary.simpleMessage("More Item Details?"),
         "mid": MessageLookupByLibrary.simpleMessage("Mid"),
+        "months": MessageLookupByLibrary.simpleMessage("Months"),
         "multi": MessageLookupByLibrary.simpleMessage("Multi"),
         "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "We’re exploring adding multiple closets (permanent, disappearing)—would you use this?"),
         "multiClosetFeatureTitle":
             MessageLookupByLibrary.simpleMessage("Multiple Closets?"),
+        "multiClosetManagement":
+            MessageLookupByLibrary.simpleMessage("Multi-Closet Management"),
         "multiOutfitDescription": MessageLookupByLibrary.simpleMessage(
             "Create multiple outfits a day and keep experimenting with your style!"),
         "multiOutfitTitle": MessageLookupByLibrary.simpleMessage(
@@ -344,6 +369,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "No achievements yet—start unlocking them today!"),
         "noClosetsAvailable":
             MessageLookupByLibrary.simpleMessage("No closets available"),
+        "noClosetsFound":
+            MessageLookupByLibrary.simpleMessage("No closets found"),
         "noImage": MessageLookupByLibrary.simpleMessage("No Image Available"),
         "noInternetMessage": MessageLookupByLibrary.simpleMessage(
             "We\'re on a coffee break ☕\nReconnect soon to keep rocking those eco-friendly looks!"),
@@ -415,6 +442,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "outfits_upload":
             MessageLookupByLibrary.simpleMessage("Number of outfits uploaded"),
         "perfume": MessageLookupByLibrary.simpleMessage("Cosmetic"),
+        "permanentCloset":
+            MessageLookupByLibrary.simpleMessage("Permanent Closet"),
         "permission_needed": MessageLookupByLibrary.simpleMessage(
             "This permission is\nrequired for the app\nto function properly."),
         "pleaseCorrectTheErrors": MessageLookupByLibrary.simpleMessage(
@@ -432,11 +461,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "privacyTerms": MessageLookupByLibrary.simpleMessage("Privacy Terms"),
         "privacyTermsUrl": MessageLookupByLibrary.simpleMessage(
             "https://www.notion.so/Privacy-Policy-9f21c7664efe4b03a8965252495dc1a6"),
+        "private": MessageLookupByLibrary.simpleMessage("Private"),
         "profileSection": MessageLookupByLibrary.simpleMessage("Profile"),
+        "public": MessageLookupByLibrary.simpleMessage("Public"),
         "publicClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "What if you could share items from your closet with neighbors and even host local sale events? Interested?"),
         "publicClosetFeatureTitle": MessageLookupByLibrary.simpleMessage(
             "Share Your Closet\nwith the Community"),
+        "publicOrPrivate":
+            MessageLookupByLibrary.simpleMessage("Public or Private"),
         "public_closet": MessageLookupByLibrary.simpleMessage("Public"),
         "purchase_button": MessageLookupByLibrary.simpleMessage("Unlock Now"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
@@ -596,6 +629,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Success! Your closet just got a little more stylish! 🎉"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "usageInsights": MessageLookupByLibrary.simpleMessage("Usage Insights"),
+        "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
+            "Explore options for your multi-closets.\nYou can create a new multi-closet,\nedit items from all multi-closets,\nor make changes to a single multi-closet."),
         "white": MessageLookupByLibrary.simpleMessage("White"),
         "winter": MessageLookupByLibrary.simpleMessage("Winter"),
         "workplace": MessageLookupByLibrary.simpleMessage("Workplace"),

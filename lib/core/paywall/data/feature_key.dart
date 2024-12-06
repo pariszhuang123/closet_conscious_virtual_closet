@@ -10,7 +10,8 @@ enum FeatureKey {
   selfieGold,
   multiOutfit,
   customize,
-  filter
+  filter,
+  multicloset
 }
 
 extension FeatureKeyExtension on FeatureKey {
@@ -40,6 +41,8 @@ extension FeatureKeyExtension on FeatureKey {
         return 'com.makinglifeeasie.closetconscious.arrange';
       case FeatureKey.filter:
         return 'com.makinglifeeasie.closetconscious.filter';
+      case FeatureKey.multicloset:
+        return 'com.makinglifeeasie.closetconscious.multicloset';
     }
   }
 }

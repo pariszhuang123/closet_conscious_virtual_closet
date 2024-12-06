@@ -281,7 +281,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
               behavior: HitTestBehavior.translucent,
               child: Scaffold(
               appBar: AppBar(
-              title: Text(S.of(context).editPageTitle),
+              title: Text(S.of(context).editPageTitle, style: myClosetTheme.textTheme.titleMedium),
             ),
             body: Column(
               children: [

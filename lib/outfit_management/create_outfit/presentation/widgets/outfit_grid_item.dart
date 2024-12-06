@@ -4,7 +4,7 @@ import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import '../../../../core/core_enums.dart';
 
-class OutfitGridItem extends StatelessWidget {
+class SelectableGridItem extends StatelessWidget {
   final ClosetItemMinimal item;
   final bool isSelected;
   final VoidCallback onToggleSelection;
@@ -12,7 +12,7 @@ class OutfitGridItem extends StatelessWidget {
   final ImageSize imageSize;
   final bool showItemName;
 
-  const OutfitGridItem({
+  const SelectableGridItem({
     super.key,
     required this.item,
     required this.isSelected,

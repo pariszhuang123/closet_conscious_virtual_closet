@@ -4,11 +4,13 @@ import 'package:equatable/equatable.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/core_enums.dart';
 import '../../../core/data/services/outfits_save_services.dart';
+import '../../../../core/data/item_selector.dart';
 
 part 'select_outfit_items_event.dart';
 part 'select_outfit_items_state.dart';
 
-class SelectionOutfitItemsBloc extends Bloc<SelectionOutfitItemsEvent, SelectionOutfitItemsState> {
+class SelectionOutfitItemsBloc extends Bloc<SelectionOutfitItemsEvent, SelectionOutfitItemsState>
+    implements ItemSelector {
   final CustomLogger logger;
   final OutfitSaveService outfitSaveService;
 
@@ -19,6 +21,14 @@ class SelectionOutfitItemsBloc extends Bloc<SelectionOutfitItemsEvent, Selection
     on<ToggleSelectItemEvent>(_onToggleSelectItem);
     on<ClearSelectedItemsEvent>(_onClearSelectedItems);
     on<SaveOutfitEvent>(_onSaveOutfit);
+  }
+
+  @override
+  List<String> get selectedItemIds => state.selectedItemIds;
+
+  @override
+  void toggleItemSelection(String itemId) {
+    add(ToggleSelectItemEvent(itemId));
   }
 
   void _onSetSelectedItems(SetSelectedItemsEvent event, Emitter<SelectionOutfitItemsState> emit) {

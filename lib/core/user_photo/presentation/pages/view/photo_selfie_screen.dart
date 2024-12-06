@@ -1,4 +1,3 @@
-import 'dart:io'; // Import for platform checks
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/photo_bloc.dart';
@@ -42,14 +41,6 @@ class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindin
     _triggerSelfieCreation();
     WidgetsBinding.instance.addObserver(this); // Add lifecycle observer
     widget._logger.d('Initializing PhotoSelfieScreen');
-
-    // Platform-specific permission check
-    if (Platform.isIOS) {
-      widget._logger.d('iOS: Checking camera permission at startup');
-      _checkCameraPermissionIOS();
-    } else if (Platform.isAndroid) {
-      widget._logger.d('Android: Skipping initial camera permission check');
-    }
   }
 
   @override
@@ -60,15 +51,6 @@ class PhotoSelfieScreenState extends State<PhotoSelfieScreen> with WidgetsBindin
       widget._logger.d('Dependencies changed: checking camera permission');
       _checkCameraPermission(); // Safe to call here
     }
-  }
-
-  void _checkCameraPermissionIOS() {
-    widget._logger.d('Dispatching CheckCameraPermission event for iOS');
-    _photoBloc.add(CheckOrRequestCameraPermission(
-      cameraContext: widget.cameraContext,
-      context: context,
-      onClose: _navigateToWearOutfit,
-    ));
   }
 
   void _checkCameraPermission() {

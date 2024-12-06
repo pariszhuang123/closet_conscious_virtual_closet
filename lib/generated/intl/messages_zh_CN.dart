@@ -20,6 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh_CN';
 
+  static String m0(error) => "错误：${error}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "AmountHint": MessageLookupByLibrary.simpleMessage("这件美丽的单品花了多少钱？"),
@@ -37,6 +39,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ItemNameLabel": MessageLookupByLibrary.simpleMessage("单品名称"),
         "ItemOccasionLabel": MessageLookupByLibrary.simpleMessage("场合"),
         "ItemSeasonLabel": MessageLookupByLibrary.simpleMessage("季节"),
+        "MultiClosetFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("管理您的多衣橱"),
         "OutfitDay": MessageLookupByLibrary.simpleMessage("今日造型"),
         "OutfitReview": MessageLookupByLibrary.simpleMessage("造型评论"),
         "Throw": MessageLookupByLibrary.simpleMessage("丢弃"),
@@ -65,6 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "aistylist": MessageLookupByLibrary.simpleMessage("AI造型师"),
         "aiupload": MessageLookupByLibrary.simpleMessage("智能\n上传"),
         "allClosetLabel": MessageLookupByLibrary.simpleMessage("所有衣橱"),
+        "allClosets": MessageLookupByLibrary.simpleMessage("编辑所有衣柜"),
         "allClothesWornAchievement":
             MessageLookupByLibrary.simpleMessage("每件衣服，都是您的选择！"),
         "allClothesWornAchievementMessage":
@@ -113,12 +118,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "clickUploadItemInCloset":
             MessageLookupByLibrary.simpleMessage("点击上传按钮，将你的第一件物品上传到衣橱。"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("衣橱"),
+        "closetName": MessageLookupByLibrary.simpleMessage("衣橱名称"),
+        "closetType": MessageLookupByLibrary.simpleMessage("衣橱类型"),
         "closetUploadAchievement":
             MessageLookupByLibrary.simpleMessage("虚拟衣橱已完成！"),
         "closetUploadAchievementMessage": MessageLookupByLibrary.simpleMessage(
             "恭喜你！你已将所有物品上传到虚拟衣橱。现在你可以像专业人士一样搭配造型了！"),
         "closetUploadComplete":
             MessageLookupByLibrary.simpleMessage("我上传了我的衣橱"),
+        "closet_created_successfully":
+            MessageLookupByLibrary.simpleMessage("衣橱创建成功！"),
         "clothing": MessageLookupByLibrary.simpleMessage("服装"),
         "clothingLayerFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("服装层次未填写。"),
@@ -131,6 +140,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "congratulations": MessageLookupByLibrary.simpleMessage("恭喜！🎉"),
         "contactUs": MessageLookupByLibrary.simpleMessage("联系我们"),
         "costOfNewItems": MessageLookupByLibrary.simpleMessage("您添加的新物品的费用"),
+        "createCloset": MessageLookupByLibrary.simpleMessage("创建衣柜"),
+        "createMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
+            "创建一个新的多衣橱，整理物品并添加元数据以保持衣橱有序。"),
+        "create_closet": MessageLookupByLibrary.simpleMessage("创建衣橱"),
         "createdAt": MessageLookupByLibrary.simpleMessage("创建时间"),
         "currentStreak": MessageLookupByLibrary.simpleMessage("您的当前无购买记录。"),
         "currentStreakTooltip":
@@ -169,9 +182,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("\n\n警告：删除账号不可逆。"),
         "deleteAccountTitle": MessageLookupByLibrary.simpleMessage("删除账号"),
         "descending": MessageLookupByLibrary.simpleMessage("降序"),
+        "disappearAfterMonths": MessageLookupByLibrary.simpleMessage("隐藏"),
+        "disappearingCloset": MessageLookupByLibrary.simpleMessage("消失衣橱"),
         "dislike": MessageLookupByLibrary.simpleMessage("不太适合我 🤔"),
         "dislike_feedback_sentence":
             MessageLookupByLibrary.simpleMessage("点击不合适这个造型的物品。"),
+        "editAllMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
+            "同时编辑所有多衣橱。\n将物品转移到单个衣橱，简化您的衣橱管理。"),
         "editItemBronzeDescription":
             MessageLookupByLibrary.simpleMessage("再编辑200件物品图片，让您的衣橱保持新鲜。"),
         "editItemBronzeTitle":
@@ -185,6 +202,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "editItemSilverTitle":
             MessageLookupByLibrary.simpleMessage("银计划 - 编辑物品图片"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("编辑物品"),
+        "editSingleMultiClosetDescription":
+            MessageLookupByLibrary.simpleMessage(
+                "编辑单个多衣橱。将物品转移到另一个衣橱，\n更新元数据，更改多衣橱图片，或归档该衣橱。"),
         "enterAmountSpentHint": MessageLookupByLibrary.simpleMessage("输入花费金额"),
         "enterEventName": MessageLookupByLibrary.simpleMessage("这个是什么场合？"),
         "error": MessageLookupByLibrary.simpleMessage("哎呀，出了点问题。"),
@@ -192,6 +212,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "我们暂时无法整理您的衣橱，但别担心——我们会尽快再试！🌿"),
         "errorIncrement":
             MessageLookupByLibrary.simpleMessage("哎呀！我们无法记录您的兴趣。请再试一次！"),
+        "error_creating_closet": m0,
         "event": MessageLookupByLibrary.simpleMessage("活动"),
         "everyday": MessageLookupByLibrary.simpleMessage("日常"),
         "eyewear": MessageLookupByLibrary.simpleMessage("眼镜"),
@@ -282,11 +303,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("想为您的物品添加更多细节，以便更好地组织？告诉我们吧！"),
         "metadataFeatureTitle": MessageLookupByLibrary.simpleMessage("更多物品细节？"),
         "mid": MessageLookupByLibrary.simpleMessage("中层"),
+        "months": MessageLookupByLibrary.simpleMessage("月"),
         "multi": MessageLookupByLibrary.simpleMessage("多季"),
         "multiClosetFeatureDescription":
             MessageLookupByLibrary.simpleMessage("我们正在探索添加多个衣橱（永久、消失）——您会使用吗？"),
         "multiClosetFeatureTitle":
             MessageLookupByLibrary.simpleMessage("多个衣橱？"),
+        "multiClosetManagement": MessageLookupByLibrary.simpleMessage("多衣柜管理"),
         "multiOutfitDescription":
             MessageLookupByLibrary.simpleMessage("每天创建多个造型，继续实验您的风格！"),
         "multiOutfitTitle": MessageLookupByLibrary.simpleMessage("多造型高级功能"),
@@ -299,6 +322,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noAchievementFound":
             MessageLookupByLibrary.simpleMessage("尚无成就——今天就开始解锁吧！"),
         "noClosetsAvailable": MessageLookupByLibrary.simpleMessage("没有可用的衣柜"),
+        "noClosetsFound": MessageLookupByLibrary.simpleMessage("未找到衣橱"),
         "noImage": MessageLookupByLibrary.simpleMessage("没有图片"),
         "noInternetMessage": MessageLookupByLibrary.simpleMessage(
             "我们正在享受一杯咖啡 ☕\n稍后重连，继续展现那些环保造型吧！"),
@@ -370,6 +394,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "outfitReviewTitle": MessageLookupByLibrary.simpleMessage("造型评论已提交"),
         "outfits_upload": MessageLookupByLibrary.simpleMessage("上传的造型数量"),
         "perfume": MessageLookupByLibrary.simpleMessage("化妆品"),
+        "permanentCloset": MessageLookupByLibrary.simpleMessage("永久衣橱"),
         "permission_needed":
             MessageLookupByLibrary.simpleMessage("此权限是应用正常运行所必需的。"),
         "pleaseCorrectTheErrors":
@@ -385,11 +410,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "privacyTerms": MessageLookupByLibrary.simpleMessage("隐私条款"),
         "privacyTermsUrl": MessageLookupByLibrary.simpleMessage(
             "https://inky-twill-3ab.notion.site/5c881235e92240d9a008e0fe6bb80f0b"),
+        "private": MessageLookupByLibrary.simpleMessage("私人"),
         "profileSection": MessageLookupByLibrary.simpleMessage("个人资料"),
+        "public": MessageLookupByLibrary.simpleMessage("公开"),
         "publicClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "如果您可以与邻居分享衣橱中的物品，甚至举办本地促销活动，您会感兴趣吗？"),
         "publicClosetFeatureTitle":
             MessageLookupByLibrary.simpleMessage("与社区共享您的衣橱"),
+        "publicOrPrivate": MessageLookupByLibrary.simpleMessage("公开或私人"),
         "public_closet": MessageLookupByLibrary.simpleMessage("公共衣橱"),
         "purchase_button": MessageLookupByLibrary.simpleMessage("立即购买"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
@@ -521,6 +549,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("成功！您的衣橱又增添了一些时尚！🎉"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("上传"),
         "usageInsights": MessageLookupByLibrary.simpleMessage("使用情况分析"),
+        "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
+            "探索您的多衣橱选项。您可以创建一个新的多衣橱，\n从所有多衣橱中编辑物品，或对单个多衣橱进行修改。"),
         "white": MessageLookupByLibrary.simpleMessage("白色"),
         "winter": MessageLookupByLibrary.simpleMessage("冬季"),
         "workplace": MessageLookupByLibrary.simpleMessage("工作场所"),

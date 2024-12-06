@@ -284,4 +284,23 @@ Future<List<Map<String, dynamic>>> fetchPermanentClosets() async {
       throw Exception('Failed to access filter pages: $error');
     }
   }
+
+  /// Checks access to  multi_closet page
+  Future<bool> accessMultiClosetPage() async {
+    _logger.i('Starting access check for multi-closet page.');
+
+    try {
+      final result = await Supabase.instance.client.rpc('check_user_access_to_access_multi_closet_page');
+      if (result is bool) {
+        _logger.i('Access check for multi_closet page completed successfully. Result: $result');
+        return result;
+      } else {
+        _logger.e('Unexpected result type from RPC for  multi_closet page access: $result');
+        throw Exception('Unexpected result from RPC: $result');
+      }
+    } catch (error) {
+      _logger.e('Error during access check for  multi_closet page: $error');
+      throw Exception('Failed to access filter pages: $error');
+    }
+  }
 }

@@ -41,7 +41,7 @@ class OutfitFeatureContainer extends StatelessWidget {
                 onPressed: onFilterButtonPressed,
                 assetPath: TypeDataList.filter(context).assetPath,
                 isFromMyCloset: false,
-                buttonType: ButtonType.primary,
+                buttonType: ButtonType.secondary,
                 usePredefinedColor: false,
               ),
               NavigationTypeButton(
@@ -50,7 +50,7 @@ class OutfitFeatureContainer extends StatelessWidget {
                 onPressed: onArrangeButtonPressed,
                 assetPath: TypeDataList.arrange(context).assetPath,
                 isFromMyCloset: false,
-                buttonType: ButtonType.primary,
+                buttonType: ButtonType.secondary,
                 usePredefinedColor: false,
               ),
               NavigationTypeButton(

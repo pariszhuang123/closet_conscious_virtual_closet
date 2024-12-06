@@ -8,6 +8,9 @@ import '../../user_management/achievements/presentation/pages/achievements_page.
 import '../../user_management/authentication/presentation/pages/login/login_screen.dart';
 import '../../item_management/upload_item/presentation/pages/upload_item_provider.dart';
 import '../../item_management/edit_item/presentation/pages/edit_item_provider.dart';
+import '../../item_management/multi_closet/view_multi_closet/presentation/pages/multi_closet_scaffold.dart';
+import '../../item_management/multi_closet/view_multi_closet/presentation/pages/view_multi_closet_provider.dart';
+import '../../item_management/multi_closet/create_multi_closet/presentation/pages/create_multi_closet_provider.dart';
 import '../screens/webview_screen.dart';
 import '../../user_management/achievements/data/models/achievements_page_argument.dart';
 import '../../core/data/models/arguments.dart';
@@ -38,6 +41,10 @@ class AppRoutes {
   static const String payment = '/payment';
   static const String customize = '/customize';
   static const String filter = '/filter';
+  static const String viewMultiCloset = '/view_multi_closet';
+  static const String createMultiCloset = '/create_multi_closet';
+  static const String editSingleMultiCloset = '/edit_single_multi_closet';
+
 
   static final CustomLogger logger = CustomLogger('AppRoutes');
 
@@ -140,6 +147,24 @@ class AppRoutes {
         logger.d("Navigating to editItem with itemId: $itemId");
         return MaterialPageRoute(
           builder: (_) => EditItemProvider(itemId: itemId),
+        );
+      case viewMultiCloset:
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        logger.d("Arguments for viewMultiCloset: $args"); // Log arguments
+        final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
+        logger.d("Navigating to ViewMultiCloset with isFromMyCloset: $isFromMyCloset");
+        return MaterialPageRoute(
+          builder: (_) => MultiClosetScaffold(
+            body: ViewMultiClosetProvider(
+              isFromMyCloset: isFromMyCloset,
+            ),
+          ),
+        );
+      case createMultiCloset:
+        return MaterialPageRoute(
+          builder: (_) => MultiClosetScaffold(
+            body: CreateMultiClosetProvider(),
+          ),
         );
       case infoHub:
         final args = settings.arguments as InfoHubArguments;

@@ -30,6 +30,10 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+    final double calculatedDrawerHeaderHeight = appBarHeight + statusBarHeight;
+
+
     logger.d(
         'Building AppDrawer for ${isFromMyCloset ? 'My Closet' : 'My Outfit'}');
 
@@ -44,7 +48,7 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: appBarHeight * 1.53,
+            height: calculatedDrawerHeaderHeight, // Ensure consistent height
             child: DrawerHeader(
               decoration: BoxDecoration(
                 color: Theme

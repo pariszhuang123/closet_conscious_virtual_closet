@@ -740,6 +740,36 @@ class S {
     );
   }
 
+  /// `Create Closet`
+  String get createCloset {
+    return Intl.message(
+      'Create Closet',
+      name: 'createCloset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit All Closets`
+  String get allClosets {
+    return Intl.message(
+      'Edit All Closets',
+      name: 'allClosets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No closets found`
+  String get noClosetsFound {
+    return Intl.message(
+      'No closets found',
+      name: 'noClosetsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Public`
   String get public_closet {
     return Intl.message(
@@ -1755,6 +1785,66 @@ class S {
     return Intl.message(
       'We’re exploring adding multiple closets (permanent, disappearing)—would you use this?',
       name: 'multiClosetFeatureDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manage Your Multi-Closets`
+  String get MultiClosetFeatureTitle {
+    return Intl.message(
+      'Manage Your Multi-Closets',
+      name: 'MultiClosetFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Explore options for your multi-closets.\nYou can create a new multi-closet,\nedit items from all multi-closets,\nor make changes to a single multi-closet.`
+  String get viewMultiClosetDescription {
+    return Intl.message(
+      'Explore options for your multi-closets.\nYou can create a new multi-closet,\nedit items from all multi-closets,\nor make changes to a single multi-closet.',
+      name: 'viewMultiClosetDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create a new multi-closet, organize items,\nand add metadata to keep your closets structured`
+  String get createMultiClosetDescription {
+    return Intl.message(
+      'Create a new multi-closet, organize items,\nand add metadata to keep your closets structured',
+      name: 'createMultiClosetDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit a single multi-closet.\nTransfer items to another closet,\nupdate metadata,\nchange the multi-closet image,\nor archive the closet.`
+  String get editSingleMultiClosetDescription {
+    return Intl.message(
+      'Edit a single multi-closet.\nTransfer items to another closet,\nupdate metadata,\nchange the multi-closet image,\nor archive the closet.',
+      name: 'editSingleMultiClosetDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit all multi-closets at once.\nTransfer items to a single closet and streamline your wardrobe.`
+  String get editAllMultiClosetDescription {
+    return Intl.message(
+      'Edit all multi-closets at once.\nTransfer items to a single closet and streamline your wardrobe.',
+      name: 'editAllMultiClosetDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Multi-Closet Management`
+  String get multiClosetManagement {
+    return Intl.message(
+      'Multi-Closet Management',
+      name: 'multiClosetManagement',
       desc: '',
       args: [],
     );
@@ -3495,6 +3585,126 @@ class S {
     return Intl.message(
       'No closets available',
       name: 'noClosetsAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Closet Name`
+  String get closetName {
+    return Intl.message(
+      'Closet Name',
+      name: 'closetName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Closet Type`
+  String get closetType {
+    return Intl.message(
+      'Closet Type',
+      name: 'closetType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Permanent Closet`
+  String get permanentCloset {
+    return Intl.message(
+      'Permanent Closet',
+      name: 'permanentCloset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disappearing Closet`
+  String get disappearingCloset {
+    return Intl.message(
+      'Disappearing Closet',
+      name: 'disappearingCloset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Public or Private`
+  String get publicOrPrivate {
+    return Intl.message(
+      'Public or Private',
+      name: 'publicOrPrivate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Public`
+  String get public {
+    return Intl.message(
+      'Public',
+      name: 'public',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Private`
+  String get private {
+    return Intl.message(
+      'Private',
+      name: 'private',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hidden for`
+  String get disappearAfterMonths {
+    return Intl.message(
+      'Hidden for',
+      name: 'disappearAfterMonths',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Months`
+  String get months {
+    return Intl.message(
+      'Months',
+      name: 'months',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Closet created successfully!`
+  String get closet_created_successfully {
+    return Intl.message(
+      'Closet created successfully!',
+      name: 'closet_created_successfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error: {error}`
+  String error_creating_closet(Object error) {
+    return Intl.message(
+      'Error: $error',
+      name: 'error_creating_closet',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `Create Closet`
+  String get create_closet {
+    return Intl.message(
+      'Create Closet',
+      name: 'create_closet',
       desc: '',
       args: [],
     );

@@ -70,7 +70,7 @@ class OutfitGrid extends StatelessWidget {
                 return BlocBuilder<SelectionOutfitItemsBloc, SelectionOutfitItemsState>(
                   builder: (context, selectionState) {
                     final isSelected = selectionState.selectedItemIds.contains(item.itemId);
-                    return OutfitGridItem(
+                    return SelectableGridItem(
                       item: item,
                       isSelected: isSelected,
                       imageSize: imageSize,

@@ -183,6 +183,29 @@ class FeatureDataList {
           ),
         ],
       ),
+      FeatureData(
+        getTitle: (context) => S.of(context).MultiClosetFeatureTitle,
+        featureKey: FeatureKey.multicloset,
+        isUsageFeature: false,
+        parts: [
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/filter_basic.jpg',
+            getDescription: (context) => S.of(context).viewMultiClosetDescription,
+          ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/filter_advance.jpg',
+            getDescription: (context) => S.of(context).createMultiClosetDescription,
+          ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/filter_closet.jpg',
+            getDescription: (context) => S.of(context).editSingleMultiClosetDescription,
+          ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/filter_outfit.jpg',
+            getDescription: (context) => S.of(context).editAllMultiClosetDescription,
+          ),
+        ],
+      ),
 
     ];
   }

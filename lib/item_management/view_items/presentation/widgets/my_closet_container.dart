@@ -83,7 +83,7 @@ class MyClosetContainer extends StatelessWidget {
                     onPressed: onFilterButtonPressed,
                     assetPath: filterData.assetPath ?? '',
                     isFromMyCloset: true,
-                    buttonType: ButtonType.primary,
+                    buttonType: ButtonType.secondary,
                     usePredefinedColor: false,
                   ),
                   NavigationTypeButton(
@@ -92,7 +92,7 @@ class MyClosetContainer extends StatelessWidget {
                     onPressed: onArrangeButtonPressed,
                     assetPath: arrangeData.assetPath ?? '',
                     isFromMyCloset: true,
-                    buttonType: ButtonType.primary,
+                    buttonType: ButtonType.secondary,
                     usePredefinedColor: false,
                   ),
                   NavigationTypeButton(

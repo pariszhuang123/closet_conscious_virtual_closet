@@ -47,14 +47,15 @@ class SingleSelectionTab extends StatelessWidget {
               ),
             const SizedBox(height: 20),
             if (state.hasMultiClosetFeature && !state.allCloset)
-              ClosetGridWidget(
-                closets: state.allClosetsDisplay,
-                selectedClosetId: state.selectedClosetId,
-                onSelectCloset: (closetId) {
-                  context.read<FilterBloc>().add(UpdateFilterEvent(selectedClosetId: closetId));
-                  logger.i('Dispatched UpdateFilterEvent with selectedClosetId: $closetId');
-                },
-                logger: logger,
+              Expanded(
+                child: ClosetGridWidget(
+                  closets: state.allClosetsDisplay,
+                  selectedClosetId: state.selectedClosetId,
+                  onSelectCloset: (closetId) {
+                    context.read<FilterBloc>().add(UpdateFilterEvent(selectedClosetId: closetId));
+                    logger.i('Dispatched UpdateFilterEvent with selectedClosetId: $closetId');
+                  },
+                ),
               ),
           ],
         ),

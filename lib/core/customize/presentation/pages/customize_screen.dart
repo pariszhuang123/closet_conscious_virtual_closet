@@ -40,7 +40,7 @@ class CustomizeScreen extends StatelessWidget {
       data: theme,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(S.of(context).customizeClosetView, style: theme.textTheme.titleLarge),
+          title: Text(S.of(context).customizeClosetView, style: theme.textTheme.titleMedium),
           actions: [
             // Reset to Default Icon Button
             IconButton(

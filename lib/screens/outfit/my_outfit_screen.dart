@@ -530,13 +530,13 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   icon: const Icon(Icons.dry_cleaning_outlined),
                   label: S
                       .of(context)
-                      .closetLabel,
+                      .myClosetTitle,
                 ),
                 BottomNavigationBarItem(
                   icon: const Icon(Icons.wc_outlined),
                   label: S
                       .of(context)
-                      .outfitLabel,
+                      .myOutfitTitle,
                 ),
               ],
               currentIndex: _selectedIndex,

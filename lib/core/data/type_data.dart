@@ -157,6 +157,16 @@ class TypeDataList {
       TypeData('addCloset_addCloset', (context) => S.of(context).addCloset_addCloset, 'assets/icons/general/add_closet.svg', false);
   }
 
+  static TypeData createCloset(BuildContext context) {
+    return
+      TypeData('createCloset', (context) => S.of(context).createCloset, 'assets/icons/general/add_closet.svg', false);
+  }
+
+  static TypeData allClosets(BuildContext context) {
+    return
+      TypeData('allClosets', (context) => S.of(context).allClosets, 'assets/icons/general/all_closets.svg', false);
+  }
+
   static TypeData publicCloset(BuildContext context) {
     return
       TypeData('public_closet', (context) => S.of(context).public_closet, 'assets/icons/general/public_closet.svg', false);
@@ -253,6 +263,7 @@ class TypeDataList {
   static TypeData share(BuildContext context) {
     return TypeData('share', (context) => S.of(context).share, 'assets/icons/my_outfit/outfit_review/share_outfit.svg', false);
   }
+
   static List<TypeData> gridSizes(BuildContext context) {
     return [
       TypeData('3', (context) => S.of(context).gridSize3, 'assets/icons/general/arrange/counter_3.svg', false),
