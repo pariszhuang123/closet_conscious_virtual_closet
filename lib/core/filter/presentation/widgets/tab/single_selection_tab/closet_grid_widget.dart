@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../../../../utilities/logger.dart';
 import '../../../widgets/closet_grid.dart';
-import '../../../../../../item_management/core/data/models/multi_closet.dart';
+import '../../../../../../item_management/core/data/models/multi_closet_minimal.dart';
 import '../../../../../../generated/l10n.dart';
 
 class ClosetGridWidget extends StatelessWidget {
-  final List<MultiCloset> closets; // Use MultiCloset here
+  final List<MultiClosetMinimal> closets; // Use MultiCloset here
   final String selectedClosetId;
   final Function(String) onSelectCloset;
 

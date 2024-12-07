@@ -2,7 +2,7 @@ part of 'filter_bloc.dart';
 
 class FilterState extends Equatable {
   final bool hasMultiClosetFeature;
-  final List<MultiCloset> allClosetsDisplay;
+  final List<MultiClosetMinimal> allClosetsDisplay;
   final List<String>? itemType;
   final List<String>? occasion;
   final List<String>? season;
@@ -39,7 +39,7 @@ class FilterState extends Equatable {
 
   FilterState copyWith({
     bool? hasMultiClosetFeature,
-    List<MultiCloset>? allClosetsDisplay,
+    List<MultiClosetMinimal>? allClosetsDisplay,
     List<String>? itemType,
     List<String>? occasion,
     List<String>? season,

@@ -7,7 +7,7 @@ class ViewMultiClosetsInitial extends ViewMultiClosetState {}
 class ViewMultiClosetsLoading extends ViewMultiClosetState {}
 
 class ViewMultiClosetsLoaded extends ViewMultiClosetState {
-  final List<MultiCloset> closets;
+  final List<MultiClosetMinimal> closets;
 
   ViewMultiClosetsLoaded(this.closets);
 }

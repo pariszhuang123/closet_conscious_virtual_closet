@@ -1870,6 +1870,56 @@ class S {
     );
   }
 
+  /// `Please enter a closet name`
+  String get enterClosetName {
+    return Intl.message(
+      'Please enter a closet name',
+      name: 'enterClosetName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Closet name cannot be empty`
+  String get closetNameCannotBeEmpty {
+    return Intl.message(
+      'Closet name cannot be empty',
+      name: 'closetNameCannotBeEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Months cannot be empty`
+  String get monthsCannotBeEmpty {
+    return Intl.message(
+      'Months cannot be empty',
+      name: 'monthsCannotBeEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid months (enter a positive number)`
+  String get invalidMonths {
+    return Intl.message(
+      'Invalid months (enter a positive number)',
+      name: 'invalidMonths',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the number of months`
+  String get enterMonths {
+    return Intl.message(
+      'Please enter the number of months',
+      name: 'enterMonths',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `More Item Details?`
   String get metadataFeatureTitle {
     return Intl.message(

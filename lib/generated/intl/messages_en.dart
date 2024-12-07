@@ -135,6 +135,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Click Upload button to upload your first item in the closet."),
         "closetLabel": MessageLookupByLibrary.simpleMessage("Closet"),
         "closetName": MessageLookupByLibrary.simpleMessage("Closet Name"),
+        "closetNameCannotBeEmpty":
+            MessageLookupByLibrary.simpleMessage("Closet name cannot be empty"),
         "closetType": MessageLookupByLibrary.simpleMessage("Closet Type"),
         "closetUploadAchievement":
             MessageLookupByLibrary.simpleMessage("Virtual Closet Complete!"),
@@ -236,8 +238,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Edit a single multi-closet.\nTransfer items to another closet,\nupdate metadata,\nchange the multi-closet image,\nor archive the closet."),
         "enterAmountSpentHint":
             MessageLookupByLibrary.simpleMessage("Enter amount spent"),
+        "enterClosetName":
+            MessageLookupByLibrary.simpleMessage("Please enter a closet name"),
         "enterEventName":
             MessageLookupByLibrary.simpleMessage("What\'s the occasion?"),
+        "enterMonths": MessageLookupByLibrary.simpleMessage(
+            "Please enter the number of months"),
         "error":
             MessageLookupByLibrary.simpleMessage("Oops, something went wrong."),
         "errorDeclutter": MessageLookupByLibrary.simpleMessage(
@@ -320,6 +326,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "interestAcknowledged": MessageLookupByLibrary.simpleMessage(
             "Got it! We’ve noted your interest—stay tuned for updates! 🎉"),
         "interested": MessageLookupByLibrary.simpleMessage("Interested"),
+        "invalidMonths": MessageLookupByLibrary.simpleMessage(
+            "Invalid months (enter a positive number)"),
         "itemLastWorn": MessageLookupByLibrary.simpleMessage("Last Worn"),
         "itemNameFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Item Name field is not filled."),
@@ -345,6 +353,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("More Item Details?"),
         "mid": MessageLookupByLibrary.simpleMessage("Mid"),
         "months": MessageLookupByLibrary.simpleMessage("Months"),
+        "monthsCannotBeEmpty":
+            MessageLookupByLibrary.simpleMessage("Months cannot be empty"),
         "multi": MessageLookupByLibrary.simpleMessage("Multi"),
         "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "We’re exploring adding multiple closets (permanent, disappearing)—would you use this?"),

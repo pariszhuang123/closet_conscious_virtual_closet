@@ -209,7 +209,8 @@ Future<List<Map<String, dynamic>>> fetchPermanentClosets() async {
           .from('user_closets')
           .select('closet_id, closet_name, closet_image')
           .eq('type', 'permanent')
-          .eq('is_active', true);
+          .eq('is_active', true)
+          .order('created_at', ascending: true);
 
       if (data.isEmpty) {
         throw Exception('No closets found for this user');
@@ -227,7 +228,9 @@ Future<List<Map<String, dynamic>>> fetchPermanentClosets() async {
       final data = await Supabase.instance.client
           .from('user_closets')
           .select('closet_id, closet_name, closet_image')
-          .eq('is_active', true);
+          .eq('is_active', true)
+          .order('created_at', ascending: true);
+
 
       if (data.isEmpty) {
         throw Exception('No closets found for this user');

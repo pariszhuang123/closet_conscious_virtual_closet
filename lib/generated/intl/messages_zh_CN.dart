@@ -119,6 +119,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("点击上传按钮，将你的第一件物品上传到衣橱。"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("衣橱"),
         "closetName": MessageLookupByLibrary.simpleMessage("衣橱名称"),
+        "closetNameCannotBeEmpty":
+            MessageLookupByLibrary.simpleMessage("衣橱名称不能为空"),
         "closetType": MessageLookupByLibrary.simpleMessage("衣橱类型"),
         "closetUploadAchievement":
             MessageLookupByLibrary.simpleMessage("虚拟衣橱已完成！"),
@@ -206,7 +208,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "编辑单个多衣橱。将物品转移到另一个衣橱，\n更新元数据，更改多衣橱图片，或归档该衣橱。"),
         "enterAmountSpentHint": MessageLookupByLibrary.simpleMessage("输入花费金额"),
+        "enterClosetName": MessageLookupByLibrary.simpleMessage("请输入衣橱名称"),
         "enterEventName": MessageLookupByLibrary.simpleMessage("这个是什么场合？"),
+        "enterMonths": MessageLookupByLibrary.simpleMessage("请输入月份数"),
         "error": MessageLookupByLibrary.simpleMessage("哎呀，出了点问题。"),
         "errorDeclutter": MessageLookupByLibrary.simpleMessage(
             "我们暂时无法整理您的衣橱，但别担心——我们会尽快再试！🌿"),
@@ -280,6 +284,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "interestAcknowledged":
             MessageLookupByLibrary.simpleMessage("已记录您的兴趣——敬请期待更新！🎉"),
         "interested": MessageLookupByLibrary.simpleMessage("有兴趣"),
+        "invalidMonths": MessageLookupByLibrary.simpleMessage("无效的月份（请输入正数）"),
         "itemLastWorn": MessageLookupByLibrary.simpleMessage("最后穿着"),
         "itemNameFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("物品名称未填写。"),
@@ -304,6 +309,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "metadataFeatureTitle": MessageLookupByLibrary.simpleMessage("更多物品细节？"),
         "mid": MessageLookupByLibrary.simpleMessage("中层"),
         "months": MessageLookupByLibrary.simpleMessage("月"),
+        "monthsCannotBeEmpty": MessageLookupByLibrary.simpleMessage("月份不能为空"),
         "multi": MessageLookupByLibrary.simpleMessage("多季"),
         "multiClosetFeatureDescription":
             MessageLookupByLibrary.simpleMessage("我们正在探索添加多个衣橱（永久、消失）——您会使用吗？"),

@@ -6,7 +6,7 @@ import '../../../utilities/logger.dart';
 import '../../../data/services/core_fetch_services.dart';
 import '../../../data/services/core_save_services.dart';
 import '../../data/models/filter_setting.dart';
-import '../../../../item_management/core/data/models/multi_closet.dart';
+import '../../../../item_management/core/data/models/multi_closet_minimal.dart';
 
 part 'filter_state.dart';
 part 'filter_event.dart';
@@ -39,7 +39,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       final closetData = await fetchService.fetchPermanentClosets();
       logger.i('Fetched all closets successfully: ${closetData.length} items');
 
-      final allClosetsDisplay = closetData.map((closetMap) => MultiCloset.fromMap(closetMap)).toList();
+      final allClosetsDisplay = closetData.map((closetMap) => MultiClosetMinimal.fromMap(closetMap)).toList();
 
       final filterData = await fetchService.fetchFilterSettings();
       logger.i('Filter settings loaded successfully');

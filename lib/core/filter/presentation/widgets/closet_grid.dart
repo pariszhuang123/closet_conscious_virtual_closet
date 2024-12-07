@@ -3,11 +3,11 @@ import '../../../../core/widgets/layout/base_grid.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import '../../../../core/core_enums.dart';
-import '../../../../item_management/core/data/models/multi_closet.dart';
+import '../../../../item_management/core/data/models/multi_closet_minimal.dart';
 import '../../../../generated/l10n.dart';
 
 class ClosetGrid extends StatelessWidget {
-  final List<MultiCloset> closets; // List of closets as MultiCloset objects
+  final List<MultiClosetMinimal> closets; // List of closets as MultiCloset objects
   final ScrollController scrollController;
   final ThemeData myClosetTheme;
   final CustomLogger logger;
@@ -30,7 +30,7 @@ class ClosetGrid extends StatelessWidget {
       return Center(child: Text(S.of(context).noClosetsAvailable));
     }
 
-    return BaseGrid<MultiCloset>(
+    return BaseGrid<MultiClosetMinimal>(
       items: closets,
       scrollController: scrollController,
       logger: logger,
