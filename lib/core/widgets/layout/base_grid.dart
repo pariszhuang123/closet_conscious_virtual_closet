@@ -36,7 +36,11 @@ class BaseGrid<T> extends StatelessWidget {
       ),
       itemCount: items.length,
       itemBuilder: (context, index) {
-        return itemBuilder(context, items[index], index);
+        // Wrap each item with ValueKey to optimize rebuilding
+        return KeyedSubtree(
+          key: ValueKey(items[index]),
+          child: itemBuilder(context, items[index], index),
+        );
       },
     );
   }

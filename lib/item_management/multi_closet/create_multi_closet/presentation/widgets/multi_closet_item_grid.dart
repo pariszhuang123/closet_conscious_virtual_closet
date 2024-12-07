@@ -13,17 +13,13 @@ import '../../../create_multi_closet/presentation/bloc/create_multi_closet_bloc.
 class ClosetItemGrid extends StatelessWidget {
   final ScrollController scrollController;
   final List<ClosetItemMinimal> items;
-  final List<String> selectedItemIds;
   final int crossAxisCount;
-  final void Function(String itemId) onToggleSelection;
 
   ClosetItemGrid({
     super.key,
     required this.scrollController,
     required this.items,
-    required this.selectedItemIds,
     required this.crossAxisCount,
-    required this.onToggleSelection,
   }) : _logger = CustomLogger('ClosetItemGrid');
 
   final CustomLogger _logger;
@@ -51,7 +47,6 @@ class ClosetItemGrid extends StatelessWidget {
 
     _logger.d('Building ClosetItemGrid');
     _logger.d('Total items: ${items.length}');
-    _logger.d('Selected item IDs: $selectedItemIds');
 
     if (items.isEmpty) {
       _logger.d('No items in the closet.');
@@ -69,19 +64,23 @@ class ClosetItemGrid extends StatelessWidget {
         items: items,
         scrollController: scrollController,
         itemBuilder: (context, item, index) {
-          final isSelected = selectedItemIds.contains(item.itemId);
-          _logger.d('Item ID: ${item.itemId}, isSelected: $isSelected');
-
-          return SelectableGridItem(
-            key: ValueKey('${item.itemId}_${selectedItemIds.contains(item.itemId)}'),
-            item: item,
-            isSelected: isSelected,
-            imageSize: imageSize,
-            showItemName: showItemName,
-            crossAxisCount: crossAxisCount,
-            onToggleSelection: () {
-              _logger.d('Toggling selection for itemId: ${item.itemId}');
-              context.read<CreateMultiClosetBloc>().add(ToggleSelectItem(item.itemId));
+          // Use BlocSelector to determine if this specific item is selected
+          return BlocSelector<CreateMultiClosetBloc, CreateMultiClosetState, bool>(
+            selector: (state) => state.selectedItemIds.contains(item.itemId),
+            builder: (context, isSelected) {
+              _logger.d('Item ID: ${item.itemId}, isSelected: $isSelected');
+              return SelectableGridItem(
+                key: ValueKey('${item.itemId}_$isSelected'),
+                item: item,
+                isSelected: isSelected,
+                imageSize: imageSize,
+                showItemName: showItemName,
+                crossAxisCount: crossAxisCount,
+                onToggleSelection: () {
+                  _logger.d('Toggling selection for itemId: ${item.itemId}');
+                  context.read<CreateMultiClosetBloc>().add(ToggleSelectItem(item.itemId));
+                },
+              );
             },
           );
         },

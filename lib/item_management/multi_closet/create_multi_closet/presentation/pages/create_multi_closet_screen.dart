@@ -126,31 +126,21 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
 
                   // Item Grid
                   Expanded(
-                    // BlocSelector ensures only `selectedItemIds` updates trigger this rebuild
-                    child: BlocSelector<CreateMultiClosetBloc, CreateMultiClosetState, List<String>>(
-                      selector: (state) => state.selectedItemIds,
-                      builder: (context, selectedItemIds) {
-                        return BlocBuilder<ViewItemsBloc, ViewItemsState>(
-                          builder: (context, viewState) {
-                            if (viewState is ItemsLoading) {
-                              return const Center(child: ClosetProgressIndicator());
-                            } else if (viewState is ItemsError) {
-                              return Center(child: Text(S.of(context).failedToLoadItems));
-                            } else if (viewState is ItemsLoaded) {
-                              return ClosetItemGrid(
-                                items: viewState.items, // Pass items from ViewItemsBloc
-                                selectedItemIds: selectedItemIds, // Pass selectedItemIds from CreateMultiClosetBloc
-                                scrollController: _scrollController,
-                                crossAxisCount: crossAxisCount,
-                                onToggleSelection: (itemId) {
-                                  context.read<CreateMultiClosetBloc>().add(ToggleSelectItem(itemId));
-                                }, // Handle item selection
-                              );
-                            } else {
-                              return Center(child: Text(S.of(context).noItemsInCloset));
-                            }
-                          },
-                        );
+                    child: BlocBuilder<ViewItemsBloc, ViewItemsState>(
+                      builder: (context, viewState) {
+                        if (viewState is ItemsLoading) {
+                          return const Center(child: ClosetProgressIndicator());
+                        } else if (viewState is ItemsError) {
+                          return Center(child: Text(S.of(context).failedToLoadItems));
+                        } else if (viewState is ItemsLoaded) {
+                          return ClosetItemGrid(
+                            items: viewState.items,
+                            scrollController: _scrollController,
+                            crossAxisCount: crossAxisCount,
+                          );
+                        } else {
+                          return Center(child: Text(S.of(context).noItemsInCloset));
+                        }
                       },
                     ),
                   ),
