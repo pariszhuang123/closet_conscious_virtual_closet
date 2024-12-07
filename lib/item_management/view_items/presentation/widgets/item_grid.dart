@@ -53,7 +53,6 @@ class ItemGrid extends StatelessWidget {
     return BaseGrid<ClosetItemMinimal>(
       items: items,
       scrollController: scrollController,
-      logger: logger,
       crossAxisCount: crossAxisCount,
       childAspectRatio: childAspectRatio,
       itemBuilder: (context, item, index) {

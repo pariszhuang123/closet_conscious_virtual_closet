@@ -34,7 +34,6 @@ class ClosetGridWidget extends StatelessWidget {
       closets: localizedClosets,
       scrollController: ScrollController(),
       myClosetTheme: Theme.of(context),
-      logger: logger,
       selectedClosetId: selectedClosetId,
       onSelectCloset: (closetId) {
         logger.d('User selected closet with ID: $closetId');

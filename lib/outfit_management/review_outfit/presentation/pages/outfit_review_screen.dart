@@ -171,7 +171,6 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                                 child: BaseGrid<OutfitItemMinimal>(
                                   items: state.items,
                                   scrollController: ScrollController(),
-                                  logger: logger,
                                   itemBuilder: (context, item, index) {
                                     logger.i('Rendering item: ${item.name}, isDisliked: ${item.isDisliked}');
                                     return Padding(

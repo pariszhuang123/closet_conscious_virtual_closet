@@ -65,7 +65,6 @@ class OutfitGrid extends StatelessWidget {
             child: BaseGrid<ClosetItemMinimal>(
               items: currentItems,
               scrollController: scrollController,
-              logger: logger,
               itemBuilder: (context, item, index) {
                 return BlocBuilder<SelectionOutfitItemsBloc, SelectionOutfitItemsState>(
                   builder: (context, selectionState) {

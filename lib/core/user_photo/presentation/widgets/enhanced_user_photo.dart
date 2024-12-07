@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'base/user_photo.dart';
 import '../../../core_enums.dart';
+import '../../../utilities/logger.dart';
+
 
 class EnhancedUserPhoto extends StatelessWidget {
   final String imageUrl;
@@ -11,7 +14,9 @@ class EnhancedUserPhoto extends StatelessWidget {
   final String itemId;
   final ImageSize imageSize;
 
-  const EnhancedUserPhoto({
+  final CustomLogger _logger = CustomLogger('EnhancedUserPhoto');
+
+  EnhancedUserPhoto({
     super.key,
     required this.imageUrl,
     required this.isSelected,
@@ -28,8 +33,13 @@ class EnhancedUserPhoto extends StatelessWidget {
 
     final bool showBorder = isSelected || isDisliked;
 
+    _logger.d('Building EnhancedUserPhoto - Item ID: $itemId, isSelected: $isSelected, isDisliked: $isDisliked');
+
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () {
+        _logger.i('EnhancedUserPhoto tapped - Item ID: $itemId');
+        onPressed(); // Trigger the onPressed callback
+      },
       child: Container(
         decoration: BoxDecoration(
           color: Colors.transparent,

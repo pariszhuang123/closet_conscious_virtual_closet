@@ -104,79 +104,73 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                   ).show(context);
                 }
               },
-              child: BlocBuilder<CreateMultiClosetBloc, CreateMultiClosetState>(
-                builder: (context, state) {
-                  logger.d('BlocBuilder triggered with state: $state');
-
-                  closetNameController.text = state.closetName;
-                  monthsController.text = state.monthsLater?.toString() ?? '';
-
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Metadata Form
-                      CreateMultiClosetMetadata(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Metadata Form
+                  BlocBuilder<CreateMultiClosetBloc, CreateMultiClosetState>(
+                    builder: (context, state) {
+                      logger.d('CreateMultiClosetBloc Builder triggered with state: $state');
+                      closetNameController.text = state.closetName;
+                      monthsController.text = state.monthsLater?.toString() ?? '';
+                      return CreateMultiClosetMetadata(
                         closetNameController: closetNameController,
                         monthsController: monthsController,
                         closetType: state.closetType,
                         isPublic: state.isPublic ?? false,
                         theme: theme,
-                      ),
-                      const SizedBox(height: 16),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 16),
 
-                      // Item Grid
-                      Expanded(
-                        child: BlocBuilder<ViewItemsBloc, ViewItemsState>(
+                  // Item Grid
+                  Expanded(
+                    // BlocSelector ensures only `selectedItemIds` updates trigger this rebuild
+                    child: BlocSelector<CreateMultiClosetBloc, CreateMultiClosetState, List<String>>(
+                      selector: (state) => state.selectedItemIds,
+                      builder: (context, selectedItemIds) {
+                        return BlocBuilder<ViewItemsBloc, ViewItemsState>(
                           builder: (context, viewState) {
                             if (viewState is ItemsLoading) {
-                              return const Center(
-                                  child: ClosetProgressIndicator());
+                              return const Center(child: ClosetProgressIndicator());
                             } else if (viewState is ItemsError) {
-                              return Center(
-                                  child: Text(S
-                                      .of(context)
-                                      .failedToLoadItems));
+                              return Center(child: Text(S.of(context).failedToLoadItems));
                             } else if (viewState is ItemsLoaded) {
                               return ClosetItemGrid(
-                                items: viewState.items,
+                                items: viewState.items, // Pass items from ViewItemsBloc
+                                selectedItemIds: selectedItemIds, // Pass selectedItemIds from CreateMultiClosetBloc
                                 scrollController: _scrollController,
-                                logger: CustomLogger("ClosetGrid"),
                                 crossAxisCount: crossAxisCount,
-                                itemSelector:
-                                context.read<CreateMultiClosetBloc>(),
+                                onToggleSelection: (itemId) {
+                                  context.read<CreateMultiClosetBloc>().add(ToggleSelectItem(itemId));
+                                }, // Handle item selection
                               );
                             } else {
-                              return Center(
-                                  child: Text(S
-                                      .of(context)
-                                      .noItemsInCloset));
+                              return Center(child: Text(S.of(context).noItemsInCloset));
                             }
                           },
-                        ),
-                      ),
-                      const SizedBox(height: 16),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
 
-                      // Save Button Section
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16,
-                            vertical: 20),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: ThemedElevatedButton(
-                            onPressed: () {
-                              logger.i('Save button pressed');
-                              context.read<CreateMultiClosetBloc>().add(
-                                  ValidateClosetDetails());
-                            },
-                            text: S
-                                .of(context)
-                                .create_closet,
-                          ),
-                        ),
+                  // Save Button Section
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ThemedElevatedButton(
+                        onPressed: () {
+                          logger.i('Save button pressed');
+                          context.read<CreateMultiClosetBloc>().add(ValidateClosetDetails());
+                        },
+                        text: S.of(context).create_closet,
                       ),
-                    ],
-                  );
-                },
+                    ),
+                  ),
+                ],
               ),
             );
           }

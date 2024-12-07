@@ -10,19 +10,19 @@ class ClosetGrid extends StatelessWidget {
   final List<MultiClosetMinimal> closets; // List of closets as MultiCloset objects
   final ScrollController scrollController;
   final ThemeData myClosetTheme;
-  final CustomLogger logger;
   final String selectedClosetId;
   final ValueChanged<String> onSelectCloset;
 
-  const ClosetGrid({
+  ClosetGrid({
     super.key,
     required this.closets,
     required this.scrollController,
     required this.myClosetTheme,
-    required this.logger,
     required this.selectedClosetId,
     required this.onSelectCloset,
-  });
+  }) : _logger = CustomLogger('ClosetGrid');
+
+  final CustomLogger _logger;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,6 @@ class ClosetGrid extends StatelessWidget {
     return BaseGrid<MultiClosetMinimal>(
       items: closets,
       scrollController: scrollController,
-      logger: logger,
       crossAxisCount: 3,  // Always use itemGrid3 layout
       childAspectRatio: 2 / 3,
       itemBuilder: (context, closet, index) {
@@ -47,7 +46,7 @@ class ClosetGrid extends StatelessWidget {
           isSelected: isSelected,
           isDisliked: false,
           onPressed: () {
-            logger.i('Closet selected: ${closet.closetName}');
+            _logger.i('Closet selected: ${closet.closetName}');
             onSelectCloset(closet.closetId);
           },
         );

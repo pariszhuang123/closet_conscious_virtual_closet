@@ -8,24 +8,25 @@ import '../../../../core/data/models/closet_item_minimal.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/core_enums.dart';
 import '../../../../../outfit_management/create_outfit/presentation/widgets/outfit_grid_item.dart';
-import '../../../../../core/data/item_selector.dart';
-
+import '../../../create_multi_closet/presentation/bloc/create_multi_closet_bloc.dart';
 
 class ClosetItemGrid extends StatelessWidget {
   final ScrollController scrollController;
-  final CustomLogger logger;
   final List<ClosetItemMinimal> items;
-  final ItemSelector itemSelector;
+  final List<String> selectedItemIds;
   final int crossAxisCount;
+  final void Function(String itemId) onToggleSelection;
 
-  const ClosetItemGrid({
+  ClosetItemGrid({
     super.key,
     required this.scrollController,
-    required this.logger,
     required this.items,
-    required this.itemSelector,
+    required this.selectedItemIds,
     required this.crossAxisCount,
-  });
+    required this.onToggleSelection,
+  }) : _logger = CustomLogger('ClosetItemGrid');
+
+  final CustomLogger _logger;
 
   ImageSize _getImageSize(int crossAxisCount) {
     switch (crossAxisCount) {
@@ -45,59 +46,48 @@ class ClosetItemGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final showItemName = !(crossAxisCount == 5 || crossAxisCount == 7);
-    final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 /
-        5 : 2 / 3;
+    final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
     final imageSize = _getImageSize(crossAxisCount);
 
-    return BlocBuilder<ViewItemsBloc, ViewItemsState>(
-      builder: (context, state) {
-        if (state is ItemsLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is ItemsError) {
-          return Center(child: Text(S
-              .of(context)
-              .failedToLoadItems));
-        } else if (state is ItemsLoaded) {
-          if (state.items.isEmpty) {
-            return Center(child: Text(S
-                .of(context)
-                .noItemsInCloset));
-          }
-          return NotificationListener<ScrollNotification>(
-            onNotification: (ScrollNotification scrollInfo) {
-              if (scrollInfo.metrics.pixels ==
-                  scrollInfo.metrics.maxScrollExtent) {
-                context.read<ViewItemsBloc>().add(FetchItemsEvent(state.currentPage));
-              }
-              return false;
-            },
-            child: BaseGrid<ClosetItemMinimal>(
-              items: items,
-              scrollController: scrollController,
-              logger: logger,
-              itemBuilder: (context, item, index) {
-                final isSelected = itemSelector.selectedItemIds.contains(
-                    item.itemId);
-                return SelectableGridItem(
-                  item: item,
-                  isSelected: isSelected,
-                  imageSize: imageSize,
-                  showItemName: showItemName,
-                  crossAxisCount: crossAxisCount,
-                  onToggleSelection: () {
-                    itemSelector.toggleItemSelection(item.itemId);
-                  },
-                );
-              },
-              crossAxisCount: crossAxisCount,
-              childAspectRatio: childAspectRatio,
-            ),
-          );
-        } else {
-          // Default case to handle all scenarios
-          return const SizedBox.shrink();
+    _logger.d('Building ClosetItemGrid');
+    _logger.d('Total items: ${items.length}');
+    _logger.d('Selected item IDs: $selectedItemIds');
+
+    if (items.isEmpty) {
+      _logger.d('No items in the closet.');
+      return Center(child: Text(S.of(context).noItemsInCloset));
+    }
+
+    return NotificationListener<ScrollNotification>(
+      onNotification: (ScrollNotification scrollInfo) {
+        if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+          context.read<ViewItemsBloc>().add(FetchItemsEvent(0));
         }
+        return false;
       },
+      child: BaseGrid<ClosetItemMinimal>(
+        items: items,
+        scrollController: scrollController,
+        itemBuilder: (context, item, index) {
+          final isSelected = selectedItemIds.contains(item.itemId);
+          _logger.d('Item ID: ${item.itemId}, isSelected: $isSelected');
+
+          return SelectableGridItem(
+            key: ValueKey('${item.itemId}_${selectedItemIds.contains(item.itemId)}'),
+            item: item,
+            isSelected: isSelected,
+            imageSize: imageSize,
+            showItemName: showItemName,
+            crossAxisCount: crossAxisCount,
+            onToggleSelection: () {
+              _logger.d('Toggling selection for itemId: ${item.itemId}');
+              context.read<CreateMultiClosetBloc>().add(ToggleSelectItem(item.itemId));
+            },
+          );
+        },
+        crossAxisCount: crossAxisCount,
+        childAspectRatio: childAspectRatio,
+      ),
     );
   }
 }

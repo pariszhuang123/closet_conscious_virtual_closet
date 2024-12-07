@@ -23,7 +23,6 @@ class AchievementGrid extends StatelessWidget {
     return BaseGrid<Achievement>(
       items: achievements,
       scrollController: scrollController,
-      logger: logger,
       crossAxisCount: 3,
       childAspectRatio: 3 / 4,
       itemBuilder: (context, achievement, index) {

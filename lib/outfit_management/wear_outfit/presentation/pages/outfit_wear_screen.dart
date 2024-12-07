@@ -170,7 +170,6 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
                             return BaseGrid<OutfitItemMinimal>(
                               items: state.items,
                               scrollController: ScrollController(),
-                              logger: logger,
                               itemBuilder: (context, item, index) {
                                 return EnhancedUserPhoto(
                                   imageUrl: item.imageUrl,
