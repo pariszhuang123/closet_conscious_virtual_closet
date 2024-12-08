@@ -11,7 +11,7 @@ import '../../../core/presentation/bloc/closet_metadata_cubit/closet_metadata_cu
 class CreateMultiClosetMetadata extends StatelessWidget {
   final TextEditingController closetNameController;
   final TextEditingController? monthsController;
-  final String closetType; // 'permanent' or 'temporary'
+  final String closetType; // 'permanent' or 'disappear'
   final bool isPublic; // true for public, false for private
   final ThemeData theme;
   final Map<String, String>? errorKeys;
@@ -51,6 +51,9 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                   focusedBorderColor: theme.colorScheme.primary,
                   enabledBorderColor: theme.colorScheme.secondary,
                   keyboardType: TextInputType.text,
+                  errorText: errorKeys?['closetName'] != null
+                      ? _translateError(errorKeys!['closetName']!, context)
+                      : null,
                   onChanged: (value) {
                     _logger.d('Closet name changed: $value');
                     context.read<ClosetMetadataCubit>().updateClosetName(value);
@@ -62,11 +65,19 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                 PermanentClosetToggle(
                   isPermanent: metadataState.closetType == 'permanent',
                   onChanged: (value) {
-                    final closetType = value ? 'permanent' : 'temporary';
+                    final closetType = value ? 'permanent' : 'disappear';
                     _logger.d('Closet type changed to: $closetType');
                     context.read<ClosetMetadataCubit>().updateClosetType(closetType);
                   },
                 ),
+                if (errorKeys?['closetType'] != null) // Show closet type error if present
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      _translateError(errorKeys!['closetType']!, context),
+                      style: TextStyle(color: theme.colorScheme.error),
+                    ),
+                  ),
                 const SizedBox(height: 16),
 
                 // Conditional Metadata Fields
@@ -78,7 +89,15 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                       context.read<ClosetMetadataCubit>().updateIsPublic(isPublic);
                     },
                   ),
-                ] else if (metadataState.closetType == 'temporary') ...[
+                  if (errorKeys?['isPublic'] != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        _translateError(errorKeys!['isPublic']!, context),
+                        style: TextStyle(color: theme.colorScheme.error),
+                      ),
+                    ),
+                ] else if (metadataState.closetType == 'disappear') ...[
                   CustomTextFormField(
                     controller: monthsController!,
                     labelText: S.of(context).months,
@@ -87,6 +106,9 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                     focusedBorderColor: theme.colorScheme.primary,
                     enabledBorderColor: theme.colorScheme.secondary,
                     keyboardType: TextInputType.number,
+                    errorText: errorKeys?['monthsLater'] != null
+                        ? _translateError(errorKeys!['monthsLater']!, context)
+                        : null,
                     onChanged: (value) {
                       final months = int.tryParse(value);
                       _logger.d('Months input changed: $months');
@@ -103,3 +125,19 @@ class CreateMultiClosetMetadata extends StatelessWidget {
   }
 }
 
+
+/// Translate error keys to localized messages
+String _translateError(String errorKey, BuildContext context) {
+  switch (errorKey) {
+    case 'closetNameCannotBeEmpty':
+      return S.of(context).closetNameCannotBeEmpty;
+    case 'reservedClosetNameError':
+      return S.of(context).reservedClosetNameError;
+    case 'publicPrivateSelectionRequired':
+      return S.of(context).publicPrivateSelectionRequired;
+    case 'invalidMonths':
+      return S.of(context).invalidMonths;
+    default:
+      return S.of(context).unknownError;
+  }
+}

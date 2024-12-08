@@ -109,14 +109,19 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
     Navigator.of(context).pushNamed(
       AppRoutes.filter,
-      arguments: {'isFromMyCloset': isFromMyCloset}, // Pass isFromMyCloset as an argument
+      arguments: {
+        'isFromMyCloset': isFromMyCloset,
+        'returnRoute': AppRoutes.myCloset,
+      },
     );
   }
-
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
     Navigator.of(context).pushNamed(
       AppRoutes.customize,
-      arguments: {'isFromMyCloset': isFromMyCloset}, // Pass isFromMyCloset as an argument
+      arguments: {
+        'isFromMyCloset': isFromMyCloset,
+        'returnRoute': AppRoutes.myCloset,
+      },
     );
   }
 

@@ -10,6 +10,7 @@ import '../../../../core/utilities/logger.dart'; // Import your logger
 class FilterProvider extends StatelessWidget {
   final bool isFromMyCloset;
   final List<String> selectedItemIds; // Add this line
+  final String returnRoute;
 
   // Initialize services and logger at the class level
   final CoreFetchService _coreFetchService = CoreFetchService();
@@ -20,6 +21,7 @@ class FilterProvider extends StatelessWidget {
     super.key,
     required this.isFromMyCloset,
     required this.selectedItemIds, // Add this line
+    required this.returnRoute, // Make it required
   }) {
     _logger.i('FilterProvider initialized with isFromMyCloset: $isFromMyCloset and selectedItemIds: $selectedItemIds');
   }
@@ -42,7 +44,8 @@ class FilterProvider extends StatelessWidget {
       },
       child: FilterScreen(
         isFromMyCloset: isFromMyCloset,
-        selectedItemIds: selectedItemIds, // Pass it here
+        selectedItemIds: selectedItemIds,
+        returnRoute: returnRoute, // Pass it to FilterScreen
       ),
     );
   }

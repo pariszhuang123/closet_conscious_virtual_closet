@@ -17,6 +17,7 @@ import '../../../paywall/data/feature_key.dart';
 class CustomizeScreen extends StatelessWidget {
   final bool isFromMyCloset;
   final List<String> selectedItemIds;
+  final String returnRoute;
 
   // Initialize logger for CustomizeScreen
   final CustomLogger _logger = CustomLogger('CustomizeScreen');
@@ -25,6 +26,7 @@ class CustomizeScreen extends StatelessWidget {
     super.key,
     required this.isFromMyCloset,
     required this.selectedItemIds,
+    required this.returnRoute,
   }) {
     _logger.i('CustomizeScreen initialized with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds');
   }
@@ -56,16 +58,11 @@ class CustomizeScreen extends StatelessWidget {
         body: BlocListener<CustomizeBloc, CustomizeState>(
           listener: (context, state) {
             if (state.saveStatus == SaveStatus.saveSuccess) {
-              _logger.i('SaveStatus: saveSuccess, navigating to appropriate screen');
-              // Navigate based on isFromMyCloset
-              if (isFromMyCloset) {
-                Navigator.of(context).pushReplacementNamed(AppRoutes.myCloset);
-              } else {
-                Navigator.of(context).pushReplacementNamed(
-                  AppRoutes.createOutfit,
-                  arguments: {'selectedItemIds': selectedItemIds},
-                );
-              }
+              _logger.i('SaveStatus: saveSuccess, navigating to returnRoute: $returnRoute');
+              Navigator.of(context).pushReplacementNamed(
+                returnRoute,
+                arguments: {'selectedItemIds': selectedItemIds},
+              );
             }
             if (state.accessStatus == AccessStatus.denied) {
               _logger.i('AccessStatus: denied, navigating to payment screen');

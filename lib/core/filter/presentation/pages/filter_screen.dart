@@ -17,6 +17,7 @@ import '../../../paywall/data/feature_key.dart';
 class FilterScreen extends StatelessWidget {
   final bool isFromMyCloset;
   final List<String> selectedItemIds;
+  final String returnRoute;
 
   // Initialize logger for FilterScreen
   final CustomLogger _logger = CustomLogger('FilterScreen');
@@ -25,6 +26,7 @@ class FilterScreen extends StatelessWidget {
     super.key,
     required this.isFromMyCloset,
     required this.selectedItemIds,
+    required this.returnRoute,
   }) {
     _logger.i('FilterScreen initialized with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds');
   }
@@ -65,16 +67,11 @@ class FilterScreen extends StatelessWidget {
           body: BlocListener<FilterBloc, FilterState>(
             listener: (context, state) {
               if (state.saveStatus == SaveStatus.saveSuccess) {
-                _logger.i('SaveStatus: saveSuccess, navigating to appropriate screen');
-                // Navigate based on isFromMyCloset
-                if (isFromMyCloset) {
-                  Navigator.of(context).pushReplacementNamed(AppRoutes.myCloset);
-                } else {
-                  Navigator.of(context).pushReplacementNamed(
-                    AppRoutes.createOutfit,
-                    arguments: {'selectedItemIds': selectedItemIds},
-                  );
-                }
+                _logger.i('SaveStatus: saveSuccess, navigating to returnRoute: $returnRoute');
+                Navigator.of(context).pushReplacementNamed(
+                  returnRoute,
+                  arguments: {'selectedItemIds': selectedItemIds},
+                );
               }
               // Handle denied access state
               if (state.accessStatus == AccessStatus.denied) {

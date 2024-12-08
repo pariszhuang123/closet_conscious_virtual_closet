@@ -3,9 +3,9 @@ import 'package:equatable/equatable.dart';
 class MultiClosetDetailed extends Equatable {
   final String? closetId; // Nullable for creation
   final String closetName;
-  final String closetType; // 'permanent' or 'temporary'
+  final String closetType; // 'permanent' or 'disappear'
   final bool isPublic; // Nullable for edit cases
-  final int? monthsLater; // Applicable for temporary closets
+  final int? monthsLater; // Applicable for disappearing closets
   final DateTime? validDate; // Can be calculated dynamically or chosen by the user
   final String? closetImage; // Optional for creation or editing
 

@@ -77,22 +77,27 @@ class AppRoutes {
         final args = settings.arguments as Map<String, dynamic>? ?? {};
         final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
         final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
-        logger.d("Navigating to Customize with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds");
+        final String returnRoute = args['returnRoute'] as String; // Extract returnRoute
+        logger.d("Navigating to customize  with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds, returnRoute: $returnRoute");
         return MaterialPageRoute(
           builder: (_) => CustomizeProvider(
             isFromMyCloset: isFromMyCloset,
             selectedItemIds: selectedItemIds,
+            returnRoute: returnRoute,
           ),
         );
       case AppRoutes.filter:
         final args = settings.arguments as Map<String, dynamic>? ?? {};
         final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
         final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
-        logger.d("Navigating to Customize with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds");
+        final String returnRoute = args['returnRoute'] as String; // Extract returnRoute
+        logger.d("Navigating to filter with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds, returnRoute: $returnRoute");
+
         return MaterialPageRoute(
           builder: (_) => FilterProvider(
             isFromMyCloset: isFromMyCloset,
             selectedItemIds: selectedItemIds,
+            returnRoute: returnRoute,
           ),
         );
       case myCloset:

@@ -20,7 +20,12 @@ class CreateMultiClosetBloc extends Bloc<CreateMultiClosetEvent, CreateMultiClos
 
   Future<void> _onCreateMultiClosetRequested(
       CreateMultiClosetRequested event, Emitter<CreateMultiClosetState> emit) async {
-    logger.i('Creating multi-closet: ${event.closetName}');
+    logger.i('Creating multi-closet:');
+    logger.i('Closet Name: ${event.closetName}');
+    logger.i('Closet Type: ${event.closetType}');
+    logger.i('Item IDs: ${event.itemIds}');
+    logger.i('Months Later: ${event.monthsLater}');
+    logger.i('Is Public: ${event.isPublic}');
 
     // Start loading state
     emit(state.copyWith(status: ClosetStatus.loading));

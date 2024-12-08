@@ -168,7 +168,13 @@ class ItemSaveService {
     int? monthsLater, // Optional
     bool? isPublic,   // Optional
   }) async {
-    logger.i('Adding a new closet: $closetName');
+    logger.i('Starting to add a new closet.');
+    logger.i('Parameters:');
+    logger.i('- Closet Name: $closetName');
+    logger.i('- Closet Type: $closetType');
+    logger.i('- Item IDs: $itemIds');
+    logger.i('- Months Later: ${monthsLater ?? "Not Provided"}');
+    logger.i('- Is Public: ${isPublic ?? "Not Provided"}');
 
     try {
       // Build parameters dynamically based on optional values

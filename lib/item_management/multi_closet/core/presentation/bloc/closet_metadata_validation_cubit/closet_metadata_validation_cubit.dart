@@ -31,7 +31,7 @@ class ClosetMetadataValidationCubit extends Cubit<ClosetMetadataValidationState>
       errors['isPublic'] = 'publicPrivateSelectionRequired';
     }
 
-    if (closetType == 'temporary' && (monthsLater == null || monthsLater < 0)) {
+    if (closetType == 'disappear' && (monthsLater == null || monthsLater < 0)) {
       errors['monthsLater'] = 'invalidMonths';
     }
 

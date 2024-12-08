@@ -10,6 +10,7 @@ import '../../../../core/utilities/logger.dart'; // Import your logger
 class CustomizeProvider extends StatelessWidget {
   final bool isFromMyCloset;
   final List<String> selectedItemIds;
+  final String returnRoute;
 
   // Initialize services and logger at the class level
   final CoreFetchService _coreFetchService = CoreFetchService();
@@ -20,6 +21,7 @@ class CustomizeProvider extends StatelessWidget {
     super.key,
     required this.isFromMyCloset,
     required this.selectedItemIds,
+    required this.returnRoute, // Make it required
   }) {
     _logger.i('CustomizeProvider initialized with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds');
   }
@@ -43,6 +45,7 @@ class CustomizeProvider extends StatelessWidget {
       child: CustomizeScreen(
         isFromMyCloset: isFromMyCloset,
         selectedItemIds: selectedItemIds,
+        returnRoute: returnRoute, // Pass it to FilterScreen
       ),
     );
   }

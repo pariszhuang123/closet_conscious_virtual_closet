@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/theme/my_closet_theme.dart';
 import '../bloc/create_multi_closet_bloc.dart';
 import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
 import '../widgets/multi_closet_item_grid.dart';
@@ -16,6 +17,8 @@ import '../../../../../core/widgets/button/themed_elevated_button.dart';
 import '../../../core/presentation/bloc/closet_metadata_validation_cubit/closet_metadata_validation_cubit.dart';
 import '../../../core/presentation/bloc/closet_metadata_cubit/closet_metadata_cubit.dart';
 import '../../../../core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
+import '../../../core/presentation/widgets/multi_closet_feature_container.dart';
+
 
 class CreateMultiClosetScreen extends StatefulWidget {
   const CreateMultiClosetScreen({super.key});
@@ -31,6 +34,32 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
   final CustomLogger logger = CustomLogger('CreateMultiClosetScreen');
 
   late final Future<int> crossAxisCountFuture;
+
+  void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
+    final selectedItemIds = context.read<SelectionItemCubit>().state.selectedItemIds;
+    Navigator.pushNamed(
+      context,
+      AppRoutes.filter,
+      arguments: {
+        'isFromMyCloset': isFromMyCloset,
+        'selectedItemIds': selectedItemIds,
+        'returnRoute': AppRoutes.createMultiCloset,
+      },
+    );
+  }
+
+  void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
+    final selectedItemIds = context.read<SelectionItemCubit>().state.selectedItemIds;
+    Navigator.pushNamed(
+      context,
+      AppRoutes.customize,
+      arguments: {
+        'isFromMyCloset': isFromMyCloset,
+        'selectedItemIds': selectedItemIds,
+        'returnRoute': AppRoutes.createMultiCloset,
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -141,7 +170,13 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Metadata Form
+                  OutfitFeatureContainer(
+                    theme: myClosetTheme,
+                    onFilterButtonPressed:  () => _onFilterButtonPressed(context, false),
+                    onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
+                  ),
+                  const SizedBox(height: 15),
+
                   BlocBuilder<ClosetMetadataCubit, ClosetMetadataState>(
                     builder: (context, metadataState) {
                       closetNameController.text = metadataState.closetName;

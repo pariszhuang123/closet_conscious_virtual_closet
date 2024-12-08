@@ -151,7 +151,11 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     final selectedItemIds = context.read<SelectionOutfitItemsBloc>().state.selectedItemIds;
     Navigator.of(context).pushNamed(
       AppRoutes.filter,
-      arguments: {'isFromMyCloset': isFromMyCloset, 'selectedItemIds': selectedItemIds},
+      arguments: {
+        'isFromMyCloset': isFromMyCloset,
+        'selectedItemIds': selectedItemIds,
+        'returnRoute': AppRoutes.createOutfit,
+      },
     );
   }
 
@@ -159,7 +163,11 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     final selectedItemIds = context.read<SelectionOutfitItemsBloc>().state.selectedItemIds;
     Navigator.of(context).pushNamed(
       AppRoutes.customize,
-      arguments: {'isFromMyCloset': isFromMyCloset, 'selectedItemIds': selectedItemIds},
+      arguments: {
+        'isFromMyCloset': isFromMyCloset,
+        'selectedItemIds': selectedItemIds,
+        'returnRoute': AppRoutes.createOutfit,
+      },
     );
   }
 
