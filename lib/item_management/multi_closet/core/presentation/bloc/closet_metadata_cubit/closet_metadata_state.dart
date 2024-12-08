@@ -4,7 +4,7 @@ class ClosetMetadataState {
   final String closetName;
   final String closetType;
   final bool? isPublic; // Nullable to differentiate unselected
-  final int? monthsLater;
+  final String? monthsLater;
 
   const ClosetMetadataState({
     required this.closetName,
@@ -26,7 +26,7 @@ class ClosetMetadataState {
     String? closetName,
     String? closetType,
     bool? isPublic,
-    int? monthsLater,
+    String? monthsLater,
   }) {
     return ClosetMetadataState(
       closetName: closetName ?? this.closetName,

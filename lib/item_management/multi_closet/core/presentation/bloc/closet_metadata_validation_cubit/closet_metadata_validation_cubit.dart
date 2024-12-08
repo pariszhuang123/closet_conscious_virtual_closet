@@ -14,7 +14,7 @@ class ClosetMetadataValidationCubit extends Cubit<ClosetMetadataValidationState>
     required String closetName,
     required String closetType,
     bool? isPublic,
-    int? monthsLater,
+    String? monthsLater,
   }) {
     logger.i('Validating closet metadata fields');
     final errors = <String, String>{};
@@ -31,8 +31,14 @@ class ClosetMetadataValidationCubit extends Cubit<ClosetMetadataValidationState>
       errors['isPublic'] = 'publicPrivateSelectionRequired';
     }
 
-    if (closetType == 'disappear' && (monthsLater == null || monthsLater < 0)) {
-      errors['monthsLater'] = 'invalidMonths';
+    if (closetType == 'disappear') {
+      // Convert monthsLater to int
+      final int? monthsLaterInt = monthsLater != null ? int.tryParse(monthsLater) : null;
+
+      // Validate monthsLater as an integer
+      if (monthsLaterInt == null || monthsLaterInt <= 0) {
+        errors['monthsLater'] = 'invalidMonths';
+      }
     }
 
     emit(state.copyWith(errorKeys: errors.isEmpty ? null : errors));

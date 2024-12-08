@@ -9,7 +9,7 @@ class CreateMultiClosetRequested extends CreateMultiClosetEvent {
   final String closetName;
   final String closetType;
   final bool? isPublic;
-  final int? monthsLater;
+  final String? monthsLater;
   final List<String> itemIds;
 
   CreateMultiClosetRequested({

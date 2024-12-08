@@ -12,17 +12,21 @@ import '../../../../core/presentation/bloc/selection_item_cubit/selection_item_c
 import 'create_multi_closet_screen.dart';
 
 class CreateMultiClosetProvider extends StatelessWidget {
+  final List<String> selectedItemIds;
 
   final CustomLogger logger = CustomLogger('CreateMultiClosetProvider');
 
   CreateMultiClosetProvider({
     super.key,
+    required this.selectedItemIds,
   });
 
   @override
   Widget build(BuildContext context) {
     final itemFetchService = ItemFetchService();
     final itemSaveService = ItemSaveService();
+
+    logger.i('CreateMultiClosetProvider initialized with selectedItemIds: $selectedItemIds');
 
     return MultiBlocProvider(
       providers: [
@@ -32,7 +36,7 @@ class CreateMultiClosetProvider extends StatelessWidget {
           )..add(FetchItemsEvent(0)), // Fetch items on initialization
         ),
         BlocProvider<SelectionItemCubit>(
-          create: (context) => SelectionItemCubit(),
+          create: (context) => SelectionItemCubit()..initializeSelection(selectedItemIds),
         ),
 
         // Cubit for metadata update
@@ -52,7 +56,9 @@ class CreateMultiClosetProvider extends StatelessWidget {
           ),
         ),
       ],
-      child: const CreateMultiClosetScreen(),
+      child: CreateMultiClosetScreen(
+        selectedItemIds: selectedItemIds,
+      ),
     );
   }
 }

@@ -25,7 +25,7 @@ class ClosetMetadataCubit extends Cubit<ClosetMetadataState> {
     emit(state.copyWith(isPublic: isPublic));
   }
 
-  void updateMonthsLater(int? months) {
+  void updateMonthsLater(String? months) {
     logger.i('Updating monthsLater: $months');
     emit(state.copyWith(monthsLater: months));
   }

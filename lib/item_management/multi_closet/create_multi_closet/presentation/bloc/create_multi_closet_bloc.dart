@@ -27,6 +27,15 @@ class CreateMultiClosetBloc extends Bloc<CreateMultiClosetEvent, CreateMultiClos
     logger.i('Months Later: ${event.monthsLater}');
     logger.i('Is Public: ${event.isPublic}');
 
+    final monthsLater = event.monthsLater != null ? int.tryParse(event.monthsLater!) : null;
+    if (event.closetType == 'disappear' && (monthsLater == null || monthsLater <= 0)) {
+      emit(state.copyWith(
+        status: ClosetStatus.failure,
+        error: 'Invalid months value provided',
+      ));
+      return;
+    }
+
     // Start loading state
     emit(state.copyWith(status: ClosetStatus.loading));
 
@@ -36,7 +45,7 @@ class CreateMultiClosetBloc extends Bloc<CreateMultiClosetEvent, CreateMultiClos
         closetName: event.closetName,
         closetType: event.closetType,
         itemIds: event.itemIds,
-        monthsLater: event.monthsLater,
+        monthsLater: monthsLater,
         isPublic: event.isPublic,
       );
       logger.i('Closet created successfully');

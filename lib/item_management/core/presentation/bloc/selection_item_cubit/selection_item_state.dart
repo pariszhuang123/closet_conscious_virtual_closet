@@ -1,10 +1,13 @@
 part of 'selection_item_cubit.dart';
 
-class SelectionItemState {
+class SelectionItemState extends Equatable {
   final List<String> selectedItemIds;
   final bool hasSelectedItems;
 
-  SelectionItemState({this.selectedItemIds = const [], this.hasSelectedItems = false});
+  const SelectionItemState({
+    this.selectedItemIds = const [],
+    this.hasSelectedItems = false,
+  });
 
   SelectionItemState copyWith({
     List<String>? selectedItemIds,
@@ -15,5 +18,14 @@ class SelectionItemState {
       hasSelectedItems: hasSelectedItems ?? this.hasSelectedItems,
     );
   }
+
+  @override
+  List<Object?> get props => [selectedItemIds, hasSelectedItems];
 }
 
+class SelectionItemLoaded extends SelectionItemState {
+  const SelectionItemLoaded({
+    required super.selectedItemIds,
+    required super.hasSelectedItems,
+  });
+}

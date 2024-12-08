@@ -367,12 +367,14 @@
   "public": "Public",
   "private": "Private",
   "disappearAfterMonths": "Hidden for",
-  "months": "Months",
+  "months": "Months to disappear",
   "closet_created_successfully": "Closet created successfully!",
   "error_creating_closet": "Error: {error}",
   "create_closet": "Create Closet",
   "validation_error": "Error found. Check your input.",
   "fix_validation_errors": "Fix the errors to continue.",
   "reservedClosetNameError": "'cc_closet' is a reserved name. Please choose another.",
-  "publicPrivateSelectionRequired": "Please select public or private for a permanent closet."
+  "publicPrivateSelectionRequired": "Please select public or private for a permanent closet.",
+  "pleaseEnterMonths": "Enter number of months.",
+  "pleaseEnterValidMonths": "Please enter a valid number of months."
 }

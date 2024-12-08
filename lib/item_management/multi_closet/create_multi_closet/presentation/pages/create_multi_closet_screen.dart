@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/theme/my_closet_theme.dart';
 import '../bloc/create_multi_closet_bloc.dart';
 import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
-import '../widgets/multi_closet_item_grid.dart';
+import '../widgets/closet_item_grid.dart';
 import '../widgets/create_multi_closet_metadata.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../core/data/items_enums.dart';
@@ -21,7 +21,12 @@ import '../../../core/presentation/widgets/multi_closet_feature_container.dart';
 
 
 class CreateMultiClosetScreen extends StatefulWidget {
-  const CreateMultiClosetScreen({super.key});
+  final List<String> selectedItemIds;
+
+  const CreateMultiClosetScreen({
+    super.key,
+    required this.selectedItemIds,
+  });
 
   @override
   State<CreateMultiClosetScreen> createState() => _CreateMultiClosetScreenState();
@@ -33,7 +38,9 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
   final ScrollController _scrollController = ScrollController();
   final CustomLogger logger = CustomLogger('CreateMultiClosetScreen');
 
+
   late final Future<int> crossAxisCountFuture;
+  Map<String, String> validationErrors = {}; // Add validation errors map
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
     final selectedItemIds = context.read<SelectionItemCubit>().state.selectedItemIds;
@@ -105,6 +112,8 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
 
   @override
   Widget build(BuildContext context) {
+    logger.i('CreateMultiClosetScreen initialized with selectedItemIds: ${widget.selectedItemIds}');
+
     final theme = Theme.of(context);
     logger.d('Building CreateMultiClosetScreen UI');
 
@@ -187,6 +196,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                         closetType: metadataState.closetType,
                         isPublic: metadataState.isPublic ?? false,
                         theme: theme,
+                        errorKeys: validationErrors, // Pass validation errors
                       );
                     },
                   ),
@@ -205,6 +215,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                             items: viewState.items,
                             scrollController: _scrollController,
                             crossAxisCount: crossAxisCount,
+                            selectedItemIds: widget.selectedItemIds, // Pass the selectedItemIds
                           );
                         } else {
                           return Center(child: Text(S.of(context).noItemsInCloset));

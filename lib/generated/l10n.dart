@@ -3720,10 +3720,10 @@ class S {
     );
   }
 
-  /// `Months`
+  /// `Months to disappear`
   String get months {
     return Intl.message(
-      'Months',
+      'Months to disappear',
       name: 'months',
       desc: '',
       args: [],
@@ -3795,6 +3795,26 @@ class S {
     return Intl.message(
       'Please select public or private for a permanent closet.',
       name: 'publicPrivateSelectionRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter number of months.`
+  String get pleaseEnterMonths {
+    return Intl.message(
+      'Enter number of months.',
+      name: 'pleaseEnterMonths',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid number of months.`
+  String get pleaseEnterValidMonths {
+    return Intl.message(
+      'Please enter a valid number of months.',
+      name: 'pleaseEnterValidMonths',
       desc: '',
       args: [],
     );

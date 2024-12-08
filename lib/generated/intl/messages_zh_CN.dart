@@ -308,7 +308,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("想为您的物品添加更多细节，以便更好地组织？告诉我们吧！"),
         "metadataFeatureTitle": MessageLookupByLibrary.simpleMessage("更多物品细节？"),
         "mid": MessageLookupByLibrary.simpleMessage("中层"),
-        "months": MessageLookupByLibrary.simpleMessage("月"),
+        "months": MessageLookupByLibrary.simpleMessage("消失几个月"),
         "monthsCannotBeEmpty": MessageLookupByLibrary.simpleMessage("月份不能为空"),
         "multi": MessageLookupByLibrary.simpleMessage("多季"),
         "multiClosetFeatureDescription":
@@ -406,6 +406,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseCorrectTheErrors":
             MessageLookupByLibrary.simpleMessage("请更正表单中的错误。"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
+        "pleaseEnterMonths": MessageLookupByLibrary.simpleMessage("请输入月份数。"),
+        "pleaseEnterValidMonths":
+            MessageLookupByLibrary.simpleMessage("请输入有效的月份数。"),
         "pleaseSelectAtLeastOneItem":
             MessageLookupByLibrary.simpleMessage("请选择至少一个不喜欢的物品。"),
         "please_enter_valid_amount":

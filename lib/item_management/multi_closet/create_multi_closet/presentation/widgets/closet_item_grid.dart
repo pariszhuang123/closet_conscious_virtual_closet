@@ -13,12 +13,16 @@ class ClosetItemGrid extends StatelessWidget {
   final ScrollController scrollController;
   final List<ClosetItemMinimal> items;
   final int crossAxisCount;
+  final List<String> selectedItemIds;
+
 
   ClosetItemGrid({
     super.key,
     required this.scrollController,
     required this.items,
     required this.crossAxisCount,
+    required this.selectedItemIds,
+
   }) : _logger = CustomLogger('ClosetItemGrid');
 
   final CustomLogger _logger;
@@ -46,6 +50,9 @@ class ClosetItemGrid extends StatelessWidget {
 
     _logger.d('Building ClosetItemGrid');
     _logger.d('Total items: ${items.length}');
+    _logger.i('Selected item IDs: $selectedItemIds');
+    _logger.i('Cross axis count: $crossAxisCount');
+    _logger.i('Image size: $imageSize');
 
     if (items.isEmpty) {
       _logger.d('No items in the closet.');
@@ -58,7 +65,11 @@ class ClosetItemGrid extends StatelessWidget {
       itemBuilder: (context, item, index) {
         // Use BlocSelector to determine if this specific item is selected
         return BlocSelector<SelectionItemCubit, SelectionItemState, bool>(
-          selector: (state) => state.selectedItemIds.contains(item.itemId),
+          selector: (state) {
+            final isSelected = state.selectedItemIds.contains(item.itemId);
+            _logger.d('Comparing itemId: ${item.itemId} with selectedItemIds: ${state.selectedItemIds}, isSelected: $isSelected');
+            return isSelected;
+          },
           builder: (context, isSelected) {
             _logger.d('Item ID: ${item.itemId}, isSelected: $isSelected');
             return SelectableGridItem(

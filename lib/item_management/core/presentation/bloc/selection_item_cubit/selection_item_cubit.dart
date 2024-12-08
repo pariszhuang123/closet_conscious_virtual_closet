@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:equatable/equatable.dart';
 
 import '../../../../../core/utilities/logger.dart';
 
@@ -9,8 +10,16 @@ class SelectionItemCubit extends Cubit<SelectionItemState> {
 
   SelectionItemCubit()
       : logger = CustomLogger('SelectionItemCubit'),
-        super(SelectionItemState());
+        super(const SelectionItemState());
 
+
+  void initializeSelection(List<String> selectedItemIds) {
+    logger.i('SelectionItemCubit initialized with selectedItemIds: $selectedItemIds');
+    emit(SelectionItemLoaded(
+      selectedItemIds: selectedItemIds,
+      hasSelectedItems: selectedItemIds.isNotEmpty, // Ensure this is updated correctly
+    ));
+  }
 
   void toggleSelection(String itemId) {
     final updatedItems = List<String>.from(state.selectedItemIds);
@@ -30,7 +39,7 @@ class SelectionItemCubit extends Cubit<SelectionItemState> {
 
   void clearSelection() {
     logger.i('Clearing all selected items');
-    emit(SelectionItemState());
+    emit(const SelectionItemState());
     logger.d('State after clearing items: $state');
   }
 }

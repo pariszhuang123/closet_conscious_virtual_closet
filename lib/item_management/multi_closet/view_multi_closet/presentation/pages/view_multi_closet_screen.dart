@@ -54,7 +54,7 @@ class ViewMultiClosetScreen extends StatelessWidget {
           logger.i('Navigating to Edit Single Multi Closet screen with Closet ID: ${state.closetId}');
           Navigator.pushNamed(
             context,
-            AppRoutes.editSingleMultiCloset,
+            AppRoutes.editMultiCloset,
             arguments: {'closetId': state.closetId},
           );
         } else {

@@ -43,7 +43,7 @@ class AppRoutes {
   static const String filter = '/filter';
   static const String viewMultiCloset = '/view_multi_closet';
   static const String createMultiCloset = '/create_multi_closet';
-  static const String editSingleMultiCloset = '/edit_single_multi_closet';
+  static const String editMultiCloset = '/edit_multi_closet';
 
 
   static final CustomLogger logger = CustomLogger('AppRoutes');
@@ -166,9 +166,14 @@ class AppRoutes {
           ),
         );
       case createMultiCloset:
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
+
         return MaterialPageRoute(
           builder: (_) => MultiClosetScaffold(
-            body: CreateMultiClosetProvider(),
+            body: CreateMultiClosetProvider(
+              selectedItemIds: selectedItemIds,
+            ),
           ),
         );
       case infoHub:

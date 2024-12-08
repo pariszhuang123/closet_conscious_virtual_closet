@@ -354,7 +354,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "metadataFeatureTitle":
             MessageLookupByLibrary.simpleMessage("More Item Details?"),
         "mid": MessageLookupByLibrary.simpleMessage("Mid"),
-        "months": MessageLookupByLibrary.simpleMessage("Months"),
+        "months": MessageLookupByLibrary.simpleMessage("Months to disappear"),
         "monthsCannotBeEmpty":
             MessageLookupByLibrary.simpleMessage("Months cannot be empty"),
         "multi": MessageLookupByLibrary.simpleMessage("Multi"),
@@ -462,6 +462,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please correct the errors in the form."),
         "pleaseEnterItemName":
             MessageLookupByLibrary.simpleMessage("Please enter an item name"),
+        "pleaseEnterMonths":
+            MessageLookupByLibrary.simpleMessage("Enter number of months."),
+        "pleaseEnterValidMonths": MessageLookupByLibrary.simpleMessage(
+            "Please enter a valid number of months."),
         "pleaseSelectAtLeastOneItem": MessageLookupByLibrary.simpleMessage(
             "Please select at least one item you didn’t like."),
         "please_enter_valid_amount": MessageLookupByLibrary.simpleMessage(

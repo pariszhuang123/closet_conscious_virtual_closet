@@ -51,11 +51,10 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                   focusedBorderColor: theme.colorScheme.primary,
                   enabledBorderColor: theme.colorScheme.secondary,
                   keyboardType: TextInputType.text,
-                  errorText: errorKeys?['closetName'] != null
-                      ? _translateError(errorKeys!['closetName']!, context)
-                      : null,
+                  errorText: errorKeys?['closetName'],
                   onChanged: (value) {
                     _logger.d('Closet name changed: $value');
+                    _logger.d('ClosetName errorKey: ${errorKeys?['closetName']}');
                     context.read<ClosetMetadataCubit>().updateClosetName(value);
                   },
                 ),
@@ -109,10 +108,19 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                     errorText: errorKeys?['monthsLater'] != null
                         ? _translateError(errorKeys!['monthsLater']!, context)
                         : null,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return S.of(context).pleaseEnterMonths; // Validation for empty input
+                      }
+                      final parsedValue = int.tryParse(value);
+                      if (parsedValue == null || parsedValue <= 0) {
+                        return S.of(context).pleaseEnterValidMonths; // Validation for invalid input
+                      }
+                      return null; // No error if validation passes
+                    },
                     onChanged: (value) {
-                      final months = int.tryParse(value);
-                      _logger.d('Months input changed: $months');
-                      context.read<ClosetMetadataCubit>().updateMonthsLater(months);
+                      _logger.d('Months input changed: $value');
+                      context.read<ClosetMetadataCubit>().updateMonthsLater(value);
                     },
                   ),
                 ],
