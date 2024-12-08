@@ -264,6 +264,10 @@ class TypeDataList {
     return TypeData('share', (context) => S.of(context).share, 'assets/icons/my_outfit/outfit_review/share_outfit.svg', false);
   }
 
+  static TypeData reset(BuildContext context) {
+    return TypeData('reset', (context) => S.of(context).reset, 'assets/icons/general/restart.svg', false);
+  }
+
   static List<TypeData> gridSizes(BuildContext context) {
     return [
       TypeData('3', (context) => S.of(context).gridSize3, 'assets/icons/general/arrange/counter_3.svg', false),

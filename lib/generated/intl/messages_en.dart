@@ -498,6 +498,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "red": MessageLookupByLibrary.simpleMessage("Red"),
         "reservedClosetNameError": MessageLookupByLibrary.simpleMessage(
             "\'cc_closet\' is a reserved name. Please choose another."),
+        "reset": MessageLookupByLibrary.simpleMessage("reset"),
         "resetToDefault":
             MessageLookupByLibrary.simpleMessage("Reset to Default"),
         "retryConnection":

@@ -439,6 +439,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "red": MessageLookupByLibrary.simpleMessage("红色"),
         "reservedClosetNameError": MessageLookupByLibrary.simpleMessage(
             "\'cc_closet\' 是保留名称，请选择其他名称。"),
+        "reset": MessageLookupByLibrary.simpleMessage("刷新"),
         "resetToDefault": MessageLookupByLibrary.simpleMessage("重置为默认"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("再试一次？🚀"),
         "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(

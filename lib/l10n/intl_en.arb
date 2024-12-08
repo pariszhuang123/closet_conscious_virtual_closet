@@ -376,5 +376,6 @@
   "reservedClosetNameError": "'cc_closet' is a reserved name. Please choose another.",
   "publicPrivateSelectionRequired": "Please select public or private for a permanent closet.",
   "pleaseEnterMonths": "Enter number of months.",
-  "pleaseEnterValidMonths": "Please enter a valid number of months."
+  "pleaseEnterValidMonths": "Please enter a valid number of months.",
+  "reset": "reset"
 }

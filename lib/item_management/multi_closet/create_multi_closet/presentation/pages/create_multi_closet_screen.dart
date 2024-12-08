@@ -68,6 +68,11 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
     );
   }
 
+  void _onResetButtonPressed(BuildContext context) {
+    // Trigger clearSelection in SelectionItemCubit
+    context.read<SelectionItemCubit>().clearSelection();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -179,10 +184,11 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  OutfitFeatureContainer(
+                  MultiClosetFeatureContainer(
                     theme: myClosetTheme,
                     onFilterButtonPressed:  () => _onFilterButtonPressed(context, false),
                     onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
+                    onResetButtonPressed: () => _onResetButtonPressed(context),
                   ),
                   const SizedBox(height: 15),
 

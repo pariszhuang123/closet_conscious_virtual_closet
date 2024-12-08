@@ -376,5 +376,6 @@
   "reservedClosetNameError": "'cc_closet' 是保留名称，请选择其他名称。",
   "publicPrivateSelectionRequired": "请为永久衣柜选择公开或私密。",
   "pleaseEnterMonths": "请输入月份数。",
-  "pleaseEnterValidMonths": "请输入有效的月份数。"
+  "pleaseEnterValidMonths": "请输入有效的月份数。",
+  "reset": "刷新"
 }

@@ -3819,6 +3819,16 @@ class S {
       args: [],
     );
   }
+
+  /// `reset`
+  String get reset {
+    return Intl.message(
+      'reset',
+      name: 'reset',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
