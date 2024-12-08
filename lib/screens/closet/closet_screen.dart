@@ -9,7 +9,7 @@ import '../../core/utilities/logger.dart';
 import '../../item_management/view_items/presentation/widgets/item_grid.dart';
 import '../../item_management/view_items/presentation/bloc/view_items_bloc.dart'; // Import ViewItemsBloc
 import '../../item_management/streak_item/presentation/bloc/upload_item_streak_bloc.dart';
-import '../../item_management/core/presentation/bloc/navigate_item_bloc.dart';
+import '../../item_management/core/presentation/bloc/navigate_item_bloc/navigate_item_bloc.dart';
 import '../../item_management/view_items/presentation/widgets/my_closet_container.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';

@@ -301,6 +301,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Selfie Superstar!"),
         "firstSelfieTakenAchievementMessage": MessageLookupByLibrary.simpleMessage(
             "You’ve taken your first selfie! Show off your style and let your closet shine!"),
+        "fix_validation_errors":
+            MessageLookupByLibrary.simpleMessage("Fix the errors to continue."),
         "formal": MessageLookupByLibrary.simpleMessage("Formal"),
         "general_permission_explanation": MessageLookupByLibrary.simpleMessage(
             "We need this permission to make the app work properly."),
@@ -639,6 +641,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Success! Your closet just got a little more stylish! 🎉"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "usageInsights": MessageLookupByLibrary.simpleMessage("Usage Insights"),
+        "validation_error": MessageLookupByLibrary.simpleMessage(
+            "Error found. Check your input."),
         "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "Explore options for your multi-closets.\nYou can create a new multi-closet,\nedit items from all multi-closets,\nor make changes to a single multi-closet."),
         "white": MessageLookupByLibrary.simpleMessage("White"),

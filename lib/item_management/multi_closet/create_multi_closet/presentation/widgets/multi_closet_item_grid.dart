@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/widgets/layout/base_grid.dart';
 import '../../../../core/data/models/closet_item_minimal.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/core_enums.dart';
 import '../../../../../outfit_management/create_outfit/presentation/widgets/outfit_grid_item.dart';
-import '../../../create_multi_closet/presentation/bloc/create_multi_closet_bloc.dart';
+import '../../../../core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
 
 class ClosetItemGrid extends StatelessWidget {
   final ScrollController scrollController;
@@ -53,40 +52,32 @@ class ClosetItemGrid extends StatelessWidget {
       return Center(child: Text(S.of(context).noItemsInCloset));
     }
 
-    return NotificationListener<ScrollNotification>(
-      onNotification: (ScrollNotification scrollInfo) {
-        if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-          context.read<ViewItemsBloc>().add(FetchItemsEvent(0));
-        }
-        return false;
+    return BaseGrid<ClosetItemMinimal>(
+      items: items,
+      scrollController: scrollController, // Use the ScrollController passed from the parent
+      itemBuilder: (context, item, index) {
+        // Use BlocSelector to determine if this specific item is selected
+        return BlocSelector<SelectionItemCubit, SelectionItemState, bool>(
+          selector: (state) => state.selectedItemIds.contains(item.itemId),
+          builder: (context, isSelected) {
+            _logger.d('Item ID: ${item.itemId}, isSelected: $isSelected');
+            return SelectableGridItem(
+              key: ValueKey('${item.itemId}_$isSelected'),
+              item: item,
+              isSelected: isSelected,
+              imageSize: imageSize,
+              showItemName: showItemName,
+              crossAxisCount: crossAxisCount,
+              onToggleSelection: () {
+                _logger.d('Toggling selection for itemId: ${item.itemId}');
+                context.read<SelectionItemCubit>().toggleSelection(item.itemId);
+              },
+            );
+          },
+        );
       },
-      child: BaseGrid<ClosetItemMinimal>(
-        items: items,
-        scrollController: scrollController,
-        itemBuilder: (context, item, index) {
-          // Use BlocSelector to determine if this specific item is selected
-          return BlocSelector<CreateMultiClosetBloc, CreateMultiClosetState, bool>(
-            selector: (state) => state.selectedItemIds.contains(item.itemId),
-            builder: (context, isSelected) {
-              _logger.d('Item ID: ${item.itemId}, isSelected: $isSelected');
-              return SelectableGridItem(
-                key: ValueKey('${item.itemId}_$isSelected'),
-                item: item,
-                isSelected: isSelected,
-                imageSize: imageSize,
-                showItemName: showItemName,
-                crossAxisCount: crossAxisCount,
-                onToggleSelection: () {
-                  _logger.d('Toggling selection for itemId: ${item.itemId}');
-                  context.read<CreateMultiClosetBloc>().add(ToggleSelectItem(item.itemId));
-                },
-              );
-            },
-          );
-        },
-        crossAxisCount: crossAxisCount,
-        childAspectRatio: childAspectRatio,
-      ),
+      crossAxisCount: crossAxisCount,
+      childAspectRatio: childAspectRatio,
     );
   }
 }

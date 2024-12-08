@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../../../core/utilities/logger.dart';
-import '../../../core/data/services/item_fetch_service.dart';
-import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
-import '../../../../user_management/user_service_locator.dart';
+import '../../../../../core/utilities/logger.dart';
+import '../../../data/services/item_fetch_service.dart';
+import '../../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
+import '../../../../../user_management/user_service_locator.dart';
 
 part 'navigate_item_event.dart';
 part 'navigate_item_state.dart';

@@ -370,5 +370,7 @@
   "months": "Months",
   "closet_created_successfully": "Closet created successfully!",
   "error_creating_closet": "Error: {error}",
-  "create_closet": "Create Closet"
+  "create_closet": "Create Closet",
+  "validation_error": "Error found. Check your input.",
+  "fix_validation_errors": "Fix the errors to continue."
 }

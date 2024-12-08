@@ -3759,6 +3759,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Error found. Check your input.`
+  String get validation_error {
+    return Intl.message(
+      'Error found. Check your input.',
+      name: 'validation_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fix the errors to continue.`
+  String get fix_validation_errors {
+    return Intl.message(
+      'Fix the errors to continue.',
+      name: 'fix_validation_errors',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

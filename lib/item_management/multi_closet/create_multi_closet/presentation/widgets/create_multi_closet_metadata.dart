@@ -6,7 +6,7 @@ import '../../../../../core/widgets/form/custom_text_form.dart';
 import '../widgets/permanent_closet_toggle.dart';
 import '../widgets/public_private_toggle.dart';
 import '../../../../../core/utilities/logger.dart';
-import '../bloc/create_multi_closet_bloc.dart';
+import '../../../core/presentation/bloc/closet_metadata_validation_cubit/closet_metadata_validation_cubit.dart';
 
 
 class CreateMultiClosetMetadata extends StatelessWidget {
@@ -31,7 +31,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.i('Rendering CreateMultiClosetMetadata widget');
 
-    return BlocBuilder<CreateMultiClosetBloc, CreateMultiClosetState>(
+    return BlocBuilder<ClosetMetadataValidationCubit, ClosetMetadataValidationState>(
       builder: (context, state) {
         _logger.d('Current Bloc State: ${state.toString()}');
 
@@ -52,9 +52,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   onChanged: (value) {
                     _logger.d('Closet name changed: $value');
-                    context.read<CreateMultiClosetBloc>().add(
-                      FieldChanged('closetName', value),
-                    );
+                    context.read<ClosetMetadataValidationCubit>().updateClosetName(value);
                   },
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
@@ -72,9 +70,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                   onChanged: (value) {
                     final closetType = value ? 'permanent' : 'temporary';
                     _logger.d('Closet type changed to: $closetType');
-                    context.read<CreateMultiClosetBloc>().add(
-                      FieldChanged('closetType',closetType),
-                    );
+                    context.read<ClosetMetadataValidationCubit>().updateClosetType(closetType);
                   },
                 ),
                 const SizedBox(height: 16),
@@ -83,10 +79,9 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                 if (state.closetType == 'permanent') ...[
                   PublicPrivateToggle(
                     isPublic: state.isPublic ?? false,
-                    onChanged: (value) {
-                      context.read<CreateMultiClosetBloc>().add(
-                        FieldChanged('isPublic', value),
-                      );
+                    onChanged: (isPublic) {
+                      _logger.d('Public/Private changed: $isPublic');
+                      context.read<ClosetMetadataValidationCubit>().updateIsPublic(isPublic);
                     },
                   ),
                 ] else if (state.closetType == 'temporary') ...[
@@ -101,9 +96,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                     onChanged: (value) {
                       final months = int.tryParse(value);
                       _logger.d('Months input changed: $months');
-                      context.read<CreateMultiClosetBloc>().add(
-                        FieldChanged('monthsLater', months),
-                      );
+                      context.read<ClosetMetadataValidationCubit>().updateMonthsLater(months);
                     },
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {

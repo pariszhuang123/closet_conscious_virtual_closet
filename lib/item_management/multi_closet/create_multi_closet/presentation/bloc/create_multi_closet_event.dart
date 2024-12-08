@@ -1,33 +1,26 @@
 part of 'create_multi_closet_bloc.dart';
 
 abstract class CreateMultiClosetEvent extends Equatable {
-  const CreateMultiClosetEvent();
-
   @override
   List<Object?> get props => [];
 }
 
-class FieldChanged extends CreateMultiClosetEvent {
-  final String fieldName;
-  final dynamic value;
+class CreateMultiClosetRequested extends CreateMultiClosetEvent {
+  final String closetName;
+  final String closetType;
+  final bool? isPublic;
+  final int? monthsLater;
+  final List<String> itemIds;
 
-  const FieldChanged(this.fieldName, this.value);
+  CreateMultiClosetRequested({
+    required this.closetName,
+    required this.closetType,
+    this.isPublic,
+    this.monthsLater,
+    required this.itemIds,
+  });
 
   @override
-  List<Object?> get props => [fieldName, value];
+  List<Object?> get props =>
+      [closetName, closetType, isPublic, monthsLater, itemIds];
 }
-
-class ToggleSelectItem extends CreateMultiClosetEvent {
-  final String itemId;
-
-  const ToggleSelectItem(this.itemId);
-
-  @override
-  List<Object?> get props => [itemId];
-}
-
-class ClearSelectedItems extends CreateMultiClosetEvent {}
-
-class ValidateClosetDetails extends CreateMultiClosetEvent {}
-
-class CreateMultiClosetRequested extends CreateMultiClosetEvent {}

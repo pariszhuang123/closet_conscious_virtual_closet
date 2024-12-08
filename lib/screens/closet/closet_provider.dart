@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../item_management/streak_item/presentation/bloc/upload_item_streak_bloc.dart';
-import '../../item_management/core/presentation/bloc/navigate_item_bloc.dart';
+import '../../item_management/core/presentation/bloc/navigate_item_bloc/navigate_item_bloc.dart';
 import '../../item_management/core/data/services/item_fetch_service.dart';
 import '../../item_management/view_items/presentation/bloc/view_items_bloc.dart'; // Import ViewItemsBloc
 import 'closet_screen.dart';
