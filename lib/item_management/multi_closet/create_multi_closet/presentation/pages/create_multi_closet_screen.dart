@@ -238,7 +238,11 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                         return const SizedBox.shrink();
                       }
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                        padding: EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          bottom: MediaQuery.of(context).viewInsets.bottom + 20, // Adjust padding for keyboard
+                        ),
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: ThemedElevatedButton(
