@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/data/services/core_fetch_services.dart';
+import '../../../../../../core/data/services/core_fetch_services.dart';
 
 part 'multi_closet_navigation_event.dart';
 part 'multi_closet_navigation_state.dart';

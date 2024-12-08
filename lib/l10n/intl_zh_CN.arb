@@ -372,5 +372,7 @@
   "error_creating_closet": "错误：{error}",
   "create_closet": "创建衣橱",
   "validation_error_zh": "发现错误。请检查输入。",
-  "fix_validation_errors_zh": "修正错误以继续。"
+  "fix_validation_errors_zh": "修正错误以继续。",
+  "reservedClosetNameError": "'cc_closet' 是保留名称，请选择其他名称。",
+  "publicPrivateSelectionRequired": "请为永久衣柜选择公开或私密。"
 }

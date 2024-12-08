@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../../../core/utilities/logger.dart';
 
 part 'closet_metadata_validation_state.dart';
@@ -9,43 +8,33 @@ class ClosetMetadataValidationCubit extends Cubit<ClosetMetadataValidationState>
 
   ClosetMetadataValidationCubit()
       : logger = CustomLogger('ClosetMetadataValidationCubit'),
-        super(ClosetMetadataValidationState(closetType: 'permanent'));
+        super(ClosetMetadataValidationState.initial());
 
-  // Update closet name
-  void updateClosetName(String name) {
-    logger.i('Updating closet name: $name');
-    emit(state.copyWith(closetName: name));
-  }
-
-  // Update closet type
-  void updateClosetType(String type) {
-    logger.i('Updating closet type: $type');
-    emit(state.copyWith(closetType: type));
-  }
-
-  // Update public/private visibility
-  void updateIsPublic(bool isPublic) {
-    logger.i('Updating isPublic: $isPublic');
-    emit(state.copyWith(isPublic: isPublic));
-  }
-
-  // Update months later
-  void updateMonthsLater(int? months) {
-    logger.i('Updating monthsLater: $months');
-    emit(state.copyWith(monthsLater: months));
-  }
-
-  void validateFields() {
-    logger.i('Validating closet details for closetName: ${state.closetName}');
-
+  void validateFields({
+    required String closetName,
+    required String closetType,
+    bool? isPublic,
+    int? monthsLater,
+  }) {
+    logger.i('Validating closet metadata fields');
     final errors = <String, String>{};
-    if (state.closetName.isEmpty) errors['closetName'] = 'Closet name is required.';
-    if (state.closetType == 'permanent' && state.isPublic == null) {
-      errors['isPublic'] = 'Public visibility is required for permanent closets.';
+
+    // Validate closet name
+    if (closetName.isEmpty) {
+      errors['closetName'] = 'closetNameCannotBeEmpty';
+    } else if (closetName == "cc_closet") {
+      errors['closetName'] = 'reservedClosetNameError';
     }
-    if (state.closetType == 'temporary' && (state.monthsLater == null || state.monthsLater! < 0)) {
-      errors['monthsLater'] = 'Valid monthsLater is required for temporary closets.';
+
+    // Validate based on closet type
+    if (closetType == 'permanent' && isPublic == null) {
+      errors['isPublic'] = 'publicPrivateSelectionRequired';
     }
+
+    if (closetType == 'temporary' && (monthsLater == null || monthsLater < 0)) {
+      errors['monthsLater'] = 'invalidMonths';
+    }
+
     emit(state.copyWith(errorKeys: errors.isEmpty ? null : errors));
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/presentation/bloc/multi_closet_navigation_bloc.dart';
+import '../../../core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
 import '../bloc/view_multi_closet_bloc.dart';
 import '../../../../../core/filter/presentation/widgets/tab/single_selection_tab/closet_grid_widget.dart';
 import '../../../../../core/utilities/routes.dart';

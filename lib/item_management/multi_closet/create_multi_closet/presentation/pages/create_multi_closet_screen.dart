@@ -14,6 +14,7 @@ import '../../../../../core/widgets/progress_indicator/closet_progress_indicator
 import '../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../../core/widgets/button/themed_elevated_button.dart';
 import '../../../core/presentation/bloc/closet_metadata_validation_cubit/closet_metadata_validation_cubit.dart';
+import '../../../core/presentation/bloc/closet_metadata_cubit/closet_metadata_cubit.dart';
 import '../../../../core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
 
 class CreateMultiClosetScreen extends StatefulWidget {
@@ -34,9 +35,10 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
   @override
   void initState() {
     super.initState();
-        logger.i('CreateMultiClosetScreen initialized');
+    logger.i('CreateMultiClosetScreen initialized');
     crossAxisCountFuture = _getCrossAxisCount();
     context.read<ViewItemsBloc>().add(FetchItemsEvent(0));
+
     // Add scroll listener for infinite scrolling
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
@@ -49,7 +51,6 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
         }
       }
     });
-
   }
 
   Future<int> _getCrossAxisCount() async {
@@ -98,22 +99,21 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
               listeners: [
                 BlocListener<ClosetMetadataValidationCubit, ClosetMetadataValidationState>(
                   listener: (context, validationState) {
-                    logger.d('ValidationListener triggered with state: $validationState');
-
                     if (validationState.errorKeys == null) {
-                      // Validation succeeded, dispatch event to CreateMultiClosetBloc
-                      final createMultiClosetBloc = context.read<CreateMultiClosetBloc>();
-                      createMultiClosetBloc.add(CreateMultiClosetRequested(
-                        closetName: validationState.closetName,
-                        closetType: validationState.closetType,
+                      logger.i('Validation succeeded. Dispatching create closet event.');
+                      // Dispatch event to create closet
+                      final metadataState = context.read<ClosetMetadataCubit>().state;
+                      context.read<CreateMultiClosetBloc>().add(CreateMultiClosetRequested(
+                        closetName: metadataState.closetName,
+                        closetType: metadataState.closetType,
+                        isPublic: metadataState.isPublic,
+                        monthsLater: metadataState.monthsLater,
                         itemIds: context.read<SelectionItemCubit>().state.selectedItemIds,
-                        monthsLater: validationState.monthsLater,
-                        isPublic: validationState.isPublic,
                       ));
                     } else {
-                      // Handle validation errors, e.g., show snackbar or highlight fields
+                      logger.e('Validation errors: ${validationState.errorKeys}');
                       CustomSnackbar(
-                        message: S.of(context).validation_error,
+                        message: S.of(context).fix_validation_errors,
                         theme: theme,
                       ).show(context);
                     }
@@ -121,8 +121,6 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                 ),
                 BlocListener<CreateMultiClosetBloc, CreateMultiClosetState>(
                   listener: (context, state) {
-                    logger.d('CreateMultiClosetBlocListener triggered with state: $state');
-
                     if (state.status == ClosetStatus.success) {
                       logger.i('Closet created successfully');
                       CustomSnackbar(
@@ -133,8 +131,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                     } else if (state.status == ClosetStatus.failure) {
                       logger.e('Error creating closet: ${state.error}');
                       CustomSnackbar(
-                        message: S.of(context).error_creating_closet(
-                            state.error ?? ''),
+                        message: S.of(context).error_creating_closet(state.error ?? ''),
                         theme: theme,
                       ).show(context);
                     }
@@ -145,15 +142,15 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Metadata Form
-                  BlocBuilder<ClosetMetadataValidationCubit, ClosetMetadataValidationState>(
-                    builder: (context, state) {
-                      closetNameController.text = state.closetName;
-                      monthsController.text = state.monthsLater?.toString() ?? '';
+                  BlocBuilder<ClosetMetadataCubit, ClosetMetadataState>(
+                    builder: (context, metadataState) {
+                      closetNameController.text = metadataState.closetName;
+                      monthsController.text = metadataState.monthsLater?.toString() ?? '';
                       return CreateMultiClosetMetadata(
                         closetNameController: closetNameController,
                         monthsController: monthsController,
-                        closetType: state.closetType,
-                        isPublic: state.isPublic ?? false,
+                        closetType: metadataState.closetType,
+                        isPublic: metadataState.isPublic ?? false,
                         theme: theme,
                       );
                     },
@@ -182,48 +179,33 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Save Button Section
-                BlocBuilder<SelectionItemCubit, SelectionItemState>(
-                  builder: (context, selectionItemState) {
-                    if (!selectionItemState.hasSelectedItems) {
-                      return const SizedBox.shrink(); // Hide padding and button if no items selected
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: ThemedElevatedButton(
-                          text: S.of(context).create_closet, // Provide text parameter
-                          onPressed: () {
-                            logger.i('Save button pressed');
-
-                            // Validate metadata
-                            context.read<ClosetMetadataValidationCubit>().validateFields();
-
-                            final validationState =
-                                context.read<ClosetMetadataValidationCubit>().state;
-                            if (validationState.errorKeys != null) {
-                              CustomSnackbar(
-                                message: S.of(context).fix_validation_errors,
-                                theme: theme,
-                              ).show(context);
-                              return;
-                            }
-
-                            // Dispatch save event
-                            context.read<CreateMultiClosetBloc>().add(CreateMultiClosetRequested(
-                              closetName: validationState.closetName,
-                              closetType: validationState.closetType,
-                              isPublic: validationState.isPublic,
-                              monthsLater: validationState.monthsLater,
-                              itemIds: selectionItemState.selectedItemIds,
-                            ));
-                          },
+                  // Save Button
+                  BlocBuilder<SelectionItemCubit, SelectionItemState>(
+                    builder: (context, selectionItemState) {
+                      if (!selectionItemState.hasSelectedItems) {
+                        return const SizedBox.shrink();
+                      }
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: ThemedElevatedButton(
+                            text: S.of(context).create_closet,
+                            onPressed: () {
+                              final metadataState = context.read<ClosetMetadataCubit>().state;
+                              context.read<ClosetMetadataValidationCubit>().validateFields(
+                                closetName: metadataState.closetName,
+                                closetType: metadataState.closetType,
+                                isPublic: metadataState.isPublic,
+                                monthsLater: metadataState.monthsLater,
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                    );
-                  }
-                )],
+                      );
+                    },
+                  ),
+                ],
               ),
             );
           }

@@ -6,8 +6,7 @@ import '../../../../../core/widgets/form/custom_text_form.dart';
 import '../widgets/permanent_closet_toggle.dart';
 import '../widgets/public_private_toggle.dart';
 import '../../../../../core/utilities/logger.dart';
-import '../../../core/presentation/bloc/closet_metadata_validation_cubit/closet_metadata_validation_cubit.dart';
-
+import '../../../core/presentation/bloc/closet_metadata_cubit/closet_metadata_cubit.dart';
 
 class CreateMultiClosetMetadata extends StatelessWidget {
   final TextEditingController closetNameController;
@@ -15,6 +14,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
   final String closetType; // 'permanent' or 'temporary'
   final bool isPublic; // true for public, false for private
   final ThemeData theme;
+  final Map<String, String>? errorKeys;
 
   static final CustomLogger _logger = CustomLogger('CreateMultiClosetMetadata');
 
@@ -25,15 +25,16 @@ class CreateMultiClosetMetadata extends StatelessWidget {
     required this.closetType,
     required this.isPublic,
     required this.theme,
+    this.errorKeys,
   });
 
   @override
   Widget build(BuildContext context) {
     _logger.i('Rendering CreateMultiClosetMetadata widget');
 
-    return BlocBuilder<ClosetMetadataValidationCubit, ClosetMetadataValidationState>(
-      builder: (context, state) {
-        _logger.d('Current Bloc State: ${state.toString()}');
+    return BlocBuilder<ClosetMetadataCubit, ClosetMetadataState>(
+      builder: (context, metadataState) {
+        _logger.d('Current ClosetMetadataCubit State: $metadataState');
 
         return SingleChildScrollView(
           child: Padding(
@@ -52,39 +53,32 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                   keyboardType: TextInputType.text,
                   onChanged: (value) {
                     _logger.d('Closet name changed: $value');
-                    context.read<ClosetMetadataValidationCubit>().updateClosetName(value);
-                  },
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      _logger.w('Closet name validation failed: cannot be empty');
-                      return S.of(context).closetNameCannotBeEmpty;
-                    }
-                    return null;
+                    context.read<ClosetMetadataCubit>().updateClosetName(value);
                   },
                 ),
                 const SizedBox(height: 16),
 
                 // Closet Type Toggle
                 PermanentClosetToggle(
-                  isPermanent: state.closetType == 'permanent',
+                  isPermanent: metadataState.closetType == 'permanent',
                   onChanged: (value) {
                     final closetType = value ? 'permanent' : 'temporary';
                     _logger.d('Closet type changed to: $closetType');
-                    context.read<ClosetMetadataValidationCubit>().updateClosetType(closetType);
+                    context.read<ClosetMetadataCubit>().updateClosetType(closetType);
                   },
                 ),
                 const SizedBox(height: 16),
 
                 // Conditional Metadata Fields
-                if (state.closetType == 'permanent') ...[
+                if (metadataState.closetType == 'permanent') ...[
                   PublicPrivateToggle(
-                    isPublic: state.isPublic ?? false,
+                    isPublic: metadataState.isPublic ?? false,
                     onChanged: (isPublic) {
                       _logger.d('Public/Private changed: $isPublic');
-                      context.read<ClosetMetadataValidationCubit>().updateIsPublic(isPublic);
+                      context.read<ClosetMetadataCubit>().updateIsPublic(isPublic);
                     },
                   ),
-                ] else if (state.closetType == 'temporary') ...[
+                ] else if (metadataState.closetType == 'temporary') ...[
                   CustomTextFormField(
                     controller: monthsController!,
                     labelText: S.of(context).months,
@@ -96,19 +90,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                     onChanged: (value) {
                       final months = int.tryParse(value);
                       _logger.d('Months input changed: $months');
-                      context.read<ClosetMetadataValidationCubit>().updateMonthsLater(months);
-                    },
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        _logger.w('Months input validation failed: cannot be empty');
-                        return S.of(context).monthsCannotBeEmpty;
-                      }
-                      final months = int.tryParse(value);
-                      if (months == null || months <= 0) {
-                        _logger.w('Months input validation failed: invalid value');
-                        return S.of(context).invalidMonths;
-                      }
-                      return null;
+                      context.read<ClosetMetadataCubit>().updateMonthsLater(months);
                     },
                   ),
                 ],
@@ -120,3 +102,4 @@ class CreateMultiClosetMetadata extends StatelessWidget {
     );
   }
 }
+

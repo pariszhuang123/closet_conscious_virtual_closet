@@ -482,6 +482,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Share Your Closet\nwith the Community"),
         "publicOrPrivate":
             MessageLookupByLibrary.simpleMessage("Public or Private"),
+        "publicPrivateSelectionRequired": MessageLookupByLibrary.simpleMessage(
+            "Please select public or private for a permanent closet."),
         "public_closet": MessageLookupByLibrary.simpleMessage("Public"),
         "purchase_button": MessageLookupByLibrary.simpleMessage("Unlock Now"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
@@ -490,6 +492,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "recommendClosetConscious": MessageLookupByLibrary.simpleMessage(
             "How likely are you to recommend Closet Conscious to a friend?"),
         "red": MessageLookupByLibrary.simpleMessage("Red"),
+        "reservedClosetNameError": MessageLookupByLibrary.simpleMessage(
+            "\'cc_closet\' is a reserved name. Please choose another."),
         "resetToDefault":
             MessageLookupByLibrary.simpleMessage("Reset to Default"),
         "retryConnection":

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/presentation/bloc/multi_closet_navigation_bloc.dart';
+import '../../../core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
 import '../bloc/view_multi_closet_bloc.dart';
 import 'view_multi_closet_screen.dart';
 import '../../../../../core/utilities/logger.dart';

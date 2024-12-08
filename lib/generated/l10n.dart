@@ -3779,6 +3779,26 @@ class S {
       args: [],
     );
   }
+
+  /// `'cc_closet' is a reserved name. Please choose another.`
+  String get reservedClosetNameError {
+    return Intl.message(
+      '\'cc_closet\' is a reserved name. Please choose another.',
+      name: 'reservedClosetNameError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select public or private for a permanent closet.`
+  String get publicPrivateSelectionRequired {
+    return Intl.message(
+      'Please select public or private for a permanent closet.',
+      name: 'publicPrivateSelectionRequired',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

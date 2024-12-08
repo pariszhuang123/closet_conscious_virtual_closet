@@ -424,6 +424,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "publicClosetFeatureTitle":
             MessageLookupByLibrary.simpleMessage("与社区共享您的衣橱"),
         "publicOrPrivate": MessageLookupByLibrary.simpleMessage("公开或私人"),
+        "publicPrivateSelectionRequired":
+            MessageLookupByLibrary.simpleMessage("请为永久衣柜选择公开或私密。"),
         "public_closet": MessageLookupByLibrary.simpleMessage("公共衣橱"),
         "purchase_button": MessageLookupByLibrary.simpleMessage("立即购买"),
         "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
@@ -432,6 +434,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "recommendClosetConscious":
             MessageLookupByLibrary.simpleMessage("您有多大可能向朋友推荐环保衣橱？"),
         "red": MessageLookupByLibrary.simpleMessage("红色"),
+        "reservedClosetNameError": MessageLookupByLibrary.simpleMessage(
+            "\'cc_closet\' 是保留名称，请选择其他名称。"),
         "resetToDefault": MessageLookupByLibrary.simpleMessage("重置为默认"),
         "retryConnection": MessageLookupByLibrary.simpleMessage("再试一次？🚀"),
         "reviewOutfitsInCalendar": MessageLookupByLibrary.simpleMessage(
