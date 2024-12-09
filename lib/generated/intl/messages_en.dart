@@ -77,6 +77,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "aistylist": MessageLookupByLibrary.simpleMessage("AI Stylist"),
         "aiupload": MessageLookupByLibrary.simpleMessage("Smart\nUpload"),
         "allClosetLabel": MessageLookupByLibrary.simpleMessage("All Closet"),
+        "allClosetShown": MessageLookupByLibrary.simpleMessage("All Closets"),
         "allClosets": MessageLookupByLibrary.simpleMessage("Edit All Closets"),
         "allClothesWornAchievement":
             MessageLookupByLibrary.simpleMessage("All Clothes, All You!"),
@@ -555,6 +556,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Shoes type is required."),
         "shortTagline":
             MessageLookupByLibrary.simpleMessage("Shop Your Closet"),
+        "singleClosetShown":
+            MessageLookupByLibrary.simpleMessage("Single Closet"),
         "social": MessageLookupByLibrary.simpleMessage("Social"),
         "somethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Something went wrong! 😱"),

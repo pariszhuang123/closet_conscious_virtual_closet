@@ -4,7 +4,7 @@ import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/widgets/button/number_type_button.dart';
 import '../../../../core/core_enums.dart';
 import '../../../../core/data/type_data.dart';
-import '../../../../core/widgets/custom_tooltip.dart';
+import '../../../../core/widgets/feedback/custom_tooltip.dart';
 
 class OutfitFeatureContainer extends StatelessWidget {
   final ThemeData theme;

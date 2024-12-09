@@ -760,6 +760,26 @@ class S {
     );
   }
 
+  /// `All Closets`
+  String get allClosetShown {
+    return Intl.message(
+      'All Closets',
+      name: 'allClosetShown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Single Closet`
+  String get singleClosetShown {
+    return Intl.message(
+      'Single Closet',
+      name: 'singleClosetShown',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No closets found`
   String get noClosetsFound {
     return Intl.message(

@@ -184,7 +184,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                     onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
                     onResetButtonPressed: () => _onResetButtonPressed(context),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
 
                   BlocBuilder<ClosetMetadataCubit, ClosetMetadataState>(
                     builder: (context, metadataState) {

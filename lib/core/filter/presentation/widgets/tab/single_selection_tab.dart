@@ -43,7 +43,6 @@ class SingleSelectionTab extends StatelessWidget {
                   context.read<FilterBloc>().add(UpdateFilterEvent(allCloset: value));
                   logger.i('Dispatched UpdateFilterEvent with allCloset: $value');
                 },
-                logger: logger,
               ),
             const SizedBox(height: 20),
             if (state.hasMultiClosetFeature && !state.allCloset)

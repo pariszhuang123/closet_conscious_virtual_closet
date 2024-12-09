@@ -69,6 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "aistylist": MessageLookupByLibrary.simpleMessage("AI造型师"),
         "aiupload": MessageLookupByLibrary.simpleMessage("智能\n上传"),
         "allClosetLabel": MessageLookupByLibrary.simpleMessage("所有衣橱"),
+        "allClosetShown": MessageLookupByLibrary.simpleMessage("所有衣橱"),
         "allClosets": MessageLookupByLibrary.simpleMessage("编辑所有衣柜"),
         "allClothesWornAchievement":
             MessageLookupByLibrary.simpleMessage("每件衣服，都是您的选择！"),
@@ -478,6 +479,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "shoes": MessageLookupByLibrary.simpleMessage("鞋子"),
         "shoesTypeRequired": MessageLookupByLibrary.simpleMessage("鞋类类型是必需的。"),
         "shortTagline": MessageLookupByLibrary.simpleMessage("在衣橱里购物"),
+        "singleClosetShown": MessageLookupByLibrary.simpleMessage("单一衣橱"),
         "social": MessageLookupByLibrary.simpleMessage("社交"),
         "somethingWentWrong": MessageLookupByLibrary.simpleMessage("出了点问题！😱"),
         "sortCategoryPickerTitle":

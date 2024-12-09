@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../../core/utilities/logger.dart';
+import '../../../../../core/widgets/form/custom_toggle.dart';
 
 class PublicPrivateToggle extends StatelessWidget {
   final bool isPublic;
   final Function(bool) onChanged;
-
-  static final CustomLogger _logger = CustomLogger('PublicPrivateToggle');
 
   const PublicPrivateToggle({
     required this.isPublic,
@@ -16,22 +14,11 @@ class PublicPrivateToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _logger.i('Rendering PublicPrivateToggle');
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          isPublic ? S.of(context).public : S.of(context).private, // Flip logic here
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        Switch(
-          value: isPublic, // Invert the value here
-          onChanged: (value) {
-            _logger.d('Public/Private toggle changed: $value');
-            onChanged(value);
-          },
-        ),
-      ],
+    return CustomToggle(
+      value: isPublic,
+      onChanged: onChanged,
+      trueLabel: S.of(context).public, // Label for "Public"
+      falseLabel: S.of(context).private, // Label for "Private"
     );
   }
 }

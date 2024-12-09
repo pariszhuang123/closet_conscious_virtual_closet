@@ -39,7 +39,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
 
         return SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -60,7 +60,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                     context.read<ClosetMetadataCubit>().updateClosetName(value);
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
 
                 // Closet Type Toggle
                 PermanentClosetToggle(
@@ -79,7 +79,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                       style: TextStyle(color: theme.colorScheme.error),
                     ),
                   ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
 
                 // Conditional Metadata Fields
                 if (metadataState.closetType == 'permanent') ...[

@@ -71,6 +71,8 @@
   "addCloset_addCloset": "Multi Closet",
   "createCloset": "Create Closet",
   "allClosets": "Edit All Closets",
+  "allClosetShown": "All Closets",
+  "singleClosetShown": "Single Closet",
   "noClosetsFound": "No closets found",
   "public_closet": "Public",
   "itemUploaded_itemUploaded": "Item Uploaded",

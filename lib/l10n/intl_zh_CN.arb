@@ -71,6 +71,8 @@
   "addCloset_addCloset": "添加衣橱",
   "createCloset": "创建衣柜",
   "allClosets": "编辑所有衣柜",
+  "allClosetShown": "所有衣橱",
+  "singleClosetShown": "单一衣橱",
   "noClosetsFound": "未找到衣橱",
   "public_closet": "公共衣橱",
   "itemUploaded_itemUploaded": "物品已上传",
