@@ -6,17 +6,17 @@ import '../../../../core/core_enums.dart';
 import '../../../core/data/services/outfits_save_services.dart';
 import '../../../../core/data/item_selector.dart';
 
-part 'select_outfit_items_event.dart';
-part 'select_outfit_items_state.dart';
+part 'save_outfit_items_event.dart';
+part 'save_outfit_items_state.dart';
 
-class SelectionOutfitItemsBloc extends Bloc<SelectionOutfitItemsEvent, SelectionOutfitItemsState>
+class SaveOutfitItemsBloc extends Bloc<SaveOutfitItemsEvent, SaveOutfitItemsState>
     implements ItemSelector {
   final CustomLogger logger;
   final OutfitSaveService outfitSaveService;
 
-  SelectionOutfitItemsBloc(this.outfitSaveService)
+  SaveOutfitItemsBloc(this.outfitSaveService)
       : logger = CustomLogger('SelectionOutfitItemsBlocLogger'),
-        super(SelectionOutfitItemsState.initial()) {
+        super(SaveOutfitItemsState.initial()) {
     on<SetSelectedItemsEvent>(_onSetSelectedItems); // Add this line
     on<ToggleSelectItemEvent>(_onToggleSelectItem);
     on<ClearSelectedItemsEvent>(_onClearSelectedItems);
@@ -31,7 +31,7 @@ class SelectionOutfitItemsBloc extends Bloc<SelectionOutfitItemsEvent, Selection
     add(ToggleSelectItemEvent(itemId));
   }
 
-  void _onSetSelectedItems(SetSelectedItemsEvent event, Emitter<SelectionOutfitItemsState> emit) {
+  void _onSetSelectedItems(SetSelectedItemsEvent event, Emitter<SaveOutfitItemsState> emit) {
     final updatedSelectedItemIds = List<String>.from(event.selectedItemIds);
     final hasSelectedItems = updatedSelectedItemIds.isNotEmpty;
 
@@ -43,7 +43,7 @@ class SelectionOutfitItemsBloc extends Bloc<SelectionOutfitItemsEvent, Selection
     logger.d('Set selected items to: $updatedSelectedItemIds');
   }
 
-  void _onToggleSelectItem(ToggleSelectItemEvent event, Emitter<SelectionOutfitItemsState> emit) {
+  void _onToggleSelectItem(ToggleSelectItemEvent event, Emitter<SaveOutfitItemsState> emit) {
     final updatedSelectedItemIds = List<String>.from(state.selectedItemIds);
 
     // Toggle the selection of the item
@@ -65,12 +65,12 @@ class SelectionOutfitItemsBloc extends Bloc<SelectionOutfitItemsEvent, Selection
     logger.d('Updated selected item IDs in state: ${state.selectedItemIds}');
   }
 
-  void _onClearSelectedItems(ClearSelectedItemsEvent event, Emitter<SelectionOutfitItemsState> emit) {
-    emit(SelectionOutfitItemsState.initial());
+  void _onClearSelectedItems(ClearSelectedItemsEvent event, Emitter<SaveOutfitItemsState> emit) {
+    emit(SaveOutfitItemsState.initial());
     logger.d('Cleared all selected item IDs.');
   }
 
-  Future<void> _onSaveOutfit(SaveOutfitEvent event, Emitter<SelectionOutfitItemsState> emit) async {
+  Future<void> _onSaveOutfit(SaveOutfitEvent event, Emitter<SaveOutfitItemsState> emit) async {
     emit(state.copyWith(saveStatus: SaveStatus.inProgress));
 
     if (state.selectedItemIds.isEmpty) {

@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/utilities/logger.dart';
-import '../../../../../core/widgets/layout/base_grid.dart';
-import '../../../../core/data/models/closet_item_minimal.dart';
-import '../../../../../generated/l10n.dart';
-import '../../../../../core/core_enums.dart';
-import '../../../../../outfit_management/create_outfit/presentation/widgets/outfit_grid_item.dart';
-import '../../../../core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
+import '../../utilities/logger.dart';
+import 'base_layout/base_grid.dart';
+import '../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../generated/l10n.dart';
+import '../../core_enums.dart';
+import 'base_layout/selectable_grid_item.dart';
+import '../../../item_management/core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
 
-class ClosetItemGrid extends StatelessWidget {
+class ItemGrid extends StatelessWidget {
   final ScrollController scrollController;
   final List<ClosetItemMinimal> items;
   final int crossAxisCount;
   final List<String> selectedItemIds;
 
 
-  ClosetItemGrid({
+  ItemGrid({
     super.key,
     required this.scrollController,
     required this.items,
     required this.crossAxisCount,
     required this.selectedItemIds,
 
-  }) : _logger = CustomLogger('ClosetItemGrid');
+  }) : _logger = CustomLogger('ItemGrid');
 
   final CustomLogger _logger;
 
@@ -48,14 +48,14 @@ class ClosetItemGrid extends StatelessWidget {
     final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
     final imageSize = _getImageSize(crossAxisCount);
 
-    _logger.d('Building ClosetItemGrid');
+    _logger.d('Building ItemGrid');
     _logger.d('Total items: ${items.length}');
     _logger.i('Selected item IDs: $selectedItemIds');
     _logger.i('Cross axis count: $crossAxisCount');
     _logger.i('Image size: $imageSize');
 
     if (items.isEmpty) {
-      _logger.d('No items in the closet.');
+      _logger.d('No items.');
       return Center(child: Text(S.of(context).noItemsInCloset));
     }
 

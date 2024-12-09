@@ -43,6 +43,7 @@ class _ItemNameInputState extends State<ItemNameInput> {
       labelText: S.of(context).itemNameLabel,
       hintText: S.of(context).ItemNameFilterHint,
       labelStyle: Theme.of(context).textTheme.bodyMedium,
+      hintStyle: Theme.of(context).textTheme.bodyMedium,
       focusedBorderColor: Theme.of(context).colorScheme.primary,
       onChanged: (value) {
         widget.logger.d('User entered item name: $value');

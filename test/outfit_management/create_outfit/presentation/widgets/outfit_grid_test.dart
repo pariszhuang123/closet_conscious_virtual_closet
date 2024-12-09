@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:closet_conscious/core/utilities/logger.dart';
 import 'package:closet_conscious/core/core_enums.dart';
 import 'package:closet_conscious/item_management/core/data/models/closet_item_minimal.dart';
-import 'package:closet_conscious/outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
-import 'package:closet_conscious/outfit_management/create_outfit/presentation/widgets/outfit_grid.dart';
+import 'package:closet_conscious/outfit_management/fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
+import 'package:closet_conscious/outfit_management/fetch_outfit_items/presentation/widgets/outfit_grid.dart';
 import 'package:closet_conscious/outfit_management/core/outfit_enums.dart';
 import 'package:closet_conscious/core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,13 +15,13 @@ import 'package:closet_conscious/generated/l10n.dart';
 
 
 // 1. Define Fake Classes for Events and States
-class FakeCreateOutfitItemEvent extends Fake implements CreateOutfitItemEvent {}
-class FakeCreateOutfitItemState extends Fake implements CreateOutfitItemState {}
+class FakeCreateOutfitItemEvent extends Fake implements FetchOutfitItemEvent {}
+class FakeCreateOutfitItemState extends Fake implements FetchOutfitItemState {}
 
 // 2. Mock Classes
 class MockCreateOutfitItemBloc
-    extends MockBloc<CreateOutfitItemEvent, CreateOutfitItemState>
-    implements CreateOutfitItemBloc {}
+    extends MockBloc<FetchOutfitItemEvent, FetchOutfitItemState>
+    implements FetchOutfitItemBloc {}
 
 // Mock Logger
 class MockLogger extends Mock implements CustomLogger {}
@@ -44,7 +44,7 @@ void main() {
     scrollController = ScrollController();
 
     // Set the initial state of the bloc
-    when(() => mockBloc.state).thenReturn(const CreateOutfitItemState(
+    when(() => mockBloc.state).thenReturn(const FetchOutfitItemState(
       saveStatus: SaveStatus.success,
       selectedItemIds: {OutfitItemCategory.clothing: []},
       currentCategory: OutfitItemCategory.clothing,
@@ -60,8 +60,8 @@ void main() {
     // Mock the state stream of the bloc
     whenListen(
       mockBloc,
-      Stream<CreateOutfitItemState>.fromIterable([
-        const CreateOutfitItemState(
+      Stream<FetchOutfitItemState>.fromIterable([
+        const FetchOutfitItemState(
           saveStatus: SaveStatus.success,
           selectedItemIds: {OutfitItemCategory.clothing: []},
           currentCategory: OutfitItemCategory.clothing,
@@ -93,7 +93,7 @@ void main() {
         ],
         supportedLocales: S.delegate.supportedLocales,
         home: Scaffold(
-          body: BlocProvider<CreateOutfitItemBloc>.value(
+          body: BlocProvider<FetchOutfitItemBloc>.value(
             value: mockBloc,
             child: OutfitGrid(
               scrollController: scrollController,
@@ -110,7 +110,7 @@ void main() {
       testWidgets('displays noItemsInCategory message when items list is empty',
               (WidgetTester tester) async {
             // Stub the bloc state to simulate initial or empty state
-            when(() => mockBloc.state).thenReturn(const CreateOutfitItemState(
+            when(() => mockBloc.state).thenReturn(const FetchOutfitItemState(
               saveStatus: SaveStatus.success,
               selectedItemIds: {OutfitItemCategory.clothing: []},
               currentCategory: OutfitItemCategory.clothing,
@@ -126,8 +126,8 @@ void main() {
             // Update the listen stream to emit the new state
             whenListen(
               mockBloc,
-              Stream<CreateOutfitItemState>.fromIterable([
-                const CreateOutfitItemState(
+              Stream<FetchOutfitItemState>.fromIterable([
+                const FetchOutfitItemState(
                   saveStatus: SaveStatus.success,
                   selectedItemIds: {OutfitItemCategory.clothing: []},
                   currentCategory: OutfitItemCategory.clothing,
@@ -161,7 +161,7 @@ void main() {
           'displays failedToLoadItems message when saveStatus is failure',
               (WidgetTester tester) async {
             // Stub the bloc state to simulate a failure
-            when(() => mockBloc.state).thenReturn(const CreateOutfitItemState(
+            when(() => mockBloc.state).thenReturn(const FetchOutfitItemState(
               saveStatus: SaveStatus.failure,
               selectedItemIds: {},
               currentCategory: OutfitItemCategory.clothing,
@@ -177,8 +177,8 @@ void main() {
             // Update the listen stream to emit the failure state
             whenListen(
               mockBloc,
-              Stream<CreateOutfitItemState>.fromIterable([
-                const CreateOutfitItemState(
+              Stream<FetchOutfitItemState>.fromIterable([
+                const FetchOutfitItemState(
                   saveStatus: SaveStatus.failure,
                   selectedItemIds: {},
                   currentCategory: OutfitItemCategory.clothing,
@@ -226,7 +226,7 @@ void main() {
         ];
 
         // Stub the bloc state to simulate loaded items
-        when(() => mockBloc.state).thenReturn(CreateOutfitItemState(
+        when(() => mockBloc.state).thenReturn(FetchOutfitItemState(
           saveStatus: SaveStatus.success,
           selectedItemIds: const {OutfitItemCategory.clothing: []},
           currentCategory: OutfitItemCategory.clothing,
@@ -242,8 +242,8 @@ void main() {
         // Update the listen stream to emit the loaded state
         whenListen(
           mockBloc,
-          Stream<CreateOutfitItemState>.fromIterable([
-            CreateOutfitItemState(
+          Stream<FetchOutfitItemState>.fromIterable([
+            FetchOutfitItemState(
               saveStatus: SaveStatus.success,
               selectedItemIds: const {OutfitItemCategory.clothing: []},
               currentCategory: OutfitItemCategory.clothing,
@@ -281,7 +281,7 @@ void main() {
         );
 
         // Stub the bloc state to simulate loaded items
-        when(() => mockBloc.state).thenReturn(CreateOutfitItemState(
+        when(() => mockBloc.state).thenReturn(FetchOutfitItemState(
           saveStatus: SaveStatus.success,
           selectedItemIds: const {OutfitItemCategory.clothing: []},
           currentCategory: OutfitItemCategory.clothing,
@@ -297,8 +297,8 @@ void main() {
         // Update the listen stream to emit the loaded state
         whenListen(
           mockBloc,
-          Stream<CreateOutfitItemState>.fromIterable([
-            CreateOutfitItemState(
+          Stream<FetchOutfitItemState>.fromIterable([
+            FetchOutfitItemState(
               saveStatus: SaveStatus.success,
               selectedItemIds: const {OutfitItemCategory.clothing: []},
               currentCategory: OutfitItemCategory.clothing,
@@ -338,7 +338,7 @@ void main() {
         ];
 
         // Stub the bloc state to simulate loaded items
-        when(() => mockBloc.state).thenReturn(CreateOutfitItemState(
+        when(() => mockBloc.state).thenReturn(FetchOutfitItemState(
           saveStatus: SaveStatus.success,
           selectedItemIds: const {OutfitItemCategory.clothing: []},
           currentCategory: OutfitItemCategory.clothing,
@@ -354,8 +354,8 @@ void main() {
         // Update the listen stream to emit the loaded state
         whenListen(
           mockBloc,
-          Stream<CreateOutfitItemState>.fromIterable([
-            CreateOutfitItemState(
+          Stream<FetchOutfitItemState>.fromIterable([
+            FetchOutfitItemState(
               saveStatus: SaveStatus.success,
               selectedItemIds: const {OutfitItemCategory.clothing: []},
               currentCategory: OutfitItemCategory.clothing,

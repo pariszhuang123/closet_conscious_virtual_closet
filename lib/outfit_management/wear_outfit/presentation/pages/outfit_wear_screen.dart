@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/utilities/routes.dart';
 import '../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
-import '../../../../core/widgets/layout/base_grid.dart';
+import '../../../../core/widgets/layout/base_layout/base_grid.dart';
 import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import '../../../../core/user_photo/presentation/widgets/base/user_photo.dart';
 import '../../../../core/widgets/bottom_sheet/premium_bottom_sheet/share_premium_bottom_sheet.dart';

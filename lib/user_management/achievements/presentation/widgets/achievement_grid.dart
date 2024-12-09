@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../data/models/achievement_model.dart';
-import '../../../../core/widgets/layout/base_grid.dart';
+import '../../../../core/widgets/layout/base_layout/base_grid.dart';
 
 class AchievementGrid extends StatelessWidget {
   final List<Achievement> achievements;

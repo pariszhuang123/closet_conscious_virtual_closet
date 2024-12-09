@@ -5,6 +5,7 @@ class CustomTextFormField extends StatelessWidget {
   final String labelText;
   final String hintText;
   final TextStyle? labelStyle;
+  final TextStyle? hintStyle;
   final Color focusedBorderColor;
   final Color? enabledBorderColor;
   final String? errorText;
@@ -19,6 +20,7 @@ class CustomTextFormField extends StatelessWidget {
     required this.labelText,
     required this.hintText,
     this.labelStyle,
+    this.hintStyle,
     required this.focusedBorderColor,
     this.enabledBorderColor,
     this.errorText,
@@ -38,6 +40,7 @@ class CustomTextFormField extends StatelessWidget {
         labelText: labelText,
         hintText: hintText,
         labelStyle: labelStyle,
+        hintStyle: hintStyle,
         border: InputBorder.none,
         enabledBorder: enabledBorderColor != null
             ? OutlineInputBorder(

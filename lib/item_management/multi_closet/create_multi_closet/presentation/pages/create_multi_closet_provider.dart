@@ -6,7 +6,6 @@ import '../../../../core/data/services/item_save_service.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../bloc/create_multi_closet_bloc.dart';
 import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
-import '../../../core/presentation/bloc/closet_metadata_validation_cubit/closet_metadata_validation_cubit.dart';
 import '../../../core/presentation/bloc/closet_metadata_cubit/closet_metadata_cubit.dart';
 import '../../../../core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
 import 'create_multi_closet_screen.dart';
@@ -42,11 +41,6 @@ class CreateMultiClosetProvider extends StatelessWidget {
         // Cubit for metadata update
         BlocProvider<ClosetMetadataCubit>(
           create: (context) => ClosetMetadataCubit(),
-        ),
-
-        // Cubit for metadata validation
-        BlocProvider<ClosetMetadataValidationCubit>(
-          create: (context) => ClosetMetadataValidationCubit(),
         ),
 
         // Bloc for saving the multi-closet

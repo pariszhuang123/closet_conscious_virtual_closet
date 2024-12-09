@@ -5,6 +5,25 @@ abstract class CreateMultiClosetEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class CreateMultiClosetValidate extends CreateMultiClosetEvent {
+  final String closetName;
+  final String closetType;
+  final String? monthsLater;
+  final bool? isPublic;
+
+  CreateMultiClosetValidate({
+    required this.closetName,
+    required this.closetType,
+    this.monthsLater,
+    this.isPublic,
+  });
+
+  @override
+  List<Object?> get props =>
+      [closetName, closetType, isPublic, monthsLater];
+
+}
+
 class CreateMultiClosetRequested extends CreateMultiClosetEvent {
   final String closetName;
   final String closetType;
@@ -24,3 +43,4 @@ class CreateMultiClosetRequested extends CreateMultiClosetEvent {
   List<Object?> get props =>
       [closetName, closetType, isPublic, monthsLater, itemIds];
 }
+

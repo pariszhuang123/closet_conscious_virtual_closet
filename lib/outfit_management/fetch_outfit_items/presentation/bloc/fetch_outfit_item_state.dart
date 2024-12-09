@@ -1,6 +1,6 @@
-part of 'create_outfit_item_bloc.dart';
+part of 'fetch_outfit_item_bloc.dart';
 
-class CreateOutfitItemState extends Equatable {
+class FetchOutfitItemState extends Equatable {
   final Map<OutfitItemCategory, List<String>> selectedItemIds;
   final Map<OutfitItemCategory, List<ClosetItemMinimal>> categoryItems; // Store items per category
   final Map<OutfitItemCategory, int> categoryPages; // Track pages per category
@@ -10,7 +10,7 @@ class CreateOutfitItemState extends Equatable {
   final String? outfitId;
   final bool hasSelectedItems;
 
-  const CreateOutfitItemState({
+  const FetchOutfitItemState({
     this.selectedItemIds = const {},
     this.categoryItems = const {},
     this.categoryPages = const {},
@@ -21,8 +21,8 @@ class CreateOutfitItemState extends Equatable {
     this.hasSelectedItems = false,
   });
 
-  factory CreateOutfitItemState.initial() {
-    return const CreateOutfitItemState(
+  factory FetchOutfitItemState.initial() {
+    return const FetchOutfitItemState(
       selectedItemIds: {
         OutfitItemCategory.clothing: [],
       },
@@ -42,7 +42,7 @@ class CreateOutfitItemState extends Equatable {
     );
   }
 
-  CreateOutfitItemState copyWith({
+  FetchOutfitItemState copyWith({
     Map<OutfitItemCategory, List<String>>? selectedItemIds,
     Map<OutfitItemCategory, List<ClosetItemMinimal>>? categoryItems,
     Map<OutfitItemCategory, int>? categoryPages,
@@ -52,7 +52,7 @@ class CreateOutfitItemState extends Equatable {
     String? outfitId,
     bool? hasSelectedItems,
   }) {
-    return CreateOutfitItemState(
+    return FetchOutfitItemState(
       selectedItemIds: selectedItemIds ?? this.selectedItemIds,
       categoryItems: categoryItems ?? this.categoryItems,
       categoryPages: categoryPages ?? this.categoryPages,

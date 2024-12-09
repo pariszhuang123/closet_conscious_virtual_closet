@@ -5,8 +5,7 @@ import '../../../../core/data/services/item_save_service.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../core/data/items_enums.dart';
 
-
-part 'create_multi_closet_event.dart';
+ part 'create_multi_closet_event.dart';
 part 'create_multi_closet_state.dart';
 
 class CreateMultiClosetBloc extends Bloc<CreateMultiClosetEvent, CreateMultiClosetState> {
@@ -15,40 +14,53 @@ class CreateMultiClosetBloc extends Bloc<CreateMultiClosetEvent, CreateMultiClos
 
   CreateMultiClosetBloc(this.itemSaveService) : super(const CreateMultiClosetState()) {
     logger.i('Initializing CreateMultiClosetBloc');
-    on<CreateMultiClosetRequested>(_onCreateMultiClosetRequested);
+    on<CreateMultiClosetValidate>(_onCreateMultiClosetValidate); // Handle validation
+    on<CreateMultiClosetRequested>(_onCreateMultiClosetRequested); // Handle closet creation
   }
 
-  Future<void> _onCreateMultiClosetRequested(
-      CreateMultiClosetRequested event, Emitter<CreateMultiClosetState> emit) async {
-    logger.i('Creating multi-closet:');
-    logger.i('Closet Name: ${event.closetName}');
-    logger.i('Closet Type: ${event.closetType}');
-    logger.i('Item IDs: ${event.itemIds}');
-    logger.i('Months Later: ${event.monthsLater}');
-    logger.i('Is Public: ${event.isPublic}');
+  // Handle Validation Event
+  Future<void> _onCreateMultiClosetValidate(
+      CreateMultiClosetValidate event, Emitter<CreateMultiClosetState> emit) async {
+    logger.i('Validating multi-closet data.');
 
-    final monthsLater = event.monthsLater != null ? int.tryParse(event.monthsLater!) : null;
-    if (event.closetType == 'disappear' && (monthsLater == null || monthsLater <= 0)) {
+    final errors = _validateClosetData(
+      closetName: event.closetName,
+      closetType: event.closetType,
+      monthsLater: event.monthsLater,
+      isPublic: event.isPublic,
+    );
+
+    if (errors.isNotEmpty) {
+      logger.e('Validation failed: $errors');
       emit(state.copyWith(
         status: ClosetStatus.failure,
-        error: 'Invalid months value provided',
+        validationErrors: errors,
       ));
-      return;
+    } else {
+      logger.i('Validation succeeded.');
+      emit(state.copyWith(
+        status: ClosetStatus.valid,
+        validationErrors: null, // Clear previous errors
+      ));
     }
+  }
 
-    // Start loading state
+  // Handle Closet Creation Event
+  Future<void> _onCreateMultiClosetRequested(
+      CreateMultiClosetRequested event, Emitter<CreateMultiClosetState> emit) async {
+    logger.i('Creating multi-closet with data: $event');
+
     emit(state.copyWith(status: ClosetStatus.loading));
 
-    // Perform the saving operation
     try {
       await itemSaveService.addMultiCloset(
         closetName: event.closetName,
         closetType: event.closetType,
         itemIds: event.itemIds,
-        monthsLater: monthsLater,
+        monthsLater: event.monthsLater != null ? int.tryParse(event.monthsLater!) : null,
         isPublic: event.isPublic,
       );
-      logger.i('Closet created successfully');
+      logger.i('Closet created successfully.');
       emit(state.copyWith(status: ClosetStatus.success));
     } catch (e) {
       logger.e('Error creating closet: $e');
@@ -57,5 +69,30 @@ class CreateMultiClosetBloc extends Bloc<CreateMultiClosetEvent, CreateMultiClos
         error: e.toString(),
       ));
     }
+  }
+
+  // Validation Logic
+  Map<String, String> _validateClosetData({
+    required String? closetName,
+    required String closetType,
+    required String? monthsLater,
+    required bool? isPublic,
+  }) {
+    final errors = <String, String>{};
+
+    // Validate closetName
+    if (closetName == null || closetName.isEmpty || closetName == 'cc_closet') {
+      errors['closetName'] = 'closetNameCannotBeEmpty';
+    }
+
+    // Validate monthsLater if closetType is 'disappear'
+    if (closetType == 'disappear') {
+      final months = monthsLater != null ? int.tryParse(monthsLater) : null;
+      if (months == null || months <= 0) {
+        errors['monthsLater'] = 'Invalid months value provided';
+      }
+    }
+
+    return errors;
   }
 }

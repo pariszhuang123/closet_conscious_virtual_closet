@@ -31,6 +31,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _logger.i('Rendering CreateMultiClosetMetadata widget');
+    _logger.i('Error keys passed: $errorKeys'); // Log the errors for debugging
 
     return BlocBuilder<ClosetMetadataCubit, ClosetMetadataState>(
       builder: (context, metadataState) {
@@ -48,6 +49,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                   labelText: S.of(context).closetName,
                   hintText: S.of(context).enterClosetName,
                   labelStyle: theme.textTheme.bodyMedium,
+                  hintStyle: theme.textTheme.bodyMedium,
                   focusedBorderColor: theme.colorScheme.primary,
                   enabledBorderColor: theme.colorScheme.secondary,
                   keyboardType: TextInputType.text,
@@ -102,6 +104,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                     labelText: S.of(context).months,
                     hintText: S.of(context).enterMonths,
                     labelStyle: theme.textTheme.bodyMedium,
+                    hintStyle: theme.textTheme.bodyMedium,
                     focusedBorderColor: theme.colorScheme.primary,
                     enabledBorderColor: theme.colorScheme.secondary,
                     keyboardType: TextInputType.number,

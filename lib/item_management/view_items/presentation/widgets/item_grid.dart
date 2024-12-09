@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/utilities/routes.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../core/data/models/closet_item_minimal.dart';
-import '../../../../core/widgets/layout/base_grid.dart';
+import '../../../../core/widgets/layout/base_layout/base_grid.dart';
 import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import '../../../../core/core_enums.dart';
 import '../../../../generated/l10n.dart';

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../select_outfit_items/presentation/bloc/select_outfit_items_bloc.dart';
-import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
+import '../../../save_outfit_items/presentation/bloc/save_outfit_items_bloc.dart';
+import '../../../fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
 import '../../../../core/utilities/logger.dart';
-import '../../../../core/widgets/layout/base_grid.dart';
+import '../../../../core/widgets/layout/base_layout/base_grid.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/core_enums.dart';
-import 'outfit_grid_item.dart';
+import '../../../../core/widgets/layout/base_layout/selectable_grid_item.dart';
 
 class OutfitGrid extends StatelessWidget {
   final ScrollController scrollController;
@@ -46,7 +46,7 @@ class OutfitGrid extends StatelessWidget {
     final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
     final imageSize = _getImageSize(crossAxisCount);
 
-    return BlocBuilder<CreateOutfitItemBloc, CreateOutfitItemState>(
+    return BlocBuilder<FetchOutfitItemBloc, FetchOutfitItemState>(
       builder: (context, state) {
         if (state.saveStatus == SaveStatus.failure) {
           return Center(child: Text(S.of(context).failedToLoadItems));
@@ -58,7 +58,7 @@ class OutfitGrid extends StatelessWidget {
           return NotificationListener<ScrollNotification>(
             onNotification: (ScrollNotification scrollInfo) {
               if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-                context.read<CreateOutfitItemBloc>().add(FetchMoreItemsEvent());
+                context.read<FetchOutfitItemBloc>().add(FetchMoreItemsEvent());
               }
               return false;
             },
@@ -66,7 +66,7 @@ class OutfitGrid extends StatelessWidget {
               items: currentItems,
               scrollController: scrollController,
               itemBuilder: (context, item, index) {
-                return BlocBuilder<SelectionOutfitItemsBloc, SelectionOutfitItemsState>(
+                return BlocBuilder<SaveOutfitItemsBloc, SaveOutfitItemsState>(
                   builder: (context, selectionState) {
                     final isSelected = selectionState.selectedItemIds.contains(item.itemId);
                     return SelectableGridItem(
@@ -76,7 +76,7 @@ class OutfitGrid extends StatelessWidget {
                       showItemName: showItemName,
                       crossAxisCount: crossAxisCount,
                       onToggleSelection: () {
-                        context.read<SelectionOutfitItemsBloc>().add(
+                        context.read<SaveOutfitItemsBloc>().add(
                           ToggleSelectItemEvent(item.itemId),
                         );
                       },

@@ -99,10 +99,10 @@ class PaymentScreenState extends State<PaymentScreen> {
   void _onCancel() {
     _logger.i('User cancelled payment, navigating back to ${widget.previousRoute} with itemId: ${widget.itemId}, outfitId: ${widget.outfitId}');
 
-    if (widget.previousRoute == '/edit_item' && widget.itemId != null) {
+    if (widget.previousRoute == AppRoutes.editItem && widget.itemId != null) {
       _logger.i('Navigating back to EditItem with itemId: ${widget.itemId}');
       Navigator.pop(context, widget.itemId);
-    } else if (widget.previousRoute == '/wear_outfit' && widget.outfitId != null) {
+    } else if (widget.previousRoute == AppRoutes.wearOutfit && widget.outfitId != null) {
       _logger.i('Navigating back to WearOutfit with outfitId: ${widget.outfitId}');
       Navigator.pop(context, widget.outfitId);
     } else if (widget.previousRoute == AppRoutes.myCloset) {
@@ -111,7 +111,7 @@ class PaymentScreenState extends State<PaymentScreen> {
         context,
         AppRoutes.myCloset, // Default fallback if no previous route matches
       );
-    } else if (widget.previousRoute == '/create_outfit') {
+    } else if (widget.previousRoute == AppRoutes.createOutfit) {
       _logger.i('Navigating back to CreateOutfit without specific arguments.');
       Navigator.pop(context);
     } else {

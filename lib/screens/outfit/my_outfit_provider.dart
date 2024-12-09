@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
-import '../../outfit_management/select_outfit_items/presentation/bloc/select_outfit_items_bloc.dart';
+import '../../outfit_management/fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
+import '../../outfit_management/save_outfit_items/presentation/bloc/save_outfit_items_bloc.dart';
 import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../outfit_management/core/data/services/outfits_save_services.dart';
 import '../../outfit_management/core/outfit_enums.dart';
@@ -36,14 +36,14 @@ class MyOutfitProvider extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) {
-            _logger.d('Initializing CreateOutfitItemBloc');
+            _logger.d('Initializing FetchOutfitItemBloc');
             final outfitFetchService = GetIt.instance<OutfitFetchService>();
             final outfitSaveService = GetIt.instance<OutfitSaveService>();
-            _logger.d('Fetched services for CreateOutfitItemBloc: OutfitFetchService and OutfitSaveService');
-            final createOutfitItemBloc = CreateOutfitItemBloc(outfitFetchService, outfitSaveService)
+            _logger.d('Fetched services for FetchOutfitItemBloc: OutfitFetchService and OutfitSaveService');
+            final fetchOutfitItemBloc = FetchOutfitItemBloc(outfitFetchService, outfitSaveService)
               ..add(const SelectCategoryEvent(OutfitItemCategory.clothing));
-            _logger.i('SelectCategoryEvent added to CreateOutfitItemBloc with category: OutfitItemCategory.clothing');
-            return createOutfitItemBloc;
+            _logger.i('SelectCategoryEvent added to FetchOutfitItemBloc with category: OutfitItemCategory.clothing');
+            return fetchOutfitItemBloc;
           },
         ),
         BlocProvider(
@@ -60,7 +60,7 @@ class MyOutfitProvider extends StatelessWidget {
             _logger.d('Initializing SelectionOutfitItemsBloc');
             final outfitSaveService = GetIt.instance<OutfitSaveService>();
             _logger.d('Fetched service for SelectionOutfitItemsBloc: OutfitSaveService');
-            return SelectionOutfitItemsBloc(outfitSaveService);
+            return SaveOutfitItemsBloc(outfitSaveService);
           },
         ),
       ],

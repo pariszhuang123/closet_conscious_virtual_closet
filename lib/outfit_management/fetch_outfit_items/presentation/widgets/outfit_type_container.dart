@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
+import '../../../fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/core_enums.dart';
 import '../../../core/outfit_enums.dart';
@@ -28,7 +28,7 @@ class OutfitTypeContainer extends StatefulWidget {
 class OutfitTypeContainerState extends State<OutfitTypeContainer> {
   @override
   Widget build(BuildContext context) {
-    final selectedCategory = context.select((CreateOutfitItemBloc bloc) => bloc.state.currentCategory);
+    final selectedCategory = context.select((FetchOutfitItemBloc bloc) => bloc.state.currentCategory);
 
     return BaseContainerNoFormat(
       theme: widget.theme,
@@ -48,7 +48,7 @@ class OutfitTypeContainerState extends State<OutfitTypeContainer> {
       label: typeData.getName(context),
       selectedLabel: typeData.getName(context),
       onPressed: () {
-        context.read<CreateOutfitItemBloc>().add(SelectCategoryEvent(category));
+        context.read<FetchOutfitItemBloc>().add(SelectCategoryEvent(category));
       },
       assetPath: typeData.assetPath,
       isFromMyCloset: false,

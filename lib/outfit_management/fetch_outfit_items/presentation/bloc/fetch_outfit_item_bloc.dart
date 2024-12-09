@@ -8,22 +8,22 @@ import '../../../core/data/services/outfits_save_services.dart';
 import '../../../core/outfit_enums.dart';
 import '../../../../core/core_enums.dart';
 
-part 'create_outfit_item_event.dart';
-part 'create_outfit_item_state.dart';
+part 'fetch_outfit_item_event.dart';
+part 'fetch_outfit_item_state.dart';
 
-class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemState> {
+class FetchOutfitItemBloc extends Bloc<FetchOutfitItemEvent, FetchOutfitItemState> {
   final CustomLogger logger;
   final OutfitFetchService outfitFetchService;
   final OutfitSaveService outfitSaveService;
 
-  CreateOutfitItemBloc(this.outfitFetchService, this.outfitSaveService)
+  FetchOutfitItemBloc(this.outfitFetchService, this.outfitSaveService)
       : logger = CustomLogger('CreateOutfitItemBlocLogger'),
-        super(CreateOutfitItemState.initial()) {
+        super(FetchOutfitItemState.initial()) {
     on<FetchMoreItemsEvent>(_onFetchMoreItems);
     on<SelectCategoryEvent>(_onSelectCategory);
   }
 
-  Future<void> _onSelectCategory(SelectCategoryEvent event, Emitter<CreateOutfitItemState> emit) async {
+  Future<void> _onSelectCategory(SelectCategoryEvent event, Emitter<FetchOutfitItemState> emit) async {
     logger.d('Selecting category: ${event.category}');
     emit(state.copyWith(
       currentCategory: event.category,
@@ -53,7 +53,7 @@ class CreateOutfitItemBloc extends Bloc<CreateOutfitItemEvent, CreateOutfitItemS
     }
   }
 
-  Future<void> _onFetchMoreItems(FetchMoreItemsEvent event, Emitter<CreateOutfitItemState> emit) async {
+  Future<void> _onFetchMoreItems(FetchMoreItemsEvent event, Emitter<FetchOutfitItemState> emit) async {
     final currentCategory = state.currentCategory;
 
     // Check if max has been reached for the current category

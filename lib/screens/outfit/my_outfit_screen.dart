@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../outfit_management/select_outfit_items/presentation/bloc/select_outfit_items_bloc.dart';
+import '../../outfit_management/save_outfit_items/presentation/bloc/save_outfit_items_bloc.dart';
 import '../../core/data/services/core_fetch_services.dart';
 import '../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_stylist_usage_bottom_sheet.dart';
 import '../../core/utilities/logger.dart';
 import '../app_drawer.dart';
 import '../../core/theme/ui_constant.dart';
 import '../../core/widgets/feedback/custom_snack_bar.dart';
-import '../../outfit_management/create_outfit/presentation/widgets/outfit_feature_container.dart';
+import '../../outfit_management/fetch_outfit_items/presentation/widgets/outfit_feature_container.dart';
 import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../core/core_enums.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/calendar_premium_bottom_sheet.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
 import '../../core/utilities/routes.dart';
-import '../../outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
+import '../../outfit_management/fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
 import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc.dart';
-import '../../outfit_management/create_outfit/presentation/widgets/outfit_grid.dart';
-import '../../outfit_management/create_outfit/presentation/widgets/outfit_type_container.dart';
+import '../../outfit_management/fetch_outfit_items/presentation/widgets/outfit_grid.dart';
+import '../../outfit_management/fetch_outfit_items/presentation/widgets/outfit_type_container.dart';
 import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../core/screens/achievement_completed_screen.dart';
@@ -58,7 +58,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     super.initState();
     logger.i('MyOutfitScreen initialized with selectedItemIds: ${widget.selectedItemIds}');
 
-    context.read<SelectionOutfitItemsBloc>().add(SetSelectedItemsEvent(widget.selectedItemIds));
+    context.read<SaveOutfitItemsBloc>().add(SetSelectedItemsEvent(widget.selectedItemIds));
 
     logger.i('MyOutfitView initialized');
     crossAxisCountFuture = _getCrossAxisCount();
@@ -85,12 +85,12 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
 
   void _fetchMoreItems() {
     logger.i('Fetching more items...');
-    context.read<CreateOutfitItemBloc>().add(FetchMoreItemsEvent());
+    context.read<FetchOutfitItemBloc>().add(FetchMoreItemsEvent());
   }
 
   void _onSaveOutfit() {
     logger.i('Save outfit button pressed');
-    context.read<SelectionOutfitItemsBloc>().add(SaveOutfitEvent());
+    context.read<SaveOutfitItemsBloc>().add(SaveOutfitEvent());
   }
 
   void _checkNavigationToReview(BuildContext context) {
@@ -148,7 +148,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context.read<SelectionOutfitItemsBloc>().state.selectedItemIds;
+    final selectedItemIds = context.read<SaveOutfitItemsBloc>().state.selectedItemIds;
     Navigator.of(context).pushNamed(
       AppRoutes.filter,
       arguments: {
@@ -160,7 +160,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context.read<SelectionOutfitItemsBloc>().state.selectedItemIds;
+    final selectedItemIds = context.read<SaveOutfitItemsBloc>().state.selectedItemIds;
     Navigator.of(context).pushNamed(
       AppRoutes.customize,
       arguments: {
@@ -388,7 +388,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               }
             },
           ),
-          BlocListener<SelectionOutfitItemsBloc, SelectionOutfitItemsState>(
+          BlocListener<SaveOutfitItemsBloc, SaveOutfitItemsState>(
             listener: (context, state) {
               if (state.saveStatus == SaveStatus.success && state.outfitId != null) {
                 logger.i('Navigating to OutfitWearProvider for outfitId: ${state.outfitId}');
@@ -401,7 +401,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               }
             },
           ),
-          BlocListener<CreateOutfitItemBloc, CreateOutfitItemState>(
+          BlocListener<FetchOutfitItemBloc, FetchOutfitItemState>(
             listener: (context, state) {
               logger.i(
                   'CreateOutfitItemBloc listener triggered with state: $state');
@@ -489,7 +489,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                           return Center(child: Text(S.of(context).failedToLoadItems));
                         } else {
                           final crossAxisCount = snapshot.data ?? 3; // Default to 3 if null
-                          return BlocBuilder<CreateOutfitItemBloc, CreateOutfitItemState>(
+                          return BlocBuilder<FetchOutfitItemBloc, FetchOutfitItemState>(
                             builder: (context, state) {
                               logger.i('CreateOutfitItemBloc builder triggered with state: $state');
 
@@ -516,7 +516,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: BlocBuilder<SelectionOutfitItemsBloc, SelectionOutfitItemsState>(
+                    child: BlocBuilder<SaveOutfitItemsBloc, SaveOutfitItemsState>(
                       builder: (context, state) {
                         logger.i(
                             'SelectionOutfitItemBloc bottom button builder triggered with state: $state');

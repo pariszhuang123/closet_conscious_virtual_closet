@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/theme/my_closet_theme.dart';
 import '../bloc/create_multi_closet_bloc.dart';
 import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
-import '../widgets/closet_item_grid.dart';
+import '../../../../../core/widgets/layout/item_grid.dart';
 import '../widgets/create_multi_closet_metadata.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../core/data/items_enums.dart';
@@ -14,7 +14,6 @@ import '../../../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../../core/widgets/button/themed_elevated_button.dart';
-import '../../../core/presentation/bloc/closet_metadata_validation_cubit/closet_metadata_validation_cubit.dart';
 import '../../../core/presentation/bloc/closet_metadata_cubit/closet_metadata_cubit.dart';
 import '../../../../core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
 import '../../../core/presentation/widgets/multi_closet_feature_container.dart';
@@ -140,11 +139,11 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
 
             return MultiBlocListener(
               listeners: [
-                BlocListener<ClosetMetadataValidationCubit, ClosetMetadataValidationState>(
-                  listener: (context, validationState) {
-                    if (validationState.errorKeys == null) {
-                      logger.i('Validation succeeded. Dispatching create closet event.');
-                      // Dispatch event to create closet
+                BlocListener<CreateMultiClosetBloc, CreateMultiClosetState>(
+                  listener: (context, state) {
+                    if (state.status == ClosetStatus.valid) {
+                      logger.i('Validation succeeded. Triggering CreateMultiClosetRequested event.');
+
                       final metadataState = context.read<ClosetMetadataCubit>().state;
                       context.read<CreateMultiClosetBloc>().add(CreateMultiClosetRequested(
                         closetName: metadataState.closetName,
@@ -153,29 +152,24 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                         monthsLater: metadataState.monthsLater,
                         itemIds: context.read<SelectionItemCubit>().state.selectedItemIds,
                       ));
-                    } else {
-                      logger.e('Validation errors: ${validationState.errorKeys}');
+                    } else if (state.status == ClosetStatus.failure && state.validationErrors != null) {
+                      logger.e('Validation errors: ${state.validationErrors}');
                       CustomSnackbar(
                         message: S.of(context).fix_validation_errors,
-                        theme: theme,
+                        theme: Theme.of(context),
                       ).show(context);
-                    }
-                  },
-                ),
-                BlocListener<CreateMultiClosetBloc, CreateMultiClosetState>(
-                  listener: (context, state) {
-                    if (state.status == ClosetStatus.success) {
-                      logger.i('Closet created successfully');
+                    } else if (state.status == ClosetStatus.success) {
+                      logger.i('Closet created successfully.');
                       CustomSnackbar(
                         message: S.of(context).closet_created_successfully,
-                        theme: theme,
+                        theme: Theme.of(context),
                       ).show(context);
                       _navigateToMyCloset(context);
-                    } else if (state.status == ClosetStatus.failure) {
+                    } else if (state.status == ClosetStatus.failure && state.error != null) {
                       logger.e('Error creating closet: ${state.error}');
                       CustomSnackbar(
                         message: S.of(context).error_creating_closet(state.error ?? ''),
-                        theme: theme,
+                        theme: Theme.of(context),
                       ).show(context);
                     }
                   },
@@ -217,7 +211,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                         } else if (viewState is ItemsError) {
                           return Center(child: Text(S.of(context).failedToLoadItems));
                         } else if (viewState is ItemsLoaded) {
-                          return ClosetItemGrid(
+                          return ItemGrid(
                             items: viewState.items,
                             scrollController: _scrollController,
                             crossAxisCount: crossAxisCount,
@@ -249,12 +243,12 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                             text: S.of(context).create_closet,
                             onPressed: () {
                               final metadataState = context.read<ClosetMetadataCubit>().state;
-                              context.read<ClosetMetadataValidationCubit>().validateFields(
+                              context.read<CreateMultiClosetBloc>().add(CreateMultiClosetValidate(
                                 closetName: metadataState.closetName,
                                 closetType: metadataState.closetType,
                                 isPublic: metadataState.isPublic,
                                 monthsLater: metadataState.monthsLater,
-                              );
+                              ));
                             },
                           ),
                         ),

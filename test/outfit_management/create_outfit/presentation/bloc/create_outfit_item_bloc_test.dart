@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:closet_conscious/core/utilities/logger.dart';
 import 'package:closet_conscious/core/core_enums.dart';
 import 'package:closet_conscious/item_management/core/data/models/closet_item_minimal.dart';
-import 'package:closet_conscious/outfit_management/create_outfit/presentation/bloc/create_outfit_item_bloc.dart';
+import 'package:closet_conscious/outfit_management/fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
 import 'package:closet_conscious/outfit_management/core/data/services/outfits_fetch_services.dart';
 import 'package:closet_conscious/outfit_management/core/data/services/outfits_save_services.dart';
 import 'package:closet_conscious/outfit_management/core/outfit_enums.dart';
@@ -23,7 +23,7 @@ void main() {
     registerFallbackValue(OutfitItemCategory.clothing); // or any value from OutfitItemCategory
   });
 
-  late CreateOutfitItemBloc bloc;
+  late FetchOutfitItemBloc bloc;
   late MockOutfitFetchService mockOutfitFetchService;
   late MockOutfitSaveService mockOutfitSaveService;
 
@@ -31,7 +31,7 @@ void main() {
     mockOutfitFetchService = MockOutfitFetchService();
     mockOutfitSaveService = MockOutfitSaveService();
 
-    bloc = CreateOutfitItemBloc(mockOutfitFetchService, mockOutfitSaveService);
+    bloc = FetchOutfitItemBloc(mockOutfitFetchService, mockOutfitSaveService);
   });
 
   tearDown(() {
@@ -40,10 +40,10 @@ void main() {
 
   group('CreateOutfitItemBloc', () {
     test('initial state is CreateOutfitItemState.initial()', () {
-      expect(bloc.state, CreateOutfitItemState.initial());
+      expect(bloc.state, FetchOutfitItemState.initial());
     });
 
-    blocTest<CreateOutfitItemBloc, CreateOutfitItemState>(
+    blocTest<FetchOutfitItemBloc, FetchOutfitItemState>(
       'emits states [inProgress, success] when FetchMoreItemsEvent is successful and a full batch of 9 items is fetched',
       build: () {
         // Mock the service to return exactly 9 items
@@ -86,7 +86,7 @@ void main() {
     );
 
 
-    blocTest<CreateOutfitItemBloc, CreateOutfitItemState>(
+    blocTest<FetchOutfitItemBloc, FetchOutfitItemState>(
       'emits states [inProgress, failure] when FetchMoreItemsEvent fails',
       build: () {
         when(() => mockOutfitFetchService.fetchCreateOutfitItemsRPC(any(), any()))
@@ -99,7 +99,7 @@ void main() {
       ],
     );
 
-    blocTest<CreateOutfitItemBloc, CreateOutfitItemState>(
+    blocTest<FetchOutfitItemBloc, FetchOutfitItemState>(
       'emits [inProgress, success] when SelectCategoryEvent is successful',
       build: () {
         // Mock the fetch service to return an item for the specific category
@@ -120,7 +120,7 @@ void main() {
       act: (bloc) => bloc.add(const SelectCategoryEvent(OutfitItemCategory.clothing)),
       expect: () => [
         // First emission: After initiating category selection (inProgress state)
-        const CreateOutfitItemState(
+        const FetchOutfitItemState(
           selectedItemIds: {
             OutfitItemCategory.clothing: [],
           },
@@ -139,7 +139,7 @@ void main() {
           hasSelectedItems: false,
         ),
         // Second emission: After successfully fetching items (success state)
-        const CreateOutfitItemState(
+        const FetchOutfitItemState(
           selectedItemIds: {
             OutfitItemCategory.clothing: [],
           },
