@@ -9,14 +9,14 @@ import '../../core_enums.dart';
 import 'base_layout/selectable_grid_item.dart';
 import '../../../item_management/core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
 
-class ItemGrid extends StatelessWidget {
+class InteractiveItemGrid extends StatelessWidget {
   final ScrollController scrollController;
   final List<ClosetItemMinimal> items;
   final int crossAxisCount;
   final List<String> selectedItemIds;
 
 
-  ItemGrid({
+  InteractiveItemGrid({
     super.key,
     required this.scrollController,
     required this.items,

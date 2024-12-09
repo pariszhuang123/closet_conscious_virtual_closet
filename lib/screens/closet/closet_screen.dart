@@ -6,7 +6,7 @@ import '../../core/theme/my_closet_theme.dart';
 import '../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../core/utilities/routes.dart';
 import '../../core/utilities/logger.dart';
-import '../../item_management/view_items/presentation/widgets/item_grid.dart';
+import '../../item_management/view_items/presentation/widgets/view_item_grid.dart';
 import '../../item_management/view_items/presentation/bloc/view_items_bloc.dart'; // Import ViewItemsBloc
 import '../../item_management/streak_item/presentation/bloc/upload_item_streak_bloc.dart';
 import '../../item_management/core/presentation/bloc/navigate_item_bloc/navigate_item_bloc.dart';
@@ -334,10 +334,10 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                                 onPublicClosetButtonPressed: _onPublicClosetButtonPressed,
                               ),
                               Expanded(
-                                child: ItemGrid(
+                                child: ViewItemGrid(
                                   items: viewItemsState.items,
                                   scrollController: _scrollController,
-                                  myClosetTheme: widget.myClosetTheme,
+                                  theme: widget.myClosetTheme,
                                   logger: logger,
                                   crossAxisCount: crossAxisCount,
                                 ),

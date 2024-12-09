@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../item_management/core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
+import '../../core/widgets/layout/interactive_item_grid.dart';
 import '../../outfit_management/save_outfit_items/presentation/bloc/save_outfit_items_bloc.dart';
 import '../../core/data/services/core_fetch_services.dart';
 import '../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_stylist_usage_bottom_sheet.dart';
@@ -18,7 +20,6 @@ import '../../generated/l10n.dart';
 import '../../core/utilities/routes.dart';
 import '../../outfit_management/fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
 import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc.dart';
-import '../../outfit_management/fetch_outfit_items/presentation/widgets/outfit_grid.dart';
 import '../../outfit_management/fetch_outfit_items/presentation/widgets/outfit_type_container.dart';
 import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
@@ -56,10 +57,6 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   @override
   void initState() {
     super.initState();
-    logger.i('MyOutfitScreen initialized with selectedItemIds: ${widget.selectedItemIds}');
-
-    context.read<SaveOutfitItemsBloc>().add(SetSelectedItemsEvent(widget.selectedItemIds));
-
     logger.i('MyOutfitView initialized');
     crossAxisCountFuture = _getCrossAxisCount();
     _fetchOutfitsCount();
@@ -90,7 +87,10 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
 
   void _onSaveOutfit() {
     logger.i('Save outfit button pressed');
-    context.read<SaveOutfitItemsBloc>().add(SaveOutfitEvent());
+    final selectedItemIds = context.read<SelectionItemCubit>().state.selectedItemIds;
+    logger.d('Selected items: $selectedItemIds');
+
+    context.read<SaveOutfitItemsBloc>().add(SaveOutfitEvent(selectedItemIds));
   }
 
   void _checkNavigationToReview(BuildContext context) {
@@ -148,7 +148,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context.read<SaveOutfitItemsBloc>().state.selectedItemIds;
+    final selectedItemIds = context.read<SelectionItemCubit>().state.selectedItemIds;
     Navigator.of(context).pushNamed(
       AppRoutes.filter,
       arguments: {
@@ -160,7 +160,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context.read<SaveOutfitItemsBloc>().state.selectedItemIds;
+    final selectedItemIds = context.read<SelectionItemCubit>().state.selectedItemIds;
     Navigator.of(context).pushNamed(
       AppRoutes.customize,
       arguments: {
@@ -501,11 +501,11 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                                 _snackBarShown = false; // Reset the flag when no items are available
                                 return Center(child: Text(S.of(context).noItemsInOutfitCategory));
                               } else {
-                                return OutfitGrid(
+                                return InteractiveItemGrid(
                                   scrollController: _scrollController,
-                                  logger: logger,
                                   items: currentItems,
                                   crossAxisCount: crossAxisCount, // Pass the crossAxisCount here
+                                  selectedItemIds: widget.selectedItemIds, // Pass the selectedItemIds
                                 );
                               }
                             },
@@ -516,7 +516,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: BlocBuilder<SaveOutfitItemsBloc, SaveOutfitItemsState>(
+                    child: BlocBuilder<SelectionItemCubit, SelectionItemState>(
                       builder: (context, state) {
                         logger.i(
                             'SelectionOutfitItemBloc bottom button builder triggered with state: $state');

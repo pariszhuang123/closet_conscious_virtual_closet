@@ -7,18 +7,18 @@ import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dar
 import '../../../../core/core_enums.dart';
 import '../../../../generated/l10n.dart';
 
-class ItemGrid extends StatelessWidget {
+class ViewItemGrid extends StatelessWidget {
   final List<ClosetItemMinimal> items;
   final ScrollController scrollController;
-  final ThemeData myClosetTheme;
+  final ThemeData theme;
   final CustomLogger logger;
   final int crossAxisCount;
 
-  const ItemGrid({
+  const ViewItemGrid({
     super.key,
     required this.items,
     required this.scrollController,
-    required this.myClosetTheme,
+    required this.theme,
     required this.logger,
     required this.crossAxisCount,
   });

@@ -4,73 +4,23 @@ import 'package:equatable/equatable.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/core_enums.dart';
 import '../../../core/data/services/outfits_save_services.dart';
-import '../../../../core/data/item_selector.dart';
 
 part 'save_outfit_items_event.dart';
 part 'save_outfit_items_state.dart';
 
-class SaveOutfitItemsBloc extends Bloc<SaveOutfitItemsEvent, SaveOutfitItemsState>
-    implements ItemSelector {
+class SaveOutfitItemsBloc extends Bloc<SaveOutfitItemsEvent, SaveOutfitItemsState> {
   final CustomLogger logger;
   final OutfitSaveService outfitSaveService;
 
   SaveOutfitItemsBloc(this.outfitSaveService)
       : logger = CustomLogger('SelectionOutfitItemsBlocLogger'),
         super(SaveOutfitItemsState.initial()) {
-    on<SetSelectedItemsEvent>(_onSetSelectedItems); // Add this line
-    on<ToggleSelectItemEvent>(_onToggleSelectItem);
-    on<ClearSelectedItemsEvent>(_onClearSelectedItems);
     on<SaveOutfitEvent>(_onSaveOutfit);
   }
 
-  @override
-  List<String> get selectedItemIds => state.selectedItemIds;
-
-  @override
-  void toggleItemSelection(String itemId) {
-    add(ToggleSelectItemEvent(itemId));
-  }
-
-  void _onSetSelectedItems(SetSelectedItemsEvent event, Emitter<SaveOutfitItemsState> emit) {
-    final updatedSelectedItemIds = List<String>.from(event.selectedItemIds);
-    final hasSelectedItems = updatedSelectedItemIds.isNotEmpty;
-
-    emit(state.copyWith(
-      selectedItemIds: updatedSelectedItemIds,
-      hasSelectedItems: hasSelectedItems,
-    ));
-
-    logger.d('Set selected items to: $updatedSelectedItemIds');
-  }
-
-  void _onToggleSelectItem(ToggleSelectItemEvent event, Emitter<SaveOutfitItemsState> emit) {
-    final updatedSelectedItemIds = List<String>.from(state.selectedItemIds);
-
-    // Toggle the selection of the item
-    if (updatedSelectedItemIds.contains(event.itemId)) {
-      updatedSelectedItemIds.remove(event.itemId);
-      logger.d('Deselected item ID: ${event.itemId}');
-    } else {
-      updatedSelectedItemIds.add(event.itemId);
-      logger.d('Selected item ID: ${event.itemId}');
-    }
-
-    final hasSelectedItems = updatedSelectedItemIds.isNotEmpty;
-
-    emit(state.copyWith(
-      selectedItemIds: updatedSelectedItemIds,
-      hasSelectedItems: hasSelectedItems,
-    ));
-
-    logger.d('Updated selected item IDs in state: ${state.selectedItemIds}');
-  }
-
-  void _onClearSelectedItems(ClearSelectedItemsEvent event, Emitter<SaveOutfitItemsState> emit) {
-    emit(SaveOutfitItemsState.initial());
-    logger.d('Cleared all selected item IDs.');
-  }
-
   Future<void> _onSaveOutfit(SaveOutfitEvent event, Emitter<SaveOutfitItemsState> emit) async {
+    emit(state.copyWith(selectedItemIds: event.selectedItemIds));
+
     emit(state.copyWith(saveStatus: SaveStatus.inProgress));
 
     if (state.selectedItemIds.isEmpty) {

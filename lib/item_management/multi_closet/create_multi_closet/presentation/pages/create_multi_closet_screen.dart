@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/theme/my_closet_theme.dart';
 import '../bloc/create_multi_closet_bloc.dart';
 import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
-import '../../../../../core/widgets/layout/item_grid.dart';
+import '../../../../../core/widgets/layout/interactive_item_grid.dart';
 import '../widgets/create_multi_closet_metadata.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../core/data/items_enums.dart';
@@ -211,7 +211,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                         } else if (viewState is ItemsError) {
                           return Center(child: Text(S.of(context).failedToLoadItems));
                         } else if (viewState is ItemsLoaded) {
-                          return ItemGrid(
+                          return InteractiveItemGrid(
                             items: viewState.items,
                             scrollController: _scrollController,
                             crossAxisCount: crossAxisCount,

@@ -7,12 +7,11 @@ import 'package:closet_conscious/core/utilities/logger.dart';
 import 'package:closet_conscious/core/core_enums.dart';
 import 'package:closet_conscious/item_management/core/data/models/closet_item_minimal.dart';
 import 'package:closet_conscious/outfit_management/fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
-import 'package:closet_conscious/outfit_management/fetch_outfit_items/presentation/widgets/outfit_grid.dart';
 import 'package:closet_conscious/outfit_management/core/outfit_enums.dart';
 import 'package:closet_conscious/core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:closet_conscious/generated/l10n.dart';
-
+import 'package:closet_conscious/core/widgets/layout/interactive_item_grid.dart';
 
 // 1. Define Fake Classes for Events and States
 class FakeCreateOutfitItemEvent extends Fake implements FetchOutfitItemEvent {}
@@ -95,9 +94,9 @@ void main() {
         home: Scaffold(
           body: BlocProvider<FetchOutfitItemBloc>.value(
             value: mockBloc,
-            child: OutfitGrid(
+            child: InteractiveItemGrid(
               scrollController: scrollController,
-              logger: mockLogger,
+              selectedItemIds: const [],
               items: items,
               crossAxisCount: 3,
             ),
@@ -148,7 +147,7 @@ void main() {
 
             // Access the localized string
             final BuildContext context = tester.element(
-                find.byType(OutfitGrid));
+                find.byType(InteractiveItemGrid));
             final String expectedNoItemsText = S
                 .of(context)
                 .noItemsInOutfitCategory;
@@ -199,7 +198,7 @@ void main() {
 
             // Access the localized string
             final BuildContext context = tester.element(
-                find.byType(OutfitGrid));
+                find.byType(InteractiveItemGrid));
             final String expectedFailedToLoadText = S
                 .of(context)
                 .failedToLoadItems;

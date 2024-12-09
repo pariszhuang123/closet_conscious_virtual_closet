@@ -10,6 +10,7 @@ import '../../outfit_management/core/outfit_enums.dart';
 import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc.dart';
 import 'my_outfit_screen.dart';
 import '../../core/utilities/logger.dart';
+import '../../item_management/core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
 
 class MyOutfitProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -46,6 +47,10 @@ class MyOutfitProvider extends StatelessWidget {
             return fetchOutfitItemBloc;
           },
         ),
+        BlocProvider<SelectionItemCubit>(
+          create: (context) => SelectionItemCubit()..initializeSelection(selectedItemIds),
+        ),
+
         BlocProvider(
           create: (context) {
             _logger.d('Initializing NavigateOutfitBloc');
@@ -57,9 +62,9 @@ class MyOutfitProvider extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) {
-            _logger.d('Initializing SelectionOutfitItemsBloc');
+            _logger.d('Initializing OutfitSaveBloc');
             final outfitSaveService = GetIt.instance<OutfitSaveService>();
-            _logger.d('Fetched service for SelectionOutfitItemsBloc: OutfitSaveService');
+            _logger.d('Fetched service for OutfitSaveBloc: OutfitSaveService');
             return SaveOutfitItemsBloc(outfitSaveService);
           },
         ),
