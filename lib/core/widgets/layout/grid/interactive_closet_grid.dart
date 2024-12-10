@@ -3,17 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utilities/logger.dart';
 import '../base_layout/base_grid.dart';
-import '../../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../../item_management/core/data/models/multi_closet_minimal.dart';
 import '../../../../generated/l10n.dart';
 import '../../../core_enums.dart';
 
-import '../grid_item/grid_item.dart';
-import '../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
-import '../../../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
+import '../../../../item_management/multi_closet/core/presentation/bloc/single_selection_closet_cubit/single_selection_closet_cubit.dart';
+import '../../../../item_management/multi_closet/core/presentation/bloc/multi_selection_closet_cubit/multi_selection_closet_cubit.dart';
+import '../grid_item/grid_closet_item.dart';
+
 
 class InteractiveItemGrid extends StatelessWidget {
   final ScrollController scrollController;
-  final List<ClosetItemMinimal> items;
+  final List<MultiClosetMinimal> items;
   final int crossAxisCount;
   final List<String> selectedItemIds;
   final bool isDisliked;
@@ -32,7 +33,7 @@ class InteractiveItemGrid extends StatelessWidget {
     this.onAction, // Optional
 
 
-  }) : _logger = CustomLogger('ItemGrid');
+  }) : _logger = CustomLogger('ClosetGrid');
 
   final CustomLogger _logger;
 
@@ -51,20 +52,20 @@ class InteractiveItemGrid extends StatelessWidget {
     }
   }
 
-  void _handleTap(BuildContext context, String itemId) {
+  void _handleTap(BuildContext context, String closetId) {
     switch (selectionMode) {
       case SelectionMode.singleSelection:
-        _logger.d('Single selection mode activated for itemId: $itemId');
-        context.read<SingleSelectionItemCubit>().selectItem(itemId);
+        _logger.d('Single selection mode activated for closetId: $closetId');
+        context.read<SingleSelectionClosetCubit>().selectCloset(closetId);
         break;
 
       case SelectionMode.multiSelection:
-        _logger.d('Multi-selection mode toggled for itemId: $itemId');
-        context.read<MultiSelectionItemCubit>().toggleSelection(itemId);
+        _logger.d('Multi-selection mode toggled for closetId: $closetId');
+        context.read<MultiSelectionClosetCubit>().toggleSelection(closetId);
         break;
 
       case SelectionMode.action:
-        _logger.d('Action mode activated for itemId: $itemId');
+        _logger.d('Action mode activated for closetId: $closetId');
         if (onAction != null) {
           onAction!();
         } else {
@@ -80,9 +81,9 @@ class InteractiveItemGrid extends StatelessWidget {
     final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
     final imageSize = _getImageSize(crossAxisCount);
 
-    _logger.d('Building ItemGrid');
-    _logger.d('Total items: ${items.length}');
-    _logger.i('Selected item IDs: $selectedItemIds');
+    _logger.d('Building ClosetGrid');
+    _logger.d('Total closets: ${items.length}');
+    _logger.i('Selected closet IDs: $selectedItemIds');
     _logger.i('Cross axis count: $crossAxisCount');
     _logger.i('Image size: $imageSize');
 
@@ -91,49 +92,49 @@ class InteractiveItemGrid extends StatelessWidget {
       return Center(child: Text(S.of(context).noItemsInCloset));
     }
 
-    return BaseGrid<ClosetItemMinimal>(
+    return BaseGrid<MultiClosetMinimal>(
       items: items,
       scrollController: scrollController, // Use the ScrollController passed from the parent
-      itemBuilder: (context, item, index) {
+      itemBuilder: (context, closet, index) {
         // Use BlocSelector to determine if this specific item is selected
         if (selectionMode == SelectionMode.singleSelection) {
-          return BlocSelector<SingleSelectionItemCubit, SingleSelectionItemState, bool>(
+          return BlocSelector<SingleSelectionClosetCubit, SingleSelectionClosetState, bool>(
             selector: (state) {
-              final isSelected = state.selectedItemId == item.itemId;
-              _logger.d('Single Selection - Item ID: ${item.itemId}, isSelected: $isSelected');
+              final isSelected = state.selectedClosetId == closet.closetId;
+              _logger.d('Single Selection - Closet ID: ${closet.closetId}, isSelected: $isSelected');
               return isSelected;
             },
             builder: (context, isSelected) {
-              return GridItem(
-                key: ValueKey('${item.itemId}_$isSelected'),
-                item: item,
+              return GridClosetItem(
+                key: ValueKey('${closet.closetId}_$isSelected'),
+                item: closet,
                 isSelected: isSelected,
                 isDisliked: isDisliked,
                 imageSize: imageSize,
                 showItemName: showItemName,
                 onItemTapped: () {
-                  _handleTap(context, item.itemId);
+                  _handleTap(context, closet.closetId);
                 },
               );
             },
           );
         } else {
-          return BlocSelector<MultiSelectionItemCubit, MultiSelectionItemState, bool>(
+          return BlocSelector<MultiSelectionClosetCubit, MultiSelectionClosetState, bool>(
             selector: (state) {
-              final isSelected = state.selectedItemIds.contains(item.itemId);
-              _logger.d('Multi Selection - Item ID: ${item.itemId}, isSelected: $isSelected');
+              final isSelected = state.selectedClosetIds.contains(closet.closetId);
+              _logger.d('Multi Selection - Closet ID: ${closet.closetId}, isSelected: $isSelected');
               return isSelected;
             },
             builder: (context, isSelected) {
-              return GridItem(
-                key: ValueKey('${item.itemId}_$isSelected'),
-                item: item,
+              return GridClosetItem(
+                key: ValueKey('${closet.closetId}_$isSelected'),
+                item: closet,
                 isSelected: isSelected,
                 isDisliked: isDisliked,
                 imageSize: imageSize,
                 showItemName: showItemName,
                 onItemTapped: () {
-                  _handleTap(context, item.itemId);
+                  _handleTap(context, closet.closetId);
                 },
               );
             },

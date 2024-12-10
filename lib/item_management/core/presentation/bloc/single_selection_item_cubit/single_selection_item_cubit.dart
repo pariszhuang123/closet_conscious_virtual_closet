@@ -2,14 +2,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../../core/utilities/logger.dart';
 
-part 'single_selection_state.dart';
+part 'single_selection_item_state.dart';
 
-class SingleSelectionCubit extends Cubit<SingleSelectionState> {
+class SingleSelectionItemCubit extends Cubit<SingleSelectionItemState> {
   final CustomLogger logger;
 
-  SingleSelectionCubit()
-      : logger = CustomLogger('SingleSelectionCubit'),
-        super(const SingleSelectionState());
+  SingleSelectionItemCubit()
+      : logger = CustomLogger('SingleSelectionItemCubit'),
+        super(const SingleSelectionItemState());
 
   void selectItem(String itemId) {
     logger.d('Item selected: $itemId');
