@@ -1,19 +1,19 @@
-part of 'selection_item_cubit.dart';
+part of 'multi_selection_item_cubit.dart';
 
-class SelectionItemState extends Equatable {
+class MultiSelectionItemState extends Equatable {
   final List<String> selectedItemIds;
   final bool hasSelectedItems;
 
-  const SelectionItemState({
+  const MultiSelectionItemState({
     this.selectedItemIds = const [],
     this.hasSelectedItems = false,
   });
 
-  SelectionItemState copyWith({
+  MultiSelectionItemState copyWith({
     List<String>? selectedItemIds,
     bool? hasSelectedItems,
   }) {
-    return SelectionItemState(
+    return MultiSelectionItemState(
       selectedItemIds: selectedItemIds ?? this.selectedItemIds,
       hasSelectedItems: hasSelectedItems ?? this.hasSelectedItems,
     );
@@ -23,8 +23,8 @@ class SelectionItemState extends Equatable {
   List<Object?> get props => [selectedItemIds, hasSelectedItems];
 }
 
-class SelectionItemLoaded extends SelectionItemState {
-  const SelectionItemLoaded({
+class MultiSelectionItemLoaded extends MultiSelectionItemState {
+  const MultiSelectionItemLoaded({
     required super.selectedItemIds,
     required super.hasSelectedItems,
   });

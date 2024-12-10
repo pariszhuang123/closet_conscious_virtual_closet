@@ -10,7 +10,7 @@ import '../../outfit_management/core/outfit_enums.dart';
 import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc.dart';
 import 'my_outfit_screen.dart';
 import '../../core/utilities/logger.dart';
-import '../../item_management/core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
+import '../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 
 class MyOutfitProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -47,8 +47,8 @@ class MyOutfitProvider extends StatelessWidget {
             return fetchOutfitItemBloc;
           },
         ),
-        BlocProvider<SelectionItemCubit>(
-          create: (context) => SelectionItemCubit()..initializeSelection(selectedItemIds),
+        BlocProvider<MultiSelectionItemCubit>(
+          create: (context) => MultiSelectionItemCubit()..initializeSelection(selectedItemIds),
         ),
 
         BlocProvider(

@@ -1,10 +1,11 @@
+import 'package:closet_conscious/core/core_enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/theme/my_closet_theme.dart';
 import '../bloc/create_multi_closet_bloc.dart';
 import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
-import '../../../../../core/widgets/layout/interactive_item_grid.dart';
+import '../../../../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../widgets/create_multi_closet_metadata.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../core/data/items_enums.dart';
@@ -15,7 +16,7 @@ import '../../../../../core/widgets/progress_indicator/closet_progress_indicator
 import '../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../../core/widgets/button/themed_elevated_button.dart';
 import '../../../core/presentation/bloc/closet_metadata_cubit/closet_metadata_cubit.dart';
-import '../../../../core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
+import '../../../../core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../core/presentation/widgets/multi_closet_feature_container.dart';
 
 
@@ -42,7 +43,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
   Map<String, String> validationErrors = {}; // Add validation errors map
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context.read<SelectionItemCubit>().state.selectedItemIds;
+    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
     Navigator.pushNamed(
       context,
       AppRoutes.filter,
@@ -55,7 +56,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
   }
 
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context.read<SelectionItemCubit>().state.selectedItemIds;
+    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
     Navigator.pushNamed(
       context,
       AppRoutes.customize,
@@ -69,7 +70,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
 
   void _onResetButtonPressed(BuildContext context) {
     // Trigger clearSelection in SelectionItemCubit
-    context.read<SelectionItemCubit>().clearSelection();
+    context.read<MultiSelectionItemCubit>().clearSelection();
   }
 
   @override
@@ -150,7 +151,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                         closetType: metadataState.closetType,
                         isPublic: metadataState.isPublic,
                         monthsLater: metadataState.monthsLater,
-                        itemIds: context.read<SelectionItemCubit>().state.selectedItemIds,
+                        itemIds: context.read<MultiSelectionItemCubit>().state.selectedItemIds,
                       ));
                     } else if (state.status == ClosetStatus.failure && state.validationErrors != null) {
                       logger.e('Validation errors: ${state.validationErrors}');
@@ -215,6 +216,8 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                             items: viewState.items,
                             scrollController: _scrollController,
                             crossAxisCount: crossAxisCount,
+                            isDisliked: false,
+                            selectionMode: SelectionMode.multiSelection,
                             selectedItemIds: widget.selectedItemIds, // Pass the selectedItemIds
                           );
                         } else {
@@ -226,7 +229,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                   const SizedBox(height: 16),
 
                   // Save Button
-                  BlocBuilder<SelectionItemCubit, SelectionItemState>(
+                  BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
                     builder: (context, selectionItemState) {
                       if (!selectionItemState.hasSelectedItems) {
                         return const SizedBox.shrink();

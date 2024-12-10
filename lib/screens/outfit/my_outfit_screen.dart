@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../item_management/core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
-import '../../core/widgets/layout/interactive_item_grid.dart';
+import '../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
+import '../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../outfit_management/save_outfit_items/presentation/bloc/save_outfit_items_bloc.dart';
 import '../../core/data/services/core_fetch_services.dart';
 import '../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_stylist_usage_bottom_sheet.dart';
@@ -87,7 +87,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
 
   void _onSaveOutfit() {
     logger.i('Save outfit button pressed');
-    final selectedItemIds = context.read<SelectionItemCubit>().state.selectedItemIds;
+    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
     logger.d('Selected items: $selectedItemIds');
 
     context.read<SaveOutfitItemsBloc>().add(SaveOutfitEvent(selectedItemIds));
@@ -148,7 +148,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context.read<SelectionItemCubit>().state.selectedItemIds;
+    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
     Navigator.of(context).pushNamed(
       AppRoutes.filter,
       arguments: {
@@ -160,7 +160,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context.read<SelectionItemCubit>().state.selectedItemIds;
+    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
     Navigator.of(context).pushNamed(
       AppRoutes.customize,
       arguments: {
@@ -504,6 +504,8 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                                 return InteractiveItemGrid(
                                   scrollController: _scrollController,
                                   items: currentItems,
+                                  isDisliked: false,
+                                  selectionMode: SelectionMode.multiSelection,
                                   crossAxisCount: crossAxisCount, // Pass the crossAxisCount here
                                   selectedItemIds: widget.selectedItemIds, // Pass the selectedItemIds
                                 );
@@ -516,7 +518,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: BlocBuilder<SelectionItemCubit, SelectionItemState>(
+                    child: BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
                       builder: (context, state) {
                         logger.i(
                             'SelectionOutfitItemBloc bottom button builder triggered with state: $state');

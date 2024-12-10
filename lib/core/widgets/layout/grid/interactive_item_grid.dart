@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../utilities/logger.dart';
-import 'base_layout/base_grid.dart';
-import '../../../item_management/core/data/models/closet_item_minimal.dart';
-import '../../../generated/l10n.dart';
-import '../../core_enums.dart';
-import 'base_layout/selectable_grid_item.dart';
-import '../../../item_management/core/presentation/bloc/selection_item_cubit/selection_item_cubit.dart';
+import '../../../utilities/logger.dart';
+import '../base_layout/base_grid.dart';
+import '../../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../../generated/l10n.dart';
+import '../../../core_enums.dart';
+
+import '../grid_item/grid_item.dart';
+import '../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
+import '../../../../item_management/core/presentation/bloc/single_selection_cubit/single_selection_cubit.dart';
 
 class InteractiveItemGrid extends StatelessWidget {
   final ScrollController scrollController;
   final List<ClosetItemMinimal> items;
   final int crossAxisCount;
   final List<String> selectedItemIds;
+  final bool isDisliked;
+  final SelectionMode selectionMode; // New parameter
+  final VoidCallback? onAction; // Optional callback for action mode
 
 
   InteractiveItemGrid({
@@ -22,6 +27,10 @@ class InteractiveItemGrid extends StatelessWidget {
     required this.items,
     required this.crossAxisCount,
     required this.selectedItemIds,
+    required this.isDisliked,
+    required this.selectionMode,
+    this.onAction, // Optional
+
 
   }) : _logger = CustomLogger('ItemGrid');
 
@@ -39,6 +48,29 @@ class InteractiveItemGrid extends StatelessWidget {
         return ImageSize.itemGrid7;
       default:
         return ImageSize.itemGrid3;
+    }
+  }
+
+  void _handleTap(BuildContext context, String itemId) {
+    switch (selectionMode) {
+      case SelectionMode.singleSelection:
+        _logger.d('Single selection mode activated for itemId: $itemId');
+        context.read<SingleSelectionCubit>().selectItem(itemId);
+        break;
+
+      case SelectionMode.multiSelection:
+        _logger.d('Multi-selection mode toggled for itemId: $itemId');
+        context.read<MultiSelectionItemCubit>().toggleSelection(itemId);
+        break;
+
+      case SelectionMode.action:
+        _logger.d('Action mode activated for itemId: $itemId');
+        if (onAction != null) {
+          onAction!();
+        } else {
+          _logger.w('No action defined for action mode.');
+        }
+        break;
     }
   }
 
@@ -64,7 +96,7 @@ class InteractiveItemGrid extends StatelessWidget {
       scrollController: scrollController, // Use the ScrollController passed from the parent
       itemBuilder: (context, item, index) {
         // Use BlocSelector to determine if this specific item is selected
-        return BlocSelector<SelectionItemCubit, SelectionItemState, bool>(
+        return BlocSelector<MultiSelectionItemCubit, MultiSelectionItemState, bool>(
           selector: (state) {
             final isSelected = state.selectedItemIds.contains(item.itemId);
             _logger.d('Comparing itemId: ${item.itemId} with selectedItemIds: ${state.selectedItemIds}, isSelected: $isSelected');
@@ -72,16 +104,15 @@ class InteractiveItemGrid extends StatelessWidget {
           },
           builder: (context, isSelected) {
             _logger.d('Item ID: ${item.itemId}, isSelected: $isSelected');
-            return SelectableGridItem(
+            return GridItem(
               key: ValueKey('${item.itemId}_$isSelected'),
               item: item,
               isSelected: isSelected,
+              isDisliked: isDisliked,
               imageSize: imageSize,
               showItemName: showItemName,
-              crossAxisCount: crossAxisCount,
-              onToggleSelection: () {
-                _logger.d('Toggling selection for itemId: ${item.itemId}');
-                context.read<SelectionItemCubit>().toggleSelection(item.itemId);
+              onItemTapped: () {
+                _handleTap(context, item.itemId);
               },
             );
           },

@@ -26,3 +26,9 @@ enum SaveStatus {
 }
 
 enum AccessStatus { pending, granted, denied, error }
+
+enum SelectionMode {
+  singleSelection,
+  multiSelection,
+  action,
+}

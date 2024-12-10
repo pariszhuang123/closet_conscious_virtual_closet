@@ -3,19 +3,19 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../core/utilities/logger.dart';
 
-part 'selection_item_state.dart';
+part 'multi_selection_item_state.dart';
 
-class SelectionItemCubit extends Cubit<SelectionItemState> {
+class MultiSelectionItemCubit extends Cubit<MultiSelectionItemState> {
   final CustomLogger logger;
 
-  SelectionItemCubit()
-      : logger = CustomLogger('SelectionItemCubit'),
-        super(const SelectionItemState());
+  MultiSelectionItemCubit()
+      : logger = CustomLogger('MultiSelectionItemCubit'),
+        super(const MultiSelectionItemState());
 
 
   void initializeSelection(List<String> selectedItemIds) {
     logger.i('SelectionItemCubit initialized with selectedItemIds: $selectedItemIds');
-    emit(SelectionItemLoaded(
+    emit(MultiSelectionItemLoaded(
       selectedItemIds: selectedItemIds,
       hasSelectedItems: selectedItemIds.isNotEmpty, // Ensure this is updated correctly
     ));
@@ -39,7 +39,7 @@ class SelectionItemCubit extends Cubit<SelectionItemState> {
 
   void clearSelection() {
     logger.i('Clearing all selected items');
-    emit(const SelectionItemState());
+    emit(const MultiSelectionItemState());
     logger.d('State after clearing items: $state');
   }
 }

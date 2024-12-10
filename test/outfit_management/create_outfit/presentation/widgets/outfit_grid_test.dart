@@ -11,7 +11,7 @@ import 'package:closet_conscious/outfit_management/core/outfit_enums.dart';
 import 'package:closet_conscious/core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:closet_conscious/generated/l10n.dart';
-import 'package:closet_conscious/core/widgets/layout/interactive_item_grid.dart';
+import 'package:closet_conscious/core/widgets/layout/grid/interactive_item_grid.dart';
 
 // 1. Define Fake Classes for Events and States
 class FakeCreateOutfitItemEvent extends Fake implements FetchOutfitItemEvent {}
@@ -97,6 +97,8 @@ void main() {
             child: InteractiveItemGrid(
               scrollController: scrollController,
               selectedItemIds: const [],
+              isDisliked: false,
+              selectionMode: SelectionMode.multiSelection,
               items: items,
               crossAxisCount: 3,
             ),
