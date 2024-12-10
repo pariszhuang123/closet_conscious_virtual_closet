@@ -51,11 +51,16 @@ class ViewMultiClosetScreen extends StatelessWidget {
           logger.i('Navigating to Create Multi Closet screen.');
           Navigator.pushNamed(context, AppRoutes.createMultiCloset);
         } else if (state is EditSingleMultiClosetNavigationState) {
-          logger.i('Navigating to Edit Single Multi Closet screen with Closet ID: ${state.closetId}');
+          logger.i('Navigating to Edit Single Multi Closet screen');
           Navigator.pushNamed(
             context,
             AppRoutes.editMultiCloset,
-            arguments: {'closetId': state.closetId},
+          );
+        } else if (state is EditAllMultiClosetNavigationState) {
+          logger.i('Navigating to Edit All Multi Closet screen');
+          Navigator.pushNamed(
+            context,
+            AppRoutes.editMultiCloset,
           );
         } else {
           logger.d('Unhandled state in MultiClosetNavigationBloc: ${state.runtimeType}');
@@ -116,7 +121,7 @@ class ViewMultiClosetScreen extends StatelessWidget {
                       logger.i('Closet selected from grid. Closet ID: $closetId. Navigating to edit all closets.');
                       context
                           .read<MultiClosetNavigationBloc>()
-                          .add(NavigateToEditAllMultiCloset());
+                          .add(NavigateToEditSingleMultiCloset(closetId));
                     },
                   );
                 } else if (state is ViewMultiClosetsError) {

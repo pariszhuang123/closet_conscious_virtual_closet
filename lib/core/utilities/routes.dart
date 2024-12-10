@@ -11,6 +11,7 @@ import '../../item_management/edit_item/presentation/pages/edit_item_provider.da
 import '../../item_management/multi_closet/view_multi_closet/presentation/pages/multi_closet_scaffold.dart';
 import '../../item_management/multi_closet/view_multi_closet/presentation/pages/view_multi_closet_provider.dart';
 import '../../item_management/multi_closet/create_multi_closet/presentation/pages/create_multi_closet_provider.dart';
+import '../../item_management/multi_closet/edit_multi_closet/presentation/pages/edit_multi_closet_provider.dart';
 import '../screens/webview_screen.dart';
 import '../../user_management/achievements/data/models/achievements_page_argument.dart';
 import '../../core/data/models/arguments.dart';
@@ -172,6 +173,17 @@ class AppRoutes {
         return MaterialPageRoute(
           builder: (_) => MultiClosetScaffold(
             body: CreateMultiClosetProvider(
+              selectedItemIds: selectedItemIds,
+            ),
+          ),
+        );
+      case editMultiCloset:
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
+
+        return MaterialPageRoute(
+          builder: (_) => MultiClosetScaffold(
+            body: EditMultiClosetProvider(
               selectedItemIds: selectedItemIds,
             ),
           ),

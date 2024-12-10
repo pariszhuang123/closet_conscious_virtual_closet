@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/theme/my_closet_theme.dart';
-import '../bloc/create_multi_closet_bloc.dart';
+import '../bloc/edit_multi_closet_bloc.dart';
 import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
 import '../../../../../core/widgets/layout/grid/interactive_item_grid.dart';
-import '../widgets/create_multi_closet_metadata.dart';
+import '../../../create_multi_closet/presentation/widgets/create_multi_closet_metadata.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../core/data/items_enums.dart';
 import '../../../../../generated/l10n.dart';
@@ -20,23 +20,23 @@ import '../../../../core/presentation/bloc/multi_selection_item_cubit/multi_sele
 import '../../../core/presentation/widgets/multi_closet_feature_container.dart';
 
 
-class CreateMultiClosetScreen extends StatefulWidget {
+class EditMultiClosetScreen extends StatefulWidget {
   final List<String> selectedItemIds;
 
-  const CreateMultiClosetScreen({
+  const EditMultiClosetScreen({
     super.key,
     required this.selectedItemIds,
   });
 
   @override
-  State<CreateMultiClosetScreen> createState() => _CreateMultiClosetScreenState();
+  State<EditMultiClosetScreen> createState() => _EditMultiClosetScreenState();
 }
 
-class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
+class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
   final TextEditingController closetNameController = TextEditingController();
   final TextEditingController monthsController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  final CustomLogger logger = CustomLogger('CreateMultiClosetScreen');
+  final CustomLogger logger = CustomLogger('EditMultiClosetScreen');
 
 
   late final Future<int> crossAxisCountFuture;
@@ -120,7 +120,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
     logger.i('CreateMultiClosetScreen initialized with selectedItemIds: ${widget.selectedItemIds}');
 
     final theme = Theme.of(context);
-    logger.d('Building CreateMultiClosetScreen UI');
+    logger.d('Building EditMultiClosetScreen UI');
 
     return GestureDetector(
       onTap: () {
@@ -140,13 +140,13 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
 
             return MultiBlocListener(
               listeners: [
-                BlocListener<CreateMultiClosetBloc, CreateMultiClosetState>(
+                BlocListener<EditMultiClosetBloc, EditMultiClosetState>(
                   listener: (context, state) {
                     if (state.status == ClosetStatus.valid) {
-                      logger.i('Validation succeeded. Triggering CreateMultiClosetRequested event.');
+                      logger.i('Validation succeeded. Triggering EditMultiClosetRequested event.');
 
                       final metadataState = context.read<ClosetMetadataCubit>().state;
-                      context.read<CreateMultiClosetBloc>().add(CreateMultiClosetRequested(
+                      context.read<EditMultiClosetBloc>().add(EditMultiClosetSwapped(
                         closetName: metadataState.closetName,
                         closetType: metadataState.closetType,
                         isPublic: metadataState.isPublic,
@@ -246,7 +246,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                             text: S.of(context).create_closet,
                             onPressed: () {
                               final metadataState = context.read<ClosetMetadataCubit>().state;
-                              context.read<CreateMultiClosetBloc>().add(CreateMultiClosetValidate(
+                              context.read<EditMultiClosetBloc>().add(EditMultiClosetValidate(
                                 closetName: metadataState.closetName,
                                 closetType: metadataState.closetType,
                                 isPublic: metadataState.isPublic,

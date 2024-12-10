@@ -331,6 +331,39 @@ class CoreSaveService {
     }
   }
 
+  Future<void> updateAllClosetSharedPreference() async {
+    final authBloc = locator<AuthBloc>();
+    final userId = authBloc.userId;
+
+    if (userId == null) {
+      throw Exception("User not authenticated");
+    }
+
+    await Supabase.instance.client
+        .from('shared_preferences')
+        .update({
+    'all_closet': true,
+    }).eq('user_id', userId);
+
+  }
+
+  Future<void> updateSingleClosetSharedPreference(String closetId) async {
+    final authBloc = locator<AuthBloc>();
+    final userId = authBloc.userId;
+
+    if (userId == null) {
+      throw Exception("User not authenticated");
+    }
+
+    await Supabase.instance.client
+        .from('shared_preferences')
+        .update({
+    'closet_id': closetId,
+      'all_closet': false,
+    }).eq('user_id', userId);
+
+  }
 }
+
 
 

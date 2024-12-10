@@ -6,6 +6,7 @@ import '../bloc/view_multi_closet_bloc.dart';
 import 'view_multi_closet_screen.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
+import '../../../../../core/data/services/core_save_services.dart';
 
 class ViewMultiClosetProvider extends StatelessWidget {
   final bool isFromMyCloset;
@@ -20,12 +21,14 @@ class ViewMultiClosetProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final coreFetchService = CoreFetchService();
+    final coreSaveService = CoreSaveService();
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (_) => MultiClosetNavigationBloc(
             fetchService: coreFetchService,
+            saveService: coreSaveService,
           ),
         ),
         BlocProvider(
