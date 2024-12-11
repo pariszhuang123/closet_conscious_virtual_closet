@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../base_layout/base_grid_item.dart';
-import '../../../../item_management/core/data/models/multi_closet_minimal.dart';
+import '../../../../item_management/multi_closet/core/data/models/multi_closet_minimal.dart';
 import '../../../../core/core_enums.dart';
 import '../../../utilities/logger.dart';
 

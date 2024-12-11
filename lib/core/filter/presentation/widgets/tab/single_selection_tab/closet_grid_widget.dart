@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../../utilities/logger.dart';
 import '../../../widgets/closet_grid.dart';
-import '../../../../../../item_management/core/data/models/multi_closet_minimal.dart';
+import '../../../../../../item_management/multi_closet/core/data/models/multi_closet_minimal.dart';
 import '../../../../../../generated/l10n.dart';
 
 class ClosetGridWidget extends StatelessWidget {

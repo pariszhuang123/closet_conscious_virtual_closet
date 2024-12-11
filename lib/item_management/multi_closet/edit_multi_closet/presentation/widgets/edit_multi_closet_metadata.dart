@@ -123,7 +123,7 @@ class EditMultiClosetMetadata extends StatelessWidget {
                         final selectedDate = await showDatePicker(
                           context: context,
                           initialDate: metadata.validDate,
-                          firstDate: DateTime.now(),
+                          firstDate: DateTime(2024,03,11),
                           lastDate: DateTime.now().add(const Duration(days: 365)),
                         );
 

@@ -3889,6 +3889,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Select All`
+  String get selectAll {
+    return Intl.message(
+      'Select All',
+      name: 'selectAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The selected date cannot be today or earlier.`
+  String get dateCannotBeTodayOrEarlier {
+    return Intl.message(
+      'The selected date cannot be today or earlier.',
+      name: 'dateCannotBeTodayOrEarlier',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid value for months.`
+  String get invalidMonthsValue {
+    return Intl.message(
+      'Invalid value for months.',
+      name: 'invalidMonthsValue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot exceed 12 months`
+  String get monthsCannotExceed12 {
+    return Intl.message(
+      'Cannot exceed 12 months',
+      name: 'monthsCannotExceed12',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

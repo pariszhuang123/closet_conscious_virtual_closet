@@ -9,6 +9,7 @@ class MultiClosetFeatureContainer extends StatelessWidget {
   final VoidCallback onFilterButtonPressed;
   final VoidCallback onArrangeButtonPressed;
   final VoidCallback onResetButtonPressed;
+  final VoidCallback onSelectAllButtonPressed;
 
   const MultiClosetFeatureContainer({
     super.key,
@@ -16,6 +17,7 @@ class MultiClosetFeatureContainer extends StatelessWidget {
     required this.onFilterButtonPressed,
     required this.onArrangeButtonPressed,
     required this.onResetButtonPressed,
+    required this.onSelectAllButtonPressed,
   });
 
   @override
@@ -54,7 +56,15 @@ class MultiClosetFeatureContainer extends StatelessWidget {
                 buttonType: ButtonType.secondary,
                 usePredefinedColor: false,
               ),
-
+              NavigationTypeButton(
+                label: TypeDataList.selectAll(context).getName(context), // Label for the "Select All" button
+                selectedLabel: '',
+                onPressed: onSelectAllButtonPressed, // Use the new callback here
+                assetPath: TypeDataList.selectAll(context).assetPath,
+                isFromMyCloset: true,
+                buttonType: ButtonType.secondary,
+                usePredefinedColor: false,
+              ),
             ],
           ),
         ],

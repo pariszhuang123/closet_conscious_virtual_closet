@@ -383,5 +383,9 @@
   "selectDate": "请选择日期",
   "validDate": "有效日期",
   "pleaseEnterValidDate": "请输入有效日期",
-  "archiveCloset": "归档衣橱"
+  "archiveCloset": "归档衣橱",
+  "selectAll": "全选",
+  "dateCannotBeTodayOrEarlier": "选择的日期不能是今天或更早的日期。",
+  "invalidMonthsValue": "无效的月份值。",
+  "monthsCannotExceed12": "不能超过十二个月"
 }

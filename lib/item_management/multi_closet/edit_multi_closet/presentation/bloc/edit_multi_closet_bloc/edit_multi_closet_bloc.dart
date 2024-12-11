@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/data/services/item_save_service.dart';
-import '../../../../../core/utilities/logger.dart';
-import '../../../../core/data/items_enums.dart';
+import '../../../../../core/data/services/item_save_service.dart';
+import '../../../../../../core/utilities/logger.dart';
+import '../../../../../core/data/items_enums.dart';
 
 part 'edit_multi_closet_event.dart';
 part 'edit_multi_closet_state.dart';
@@ -81,9 +81,18 @@ class EditMultiClosetBloc extends Bloc<EditMultiClosetEvent, EditMultiClosetStat
     final errors = <String, String>{};
 
     // Validate closetName
-    if (closetName == null || closetName.isEmpty || closetName == 'cc_closet') {
-      errors['closetName'] = 'closetNameCannotBeEmpty';
+    if (closetName == null || closetName.isEmpty) {
+      errors['closetName'] = 'closetNameCannotBeEmpty'; // Key for empty closet name
+    } else if (closetName == 'cc_closet') {
+      errors['closetName'] = 'reservedClosetNameError'; // Key for reserved key
     }
+
+    if (validDate != null) {
+      if (validDate.isBefore(DateTime.now()) || validDate.isAtSameMomentAs(DateTime.now())) {
+        errors['validDate'] = 'dateCannotBeTodayOrEarlier'; // Key for invalid date
+      }
+    }
+
 
     return errors;
   }

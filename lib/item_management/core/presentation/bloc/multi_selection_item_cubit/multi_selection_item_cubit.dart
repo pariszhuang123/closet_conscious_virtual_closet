@@ -14,10 +14,12 @@ class MultiSelectionItemCubit extends Cubit<MultiSelectionItemState> {
 
 
   void initializeSelection(List<String> selectedItemIds) {
-    logger.i('SelectionItemCubit initialized with selectedItemIds: $selectedItemIds');
+    logger.i(
+        'SelectionItemCubit initialized with selectedItemIds: $selectedItemIds');
     emit(MultiSelectionItemLoaded(
       selectedItemIds: selectedItemIds,
-      hasSelectedItems: selectedItemIds.isNotEmpty, // Ensure this is updated correctly
+      hasSelectedItems: selectedItemIds
+          .isNotEmpty, // Ensure this is updated correctly
     ));
   }
 
@@ -41,5 +43,14 @@ class MultiSelectionItemCubit extends Cubit<MultiSelectionItemState> {
     logger.i('Clearing all selected items');
     emit(const MultiSelectionItemState());
     logger.d('State after clearing items: $state');
+  }
+
+  void selectAll(List<String> allItemIds) {
+    logger.i('Selecting all item IDs: $allItemIds');
+    emit(state.copyWith(
+      selectedItemIds: allItemIds,
+      hasSelectedItems: allItemIds.isNotEmpty,
+    ));
+    logger.d('State after selecting all items: $state');
   }
 }

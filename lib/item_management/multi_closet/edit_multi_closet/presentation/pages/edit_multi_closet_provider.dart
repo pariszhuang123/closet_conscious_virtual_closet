@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/data/services/item_fetch_service.dart';
 import '../../../../core/data/services/item_save_service.dart';
 import '../../../../../core/utilities/logger.dart';
-import '../bloc/edit_multi_closet_bloc.dart';
+import '../bloc/edit_multi_closet_bloc/edit_multi_closet_bloc.dart';
 import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
 import '../../../../core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import 'edit_multi_closet_screen.dart';

@@ -73,6 +73,25 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
     context.read<MultiSelectionItemCubit>().clearSelection();
   }
 
+  void _onSelectAllButtonPressed(BuildContext context) {
+    // Retrieve the list of all items from the ViewItemsBloc
+    final viewItemsState = context.read<ViewItemsBloc>().state;
+
+    if (viewItemsState is ItemsLoaded) {
+      // Extract all item IDs from the loaded items
+      final allItemIds = viewItemsState.items.map((item) => item.itemId).toList();
+
+      // Trigger the "Select All" functionality
+      context.read<MultiSelectionItemCubit>().selectAll(allItemIds);
+    } else {
+      logger.e('Unable to select all items. Items not loaded.');
+      CustomSnackbar(
+        message: S.of(context).failedToLoadItems,
+        theme: Theme.of(context),
+      ).show(context);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -184,6 +203,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                     onFilterButtonPressed:  () => _onFilterButtonPressed(context, false),
                     onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
                     onResetButtonPressed: () => _onResetButtonPressed(context),
+                    onSelectAllButtonPressed: () => _onSelectAllButtonPressed(context),
                   ),
                   const SizedBox(height: 10),
 

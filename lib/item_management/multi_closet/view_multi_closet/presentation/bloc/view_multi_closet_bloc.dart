@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
-import '../../../../core/data/models/multi_closet_minimal.dart';
+import '../../../core/data/models/multi_closet_minimal.dart';
 
 part 'view_multi_closet_event.dart';
 part 'view_multi_closet_state.dart';

@@ -383,5 +383,9 @@
   "selectDate": "Select a date",
   "validDate": "Valid Date",
   "pleaseEnterValidDate": "Please enter a valid date",
-  "archiveCloset": "Archive Closet"
+  "archiveCloset": "Archive Closet",
+  "selectAll": "Select All",
+  "dateCannotBeTodayOrEarlier": "The selected date cannot be today or earlier.",
+  "invalidMonthsValue": "Invalid value for months.",
+  "monthsCannotExceed12": "Cannot exceed 12 months"
 }

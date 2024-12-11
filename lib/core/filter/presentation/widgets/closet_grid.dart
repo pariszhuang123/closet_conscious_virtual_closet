@@ -3,7 +3,7 @@ import '../../../../core/widgets/layout/base_layout/base_grid.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import '../../../../core/core_enums.dart';
-import '../../../../item_management/core/data/models/multi_closet_minimal.dart';
+import '../../../../item_management/multi_closet/core/data/models/multi_closet_minimal.dart';
 import '../../../../generated/l10n.dart';
 
 class ClosetGrid extends StatelessWidget {

@@ -166,6 +166,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "dataUpdatedSuccessfully":
             MessageLookupByLibrary.simpleMessage("数据更新成功！"),
         "date": MessageLookupByLibrary.simpleMessage("日期"),
+        "dateCannotBeTodayOrEarlier":
+            MessageLookupByLibrary.simpleMessage("选择的日期不能是今天或更早的日期。"),
         "declutter": MessageLookupByLibrary.simpleMessage("整理"),
         "declutterAcknowledged":
             MessageLookupByLibrary.simpleMessage("干得好！您的衣橱得到了整理！😌"),
@@ -287,6 +289,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("已记录您的兴趣——敬请期待更新！🎉"),
         "interested": MessageLookupByLibrary.simpleMessage("有兴趣"),
         "invalidMonths": MessageLookupByLibrary.simpleMessage("无效的月份（请输入正数）"),
+        "invalidMonthsValue": MessageLookupByLibrary.simpleMessage("无效的月份值。"),
         "itemLastWorn": MessageLookupByLibrary.simpleMessage("最后穿着"),
         "itemNameFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("物品名称未填写。"),
@@ -312,6 +315,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "mid": MessageLookupByLibrary.simpleMessage("中层"),
         "months": MessageLookupByLibrary.simpleMessage("消失几个月"),
         "monthsCannotBeEmpty": MessageLookupByLibrary.simpleMessage("月份不能为空"),
+        "monthsCannotExceed12":
+            MessageLookupByLibrary.simpleMessage("不能超过十二个月"),
         "multi": MessageLookupByLibrary.simpleMessage("多季"),
         "multiClosetFeatureDescription":
             MessageLookupByLibrary.simpleMessage("我们正在探索添加多个衣橱（永久、消失）——您会使用吗？"),
@@ -452,6 +457,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "scarf": MessageLookupByLibrary.simpleMessage("围巾"),
         "seasonFieldNotFilled": MessageLookupByLibrary.simpleMessage("季节未填写。"),
         "selectAccessoryType": MessageLookupByLibrary.simpleMessage("选择配饰类型"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("全选"),
         "selectClosetLabel": MessageLookupByLibrary.simpleMessage("选择衣橱"),
         "selectClothingLayer": MessageLookupByLibrary.simpleMessage("选择服装层次"),
         "selectClothingType": MessageLookupByLibrary.simpleMessage("选择服装类型"),

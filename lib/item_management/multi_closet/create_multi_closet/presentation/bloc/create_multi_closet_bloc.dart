@@ -81,15 +81,19 @@ class CreateMultiClosetBloc extends Bloc<CreateMultiClosetEvent, CreateMultiClos
     final errors = <String, String>{};
 
     // Validate closetName
-    if (closetName == null || closetName.isEmpty || closetName == 'cc_closet') {
-      errors['closetName'] = 'closetNameCannotBeEmpty';
+    if (closetName == null || closetName.isEmpty) {
+      errors['closetName'] = 'closetNameCannotBeEmpty'; // Key for empty closet name
+    } else if (closetName == 'cc_closet') {
+      errors['closetName'] = 'reservedClosetNameError'; // Key for reserved key
     }
 
     // Validate monthsLater if closetType is 'disappear'
     if (closetType == 'disappear') {
       final months = monthsLater != null ? int.tryParse(monthsLater) : null;
       if (months == null || months <= 0) {
-        errors['monthsLater'] = 'Invalid months value provided';
+        errors['monthsLater'] = 'invalidMonthsValue';
+      } else if (months > 12) {
+        errors['monthsLater'] = 'monthsCannotExceed12';
       }
     }
 

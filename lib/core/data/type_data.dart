@@ -273,6 +273,10 @@ class TypeDataList {
     return TypeData('reset', (context) => S.of(context).reset, 'assets/icons/general/restart.svg', false);
   }
 
+  static TypeData selectAll(BuildContext context) {
+    return TypeData('selectAll', (context) => S.of(context).selectAll, 'assets/icons/general/select_all.svg', false);
+  }
+
   static List<TypeData> gridSizes(BuildContext context) {
     return [
       TypeData('3', (context) => S.of(context).gridSize3, 'assets/icons/general/arrange/counter_3.svg', false),

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../utilities/logger.dart';
 import '../base_layout/base_grid.dart';
-import '../../../../item_management/core/data/models/multi_closet_minimal.dart';
+import '../../../../item_management/multi_closet/core/data/models/multi_closet_minimal.dart';
 import '../../../../generated/l10n.dart';
 import '../../../core_enums.dart';
 

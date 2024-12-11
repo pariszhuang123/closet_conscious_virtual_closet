@@ -6,7 +6,7 @@ import '../../../utilities/logger.dart';
 import '../../../data/services/core_fetch_services.dart';
 import '../../../data/services/core_save_services.dart';
 import '../../data/models/filter_setting.dart';
-import '../../../../item_management/core/data/models/multi_closet_minimal.dart';
+import '../../../../item_management/multi_closet/core/data/models/multi_closet_minimal.dart';
 
 part 'filter_state.dart';
 part 'filter_event.dart';

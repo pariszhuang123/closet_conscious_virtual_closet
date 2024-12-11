@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/theme/my_closet_theme.dart';
-import '../bloc/edit_multi_closet_bloc.dart';
+import '../bloc/edit_multi_closet_bloc/edit_multi_closet_bloc.dart';
 import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
 import '../../../../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../widgets/edit_multi_closet_metadata.dart';
@@ -70,6 +70,25 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
   void _onResetButtonPressed(BuildContext context) {
     // Trigger clearSelection in SelectionItemCubit
     context.read<MultiSelectionItemCubit>().clearSelection();
+  }
+
+  void _onSelectAllButtonPressed(BuildContext context) {
+    // Retrieve the list of all items from the ViewItemsBloc
+    final viewItemsState = context.read<ViewItemsBloc>().state;
+
+    if (viewItemsState is ItemsLoaded) {
+      // Extract all item IDs from the loaded items
+      final allItemIds = viewItemsState.items.map((item) => item.itemId).toList();
+
+      // Trigger the "Select All" functionality
+      context.read<MultiSelectionItemCubit>().selectAll(allItemIds);
+    } else {
+      logger.e('Unable to select all items. Items not loaded.');
+      CustomSnackbar(
+        message: S.of(context).failedToLoadItems,
+        theme: Theme.of(context),
+      ).show(context);
+    }
   }
 
   @override
@@ -184,6 +203,7 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                     onFilterButtonPressed:  () => _onFilterButtonPressed(context, false),
                     onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
                     onResetButtonPressed: () => _onResetButtonPressed(context),
+                    onSelectAllButtonPressed: () => _onSelectAllButtonPressed(context),
                   ),
                   const SizedBox(height: 10),
 

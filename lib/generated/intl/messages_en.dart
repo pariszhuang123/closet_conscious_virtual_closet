@@ -189,6 +189,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "dataUpdatedSuccessfully":
             MessageLookupByLibrary.simpleMessage("Data updated successfully!"),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
+        "dateCannotBeTodayOrEarlier": MessageLookupByLibrary.simpleMessage(
+            "The selected date cannot be today or earlier."),
         "declutter": MessageLookupByLibrary.simpleMessage("Declutter"),
         "declutterAcknowledged": MessageLookupByLibrary.simpleMessage(
             "Well done! Your closet just took a breather! 😌"),
@@ -332,6 +334,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "interested": MessageLookupByLibrary.simpleMessage("Interested"),
         "invalidMonths": MessageLookupByLibrary.simpleMessage(
             "Invalid months (enter a positive number)"),
+        "invalidMonthsValue":
+            MessageLookupByLibrary.simpleMessage("Invalid value for months."),
         "itemLastWorn": MessageLookupByLibrary.simpleMessage("Last Worn"),
         "itemNameFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Item Name field is not filled."),
@@ -359,6 +363,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "months": MessageLookupByLibrary.simpleMessage("Months to disappear"),
         "monthsCannotBeEmpty":
             MessageLookupByLibrary.simpleMessage("Months cannot be empty"),
+        "monthsCannotExceed12":
+            MessageLookupByLibrary.simpleMessage("Cannot exceed 12 months"),
         "multi": MessageLookupByLibrary.simpleMessage("Multi"),
         "multiClosetFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "We’re exploring adding multiple closets (permanent, disappearing)—would you use this?"),
@@ -517,6 +523,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Season field is not filled."),
         "selectAccessoryType":
             MessageLookupByLibrary.simpleMessage("Select Accessory Type"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("Select All"),
         "selectClosetLabel":
             MessageLookupByLibrary.simpleMessage("Select Closet"),
         "selectClothingLayer":
