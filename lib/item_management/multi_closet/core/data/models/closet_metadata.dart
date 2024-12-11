@@ -56,3 +56,36 @@ class ClosetMetadata {
     );
   }
 }
+
+class ClosetEditRequest {
+  final String? closetId;
+  final String? closetName;
+  final String? closetType;
+  final DateTime? validDate;
+  final bool? isPublic;
+  final List<String>? itemIds; // For item transfer
+  final String? newClosetId; // For new closet assignment
+
+  ClosetEditRequest({
+    this.closetId,
+    this.closetName,
+    this.closetType,
+    this.validDate,
+    this.isPublic,
+    this.itemIds,
+    this.newClosetId,
+  });
+
+  // Method to convert an instance to JSON for the RPC
+  Map<String, dynamic> toJson() {
+    return {
+      'p_closet_id': closetId,
+      'p_closet_name': closetName,
+      'p_closet_type': closetType,
+      'p_valid_date': validDate?.toIso8601String(),
+      'p_is_public': isPublic,
+      'p_item_ids': itemIds,
+      'p_new_closet_id': newClosetId,
+    };
+  }
+}

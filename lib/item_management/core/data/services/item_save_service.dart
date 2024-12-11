@@ -279,15 +279,21 @@ class ItemSaveService {
   }
 
   Future<Map<String, dynamic>?> handleArchiveAction(String closetId) async {
+    final logger = CustomLogger('ItemSaveService'); // Initialize logger with a descriptive tag
+
+    logger.i('Starting handleArchiveAction for closetId: $closetId');
+
     try {
       final response = await SupabaseConfig.client.rpc(
         'archive_multi_closet', // Name of your RPC function
         params: {'p_closet_id': closetId}, // Pass parameter with the correct name
       ).single();
+
+      logger.d('RPC call successful for closetId: $closetId. Response: $response');
       return response;
     } catch (e) {
-      logger.e('Error in handleArchiveAction: $e');
-      rethrow;
+      logger.e('Error occurred in handleArchiveAction for closetId: $closetId');
+      rethrow; // Re-throw the error for handling at the calling location
     }
   }
 }
