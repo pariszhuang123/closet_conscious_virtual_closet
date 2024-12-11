@@ -2,7 +2,6 @@ import 'package:closet_conscious/core/core_enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/theme/my_closet_theme.dart';
 import '../bloc/edit_multi_closet_bloc/edit_multi_closet_bloc.dart';
 import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
 import '../../../../../core/widgets/layout/grid/interactive_item_grid.dart';
@@ -18,7 +17,8 @@ import '../../../../../core/widgets/button/themed_elevated_button.dart';
 import '../../../../core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../core/presentation/widgets/multi_closet_feature_container.dart';
 import '../bloc/edit_closet_metadata_bloc/edit_closet_metadata_bloc.dart';
-
+import '../widgets/multi_closet_archive_feature_container.dart';
+import '../widgets/archive_bottom_sheet.dart';
 
 class EditMultiClosetScreen extends StatefulWidget {
   final List<String> selectedItemIds;
@@ -67,7 +67,7 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
     );
   }
 
-  void _onResetButtonPressed(BuildContext context) {
+    void _onResetButtonPressed(BuildContext context) {
     // Trigger clearSelection in SelectionItemCubit
     context.read<MultiSelectionItemCubit>().clearSelection();
   }
@@ -86,6 +86,29 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
       logger.e('Unable to select all items. Items not loaded.');
       CustomSnackbar(
         message: S.of(context).failedToLoadItems,
+        theme: Theme.of(context),
+      ).show(context);
+    }
+  }
+
+  void _onArchiveButtonPressed() {
+    final metadataState = context.read<EditClosetMetadataBloc>().state;
+
+    if (metadataState is EditClosetMetadataAvailable) {
+      final closetId = metadataState.metadata.closetId; // Get closetId from state
+      logger.d('Opening archive sheet for closetId: $closetId');
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => ArchiveBottomSheet(
+        closetId: closetId, // Pass the closetId
+        theme: Theme.of(context),
+      ),
+    );
+    } else {
+      logger.e('Unable to archive: Metadata not available.');
+      CustomSnackbar(
+        message: S.of(context).failedToLoadMetadata,
         theme: Theme.of(context),
       ).show(context);
     }
@@ -198,12 +221,28 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  MultiClosetFeatureContainer(
-                    theme: myClosetTheme,
-                    onFilterButtonPressed:  () => _onFilterButtonPressed(context, false),
-                    onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
-                    onResetButtonPressed: () => _onResetButtonPressed(context),
-                    onSelectAllButtonPressed: () => _onSelectAllButtonPressed(context),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: MultiClosetFeatureContainer(
+                          theme: theme,
+                          onFilterButtonPressed:  () => _onFilterButtonPressed(context, false),
+                          onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
+                          onResetButtonPressed: () => _onResetButtonPressed(context),
+                          onSelectAllButtonPressed: () => _onSelectAllButtonPressed(context),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        flex: 1,
+                        child: MultiClosetArchiveFeatureContainer(
+                          theme: theme,
+                          onArchiveButtonPressed: () => _onArchiveButtonPressed(),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 10),
 
@@ -211,11 +250,10 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                     builder: (context, metadataState) {
                       if (metadataState is EditClosetMetadataAvailable) {
                         closetNameController.text = metadataState.metadata.closetName;
-
                         return EditMultiClosetMetadata(
                           closetNameController: closetNameController,
                           theme: theme,
-                          errorKeys: validationErrors, // Pass validation errors
+                          errorKeys: validationErrors,
                         );
                       } else if (metadataState is EditClosetMetadataLoading) {
                         return const Center(child: ClosetProgressIndicator());
@@ -227,13 +265,11 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                           ),
                         );
                       }
-
                       return const SizedBox.shrink();
                     },
                   ),
                   const SizedBox(height: 16),
 
-                  // Item Grid
                   Expanded(
                     child: BlocBuilder<ViewItemsBloc, ViewItemsState>(
                       builder: (context, viewState) {
@@ -248,7 +284,7 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                             crossAxisCount: crossAxisCount,
                             isDisliked: false,
                             selectionMode: SelectionMode.multiSelection,
-                            selectedItemIds: widget.selectedItemIds, // Pass the selectedItemIds
+                            selectedItemIds: widget.selectedItemIds,
                           );
                         } else {
                           return Center(child: Text(S.of(context).noItemsInCloset));
@@ -258,7 +294,6 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Save Button
                   BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
                     builder: (context, selectionItemState) {
                       if (!selectionItemState.hasSelectedItems) {
@@ -268,15 +303,15 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                         padding: EdgeInsets.only(
                           left: 16,
                           right: 16,
-                          bottom: MediaQuery.of(context).viewInsets.bottom + 20, // Adjust padding for keyboard
+                          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
                         ),
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: ThemedElevatedButton(
                             text: S.of(context).create_closet,
                             onPressed: () {
-                              final metadataState =
-                              context.read<EditClosetMetadataBloc>().state as EditClosetMetadataAvailable;
+                              final metadataState = context.read<EditClosetMetadataBloc>().state
+                              as EditClosetMetadataAvailable;
                               context.read<EditMultiClosetBloc>().add(EditMultiClosetValidate(
                                 closetName: metadataState.metadata.closetName,
                                 closetType: metadataState.metadata.closetType,
@@ -298,7 +333,3 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
     );
   }
 }
-
-
-
-

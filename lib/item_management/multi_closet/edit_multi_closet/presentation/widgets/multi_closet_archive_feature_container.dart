@@ -4,11 +4,11 @@ import '../../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../../core/core_enums.dart';
 import '../../../../../core/data/type_data.dart';
 
-class MultiClosetFeatureContainer extends StatelessWidget {
+class MultiClosetArchiveFeatureContainer extends StatelessWidget {
   final ThemeData theme;
   final VoidCallback onArchiveButtonPressed;
 
-  const MultiClosetFeatureContainer({
+  const MultiClosetArchiveFeatureContainer({
     super.key,
     required this.theme,
     required this.onArchiveButtonPressed,

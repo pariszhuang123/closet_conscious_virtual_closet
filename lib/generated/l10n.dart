@@ -3880,20 +3880,20 @@ class S {
     );
   }
 
-  /// `Archive Closet`
+  /// `Archive\nCloset`
   String get archiveCloset {
     return Intl.message(
-      'Archive Closet',
+      'Archive\nCloset',
       name: 'archiveCloset',
       desc: '',
       args: [],
     );
   }
 
-  /// `Select All`
+  /// `Select\nAll`
   String get selectAll {
     return Intl.message(
-      'Select All',
+      'Select\nAll',
       name: 'selectAll',
       desc: '',
       args: [],
@@ -3925,6 +3925,76 @@ class S {
     return Intl.message(
       'Cannot exceed 12 months',
       name: 'monthsCannotExceed12',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get success {
+    return Intl.message(
+      'Success',
+      name: 'success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your closet has been archived successfully.\nAll items have been moved back to the main closet.`
+  String get archiveSuccessMessage {
+    return Intl.message(
+      'Your closet has been archived successfully.\nAll items have been moved back to the main closet.',
+      name: 'archiveSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warning`
+  String get warning {
+    return Intl.message(
+      'Warning',
+      name: 'warning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to archive this closet?\nAll items will be moved back to your main closet.`
+  String get archiveWarning {
+    return Intl.message(
+      'Are you sure you want to archive this closet?\nAll items will be moved back to your main closet.',
+      name: 'archiveWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Archive`
+  String get archive {
+    return Intl.message(
+      'Archive',
+      name: 'archive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Archiving this closet will return all items to your main closet.\nThis action cannot be undone.`
+  String get archiveClosetDescription {
+    return Intl.message(
+      'Archiving this closet will return all items to your main closet.\nThis action cannot be undone.',
+      name: 'archiveClosetDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load closet metadata.\nPlease try again.`
+  String get failedToLoadMetadata {
+    return Intl.message(
+      'Failed to load closet metadata.\nPlease try again.',
+      name: 'failedToLoadMetadata',
       desc: '',
       args: [],
     );

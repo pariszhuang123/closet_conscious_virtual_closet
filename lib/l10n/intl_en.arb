@@ -383,9 +383,16 @@
   "selectDate": "Select a date",
   "validDate": "Valid Date",
   "pleaseEnterValidDate": "Please enter a valid date",
-  "archiveCloset": "Archive Closet",
-  "selectAll": "Select All",
+  "archiveCloset": "Archive\nCloset",
+  "selectAll": "Select\nAll",
   "dateCannotBeTodayOrEarlier": "The selected date cannot be today or earlier.",
   "invalidMonthsValue": "Invalid value for months.",
-  "monthsCannotExceed12": "Cannot exceed 12 months"
+  "monthsCannotExceed12": "Cannot exceed 12 months",
+  "success": "Success",
+  "archiveSuccessMessage": "Your closet has been archived successfully.\nAll items have been moved back to the main closet.",
+  "warning": "Warning",
+  "archiveWarning": "Are you sure you want to archive this closet?\nAll items will be moved back to your main closet.",
+  "archive": "Archive",
+  "archiveClosetDescription": "Archiving this closet will return all items to your main closet.\nThis action cannot be undone.",
+  "failedToLoadMetadata": "Failed to load closet metadata.\nPlease try again."
 }

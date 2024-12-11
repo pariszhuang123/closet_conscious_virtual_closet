@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:convert';
 
 import '../../../../generated/l10n.dart';
@@ -8,9 +7,10 @@ import '../../../../core/theme/my_outfit_theme.dart';
 import '../../../../core/core_enums.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/utilities/logger.dart';
-import '../../../../core/widgets/feedback/custom_alert_dialog.dart'; // Import the custom alert dialog
+import '../../../../core/widgets/feedback/custom_alert_dialog.dart';
 import '../../../../core/utilities/routes.dart';
-import '../../../../core/data/type_data.dart'; // Import the type_data.dart file
+import '../../../../core/data/type_data.dart';
+import '../../../core/data/services/item_save_service.dart';
 
 class DeclutterBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
@@ -25,6 +25,13 @@ class DeclutterBottomSheet extends StatefulWidget {
 class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
   bool _isButtonDisabled = false;
   final logger = CustomLogger('DeclutterRequest');
+  late final ItemSaveService itemSaveService;
+
+  @override
+  void initState() {
+    super.initState();
+    itemSaveService = ItemSaveService(); // Initialize the service
+  }
 
   Future<void> _handleButtonPress(String rpcName) async {
     setState(() {
@@ -32,16 +39,13 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
     });
 
     try {
-      final response = await Supabase.instance.client.rpc(
-        rpcName,
-        params: {'current_item_id': widget.currentItemId},
-      ).single();
+      final response = await itemSaveService.handleDeclutterAction(rpcName, widget.currentItemId);
 
       logger.i('Full response: ${jsonEncode(response)}');
 
       if (!mounted) return;
 
-      if (response.containsKey('status')) {
+      if (response != null && response.containsKey('status')) {
         if (response['status'] == 'success') {
           _showCustomDialog(S.of(context).thankYou,
               Text(S.of(context).declutterAcknowledged));

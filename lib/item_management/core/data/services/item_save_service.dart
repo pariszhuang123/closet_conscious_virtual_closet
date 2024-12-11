@@ -265,5 +265,30 @@ class ItemSaveService {
     }
   }
 
+  Future<Map<String, dynamic>?> handleDeclutterAction(String rpcName, String itemId) async {
+    try {
+      final response = await SupabaseConfig.client.rpc(
+        rpcName,
+        params: {'current_item_id': itemId},
+      ).single();
+      return response;
+    } catch (e) {
+      logger.e('Error in handleDeclutterAction: $e');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>?> handleArchiveAction(String closetId) async {
+    try {
+      final response = await SupabaseConfig.client.rpc(
+        'archive_multi_closet', // Name of your RPC function
+        params: {'p_closet_id': closetId}, // Pass parameter with the correct name
+      ).single();
+      return response;
+    } catch (e) {
+      logger.e('Error in handleArchiveAction: $e');
+      rethrow;
+    }
+  }
 }
 

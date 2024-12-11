@@ -80,7 +80,7 @@
   "myOutfitTitle": "创建我的造型",
   "closetUploadComplete": "我上传了我的衣橱",
   "closetLabel": "衣橱",
-  "defaultClosetName": "主衣柜",
+  "defaultClosetName": "主衣橱",
   "outfitLabel": "造型",
   "itemNameLabel": "物品名称",
   "pleaseEnterItemName": "请输入物品名称",
@@ -387,5 +387,12 @@
   "selectAll": "全选",
   "dateCannotBeTodayOrEarlier": "选择的日期不能是今天或更早的日期。",
   "invalidMonthsValue": "无效的月份值。",
-  "monthsCannotExceed12": "不能超过十二个月"
+  "monthsCannotExceed12": "不能超过十二个月",
+  "success": "成功",
+  "archiveSuccessMessage": "您的衣橱已成功归档。所有物品已移回主衣橱。",
+  "warning": "警告",
+  "archiveWarning": "您确定要归档此衣橱吗？所有物品将被移回您的主衣橱。",
+  "archive": "归档",
+  "archiveClosetDescription": "归档此衣橱会将所有物品移回您的主衣橱。此操作无法撤销。",
+  "failedToLoadMetadata": "无法加载衣橱元数据，请重试。"
 }

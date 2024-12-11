@@ -94,7 +94,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "and": MessageLookupByLibrary.simpleMessage(" and the "),
         "appInformationSection":
             MessageLookupByLibrary.simpleMessage("App Information"),
-        "archiveCloset": MessageLookupByLibrary.simpleMessage("Archive Closet"),
+        "archive": MessageLookupByLibrary.simpleMessage("Archive"),
+        "archiveCloset":
+            MessageLookupByLibrary.simpleMessage("Archive\nCloset"),
+        "archiveClosetDescription": MessageLookupByLibrary.simpleMessage(
+            "Archiving this closet will return all items to your main closet.\nThis action cannot be undone."),
+        "archiveSuccessMessage": MessageLookupByLibrary.simpleMessage(
+            "Your closet has been archived successfully.\nAll items have been moved back to the main closet."),
+        "archiveWarning": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to archive this closet?\nAll items will be moved back to your main closet."),
         "arrange": MessageLookupByLibrary.simpleMessage("Customize"),
         "arrangeFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "Would you like to organize your closet by cost per wear or date added? Let us know!"),
@@ -260,6 +268,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "eyewear": MessageLookupByLibrary.simpleMessage("Eyewear"),
         "failedToLoadItems": MessageLookupByLibrary.simpleMessage(
             "Failed to load items. Please try again!"),
+        "failedToLoadMetadata": MessageLookupByLibrary.simpleMessage(
+            "Failed to load closet metadata.\nPlease try again."),
         "failedToSaveOutfit": MessageLookupByLibrary.simpleMessage(
             "Failed to save outfit. Please try again."),
         "failedToSubmitScore":
@@ -523,7 +533,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Season field is not filled."),
         "selectAccessoryType":
             MessageLookupByLibrary.simpleMessage("Select Accessory Type"),
-        "selectAll": MessageLookupByLibrary.simpleMessage("Select All"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("Select\nAll"),
         "selectClosetLabel":
             MessageLookupByLibrary.simpleMessage("Select Closet"),
         "selectClothingLayer":
@@ -582,6 +592,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "How much you’ve spent on new items so far"),
         "spring": MessageLookupByLibrary.simpleMessage("Spring"),
         "styleOn": MessageLookupByLibrary.simpleMessage("Review Outfit"),
+        "success": MessageLookupByLibrary.simpleMessage("Success"),
         "summer": MessageLookupByLibrary.simpleMessage("Summer"),
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("Support & Assistance"),
@@ -669,6 +680,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Error found. Check your input."),
         "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "Explore options for your multi-closets.\nYou can create a new multi-closet,\nedit items from all multi-closets,\nor make changes to a single multi-closet."),
+        "warning": MessageLookupByLibrary.simpleMessage("Warning"),
         "white": MessageLookupByLibrary.simpleMessage("White"),
         "winter": MessageLookupByLibrary.simpleMessage("Winter"),
         "workplace": MessageLookupByLibrary.simpleMessage("Workplace"),
