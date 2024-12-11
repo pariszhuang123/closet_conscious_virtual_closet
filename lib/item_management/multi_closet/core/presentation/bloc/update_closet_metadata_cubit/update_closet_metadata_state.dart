@@ -1,12 +1,12 @@
-part of 'closet_metadata_cubit.dart';
+part of 'update_closet_metadata_cubit.dart';
 
-class ClosetMetadataState {
+class UpdateClosetMetadataState {
   final String closetName;
   final String closetType;
   final bool? isPublic; // Nullable to differentiate unselected
   final String? monthsLater;
 
-  const ClosetMetadataState({
+  const UpdateClosetMetadataState({
     required this.closetName,
     required this.closetType,
     this.isPublic,
@@ -14,7 +14,7 @@ class ClosetMetadataState {
   });
 
   // Factory constructor for initial/default state
-  factory ClosetMetadataState.initial() => const ClosetMetadataState(
+  factory UpdateClosetMetadataState.initial() => const UpdateClosetMetadataState(
     closetName: '',
     closetType: 'permanent',
     isPublic: null,
@@ -22,13 +22,13 @@ class ClosetMetadataState {
   );
 
   // Create a copy of the current state with updated fields
-  ClosetMetadataState copyWith({
+  UpdateClosetMetadataState copyWith({
     String? closetName,
     String? closetType,
     bool? isPublic,
     String? monthsLater,
   }) {
-    return ClosetMetadataState(
+    return UpdateClosetMetadataState(
       closetName: closetName ?? this.closetName,
       closetType: closetType ?? this.closetType,
       isPublic: isPublic ?? this.isPublic,
@@ -38,6 +38,6 @@ class ClosetMetadataState {
 
   @override
   String toString() {
-    return 'ClosetMetadataState(closetName: $closetName, closetType: $closetType, isPublic: $isPublic, monthsLater: $monthsLater)';
+    return 'UpdateClosetMetadataState(closetName: $closetName, closetType: $closetType, isPublic: $isPublic, monthsLater: $monthsLater)';
   }
 }

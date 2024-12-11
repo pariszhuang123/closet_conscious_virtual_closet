@@ -13,6 +13,7 @@ class CustomTextFormField extends StatelessWidget {
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
   final FocusNode? focusNode;
+  final VoidCallback? onTap; // Add this parameter
 
   const CustomTextFormField({
     super.key,
@@ -28,6 +29,7 @@ class CustomTextFormField extends StatelessWidget {
     this.onChanged,
     this.validator,
     this.focusNode,
+    this.onTap, // Assign this parameter
   });
 
   @override
@@ -62,6 +64,7 @@ class CustomTextFormField extends StatelessWidget {
       keyboardType: keyboardType,
       validator: validator, // validator logic is applied here
       onChanged: onChanged,
+      onTap: onTap, // Add onTap handling
     );
   }
 }

@@ -1,14 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/utilities/logger.dart';
 
-part 'closet_metadata_state.dart';
+part 'update_closet_metadata_state.dart';
 
-class ClosetMetadataCubit extends Cubit<ClosetMetadataState> {
+class UpdateClosetMetadataCubit extends Cubit<UpdateClosetMetadataState> {
   final CustomLogger logger;
 
-  ClosetMetadataCubit()
-      : logger = CustomLogger('ClosetMetadataCubit'),
-        super(const ClosetMetadataState(closetType: 'permanent', closetName: ''));
+  UpdateClosetMetadataCubit()
+      : logger = CustomLogger('UpdateClosetMetadataCubit'),
+        super(const UpdateClosetMetadataState(closetType: 'permanent', closetName: ''));
 
   void updateClosetName(String name) {
     logger.i('Updating closet name: $name');
@@ -29,4 +29,5 @@ class ClosetMetadataCubit extends Cubit<ClosetMetadataState> {
     logger.i('Updating monthsLater: $months');
     emit(state.copyWith(monthsLater: months));
   }
+  
 }

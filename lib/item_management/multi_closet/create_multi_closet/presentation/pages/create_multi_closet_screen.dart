@@ -15,7 +15,7 @@ import '../../../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../../core/widgets/button/themed_elevated_button.dart';
-import '../../../core/presentation/bloc/closet_metadata_cubit/closet_metadata_cubit.dart';
+import '../../../core/presentation/bloc/update_closet_metadata_cubit/update_closet_metadata_cubit.dart';
 import '../../../../core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../core/presentation/widgets/multi_closet_feature_container.dart';
 
@@ -145,7 +145,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                     if (state.status == ClosetStatus.valid) {
                       logger.i('Validation succeeded. Triggering CreateMultiClosetRequested event.');
 
-                      final metadataState = context.read<ClosetMetadataCubit>().state;
+                      final metadataState = context.read<UpdateClosetMetadataCubit>().state;
                       context.read<CreateMultiClosetBloc>().add(CreateMultiClosetRequested(
                         closetName: metadataState.closetName,
                         closetType: metadataState.closetType,
@@ -187,7 +187,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                   ),
                   const SizedBox(height: 10),
 
-                  BlocBuilder<ClosetMetadataCubit, ClosetMetadataState>(
+                  BlocBuilder<UpdateClosetMetadataCubit, UpdateClosetMetadataState>(
                     builder: (context, metadataState) {
                       closetNameController.text = metadataState.closetName;
                       monthsController.text = metadataState.monthsLater?.toString() ?? '';
@@ -245,7 +245,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                           child: ThemedElevatedButton(
                             text: S.of(context).create_closet,
                             onPressed: () {
-                              final metadataState = context.read<ClosetMetadataCubit>().state;
+                              final metadataState = context.read<UpdateClosetMetadataCubit>().state;
                               context.read<CreateMultiClosetBloc>().add(CreateMultiClosetValidate(
                                 closetName: metadataState.closetName,
                                 closetType: metadataState.closetType,

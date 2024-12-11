@@ -379,5 +379,9 @@
   "publicPrivateSelectionRequired": "请为永久衣柜选择公开或私密。",
   "pleaseEnterMonths": "请输入月份数。",
   "pleaseEnterValidMonths": "请输入有效的月份数。",
-  "reset": "刷新"
+  "reset": "刷新",
+  "selectDate": "请选择日期",
+  "validDate": "有效日期",
+  "pleaseEnterValidDate": "请输入有效日期",
+  "archiveCloset": "归档衣橱"
 }

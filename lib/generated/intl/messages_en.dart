@@ -94,6 +94,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "and": MessageLookupByLibrary.simpleMessage(" and the "),
         "appInformationSection":
             MessageLookupByLibrary.simpleMessage("App Information"),
+        "archiveCloset": MessageLookupByLibrary.simpleMessage("Archive Closet"),
         "arrange": MessageLookupByLibrary.simpleMessage("Customize"),
         "arrangeFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "Would you like to organize your closet by cost per wear or date added? Let us know!"),
@@ -465,6 +466,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter an item name"),
         "pleaseEnterMonths":
             MessageLookupByLibrary.simpleMessage("Enter number of months."),
+        "pleaseEnterValidDate":
+            MessageLookupByLibrary.simpleMessage("Please enter a valid date"),
         "pleaseEnterValidMonths": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid number of months."),
         "pleaseSelectAtLeastOneItem": MessageLookupByLibrary.simpleMessage(
@@ -523,6 +526,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectColour": MessageLookupByLibrary.simpleMessage("Select Colour"),
         "selectColourVariation":
             MessageLookupByLibrary.simpleMessage("Select Colour Variation"),
+        "selectDate": MessageLookupByLibrary.simpleMessage("Select a date"),
         "selectItemType":
             MessageLookupByLibrary.simpleMessage("Select Item Type"),
         "selectItemsToCreateOutfit": MessageLookupByLibrary.simpleMessage(
@@ -653,6 +657,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Success! Your closet just got a little more stylish! 🎉"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "usageInsights": MessageLookupByLibrary.simpleMessage("Usage Insights"),
+        "validDate": MessageLookupByLibrary.simpleMessage("Valid Date"),
         "validation_error": MessageLookupByLibrary.simpleMessage(
             "Error found. Check your input."),
         "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(

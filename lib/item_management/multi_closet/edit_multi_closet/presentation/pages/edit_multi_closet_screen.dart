@@ -6,7 +6,7 @@ import '../../../../../core/theme/my_closet_theme.dart';
 import '../bloc/edit_multi_closet_bloc.dart';
 import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
 import '../../../../../core/widgets/layout/grid/interactive_item_grid.dart';
-import '../../../create_multi_closet/presentation/widgets/create_multi_closet_metadata.dart';
+import '../widgets/edit_multi_closet_metadata.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../core/data/items_enums.dart';
 import '../../../../../generated/l10n.dart';
@@ -15,9 +15,9 @@ import '../../../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../../core/widgets/button/themed_elevated_button.dart';
-import '../../../core/presentation/bloc/closet_metadata_cubit/closet_metadata_cubit.dart';
 import '../../../../core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../core/presentation/widgets/multi_closet_feature_container.dart';
+import '../bloc/edit_closet_metadata_bloc/edit_closet_metadata_bloc.dart';
 
 
 class EditMultiClosetScreen extends StatefulWidget {
@@ -37,7 +37,6 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
   final TextEditingController monthsController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final CustomLogger logger = CustomLogger('EditMultiClosetScreen');
-
 
   late final Future<int> crossAxisCountFuture;
   Map<String, String> validationErrors = {}; // Add validation errors map
@@ -79,6 +78,7 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
     logger.i('CreateMultiClosetScreen initialized');
     crossAxisCountFuture = _getCrossAxisCount();
     context.read<ViewItemsBloc>().add(FetchItemsEvent(0));
+    context.read<EditClosetMetadataBloc>().add(FetchMetadataEvent());
 
     // Add scroll listener for infinite scrolling
     _scrollController.addListener(() {
@@ -145,12 +145,12 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                     if (state.status == ClosetStatus.valid) {
                       logger.i('Validation succeeded. Triggering EditMultiClosetRequested event.');
 
-                      final metadataState = context.read<ClosetMetadataCubit>().state;
+                      final metadata = context.read<EditClosetMetadataBloc>().state as EditClosetMetadataAvailable;
                       context.read<EditMultiClosetBloc>().add(EditMultiClosetSwapped(
-                        closetName: metadataState.closetName,
-                        closetType: metadataState.closetType,
-                        isPublic: metadataState.isPublic,
-                        monthsLater: metadataState.monthsLater,
+                        closetName: metadata.metadata.closetName,
+                        closetType: metadata.metadata.closetType,
+                        isPublic: metadata.metadata.isPublic,
+                        validDate: metadata.metadata.validDate,
                         itemIds: context.read<MultiSelectionItemCubit>().state.selectedItemIds,
                       ));
                     } else if (state.status == ClosetStatus.failure && state.validationErrors != null) {
@@ -187,18 +187,28 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                   ),
                   const SizedBox(height: 10),
 
-                  BlocBuilder<ClosetMetadataCubit, ClosetMetadataState>(
+                  BlocBuilder<EditClosetMetadataBloc, EditClosetMetadataState>(
                     builder: (context, metadataState) {
-                      closetNameController.text = metadataState.closetName;
-                      monthsController.text = metadataState.monthsLater?.toString() ?? '';
-                      return CreateMultiClosetMetadata(
-                        closetNameController: closetNameController,
-                        monthsController: monthsController,
-                        closetType: metadataState.closetType,
-                        isPublic: metadataState.isPublic ?? false,
-                        theme: theme,
-                        errorKeys: validationErrors, // Pass validation errors
-                      );
+                      if (metadataState is EditClosetMetadataAvailable) {
+                        closetNameController.text = metadataState.metadata.closetName;
+
+                        return EditMultiClosetMetadata(
+                          closetNameController: closetNameController,
+                          theme: theme,
+                          errorKeys: validationErrors, // Pass validation errors
+                        );
+                      } else if (metadataState is EditClosetMetadataLoading) {
+                        return const Center(child: ClosetProgressIndicator());
+                      } else if (metadataState is EditClosetMetadataFailure) {
+                        return Center(
+                          child: Text(
+                            metadataState.errorMessage,
+                            style: TextStyle(color: theme.colorScheme.error),
+                          ),
+                        );
+                      }
+
+                      return const SizedBox.shrink();
                     },
                   ),
                   const SizedBox(height: 16),
@@ -245,12 +255,13 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                           child: ThemedElevatedButton(
                             text: S.of(context).create_closet,
                             onPressed: () {
-                              final metadataState = context.read<ClosetMetadataCubit>().state;
+                              final metadataState =
+                              context.read<EditClosetMetadataBloc>().state as EditClosetMetadataAvailable;
                               context.read<EditMultiClosetBloc>().add(EditMultiClosetValidate(
-                                closetName: metadataState.closetName,
-                                closetType: metadataState.closetType,
-                                isPublic: metadataState.isPublic,
-                                monthsLater: metadataState.monthsLater,
+                                closetName: metadataState.metadata.closetName,
+                                closetType: metadataState.metadata.closetType,
+                                isPublic: metadataState.metadata.isPublic,
+                                validDate: metadataState.metadata.validDate,
                               ));
                             },
                           ),
@@ -267,3 +278,7 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
     );
   }
 }
+
+
+
+

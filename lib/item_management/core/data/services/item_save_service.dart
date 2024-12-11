@@ -213,7 +213,7 @@ class ItemSaveService {
     String? closetId, // Optional
     String? closetName,
     String? closetType,
-    String? validDate,
+    DateTime? validDate,
     bool? isPublic,
     List<String>? itemIds,
     String? newClosetId,

@@ -3849,6 +3849,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Select a date`
+  String get selectDate {
+    return Intl.message(
+      'Select a date',
+      name: 'selectDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Valid Date`
+  String get validDate {
+    return Intl.message(
+      'Valid Date',
+      name: 'validDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid date`
+  String get pleaseEnterValidDate {
+    return Intl.message(
+      'Please enter a valid date',
+      name: 'pleaseEnterValidDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Archive Closet`
+  String get archiveCloset {
+    return Intl.message(
+      'Archive Closet',
+      name: 'archiveCloset',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

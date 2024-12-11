@@ -12,11 +12,13 @@ class ItemFetchService {
 
   Future<List<ClosetItemMinimal>> fetchItems(int currentPage) async {
     try {
-      logger.d('Fetching items for pages: $currentPage using fetch_items_with_preferences RPC');
+      logger.d(
+          'Fetching items for pages: $currentPage using fetch_items_with_preferences RPC');
 
       // Call the fetch_items_with_preferences RPC function
       final response = await Supabase.instance.client
-          .rpc('fetch_items_with_preferences', params: {'p_current_page': currentPage});
+          .rpc('fetch_items_with_preferences',
+          params: {'p_current_page': currentPage});
 
       if (response == null) {
         logger.w('No data returned from fetch_items_with_preferences');
@@ -142,7 +144,8 @@ class ItemFetchService {
           .single();
 
       if (data['no_buy_highest_streak'] != null) {
-        logger.i('Fetched highest streak count: ${data['no_buy_highest_streak']}');
+        logger.i(
+            'Fetched highest streak count: ${data['no_buy_highest_streak']}');
         return data['no_buy_highest_streak'];
       } else {
         throw Exception('Failed to fetch highest streak count');
@@ -190,6 +193,7 @@ class ItemFetchService {
       return 0;
     }
   }
+
   Future<bool> checkClosetUploadStatus() async {
     try {
       final authBloc = locator<AuthBloc>();
@@ -231,7 +235,9 @@ class ItemFetchService {
       throw ItemFetchException('Error during $logMessage: $error');
     }
   }
-  Future<Map<String, dynamic>?> fetchAchievementData(String rpcFunctionName) async {
+
+  Future<Map<String, dynamic>?> fetchAchievementData(
+      String rpcFunctionName) async {
     final response = await _executeQuery(
           () => Supabase.instance.client.rpc(rpcFunctionName),
       'fetchAchievementData - Fetching data using function $rpcFunctionName',
@@ -243,7 +249,8 @@ class ItemFetchService {
       final featureStatus = response['feature'] as String?;
       final achievementName = response['achievement_name'] as String?;
       // Log achievement details
-      logger.i('fetchAchievementData - Badge URL: $badgeUrl, Feature status: $featureStatus, Achievement name: $achievementName');
+      logger.i(
+          'fetchAchievementData - Badge URL: $badgeUrl, Feature status: $featureStatus, Achievement name: $achievementName');
 
       // Return the full response with achievement and reward details
       return {
@@ -258,7 +265,38 @@ class ItemFetchService {
       return null;
     }
   }
+
+  Future<Map<String, dynamic>> fetchClosetMetadataConditions() async {
+    logger.i("Fetching closet metadata conditions...");
+    try {
+      // Call the Supabase RPC and fetch the raw JSON response
+      final result = await Supabase.instance.client.rpc(
+          'fetch_closet_metadata_conditions');
+
+      logger.d("Raw result: $result");
+
+      // Ensure the result is not null and has the expected structure
+      if (result == null || result is! Map<String, dynamic>) {
+        logger.e("Unexpected response format: $result");
+        throw Exception("Unexpected response format: $result");
+      }
+
+      // Validate the keys in the result
+      if (!result.containsKey('should_hide') ||
+          !result.containsKey('metadata')) {
+        logger.e("Missing keys in response: $result");
+        throw Exception("Missing keys in response: $result");
+      }
+
+      logger.i("Successfully fetched closet metadata conditions.");
+      return result;
+    } catch (error) {
+      logger.e("Failed to fetch closet metadata conditions: $error");
+      rethrow; // Re-throw the error to be handled upstream
+    }
+  }
 }
+
 class ItemFetchException implements Exception {
   final String message;
   ItemFetchException(this.message);

@@ -379,5 +379,9 @@
   "publicPrivateSelectionRequired": "Please select public or private for a permanent closet.",
   "pleaseEnterMonths": "Enter number of months.",
   "pleaseEnterValidMonths": "Please enter a valid number of months.",
-  "reset": "reset"
+  "reset": "reset",
+  "selectDate": "Select a date",
+  "validDate": "Valid Date",
+  "pleaseEnterValidDate": "Please enter a valid date",
+  "archiveCloset": "Archive Closet"
 }

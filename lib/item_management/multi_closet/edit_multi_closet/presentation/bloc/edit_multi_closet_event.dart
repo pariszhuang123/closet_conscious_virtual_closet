@@ -8,19 +8,19 @@ abstract class EditMultiClosetEvent extends Equatable {
 class EditMultiClosetValidate extends EditMultiClosetEvent {
   final String closetName;
   final String closetType;
-  final String? monthsLater;
+  final DateTime validDate;
   final bool? isPublic;
 
   EditMultiClosetValidate({
     required this.closetName,
     required this.closetType,
-    this.monthsLater,
+    required this.validDate,
     this.isPublic,
   });
 
   @override
   List<Object?> get props =>
-      [closetName, closetType, isPublic, monthsLater];
+      [closetName, closetType, isPublic, validDate];
 
 }
 
@@ -28,19 +28,19 @@ class EditMultiClosetSwapped extends EditMultiClosetEvent {
   final String closetName;
   final String closetType;
   final bool? isPublic;
-  final String? monthsLater;
+  final DateTime validDate;
   final List<String> itemIds;
 
   EditMultiClosetSwapped({
     required this.closetName,
     required this.closetType,
     this.isPublic,
-    this.monthsLater,
+    required this.validDate,
     required this.itemIds,
   });
 
   @override
   List<Object?> get props =>
-      [closetName, closetType, isPublic, monthsLater, itemIds];
+      [closetName, closetType, isPublic, validDate, itemIds];
 }
 

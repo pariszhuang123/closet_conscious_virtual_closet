@@ -6,7 +6,7 @@ import '../../../../../core/widgets/form/custom_text_form.dart';
 import '../widgets/permanent_closet_toggle.dart';
 import '../widgets/public_private_toggle.dart';
 import '../../../../../core/utilities/logger.dart';
-import '../../../core/presentation/bloc/closet_metadata_cubit/closet_metadata_cubit.dart';
+import '../../../core/presentation/bloc/update_closet_metadata_cubit/update_closet_metadata_cubit.dart';
 
 class CreateMultiClosetMetadata extends StatelessWidget {
   final TextEditingController closetNameController;
@@ -33,7 +33,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
     _logger.i('Rendering CreateMultiClosetMetadata widget');
     _logger.i('Error keys passed: $errorKeys'); // Log the errors for debugging
 
-    return BlocBuilder<ClosetMetadataCubit, ClosetMetadataState>(
+    return BlocBuilder<UpdateClosetMetadataCubit, UpdateClosetMetadataState>(
       builder: (context, metadataState) {
         _logger.d('Current ClosetMetadataCubit State: $metadataState');
 
@@ -57,7 +57,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                   onChanged: (value) {
                     _logger.d('Closet name changed: $value');
                     _logger.d('ClosetName errorKey: ${errorKeys?['closetName']}');
-                    context.read<ClosetMetadataCubit>().updateClosetName(value);
+                    context.read<UpdateClosetMetadataCubit>().updateClosetName(value);
                   },
                 ),
                 const SizedBox(height: 8),
@@ -68,7 +68,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                   onChanged: (value) {
                     final closetType = value ? 'permanent' : 'disappear';
                     _logger.d('Closet type changed to: $closetType');
-                    context.read<ClosetMetadataCubit>().updateClosetType(closetType);
+                    context.read<UpdateClosetMetadataCubit>().updateClosetType(closetType);
                   },
                 ),
                 if (errorKeys?['closetType'] != null) // Show closet type error if present
@@ -87,7 +87,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                     isPublic: metadataState.isPublic ?? false,
                     onChanged: (isPublic) {
                       _logger.d('Public/Private changed: $isPublic');
-                      context.read<ClosetMetadataCubit>().updateIsPublic(isPublic);
+                      context.read<UpdateClosetMetadataCubit>().updateIsPublic(isPublic);
                     },
                   ),
                   if (errorKeys?['isPublic'] != null)
@@ -123,7 +123,7 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                     },
                     onChanged: (value) {
                       _logger.d('Months input changed: $value');
-                      context.read<ClosetMetadataCubit>().updateMonthsLater(value);
+                      context.read<UpdateClosetMetadataCubit>().updateMonthsLater(value);
                     },
                   ),
                 ],

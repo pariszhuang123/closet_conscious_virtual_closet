@@ -85,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
         "and": MessageLookupByLibrary.simpleMessage(" 和 "),
         "appInformationSection": MessageLookupByLibrary.simpleMessage("应用信息"),
+        "archiveCloset": MessageLookupByLibrary.simpleMessage("归档衣橱"),
         "arrange": MessageLookupByLibrary.simpleMessage("衣橱布局"),
         "arrangeFeatureDescription":
             MessageLookupByLibrary.simpleMessage("您想根据穿着成本或添加日期来组织衣橱吗？告诉我们吧！"),
@@ -408,6 +409,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("请更正表单中的错误。"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
         "pleaseEnterMonths": MessageLookupByLibrary.simpleMessage("请输入月份数。"),
+        "pleaseEnterValidDate": MessageLookupByLibrary.simpleMessage("请输入有效日期"),
         "pleaseEnterValidMonths":
             MessageLookupByLibrary.simpleMessage("请输入有效的月份数。"),
         "pleaseSelectAtLeastOneItem":
@@ -455,6 +457,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectClothingType": MessageLookupByLibrary.simpleMessage("选择服装类型"),
         "selectColour": MessageLookupByLibrary.simpleMessage("选择颜色"),
         "selectColourVariation": MessageLookupByLibrary.simpleMessage("选择颜色变化"),
+        "selectDate": MessageLookupByLibrary.simpleMessage("请选择日期"),
         "selectItemType": MessageLookupByLibrary.simpleMessage("选择物品类型"),
         "selectItemsToCreateOutfit":
             MessageLookupByLibrary.simpleMessage("选择物品来创建您的造型。"),
@@ -565,6 +568,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("成功！您的衣橱又增添了一些时尚！🎉"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("上传"),
         "usageInsights": MessageLookupByLibrary.simpleMessage("使用情况分析"),
+        "validDate": MessageLookupByLibrary.simpleMessage("有效日期"),
         "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "探索您的多衣橱选项。您可以创建一个新的多衣橱，\n从所有多衣橱中编辑物品，或对单个多衣橱进行修改。"),
         "white": MessageLookupByLibrary.simpleMessage("白色"),

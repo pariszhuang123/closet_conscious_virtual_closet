@@ -26,7 +26,7 @@ class EditMultiClosetBloc extends Bloc<EditMultiClosetEvent, EditMultiClosetStat
     final errors = _validateClosetData(
       closetName: event.closetName,
       closetType: event.closetType,
-      monthsLater: event.monthsLater,
+      validDate: event.validDate,
       isPublic: event.isPublic,
     );
 
@@ -53,11 +53,11 @@ class EditMultiClosetBloc extends Bloc<EditMultiClosetEvent, EditMultiClosetStat
     emit(state.copyWith(status: ClosetStatus.loading));
 
     try {
-      await itemSaveService.addMultiCloset(
+      await itemSaveService.editMultiCloset(
         closetName: event.closetName,
         closetType: event.closetType,
         itemIds: event.itemIds,
-        monthsLater: event.monthsLater != null ? int.tryParse(event.monthsLater!) : null,
+        validDate: event.validDate,
         isPublic: event.isPublic,
       );
       logger.i('Closet created successfully.');
@@ -75,7 +75,7 @@ class EditMultiClosetBloc extends Bloc<EditMultiClosetEvent, EditMultiClosetStat
   Map<String, String> _validateClosetData({
     required String? closetName,
     required String closetType,
-    required String? monthsLater,
+    required DateTime? validDate,
     required bool? isPublic,
   }) {
     final errors = <String, String>{};
@@ -83,14 +83,6 @@ class EditMultiClosetBloc extends Bloc<EditMultiClosetEvent, EditMultiClosetStat
     // Validate closetName
     if (closetName == null || closetName.isEmpty || closetName == 'cc_closet') {
       errors['closetName'] = 'closetNameCannotBeEmpty';
-    }
-
-    // Validate monthsLater if closetType is 'disappear'
-    if (closetType == 'disappear') {
-      final months = monthsLater != null ? int.tryParse(monthsLater) : null;
-      if (months == null || months <= 0) {
-        errors['monthsLater'] = 'Invalid months value provided';
-      }
     }
 
     return errors;
