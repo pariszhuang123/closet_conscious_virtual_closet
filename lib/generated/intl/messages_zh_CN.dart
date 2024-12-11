@@ -87,8 +87,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "appInformationSection": MessageLookupByLibrary.simpleMessage("应用信息"),
         "archive": MessageLookupByLibrary.simpleMessage("归档"),
         "archiveCloset": MessageLookupByLibrary.simpleMessage("归档衣橱"),
-        "archiveClosetDescription":
-            MessageLookupByLibrary.simpleMessage("归档此衣橱会将所有物品移回您的主衣橱。此操作无法撤销。"),
+        "archiveClosetDescription": MessageLookupByLibrary.simpleMessage(
+            "归档此衣橱会将所有物品移回您的主衣橱。\n\n此操作无法撤销。"),
         "archiveSuccessMessage":
             MessageLookupByLibrary.simpleMessage("您的衣橱已成功归档。所有物品已移回主衣橱。"),
         "archiveWarning":

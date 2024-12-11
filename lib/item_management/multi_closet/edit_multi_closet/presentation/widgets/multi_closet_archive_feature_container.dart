@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/widgets/container/base_container.dart';
 import '../../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../../core/core_enums.dart';
 import '../../../../../core/data/type_data.dart';
@@ -16,8 +15,8 @@ class MultiClosetArchiveFeatureContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseContainer(
-      theme: theme,
+    return Container(  // Use a basic Container here
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),  // Same padding as BaseContainer
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

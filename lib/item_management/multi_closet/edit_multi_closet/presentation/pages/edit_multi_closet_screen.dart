@@ -182,41 +182,38 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
 
             return MultiBlocListener(
               listeners: [
-                BlocListener<EditMultiClosetBloc, EditMultiClosetState>(
-                  listener: (context, state) {
-                    if (state.status == ClosetStatus.valid) {
-                      logger.i('Validation succeeded. Triggering EditMultiClosetRequested event.');
-
-                      final metadata = context.read<EditClosetMetadataBloc>().state as EditClosetMetadataAvailable;
-                      context.read<EditMultiClosetBloc>().add(EditMultiClosetSwapped(
-                        closetName: metadata.metadata.closetName,
-                        closetType: metadata.metadata.closetType,
-                        isPublic: metadata.metadata.isPublic,
-                        validDate: metadata.metadata.validDate,
-                        itemIds: context.read<MultiSelectionItemCubit>().state.selectedItemIds,
-                      ));
-                    } else if (state.status == ClosetStatus.failure && state.validationErrors != null) {
-                      logger.e('Validation errors: ${state.validationErrors}');
-                      CustomSnackbar(
-                        message: S.of(context).fix_validation_errors,
-                        theme: Theme.of(context),
-                      ).show(context);
-                    } else if (state.status == ClosetStatus.success) {
-                      logger.i('Closet created successfully.');
-                      CustomSnackbar(
-                        message: S.of(context).closet_created_successfully,
-                        theme: Theme.of(context),
-                      ).show(context);
-                      _navigateToMyCloset(context);
-                    } else if (state.status == ClosetStatus.failure && state.error != null) {
-                      logger.e('Error creating closet: ${state.error}');
-                      CustomSnackbar(
-                        message: S.of(context).error_creating_closet(state.error ?? ''),
-                        theme: Theme.of(context),
-                      ).show(context);
-                    }
-                  },
-                ),
+                BlocListener<EditMultiClosetBloc, EditMultiClosetState>(listener: (context, state) {
+                  if (state.status == ClosetStatus.valid) {
+                    logger.i('Validation succeeded. Triggering EditMultiClosetRequested event.');
+                    final metadata = context.read<EditClosetMetadataBloc>().state as EditClosetMetadataAvailable;
+                    context.read<EditMultiClosetBloc>().add(EditMultiClosetSwapped(
+                      closetName: metadata.metadata.closetName,
+                      closetType: metadata.metadata.closetType,
+                      isPublic: metadata.metadata.isPublic,
+                      validDate: metadata.metadata.validDate,
+                      itemIds: context.read<MultiSelectionItemCubit>().state.selectedItemIds,
+                    ));
+                  } else if (state.status == ClosetStatus.failure && state.validationErrors != null) {
+                    logger.e('Validation errors: ${state.validationErrors}');
+                    CustomSnackbar(
+                      message: S.of(context).fix_validation_errors,
+                      theme: Theme.of(context),
+                    ).show(context);
+                  } else if (state.status == ClosetStatus.success) {
+                    logger.i('Closet created successfully.');
+                    CustomSnackbar(
+                      message: S.of(context).closet_created_successfully,
+                      theme: Theme.of(context),
+                    ).show(context);
+                    _navigateToMyCloset(context);
+                  } else if (state.status == ClosetStatus.failure && state.error != null) {
+                    logger.e('Error creating closet: ${state.error}');
+                    CustomSnackbar(
+                      message: S.of(context).error_creating_closet(state.error ?? ''),
+                      theme: Theme.of(context),
+                    ).show(context);
+                  }
+                }),
               ],
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,24 +225,33 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                         flex: 3,
                         child: MultiClosetFeatureContainer(
                           theme: theme,
-                          onFilterButtonPressed:  () => _onFilterButtonPressed(context, false),
+                          onFilterButtonPressed: () => _onFilterButtonPressed(context, false),
                           onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
                           onResetButtonPressed: () => _onResetButtonPressed(context),
                           onSelectAllButtonPressed: () => _onSelectAllButtonPressed(context),
                         ),
                       ),
                       const SizedBox(width: 16),
-                      Expanded(
-                        flex: 1,
-                        child: MultiClosetArchiveFeatureContainer(
-                          theme: theme,
-                          onArchiveButtonPressed: () => _onArchiveButtonPressed(),
-                        ),
+                      // BlocBuilder for conditional rendering of MultiClosetArchiveFeatureContainer
+                      BlocBuilder<EditClosetMetadataBloc, EditClosetMetadataState>(
+                        builder: (context, metadataState) {
+                          if (metadataState is EditClosetMetadataAvailable) {
+                            closetNameController.text = metadataState.metadata.closetName;
+                            return Expanded(
+                              flex: 1,
+                              child: MultiClosetArchiveFeatureContainer(
+                                theme: theme,
+                                onArchiveButtonPressed: () => _onArchiveButtonPressed(),
+                              ),
+                            );
+                          } else {
+                            return const SizedBox.shrink(); // Return empty widget if metadata isn't available
+                          }
+                        },
                       ),
                     ],
                   ),
                   const SizedBox(height: 10),
-
                   BlocBuilder<EditClosetMetadataBloc, EditClosetMetadataState>(
                     builder: (context, metadataState) {
                       if (metadataState is EditClosetMetadataAvailable) {
@@ -269,7 +275,6 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
-
                   Expanded(
                     child: BlocBuilder<ViewItemsBloc, ViewItemsState>(
                       builder: (context, viewState) {
@@ -293,7 +298,6 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-
                   BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
                     builder: (context, selectionItemState) {
                       if (!selectionItemState.hasSelectedItems) {

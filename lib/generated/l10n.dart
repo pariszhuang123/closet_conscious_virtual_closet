@@ -3890,10 +3890,20 @@ class S {
     );
   }
 
-  /// `Select\nAll`
+  /// `Archive Closet`
+  String get archiveClosetTitle {
+    return Intl.message(
+      'Archive Closet',
+      name: 'archiveClosetTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select All`
   String get selectAll {
     return Intl.message(
-      'Select\nAll',
+      'Select All',
       name: 'selectAll',
       desc: '',
       args: [],
@@ -3980,10 +3990,10 @@ class S {
     );
   }
 
-  /// `Archiving this closet will return all items to your main closet.\nThis action cannot be undone.`
+  /// `Archiving this closet will return all items to your main closet.\n\nThis action cannot be undone.`
   String get archiveClosetDescription {
     return Intl.message(
-      'Archiving this closet will return all items to your main closet.\nThis action cannot be undone.',
+      'Archiving this closet will return all items to your main closet.\n\nThis action cannot be undone.',
       name: 'archiveClosetDescription',
       desc: '',
       args: [],

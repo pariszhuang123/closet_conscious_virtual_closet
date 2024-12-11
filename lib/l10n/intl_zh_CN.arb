@@ -393,6 +393,6 @@
   "warning": "警告",
   "archiveWarning": "您确定要归档此衣橱吗？所有物品将被移回您的主衣橱。",
   "archive": "归档",
-  "archiveClosetDescription": "归档此衣橱会将所有物品移回您的主衣橱。此操作无法撤销。",
+  "archiveClosetDescription": "归档此衣橱会将所有物品移回您的主衣橱。\n\n此操作无法撤销。",
   "failedToLoadMetadata": "无法加载衣橱元数据，请重试。"
 }

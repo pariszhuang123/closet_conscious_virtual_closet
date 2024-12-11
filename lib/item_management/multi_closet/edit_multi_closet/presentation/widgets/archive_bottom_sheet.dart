@@ -117,7 +117,7 @@ class ArchiveBottomSheetState extends State<ArchiveBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  S.of(context).archiveCloset, // Title for the archive feature
+                  S.of(context).archiveClosetTitle, // Title for the archive feature
                   style: widget.theme.textTheme.titleMedium,
                 ),
                 IconButton(

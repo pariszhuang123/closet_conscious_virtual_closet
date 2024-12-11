@@ -98,7 +98,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "archiveCloset":
             MessageLookupByLibrary.simpleMessage("Archive\nCloset"),
         "archiveClosetDescription": MessageLookupByLibrary.simpleMessage(
-            "Archiving this closet will return all items to your main closet.\nThis action cannot be undone."),
+            "Archiving this closet will return all items to your main closet.\n\nThis action cannot be undone."),
+        "archiveClosetTitle":
+            MessageLookupByLibrary.simpleMessage("Archive Closet"),
         "archiveSuccessMessage": MessageLookupByLibrary.simpleMessage(
             "Your closet has been archived successfully.\nAll items have been moved back to the main closet."),
         "archiveWarning": MessageLookupByLibrary.simpleMessage(
@@ -533,7 +535,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Season field is not filled."),
         "selectAccessoryType":
             MessageLookupByLibrary.simpleMessage("Select Accessory Type"),
-        "selectAll": MessageLookupByLibrary.simpleMessage("Select\nAll"),
+        "selectAll": MessageLookupByLibrary.simpleMessage("Select All"),
         "selectClosetLabel":
             MessageLookupByLibrary.simpleMessage("Select Closet"),
         "selectClothingLayer":
