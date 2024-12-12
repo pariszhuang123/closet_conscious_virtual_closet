@@ -27,3 +27,11 @@ class CheckSelfieCreationAccessEvent extends NavigateCoreEvent {
   @override
   List<Object?> get props => [];
 }
+
+class CheckEditClosetCreationAccessEvent extends NavigateCoreEvent {
+
+  const CheckEditClosetCreationAccessEvent();
+
+  @override
+  List<Object?> get props => [];
+}

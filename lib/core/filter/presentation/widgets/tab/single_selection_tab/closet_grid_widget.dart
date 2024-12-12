@@ -8,6 +8,8 @@ class ClosetGridWidget extends StatelessWidget {
   final List<MultiClosetMinimal> closets; // Use MultiCloset here
   final String selectedClosetId;
   final Function(String) onSelectCloset;
+  final int crossAxisCount;
+
 
   final CustomLogger logger = CustomLogger('ClosetGridWidget');
 
@@ -15,12 +17,13 @@ class ClosetGridWidget extends StatelessWidget {
     required this.closets,
     required this.selectedClosetId,
     required this.onSelectCloset,
+    required this.crossAxisCount,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    logger.i('Rendering ClosetGrid');
+    logger.i('Rendering ClosetGrid with crossAxisCount: $crossAxisCount');
 
     final localizedClosets = closets.map((closet) {
       return closet.copyWith(
@@ -39,6 +42,7 @@ class ClosetGridWidget extends StatelessWidget {
         logger.d('User selected closet with ID: $closetId');
         onSelectCloset(closetId);
       },
+      crossAxisCount: crossAxisCount, // Pass dynamic crossAxisCount
     );
   }
 }

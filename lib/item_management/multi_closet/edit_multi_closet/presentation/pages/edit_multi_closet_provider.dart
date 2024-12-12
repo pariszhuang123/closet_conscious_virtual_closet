@@ -18,6 +18,7 @@ class EditMultiClosetProvider extends StatelessWidget {
   EditMultiClosetProvider({
     super.key,
     required this.selectedItemIds,
+
   });
 
   @override

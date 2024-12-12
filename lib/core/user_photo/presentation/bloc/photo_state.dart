@@ -27,6 +27,11 @@ class EditItemCaptureSuccess extends PhotoState {
   EditItemCaptureSuccess(this.itemId);
 }
 
+class EditClosetCaptureSuccess extends PhotoState {
+  final String closetId;
+  EditClosetCaptureSuccess(this.closetId);
+}
+
 class PhotoCaptureFailure extends PhotoState {
   final String error;
   PhotoCaptureFailure(this.error);

@@ -1,6 +1,7 @@
 enum ImageSize {
   selfie,          // Size for selfies
   itemInteraction, // Size for item interaction screen
+  closetMetadata,
   itemGrid2,
   itemGrid3,       // Size for item grid
   itemGrid5,
@@ -11,6 +12,7 @@ enum CameraPermissionContext {
   uploadItem,
   editItem,
   selfie,
+  editCloset
 }
 
 enum ButtonType {

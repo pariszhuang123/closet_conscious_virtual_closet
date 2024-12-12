@@ -37,6 +37,7 @@ class AppRoutes {
   static const String uploadItemPhoto = '/upload_item_photo';
   static const String selfiePhoto = '/selfie_photo';
   static const String editPhoto = '/edit_photo';
+  static const String editClosetPhoto = '/edit_closet_photo';
   static const String infoHub = '/info_hub';
   static const String achievementPage = '/achievements';
   static const String payment = '/payment';
@@ -147,6 +148,12 @@ class AppRoutes {
         logger.d("Navigating to editPhoto with itemId: $itemId");
         return MaterialPageRoute(
           builder: (_) => PhotoProvider(itemId: itemId, cameraContext: CameraPermissionContext.editItem),
+        );
+      case editClosetPhoto:
+        final closetId = settings.arguments as String;
+        logger.d("Navigating to editClosetPhoto with closetId: $closetId");
+        return MaterialPageRoute(
+          builder: (_) => PhotoProvider(closetId: closetId, cameraContext: CameraPermissionContext.editCloset),
         );
       case editItem:
         final itemId = settings.arguments as String;

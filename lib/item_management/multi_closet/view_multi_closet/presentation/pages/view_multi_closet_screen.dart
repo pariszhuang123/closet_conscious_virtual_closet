@@ -11,17 +11,30 @@ import '../../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../../core/core_enums.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/paywall/data/feature_key.dart';
+import '../../../../../core/data/services/core_fetch_services.dart';
 
 
 class ViewMultiClosetScreen extends StatelessWidget {
   final bool isFromMyCloset;
-
   final CustomLogger logger = CustomLogger('ViewMultiClosetScreen');
+  late final Future<int> crossAxisCountFuture;
 
   ViewMultiClosetScreen({
     super.key,
     required this.isFromMyCloset,
-  });
+  }) {
+    crossAxisCountFuture = _getCrossAxisCount();
+  }
+
+  Future<int> _getCrossAxisCount() async {
+    final coreFetchService = CoreFetchService();
+    try {
+      return await coreFetchService.fetchCrossAxisCount();
+    } catch (e) {
+      logger.e("Failed to fetch crossAxisCount: $e");
+      return 3; // Default to 3 if an error occurs
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,29 +120,40 @@ class ViewMultiClosetScreen extends StatelessWidget {
           const SizedBox(height: 20),
           // Closet Grid
           Expanded(
-            child: BlocBuilder<ViewMultiClosetBloc, ViewMultiClosetState>(
-              builder: (context, state) {
-                if (state is ViewMultiClosetsLoading) {
-                  logger.d('Current state in ViewMultiClosetBloc: ${state.runtimeType}');
+            child: FutureBuilder<int>(
+              future: crossAxisCountFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
-                } else if (state is ViewMultiClosetsLoaded) {
-                  logger.i('Loaded closets: ${state.closets.length} items');
-                  return ClosetGridWidget(
-                    closets: state.closets,
-                    selectedClosetId: '',
-                    onSelectCloset: (closetId) {
-                      logger.i('Closet selected from grid. Closet ID: $closetId. Navigating to edit all closets.');
-                      context
-                          .read<MultiClosetNavigationBloc>()
-                          .add(NavigateToEditSingleMultiCloset(closetId));
-                    },
-                  );
-                } else if (state is ViewMultiClosetsError) {
-                  logger.e('Error loading closets: ${state.error}');
-                  return Center(child: Text(state.error));
+                } else if (snapshot.hasError) {
+                  logger.e("Error fetching crossAxisCount: ${snapshot.error}");
+                  return Center(child: Text(S.of(context).failedToLoadItems));
                 }
-                logger.w('No closets found');
-                return Center(child: Text(S.of(context).noClosetsFound)); // Localized "No closets found"
+
+                final crossAxisCount = snapshot.data ?? 3;
+
+                return BlocBuilder<ViewMultiClosetBloc, ViewMultiClosetState>(
+                  builder: (context, state) {
+                    if (state is ViewMultiClosetsLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is ViewMultiClosetsLoaded) {
+                      return ClosetGridWidget(
+                        closets: state.closets,
+                        selectedClosetId: '',
+                        crossAxisCount: crossAxisCount,
+                        onSelectCloset: (closetId) {
+                          context
+                              .read<MultiClosetNavigationBloc>()
+                              .add(NavigateToEditSingleMultiCloset(closetId));
+                        },
+                      );
+                    } else if (state is ViewMultiClosetsError) {
+                      return Center(child: Text(state.error));
+                    }
+
+                    return Center(child: Text(S.of(context).noClosetsFound));
+                  },
+                );
               },
             ),
           ),

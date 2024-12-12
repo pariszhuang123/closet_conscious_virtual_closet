@@ -30,6 +30,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
     on<CapturePhoto>(_handleCapturePhoto);
     on<CaptureSelfiePhoto>(_handleCaptureSelfiePhoto);
     on<CaptureEditItemPhoto>(_handleCaptureEditPhoto);
+    on<CaptureEditClosetPhoto>(_handleCaptureClosetPhoto);
     _logger.d('PhotoBloc initialized'); // Log initialization
   }
 
@@ -177,4 +178,39 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
       emit(PhotoCaptureFailure('Failed to capture and upload photo: $e'));
     }
   }
+
+  Future<void> _handleCaptureClosetPhoto(
+      CaptureEditClosetPhoto event, Emitter<PhotoState> emit) async {
+    _logger.d('Handling Captured Edit Closet Photo event');
+    emit(PhotoCaptureInProgress());
+
+    try {
+      _logger.d('Attempting to capture and resize photo');
+      final File? photoFile = await _photoCaptureService.captureAndResizePhoto();
+
+      if (photoFile != null) {
+        _logger.d('Photo captured successfully, attempting to upload');
+        final String? imageUrl = await _coreSaveService.uploadImage(photoFile);
+
+        if (imageUrl != null) {
+          _logger.i('Photo uploaded successfully: $imageUrl');
+          await _coreSaveService.processEditClosetImage(imageUrl, event.closetId);
+
+          emit(EditClosetCaptureSuccess(event.closetId));
+          _logger.i(
+              'EditClosetCaptureSuccess: Edit Closet upload and processing completed: ${event.closetId}');
+        } else {
+          _logger.e('Photo upload failed');
+          emit(PhotoCaptureFailure('Image upload failed.'));
+        }
+      } else {
+        _logger.w('Photo capture was canceled');
+        emit(PhotoCaptureFailure('Photo capture was canceled.'));
+      }
+    } catch (e) {
+      _logger.e('Failed to capture and upload photo: $e');
+      emit(PhotoCaptureFailure('Failed to capture and upload photo: $e'));
+    }
+  }
+
 }

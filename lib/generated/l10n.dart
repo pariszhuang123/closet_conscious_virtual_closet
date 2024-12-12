@@ -3160,6 +3160,66 @@ class S {
     );
   }
 
+  /// `Bronze Plan - Edit Closet Images`
+  String get editClosetBronzeTitle {
+    return Intl.message(
+      'Bronze Plan - Edit Closet Images',
+      name: 'editClosetBronzeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update and edit up to 200 closet photos to keep your digital closet organized and stylish.`
+  String get editClosetBronzeDescription {
+    return Intl.message(
+      'Update and edit up to 200 closet photos to keep your digital closet organized and stylish.',
+      name: 'editClosetBronzeDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Silver Plan - Edit Closet Images`
+  String get editClosetSilverTitle {
+    return Intl.message(
+      'Silver Plan - Edit Closet Images',
+      name: 'editClosetSilverTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit up to 700 closet photos and enhance your capsule closet management!`
+  String get editClosetSilverDescription {
+    return Intl.message(
+      'Edit up to 700 closet photos and enhance your capsule closet management!',
+      name: 'editClosetSilverDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gold Plan - Edit Closet Images`
+  String get editClosetGoldTitle {
+    return Intl.message(
+      'Gold Plan - Edit Closet Images',
+      name: 'editClosetGoldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enjoy unlimited edits for your closet photos and create the perfect digital wardrobe experience.`
+  String get editClosetGoldDescription {
+    return Intl.message(
+      'Enjoy unlimited edits for your closet photos and create the perfect digital wardrobe experience.',
+      name: 'editClosetGoldDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Multi Outfit Premium Feature`
   String get multiOutfitTitle {
     return Intl.message(

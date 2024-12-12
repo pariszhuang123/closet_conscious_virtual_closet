@@ -202,6 +202,18 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("点击不合适这个造型的物品。"),
         "editAllMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "同时编辑所有多衣橱。\n将物品转移到单个衣橱，简化您的衣橱管理。"),
+        "editClosetBronzeDescription": MessageLookupByLibrary.simpleMessage(
+            "更新和编辑最多 200 张衣橱照片，保持您的数字衣橱井井有条、时尚有型。"),
+        "editClosetBronzeTitle":
+            MessageLookupByLibrary.simpleMessage("铜计划 - 编辑衣橱照片"),
+        "editClosetGoldDescription":
+            MessageLookupByLibrary.simpleMessage("无限编辑您的衣橱照片，打造完美的数字衣橱体验。"),
+        "editClosetGoldTitle":
+            MessageLookupByLibrary.simpleMessage("金计划 - 无限衣橱照片"),
+        "editClosetSilverDescription": MessageLookupByLibrary.simpleMessage(
+            "编辑最多 700 张衣橱照片，提升您的胶囊衣橱管理能力！"),
+        "editClosetSilverTitle":
+            MessageLookupByLibrary.simpleMessage("银计划 - 编辑衣橱照片"),
         "editItemBronzeDescription":
             MessageLookupByLibrary.simpleMessage("再编辑200件物品图片，让您的衣橱保持新鲜。"),
         "editItemBronzeTitle":

@@ -106,6 +106,25 @@ class CoreFetchService {
     }
   }
 
+  /// Checks user access to edit closet photo
+  Future<Map<String, dynamic>> checkUserAccessToEditCloset() async {
+    try {
+      _logger.d('Checking user access to edit closet photo');
+      final response = await Supabase.instance.client.rpc('check_user_access_to_edit_closets') as Map<String, dynamic>;
+
+      if (response.isNotEmpty) {
+        _logger.i('User edit access fetched successfully: $response');
+        return response;
+      } else {
+        _logger.e('Unexpected response format or no data returned: $response');
+        throw Exception('Unexpected response format or no data returned');
+      }
+    } catch (e) {
+      _logger.e('Error checking user access to edit closet: $e');
+      rethrow;
+    }
+  }
+
   /// Fetches the cross-axis count from shared preferences
   Future<int> fetchCrossAxisCount() async {
     try {

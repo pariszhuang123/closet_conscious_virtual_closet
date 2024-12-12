@@ -235,6 +235,18 @@ class MessageLookup extends MessageLookupByLibrary {
             "Tap the items that didn’t work in this outfit."),
         "editAllMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "Edit all multi-closets at once.\nTransfer items to a single closet and streamline your wardrobe."),
+        "editClosetBronzeDescription": MessageLookupByLibrary.simpleMessage(
+            "Update and edit up to 200 closet photos to keep your digital closet organized and stylish."),
+        "editClosetBronzeTitle": MessageLookupByLibrary.simpleMessage(
+            "Bronze Plan - Edit Closet Images"),
+        "editClosetGoldDescription": MessageLookupByLibrary.simpleMessage(
+            "Enjoy unlimited edits for your closet photos and create the perfect digital wardrobe experience."),
+        "editClosetGoldTitle": MessageLookupByLibrary.simpleMessage(
+            "Gold Plan - Edit Closet Images"),
+        "editClosetSilverDescription": MessageLookupByLibrary.simpleMessage(
+            "Edit up to 700 closet photos and enhance your capsule closet management!"),
+        "editClosetSilverTitle": MessageLookupByLibrary.simpleMessage(
+            "Silver Plan - Edit Closet Images"),
         "editItemBronzeDescription": MessageLookupByLibrary.simpleMessage(
             "Edit 200 more item images to keep your closet fresh."),
         "editItemBronzeTitle": MessageLookupByLibrary.simpleMessage(

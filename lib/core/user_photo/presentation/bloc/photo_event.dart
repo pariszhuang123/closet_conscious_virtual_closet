@@ -29,3 +29,9 @@ class CaptureEditItemPhoto extends PhotoEvent {
 
   CaptureEditItemPhoto(this.itemId);
 }
+
+class CaptureEditClosetPhoto extends PhotoEvent {
+  final String closetId;
+
+  CaptureEditClosetPhoto(this.closetId);
+}

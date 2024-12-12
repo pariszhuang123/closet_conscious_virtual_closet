@@ -22,6 +22,7 @@ class NavigateCoreBloc extends Bloc<NavigateCoreEvent, NavigateCoreState> {
     on<CheckUploadItemCreationAccessEvent>(_onCheckUploadItemCreationAccess); // Add event handler
     on<CheckEditItemCreationAccessEvent>(_onCheckEditItemCreationAccess); // Add event handler
     on<CheckSelfieCreationAccessEvent>(_onCheckSelfieCreationAccess); // Add event handler
+    on<CheckEditClosetCreationAccessEvent>(_onCheckEditClosetCreationAccess); // Add event handler
   }
 
   Future<void> _onCheckUploadItemCreationAccess(
@@ -101,4 +102,31 @@ class NavigateCoreBloc extends Bloc<NavigateCoreEvent, NavigateCoreState> {
       emit(const ItemAccessErrorState('Failed to check selfie access.'));
     }
   }
+
+  Future<void> _onCheckEditClosetCreationAccess(
+      CheckEditClosetCreationAccessEvent event,
+      Emitter<NavigateCoreState> emit) async {
+    logger.i('Checking if the user has access to edit closet photo.');
+    try {
+      final result = await coreFetchService.checkUserAccessToEditCloset();
+
+      if (result['status'] == 'editClosetBronze') {
+        emit(BronzeEditClosetDeniedState());
+        logger.i('User have yet to pay for the bronze edit closet tier.');
+      } else if (result['status'] == 'editClosetSilver') {
+        emit(SilverEditClosetDeniedState());
+        logger.i('User have yet to pay for the silver edit closet tier.');
+      } else if (result['status'] == 'editClosetGold') {
+        emit(GoldEditClosetDeniedState());
+        logger.i('User have yet to pay for the gold edit closet tier.');
+      } else {
+        emit(ClosetAccessGrantedState());
+        logger.w('User can edit closet.');
+      }
+    } catch (error) {
+      logger.e('Error checking edit closet access: $error');
+      emit(const ClosetAccessErrorState('Failed to check edit closet access.'));
+    }
+  }
+
 }

@@ -12,6 +12,8 @@ class ClosetGrid extends StatelessWidget {
   final ThemeData myClosetTheme;
   final String selectedClosetId;
   final ValueChanged<String> onSelectCloset;
+  final int crossAxisCount; // Dynamic crossAxisCount
+
 
   ClosetGrid({
     super.key,
@@ -20,12 +22,32 @@ class ClosetGrid extends StatelessWidget {
     required this.myClosetTheme,
     required this.selectedClosetId,
     required this.onSelectCloset,
+    required this.crossAxisCount, // Add crossAxisCount as a required parameter
   }) : _logger = CustomLogger('ClosetGrid');
 
   final CustomLogger _logger;
 
+  ImageSize _getImageSize(int crossAxisCount) {
+    switch (crossAxisCount) {
+      case 2:
+        return ImageSize.itemGrid2;
+      case 3:
+        return ImageSize.itemGrid3;
+      case 5:
+        return ImageSize.itemGrid5;
+      case 7:
+        return ImageSize.itemGrid7;
+      default:
+        return ImageSize.itemGrid3; // Default to itemGrid3 if not matched
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final imageSize = _getImageSize(crossAxisCount);
+    final showItemName = !(crossAxisCount == 5 || crossAxisCount == 7);
+    final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
+
     if (closets.isEmpty) {
       return Center(child: Text(S.of(context).noClosetsAvailable));
     }
@@ -33,16 +55,16 @@ class ClosetGrid extends StatelessWidget {
     return BaseGrid<MultiClosetMinimal>(
       items: closets,
       scrollController: scrollController,
-      crossAxisCount: 3,  // Always use itemGrid3 layout
-      childAspectRatio: 2 / 3,
+      crossAxisCount: crossAxisCount,
+      childAspectRatio: childAspectRatio,
       itemBuilder: (context, closet, index) {
         final isSelected = closet.closetId == selectedClosetId;
 
         return EnhancedUserPhoto(
           imageUrl: closet.closetImage,
-          itemName: closet.closetName,
+          itemName: showItemName ? closet.closetName : null,
           itemId: closet.closetId,
-          imageSize: ImageSize.itemGrid3,
+          imageSize: imageSize,
           isSelected: isSelected,
           isDisliked: false,
           onPressed: () {

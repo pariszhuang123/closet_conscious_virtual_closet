@@ -8,6 +8,9 @@ enum FeatureKey {
   selfieBronze,
   selfieSilver,
   selfieGold,
+  editClosetBronze,
+  editClosetSilver,
+  editClosetGold,
   multiOutfit,
   customize,
   filter,
@@ -35,6 +38,12 @@ extension FeatureKeyExtension on FeatureKey {
         return 'com.makinglifeeasie.closetconscious.silverselfie';
       case FeatureKey.selfieGold:
         return 'com.makinglifeeasie.closetconscious.goldselfie';
+      case FeatureKey.editClosetBronze:
+        return 'com.makinglifeeasie.closetconscious.bronzeclosetphoto';
+      case FeatureKey.editClosetSilver:
+        return 'com.makinglifeeasie.closetconscious.silverclosetphoto';
+      case FeatureKey.editClosetGold:
+        return 'com.makinglifeeasie.closetconscious.goldclosetphoto';
       case FeatureKey.multiOutfit:
         return 'com.makinglifeeasie.closetconscious.multipleoutfits';
       case FeatureKey.customize:

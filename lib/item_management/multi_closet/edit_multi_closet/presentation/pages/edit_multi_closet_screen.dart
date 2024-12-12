@@ -19,6 +19,7 @@ import '../../../core/presentation/widgets/multi_closet_feature_container.dart';
 import '../bloc/edit_closet_metadata_bloc/edit_closet_metadata_bloc.dart';
 import '../widgets/multi_closet_archive_feature_container.dart';
 import '../widgets/archive_bottom_sheet.dart';
+import '../widgets/edit_closet_image.dart';
 
 class EditMultiClosetScreen extends StatefulWidget {
   final List<String> selectedItemIds;
@@ -39,7 +40,50 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
   final CustomLogger logger = CustomLogger('EditMultiClosetScreen');
 
   late final Future<int> crossAxisCountFuture;
+  final bool _isChanged = false; // Track whether changes have been made
   Map<String, String> validationErrors = {}; // Add validation errors map
+
+  @override
+  void initState() {
+    super.initState();
+    logger.i('CreateMultiClosetScreen initialized');
+    crossAxisCountFuture = _getCrossAxisCount();
+    context.read<ViewItemsBloc>().add(FetchItemsEvent(0));
+    context.read<EditClosetMetadataBloc>().add(FetchMetadataEvent());
+
+    // Add scroll listener for infinite scrolling
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        final viewItemsBloc = context.read<ViewItemsBloc>();
+        final currentState = viewItemsBloc.state;
+
+        if (currentState is ItemsLoaded) {
+          final currentPage = currentState.currentPage;
+          context.read<ViewItemsBloc>().add(FetchItemsEvent(currentPage));
+        }
+      }
+    });
+  }
+
+  void _navigateToPhotoProvider() {
+    final metadataState = context.read<EditClosetMetadataBloc>().state;
+
+    if (metadataState is EditClosetMetadataAvailable) {
+      final closetId = metadataState.metadata.closetId;
+      logger.d('Navigating to PhotoProvider with closetId: $closetId');
+      Navigator.pushNamed(
+        context,
+        AppRoutes.editClosetPhoto,
+        arguments: closetId, // Pass the correct closetId
+      );
+    } else {
+      logger.e('Unable to navigate to PhotoProvider: Metadata not available.');
+      CustomSnackbar(
+        message: S.of(context).failedToLoadMetadata,
+        theme: Theme.of(context),
+      ).show(context);
+    }
+  }
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
     final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
@@ -49,7 +93,7 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
       arguments: {
         'isFromMyCloset': true,
         'selectedItemIds': selectedItemIds,
-        'returnRoute': AppRoutes.createMultiCloset,
+        'returnRoute': AppRoutes.editMultiCloset,
       },
     );
   }
@@ -62,12 +106,13 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
       arguments: {
         'isFromMyCloset': true,
         'selectedItemIds': selectedItemIds,
-        'returnRoute': AppRoutes.createMultiCloset,
+        'returnRoute': AppRoutes.editMultiCloset,
       },
     );
   }
 
-    void _onResetButtonPressed(BuildContext context) {
+
+  void _onResetButtonPressed(BuildContext context) {
     // Trigger clearSelection in SelectionItemCubit
     context.read<MultiSelectionItemCubit>().clearSelection();
   }
@@ -98,13 +143,13 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
       final closetId = metadataState.metadata.closetId; // Get closetId from state
       logger.d('Opening archive sheet for closetId: $closetId');
 
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => ArchiveBottomSheet(
-        closetId: closetId, // Pass the closetId
-        theme: Theme.of(context),
-      ),
-    );
+      showModalBottomSheet(
+        context: context,
+        builder: (context) => ArchiveBottomSheet(
+          closetId: closetId, // Pass the closetId
+          theme: Theme.of(context),
+        ),
+      );
     } else {
       logger.e('Unable to archive: Metadata not available.');
       CustomSnackbar(
@@ -112,28 +157,6 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
         theme: Theme.of(context),
       ).show(context);
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    logger.i('CreateMultiClosetScreen initialized');
-    crossAxisCountFuture = _getCrossAxisCount();
-    context.read<ViewItemsBloc>().add(FetchItemsEvent(0));
-    context.read<EditClosetMetadataBloc>().add(FetchMetadataEvent());
-
-    // Add scroll listener for infinite scrolling
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-        final viewItemsBloc = context.read<ViewItemsBloc>();
-        final currentState = viewItemsBloc.state;
-
-        if (currentState is ItemsLoaded) {
-          final currentPage = currentState.currentPage;
-          context.read<ViewItemsBloc>().add(FetchItemsEvent(currentPage));
-        }
-      }
-    });
   }
 
   Future<int> _getCrossAxisCount() async {
@@ -252,14 +275,44 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  BlocBuilder<EditClosetMetadataBloc, EditClosetMetadataState>(
+                  BlocBuilder<EditClosetMetadataBloc,
+                      EditClosetMetadataState>(
                     builder: (context, metadataState) {
                       if (metadataState is EditClosetMetadataAvailable) {
-                        closetNameController.text = metadataState.metadata.closetName;
-                        return EditMultiClosetMetadata(
-                          closetNameController: closetNameController,
-                          theme: theme,
-                          errorKeys: validationErrors,
+                        closetNameController.text =
+                            metadataState.metadata.closetName;
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // Profile Photo on the Left
+                            EditClosetImage(
+                              closetImage: metadataState.metadata.closetImage,
+                              isChanged: _isChanged,
+                              onImageTap: () {
+                                if (!_isChanged) {
+                                  _navigateToPhotoProvider();
+                                } else {
+                                  CustomSnackbar(
+                                    message: S
+                                        .of(context)
+                                        .unsavedChangesMessage,
+                                    theme: Theme.of(context),
+                                  ).show(context);
+                                }
+                              },
+                            ),
+                            const SizedBox(width: 16),
+                            // Spacing between the photo and metadata editor
+
+                            // Edit Closet Metadata on the Right
+                            Expanded(
+                              child: EditMultiClosetMetadata(
+                                closetNameController: closetNameController,
+                                theme: theme,
+                                errorKeys: validationErrors,
+                              ),
+                            ),
+                          ],
                         );
                       } else if (metadataState is EditClosetMetadataLoading) {
                         return const Center(child: ClosetProgressIndicator());

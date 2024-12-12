@@ -129,7 +129,39 @@ class FeatureDataList {
           ),
         ],
       ),
-
+      FeatureData(
+        getTitle: (context) => S.of(context).editClosetBronzeTitle,
+        featureKey: FeatureKey.editClosetBronze,
+        isUsageFeature: true,
+        parts: [
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
+            getDescription: (context) => S.of(context).editClosetBronzeDescription,
+          ),
+        ],
+      ),
+      FeatureData(
+        getTitle: (context) => S.of(context).editClosetSilverTitle,
+        featureKey: FeatureKey.editClosetSilver,
+        isUsageFeature: true,
+        parts: [
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
+            getDescription: (context) => S.of(context).editClosetSilverDescription,
+          ),
+        ],
+      ),
+      FeatureData(
+        getTitle: (context) => S.of(context).editClosetGoldTitle,
+        featureKey: FeatureKey.editClosetGold,
+        isUsageFeature: true,
+        parts: [
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
+            getDescription: (context) => S.of(context).editClosetGoldDescription,
+          ),
+        ],
+      ),
       FeatureData(
         getTitle: (context) => S.of(context).multiOutfitTitle,
         featureKey: FeatureKey.multiOutfit,

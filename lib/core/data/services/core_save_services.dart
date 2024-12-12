@@ -137,6 +137,26 @@ class CoreSaveService {
     }
   }
 
+  Future<void> processEditClosetImage(String imageUrl, String closetId) async {
+    logger.i('Processing edited image for closet $closetId');
+    try {
+      final response = await SupabaseConfig.client.rpc('update_closet_photo', params: {
+        '_image_url': imageUrl,
+        '_closet_id': closetId,
+      });
+
+      if (response is! Map<String, dynamic> || response['status'] != 'success') {
+        logger.w('Unexpected response for item image processing: $response');
+        throw Exception('Image processing RPC call failed');
+      }
+
+      logger.i('Image processing completed successfully for closet $closetId');
+    } catch (e) {
+      logger.e('Error processing edited image for closet $closetId: $e');
+      throw Exception('Processing edited image failed');
+    }
+  }
+
   Future<Map<String, dynamic>?> verifyAndroidPurchaseWithSupabaseEdgeFunction(
       String purchaseToken, String productId) async {
     logger.i('Verifying Android purchase with Supabase Edge Function');

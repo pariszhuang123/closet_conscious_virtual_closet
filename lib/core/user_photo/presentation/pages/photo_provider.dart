@@ -4,6 +4,7 @@ import '../bloc/photo_bloc.dart';
 import 'view/photo_upload_item_screen.dart';
 import 'view/photo_edit_item_screen.dart';
 import 'view/photo_selfie_screen.dart';
+import 'view/photo_edit_closet_screen.dart';
 import '../../../core_enums.dart';
 import '../../usecase/photo_capture_service.dart';
 import '../../../data/services/core_save_services.dart';
@@ -17,11 +18,14 @@ class PhotoProvider extends StatelessWidget {
   final CameraPermissionContext cameraContext;
   final String? itemId;  // Nullable: only for editItem
   final String? outfitId;  // Nullable: only for selfie
+  final String? closetId;  // Nullable: only for closet photo
 
   const PhotoProvider({super.key,
     required this.cameraContext,
     this.itemId,  // Passed when editing an item
     this.outfitId,  // Passed when taking a selfie
+    this.closetId,  // Passed when taking a closet photo
+
   });
 
   @override
@@ -51,6 +55,8 @@ class PhotoProvider extends StatelessWidget {
               return PhotoEditItemScreen(itemId: itemId, cameraContext: CameraPermissionContext.editItem);  // itemId is required
             case CameraPermissionContext.selfie:
               return PhotoSelfieScreen(outfitId: outfitId, cameraContext: CameraPermissionContext.selfie);  // outfitId is required
+            case CameraPermissionContext.editCloset:
+              return PhotoEditClosetScreen(closetId: closetId, cameraContext: CameraPermissionContext.editCloset);  // outfitId is required
             default:
               return Container(); // Fallback
           }
