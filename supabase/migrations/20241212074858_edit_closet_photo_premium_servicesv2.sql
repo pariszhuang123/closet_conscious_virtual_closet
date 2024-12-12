@@ -1,8 +1,3 @@
-ALTER TABLE public.user_high_freq_stats
-ADD COLUMN closets_edited integer NOT NULL DEFAULT 0;
-
-COMMENT ON COLUMN public.user_high_freq_stats.closets_edited IS 'The number of closet photos taken by the user.';
-
 -- Function to update_edit_item_photo
 CREATE OR REPLACE FUNCTION public.update_closet_photo(
   _image_url text,
