@@ -8,12 +8,10 @@ import '../../../create_multi_closet/presentation/widgets/public_private_toggle.
 import '../../../../../core/utilities/logger.dart';
 import '../bloc/edit_closet_metadata_bloc/edit_closet_metadata_bloc.dart';
 
-class EditMultiClosetMetadata extends StatelessWidget {
+class EditMultiClosetMetadata extends StatefulWidget {
   final TextEditingController closetNameController;
   final ThemeData theme;
   final Map<String, String>? errorKeys;
-
-  static final CustomLogger _logger = CustomLogger('EditMultiClosetMetadata');
 
   const EditMultiClosetMetadata({
     super.key,
@@ -22,13 +20,60 @@ class EditMultiClosetMetadata extends StatelessWidget {
     this.errorKeys,
   });
 
+
+  @override
+  EditMultiClosetMetadataState createState() => EditMultiClosetMetadataState();
+}
+
+class EditMultiClosetMetadataState extends State<EditMultiClosetMetadata> {
+  late TextEditingController _validDateController;
+  static final CustomLogger _logger = CustomLogger('EditMultiClosetMetadata');
+
+  @override
+  void initState() {
+    super.initState();
+    _logger.i('Initializing EditMultiClosetMetadataState');
+    final state = context.read<EditClosetMetadataBloc>().state;
+    if (state is EditClosetMetadataAvailable && state.metadata.closetType == 'disappear') {
+      _validDateController = TextEditingController(
+        text: '${state.metadata.validDate.toLocal()}'.split(' ')[0],
+      );
+      _logger.d('Valid date initialized: ${state.metadata.validDate}');
+    } else {
+      _validDateController = TextEditingController();
+      _logger.d('Valid date not initialized because closet type is not disappear');
+    }
+  }
+
+  @override
+  void didUpdateWidget(EditMultiClosetMetadata oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _logger.i('Widget updated');
+    final state = context.read<EditClosetMetadataBloc>().state;
+    if (state is EditClosetMetadataAvailable) {
+      if (state.metadata.closetType == 'disappear') {
+        _validDateController.text = '${state.metadata.validDate.toLocal()}'.split(' ')[0];
+        _logger.d('Valid date controller updated: ${state.metadata.validDate}');
+      } else {
+        _validDateController.clear();
+        _logger.d('Valid date controller cleared because closet type changed to permanent');
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _logger.i('Disposing EditMultiClosetMetadataState');
+    _validDateController.dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    _logger.i('Rendering EditMultiClosetMetadata widget');
-    _logger.i('Error keys passed: $errorKeys'); // Log the errors for debugging
-
     return BlocBuilder<EditClosetMetadataBloc, EditClosetMetadataState>(
       builder: (context, state) {
+        _logger.d('Building widget with state: $state');
         if (state is EditClosetMetadataAvailable) {
           final metadata = state.metadata;
 
@@ -40,15 +85,14 @@ class EditMultiClosetMetadata extends StatelessWidget {
                 children: [
                   // Closet Name Input
                   CustomTextFormField(
-                    controller: closetNameController,
+                    controller: widget.closetNameController,
                     labelText: S.of(context).closetName,
                     hintText: S.of(context).enterClosetName,
-                    labelStyle: theme.textTheme.bodyMedium,
-                    hintStyle: theme.textTheme.bodyMedium,
-                    focusedBorderColor: theme.colorScheme.primary,
-                    enabledBorderColor: theme.colorScheme.secondary,
-                    keyboardType: TextInputType.text,
-                    errorText: errorKeys?['closetName'],
+                    labelStyle: widget.theme.textTheme.bodyMedium,
+                    hintStyle: widget.theme.textTheme.bodyMedium,
+                    focusedBorderColor: widget.theme.colorScheme.primary,
+                    enabledBorderColor: widget.theme.colorScheme.secondary,
+                    errorText: widget.errorKeys?['closetName'],
                     onChanged: (value) {
                       _logger.d('Closet name changed: $value');
                       context.read<EditClosetMetadataBloc>().add(
@@ -71,16 +115,9 @@ class EditMultiClosetMetadata extends StatelessWidget {
                           updatedMetadata: metadata.copyWith(closetType: closetType),
                         ),
                       );
+                      setState(() {}); // Trigger a rebuild for toggle changes
                     },
                   ),
-                  if (errorKeys?['closetType'] != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        _translateError(errorKeys!['closetType']!, context),
-                        style: TextStyle(color: theme.colorScheme.error),
-                      ),
-                    ),
                   const SizedBox(height: 8),
 
                   // Conditional Metadata Fields
@@ -88,7 +125,6 @@ class EditMultiClosetMetadata extends StatelessWidget {
                     PublicPrivateToggle(
                       isPublic: metadata.isPublic,
                       onChanged: (isPublic) {
-                        _logger.d('Public/Private changed: $isPublic');
                         context.read<EditClosetMetadataBloc>().add(
                           MetadataChangedEvent(
                             updatedMetadata: metadata.copyWith(isPublic: isPublic),
@@ -96,38 +132,28 @@ class EditMultiClosetMetadata extends StatelessWidget {
                         );
                       },
                     ),
-                    if (errorKeys?['isPublic'] != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          _translateError(errorKeys!['isPublic']!, context),
-                          style: TextStyle(color: theme.colorScheme.error),
-                        ),
-                      ),
                   ] else if (metadata.closetType == 'disappear') ...[
                     CustomTextFormField(
-                      controller: TextEditingController(
-                        text: '${metadata.validDate.toLocal()}'.split(' ')[0], // No null check needed
-                      ),
+                      controller: _validDateController,
                       labelText: S.of(context).validDate,
                       hintText: S.of(context).selectDate,
-                      labelStyle: theme.textTheme.bodyMedium,
-                      hintStyle: theme.textTheme.bodyMedium,
-                      focusedBorderColor: theme.colorScheme.primary,
-                      enabledBorderColor: theme.colorScheme.secondary,
-                      errorText: errorKeys?['validDate'],
-                      keyboardType: TextInputType.none, // Prevent keyboard from showing up
-                      onChanged: (_) {}, // No need for onChanged since we are using onTap
+                      labelStyle: widget.theme.textTheme.bodyMedium,
+                      hintStyle: widget.theme.textTheme.bodyMedium,
+                      focusedBorderColor: widget.theme.colorScheme.primary,
+                      enabledBorderColor: widget.theme.colorScheme.secondary,
+                      errorText: widget.errorKeys?['validDate'],
+                      keyboardType: TextInputType.none,
+                      onChanged: (_) {},
                       onTap: () async {
                         _logger.d('Date picker triggered');
                         final selectedDate = await showDatePicker(
                           context: context,
                           initialDate: metadata.validDate,
-                          firstDate: DateTime(2024,03,11),
+                          firstDate: DateTime(2024, 03, 11),
                           lastDate: DateTime.now().add(const Duration(days: 365)),
                         );
 
-                        if (selectedDate != null && context.mounted) { // Check if the widget is still in the tree
+                        if (selectedDate != null && context.mounted) {
                           _logger.d('Valid date selected: $selectedDate');
                           context.read<EditClosetMetadataBloc>().add(
                             MetadataChangedEvent(
@@ -136,7 +162,6 @@ class EditMultiClosetMetadata extends StatelessWidget {
                           );
                         }
                       },
-
                     ),
                   ],
                 ],
@@ -153,7 +178,7 @@ class EditMultiClosetMetadata extends StatelessWidget {
           return Center(
             child: Text(
               state.errorMessage,
-              style: TextStyle(color: theme.colorScheme.error),
+              style: TextStyle(color: widget.theme.colorScheme.error),
             ),
           );
         }
@@ -165,17 +190,3 @@ class EditMultiClosetMetadata extends StatelessWidget {
   }
 }
 
-
-/// Translate error keys to localized messages
-String _translateError(String errorKey, BuildContext context) {
-  switch (errorKey) {
-    case 'closetNameCannotBeEmpty':
-      return S.of(context).closetNameCannotBeEmpty;
-    case 'reservedClosetNameError':
-      return S.of(context).reservedClosetNameError;
-    case 'publicPrivateSelectionRequired':
-      return S.of(context).publicPrivateSelectionRequired;
-    default:
-      return S.of(context).unknownError;
-  }
-}

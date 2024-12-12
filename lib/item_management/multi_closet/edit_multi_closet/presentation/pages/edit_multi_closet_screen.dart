@@ -301,7 +301,7 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                                 }
                               },
                             ),
-                            const SizedBox(width: 16),
+                            const SizedBox(width: 5),
                             // Spacing between the photo and metadata editor
 
                             // Edit Closet Metadata on the Right
@@ -365,7 +365,7 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: ThemedElevatedButton(
-                            text: S.of(context).create_closet,
+                            text: S.of(context).swap,
                             onPressed: () {
                               final metadataState = context.read<EditClosetMetadataBloc>().state
                               as EditClosetMetadataAvailable;

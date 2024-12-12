@@ -21,7 +21,7 @@ class ImageDisplayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final double size = imageSize == ImageSize.itemInteraction ? 175.0 : 87.5;
+    final double size = imageSize == ImageSize.itemInteraction ? 175.0 : 100;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(16.0), // Adjust the radius as needed
