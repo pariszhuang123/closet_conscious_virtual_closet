@@ -124,6 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("我们需要相机权限，帮助您上传衣物照片。"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "casual": MessageLookupByLibrary.simpleMessage("休闲"),
+        "chooseSwap": MessageLookupByLibrary.simpleMessage("选择交换"),
         "clickUploadItemInCloset":
             MessageLookupByLibrary.simpleMessage("点击上传按钮，将你的第一件物品上传到衣橱。"),
         "closetLabel": MessageLookupByLibrary.simpleMessage("衣橱"),
@@ -147,6 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "colourFieldNotFilled": MessageLookupByLibrary.simpleMessage("颜色未填写。"),
         "colourVariationFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("颜色变化未填写。"),
+        "confirmSwap": MessageLookupByLibrary.simpleMessage("确认交换"),
         "confirmUpload": MessageLookupByLibrary.simpleMessage("确认成就"),
         "congratulations": MessageLookupByLibrary.simpleMessage("恭喜！🎉"),
         "contactUs": MessageLookupByLibrary.simpleMessage("联系我们"),

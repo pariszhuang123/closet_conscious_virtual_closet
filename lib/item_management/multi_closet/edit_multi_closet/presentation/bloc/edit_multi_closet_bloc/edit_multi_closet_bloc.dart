@@ -15,7 +15,7 @@ class EditMultiClosetBloc extends Bloc<EditMultiClosetEvent, EditMultiClosetStat
   EditMultiClosetBloc(this.itemSaveService) : super(const EditMultiClosetState()) {
     logger.i('Initializing CreateMultiClosetBloc');
     on<EditMultiClosetValidate>(_onEditMultiClosetValidate); // Handle validation
-    on<EditMultiClosetSwapped>(_onEditMultiClosetSwapped); // Handle closet creation
+    on<EditMultiClosetUpdate>(_onEditMultiClosetUpdate); // Handle closet creation
   }
 
   // Handle Validation Event
@@ -36,27 +36,36 @@ class EditMultiClosetBloc extends Bloc<EditMultiClosetEvent, EditMultiClosetStat
         status: ClosetStatus.failure,
         validationErrors: errors,
       ));
-    } else {
-      logger.i('Validation succeeded.');
+      return;
+    }
+
+    if (event.itemIds != null && event.itemIds!.isNotEmpty) {
+      logger.i('Validation succeeded with items.');
       emit(state.copyWith(
-        status: ClosetStatus.valid,
+        status: ClosetStatus.validWithItems,
+        validationErrors: null, // Clear previous errors
+      ));
+    } else {
+      logger.i('Validation succeeded without items.');
+      emit(state.copyWith(
+        status: ClosetStatus.validWithoutItems,
         validationErrors: null, // Clear previous errors
       ));
     }
   }
 
   // Handle Closet Edit Event
-  Future<void> _onEditMultiClosetSwapped(
-      EditMultiClosetSwapped event, Emitter<EditMultiClosetState> emit) async {
+  Future<void> _onEditMultiClosetUpdate(
+      EditMultiClosetUpdate event, Emitter<EditMultiClosetState> emit) async {
     logger.i('Edit multi-closet with data: $event');
 
     emit(state.copyWith(status: ClosetStatus.loading));
 
     try {
       await itemSaveService.editMultiCloset(
+        closetId: event.closetId,
         closetName: event.closetName,
         closetType: event.closetType,
-        itemIds: event.itemIds,
         validDate: event.validDate,
         isPublic: event.isPublic,
       );

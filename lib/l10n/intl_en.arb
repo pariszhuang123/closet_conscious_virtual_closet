@@ -67,6 +67,8 @@
   "upload_upload": "Upload",
   "filter_filter": "Filter",
   "swap_item": "Swap QR",
+  "chooseSwap": "Choose Swap",
+  "confirmSwap": "Confirm Swap",
   "metadata": "More",
   "addCloset_addCloset": "Multi Closet",
   "createCloset": "Create Closet",

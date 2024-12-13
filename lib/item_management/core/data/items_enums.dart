@@ -1,2 +1,2 @@
-enum ClosetStatus { initial, loading, itemsLoaded, valid, invalid, success, failure }
+enum ClosetStatus { initial, loading, itemsLoaded, valid, validWithoutItems, validWithItems, invalid, success, failure }
 

@@ -67,6 +67,8 @@
   "upload_upload": "上传",
   "filter_filter": "筛选",
   "swap_item": "交换二维码",
+  "chooseSwap": "选择交换",
+  "confirmSwap": "确认交换",
   "metadata": "更多",
   "addCloset_addCloset": "添加衣橱",
   "createCloset": "创建衣柜",

@@ -225,7 +225,7 @@ class ItemSaveService {
         'p_closet_id': closetId,
         'p_closet_name': closetName,
         'p_closet_type': closetType,
-        'p_valid_date': validDate,
+        'p_valid_date': validDate?.toIso8601String(),
         'p_is_public': isPublic,
         'p_item_ids': itemIds,
         'p_new_closet_id': newClosetId,

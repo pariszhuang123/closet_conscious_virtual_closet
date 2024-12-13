@@ -13,7 +13,7 @@ import '../../../../../core/utilities/routes.dart';
 import '../../../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
-import '../../../../../core/widgets/button/themed_elevated_button.dart';
+import '../widgets/edit_closet_action_button.dart';
 import '../../../../core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../core/presentation/widgets/multi_closet_feature_container.dart';
 import '../bloc/edit_closet_metadata_bloc/edit_closet_metadata_bloc.dart';
@@ -206,15 +206,15 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
             return MultiBlocListener(
               listeners: [
                 BlocListener<EditMultiClosetBloc, EditMultiClosetState>(listener: (context, state) {
-                  if (state.status == ClosetStatus.valid) {
-                    logger.i('Validation succeeded. Triggering EditMultiClosetRequested event.');
+                  if (state.status == ClosetStatus.validWithoutItems) {
+                    logger.i('Validation succeeded. Triggering EditMultiClosetUpdate event.');
                     final metadata = context.read<EditClosetMetadataBloc>().state as EditClosetMetadataAvailable;
-                    context.read<EditMultiClosetBloc>().add(EditMultiClosetSwapped(
+                    context.read<EditMultiClosetBloc>().add(EditMultiClosetUpdate(
+                      closetId: metadata.metadata.closetId,
                       closetName: metadata.metadata.closetName,
                       closetType: metadata.metadata.closetType,
                       isPublic: metadata.metadata.isPublic,
                       validDate: metadata.metadata.validDate,
-                      itemIds: context.read<MultiSelectionItemCubit>().state.selectedItemIds,
                     ));
                   } else if (state.status == ClosetStatus.failure && state.validationErrors != null) {
                     logger.e('Validation errors: ${state.validationErrors}');
@@ -351,36 +351,8 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
-                    builder: (context, selectionItemState) {
-                      if (!selectionItemState.hasSelectedItems) {
-                        return const SizedBox.shrink();
-                      }
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          left: 16,
-                          right: 16,
-                          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: ThemedElevatedButton(
-                            text: S.of(context).swap,
-                            onPressed: () {
-                              final metadataState = context.read<EditClosetMetadataBloc>().state
-                              as EditClosetMetadataAvailable;
-                              context.read<EditMultiClosetBloc>().add(EditMultiClosetValidate(
-                                closetName: metadataState.metadata.closetName,
-                                closetType: metadataState.metadata.closetType,
-                                isPublic: metadataState.metadata.isPublic,
-                                validDate: metadataState.metadata.validDate,
-                              ));
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                  const EditClosetActionButton(),
+
                 ],
               ),
             );

@@ -143,6 +143,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "We need camera access to help you upload photos of your clothes."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "casual": MessageLookupByLibrary.simpleMessage("Casual"),
+        "chooseSwap": MessageLookupByLibrary.simpleMessage("Choose Swap"),
         "clickUploadItemInCloset": MessageLookupByLibrary.simpleMessage(
             "Click Upload button to upload your first item in the closet."),
         "closetLabel": MessageLookupByLibrary.simpleMessage("Closet"),
@@ -167,6 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Colour field is not filled."),
         "colourVariationFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Colour Variation field is not filled."),
+        "confirmSwap": MessageLookupByLibrary.simpleMessage("Confirm Swap"),
         "confirmUpload":
             MessageLookupByLibrary.simpleMessage("Confirm Achievement"),
         "congratulations":

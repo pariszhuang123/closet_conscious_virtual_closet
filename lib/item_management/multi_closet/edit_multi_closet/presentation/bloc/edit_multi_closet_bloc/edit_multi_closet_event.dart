@@ -10,37 +10,39 @@ class EditMultiClosetValidate extends EditMultiClosetEvent {
   final String closetType;
   final DateTime validDate;
   final bool? isPublic;
+  final List<String>? itemIds;
 
   EditMultiClosetValidate({
     required this.closetName,
     required this.closetType,
     required this.validDate,
     this.isPublic,
-  });
-
-  @override
-  List<Object?> get props =>
-      [closetName, closetType, isPublic, validDate];
-
-}
-
-class EditMultiClosetSwapped extends EditMultiClosetEvent {
-  final String closetName;
-  final String closetType;
-  final bool? isPublic;
-  final DateTime validDate;
-  final List<String> itemIds;
-
-  EditMultiClosetSwapped({
-    required this.closetName,
-    required this.closetType,
-    this.isPublic,
-    required this.validDate,
-    required this.itemIds,
+    this.itemIds,
   });
 
   @override
   List<Object?> get props =>
       [closetName, closetType, isPublic, validDate, itemIds];
+
+}
+
+class EditMultiClosetUpdate extends EditMultiClosetEvent {
+  final String closetName;
+  final String closetType;
+  final bool? isPublic;
+  final DateTime? validDate;
+  final String closetId;
+
+  EditMultiClosetUpdate({
+    required this.closetName,
+    required this.closetType,
+    this.isPublic,
+    this.validDate,
+    required this.closetId
+  });
+
+  @override
+  List<Object?> get props =>
+      [closetName, closetType, isPublic, validDate, closetId];
 }
 

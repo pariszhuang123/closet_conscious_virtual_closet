@@ -720,6 +720,26 @@ class S {
     );
   }
 
+  /// `Choose Swap`
+  String get chooseSwap {
+    return Intl.message(
+      'Choose Swap',
+      name: 'chooseSwap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Swap`
+  String get confirmSwap {
+    return Intl.message(
+      'Confirm Swap',
+      name: 'confirmSwap',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `More`
   String get metadata {
     return Intl.message(
