@@ -77,6 +77,8 @@
   "singleClosetShown": "单一衣橱",
   "noClosetsFound": "未找到衣橱",
   "public_closet": "公共衣橱",
+  "errorSavingCloset": "保存衣橱时出错",
+  "errorFetchingClosets": "获取衣橱时出错",
   "itemUploaded_itemUploaded": "物品已上传",
   "myClosetTitle": "我的衣橱",
   "myOutfitTitle": "创建我的造型",

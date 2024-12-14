@@ -820,6 +820,26 @@ class S {
     );
   }
 
+  /// `Error saving closet`
+  String get errorSavingCloset {
+    return Intl.message(
+      'Error saving closet',
+      name: 'errorSavingCloset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error fetching closets`
+  String get errorFetchingClosets {
+    return Intl.message(
+      'Error fetching closets',
+      name: 'errorFetchingClosets',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Item Uploaded`
   String get itemUploaded_itemUploaded {
     return Intl.message(

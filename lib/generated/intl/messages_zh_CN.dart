@@ -239,8 +239,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "error": MessageLookupByLibrary.simpleMessage("哎呀，出了点问题。"),
         "errorDeclutter": MessageLookupByLibrary.simpleMessage(
             "我们暂时无法整理您的衣橱，但别担心——我们会尽快再试！🌿"),
+        "errorFetchingClosets": MessageLookupByLibrary.simpleMessage("获取衣橱时出错"),
         "errorIncrement":
             MessageLookupByLibrary.simpleMessage("哎呀！我们无法记录您的兴趣。请再试一次！"),
+        "errorSavingCloset": MessageLookupByLibrary.simpleMessage("保存衣橱时出错"),
         "error_creating_closet": m0,
         "event": MessageLookupByLibrary.simpleMessage("活动"),
         "everyday": MessageLookupByLibrary.simpleMessage("日常"),

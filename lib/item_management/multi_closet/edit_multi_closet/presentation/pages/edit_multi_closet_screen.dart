@@ -205,38 +205,82 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
 
             return MultiBlocListener(
               listeners: [
-                BlocListener<EditMultiClosetBloc, EditMultiClosetState>(listener: (context, state) {
-                  if (state.status == ClosetStatus.validWithoutItems) {
-                    logger.i('Validation succeeded. Triggering EditMultiClosetUpdate event.');
-                    final metadata = context.read<EditClosetMetadataBloc>().state as EditClosetMetadataAvailable;
-                    context.read<EditMultiClosetBloc>().add(EditMultiClosetUpdate(
-                      closetId: metadata.metadata.closetId,
-                      closetName: metadata.metadata.closetName,
-                      closetType: metadata.metadata.closetType,
-                      isPublic: metadata.metadata.isPublic,
-                      validDate: metadata.metadata.validDate,
-                    ));
-                  } else if (state.status == ClosetStatus.failure && state.validationErrors != null) {
-                    logger.e('Validation errors: ${state.validationErrors}');
-                    CustomSnackbar(
-                      message: S.of(context).fix_validation_errors,
-                      theme: Theme.of(context),
-                    ).show(context);
-                  } else if (state.status == ClosetStatus.success) {
-                    logger.i('Closet created successfully.');
-                    CustomSnackbar(
-                      message: S.of(context).closet_created_successfully,
-                      theme: Theme.of(context),
-                    ).show(context);
-                    _navigateToMyCloset(context);
-                  } else if (state.status == ClosetStatus.failure && state.error != null) {
-                    logger.e('Error creating closet: ${state.error}');
-                    CustomSnackbar(
-                      message: S.of(context).error_creating_closet(state.error ?? ''),
-                      theme: Theme.of(context),
-                    ).show(context);
-                  }
-                }),
+                BlocListener<EditMultiClosetBloc, EditMultiClosetState>(
+                  listener: (context, state) {
+                    // Fetch selected items from MultiSelectionItemCubit
+                    final selectionState = context.read<MultiSelectionItemCubit>().state;
+
+                    if (selectionState.selectedItemIds.isNotEmpty) {
+                      // Case: Items are selected
+                      logger.i('Items selected. Evaluating ClosetStatus...');
+                      if (state.status == ClosetStatus.valid) {
+                        logger.i('ClosetStatus.validWithItems. Navigating to SwapCloset.');
+
+                        // Fetch metadata
+                        final metadata = context.read<EditClosetMetadataBloc>().state as EditClosetMetadataAvailable;
+
+                        // Navigate to SwapCloset
+                        Navigator.pushReplacementNamed(
+                          context,
+                          AppRoutes.swapCloset,
+                          arguments: {
+                            'closetId': metadata.metadata.closetId,
+                            'closetName': metadata.metadata.closetName,
+                            'closetType': metadata.metadata.closetType,
+                            'isPublic': metadata.metadata.isPublic,
+                            'validDate': metadata.metadata.validDate,
+                            'selectedItemIds': selectionState.selectedItemIds, // Pass selected items
+                          },
+                        );
+                      } else {
+                        logger.w('ClosetStatus is not validWithItems, cannot navigate.');
+                      }
+                    } else {
+                      // Case: No items selected
+                      logger.i('No items selected. Evaluating ClosetStatus...');
+
+                      if (state.status == ClosetStatus.valid) {
+                        logger.i('ClosetStatus.validWithoutItems. Triggering EditMultiClosetUpdate event.');
+
+                        // Fetch metadata
+                        final metadata = context.read<EditClosetMetadataBloc>().state as EditClosetMetadataAvailable;
+
+                        // Trigger EditMultiClosetUpdate event
+                        context.read<EditMultiClosetBloc>().add(EditMultiClosetUpdate(
+                          closetId: metadata.metadata.closetId,
+                          closetName: metadata.metadata.closetName,
+                          closetType: metadata.metadata.closetType,
+                          isPublic: metadata.metadata.isPublic,
+                          validDate: metadata.metadata.validDate,
+                        ));
+                      } else {
+                        logger.w('ClosetStatus is not validWithoutItems, no action taken.');
+                      }
+                    }
+
+                    // Handle success and error states
+                    if (state.status == ClosetStatus.success) {
+                      logger.i('Closet created successfully.');
+                      CustomSnackbar(
+                        message: S.of(context).closet_created_successfully,
+                        theme: Theme.of(context),
+                      ).show(context);
+                      _navigateToMyCloset(context);
+                    } else if (state.status == ClosetStatus.failure && state.validationErrors != null) {
+                      logger.e('Validation errors: ${state.validationErrors}');
+                      CustomSnackbar(
+                        message: S.of(context).fix_validation_errors,
+                        theme: Theme.of(context),
+                      ).show(context);
+                    } else if (state.status == ClosetStatus.failure && state.error != null) {
+                      logger.e('Error creating closet: ${state.error}');
+                      CustomSnackbar(
+                        message: S.of(context).error_creating_closet(state.error ?? ''),
+                        theme: Theme.of(context),
+                      ).show(context);
+                    }
+                  },
+                ),
               ],
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

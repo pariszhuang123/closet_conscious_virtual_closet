@@ -28,6 +28,7 @@ class EditMultiClosetBloc extends Bloc<EditMultiClosetEvent, EditMultiClosetStat
       closetType: event.closetType,
       validDate: event.validDate,
       isPublic: event.isPublic,
+      itemIds: event.itemIds, // Pass selected items here
     );
 
     if (errors.isNotEmpty) {
@@ -39,19 +40,11 @@ class EditMultiClosetBloc extends Bloc<EditMultiClosetEvent, EditMultiClosetStat
       return;
     }
 
-    if (event.itemIds != null && event.itemIds!.isNotEmpty) {
-      logger.i('Validation succeeded with items.');
-      emit(state.copyWith(
-        status: ClosetStatus.validWithItems,
-        validationErrors: null, // Clear previous errors
-      ));
-    } else {
-      logger.i('Validation succeeded without items.');
-      emit(state.copyWith(
-        status: ClosetStatus.validWithoutItems,
-        validationErrors: null, // Clear previous errors
-      ));
-    }
+    logger.i('Validation succeeded.');
+    emit(state.copyWith(
+      status: ClosetStatus.valid,
+      validationErrors: null, // Clear previous errors
+    ));
   }
 
   // Handle Closet Edit Event
@@ -86,6 +79,8 @@ class EditMultiClosetBloc extends Bloc<EditMultiClosetEvent, EditMultiClosetStat
     required String closetType,
     required DateTime? validDate,
     required bool? isPublic,
+    List<String>? itemIds, // Optional parameter
+
   }) {
     final errors = <String, String>{};
 
@@ -96,8 +91,10 @@ class EditMultiClosetBloc extends Bloc<EditMultiClosetEvent, EditMultiClosetStat
       errors['closetName'] = 'reservedClosetNameError'; // Key for reserved key
     }
 
-    if (validDate != null) {
-      if (validDate.isBefore(DateTime.now()) || validDate.isAtSameMomentAs(DateTime.now())) {
+    if (closetType == 'disappear') {
+      if (validDate == null) {
+        errors['validDate'] = 'validDateRequiredForDisappearCloset'; // Key for missing valid date
+      } else if (validDate.isBefore(DateTime.now()) || validDate.isAtSameMomentAs(DateTime.now())) {
         errors['validDate'] = 'dateCannotBeTodayOrEarlier'; // Key for invalid date
       }
     }

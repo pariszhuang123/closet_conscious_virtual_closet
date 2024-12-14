@@ -77,6 +77,8 @@
   "singleClosetShown": "Single Closet",
   "noClosetsFound": "No closets found",
   "public_closet": "Public",
+  "errorSavingCloset": "Error saving closet",
+  "errorFetchingClosets": "Error fetching closets",
   "itemUploaded_itemUploaded": "Item Uploaded",
   "myClosetTitle": "My Closet",
   "myOutfitTitle": "Create My Outfit",

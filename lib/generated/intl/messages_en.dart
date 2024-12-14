@@ -276,8 +276,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Oops, something went wrong."),
         "errorDeclutter": MessageLookupByLibrary.simpleMessage(
             "We couldn’t declutter right now, but don’t worry—we’ll try again soon! 🌿"),
+        "errorFetchingClosets":
+            MessageLookupByLibrary.simpleMessage("Error fetching closets"),
         "errorIncrement": MessageLookupByLibrary.simpleMessage(
             "Oops! We couldn’t record your interest. Please try again!"),
+        "errorSavingCloset":
+            MessageLookupByLibrary.simpleMessage("Error saving closet"),
         "error_creating_closet": m0,
         "event": MessageLookupByLibrary.simpleMessage("Event"),
         "everyday": MessageLookupByLibrary.simpleMessage("Everyday"),

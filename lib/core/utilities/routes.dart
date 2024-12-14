@@ -12,6 +12,7 @@ import '../../item_management/multi_closet/view_multi_closet/presentation/pages/
 import '../../item_management/multi_closet/view_multi_closet/presentation/pages/view_multi_closet_provider.dart';
 import '../../item_management/multi_closet/create_multi_closet/presentation/pages/create_multi_closet_provider.dart';
 import '../../item_management/multi_closet/edit_multi_closet/presentation/pages/edit_multi_closet_provider.dart';
+import '../../item_management/multi_closet/swap_closet/presentation/pages/swap_closet_provider.dart';
 import '../screens/webview_screen.dart';
 import '../../user_management/achievements/data/models/achievements_page_argument.dart';
 import '../../core/data/models/arguments.dart';
@@ -46,6 +47,7 @@ class AppRoutes {
   static const String viewMultiCloset = '/view_multi_closet';
   static const String createMultiCloset = '/create_multi_closet';
   static const String editMultiCloset = '/edit_multi_closet';
+  static const String swapCloset = '/swap_closet';
 
 
   static final CustomLogger logger = CustomLogger('AppRoutes');
@@ -195,6 +197,49 @@ class AppRoutes {
             ),
           ),
         );
+
+      case swapCloset:
+        logger.i("Matched route: swapCloset");
+
+        try {
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          logger.i("Parsed arguments: $args");
+
+          final String closetId = args['closetId'] as String? ?? '';
+          final String closetName = args['closetName'] as String? ?? '';
+          final String closetType = args['closetType'] as String? ?? '';
+          final bool isPublic = args['isPublic'] as bool? ?? false;
+          final DateTime validDate = args['validDate'] as DateTime; // Assume it's always DateTime
+          final List<String> selectedItemIds =
+          (args['selectedItemIds'] as List<dynamic>? ?? []).cast<String>();
+
+          logger.i("Final arguments:");
+          logger.i("closetId: $closetId");
+          logger.i("closetName: $closetName");
+          logger.i("closetType: $closetType");
+          logger.i("isPublic: $isPublic");
+          logger.i("validDate (DateTime): $validDate");
+          logger.i("selectedItemIds: $selectedItemIds");
+
+          return MaterialPageRoute(
+            builder: (_) => MultiClosetScaffold(
+              body: SwapClosetProvider(
+                closetId: closetId,
+                closetName: closetName,
+                closetType: closetType,
+                isPublic: isPublic,
+                validDate: validDate, // Pass as DateTime
+                selectedItemIds: selectedItemIds,
+              ),
+            ),
+          );
+        } catch (e, stackTrace) {
+          logger.e("Error processing swapCloset route: $e");
+          logger.e(stackTrace.toString());
+          Sentry.captureException(e, stackTrace: stackTrace);
+          // Optionally return an error page
+        }
+
       case infoHub:
         final args = settings.arguments as InfoHubArguments;
         logger.d("Navigating to infoHub with arguments: $args");
