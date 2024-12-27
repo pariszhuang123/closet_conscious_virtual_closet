@@ -18,29 +18,29 @@ class SwapClosetBloc extends Bloc<SwapClosetEvent, SwapClosetState> {
   SwapClosetBloc({required this.itemSaveService, required this.fetchService})
       : logger = CustomLogger('SwapClosetBloc'),
         super(SwapClosetInitial()) {
-    on<FetchPermanentClosetsEvent>(_onFetchPermanentClosets);
+    on<FetchAllClosetsEvent>(_onFetchAllClosets);
     on<SelectNewClosetIdEvent>(_onSelectNewClosetId);
     on<ConfirmClosetSwapEvent>(_onConfirmClosetSwap);
   }
 
-  Future<void> _onFetchPermanentClosets(
-      FetchPermanentClosetsEvent event,
+  Future<void> _onFetchAllClosets(
+      FetchAllClosetsEvent event,
       Emitter<SwapClosetState> emit,
       ) async {
-    logger.i('Fetching permanent closets...');
+    logger.i('Fetching all closets...');
     emit(state.copyWith(status: ClosetSwapStatus.loading));
 
     try {
-      final closetData = await fetchService.fetchPermanentClosets();
+      final closetData = await fetchService.fetchAllClosets();
       final closets = closetData.map((closetMap) => MultiClosetMinimal.fromMap(closetMap)).toList();
 
-      logger.i('Fetched ${closets.length} permanent closets.');
+      logger.i('Fetched ${closets.length} all closets.');
       emit(state.copyWith(
         closets: closets,
         status: ClosetSwapStatus.initial,
       ));
     } catch (error) {
-      logger.e('Error fetching permanent closets: $error');
+      logger.e('Error fetching all closets: $error');
       emit(state.copyWith(
         status: ClosetSwapStatus.failure,
         error: error.toString(),

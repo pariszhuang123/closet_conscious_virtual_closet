@@ -221,7 +221,8 @@ class ItemSaveService {
     logger.i('Editing closet: ${closetId ?? "No closetId provided"}');
 
     try {
-      final response = await SupabaseConfig.client.rpc('edit_multi_closet', params: {
+      // Sanitize the parameters by removing null or empty values
+      final sanitizedParams = {
         'p_closet_id': closetId,
         'p_closet_name': closetName,
         'p_closet_type': closetType,
@@ -229,7 +230,11 @@ class ItemSaveService {
         'p_is_public': isPublic,
         'p_item_ids': itemIds,
         'p_new_closet_id': newClosetId,
-      }).single();
+      }..removeWhere((key, value) => value == null || (value is String && value.isEmpty));
+
+      logger.i('Sanitized parameters: $sanitizedParams');
+
+      final response = await SupabaseConfig.client.rpc('edit_multi_closet', params: sanitizedParams).single();
 
       if (response['status'] == 'success') {
         logger.i('Closet edited successfully: ${response['closet_id']}');
@@ -240,27 +245,6 @@ class ItemSaveService {
       }
     } catch (e) {
       logger.e('Error editing closet: $e');
-      rethrow;
-    }
-  }
-
-  Future<Map<String, dynamic>> archiveMultiCloset(String closetId) async {
-    logger.i('Archiving closet: $closetId');
-
-    try {
-      final response = await SupabaseConfig.client.rpc('archive_multi_closet', params: {
-        'p_closet_id': closetId,
-      }).single();
-
-      if (response['status'] == 'success') {
-        logger.i('Closet archived successfully: ${response['message']}');
-        return response;
-      } else {
-        logger.e('Failed to archive closet: ${response['message']}');
-        throw Exception(response['message']);
-      }
-    } catch (e) {
-      logger.e('Error archiving closet: $e');
       rethrow;
     }
   }

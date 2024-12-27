@@ -381,7 +381,6 @@ class CoreSaveService {
     'closet_id': closetId,
       'all_closet': false,
     }).eq('user_id', userId);
-
   }
 }
 

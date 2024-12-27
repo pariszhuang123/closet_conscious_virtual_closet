@@ -20,7 +20,9 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh_CN';
 
-  static String m0(error) => "错误：${error}";
+  static String m0(closetName) => "您的消失衣橱\'${closetName}\'现已永久可用，您可以访问其所有物品！";
+
+  static String m1(error) => "错误：${error}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -131,6 +133,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "closetName": MessageLookupByLibrary.simpleMessage("衣橱名称"),
         "closetNameCannotBeEmpty":
             MessageLookupByLibrary.simpleMessage("衣橱名称不能为空"),
+        "closetReappearMessage": m0,
+        "closetReappearTitle": MessageLookupByLibrary.simpleMessage("衣橱重新出现"),
         "closetType": MessageLookupByLibrary.simpleMessage("衣橱类型"),
         "closetUploadAchievement":
             MessageLookupByLibrary.simpleMessage("虚拟衣橱已完成！"),
@@ -243,7 +247,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorIncrement":
             MessageLookupByLibrary.simpleMessage("哎呀！我们无法记录您的兴趣。请再试一次！"),
         "errorSavingCloset": MessageLookupByLibrary.simpleMessage("保存衣橱时出错"),
-        "error_creating_closet": m0,
+        "error_creating_closet": m1,
         "event": MessageLookupByLibrary.simpleMessage("活动"),
         "everyday": MessageLookupByLibrary.simpleMessage("日常"),
         "eyewear": MessageLookupByLibrary.simpleMessage("眼镜"),
@@ -254,6 +258,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "failedToSaveOutfit":
             MessageLookupByLibrary.simpleMessage("保存搭配失败，请重试。"),
         "failedToSubmitScore": MessageLookupByLibrary.simpleMessage("提交评分失败。"),
+        "fetchReappearClosets": MessageLookupByLibrary.simpleMessage("获取衣橱"),
         "filterClosetPageDescription":
             MessageLookupByLibrary.simpleMessage("按颜色、类别等整理衣橱，找到所需单品。"),
         "filterFeatureTitle": MessageLookupByLibrary.simpleMessage("快速找到心仪单品"),
@@ -407,6 +412,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("可持续的开始！"),
         "noNewClothes90AchievementMessage":
             MessageLookupByLibrary.simpleMessage("您已达成90天不买新衣的目标！继续建立环保习惯！🌱"),
+        "noReappearClosets":
+            MessageLookupByLibrary.simpleMessage("未找到重新出现的衣橱。"),
         "npsExplanation":
             MessageLookupByLibrary.simpleMessage("0-10评分:\n0: 不太可能\n10: 非常可能"),
         "npsReviewEmailBody":
@@ -601,6 +608,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "upload_upload": MessageLookupByLibrary.simpleMessage("上传"),
         "usageInsights": MessageLookupByLibrary.simpleMessage("使用情况分析"),
         "validDate": MessageLookupByLibrary.simpleMessage("有效日期"),
+        "viewClosetItemsButton": MessageLookupByLibrary.simpleMessage("查看衣橱物品"),
         "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "探索您的多衣橱选项。您可以创建一个新的多衣橱，\n从所有多衣橱中编辑物品，或对单个多衣橱进行修改。"),
         "warning": MessageLookupByLibrary.simpleMessage("警告"),

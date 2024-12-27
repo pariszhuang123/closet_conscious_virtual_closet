@@ -44,3 +44,11 @@ class FetchFirstItemSwapAchievementEvent extends NavigateItemEvent {
   @override
   List<Object?> get props => [];
 }
+
+class FetchDisappearedClosetsEvent extends NavigateItemEvent {
+
+  const FetchDisappearedClosetsEvent();
+
+  @override
+  List<Object?> get props => [];
+}

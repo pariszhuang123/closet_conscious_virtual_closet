@@ -21,7 +21,14 @@ class MultiSelectionTab extends StatelessWidget {
 
     _logger.i('Building MultiSelectionTab widgets');
 
-    return SingleChildScrollView(
+    return GestureDetector(
+        onTap: () {
+          // Dismiss the keyboard when tapping outside input fields
+          FocusScope.of(context).unfocus();
+        },
+        behavior: HitTestBehavior.translucent,
+
+        child: SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,6 +205,7 @@ class MultiSelectionTab extends StatelessWidget {
           ],
         ],
       ),
+        )
     );
   }
 }

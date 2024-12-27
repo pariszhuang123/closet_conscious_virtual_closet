@@ -20,7 +20,10 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(error) => "Error: ${error}";
+  static String m0(closetName) =>
+      "Your disappearing closet \'${closetName}\' is now permanent. You can access all its items!";
+
+  static String m1(error) => "Error: ${error}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -150,6 +153,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "closetName": MessageLookupByLibrary.simpleMessage("Closet Name"),
         "closetNameCannotBeEmpty":
             MessageLookupByLibrary.simpleMessage("Closet name cannot be empty"),
+        "closetReappearMessage": m0,
+        "closetReappearTitle":
+            MessageLookupByLibrary.simpleMessage("Closet Reappeared"),
         "closetType": MessageLookupByLibrary.simpleMessage("Closet Type"),
         "closetUploadAchievement":
             MessageLookupByLibrary.simpleMessage("Virtual Closet Complete!"),
@@ -282,7 +288,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Oops! We couldn’t record your interest. Please try again!"),
         "errorSavingCloset":
             MessageLookupByLibrary.simpleMessage("Error saving closet"),
-        "error_creating_closet": m0,
+        "error_creating_closet": m1,
         "event": MessageLookupByLibrary.simpleMessage("Event"),
         "everyday": MessageLookupByLibrary.simpleMessage("Everyday"),
         "eyewear": MessageLookupByLibrary.simpleMessage("Eyewear"),
@@ -294,6 +300,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Failed to save outfit. Please try again."),
         "failedToSubmitScore":
             MessageLookupByLibrary.simpleMessage("Failed to submit score."),
+        "fetchReappearClosets":
+            MessageLookupByLibrary.simpleMessage("View Closet"),
         "filterClosetPageDescription": MessageLookupByLibrary.simpleMessage(
             "Sort your closet by color, type, and more to find just what you need."),
         "filterFeatureTitle":
@@ -465,6 +473,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sustainable Start!"),
         "noNewClothes90AchievementMessage": MessageLookupByLibrary.simpleMessage(
             "You’ve hit 90 days without new clothes! Keep building those eco-friendly habits! 🌱"),
+        "noReappearClosets": MessageLookupByLibrary.simpleMessage(
+            "No reappeared closets found."),
         "npsExplanation": MessageLookupByLibrary.simpleMessage(
             "On a scale from 0 to 10:\n0: Not at all likely\n10: Extremely likely"),
         "npsReviewEmailBody": MessageLookupByLibrary.simpleMessage(
@@ -698,6 +708,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "validDate": MessageLookupByLibrary.simpleMessage("Valid Date"),
         "validation_error": MessageLookupByLibrary.simpleMessage(
             "Error found. Check your input."),
+        "viewClosetItemsButton":
+            MessageLookupByLibrary.simpleMessage("View Closet Items"),
         "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "Explore options for your multi-closets.\nYou can create a new multi-closet,\nedit items from all multi-closets,\nor make changes to a single multi-closet."),
         "warning": MessageLookupByLibrary.simpleMessage("Warning"),

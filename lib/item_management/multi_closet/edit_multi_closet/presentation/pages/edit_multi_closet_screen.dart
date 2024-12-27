@@ -217,18 +217,35 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                         logger.i('ClosetStatus.validWithItems. Navigating to SwapCloset.');
 
                         // Fetch metadata
-                        final metadata = context.read<EditClosetMetadataBloc>().state as EditClosetMetadataAvailable;
+                        final metadataState = context.read<EditClosetMetadataBloc>().state;
 
-                        // Navigate to SwapCloset
+                        String closetId = '';
+                        String closetName = '';
+                        String closetType = '';
+                        bool isPublic = false;
+                        DateTime validDate = DateTime.now();
+
+                        if (metadataState is EditClosetMetadataAvailable) {
+                          // Metadata is available, use actual values
+                          closetId = metadataState.metadata.closetId;
+                          closetName = metadataState.metadata.closetName;
+                          closetType = metadataState.metadata.closetType;
+                          isPublic = metadataState.metadata.isPublic;
+                          validDate = metadataState.metadata.validDate;
+                        } else {
+                          // Metadata not available, log and use blank/default values
+                          logger.w('Metadata not available. Proceeding with blank/default values.');
+                        }
+
                         Navigator.pushReplacementNamed(
                           context,
                           AppRoutes.swapCloset,
                           arguments: {
-                            'closetId': metadata.metadata.closetId,
-                            'closetName': metadata.metadata.closetName,
-                            'closetType': metadata.metadata.closetType,
-                            'isPublic': metadata.metadata.isPublic,
-                            'validDate': metadata.metadata.validDate,
+                            'closetId': closetId,
+                            'closetName': closetName,
+                            'closetType': closetType,
+                            'isPublic': isPublic,
+                            'validDate': validDate,
                             'selectedItemIds': selectionState.selectedItemIds, // Pass selected items
                           },
                         );

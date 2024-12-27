@@ -13,6 +13,8 @@ import '../../item_management/multi_closet/view_multi_closet/presentation/pages/
 import '../../item_management/multi_closet/create_multi_closet/presentation/pages/create_multi_closet_provider.dart';
 import '../../item_management/multi_closet/edit_multi_closet/presentation/pages/edit_multi_closet_provider.dart';
 import '../../item_management/multi_closet/swap_closet/presentation/pages/swap_closet_provider.dart';
+import '../../item_management/multi_closet/reappear_closet/presentation/pages/reappear_closet_provider.dart';
+
 import '../screens/webview_screen.dart';
 import '../../user_management/achievements/data/models/achievements_page_argument.dart';
 import '../../core/data/models/arguments.dart';
@@ -48,6 +50,7 @@ class AppRoutes {
   static const String createMultiCloset = '/create_multi_closet';
   static const String editMultiCloset = '/edit_multi_closet';
   static const String swapCloset = '/swap_closet';
+  static const String reappearCloset = '/reappear_closet';
 
 
   static final CustomLogger logger = CustomLogger('AppRoutes');
@@ -187,15 +190,22 @@ class AppRoutes {
           ),
         );
       case editMultiCloset:
+        logger.i('Navigating to $editMultiCloset with arguments: ${settings.arguments}');
+
         final args = settings.arguments as Map<String, dynamic>? ?? {};
         final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
 
+        logger.d('Parsed arguments -> selectedItemIds: $selectedItemIds');
+
         return MaterialPageRoute(
-          builder: (_) => MultiClosetScaffold(
-            body: EditMultiClosetProvider(
-              selectedItemIds: selectedItemIds,
-            ),
-          ),
+          builder: (_) {
+            logger.i('Building MultiClosetScaffold with EditMultiClosetProvider.');
+            return MultiClosetScaffold(
+              body: EditMultiClosetProvider(
+                selectedItemIds: selectedItemIds,
+              ),
+            );
+          },
         );
 
       case swapCloset:
@@ -209,7 +219,7 @@ class AppRoutes {
           final String closetName = args['closetName'] as String? ?? '';
           final String closetType = args['closetType'] as String? ?? '';
           final bool isPublic = args['isPublic'] as bool? ?? false;
-          final DateTime validDate = args['validDate'] as DateTime; // Assume it's always DateTime
+          final DateTime validDate = args['validDate'] as DateTime? ?? DateTime.now();
           final List<String> selectedItemIds =
           (args['selectedItemIds'] as List<dynamic>? ?? []).cast<String>();
 
@@ -239,6 +249,25 @@ class AppRoutes {
           Sentry.captureException(e, stackTrace: stackTrace);
           // Optionally return an error page
         }
+
+      case AppRoutes.reappearCloset:
+        logger.i('Navigating to $reappearCloset with arguments: ${settings.arguments}');
+
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+
+        final closetId = args['closetId'] as String? ?? '';
+        final closetName = args['closetName'] as String? ?? 'Unnamed Closet';
+        final closetImage = args['closetImage'] as String? ?? '';
+
+        logger.d('Parsed arguments -> closetId: $closetId, closetName: $closetName, closetImage: $closetImage');
+
+        return MaterialPageRoute(
+          builder: (_) => ReappearClosetProvider(
+            closetId: closetId,
+            closetName: closetName,
+            closetImage: closetImage,
+          ),
+        );
 
       case infoHub:
         final args = settings.arguments as InfoHubArguments;

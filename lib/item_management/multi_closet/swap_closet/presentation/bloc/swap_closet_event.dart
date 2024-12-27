@@ -7,7 +7,7 @@ abstract class SwapClosetEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FetchPermanentClosetsEvent extends SwapClosetEvent {}
+class FetchAllClosetsEvent extends SwapClosetEvent {}
 
 class SelectNewClosetIdEvent extends SwapClosetEvent {
   final String newClosetId;
@@ -19,22 +19,22 @@ class SelectNewClosetIdEvent extends SwapClosetEvent {
 }
 
 class ConfirmClosetSwapEvent extends SwapClosetEvent {
-  final String currentClosetId;
+  final String? currentClosetId;
   final String newClosetId;
   final List<String> selectedItemIds;
-  final String closetName;
-  final String closetType;
-  final bool isPublic;
-  final DateTime validDate;
+  final String? closetName;
+  final String? closetType;
+  final bool? isPublic;
+  final DateTime? validDate;
 
   const ConfirmClosetSwapEvent({
-    required this.currentClosetId,
+    this.currentClosetId,
     required this.newClosetId,
     required this.selectedItemIds,
-    required this.closetName,
-    required this.closetType,
-    required this.isPublic,
-    required this.validDate,
+    this.closetName,
+    this.closetType,
+    this.isPublic,
+    this.validDate,
   });
 
   @override

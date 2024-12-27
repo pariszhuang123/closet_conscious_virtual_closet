@@ -135,7 +135,7 @@ class FeatureDataList {
         isUsageFeature: true,
         parts: [
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/view_closet.jpg',
             getDescription: (context) => S.of(context).editClosetBronzeDescription,
           ),
         ],
@@ -146,7 +146,7 @@ class FeatureDataList {
         isUsageFeature: true,
         parts: [
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/view_closet.jpg',
             getDescription: (context) => S.of(context).editClosetSilverDescription,
           ),
         ],
@@ -157,7 +157,7 @@ class FeatureDataList {
         isUsageFeature: true,
         parts: [
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/view_closet.jpg',
             getDescription: (context) => S.of(context).editClosetGoldDescription,
           ),
         ],
@@ -221,21 +221,22 @@ class FeatureDataList {
         isUsageFeature: false,
         parts: [
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/filter_basic.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/view_closet.jpg',
             getDescription: (context) => S.of(context).viewMultiClosetDescription,
           ),
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/filter_advance.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/create_closet.jpg',
             getDescription: (context) => S.of(context).createMultiClosetDescription,
           ),
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/filter_closet.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/swap_closet.jpg',
             getDescription: (context) => S.of(context).editSingleMultiClosetDescription,
           ),
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/filter_outfit.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_all_closet.jpg',
             getDescription: (context) => S.of(context).editAllMultiClosetDescription,
           ),
+
         ],
       ),
 

@@ -10,23 +10,23 @@ import '../../../../core/data/items_enums.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
 
 class SwapClosetScreen extends StatelessWidget {
-  final String currentClosetId;
+  final String? currentClosetId;
   final List<String> selectedItemIds;
-  final String closetName;
-  final String closetType;
-  final bool isPublic;
-  final DateTime validDate; // Keep validDate as DateTime
+  final String? closetName;
+  final String? closetType;
+  final bool? isPublic;
+  final DateTime? validDate; // Keep validDate as DateTime
 
   final CustomLogger logger = CustomLogger('SwapClosetScreen');
 
   SwapClosetScreen({
     super.key,
-    required this.currentClosetId,
+    this.currentClosetId,
     required this.selectedItemIds,
-    required this.closetName,
-    required this.closetType,
-    required this.isPublic,
-    required this.validDate,
+    this.closetName,
+    this.closetType,
+    this.isPublic,
+    this.validDate,
   }) {
     logger.i('SwapClosetScreen initialized with:');
     logger.i('selectedItemIds: $selectedItemIds');
@@ -67,7 +67,7 @@ class SwapClosetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Trigger the fetch closets event when the widget builds
-    context.read<SwapClosetBloc>().add(FetchPermanentClosetsEvent());
+    context.read<SwapClosetBloc>().add(FetchAllClosetsEvent());
 
     return Scaffold(
       body: BlocListener<SwapClosetBloc, SwapClosetState>(

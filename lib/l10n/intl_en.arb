@@ -405,5 +405,10 @@
   "archiveWarning": "Are you sure you want to archive this closet?\nAll items will be moved back to your main closet.",
   "archive": "Archive",
   "archiveClosetDescription": "Archiving this closet will return all items to your main closet.\n\nThis action cannot be undone.",
-  "failedToLoadMetadata": "Failed to load closet metadata.\nPlease try again."
+  "failedToLoadMetadata": "Failed to load closet metadata.\nPlease try again.",
+  "closetReappearTitle": "Closet Reappeared",
+  "closetReappearMessage": "Your disappearing closet '{closetName}' is now permanent. You can access all its items!",
+  "viewClosetItemsButton": "View Closet Items",
+  "fetchReappearClosets": "View Closet",
+  "noReappearClosets": "No reappeared closets found."
 }

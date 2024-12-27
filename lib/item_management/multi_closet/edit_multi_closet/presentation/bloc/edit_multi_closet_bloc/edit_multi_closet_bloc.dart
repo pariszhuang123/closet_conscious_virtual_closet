@@ -16,6 +16,17 @@ class EditMultiClosetBloc extends Bloc<EditMultiClosetEvent, EditMultiClosetStat
     logger.i('Initializing CreateMultiClosetBloc');
     on<EditMultiClosetValidate>(_onEditMultiClosetValidate); // Handle validation
     on<EditMultiClosetUpdate>(_onEditMultiClosetUpdate); // Handle closet creation
+    on<EditMultiClosetSkipValidation>(_onEditMultiClosetSkipValidation); // Handle skipping validation
+  }
+
+  // Handle Skip Validation Event
+  void _onEditMultiClosetSkipValidation(
+      EditMultiClosetSkipValidation event, Emitter<EditMultiClosetState> emit) {
+    logger.i('Skipping validation as metadata is hidden.');
+    emit(state.copyWith(
+      status: ClosetStatus.valid,
+      validationErrors: null, // Clear any validation errors
+    ));
   }
 
   // Handle Validation Event

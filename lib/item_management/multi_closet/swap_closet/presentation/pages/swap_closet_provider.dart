@@ -10,22 +10,22 @@ import 'swap_closet_screen.dart';
 
 class SwapClosetProvider extends StatelessWidget {
   final List<String> selectedItemIds;
-  final String closetId;
-  final String closetName;
-  final String closetType;
-  final bool isPublic;
-  final DateTime validDate; // Keep validDate as DateTime
+  final String? closetId;
+  final String? closetName;
+  final String? closetType;
+  final bool? isPublic;
+  final DateTime? validDate; // Keep validDate as DateTime
 
   final CustomLogger logger = CustomLogger('SwapClosetProvider');
 
   SwapClosetProvider({
     super.key,
     required this.selectedItemIds,
-    required this.closetId,
-    required this.closetName,
-    required this.closetType,
-    required this.isPublic,
-    required this.validDate,
+    this.closetId,
+    this.closetName,
+    this.closetType,
+    this.isPublic,
+    this.validDate,
   }) {
     logger.i('SwapClosetProvider initialized with:');
     logger.i('selectedItemIds: $selectedItemIds');

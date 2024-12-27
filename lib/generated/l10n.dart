@@ -4109,6 +4109,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Closet Reappeared`
+  String get closetReappearTitle {
+    return Intl.message(
+      'Closet Reappeared',
+      name: 'closetReappearTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your disappearing closet '{closetName}' is now permanent. You can access all its items!`
+  String closetReappearMessage(Object closetName) {
+    return Intl.message(
+      'Your disappearing closet \'$closetName\' is now permanent. You can access all its items!',
+      name: 'closetReappearMessage',
+      desc: '',
+      args: [closetName],
+    );
+  }
+
+  /// `View Closet Items`
+  String get viewClosetItemsButton {
+    return Intl.message(
+      'View Closet Items',
+      name: 'viewClosetItemsButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View Closet`
+  String get fetchReappearClosets {
+    return Intl.message(
+      'View Closet',
+      name: 'fetchReappearClosets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No reappeared closets found.`
+  String get noReappearClosets {
+    return Intl.message(
+      'No reappeared closets found.',
+      name: 'noReappearClosets',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

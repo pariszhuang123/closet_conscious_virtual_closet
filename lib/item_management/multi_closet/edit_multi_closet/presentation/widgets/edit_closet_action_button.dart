@@ -54,7 +54,11 @@ class EditClosetActionButton extends StatelessWidget {
         child: ThemedElevatedButton(
           text: text,
           onPressed: () {
-            if (metadataState is EditClosetMetadataAvailable) {
+            if (metadataState is EditClosetMetadataHidden) {
+              // If hidden, emit ClosetStatus.valid directly
+              context.read<EditMultiClosetBloc>().add(EditMultiClosetSkipValidation());
+            } else if (metadataState is EditClosetMetadataAvailable) {
+              // Perform validation for available metadata
               context.read<EditMultiClosetBloc>().add(EditMultiClosetValidate(
                 closetName: metadataState.metadata.closetName,
                 closetType: metadataState.metadata.closetType,

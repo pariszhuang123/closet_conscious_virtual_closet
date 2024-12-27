@@ -46,3 +46,4 @@ class EditMultiClosetUpdate extends EditMultiClosetEvent {
       [closetName, closetType, isPublic, validDate, closetId];
 }
 
+class EditMultiClosetSkipValidation extends EditMultiClosetEvent {}

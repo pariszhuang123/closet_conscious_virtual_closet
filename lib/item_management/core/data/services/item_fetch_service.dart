@@ -295,6 +295,31 @@ class ItemFetchService {
       rethrow; // Re-throw the error to be handled upstream
     }
   }
+
+  Future<List<Map<String, dynamic>>> updateDisappearedClosets() async {
+    try {
+      final response = await Supabase.instance.client
+          .rpc('update_disappeared_closets');
+
+      if (response.error != null) {
+        throw Exception('Error: ${response.error?.message}');
+      }
+
+      final data = response.data as List<dynamic>;
+
+      if (data.isNotEmpty) {
+        logger.i('Updated closets: $data');
+        return List<Map<String, dynamic>>.from(data);
+      } else {
+        logger.i('No closets to update.');
+        return [];
+      }
+    } catch (error) {
+      logger.e('Error updating disappeared closets: $error');
+      return [];
+    }
+  }
+
 }
 
 class ItemFetchException implements Exception {

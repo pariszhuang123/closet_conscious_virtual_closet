@@ -394,6 +394,7 @@
   "validDate": "有效日期",
   "pleaseEnterValidDate": "请输入有效日期",
   "archiveCloset": "归档衣橱",
+  "archiveClosetTitle": "归档衣橱",
   "selectAll": "全选",
   "dateCannotBeTodayOrEarlier": "选择的日期不能是今天或更早的日期。",
   "invalidMonthsValue": "无效的月份值。",
@@ -404,5 +405,10 @@
   "archiveWarning": "您确定要归档此衣橱吗？所有物品将被移回您的主衣橱。",
   "archive": "归档",
   "archiveClosetDescription": "归档此衣橱会将所有物品移回您的主衣橱。\n\n此操作无法撤销。",
-  "failedToLoadMetadata": "无法加载衣橱元数据，请重试。"
+  "failedToLoadMetadata": "无法加载衣橱元数据，请重试。",
+  "closetReappearTitle": "衣橱重新出现",
+  "closetReappearMessage": "您的消失衣橱'{closetName}'现已永久可用，您可以访问其所有物品！",
+  "viewClosetItemsButton": "查看衣橱物品",
+  "fetchReappearClosets": "获取衣橱",
+  "noReappearClosets": "未找到重新出现的衣橱。"
 }

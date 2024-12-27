@@ -254,6 +254,17 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                 ),
               );
             }
+            if (state is FetchDisappearedClosetsSuccessState) {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.reappearCloset,
+                arguments: {
+                  'closetId': state.closetId,
+                  'closetName': state.closetName,
+                  'closetImage': state.closetImage,
+                },
+              );
+            }
           },
         ),
         BlocListener<UploadStreakBloc, UploadStreakState>(

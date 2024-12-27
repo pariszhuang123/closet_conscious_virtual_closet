@@ -84,6 +84,27 @@ class FetchFirstItemSwapMilestoneSuccessState extends NavigateItemState {
   List<Object?> get props => [badgeUrl, achievementName];
 }
 
+class FetchDisappearedClosetsInProgressState extends NavigateItemState {
+  @override
+  List<Object?> get props => [];
+}
+
+class FetchDisappearedClosetsSuccessState extends NavigateItemState {
+  final String closetId;
+  final String closetImage;
+  final String closetName;
+
+  const FetchDisappearedClosetsSuccessState({
+    required this.closetId,
+    required this.closetImage,
+    required this.closetName,
+  });
+
+  @override
+  List<Object?> get props => [closetId, closetImage, closetName];
+}
+
+
 // New failure state for handling errors in achievement fetch or save
 class NavigateItemFailureState extends NavigateItemState {
   final String error;

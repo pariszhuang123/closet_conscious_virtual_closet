@@ -26,6 +26,7 @@ class NavigateItemBloc extends Bloc<NavigateItemEvent, NavigateItemState> {
     on<FetchFirstItemGiftedAchievementEvent>(_onFetchFirstItemGiftedAchievement);
     on<FetchFirstItemSoldAchievementEvent>(_onFetchFirstItemSoldAchievement);
     on<FetchFirstItemSwapAchievementEvent>(_onFetchFirstItemSwapAchievement);
+    on<FetchDisappearedClosetsEvent>(_onFetchDisappearedClosets);
   }
 
   Future<void> _onFetchFirstItemUploadedAchievement(
@@ -96,6 +97,38 @@ class NavigateItemBloc extends Bloc<NavigateItemEvent, NavigateItemState> {
       }
     } catch (error) {
       logger.e('Error fetching $achievementType milestone: $error');
+    }
+  }
+
+  Future<void> _onFetchDisappearedClosets(
+      FetchDisappearedClosetsEvent event,
+      Emitter<NavigateItemState> emit,
+      ) async {
+    emit(FetchDisappearedClosetsInProgressState());
+
+    try {
+      final updatedClosets = await itemFetchService.updateDisappearedClosets();
+
+      if (updatedClosets.isNotEmpty) {
+        // Extract details of the first closet from the response
+        final firstCloset = updatedClosets.first;
+        final closetId = firstCloset['closet_id'] as String;
+        final closetImage = firstCloset['closet_image'] as String;
+        final closetName = firstCloset['closet_name'] as String;
+
+        logger.i('Successfully updated closet: $closetId');
+        emit(FetchDisappearedClosetsSuccessState(
+          closetId: closetId,
+          closetImage: closetImage,
+          closetName: closetName,
+        ));
+      } else {
+        logger.i('No closets were updated.');
+        emit(const NavigateItemFailureState(error: 'No closets to update.'));
+      }
+    } catch (error) {
+      logger.e('Error fetching disappeared closets: $error');
+      emit(NavigateItemFailureState(error: error.toString()));
     }
   }
 

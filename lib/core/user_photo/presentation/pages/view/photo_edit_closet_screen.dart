@@ -82,14 +82,8 @@ class PhotoEditClosetScreenState extends State<PhotoEditClosetScreen> with Widge
   void _navigateToEditCloset() {
     widget._logger.d('Navigating to Edit Item');
     _navigateSafely (
-      AppRoutes.editMultiCloset,
-      arguments: widget.closetId,
+      AppRoutes.editMultiCloset
     );
-  }
-
-  void _navigateToMyCloset() {
-    widget._logger.d('Navigating to MyCloset');
-    _navigateSafely (AppRoutes.myCloset);
   }
 
   @override
@@ -201,7 +195,7 @@ class PhotoEditClosetScreenState extends State<PhotoEditClosetScreen> with Widge
                 _navigateToEditCloset();
               } else if (state is EditClosetCaptureSuccess) {
                 widget._logger.i('Photo upload succeeded with closetId: ${state.closetId}');
-                _navigateToMyCloset();
+                _navigateToEditCloset();
               }
             },
           ),
