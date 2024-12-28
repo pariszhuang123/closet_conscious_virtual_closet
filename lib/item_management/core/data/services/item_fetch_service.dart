@@ -301,18 +301,17 @@ class ItemFetchService {
       final response = await Supabase.instance.client
           .rpc('update_disappeared_closets');
 
-      if (response.error != null) {
-        throw Exception('Error: ${response.error?.message}');
-      }
-
-      final data = response.data as List<dynamic>;
-
-      if (data.isNotEmpty) {
-        logger.i('Updated closets: $data');
-        return List<Map<String, dynamic>>.from(data);
+      if (response is List<dynamic>) {
+        if (response.isNotEmpty) {
+          logger.i('Updated closets: $response');
+          return List<Map<String, dynamic>>.from(response);
+        } else {
+          logger.i('No closets to update.');
+          return [];
+        }
       } else {
-        logger.i('No closets to update.');
-        return [];
+        // Handle unexpected response structure.
+        throw Exception('Unexpected response type: ${response.runtimeType}');
       }
     } catch (error) {
       logger.e('Error updating disappeared closets: $error');

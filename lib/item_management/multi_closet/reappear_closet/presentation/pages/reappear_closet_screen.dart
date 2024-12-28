@@ -30,57 +30,67 @@ class ReappearClosetScreen extends StatelessWidget {
 
     final theme = Theme.of(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).closetReappearTitle),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Display the closet image using UserPhoto
-            if (closetImage.isNotEmpty)
-              UserPhoto(
-                imageUrl: closetImage,
-                imageSize: ImageSize.selfie, // Choose appropriate size
-              )
-            else
-              const Icon(Icons.image_not_supported, size: 150),
-            const SizedBox(height: 20),
+    return PopScope<Object?>(
+      canPop: false, // Disable the ability to pop this screen
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (didPop) {
+          // Log that the user attempted to go back
+          _logger.w('Back navigation attempt detected.');
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false, // Remove the back icon
+          title: Text(S.of(context).closetReappearTitle),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // Display the closet image using UserPhoto
+              if (closetImage.isNotEmpty)
+                UserPhoto(
+                  imageUrl: closetImage,
+                  imageSize: ImageSize.selfie, // Choose appropriate size
+                )
+              else
+                const Icon(Icons.image_not_supported, size: 150),
+              const SizedBox(height: 20),
 
-            // Dynamic message with closet name
-            Text(
-              S.of(context).closetReappearMessage(closetName),
-              style: theme.textTheme.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
+              // Dynamic message with closet name
+              Text(
+                S.of(context).closetReappearMessage(closetName),
+                style: theme.textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
 
-            // Button to view closet items
-            ThemedElevatedButton(
-              onPressed: () {
-                _logger.d('View Closet Items button clicked for closetId: $closetId');
+              // Button to view closet items
+              ThemedElevatedButton(
+                onPressed: () {
+                  _logger.d('View Closet Items button clicked for closetId: $closetId');
 
-                // Dispatch event to update shared preferences
-                context.read<ReappearClosetBloc>().add(
-                    UpdateReappearClosetSharedPreferenceEvent(
-                        closetId: closetId));
+                    // Dispatch event to update shared preferences
+                    context.read<ReappearClosetBloc>().add(
+                        UpdateReappearClosetSharedPreferenceEvent(
+                            closetId: closetId));
 
-                _logger.i('Dispatched UpdateReappearClosetSharedPreferenceEvent for closetId: $closetId');
+                    _logger.i('Dispatched UpdateReappearClosetSharedPreferenceEvent for closetId: $closetId');
 
-                // Navigate to myCloset
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.myCloset,
-                );
+                    // Navigate to myCloset
+                    Navigator.pushReplacementNamed(
+                      context,
+                      AppRoutes.myCloset,
+                    );
 
-                _logger.i('Navigated to MyCloset screen.');
-              },
-              text: S.of(context).viewClosetItemsButton,
-            ),
-          ],
+                    _logger.i('Navigated to MyCloset screen.');
+                },
+                text: S.of(context).viewClosetItemsButton,
+              ),
+            ],
+          ),
         ),
       ),
     );
