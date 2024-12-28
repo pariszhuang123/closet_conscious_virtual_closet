@@ -48,6 +48,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     _triggerItemGiftedAchievement();
     _triggerItemSoldAchievement();
     _triggerItemSwapAchievement();
+    _triggerDisappearingClosetPermanent();
     context.read<UploadStreakBloc>().add(CheckUploadStatus());
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
@@ -100,6 +101,11 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   void _triggerItemSwapAchievement() {
     logger.i('Checking if Item Swap Milestone is successful');
     context.read<NavigateItemBloc>().add(const FetchFirstItemSwapAchievementEvent());
+  }
+
+  void _triggerDisappearingClosetPermanent() {
+    logger.i('Checking if Disappearing Closet becomes permanent is successful');
+    context.read<NavigateItemBloc>().add(const FetchDisappearedClosetsEvent());
   }
 
   void _onUploadButtonPressed() {
