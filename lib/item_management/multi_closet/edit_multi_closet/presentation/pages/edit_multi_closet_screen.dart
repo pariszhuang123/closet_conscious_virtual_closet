@@ -298,7 +298,18 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                     }
                   },
                 ),
-              ],
+                BlocListener<EditClosetMetadataBloc, EditClosetMetadataState>(
+                    listener: (context, metadataState) {
+                      if (metadataState is EditClosetMetadataAvailable) {
+                        // If the new closetName is different from what’s in the controller,
+                        // update it here (outside of build()).
+                        final newName = metadataState.metadata.closetName;
+                        if (closetNameController.text != newName) {
+                          closetNameController.text = newName;
+                        }
+                      }
+                    },
+                )],
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -336,12 +347,14 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  BlocBuilder<EditClosetMetadataBloc,
-                      EditClosetMetadataState>(
+              BlocBuilder<EditMultiClosetBloc, EditMultiClosetState>(
+                builder: (context, multiClosetState) {
+                  // Pull out the validationErrors from EditMultiClosetBloc state:
+                  final validationErrors = multiClosetState.validationErrors;
+
+                  return BlocBuilder<EditClosetMetadataBloc, EditClosetMetadataState>(
                     builder: (context, metadataState) {
                       if (metadataState is EditClosetMetadataAvailable) {
-                        closetNameController.text =
-                            metadataState.metadata.closetName;
                         return Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -354,22 +367,20 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                                   _navigateToPhotoProvider();
                                 } else {
                                   CustomSnackbar(
-                                    message: S
-                                        .of(context)
-                                        .unsavedChangesMessage,
+                                    message: S.of(context).unsavedChangesMessage,
                                     theme: Theme.of(context),
                                   ).show(context);
                                 }
                               },
                             ),
                             const SizedBox(width: 5),
-                            // Spacing between the photo and metadata editor
 
                             // Edit Closet Metadata on the Right
                             Expanded(
                               child: EditMultiClosetMetadata(
                                 closetNameController: closetNameController,
                                 theme: theme,
+                                // Pass the multiClosetState's validationErrors here
                                 errorKeys: validationErrors,
                               ),
                             ),
@@ -387,7 +398,9 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                       }
                       return const SizedBox.shrink();
                     },
-                  ),
+                  );
+                },
+              ),
                   const SizedBox(height: 16),
                   Expanded(
                     child: BlocBuilder<ViewItemsBloc, ViewItemsState>(
