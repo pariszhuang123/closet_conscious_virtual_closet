@@ -91,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "archiveCloset": MessageLookupByLibrary.simpleMessage("归档衣橱"),
         "archiveClosetDescription": MessageLookupByLibrary.simpleMessage(
             "归档此衣橱会将所有物品移回您的主衣橱。\n\n此操作无法撤销。"),
+        "archiveClosetTitle": MessageLookupByLibrary.simpleMessage("归档衣橱"),
         "archiveSuccessMessage":
             MessageLookupByLibrary.simpleMessage("您的衣橱已成功归档。所有物品已移回主衣橱。"),
         "archiveWarning":
@@ -296,6 +297,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("自拍明星！"),
         "firstSelfieTakenAchievementMessage":
             MessageLookupByLibrary.simpleMessage("你拍下了第一张自拍！展示你的风格，让你的衣橱闪耀吧！"),
+        "fix_validation_errors":
+            MessageLookupByLibrary.simpleMessage("修正错误以继续。"),
         "formal": MessageLookupByLibrary.simpleMessage("正式"),
         "general_permission_explanation":
             MessageLookupByLibrary.simpleMessage("我们需要此权限以使应用正常工作。"),
@@ -608,6 +611,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "upload_upload": MessageLookupByLibrary.simpleMessage("上传"),
         "usageInsights": MessageLookupByLibrary.simpleMessage("使用情况分析"),
         "validDate": MessageLookupByLibrary.simpleMessage("有效日期"),
+        "validation_error": MessageLookupByLibrary.simpleMessage("发现错误。请检查输入。"),
         "viewClosetItemsButton": MessageLookupByLibrary.simpleMessage("查看衣橱物品"),
         "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "探索您的多衣橱选项。您可以创建一个新的多衣橱，\n从所有多衣橱中编辑物品，或对单个多衣橱进行修改。"),

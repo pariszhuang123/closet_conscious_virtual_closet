@@ -68,6 +68,23 @@ class EditMultiClosetMetadataState extends State<EditMultiClosetMetadata> {
     super.dispose();
   }
 
+  String? _getLocalizedErrorMessage(String? errorKey) {
+    if (errorKey == null) return null;
+
+    switch (errorKey) {
+      case 'closetNameCannotBeEmpty':
+        return S.of(context).closetNameCannotBeEmpty;
+      case 'reservedClosetNameError':
+        return S.of(context).reservedClosetNameError;
+      case 'validDateRequiredForDisappearCloset':
+        return S.of(context).pleaseEnterValidDate;
+      case 'dateCannotBeTodayOrEarlier':
+        return S.of(context).dateCannotBeTodayOrEarlier;
+      default:
+        return null; // Fallback for unknown error keys
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +109,7 @@ class EditMultiClosetMetadataState extends State<EditMultiClosetMetadata> {
                     hintStyle: widget.theme.textTheme.bodyMedium,
                     focusedBorderColor: widget.theme.colorScheme.primary,
                     enabledBorderColor: widget.theme.colorScheme.secondary,
-                    errorText: widget.errorKeys?['closetName'],
+                    errorText: _getLocalizedErrorMessage(widget.errorKeys?['closetName']),
                     onChanged: (value) {
                       _logger.d('Closet name changed: $value');
                       context.read<EditClosetMetadataBloc>().add(
@@ -141,7 +158,7 @@ class EditMultiClosetMetadataState extends State<EditMultiClosetMetadata> {
                       hintStyle: widget.theme.textTheme.bodyMedium,
                       focusedBorderColor: widget.theme.colorScheme.primary,
                       enabledBorderColor: widget.theme.colorScheme.secondary,
-                      errorText: widget.errorKeys?['validDate'],
+                      errorText: _getLocalizedErrorMessage(widget.errorKeys?['validDate']),
                       keyboardType: TextInputType.none,
                       onChanged: (_) {},
                       onTap: () async {
