@@ -207,20 +207,26 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                   ),
                   const SizedBox(height: 10),
 
-                  BlocBuilder<UpdateClosetMetadataCubit, UpdateClosetMetadataState>(
-                    builder: (context, metadataState) {
-                      closetNameController.text = metadataState.closetName;
-                      monthsController.text = metadataState.monthsLater?.toString() ?? '';
-                      return CreateMultiClosetMetadata(
-                        closetNameController: closetNameController,
-                        monthsController: monthsController,
-                        closetType: metadataState.closetType,
-                        isPublic: metadataState.isPublic ?? false,
-                        theme: theme,
-                        errorKeys: validationErrors, // Pass validation errors
+                  BlocBuilder<CreateMultiClosetBloc, CreateMultiClosetState>(
+                    builder: (context, createClosetState) {
+                      validationErrors = createClosetState.validationErrors ?? {};
+                      return BlocBuilder<UpdateClosetMetadataCubit, UpdateClosetMetadataState>(
+                        builder: (context, metadataState) {
+                          closetNameController.text = metadataState.closetName;
+                          monthsController.text = metadataState.monthsLater?.toString() ?? '';
+                          return CreateMultiClosetMetadata(
+                            closetNameController: closetNameController,
+                            monthsController: monthsController,
+                            closetType: metadataState.closetType,
+                            isPublic: metadataState.isPublic ?? false,
+                            theme: theme,
+                            errorKeys: validationErrors, // Pass validation errors from the bloc state
+                          );
+                        },
                       );
                     },
                   ),
+
                   const SizedBox(height: 16),
 
                   // Item Grid

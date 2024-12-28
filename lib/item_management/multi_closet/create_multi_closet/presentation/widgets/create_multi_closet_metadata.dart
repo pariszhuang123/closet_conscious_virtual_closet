@@ -8,15 +8,13 @@ import '../widgets/public_private_toggle.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../core/presentation/bloc/update_closet_metadata_cubit/update_closet_metadata_cubit.dart';
 
-class CreateMultiClosetMetadata extends StatelessWidget {
+class CreateMultiClosetMetadata extends StatefulWidget  {
   final TextEditingController closetNameController;
   final TextEditingController? monthsController;
   final String closetType; // 'permanent' or 'disappear'
   final bool isPublic; // true for public, false for private
   final ThemeData theme;
   final Map<String, String>? errorKeys;
-
-  static final CustomLogger _logger = CustomLogger('CreateMultiClosetMetadata');
 
   const CreateMultiClosetMetadata({
     super.key,
@@ -29,9 +27,47 @@ class CreateMultiClosetMetadata extends StatelessWidget {
   });
 
   @override
+  CreateMultiClosetMetadataState createState() => CreateMultiClosetMetadataState();
+}
+
+class CreateMultiClosetMetadataState extends State<CreateMultiClosetMetadata> {
+  late String closetType;
+  late bool isPublic;
+  late Map<String, String> errorKeys;
+  static final CustomLogger _logger = CustomLogger('CreateMultiClosetMetadata');
+
+
+  @override
+  void initState() {
+    super.initState();
+    closetType = widget.closetType;
+    isPublic = widget.isPublic;
+    errorKeys = widget.errorKeys ?? {};
+  }
+
+  String? _getLocalizedErrorMessage(String? errorKey) {
+    if (errorKey == null) return null;
+
+    switch (errorKey) {
+      case 'closetNameCannotBeEmpty':
+        return S.of(context).closetNameCannotBeEmpty;
+      case 'reservedClosetNameError':
+        return S.of(context).reservedClosetNameError;
+      case 'publicPrivateSelectionRequired':
+        return S.of(context).publicPrivateSelectionRequired;
+      case 'invalidMonthsValue':
+        return S.of(context).invalidMonthsValue;
+      case 'monthsCannotExceed12':
+        return S.of(context).monthsCannotExceed12;
+      default:
+        return S.of(context).unknownError;
+    }
+  }
+
+@override
   Widget build(BuildContext context) {
     _logger.i('Rendering CreateMultiClosetMetadata widget');
-    _logger.i('Error keys passed: $errorKeys'); // Log the errors for debugging
+    _logger.i('Error keys passed: ${widget.errorKeys}'); // Log the errors for debugging
 
     return BlocBuilder<UpdateClosetMetadataCubit, UpdateClosetMetadataState>(
       builder: (context, metadataState) {
@@ -45,18 +81,17 @@ class CreateMultiClosetMetadata extends StatelessWidget {
               children: [
                 // Closet Name Input
                 CustomTextFormField(
-                  controller: closetNameController,
+                  controller: widget.closetNameController,
                   labelText: S.of(context).closetName,
                   hintText: S.of(context).enterClosetName,
-                  labelStyle: theme.textTheme.bodyMedium,
-                  hintStyle: theme.textTheme.bodyMedium,
-                  focusedBorderColor: theme.colorScheme.primary,
-                  enabledBorderColor: theme.colorScheme.secondary,
+                  labelStyle: widget.theme.textTheme.bodyMedium,
+                  hintStyle: widget.theme.textTheme.bodyMedium,
+                  focusedBorderColor: widget.theme.colorScheme.primary,
+                  enabledBorderColor: widget.theme.colorScheme.secondary,
                   keyboardType: TextInputType.text,
-                  errorText: errorKeys?['closetName'],
+                  errorText: _getLocalizedErrorMessage(widget.errorKeys?['closetName']),
                   onChanged: (value) {
                     _logger.d('Closet name changed: $value');
-                    _logger.d('ClosetName errorKey: ${errorKeys?['closetName']}');
                     context.read<UpdateClosetMetadataCubit>().updateClosetName(value);
                   },
                 ),
@@ -71,12 +106,12 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                     context.read<UpdateClosetMetadataCubit>().updateClosetType(closetType);
                   },
                 ),
-                if (errorKeys?['closetType'] != null) // Show closet type error if present
+                if (errorKeys['closetType'] != null) // Show closet type error if present
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
-                      _translateError(errorKeys!['closetType']!, context),
-                      style: TextStyle(color: theme.colorScheme.error),
+                      _getLocalizedErrorMessage(widget.errorKeys!['closetType']) ?? '',
+                      style: TextStyle(color: widget.theme.colorScheme.error),
                     ),
                   ),
                 const SizedBox(height: 8),
@@ -90,37 +125,25 @@ class CreateMultiClosetMetadata extends StatelessWidget {
                       context.read<UpdateClosetMetadataCubit>().updateIsPublic(isPublic);
                     },
                   ),
-                  if (errorKeys?['isPublic'] != null)
+                  if (errorKeys['isPublic'] != null)
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        _translateError(errorKeys!['isPublic']!, context),
-                        style: TextStyle(color: theme.colorScheme.error),
+                        _getLocalizedErrorMessage(widget.errorKeys!['isPublic']) ?? '',
+                        style: TextStyle(color: widget.theme.colorScheme.error),
                       ),
                     ),
                 ] else if (metadataState.closetType == 'disappear') ...[
                   CustomTextFormField(
-                    controller: monthsController!,
+                    controller: widget.monthsController!,
                     labelText: S.of(context).months,
                     hintText: S.of(context).enterMonths,
-                    labelStyle: theme.textTheme.bodyMedium,
-                    hintStyle: theme.textTheme.bodyMedium,
-                    focusedBorderColor: theme.colorScheme.primary,
-                    enabledBorderColor: theme.colorScheme.secondary,
+                    labelStyle: widget.theme.textTheme.bodyMedium,
+                    hintStyle: widget.theme.textTheme.bodyMedium,
+                    focusedBorderColor: widget.theme.colorScheme.primary,
+                    enabledBorderColor: widget.theme.colorScheme.secondary,
                     keyboardType: TextInputType.number,
-                    errorText: errorKeys?['monthsLater'] != null
-                        ? _translateError(errorKeys!['monthsLater']!, context)
-                        : null,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return S.of(context).pleaseEnterMonths; // Validation for empty input
-                      }
-                      final parsedValue = int.tryParse(value);
-                      if (parsedValue == null || parsedValue <= 0) {
-                        return S.of(context).pleaseEnterValidMonths; // Validation for invalid input
-                      }
-                      return null; // No error if validation passes
-                    },
+                    errorText: _getLocalizedErrorMessage(widget.errorKeys?['monthsLater']),
                     onChanged: (value) {
                       _logger.d('Months input changed: $value');
                       context.read<UpdateClosetMetadataCubit>().updateMonthsLater(value);
@@ -136,19 +159,3 @@ class CreateMultiClosetMetadata extends StatelessWidget {
   }
 }
 
-
-/// Translate error keys to localized messages
-String _translateError(String errorKey, BuildContext context) {
-  switch (errorKey) {
-    case 'closetNameCannotBeEmpty':
-      return S.of(context).closetNameCannotBeEmpty;
-    case 'reservedClosetNameError':
-      return S.of(context).reservedClosetNameError;
-    case 'publicPrivateSelectionRequired':
-      return S.of(context).publicPrivateSelectionRequired;
-    case 'invalidMonths':
-      return S.of(context).invalidMonths;
-    default:
-      return S.of(context).unknownError;
-  }
-}
