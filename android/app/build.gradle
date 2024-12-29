@@ -20,7 +20,7 @@ if (keystorePropertiesFile.exists()) {
 
 // Define the major and minor version manually
 def majorVersion = 1
-def minorVersion = 8  // You can manually update this for each release
+def minorVersion = 9  // You can manually update this for each release
 def patchVersion = 0
 
 // Get the build number from the environment variable (set in GitHub Actions)

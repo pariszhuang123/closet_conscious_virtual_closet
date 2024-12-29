@@ -301,8 +301,6 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                 BlocListener<EditClosetMetadataBloc, EditClosetMetadataState>(
                     listener: (context, metadataState) {
                       if (metadataState is EditClosetMetadataAvailable) {
-                        // If the new closetName is different from what’s in the controller,
-                        // update it here (outside of build()).
                         final newName = metadataState.metadata.closetName;
                         if (closetNameController.text != newName) {
                           closetNameController.text = newName;

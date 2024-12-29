@@ -62,6 +62,7 @@ class EditClosetMetadataBloc extends Bloc<EditClosetMetadataEvent, EditClosetMet
         closetName: event.updatedMetadata.closetName,
         isPublic: event.updatedMetadata.isPublic,
         validDate: event.updatedMetadata.validDate,
+        closetImage: currentState.metadata.closetImage,
       );
 
       logger.d("Metadata changed: $updatedMetadata");
