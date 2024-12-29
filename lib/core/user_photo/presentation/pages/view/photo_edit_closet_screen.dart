@@ -142,26 +142,26 @@ class PhotoEditClosetScreenState extends State<PhotoEditClosetScreen> with Widge
                     'closetId': widget.closetId,
                   },
                 );
-              } else if (state is SilverEditItemDeniedState) {
+              } else if (state is SilverEditClosetDeniedState) {
                 widget._logger.i('Silver edit item access denied, navigating to payment screen');
                 _navigateSafely(
                   AppRoutes.payment,
                   arguments: {
-                    'featureKey': FeatureKey.editItemSilver,
+                    'featureKey': FeatureKey.editClosetSilver,
                     'isFromMyCloset': true,
-                    'previousRoute': AppRoutes.editItem,
+                    'previousRoute': AppRoutes.editMultiCloset,
                     'nextRoute': AppRoutes.myCloset,
                     'closetId': widget.closetId,
                   },
                 );
-              } else if (state is GoldEditItemDeniedState) {
+              } else if (state is GoldEditClosetDeniedState) {
                 widget._logger.i('Gold edit item access denied, navigating to payment screen');
                 _navigateSafely(
                   AppRoutes.payment,
                   arguments: {
-                    'featureKey': FeatureKey.editItemGold,
+                    'featureKey': FeatureKey.editClosetGold,
                     'isFromMyCloset': true,
-                    'previousRoute': AppRoutes.editItem,
+                    'previousRoute': AppRoutes.editMultiCloset,
                     'nextRoute': AppRoutes.myCloset,
                     'closetId': widget.closetId,
                   },

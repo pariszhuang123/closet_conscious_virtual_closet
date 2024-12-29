@@ -49,6 +49,13 @@ class ReappearClosetScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Text(
+                closetName, // Add a localized subtitle
+                style: theme.textTheme.titleMedium, // Use a larger text style for emphasis
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20), // Add spacing
+
               // Display the closet image using UserPhoto
               if (closetImage.isNotEmpty)
                 UserPhoto(
