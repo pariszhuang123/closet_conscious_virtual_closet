@@ -35,7 +35,15 @@ class TrialStartedDialog extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          ..._buildBulletPoints(context),
+          SizedBox(
+            height: 150, // Adjust this height as needed
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _buildBulletPoints(context),
+              ),
+            ),
+          ),
           const SizedBox(height: 16),
           Text(
             S.of(context).trialStartedNextSteps,
@@ -53,10 +61,10 @@ class TrialStartedDialog extends StatelessWidget {
 
   List<Widget> _buildBulletPoints(BuildContext context) {
     final points = [
-      S.of(context).trialIncludedFilter as String,
-      S.of(context).trialIncludedCustomize as String,
-      S.of(context).trialIncludedClosets as String,
-      S.of(context).trialIncludedOutfits as String,
+      S.of(context).trialIncludedFilter,
+      S.of(context).trialIncludedCustomize,
+      S.of(context).trialIncludedClosets,
+      S.of(context).trialIncludedOutfits,
     ];
 
     return points.map((point) => _buildBulletPoint(point, context)).toList();
