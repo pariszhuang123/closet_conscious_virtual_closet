@@ -1,41 +1,3 @@
-CREATE OR REPLACE FUNCTION public.sync_user_profile()
-RETURNS TRIGGER
-SET search_path = ''
-SECURITY DEFINER
-AS $$
-DECLARE
-    v_closet_id UUID := gen_random_uuid();
-    v_full_name TEXT := COALESCE(NEW.raw_user_meta_data->>'full_name', 'cc_none');
-BEGIN
-    -- Sync user profile information
-    INSERT INTO public.user_profiles (id, name, email)
-    VALUES (NEW.id, v_full_name, NEW.email::text);
-
-    -- Ensure user exists in high frequency stats
-    INSERT INTO public.user_high_freq_stats (user_id)
-    VALUES (NEW.id);
-
-    -- Ensure user exists in low frequency stats
-    INSERT INTO public.user_low_freq_stats (user_id)
-    VALUES (NEW.id);
-
-    -- Ensure user exists in achievements
-    INSERT INTO public.premium_services (user_id)
-    VALUES (NEW.id);
-
-    -- Insert into user_closets with the generated closet_id
-    INSERT INTO public.user_closets (user_id, closet_id)
-    VALUES (NEW.id, v_closet_id);
-
-    -- Insert into shared_preferences using the same closet_id
-    INSERT INTO public.shared_preferences (user_id, closet_id)
-    VALUES (NEW.id, v_closet_id);
-
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-
 CREATE OR REPLACE FUNCTION public.activate_trial_premium_features()
    RETURNS BOOLEAN
    SET search_path = ''
@@ -82,7 +44,7 @@ CREATE OR REPLACE FUNCTION public.activate_trial_premium_features()
 
        -- Update the premium_services table
        UPDATE public.premium_services
-       SET premium_features = COALESCE(premium_features, '{}'::JSONB) || v_one_off_features,
+       SET one_off_features = COALESCE(one_off_features, '{}'::JSONB) || v_one_off_features,
            is_trial = TRUE
        WHERE user_id = current_user_id
          AND is_trial = FALSE
@@ -92,4 +54,47 @@ CREATE OR REPLACE FUNCTION public.activate_trial_premium_features()
    END;
    $$;
 
+   CREATE OR REPLACE FUNCTION public.validate_and_update_trial_features()
+   RETURNS BOOLEAN
+   SET search_path = ''
+   LANGUAGE plpgsql
+   AS $$
+   DECLARE
+       feature_keys_to_remove JSONB;
+       current_user_id UUID := auth.uid();
+
+   BEGIN
+       -- Fetch all feature keys with acquisition_method 'trial' and acquisition_date earlier than today's date
+       SELECT jsonb_object_agg(
+           feature_key,
+           premium_features->feature_key
+       )
+       INTO feature_keys_to_remove
+       FROM public.premium_services, jsonb_each(one_off_features)
+       WHERE
+           one_off_features->feature_key->>'acquisition_method' = 'trial'
+           AND (one_off_features->feature_key->>'acquisition_date')::timestamp < CURRENT_DATE
+           AND is_trial = TRUE
+           AND user_id = current_user_id;
+
+       -- If no feature keys to remove, exit early with FALSE
+       IF feature_keys_to_remove IS NULL THEN
+           RETURN FALSE;
+       END IF;
+
+       -- Update the premium_features JSONB by removing the expired trial keys
+       UPDATE public.premium_services
+       SET
+           one_off_features = one_off_features - ARRAY(
+               SELECT jsonb_object_keys(feature_keys_to_remove)
+           ),
+           is_trial = FALSE,
+           updated_at = CURRENT_TIMESTAMP
+       WHERE is_trial = TRUE
+         AND user_id = current_user_id;
+
+       -- If updates were made, return TRUE
+       RETURN TRUE;
+   END;
+   $$;
 
