@@ -319,6 +319,52 @@ class ItemFetchService {
     }
   }
 
+  Future<bool> trialStarted() async {
+    try {
+      // Log the action
+      logger.d('Trial had started.');
+
+      // Call the RPC function
+      final response = await Supabase.instance.client.rpc('activate_trial_premium_features');
+      logger.d('Raw RPC response for Trial Started: $response (${response.runtimeType})');
+
+      // Evaluate the response
+      if (response == true) {
+        logger.d('Trial features had being activated.');
+        return true;
+      } else {
+        logger.d('No trial features had being activated.');
+        return false;
+      }
+    } catch (e) {
+      logger.e('Error starting trial: $e');
+      return false;
+    }
+  }
+
+  Future<bool> trialEnded() async {
+    try {
+      // Log the action
+      logger.d('Validating and updating trial features.');
+
+      // Call the RPC function
+      final response = await Supabase.instance.client.rpc('validate_and_update_trial_features');
+      logger.d('Raw RPC response for Trial Ended: $response (${response.runtimeType})');
+
+      // Evaluate the response
+      if (response == true) {
+        logger.d('Trial features validated and updated successfully.');
+        return true;
+      } else {
+        logger.d('No trial features required updating.');
+        return false;
+      }
+    } catch (e) {
+      logger.e('Error ending trial: $e');
+      return false;
+    }
+  }
+
 }
 
 class ItemFetchException implements Exception {

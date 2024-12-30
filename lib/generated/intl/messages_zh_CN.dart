@@ -557,6 +557,25 @@ class MessageLookup extends MessageLookupByLibrary {
         "top": MessageLookupByLibrary.simpleMessage("上衣"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "我们正在探索如何帮助您跟踪物品的穿着成本，并提供个性化的穿搭洞察。这个功能对您有帮助吗？"),
+        "trialEndedMessage":
+            MessageLookupByLibrary.simpleMessage("您的高级功能试用期已结束。"),
+        "trialEndedNextSteps": MessageLookupByLibrary.simpleMessage(
+            "高级功能现已锁定。您可以随时通过一次性购买来解锁这些功能。"),
+        "trialEndedTitle": MessageLookupByLibrary.simpleMessage("您的试用期已结束"),
+        "trialIncludedClosets":
+            MessageLookupByLibrary.simpleMessage("创建和管理多个衣橱（永久衣橱和隐藏衣橱）"),
+        "trialIncludedCustomize":
+            MessageLookupByLibrary.simpleMessage("自定义网格大小，并按每次穿着成本、更新日期等排序物品。"),
+        "trialIncludedFilter":
+            MessageLookupByLibrary.simpleMessage("更轻松筛选物品的过滤器"),
+        "trialIncludedOutfits":
+            MessageLookupByLibrary.simpleMessage("每天创建多个穿搭"),
+        "trialIncludedTitle": MessageLookupByLibrary.simpleMessage("试用包含的功能"),
+        "trialStartedMessage": MessageLookupByLibrary.simpleMessage(
+            "您已成功激活您的高级试用。所有高级功能现已可用，为您带来更佳体验！"),
+        "trialStartedNextSteps":
+            MessageLookupByLibrary.simpleMessage("探索应用并试用高级功能。您的试用将在30天后到期。"),
+        "trialStartedTitle": MessageLookupByLibrary.simpleMessage("试用已激活"),
         "unableToProcessAccountDeletion": MessageLookupByLibrary.simpleMessage(
             "我们暂时无法处理您的账号删除请求。请发送电子邮件至support@example.com获取帮助。"),
         "unableToRetrieveUserId":

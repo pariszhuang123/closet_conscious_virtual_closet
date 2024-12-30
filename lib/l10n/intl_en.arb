@@ -410,5 +410,16 @@
   "closetReappearMessage": "Your disappearing closet '{closetName}' is now permanent. You can access all its items!",
   "viewClosetItemsButton": "View Closet Items",
   "fetchReappearClosets": "View Closet",
-  "noReappearClosets": "No reappeared closets found."
+  "noReappearClosets": "No reappeared closets found.",
+  "trialEndedTitle": "Your Trial Has Ended",
+  "trialEndedMessage": "Your premium trial period has ended.",
+  "trialEndedNextSteps": "Premium features are now locked. Access them anytime by  making a one-time purchase.",
+  "trialStartedTitle": "Trial Activated",
+  "trialStartedMessage": "You have successfully activated your premium trial. All premium features are now available to enhance your experience!",
+  "trialStartedNextSteps": "Explore the app and try out the premium features. Your trial will expire in 30 days.",
+  "trialIncludedTitle": "What’s included in your trial",
+  "trialIncludedFilter": "Filters to filter your items more easily",
+  "trialIncludedCustomize": "Customize grid size and sort items by cost per wear, updated date, and more.",
+  "trialIncludedClosets": "Create and manage multiple closets (permanent and disappearing closets)",
+  "trialIncludedOutfits": "Create multiple outfits a day"
 }

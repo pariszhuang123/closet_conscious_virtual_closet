@@ -104,6 +104,15 @@ class FetchDisappearedClosetsSuccessState extends NavigateItemState {
   List<Object?> get props => [closetId, closetImage, closetName];
 }
 
+class TrialEndedSuccessState extends NavigateItemState {
+  @override
+  List<Object?> get props => [];
+}
+
+class TrialStartedSuccessState extends NavigateItemState {
+  @override
+  List<Object?> get props => [];
+}
 
 // New failure state for handling errors in achievement fetch or save
 class NavigateItemFailureState extends NavigateItemState {

@@ -410,5 +410,16 @@
   "closetReappearMessage": "您的消失衣橱'{closetName}'现已永久可用，您可以访问其所有物品！",
   "viewClosetItemsButton": "查看衣橱物品",
   "fetchReappearClosets": "获取衣橱",
-  "noReappearClosets": "未找到重新出现的衣橱。"
+  "noReappearClosets": "未找到重新出现的衣橱。",
+  "trialEndedTitle": "您的试用期已结束",
+  "trialEndedMessage": "您的高级功能试用期已结束。",
+  "trialEndedNextSteps": "高级功能现已锁定。您可以随时通过一次性购买来解锁这些功能。",
+  "trialStartedTitle": "试用已激活",
+  "trialStartedMessage": "您已成功激活您的高级试用。所有高级功能现已可用，为您带来更佳体验！",
+  "trialStartedNextSteps": "探索应用并试用高级功能。您的试用将在30天后到期。",
+  "trialIncludedTitle": "试用包含的功能",
+  "trialIncludedFilter": "更轻松筛选物品的过滤器",
+  "trialIncludedCustomize": "自定义网格大小，并按每次穿着成本、更新日期等排序物品。",
+  "trialIncludedClosets": "创建和管理多个衣橱（永久衣橱和隐藏衣橱）",
+  "trialIncludedOutfits": "每天创建多个穿搭"
 }

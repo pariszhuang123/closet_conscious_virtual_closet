@@ -650,6 +650,28 @@ class MessageLookup extends MessageLookupByLibrary {
         "top": MessageLookupByLibrary.simpleMessage("Top"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "Track your cost per wear and get personalized outfit insights. Would this be helpful?"),
+        "trialEndedMessage": MessageLookupByLibrary.simpleMessage(
+            "Your premium trial period has ended."),
+        "trialEndedNextSteps": MessageLookupByLibrary.simpleMessage(
+            "Premium features are now locked. Access them anytime by  making a one-time purchase."),
+        "trialEndedTitle":
+            MessageLookupByLibrary.simpleMessage("Your Trial Has Ended"),
+        "trialIncludedClosets": MessageLookupByLibrary.simpleMessage(
+            "Create and manage multiple closets (permanent and disappearing closets)"),
+        "trialIncludedCustomize": MessageLookupByLibrary.simpleMessage(
+            "Customize grid size and sort items by cost per wear, updated date, and more."),
+        "trialIncludedFilter": MessageLookupByLibrary.simpleMessage(
+            "Filters to filter your items more easily"),
+        "trialIncludedOutfits": MessageLookupByLibrary.simpleMessage(
+            "Create multiple outfits a day"),
+        "trialIncludedTitle": MessageLookupByLibrary.simpleMessage(
+            "What’s included in your trial"),
+        "trialStartedMessage": MessageLookupByLibrary.simpleMessage(
+            "You have successfully activated your premium trial. All premium features are now available to enhance your experience!"),
+        "trialStartedNextSteps": MessageLookupByLibrary.simpleMessage(
+            "Explore the app and try out the premium features. Your trial will expire in 30 days."),
+        "trialStartedTitle":
+            MessageLookupByLibrary.simpleMessage("Trial Activated"),
         "unableToProcessAccountDeletion": MessageLookupByLibrary.simpleMessage(
             "We’re unable to process your account deletion right now. Could you kindly email us at support@example.com for assistance?"),
         "unableToRetrieveUserId": MessageLookupByLibrary.simpleMessage(

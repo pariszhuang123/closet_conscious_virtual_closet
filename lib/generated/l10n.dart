@@ -4159,6 +4159,116 @@ class S {
       args: [],
     );
   }
+
+  /// `Your Trial Has Ended`
+  String get trialEndedTitle {
+    return Intl.message(
+      'Your Trial Has Ended',
+      name: 'trialEndedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your premium trial period has ended.`
+  String get trialEndedMessage {
+    return Intl.message(
+      'Your premium trial period has ended.',
+      name: 'trialEndedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Premium features are now locked. Access them anytime by  making a one-time purchase.`
+  String get trialEndedNextSteps {
+    return Intl.message(
+      'Premium features are now locked. Access them anytime by  making a one-time purchase.',
+      name: 'trialEndedNextSteps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trial Activated`
+  String get trialStartedTitle {
+    return Intl.message(
+      'Trial Activated',
+      name: 'trialStartedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have successfully activated your premium trial. All premium features are now available to enhance your experience!`
+  String get trialStartedMessage {
+    return Intl.message(
+      'You have successfully activated your premium trial. All premium features are now available to enhance your experience!',
+      name: 'trialStartedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Explore the app and try out the premium features. Your trial will expire in 30 days.`
+  String get trialStartedNextSteps {
+    return Intl.message(
+      'Explore the app and try out the premium features. Your trial will expire in 30 days.',
+      name: 'trialStartedNextSteps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What’s included in your trial`
+  String get trialIncludedTitle {
+    return Intl.message(
+      'What’s included in your trial',
+      name: 'trialIncludedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filters to filter your items more easily`
+  String get trialIncludedFilter {
+    return Intl.message(
+      'Filters to filter your items more easily',
+      name: 'trialIncludedFilter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customize grid size and sort items by cost per wear, updated date, and more.`
+  String get trialIncludedCustomize {
+    return Intl.message(
+      'Customize grid size and sort items by cost per wear, updated date, and more.',
+      name: 'trialIncludedCustomize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create and manage multiple closets (permanent and disappearing closets)`
+  String get trialIncludedClosets {
+    return Intl.message(
+      'Create and manage multiple closets (permanent and disappearing closets)',
+      name: 'trialIncludedClosets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create multiple outfits a day`
+  String get trialIncludedOutfits {
+    return Intl.message(
+      'Create multiple outfits a day',
+      name: 'trialIncludedOutfits',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -27,6 +27,8 @@ class NavigateItemBloc extends Bloc<NavigateItemEvent, NavigateItemState> {
     on<FetchFirstItemSoldAchievementEvent>(_onFetchFirstItemSoldAchievement);
     on<FetchFirstItemSwapAchievementEvent>(_onFetchFirstItemSwapAchievement);
     on<FetchDisappearedClosetsEvent>(_onFetchDisappearedClosets);
+    on<TrialStartedEvent>(_onTrialStarted);
+    on<TrialEndedEvent>(_onTrialEnded);
   }
 
   Future<void> _onFetchFirstItemUploadedAchievement(
@@ -132,4 +134,43 @@ class NavigateItemBloc extends Bloc<NavigateItemEvent, NavigateItemState> {
     }
   }
 
+  Future<void> _onTrialStarted(
+      TrialStartedEvent event,
+      Emitter<NavigateItemState> emit,
+      ) async {
+    try {
+      // Call the service to validate and update trial features
+      final isUpdated = await itemFetchService.trialStarted();
+
+      if (isUpdated) {
+        // Emit success state if the RPC returns true
+        emit(TrialStartedSuccessState());
+        logger.i('Trial started.');
+      }
+      // Do nothing for false; it's not relevant for the UI in this case
+    } catch (error) {
+      // Log the error but do not emit a failure state since it doesn't matter here
+      logger.e('Error validating and updating trial features: $error');
+    }
+  }
+
+  Future<void> _onTrialEnded(
+      TrialEndedEvent event,
+      Emitter<NavigateItemState> emit,
+      ) async {
+    try {
+      // Call the service to validate and update trial features
+      final isUpdated = await itemFetchService.trialEnded();
+
+      if (isUpdated) {
+        // Emit success state if the RPC returns true
+        emit(TrialEndedSuccessState());
+        logger.i('Trial has ended.');
+      }
+      // Do nothing for false; it's not relevant for the UI in this case
+    } catch (error) {
+      // Log the error but do not emit a failure state since it doesn't matter here
+      logger.e('Error validating and updating trial features: $error');
+    }
+  }
 }

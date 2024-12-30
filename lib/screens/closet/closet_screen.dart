@@ -20,6 +20,8 @@ import '../../core/screens/achievement_completed_screen.dart';
 import '../../core/theme/ui_constant.dart';
 import '../../core/widgets/button/themed_elevated_button.dart';
 import '../../core/widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../core/widgets/dialog/trial_ended_dialog.dart';
+import '../../core/widgets/dialog/trial_started_dialog.dart';
 
 class MyClosetScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -49,6 +51,9 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     _triggerItemSoldAchievement();
     _triggerItemSwapAchievement();
     _triggerDisappearingClosetPermanent();
+    _triggerTrialStartedDialog();
+    _triggerTrialEndedDialog();
+
     context.read<UploadStreakBloc>().add(CheckUploadStatus());
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
@@ -106,6 +111,16 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   void _triggerDisappearingClosetPermanent() {
     logger.i('Checking if Disappearing Closet becomes permanent is successful');
     context.read<NavigateItemBloc>().add(const FetchDisappearedClosetsEvent());
+  }
+
+  void _triggerTrialStartedDialog() {
+    logger.i('Trigger Trial Started Dialog if it is completed');
+    context.read<NavigateItemBloc>().add(const TrialStartedEvent());
+  }
+
+  void _triggerTrialEndedDialog() {
+    logger.i('Trigger Trial Ended Dialog if it is completed');
+    context.read<NavigateItemBloc>().add(const TrialEndedEvent());
   }
 
   void _onUploadButtonPressed() {
@@ -268,6 +283,36 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                   'closetId': state.closetId,
                   'closetName': state.closetName,
                   'closetImage': state.closetImage,
+                },
+              );
+            }
+            if (state is TrialStartedSuccessState) {
+              logger.i(
+                  'Trial is activated');
+              showDialog(
+                context: context,
+                barrierDismissible: false, // Prevent dismissing by clicking elsewhere
+                builder: (BuildContext dialogContext) {
+                  return TrialStartedDialog(
+                    onClose: () {
+                      Navigator.of(dialogContext).pop(); // Close the dialog
+                    },
+                  );
+                },
+              );
+            }
+            if (state is TrialEndedSuccessState) {
+              logger.i(
+                  'Trial has ended');
+              showDialog(
+                context: context,
+                barrierDismissible: false, // Prevent dismissing by clicking elsewhere
+                builder: (BuildContext dialogContext) {
+                  return TrialEndedDialog(
+                    onClose: () {
+                      Navigator.of(dialogContext).pop(); // Close the dialog
+                    },
+                  );
                 },
               );
             }

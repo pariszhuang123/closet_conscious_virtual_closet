@@ -52,3 +52,17 @@ class FetchDisappearedClosetsEvent extends NavigateItemEvent {
   @override
   List<Object?> get props => [];
 }
+
+class TrialEndedEvent extends NavigateItemEvent {
+  const TrialEndedEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class TrialStartedEvent extends NavigateItemEvent {
+  const TrialStartedEvent();
+
+  @override
+  List<Object?> get props => [];
+}
