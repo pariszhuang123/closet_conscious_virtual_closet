@@ -8,7 +8,7 @@ RETURNS TABLE (
     is_outfit_active TEXT
 )
 SET search_path = ''
-LANGUAGE sql
+LANGUAGE plpgsql
 AS $$
 
 DECLARE
