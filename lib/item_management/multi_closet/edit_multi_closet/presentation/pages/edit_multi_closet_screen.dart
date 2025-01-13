@@ -279,7 +279,7 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                     if (state.status == ClosetStatus.success) {
                       logger.i('Closet created successfully.');
                       CustomSnackbar(
-                        message: S.of(context).closet_created_successfully,
+                        message: S.of(context).closet_edited_successfully,
                         theme: Theme.of(context),
                       ).show(context);
                       _navigateToMyCloset(context);

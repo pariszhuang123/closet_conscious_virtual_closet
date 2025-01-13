@@ -381,6 +381,7 @@
   "disappearAfterMonths": "Hidden for",
   "months": "Months to disappear",
   "closet_created_successfully": "Closet created successfully!",
+  "closet_edited_successfully": "Closet edited successfully!",
   "error_creating_closet": "Error: {error}",
   "create_closet": "Create Closet",
   "validation_error": "Error found. Check your input.",

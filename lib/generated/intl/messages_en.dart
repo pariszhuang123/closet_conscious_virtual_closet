@@ -165,6 +165,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("I uploaded my closet"),
         "closet_created_successfully": MessageLookupByLibrary.simpleMessage(
             "Closet created successfully!"),
+        "closet_edited_successfully":
+            MessageLookupByLibrary.simpleMessage("Closet edited successfully!"),
         "clothing": MessageLookupByLibrary.simpleMessage("Clothing"),
         "clothingLayerFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Clothing Layer field is not filled."),

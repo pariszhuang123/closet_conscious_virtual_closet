@@ -3860,6 +3860,16 @@ class S {
     );
   }
 
+  /// `Closet edited successfully!`
+  String get closet_edited_successfully {
+    return Intl.message(
+      'Closet edited successfully!',
+      name: 'closet_edited_successfully',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Error: {error}`
   String error_creating_closet(Object error) {
     return Intl.message(

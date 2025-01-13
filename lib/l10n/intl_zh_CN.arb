@@ -381,6 +381,7 @@
   "disappearAfterMonths": "隐藏",
   "months": "消失几个月",
   "closet_created_successfully": "衣橱创建成功！",
+  "closet_edited_successfully": "衣橱编辑成功!",
   "error_creating_closet": "错误：{error}",
   "create_closet": "创建衣橱",
   "validation_error": "发现错误。请检查输入。",
