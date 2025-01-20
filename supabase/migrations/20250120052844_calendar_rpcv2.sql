@@ -78,6 +78,9 @@ AS $$
 DECLARE
     f_focused_date DATE;
     f_ignore_event_name BOOLEAN;
+    event_name_filter TEXT;
+    feedback_filter TEXT;
+    is_outfit_active_filter BOOLEAN;
     start_date DATE;
     end_date DATE;
     current_user_id UUID := auth.uid();
