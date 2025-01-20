@@ -98,7 +98,7 @@ BEGIN
         is_calendar_selectable
     INTO
         f_focused_date,
-        ignore_event_name,
+        f_ignore_event_name,
         event_name_filter,
         feedback_filter,
         is_outfit_active_filter,
@@ -124,7 +124,7 @@ BEGIN
         WHERE reviewed = true
           AND user_id = current_user_id
           AND (
-              ignore_event_name OR event_name ILIKE event_name_filter
+              f_ignore_event_name OR event_name ILIKE event_name_filter
           )
           AND (
               feedback_filter = 'all' OR feedback = feedback_filter
