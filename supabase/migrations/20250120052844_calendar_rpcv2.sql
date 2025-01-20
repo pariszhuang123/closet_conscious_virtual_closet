@@ -77,6 +77,7 @@ LANGUAGE plpgsql
 AS $$
 DECLARE
     f_focused_date DATE;
+    f_ignore_event_name BOOLEAN;
     start_date DATE;
     end_date DATE;
     current_user_id UUID := auth.uid();
