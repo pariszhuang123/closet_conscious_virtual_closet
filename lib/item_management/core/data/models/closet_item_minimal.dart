@@ -4,13 +4,13 @@ class ClosetItemMinimal extends Equatable {
   final String itemId;
   final String imageUrl;
   final String name;
-  final String itemType;
+  final String? itemType;
 
   const ClosetItemMinimal({
     required this.itemId,
     required this.imageUrl,
     required this.name,
-    required this.itemType,
+    this.itemType,
   });
 
   factory ClosetItemMinimal.fromMap(Map<String, dynamic> map) {

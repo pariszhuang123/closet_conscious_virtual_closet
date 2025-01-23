@@ -14,6 +14,8 @@ import '../../item_management/multi_closet/create_multi_closet/presentation/page
 import '../../item_management/multi_closet/edit_multi_closet/presentation/pages/edit_multi_closet_provider.dart';
 import '../../item_management/multi_closet/swap_closet/presentation/pages/swap_closet_provider.dart';
 import '../../item_management/multi_closet/reappear_closet/presentation/pages/reappear_closet_provider.dart';
+import '../../outfit_management/outfit_calendar/monthly_calendar/presentation/pages/calendar_scaffold.dart';
+import '../../outfit_management/outfit_calendar/monthly_calendar/presentation/pages/monthly_calendar_provider.dart';
 
 import '../screens/webview_screen.dart';
 import '../../user_management/achievements/data/models/achievements_page_argument.dart';
@@ -51,6 +53,7 @@ class AppRoutes {
   static const String editMultiCloset = '/edit_multi_closet';
   static const String swapCloset = '/swap_closet';
   static const String reappearCloset = '/reappear_closet';
+  static const String monthlyCalendar = '/monthly_calendar';
 
 
   static final CustomLogger logger = CustomLogger('AppRoutes');
@@ -266,6 +269,14 @@ class AppRoutes {
             closetId: closetId,
             closetName: closetName,
             closetImage: closetImage,
+          ),
+        );
+
+      case AppRoutes.monthlyCalendar:
+        return MaterialPageRoute(
+          builder: (_) => CalendarScaffold(
+            body: MonthlyCalendarProvider(theme: myOutfitTheme), // Pass theme to the provider
+            theme: myOutfitTheme, // Pass theme to the scaffold
           ),
         );
 

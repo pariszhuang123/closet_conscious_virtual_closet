@@ -14,7 +14,6 @@ import '../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../outfit_management/fetch_outfit_items/presentation/widgets/outfit_feature_container.dart';
 import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../core/core_enums.dart';
-import '../../core/widgets/bottom_sheet/premium_bottom_sheet/calendar_premium_bottom_sheet.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
 import '../../core/utilities/routes.dart';
@@ -172,12 +171,8 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   void _onCalendarButtonPressed() {
-    logger.i('Calendar button pressed, showing calendar...');
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return const PremiumCalendarBottomSheet(isFromMyCloset: false);
-      },
+    Navigator.of(context).pushNamed(
+      AppRoutes.monthlyCalendar,
     );
   }
 

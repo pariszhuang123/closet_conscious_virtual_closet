@@ -78,6 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "allClothesWornAchievementMessage":
             MessageLookupByLibrary.simpleMessage(
                 "您已经穿过衣橱中的每一件物品！您正在掌控自己的时尚选择。"),
+        "allFeedback": MessageLookupByLibrary.simpleMessage("所有"),
         "alright": MessageLookupByLibrary.simpleMessage("还不错 🤷‍♀️"),
         "alright_feedback_sentence":
             MessageLookupByLibrary.simpleMessage("点击不太适合这个造型的物品。"),
@@ -116,7 +117,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "bottom": MessageLookupByLibrary.simpleMessage("下装"),
         "brown": MessageLookupByLibrary.simpleMessage("棕色"),
         "calendar": MessageLookupByLibrary.simpleMessage("日历"),
+        "calendarFeatureTitle": MessageLookupByLibrary.simpleMessage("日历"),
+        "calendarNotSelectable": MessageLookupByLibrary.simpleMessage("穿搭详情"),
         "calendarPremiumFeature": MessageLookupByLibrary.simpleMessage("日历视图？"),
+        "calendarSelectable": MessageLookupByLibrary.simpleMessage("创建衣橱"),
         "camera_edit_item_permission_explanation":
             MessageLookupByLibrary.simpleMessage("允许我们使用您的相机来更新物品照片。"),
         "camera_permission_explanation":
@@ -252,6 +256,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorSavingCloset": MessageLookupByLibrary.simpleMessage("保存衣橱时出错"),
         "error_creating_closet": m1,
         "event": MessageLookupByLibrary.simpleMessage("活动"),
+        "eventName": MessageLookupByLibrary.simpleMessage("活动名称"),
         "everyday": MessageLookupByLibrary.simpleMessage("日常"),
         "eyewear": MessageLookupByLibrary.simpleMessage("眼镜"),
         "failedToLoadItems":
@@ -261,9 +266,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "failedToSaveOutfit":
             MessageLookupByLibrary.simpleMessage("保存搭配失败，请重试。"),
         "failedToSubmitScore": MessageLookupByLibrary.simpleMessage("提交评分失败。"),
+        "feedback": MessageLookupByLibrary.simpleMessage("反馈"),
         "fetchReappearClosets": MessageLookupByLibrary.simpleMessage("获取衣橱"),
         "filterClosetPageDescription":
             MessageLookupByLibrary.simpleMessage("按颜色、类别等整理衣橱，找到所需单品。"),
+        "filterEventName": MessageLookupByLibrary.simpleMessage("按活动名称筛选"),
         "filterFeatureTitle": MessageLookupByLibrary.simpleMessage("快速找到心仪单品"),
         "filterItemsTitle": MessageLookupByLibrary.simpleMessage("筛选项目"),
         "filterOutfitPageDescription":
@@ -301,6 +308,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("你拍下了第一张自拍！展示你的风格，让你的衣橱闪耀吧！"),
         "fix_validation_errors":
             MessageLookupByLibrary.simpleMessage("修正错误以继续。"),
+        "focusedDate": MessageLookupByLibrary.simpleMessage("专注日期"),
         "formal": MessageLookupByLibrary.simpleMessage("正式"),
         "general_permission_explanation":
             MessageLookupByLibrary.simpleMessage("我们需要此权限以使应用正常工作。"),
@@ -417,6 +425,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("可持续的开始！"),
         "noNewClothes90AchievementMessage":
             MessageLookupByLibrary.simpleMessage("您已达成90天不买新衣的目标！继续建立环保习惯！🌱"),
+        "noOutfitsInMonth": MessageLookupByLibrary.simpleMessage(
+            "本月没有找到衣服。您可以创建第一个已评价的衣服，或者选择一个您已评价衣服的日期。"),
         "noReappearClosets":
             MessageLookupByLibrary.simpleMessage("未找到重新出现的衣橱。"),
         "npsExplanation":
@@ -434,10 +444,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "open_settings": MessageLookupByLibrary.simpleMessage("打开设置"),
         "other": MessageLookupByLibrary.simpleMessage("其他"),
         "outer": MessageLookupByLibrary.simpleMessage("外层"),
+        "outfitActive": MessageLookupByLibrary.simpleMessage("激活"),
         "outfitCreationSuccessContent":
             MessageLookupByLibrary.simpleMessage("造型已准备好。去征服世界吧，时尚达人！🦸‍♀️"),
         "outfitCreationSuccessTitle":
             MessageLookupByLibrary.simpleMessage("继续时尚！"),
+        "outfitInactive": MessageLookupByLibrary.simpleMessage("未激活"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("造型"),
         "outfitReviewContent":
             MessageLookupByLibrary.simpleMessage("您的造型评论已成功提交！"),

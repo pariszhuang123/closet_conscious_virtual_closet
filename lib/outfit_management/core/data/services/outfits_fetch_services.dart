@@ -1,6 +1,9 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/data/models/outfit_item_minimal.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../core/data/models/calendar_metadata.dart';
+import '../../../core/data/models/monthly_calendar_response.dart';
+import '../../../core/data/models/daily_outfit.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../core/outfit_enums.dart';
 
@@ -157,6 +160,7 @@ class OutfitFetchService {
       return null;
     }
   }
+
   Future<bool> checkOutfitAccess() async {
     final result = await client.rpc('check_user_access_to_create_outfit');
 
@@ -166,6 +170,145 @@ class OutfitFetchService {
       throw Exception('Unexpected result from RPC: $result');
     }
   }
+
+  Future<List<CalendarMetadata>> fetchCalendarMetadata() async {
+    try {
+      logger.d('Fetching calendar metadata');
+
+      // Call the RPC function
+      final response = await client.rpc('fetch_calendar_metadata').select();
+
+      logger.d('RPC response received with ${response.length} entries');
+
+      // Map the response to a list of CalendarMetadata objects
+      final metadataList = (response as List).map((item) {
+        return CalendarMetadata.fromMap(item);
+      }).toList();
+
+      return metadataList;
+    } catch (error) {
+      logger.e('Error fetching calendar metadata: $error');
+      throw OutfitFetchException('Failed to fetch calendar metadata');
+    }
+  }
+
+  Future<List<MonthlyCalendarResponse>> fetchMonthlyCalendarImages() async {
+    try {
+      logger.d('Fetching monthly calendar images');
+
+      // Fetch RPC response
+      final response = await client.rpc('fetch_monthly_calendar_images') as Map<String, dynamic>;
+
+      // Log the raw response from Supabase
+      logger.d('Received response from Supabase: $response');
+
+      // Check for errors in the response (if the error is part of the Map)
+      if (response.containsKey('error')) {
+        final error = response['error'] as Map<String, dynamic>? ?? {};
+        final errorMessage = error['message'] ?? 'Unknown error';
+        logger.e('Error fetching monthly calendar images: $errorMessage');
+        throw OutfitFetchException(errorMessage);
+      }
+
+      // Parse the response data
+      final status = response['status'] as String?;
+      if (status == null) {
+        throw OutfitFetchException('Response status is missing');
+      }
+
+      switch (status) {
+        case 'no reviewed outfit':
+          logger.i('No reviewed outfits found');
+          throw OutfitFetchException('No reviewed outfits found');
+
+        case 'no reviewed outfit with filter':
+          logger.i('No outfits matching filters');
+          throw OutfitFetchException('No outfits matching filters');
+
+        case 'success':
+        // Handle the successful case
+          final calendarData = response['calendar_data'];
+          if (calendarData == null || calendarData is! List) {
+            logger.e('Invalid or missing calendar data in response: $calendarData');
+            throw OutfitFetchException('Calendar data is invalid or missing');
+          }
+
+          logger.i('Fetched calendar data with ${calendarData.length} entries');
+          return (calendarData).map((item) {
+            final itemMap = item as Map<String, dynamic>;
+
+            // Explicitly handle null outfit_image_url
+            final outfitImageUrl = itemMap['outfit_data']?['outfit_image_url'] as String?;
+            logger.d('Outfit image URL: ${outfitImageUrl ?? "null"}');
+
+            return MonthlyCalendarResponse.fromMap(itemMap);
+          }).toList();
+
+        default:
+        // Unexpected status value
+          logger.e('Unexpected status: $status');
+          throw OutfitFetchException('Unexpected response status: $status');
+      }
+    } catch (error) {
+      logger.e('Error fetching monthly calendar images: $error');
+      throw OutfitFetchException('Failed to fetch monthly calendar images');
+    }
+  }
+
+  Future<List<String>> getActiveItemsFromCalendar(List<String> selectedOutfitIds) async {
+    try {
+      logger.d('Fetching active items for selected outfits: $selectedOutfitIds');
+
+      // Call the RPC function with the selected outfit IDs
+      final response = await client.rpc(
+        'get_active_items_from_calendar',
+        params: {'selected_outfit_ids': selectedOutfitIds},
+      );
+
+      // Ensure the response is a list
+      if (response is List<dynamic>) {
+        logger.d('Active items fetched successfully: ${response.length} items');
+
+        // Cast the response to a list of strings (UUIDs)
+        return response.cast<String>();
+      } else {
+        logger.w('Unexpected response format from get_active_items_from_calendar');
+        throw OutfitFetchException('Invalid response format');
+      }
+    } catch (error) {
+      logger.e('Error fetching active items: $error');
+      throw OutfitFetchException('Failed to fetch active items');
+    }
+  }
+
+  Future<List<DailyOutfit>> fetchDailyOutfits(DateTime focusedDate) async {
+    try {
+      logger.d('Fetching daily outfits for date: $focusedDate');
+
+      // Call the RPC function with the focused date
+      final response = await client.rpc(
+        'fetch_daily_outfits',
+        params: {'focused_date': focusedDate.toIso8601String()},
+      );
+
+      // Ensure the response is a list
+      if (response is List<dynamic>) {
+        logger.d('Daily outfits fetched successfully with ${response.length} entries');
+
+        // Parse the response into a list of `DailyOutfit` objects
+        return response
+            .map((outfit) => DailyOutfit.fromMap(outfit as Map<String, dynamic>))
+            .toList();
+      } else {
+        logger.w('Unexpected response format from fetch_daily_outfits');
+        throw OutfitFetchException('Invalid response format');
+      }
+    } catch (error) {
+      logger.e('Error fetching daily outfits: $error');
+      throw OutfitFetchException('Failed to fetch daily outfits');
+    }
+  }
+
 }
 
 class OutfitFetchException implements Exception {

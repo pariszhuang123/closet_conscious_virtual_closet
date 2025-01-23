@@ -86,6 +86,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("All Clothes, All You!"),
         "allClothesWornAchievementMessage": MessageLookupByLibrary.simpleMessage(
             "You\'ve worn every single item in your closet! You\'re mastering mindful fashion choices."),
+        "allFeedback": MessageLookupByLibrary.simpleMessage("All"),
         "alright": MessageLookupByLibrary.simpleMessage("It’s alright\n🤷‍♀️"),
         "alright_feedback_sentence": MessageLookupByLibrary.simpleMessage(
             "Tap the items that don’t quite fit this outfit."),
@@ -131,8 +132,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "bottom": MessageLookupByLibrary.simpleMessage("Bottom"),
         "brown": MessageLookupByLibrary.simpleMessage("Brown"),
         "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
+        "calendarFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("Calendar"),
+        "calendarNotSelectable":
+            MessageLookupByLibrary.simpleMessage("Outfit Details"),
         "calendarPremiumFeature":
             MessageLookupByLibrary.simpleMessage("Calendar View?"),
+        "calendarSelectable":
+            MessageLookupByLibrary.simpleMessage("Create Closet"),
         "camera_edit_item_permission_explanation":
             MessageLookupByLibrary.simpleMessage(
                 "Let us use your camera to update your item photos."),
@@ -292,6 +299,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Error saving closet"),
         "error_creating_closet": m1,
         "event": MessageLookupByLibrary.simpleMessage("Event"),
+        "eventName": MessageLookupByLibrary.simpleMessage("Event Name"),
         "everyday": MessageLookupByLibrary.simpleMessage("Everyday"),
         "eyewear": MessageLookupByLibrary.simpleMessage("Eyewear"),
         "failedToLoadItems": MessageLookupByLibrary.simpleMessage(
@@ -302,10 +310,13 @@ class MessageLookup extends MessageLookupByLibrary {
             "Failed to save outfit. Please try again."),
         "failedToSubmitScore":
             MessageLookupByLibrary.simpleMessage("Failed to submit score."),
+        "feedback": MessageLookupByLibrary.simpleMessage("Feedback"),
         "fetchReappearClosets":
             MessageLookupByLibrary.simpleMessage("View Closet"),
         "filterClosetPageDescription": MessageLookupByLibrary.simpleMessage(
             "Sort your closet by color, type, and more to find just what you need."),
+        "filterEventName":
+            MessageLookupByLibrary.simpleMessage("Filter by Event Name"),
         "filterFeatureTitle":
             MessageLookupByLibrary.simpleMessage("Find Your Favorites Faster"),
         "filterItemsTitle":
@@ -347,6 +358,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "You’ve taken your first selfie! Show off your style and let your closet shine!"),
         "fix_validation_errors":
             MessageLookupByLibrary.simpleMessage("Fix the errors to continue."),
+        "focusedDate": MessageLookupByLibrary.simpleMessage("Focused Date"),
         "formal": MessageLookupByLibrary.simpleMessage("Formal"),
         "general_permission_explanation": MessageLookupByLibrary.simpleMessage(
             "We need this permission to make the app work properly."),
@@ -475,6 +487,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sustainable Start!"),
         "noNewClothes90AchievementMessage": MessageLookupByLibrary.simpleMessage(
             "You’ve hit 90 days without new clothes! Keep building those eco-friendly habits! 🌱"),
+        "noOutfitsInMonth": MessageLookupByLibrary.simpleMessage(
+            "No outfits found in this month. You can create your first reviewed outfit or choose another date where you have reviewed your outfit."),
         "noReappearClosets": MessageLookupByLibrary.simpleMessage(
             "No reappeared closets found."),
         "npsExplanation": MessageLookupByLibrary.simpleMessage(
@@ -492,10 +506,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "open_settings": MessageLookupByLibrary.simpleMessage("Open Settings"),
         "other": MessageLookupByLibrary.simpleMessage("Misc"),
         "outer": MessageLookupByLibrary.simpleMessage("Outer"),
+        "outfitActive": MessageLookupByLibrary.simpleMessage("Active"),
         "outfitCreationSuccessContent": MessageLookupByLibrary.simpleMessage(
             "Outfit ready. Go Slay the World, Fashionista! 🦸‍♀️"),
         "outfitCreationSuccessTitle":
             MessageLookupByLibrary.simpleMessage("Style On!"),
+        "outfitInactive": MessageLookupByLibrary.simpleMessage("Inactive"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("Outfit"),
         "outfitReviewContent": MessageLookupByLibrary.simpleMessage(
             "Your outfit review has been submitted successfully!"),

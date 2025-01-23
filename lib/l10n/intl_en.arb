@@ -422,5 +422,16 @@
   "trialIncludedFilter": "Filters to filter your items more easily",
   "trialIncludedCustomize": "Customize grid size and sort items by cost per wear, updated date, and more.",
   "trialIncludedClosets": "Create and manage multiple closets (permanent and disappearing closets)",
-  "trialIncludedOutfits": "Create multiple outfits a day"
+  "trialIncludedOutfits": "Create multiple outfits a day",
+  "eventName": "Event Name",
+  "allFeedback": "All",
+  "calendarFeatureTitle": "Calendar",
+  "calendarNotSelectable": "Outfit Details",
+  "focusedDate": "Focused Date",
+  "calendarSelectable": "Create Closet",
+  "outfitActive": "Active",
+  "outfitInactive": "Inactive",
+  "filterEventName": "Filter by Event Name",
+  "feedback": "Feedback",
+  "noOutfitsInMonth": "No outfits found in this month. You can create your first reviewed outfit or choose another date where you have reviewed your outfit."
 }

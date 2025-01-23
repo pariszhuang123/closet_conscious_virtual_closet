@@ -9,7 +9,7 @@ import '../../../core_enums.dart';
 import '../../usecase/photo_capture_service.dart';
 import '../../../data/services/core_save_services.dart';
 import '../../../data/services/core_fetch_services.dart';
-import '../../../navigation/presentation/bloc/navigate_core_bloc.dart';
+import '../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final GetIt coreLocator = GetIt.instance;

@@ -1,11 +1,15 @@
 enum ImageSize {
-  selfie,          // Size for selfies
+  selfie,
+  calendarSelfie,// Size for selfies
   itemInteraction, // Size for item interaction screen
   closetMetadata,
   itemGrid2,
   itemGrid3,       // Size for item grid
   itemGrid5,
-  itemGrid7
+  itemGrid7,
+  calendarOutfitItemGrid3,
+  calendarOutfitItemGrid5,
+  calendarOutfitItemGrid7
 }
 
 enum CameraPermissionContext {

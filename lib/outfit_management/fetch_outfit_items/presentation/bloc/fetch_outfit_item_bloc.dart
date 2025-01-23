@@ -70,7 +70,7 @@ class FetchOutfitItemBloc extends Bloc<FetchOutfitItemEvent, FetchOutfitItemStat
 
       // Filter items by current category
       final newItems = allNewItems
-          .where((item) => item.itemType.toLowerCase() == currentCategory.toString().split('.').last.toLowerCase())
+          .where((item) => item.itemType?.toLowerCase() == currentCategory.toString().split('.').last.toLowerCase())
           .toList();
 
       logger.d('Fetched ${newItems.length} new items for category $currentCategory on pages $currentPage');

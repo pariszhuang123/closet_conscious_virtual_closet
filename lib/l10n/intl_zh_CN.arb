@@ -422,5 +422,16 @@
   "trialIncludedFilter": "更轻松筛选物品的过滤器",
   "trialIncludedCustomize": "自定义网格大小，并按每次穿着成本、更新日期等排序物品。",
   "trialIncludedClosets": "创建和管理多个衣橱（永久衣橱和隐藏衣橱）",
-  "trialIncludedOutfits": "每天创建多个穿搭"
+  "trialIncludedOutfits": "每天创建多个穿搭",
+  "eventName": "活动名称",
+  "allFeedback": "所有",
+  "calendarFeatureTitle": "日历",
+  "calendarNotSelectable": "穿搭详情",
+  "focusedDate": "专注日期",
+  "calendarSelectable": "创建衣橱",
+  "outfitActive": "激活",
+  "outfitInactive": "未激活",
+  "filterEventName": "按活动名称筛选",
+  "feedback": "反馈",
+  "noOutfitsInMonth": "本月没有找到衣服。您可以创建第一个已评价的衣服，或者选择一个您已评价衣服的日期。"
 }

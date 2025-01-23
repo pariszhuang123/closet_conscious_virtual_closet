@@ -4279,6 +4279,116 @@ class S {
       args: [],
     );
   }
+
+  /// `Event Name`
+  String get eventName {
+    return Intl.message(
+      'Event Name',
+      name: 'eventName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get allFeedback {
+    return Intl.message(
+      'All',
+      name: 'allFeedback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calendar`
+  String get calendarFeatureTitle {
+    return Intl.message(
+      'Calendar',
+      name: 'calendarFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Outfit Details`
+  String get calendarNotSelectable {
+    return Intl.message(
+      'Outfit Details',
+      name: 'calendarNotSelectable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Focused Date`
+  String get focusedDate {
+    return Intl.message(
+      'Focused Date',
+      name: 'focusedDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Closet`
+  String get calendarSelectable {
+    return Intl.message(
+      'Create Closet',
+      name: 'calendarSelectable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get outfitActive {
+    return Intl.message(
+      'Active',
+      name: 'outfitActive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inactive`
+  String get outfitInactive {
+    return Intl.message(
+      'Inactive',
+      name: 'outfitInactive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter by Event Name`
+  String get filterEventName {
+    return Intl.message(
+      'Filter by Event Name',
+      name: 'filterEventName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Feedback`
+  String get feedback {
+    return Intl.message(
+      'Feedback',
+      name: 'feedback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No outfits found in this month. You can create your first reviewed outfit or choose another date where you have reviewed your outfit.`
+  String get noOutfitsInMonth {
+    return Intl.message(
+      'No outfits found in this month. You can create your first reviewed outfit or choose another date where you have reviewed your outfit.',
+      name: 'noOutfitsInMonth',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

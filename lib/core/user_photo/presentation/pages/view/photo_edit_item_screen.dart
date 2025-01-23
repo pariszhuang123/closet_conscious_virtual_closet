@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/photo_bloc.dart';
-import '../../../../navigation/presentation/bloc/navigate_core_bloc.dart';
+import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
 import '../../widgets/camera_permission_helper.dart';
 import '../../../../core_enums.dart';
 import '../../../../utilities/routes.dart';

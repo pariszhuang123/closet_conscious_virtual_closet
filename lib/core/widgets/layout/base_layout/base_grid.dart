@@ -5,7 +5,7 @@ typedef ItemBuilder<T> = Widget Function(BuildContext context, T item, int index
 
 class BaseGrid<T> extends StatelessWidget {
   final List<T> items;
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
   final ItemBuilder<T> itemBuilder;
   final int crossAxisCount;
   final double childAspectRatio;
@@ -13,7 +13,7 @@ class BaseGrid<T> extends StatelessWidget {
   BaseGrid({
     super.key,
     required this.items,
-    required this.scrollController,
+    this.scrollController,
     required this.itemBuilder,
     this.crossAxisCount = 3,
     this.childAspectRatio = 3 / 4,

@@ -1,6 +1,10 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/utilities/logger.dart';
+import '../../../core/data/models/calendar_metadata.dart';
+import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
+import '../../../../user_management/user_service_locator.dart';
+
 
 class OutfitSaveService {
   final SupabaseClient client;
@@ -131,5 +135,91 @@ Future<bool> recordUserReview({
       return false;
     }
   }
+
+  Future<bool> saveCalendarMetadata(CalendarMetadata metadata) async {
+    try {
+      final response = await client.rpc('save_calendar_metadata', params: {
+        'new_event_name': metadata.eventName,
+        'new_feedback': metadata.feedback,
+        'new_is_calendar_selectable': metadata.isCalendarSelectable,
+        'new_is_outfit_active': metadata.isOutfitActive,
+      });
+
+      if (response == true) {
+        logger.i('Successfully saved calendar metadata');
+        return true;
+      } else {
+        logger.e('Failed to save calendar metadata. Response: $response');
+        return false;
+      }
+    } catch (error) {
+      logger.e('Error during RPC call to save calendar metadata: $error');
+      return false;
+    }
+  }
+
+  Future<bool> updateFocusedDate(String selectedDate) async {
+    try {
+      final authBloc = locator<AuthBloc>();
+      final userId = authBloc.userId;
+
+      if (userId == null) {
+        throw Exception("User not authenticated");
+      }
+
+      await Supabase.instance.client
+          .from('shared_preferences')
+          .update({'focused_date': selectedDate}).eq('user_id', userId);
+
+      logger.i('Update successfully with focused date.');
+      return true; // Indicating success
+    } catch (e) {
+      logger.e('Error updating focused date: $e');
+      return false; // Indicating failure
+    }
+  }
+
+  Future<bool> resetMonthlyCalendar() async {
+    try {
+      final response = await client.rpc('reset_monthly_calendar');
+
+      if (response == true) {
+        logger.i('Successfully reset the monthly calendar.');
+        return true;
+      } else {
+        logger.e('Failed to reset the monthly calendar. Response: $response');
+        return false;
+      }
+    } catch (error) {
+      logger.e('Error during RPC call to reset monthly calendar: $error');
+      return false;
+    }
+  }
+
+  Future<bool> navigateCalendar(String direction) async {
+    try {
+      // Validate direction
+      if (direction != 'backward' && direction != 'forward') {
+        throw ArgumentError('Invalid direction: $direction. Must be "backward" or "forward".');
+      }
+
+      // Call the Supabase RPC function
+      final response = await client.rpc('navigate_calendar', params: {
+        'direction': direction,
+      });
+
+      if (response == true) {
+        logger.i('Successfully navigated calendar $direction.');
+        return true;
+      } else {
+        logger.e('Failed to navigate calendar $direction. Response: $response');
+        return false;
+      }
+    } catch (error) {
+      logger.e('Error during RPC call to navigate calendar: $error');
+      return false;
+    }
+  }
+
 }
 
