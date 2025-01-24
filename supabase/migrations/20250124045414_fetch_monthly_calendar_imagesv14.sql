@@ -132,7 +132,7 @@ BEGIN
                             JSONB_BUILD_OBJECT(
                                 'item_id', i.item_id,
                                 'item_image_url', i.image_url,
-                                'name', i.name,
+                                'name', i.name
                             )
                         )
                         FROM public.outfit_items oi
