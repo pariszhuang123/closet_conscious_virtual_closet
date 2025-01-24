@@ -131,7 +131,7 @@ BEGIN
                         SELECT JSONB_AGG(
                             JSONB_BUILD_OBJECT(
                                 'item_id', i.item_id,
-                                'item_image_url', i.image_url
+                                'item_image_url', i.image_url,
                                 'name', i.name,
                             )
                         )
