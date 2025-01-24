@@ -13,12 +13,11 @@ import '../../../../../generated/l10n.dart';
 import '../../../../../core/utilities/routes.dart';
 import '../../../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
-import '../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../../core/widgets/button/themed_elevated_button.dart';
 import '../../../core/presentation/bloc/update_closet_metadata_cubit/update_closet_metadata_cubit.dart';
 import '../../../../core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../core/presentation/widgets/multi_closet_feature_container.dart';
-
+import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 
 class CreateMultiClosetScreen extends StatefulWidget {
   final List<String> selectedItemIds;
@@ -38,8 +37,6 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
   final ScrollController _scrollController = ScrollController();
   final CustomLogger logger = CustomLogger('CreateMultiClosetScreen');
 
-
-  late final Future<int> crossAxisCountFuture;
   Map<String, String> validationErrors = {}; // Add validation errors map
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
@@ -96,7 +93,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
   void initState() {
     super.initState();
     logger.i('CreateMultiClosetScreen initialized');
-    crossAxisCountFuture = _getCrossAxisCount();
+    context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
     context.read<ViewItemsBloc>().add(FetchItemsEvent(0));
 
     // Add scroll listener for infinite scrolling
@@ -111,11 +108,6 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
         }
       }
     });
-  }
-
-  Future<int> _getCrossAxisCount() async {
-    final coreFetchService = CoreFetchService();
-    return await coreFetchService.fetchCrossAxisCount();
   }
 
   void _navigateToMyCloset(BuildContext context) {
@@ -146,16 +138,8 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
         FocusScope.of(context).unfocus();
       },
       behavior: HitTestBehavior.translucent,
-      child: FutureBuilder<int>(
-        future: crossAxisCountFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: ClosetProgressIndicator());
-          } else if (snapshot.hasError) {
-            logger.e("Error fetching crossAxisCount: ${snapshot.error}");
-            return Center(child: Text(S.of(context).failedToLoadItems));
-          } else {
-            final crossAxisCount = snapshot.data ?? 3;
+        child: BlocBuilder<CrossAxisCountCubit, int>(
+        builder: (context, crossAxisCount) {
 
             return MultiBlocListener(
               listeners: [
@@ -288,7 +272,6 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
               ),
             );
           }
-        },
       ),
     );
   }

@@ -68,11 +68,11 @@ class OutfitData {
     return OutfitData(
       outfitId: map['outfit_id'] as String,
       outfitImageUrl: map['outfit_image_url'] as String?,
-      items: map['items'] != null
+      items: (map['items'] != null && map['items'] is List<dynamic>)
           ? (map['items'] as List<dynamic>)
           .map((item) => ClosetItemMinimal.fromMap(item as Map<String, dynamic>))
           .toList()
-          : null,
+          : null, // Ensure items is null if the field is missing or invalid
     );
   }
 }

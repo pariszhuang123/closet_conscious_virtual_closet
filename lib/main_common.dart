@@ -9,6 +9,8 @@ import 'user_management/user_service_locator.dart' as user_management_locator;
 import 'core/core_service_locator.dart' as core_locator;
 import 'core/utilities/logger.dart';
 import 'outfit_management/outfit_service_locator.dart' as outfit_locator;
+import 'item_management/item_service_locator.dart' as item_locator;
+
 import 'app.dart';
 
 Future<void> mainCommon(String environment) async {
@@ -23,7 +25,7 @@ Future<void> mainCommon(String environment) async {
     appRunner: () async {
       WidgetsFlutterBinding.ensureInitialized();
 
-      core_locator.setupCoreServices();
+      core_locator.setupCoreLocator();
       final logger = core_locator.coreLocator<CustomLogger>(instanceName: 'MainCommonLogger');
 
       FlavorConfig.initialize(environment);
@@ -34,7 +36,8 @@ Future<void> mainCommon(String environment) async {
 
       await SupabaseConfig.initialize();
       user_management_locator.setupUserManagementLocator();
-      outfit_locator.setupLocator();
+      outfit_locator.setupOutfitLocator();
+      item_locator.setupItemLocator();
 
       // Log Supabase client initialization
       logger.i('Supabase client initialized: ${SupabaseConfig.client}');

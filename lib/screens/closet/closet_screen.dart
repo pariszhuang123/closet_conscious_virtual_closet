@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/data/services/core_fetch_services.dart';
 import '../../core/theme/my_closet_theme.dart';
 import '../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../core/utilities/routes.dart';
@@ -22,6 +21,7 @@ import '../../core/widgets/button/themed_elevated_button.dart';
 import '../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../core/widgets/dialog/trial_ended_dialog.dart';
 import '../../core/widgets/dialog/trial_started_dialog.dart';
+import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 
 class MyClosetScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -37,14 +37,12 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   final ScrollController _scrollController = ScrollController();
   final CustomLogger logger = CustomLogger('MyClosetPage');
 
-  late Future<int> crossAxisCountFuture;
-
   @override
   void initState() {
     super.initState();
     // Dispatch initial item fetch event
     context.read<ViewItemsBloc>().add(FetchItemsEvent(0));
-    crossAxisCountFuture = _getCrossAxisCount();
+    context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
     _triggerItemUploadAchievement();
     _triggerItemPicEditedAchievement();
     _triggerItemGiftedAchievement();
@@ -66,11 +64,6 @@ class MyClosetScreenState extends State<MyClosetScreen> {
         }
       }
     });
-  }
-
-  Future<int> _getCrossAxisCount() async {
-    final coreFetchService = CoreFetchService();
-    return await coreFetchService.fetchCrossAxisCount();
   }
 
   void _onItemTapped(int index) {
@@ -184,17 +177,8 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     final costOfNewItemsData = TypeDataList.costOfNewItems(context);
     final numberOfNewItemsData = TypeDataList.numberOfNewItems(context);
 
-    return FutureBuilder<int>(
-        future: crossAxisCountFuture,
-        builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return const Center(child: CircularProgressIndicator());
-      } else if (snapshot.hasError) {
-        logger.e("Error fetching crossAxisCount: ${snapshot.error}");
-        return Center(child: Text(S.of(context).failedToLoadItems));
-      } else {
-        final crossAxisCount = snapshot.data ?? 3;
-
+    return BlocBuilder<CrossAxisCountCubit, int>(
+      builder: (context, crossAxisCount) {
         return MultiBlocListener(
       listeners: [
 
@@ -445,7 +429,6 @@ class MyClosetScreenState extends State<MyClosetScreen> {
       ),
         );
       }
-        },
     );
   }
 }

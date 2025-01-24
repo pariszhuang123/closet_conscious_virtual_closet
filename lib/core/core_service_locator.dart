@@ -5,7 +5,7 @@ import 'data/services/core_save_services.dart';
 
 final GetIt coreLocator = GetIt.instance;
 
-void setupCoreServices() {
+void setupCoreLocator() {
   // Registering the logger with a specific tag
   coreLocator.registerSingleton<CustomLogger>(CustomLogger('CoreLogger'), instanceName: 'CoreLogger');
 

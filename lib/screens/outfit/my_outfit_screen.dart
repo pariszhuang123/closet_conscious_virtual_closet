@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 import '../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../outfit_management/save_outfit_items/presentation/bloc/save_outfit_items_bloc.dart';
-import '../../core/data/services/core_fetch_services.dart';
 import '../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_stylist_usage_bottom_sheet.dart';
 import '../../core/utilities/logger.dart';
 import '../app_drawer.dart';
@@ -24,6 +23,7 @@ import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../core/screens/achievement_completed_screen.dart';
 import '../../core/paywall/data/feature_key.dart';
+import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 
 
 class MyOutfitScreen extends StatefulWidget {
@@ -48,7 +48,6 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   int newOutfitCount = 2;
   bool _snackBarShown = false;
   bool _isNavigating = false; // New flag to track if navigation is in progress
-  late Future<int> crossAxisCountFuture;
 
   final OutfitFetchService _outfitFetchService = GetIt.instance<
       OutfitFetchService>();
@@ -57,7 +56,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   void initState() {
     super.initState();
     logger.i('MyOutfitView initialized');
-    crossAxisCountFuture = _getCrossAxisCount();
+    context.read<CrossAxisCountCubit>().fetchCrossAxisCount(); // Trigger fetch
     _fetchOutfitsCount();
     _checkNavigationToReview(context);
     _triggerClothingAchievement();
@@ -72,11 +71,6 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
         _fetchMoreItems();
       }
     });
-  }
-
-  Future<int> _getCrossAxisCount() async {
-    final coreFetchService = CoreFetchService();
-    return await coreFetchService.fetchCrossAxisCount();
   }
 
   void _fetchMoreItems() {
@@ -475,39 +469,37 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   ),
                   const SizedBox(height: 15),
                   Expanded(
-                    child: FutureBuilder<int>(
-                      future: crossAxisCountFuture,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Center(child: Text(S.of(context).failedToLoadItems));
-                        } else {
-                          final crossAxisCount = snapshot.data ?? 3; // Default to 3 if null
-                          return BlocBuilder<FetchOutfitItemBloc, FetchOutfitItemState>(
-                            builder: (context, state) {
-                              logger.i('CreateOutfitItemBloc builder triggered with state: $state');
+                    child: BlocBuilder<CrossAxisCountCubit, int>(
+                      builder: (context, crossAxisCount) {
+                        return BlocBuilder<FetchOutfitItemBloc, FetchOutfitItemState>(
+                          builder: (context, state) {
+                            logger.i(
+                                'FetchOutfitItemBloc builder triggered with state: $state');
 
-                              final currentItems = state.categoryItems[state.currentCategory] ?? [];
+                            final currentItems =
+                                state.categoryItems[state.currentCategory] ?? [];
 
-                              if (state.saveStatus == SaveStatus.failure) {
-                                return Center(child: Text(S.of(context).failedToLoadItems));
-                              } else if (currentItems.isEmpty) {
-                                _snackBarShown = false; // Reset the flag when no items are available
-                                return Center(child: Text(S.of(context).noItemsInOutfitCategory));
-                              } else {
-                                return InteractiveItemGrid(
-                                  scrollController: _scrollController,
-                                  items: currentItems,
-                                  isDisliked: false,
-                                  selectionMode: SelectionMode.multiSelection,
-                                  crossAxisCount: crossAxisCount, // Pass the crossAxisCount here
-                                  selectedItemIds: widget.selectedItemIds, // Pass the selectedItemIds
-                                );
-                              }
-                            },
-                          );
-                        }
+                            if (state.saveStatus == SaveStatus.failure) {
+                              return Center(
+                                  child: Text(S.of(context).failedToLoadItems));
+                            } else if (currentItems.isEmpty) {
+                              _snackBarShown = false;
+                              return Center(
+                                  child: Text(S
+                                      .of(context)
+                                      .noItemsInOutfitCategory));
+                            } else {
+                              return InteractiveItemGrid(
+                                scrollController: _scrollController,
+                                items: currentItems,
+                                isDisliked: false,
+                                selectionMode: SelectionMode.multiSelection,
+                                crossAxisCount: crossAxisCount,
+                                selectedItemIds: widget.selectedItemIds,
+                              );
+                            }
+                          },
+                        );
                       },
                     ),
                   ),

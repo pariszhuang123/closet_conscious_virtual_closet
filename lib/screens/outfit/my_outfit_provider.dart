@@ -8,9 +8,11 @@ import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../outfit_management/core/data/services/outfits_save_services.dart';
 import '../../outfit_management/core/outfit_enums.dart';
 import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc.dart';
+import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import 'my_outfit_screen.dart';
 import '../../core/utilities/logger.dart';
 import '../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
+import '../../core/data/services/core_fetch_services.dart';
 
 class MyOutfitProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -66,6 +68,15 @@ class MyOutfitProvider extends StatelessWidget {
             final outfitSaveService = GetIt.instance<OutfitSaveService>();
             _logger.d('Fetched service for OutfitSaveBloc: OutfitSaveService');
             return SaveOutfitItemsBloc(outfitSaveService);
+          },
+        ),
+        BlocProvider(
+          create: (context) {
+            _logger.d('Initializing CrossAxisCountCubit');
+            final coreFetchService = GetIt.instance<CoreFetchService>(); // Fetch CoreFetchService
+            final crossAxisCountCubit = CrossAxisCountCubit(coreFetchService: coreFetchService);
+            crossAxisCountCubit.fetchCrossAxisCount(); // Trigger initial fetch
+            return crossAxisCountCubit;
           },
         ),
       ],

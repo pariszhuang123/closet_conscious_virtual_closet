@@ -5,7 +5,7 @@ import 'core/data/services/outfits_save_services.dart';
 
 final GetIt getIt = GetIt.instance;
 
-void setupLocator() {
+void setupOutfitLocator() {
   final SupabaseClient supabaseClient = Supabase.instance.client;
 
   getIt.registerLazySingleton<SupabaseClient>(() => supabaseClient);
