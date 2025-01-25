@@ -38,38 +38,17 @@ class MonthlyCalendarImagesBloc
     logger.d('Fetching monthly calendar images');
 
     try {
-      final response = await fetchService.fetchMonthlyCalendarImages() as Map<String, dynamic>;
+      // Fetch response as a MonthlyCalendarResponse object
+      final response = await fetchService.fetchMonthlyCalendarImages();
 
-      final status = response['status'] as String;
-
-      switch (status) {
-        case 'no reviewed outfit':
-          logger.i('No reviewed outfits found');
-          emit(NoReviewedOutfit());
-          break;
-
-        case 'no reviewed outfit with filter':
-          logger.i('No outfits matching the filters');
-          emit(NoOutfitsMatchingFilter());
-          break;
-
-        case 'success':
-          final calendarData = (response['calendar_data'] as List<dynamic>)
-              .map((data) => CalendarData.fromMap(data as Map<String, dynamic>))
-              .toList();
-          final focusedDate = response['focused_date'] as String;
-          final startDate = response['start_date'] as String;
-          final endDate = response['end_date'] as String;
-
-          logger.i('Fetched calendar data with $calendarData entries');
-          emit(MonthlyCalendarImagesLoaded(calendarData, focusedDate, startDate, endDate));
-          break;
-
-        default:
-          logger.e('Unexpected response status: $status');
-          emit(MonthlyCalendarImagesError('Unexpected response status: $status'));
-          break;
-      }
+      // Log success and handle the loaded state
+      logger.i('Fetched calendar data with ${response.calendarData.length} entries');
+      emit(MonthlyCalendarImagesLoaded(
+        response.calendarData,
+        response.focusedDate.toIso8601String(),
+        response.startDate.toIso8601String(),
+        response.endDate.toIso8601String(),
+      ));
     } catch (error) {
       logger.e('Error fetching calendar images: $error');
       emit(MonthlyCalendarImagesError('Failed to fetch calendar images.'));

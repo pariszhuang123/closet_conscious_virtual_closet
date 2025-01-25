@@ -2,9 +2,9 @@ import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 
 class MonthlyCalendarResponse {
   final String status;
-  final String focusedDate;
-  final String startDate;
-  final String endDate;
+  final DateTime focusedDate;
+  final DateTime startDate;
+  final DateTime endDate;
   final bool hasPreviousOutfits;
   final bool hasNextOutfits;
   final List<CalendarData> calendarData;
@@ -22,9 +22,9 @@ class MonthlyCalendarResponse {
   factory MonthlyCalendarResponse.fromMap(Map<String, dynamic> map) {
     return MonthlyCalendarResponse(
       status: map['status'] as String,
-      focusedDate: map['focused_date'] as String,
-      startDate: map['start_date'] as String,
-      endDate: map['end_date'] as String,
+      focusedDate: DateTime.parse(map['focused_date'] as String), // Parse
+      startDate: DateTime.parse(map['start_date'] as String),     // Parse
+      endDate: DateTime.parse(map['end_date'] as String),         // Parse
       hasPreviousOutfits: map['has_previous_outfits'] as bool,
       hasNextOutfits: map['has_next_outfits'] as bool,
       calendarData: map['calendar_data'] != null
@@ -37,7 +37,7 @@ class MonthlyCalendarResponse {
 }
 
 class CalendarData {
-  final String date;
+  final DateTime date;
   final OutfitData outfitData;
 
   CalendarData({
@@ -47,7 +47,7 @@ class CalendarData {
 
   factory CalendarData.fromMap(Map<String, dynamic> map) {
     return CalendarData(
-      date: map['date'] as String,
+      date: DateTime.parse(map['date'] as String), // Parse
       outfitData: OutfitData.fromMap(map['outfit_data'] as Map<String, dynamic>),
     );
   }

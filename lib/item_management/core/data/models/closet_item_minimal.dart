@@ -18,7 +18,7 @@ class ClosetItemMinimal extends Equatable {
       itemId: map['item_id'] as String,
       imageUrl: map['image_url'] as String,
       name: map['name'] as String,
-      itemType: map['item_type'] as String,
+      itemType: map['item_type'] as String?, // Allow nullable casting
     );
   }
 

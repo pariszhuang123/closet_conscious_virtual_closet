@@ -192,7 +192,7 @@ class OutfitFetchService {
     }
   }
 
-  Future<List<MonthlyCalendarResponse>> fetchMonthlyCalendarImages() async {
+  Future<MonthlyCalendarResponse> fetchMonthlyCalendarImages() async {
     try {
       logger.d('Fetching monthly calendar images');
 
@@ -210,107 +210,14 @@ class OutfitFetchService {
         throw OutfitFetchException(errorMessage);
       }
 
-      // Parse the response data
-      final status = response['status'] as String?;
-      if (status == null) {
-        logger.e('Response status is missing: $response');
-        throw OutfitFetchException('Response status is missing.');
-      }
+      // Parse the response into a MonthlyCalendarResponse object
+      logger.d('Parsing the full RPC response into MonthlyCalendarResponse');
+      final monthlyResponse = MonthlyCalendarResponse.fromMap(response);
 
-      switch (status) {
-        case 'no reviewed outfit':
-          logger.i('No reviewed outfits found');
-          throw OutfitFetchException('No reviewed outfits found');
+      logger.i(
+          'Parsed MonthlyCalendarResponse: ${monthlyResponse.calendarData.length} calendar entries found.');
 
-        case 'no reviewed outfit with filter':
-          logger.i('No outfits matching filters');
-          throw OutfitFetchException('No outfits matching filters');
-
-        case 'success':
-          logger.d('Processing success response');
-          final focusedDate = response['focused_date'] as String?;
-          logger.d('Focused date: $focusedDate');
-          if (focusedDate == null || focusedDate.isEmpty) {
-            logger.e('Missing or empty focused_date field in response: $response');
-            throw OutfitFetchException('Missing or empty focused_date field.');
-          }
-
-          final startDate = response['start_date'] as String?;
-          logger.d('Start date: $startDate');
-          if (startDate == null || startDate.isEmpty) {
-            logger.e('Missing or empty start_date field in response: $response');
-            throw OutfitFetchException('Missing or empty start_date field.');
-          }
-
-          final endDate = response['end_date'] as String?;
-          logger.d('End date: $endDate');
-          if (endDate == null || endDate.isEmpty) {
-            logger.e('Missing or empty end_date field in response: $response');
-            throw OutfitFetchException('Missing or empty end_date field.');
-          }
-
-          final calendarData = response['calendar_data'];
-          logger.d('Calendar data type: ${calendarData.runtimeType}');
-          if (calendarData == null || calendarData is! List) {
-            logger.e('Invalid or missing calendar_data field: ${response['calendar_data']}');
-            throw OutfitFetchException('Calendar data is invalid or missing.');
-          }
-
-          logger.i('Fetched calendar data with ${calendarData.length} entries');
-
-          // Process the calendar data
-          return calendarData.map((item) {
-            if (item == null || item is! Map<String, dynamic>) {
-              logger.e('Invalid calendar data item: $item');
-              return null; // Skip invalid items
-            }
-
-            final itemMap = item;
-
-            // Validate outfit_data
-            final outfitData = itemMap['outfit_data'] as Map<String, dynamic>?;
-            if (outfitData == null) {
-              logger.e('Outfit data is null for item: $itemMap');
-              return null; // Skip this item
-            }
-
-            logger.d('Processing outfit data: $outfitData');
-
-            // Validate outfitImageUrl
-            final outfitImageUrl = outfitData['outfit_image_url'];
-            if (outfitImageUrl == null || outfitImageUrl is! String) {
-              logger.e('Invalid outfit_image_url: $outfitImageUrl');
-              return null; // Skip this item
-            }
-
-            if (outfitImageUrl == 'cc_none') {
-              final items = outfitData['items'];
-              if (items == null || items is! List || items.isEmpty) {
-                logger.e('Items are invalid or empty for outfitData: $outfitData');
-                return null; // Skip this item
-              }
-
-              for (final item in items) {
-                if (item == null || item is! Map<String, dynamic>) {
-                  logger.e('Invalid item in items: $item');
-                  continue;
-                }
-
-                final itemId = item['item_id'];
-                if (itemId == null || itemId is! String) {
-                  logger.e('Invalid or missing item_id: $item');
-                }
-              }
-            }
-
-            return MonthlyCalendarResponse.fromMap(itemMap);
-          }).whereType<MonthlyCalendarResponse>().toList();
-
-        default:
-        // Unexpected status
-          logger.e('Unexpected status: $status');
-          throw OutfitFetchException('Unexpected response status: $status');
-      }
+      return monthlyResponse; // Return the fully parsed response
     } catch (error) {
       logger.e('Error fetching monthly calendar images: $error');
       throw OutfitFetchException('Failed to fetch monthly calendar images');
