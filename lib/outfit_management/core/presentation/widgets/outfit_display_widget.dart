@@ -28,7 +28,15 @@ class OutfitDisplayWidget extends StatelessWidget {
     final logger = CustomLogger('OutfitDisplayWidget');
     logger.i('Building OutfitDisplayWidget for outfitId: ${outfit.outfitId}.');
 
-    final isGridDisplay = outfit.outfitImageUrl == 'cc_none';
+    // Determine if we should show a grid or an image
+    final isGridDisplay = outfit.outfitImageUrl == null || outfit.outfitImageUrl == 'cc_none';
+    final hasValidItems = outfit.items != null && outfit.items!.isNotEmpty;
+
+    // Log the state for debugging
+    if (isGridDisplay && !hasValidItems) {
+      logger.w(
+          'Outfit ${outfit.outfitId} has "cc_none" for outfit_image_url but no valid items to display.');
+    }
 
     return GestureDetector(
       onTap: () {
@@ -43,10 +51,17 @@ class OutfitDisplayWidget extends StatelessWidget {
         }
       },
       child: isGridDisplay
+          ? hasValidItems
           ? OutfitItemGrid(
         key: ValueKey('outfit-grid-${outfit.outfitId}'),
-        items: outfit.items ?? [],
+        items: outfit.items!,
         crossAxisCount: crossAxisCount,
+      )
+          : Center(
+        child: Text(
+          'No items available for this outfit',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
       )
           : OutfitImageWidget(
         key: ValueKey('outfit-image-${outfit.outfitId}'),

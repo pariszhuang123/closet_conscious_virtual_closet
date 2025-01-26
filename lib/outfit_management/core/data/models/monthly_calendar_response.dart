@@ -55,7 +55,8 @@ class MonthlyCalendarResponse {
         focusedDate: _parseDate(map['focused_date'], 'focused_date'),
         startDate: _parseDate(map['start_date'], 'start_date'),
         endDate: _parseDate(map['end_date'], 'end_date'),
-        hasPreviousOutfits: _validateBool(map['has_previous_outfits'], 'has_previous_outfits'),
+        hasPreviousOutfits:
+        _validateBool(map['has_previous_outfits'], 'has_previous_outfits'),
         hasNextOutfits: _validateBool(map['has_next_outfits'], 'has_next_outfits'),
         calendarData: fullCalendarData,
       );
@@ -107,21 +108,21 @@ class MonthlyCalendarResponse {
     };
 
     return allDates.map((date) {
-      final entry = calendarDataMap[date] ??
-          CalendarData(
-            date: date,
-            outfitData: OutfitData.empty(),
-          );
+      final entry = calendarDataMap[date] ?? CalendarData(
+        date: date,
+        outfitData: OutfitData.empty(),
+      );
+
       if (entry.outfitData.isNotEmpty) {
         logger.d('Date $date has an outfit.');
       } else {
         logger.w('Date $date is empty.');
       }
+
       return entry;
     }).toList();
   }
 
-  /// Validate string fields
   static String _validateString(dynamic value, String fieldName) {
     final logger = CustomLogger('MonthlyCalendarResponse._validateString');
     if (value == null || value is! String || value.isEmpty) {
@@ -131,7 +132,6 @@ class MonthlyCalendarResponse {
     return value;
   }
 
-  /// Validate boolean fields
   static bool _validateBool(dynamic value, String fieldName) {
     final logger = CustomLogger('MonthlyCalendarResponse._validateBool');
     if (value == null || value is! bool) {

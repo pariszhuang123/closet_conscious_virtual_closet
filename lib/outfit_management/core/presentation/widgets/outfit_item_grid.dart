@@ -16,6 +16,7 @@ class OutfitItemGrid extends StatelessWidget {
     required this.crossAxisCount,
   });
 
+  /// Determines the appropriate image size based on the crossAxisCount
   ImageSize _getImageSize(int crossAxisCount) {
     switch (crossAxisCount) {
       case 3:
@@ -34,23 +35,37 @@ class OutfitItemGrid extends StatelessWidget {
     final logger = CustomLogger('OutfitItemGrid');
     logger.i('Building OutfitItemGrid with ${items.length} items and crossAxisCount: $crossAxisCount');
 
+    // Validate the items list
+    if (items.isEmpty) {
+      logger.w('No items available in the grid. Displaying "No Items" message.');
+      return Center(
+        child: Text(
+          S.of(context).noItemsInCloset,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+      );
+    }
+
+    // Calculate child aspect ratio and image size
     final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
     final imageSize = _getImageSize(crossAxisCount);
 
-    if (items.isEmpty) {
-      logger.w('No items available in the grid. Displaying "No Items" message.');
-      return Center(child: Text(S.of(context).noItemsInCloset));
-    }
+    // Generate a unique grid key
+    final gridKey = ValueKey(
+      items.map((item) => item.itemId).join('-'),
+    );
+    logger.d('Generated grid key: $gridKey');
 
-    final gridKey = ValueKey(items.map((item) => item.itemId).join('-'));
-    logger.d('Grid key generated: $gridKey');
-
+    // Build the grid
     return BaseGrid<ClosetItemMinimal>(
       items: items,
       itemBuilder: (context, item, index) {
+        // Ensure item validity before rendering
         logger.d('Rendering GridItem for itemId: ${item.itemId}, at index: $index');
+
+        // Build grid item
         return GridItem(
-          key: gridKey,
+          key: ValueKey('grid-item-${item.itemId}'),
           item: item,
           isSelected: false,
           isDisliked: false,
