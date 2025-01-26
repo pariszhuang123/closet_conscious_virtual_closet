@@ -12,7 +12,7 @@ class ImageCalendarWidget extends StatelessWidget {
   final DateTime focusedDay;
   final DateTime firstDay;
   final DateTime lastDay;
-  final List<CalendarData> calendarData; // Updated to CalendarData
+  final List<CalendarData> calendarData;
   final bool isCalendarSelectable;
   final int crossAxisCount;
 
@@ -21,7 +21,7 @@ class ImageCalendarWidget extends StatelessWidget {
     required this.focusedDay,
     required this.firstDay,
     required this.lastDay,
-    required this.calendarData, // Updated to CalendarData
+    required this.calendarData,
     required this.isCalendarSelectable,
     required this.crossAxisCount,
   });
@@ -38,142 +38,164 @@ class ImageCalendarWidget extends StatelessWidget {
       children: [
         Expanded(
           child: TableCalendar(
-            firstDay: firstDay,
-            lastDay: lastDay,
-            focusedDay: focusedDay,
-            calendarStyle: CalendarStyle(
-              defaultTextStyle: Theme.of(context).textTheme.bodyMedium!,
-              todayDecoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                shape: BoxShape.rectangle,
-              ),
-              selectedDecoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
-                shape: BoxShape.rectangle,
-              ),
-            ),
-            headerStyle: HeaderStyle(
-              titleTextStyle: Theme.of(context).textTheme.displayLarge!,
-              formatButtonTextStyle: Theme.of(context).textTheme.bodyMedium!,
-              formatButtonDecoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondaryContainer,
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
+            firstDay: DateTime.utc(firstDay.year, firstDay.month, firstDay.day),
+            lastDay: DateTime.utc(lastDay.year, lastDay.month, lastDay.day),
+            focusedDay: DateTime.utc(focusedDay.year, focusedDay.month, focusedDay.day),
+            calendarStyle: _buildCalendarStyle(context),
+            headerStyle: _buildHeaderStyle(context),
             calendarBuilders: CalendarBuilders(
-              defaultBuilder: (context, date, _) {
-                logger.d('Rendering default cell for date: $date');
-                final normalizedDate = DateTime.utc(date.year, date.month, date.day);
-
-                final calendarEntry = calendarData.firstWhere(
-                      (entry) => entry.date.isAtSameMomentAs(normalizedDate),
-                  orElse: () {
-                    logger.w('No entry found for date: $date. Using empty CalendarData.');
-                    return CalendarData(
-                      date: normalizedDate,
-                      outfitData: OutfitData.empty(),
-                    );
-                  },
-                );
-
-                if (calendarEntry.outfitData.isNotEmpty) {
-                  logger.d('Rendering cell for date: $normalizedDate with outfit data.');
-                } else {
-                  logger.d('Date $normalizedDate has no outfit data.');
-                }
-
-                if (calendarEntry.outfitData.isEmpty) {
-                  return Center(
-                    child: Text(
-                      '${normalizedDate.day}',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  );
-                }
-
-                final isGridDisplay = calendarEntry.outfitData.outfitImageUrl == null;
-                logger.d(
-                    'Rendering DayOutfitWidget for date: $date with outfitId: ${calendarEntry.outfitData.outfitId}');
-                return DayOutfitWidget(
-                  date: normalizedDate,
-                  outfit: calendarEntry.outfitData,
-                  isGridDisplay: isGridDisplay,
-                  isSelectable: isCalendarSelectable,
-                  crossAxisCount: crossAxisCount,
-                  onOutfitSelected: (outfitId) {
-                    logger.i('Outfit selected: $outfitId on date: $date');
-                    context.read<MonthlyCalendarImagesBloc>().add(
-                      CalendarInteraction(
-                        selectedDate: normalizedDate,
-                        outfitId: outfitId,
-                        isCalendarSelectable: true,
-                      ),
-                    );
-                  },
-                  onNavigate: () {
-                    logger.i(
-                        'Navigating to outfitId: ${calendarEntry.outfitData.outfitId} on date: $date');
-                    context.read<MonthlyCalendarImagesBloc>().add(
-                      CalendarInteraction(
-                        selectedDate: normalizedDate,
-                        outfitId: calendarEntry.outfitData.outfitId,
-                        isCalendarSelectable: false,
-                      ),
-                    );
-                  },
-                );
-              },
-              todayBuilder: (context, date, _) {
-                logger.d('Rendering today\'s date: $date');
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    shape: BoxShape.rectangle,
-                  ),
-                  child: Center(
-                    child: Text(
-                      '${date.day}',
-                      style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-                    ),
-                  ),
-                );
-              },
+              defaultBuilder: (context, date, _) =>
+                  _buildDefaultCell(context, date, logger),
+              todayBuilder: (context, date, _) =>
+                  _buildTodayCell(context, date, logger),
             ),
             onDaySelected: (selectedDay, _) {
-              logger.d('Day selected: $selectedDay');
-              final calendarEntry = calendarData.firstWhere(
-                    (entry) => entry.date.isAtSameMomentAs(selectedDay),
-                orElse: () {
-                  logger.w('No entry found for selected date: $selectedDay. Using empty CalendarData.');
-                  return CalendarData(
-                    date: selectedDay,
-                    outfitData: OutfitData.empty(),
-                  );
-                },
-              );
-
-              logger.i(
-                  'Day selected: $selectedDay, OutfitId: ${calendarEntry.outfitData.outfitId}');
-              context.read<MonthlyCalendarImagesBloc>().add(
-                CalendarInteraction(
-                  selectedDate: selectedDay,
-                  outfitId: calendarEntry.outfitData.outfitId,
-                  isCalendarSelectable: isCalendarSelectable,
-                ),
-              );
+              _handleDaySelected(context, selectedDay, logger);
             },
           ),
         ),
-        if (calendarData.isEmpty)
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              S.of(context).noOutfitsInMonth,
-              style: Theme.of(context).textTheme.bodyMedium,
-              textAlign: TextAlign.center,
-            ),
-          ),
+        if (calendarData.isEmpty) _buildEmptyState(context),
       ],
+    );
+  }
+
+  /// Helper to build calendar style
+  CalendarStyle _buildCalendarStyle(BuildContext context) {
+    return CalendarStyle(
+      defaultTextStyle: Theme.of(context).textTheme.bodyMedium!,
+      todayDecoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        shape: BoxShape.rectangle,
+      ),
+      selectedDecoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.secondary,
+        shape: BoxShape.rectangle,
+      ),
+    );
+  }
+
+  /// Helper to build header style
+  HeaderStyle _buildHeaderStyle(BuildContext context) {
+    return HeaderStyle(
+      titleTextStyle: Theme.of(context).textTheme.displayLarge!,
+      formatButtonTextStyle: Theme.of(context).textTheme.bodyMedium!,
+      formatButtonDecoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.circular(8),
+      ),
+    );
+  }
+
+  /// Default cell builder
+  Widget _buildDefaultCell(BuildContext context, DateTime date, CustomLogger logger) {
+    final normalizedDate = DateTime.utc(date.year, date.month, date.day);
+    logger.d('Rendering default cell for date: $normalizedDate');
+
+    final calendarEntry = calendarData.firstWhere(
+          (entry) => entry.date.isAtSameMomentAs(normalizedDate),
+      orElse: () {
+        logger.w('No entry found for date: $normalizedDate. Using empty CalendarData.');
+        return CalendarData(
+          date: normalizedDate,
+          outfitData: OutfitData.empty(),
+        );
+      },
+    );
+
+    if (calendarEntry.outfitData.isNotEmpty) {
+      logger.d('Date $normalizedDate has outfitId: ${calendarEntry.outfitData.outfitId}');
+      final isGridDisplay = calendarEntry.outfitData.outfitImageUrl == null;
+      return DayOutfitWidget(
+        date: normalizedDate,
+        outfit: calendarEntry.outfitData,
+        isGridDisplay: isGridDisplay,
+        isSelectable: isCalendarSelectable,
+        crossAxisCount: crossAxisCount,
+        onOutfitSelected: (outfitId) {
+          logger.i('Outfit selected: $outfitId on date: $normalizedDate');
+          context.read<MonthlyCalendarImagesBloc>().add(
+            CalendarInteraction(
+              selectedDate: normalizedDate,
+              outfitId: outfitId,
+              isCalendarSelectable: true,
+            ),
+          );
+        },
+        onNavigate: () {
+          logger.i(
+              'Navigating to outfitId: ${calendarEntry.outfitData.outfitId} on date: $normalizedDate');
+          context.read<MonthlyCalendarImagesBloc>().add(
+            CalendarInteraction(
+              selectedDate: normalizedDate,
+              outfitId: calendarEntry.outfitData.outfitId,
+              isCalendarSelectable: false,
+            ),
+          );
+        },
+      );
+    }
+
+    logger.d('Date $normalizedDate has no outfit data.');
+    return Center(
+      child: Text(
+        '${normalizedDate.day}',
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+    );
+  }
+
+  /// Today cell builder
+  Widget _buildTodayCell(BuildContext context, DateTime date, CustomLogger logger) {
+    final normalizedDate = DateTime.utc(date.year, date.month, date.day);
+    logger.d('Rendering today\'s date: $normalizedDate');
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        shape: BoxShape.rectangle,
+      ),
+      child: Center(
+        child: Text(
+          '${normalizedDate.day}',
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        ),
+      ),
+    );
+  }
+
+  /// Handle day selection
+  void _handleDaySelected(BuildContext context, DateTime selectedDay, CustomLogger logger) {
+    final normalizedDay = DateTime.utc(selectedDay.year, selectedDay.month, selectedDay.day);
+    logger.d('Day selected: $normalizedDay');
+    final calendarEntry = calendarData.firstWhere(
+          (entry) => entry.date.isAtSameMomentAs(normalizedDay),
+      orElse: () {
+        logger.w('No entry found for selected date: $normalizedDay. Using empty CalendarData.');
+        return CalendarData(
+          date: normalizedDay,
+          outfitData: OutfitData.empty(),
+        );
+      },
+    );
+
+    logger.i('Day selected: $normalizedDay, OutfitId: ${calendarEntry.outfitData.outfitId}');
+    context.read<MonthlyCalendarImagesBloc>().add(
+      CalendarInteraction(
+        selectedDate: normalizedDay,
+        outfitId: calendarEntry.outfitData.outfitId,
+        isCalendarSelectable: isCalendarSelectable,
+      ),
+    );
+  }
+
+  /// Empty state builder
+  Widget _buildEmptyState(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Text(
+        S.of(context).noOutfitsInMonth,
+        style: Theme.of(context).textTheme.bodyMedium,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }

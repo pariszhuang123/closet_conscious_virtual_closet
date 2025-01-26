@@ -88,7 +88,7 @@ class MonthlyCalendarResponse {
     logger.i('Populating missing dates...');
 
     final normalizedCalendarData = calendarData.map((data) {
-      final normalizedDate = data.date.toUtc();
+      final normalizedDate = DateTime.utc(data.date.year, data.date.month, data.date.day);
       return CalendarData(
         date: normalizedDate,
         outfitData: data.outfitData,
@@ -96,7 +96,7 @@ class MonthlyCalendarResponse {
     }).toList();
 
     final allDates = <DateTime>[];
-    for (var date = startDate.toUtc();
+    for (var date = DateTime.utc(startDate.year, startDate.month, startDate.day);
     date.isBefore(endDate) || date.isAtSameMomentAs(endDate);
     date = date.add(const Duration(days: 1))) {
       allDates.add(date);
@@ -120,7 +120,6 @@ class MonthlyCalendarResponse {
       return entry;
     }).toList();
   }
-
 
   /// Validate string fields
   static String _validateString(dynamic value, String fieldName) {
@@ -156,13 +155,17 @@ class CalendarData {
     final logger = CustomLogger('CalendarData');
     try {
       logger.i('Parsing CalendarData...');
+      final parsedDate = MonthlyCalendarResponse._parseDate(map['date'], 'date');
+      final normalizedDate = DateTime.utc(parsedDate.year, parsedDate.month, parsedDate.day);
+
       final calendarData = CalendarData(
-        date: MonthlyCalendarResponse._parseDate(map['date'], 'date'),
+        date: normalizedDate,
         outfitData: map['outfit_data'] != null
             ? OutfitData.fromMap(map['outfit_data'] as Map<String, dynamic>)
-            : OutfitData.empty(), // Use empty OutfitData if missing
+            : OutfitData.empty(),
       );
-      logger.i('Successfully parsed CalendarData for date: ${calendarData.date}');
+
+      logger.i('Successfully parsed CalendarData for date: $normalizedDate');
       return calendarData;
     } catch (e) {
       logger.e('Failed to parse CalendarData: $e');
@@ -182,7 +185,6 @@ class OutfitData {
     this.items,
   });
 
-  /// Factory to parse OutfitData from Map
   factory OutfitData.fromMap(Map<String, dynamic> map) {
     final logger = CustomLogger('OutfitData');
     try {
@@ -193,15 +195,13 @@ class OutfitData {
             ? null
             : MonthlyCalendarResponse._validateString(map['outfit_image_url'], 'outfit_image_url'),
         items: (map['items'] != null && map['items'] is List)
-            ? (map['items'] as List)
-            .map((item) {
+            ? (map['items'] as List).map((item) {
           if (item is Map<String, dynamic>) {
             return ClosetItemMinimal.fromMap(item);
           } else {
             throw FormatException('Invalid entry in `items`: $item');
           }
-        })
-            .toList()
+        }).toList()
             : [],
       );
       logger.i('Successfully parsed OutfitData: ${outfitData.outfitId}');
@@ -212,20 +212,16 @@ class OutfitData {
     }
   }
 
-  /// Create an empty OutfitData object
   factory OutfitData.empty() {
     final logger = CustomLogger('OutfitData.empty');
     logger.d('Creating empty OutfitData.');
     return OutfitData(
-      outfitId: '', // Empty outfitId
-      outfitImageUrl: null, // No image
-      items: [], // No items
+      outfitId: '',
+      outfitImageUrl: null,
+      items: [],
     );
   }
 
-  /// Check if OutfitData is empty
   bool get isEmpty => outfitId.isEmpty && (items == null || items!.isEmpty);
-
-  /// Check if OutfitData is not empty
   bool get isNotEmpty => !isEmpty;
 }
