@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../../generated/l10n.dart';
-import '../../../../core/presentation/widgets/outfit_display_widget.dart';
-import '../../../../../core/core_enums.dart';
+import '../widgets/day_outfit_widget.dart'; // Import the DayOutfitWidget
 import '../../../../core/data/models/monthly_calendar_response.dart';
 import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
 import '../../../../../core/utilities/logger.dart';
@@ -13,16 +12,16 @@ class ImageCalendarWidget extends StatelessWidget {
   final DateTime focusedDay;
   final DateTime firstDay;
   final DateTime lastDay;
-  final List<OutfitData> outfits; // List of DailyOutfit
-  final bool isCalendarSelectable; // Determines the behavior
-  final int crossAxisCount; // Cross axis count for the grid
+  final List<CalendarData> calendarData; // Updated to CalendarData
+  final bool isCalendarSelectable;
+  final int crossAxisCount;
 
   const ImageCalendarWidget({
     super.key,
     required this.focusedDay,
     required this.firstDay,
     required this.lastDay,
-    required this.outfits,
+    required this.calendarData, // Updated to CalendarData
     required this.isCalendarSelectable,
     required this.crossAxisCount,
   });
@@ -32,7 +31,7 @@ class ImageCalendarWidget extends StatelessWidget {
     final logger = CustomLogger('ImageCalendarWidget');
     logger.i('Building ImageCalendarWidget...');
     logger.i(
-      'Focused Day: $focusedDay, First Day: $firstDay, Last Day: $lastDay, Outfit Count: ${outfits.length}',
+      'Focused Day: $focusedDay, First Day: $firstDay, Last Day: $lastDay, Calendar Entries: ${calendarData.length}',
     );
 
     return Column(
@@ -63,22 +62,37 @@ class ImageCalendarWidget extends StatelessWidget {
             ),
             calendarBuilders: CalendarBuilders(
               defaultBuilder: (context, date, _) {
-                final outfitForDay = outfits.firstWhere(
-                      (outfit) => DateTime.parse(outfit.outfitId).isAtSameMomentAs(date),
-
+                // Find CalendarData for the specific date
+                final calendarEntry = calendarData.firstWhere(
+                      (entry) => entry.date.isAtSameMomentAs(date),
+                  orElse: () => CalendarData(
+                    date: date,
+                    outfitData: OutfitData(
+                      outfitId: '',
+                      outfitImageUrl: null,
+                      items: [],
+                    ),
+                  ),
                 );
 
-                final imageSize = outfitForDay.outfitImageUrl?.isNotEmpty == true
-                    ? ImageSize.calendarSelfie
-                    : ImageSize.calendarOutfitItemGrid3;
+                if (calendarEntry.outfitData.isEmpty) {
+                  // No outfit: Show plain text for the date
+                  return Center(
+                    child: Text(
+                      '${date.day}',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  );
+                }
 
-                logger.d('Rendering outfit for date: $date, outfitId: ${outfitForDay.outfitId}');
+                final isGridDisplay = calendarEntry.outfitData.outfitImageUrl == null;
 
-                return OutfitDisplayWidget(
-                  outfit: outfitForDay,
-                  crossAxisCount: crossAxisCount,
-                  imageSize: imageSize,
+                return DayOutfitWidget(
+                  date: date,
+                  outfit: calendarEntry.outfitData,
+                  isGridDisplay: isGridDisplay,
                   isSelectable: isCalendarSelectable,
+                  crossAxisCount: crossAxisCount,
                   onOutfitSelected: (outfitId) {
                     logger.i('Outfit selected: $outfitId on date: $date');
                     context.read<MonthlyCalendarImagesBloc>().add(
@@ -90,11 +104,11 @@ class ImageCalendarWidget extends StatelessWidget {
                     );
                   },
                   onNavigate: () {
-                    logger.i('Navigating to outfitId: ${outfitForDay.outfitId} on date: $date');
+                    logger.i('Navigating to outfitId: ${calendarEntry.outfitData.outfitId} on date: $date');
                     context.read<MonthlyCalendarImagesBloc>().add(
                       CalendarInteraction(
                         selectedDate: date,
-                        outfitId: outfitForDay.outfitId,
+                        outfitId: calendarEntry.outfitData.outfitId,
                         isCalendarSelectable: false,
                       ),
                     );
@@ -118,22 +132,30 @@ class ImageCalendarWidget extends StatelessWidget {
               },
             ),
             onDaySelected: (selectedDay, _) {
-              final outfitForDay = outfits.firstWhere(
-                    (outfit) => DateTime.parse(outfit.outfitId).isAtSameMomentAs(selectedDay),
+              final calendarEntry = calendarData.firstWhere(
+                    (entry) => entry.date.isAtSameMomentAs(selectedDay),
+                orElse: () => CalendarData(
+                  date: selectedDay,
+                  outfitData: OutfitData(
+                    outfitId: '',
+                    outfitImageUrl: null,
+                    items: [],
+                  ),
+                ),
               );
 
-              logger.i('Day selected: $selectedDay, OutfitId: ${outfitForDay.outfitId}');
+              logger.i('Day selected: $selectedDay, OutfitId: ${calendarEntry.outfitData.outfitId}');
               context.read<MonthlyCalendarImagesBloc>().add(
                 CalendarInteraction(
                   selectedDate: selectedDay,
-                  outfitId: outfitForDay.outfitId,
+                  outfitId: calendarEntry.outfitData.outfitId,
                   isCalendarSelectable: isCalendarSelectable,
                 ),
               );
-                        },
+            },
           ),
         ),
-        if (outfits.isEmpty)
+        if (calendarData.isEmpty)
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(

@@ -6,7 +6,6 @@ import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
 import '../widgets/monthly_calendar_metadata.dart';
 import '../widgets/image_calendar_widget.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
-import '../../../../core/data/models/monthly_calendar_response.dart';
 import '../../../../../core/utilities/logger.dart';
 
 class MonthlyCalendarScreen extends StatefulWidget {
@@ -133,15 +132,7 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                       final lastDay = DateTime.parse(state.endDate);
 
                       return ImageCalendarWidget(
-                        outfits: state.calendarData.map((calendarEntry) {
-                          final outfitData = calendarEntry.outfitData;
-                          logger.d('Outfit loaded: ${outfitData.outfitId}');
-                          return OutfitData(
-                            outfitId: outfitData.outfitId,
-                            outfitImageUrl: outfitData.outfitImageUrl,
-                            items: outfitData.items ?? [],
-                          );
-                        }).toList(),
+                        calendarData: state.calendarData, // Pass the calendarData directly
                         focusedDay: focusedDay,
                         firstDay: firstDay,
                         lastDay: lastDay,

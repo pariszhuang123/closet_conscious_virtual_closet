@@ -28,6 +28,8 @@ class OutfitDisplayWidget extends StatelessWidget {
     final logger = CustomLogger('OutfitDisplayWidget');
     logger.i('Building OutfitDisplayWidget for outfitId: ${outfit.outfitId}.');
 
+    final isGridDisplay = outfit.outfitImageUrl == 'cc_none';
+
     return GestureDetector(
       onTap: () {
         if (isSelectable) {
@@ -40,16 +42,16 @@ class OutfitDisplayWidget extends StatelessWidget {
           onNavigate?.call();
         }
       },
-      child: outfit.outfitImageUrl?.isNotEmpty ?? false
-          ? OutfitImageWidget(
-        key: ValueKey('outfit-image-${outfit.outfitId}'), // Key for the image widget
-        imageUrl: outfit.outfitImageUrl!,
-        imageSize: imageSize,
-      )
-          : OutfitItemGrid(
-        key: ValueKey('outfit-grid-${outfit.outfitId}'), // Key for the grid widget
+      child: isGridDisplay
+          ? OutfitItemGrid(
+        key: ValueKey('outfit-grid-${outfit.outfitId}'),
         items: outfit.items ?? [],
         crossAxisCount: crossAxisCount,
+      )
+          : OutfitImageWidget(
+        key: ValueKey('outfit-image-${outfit.outfitId}'),
+        imageUrl: outfit.outfitImageUrl!,
+        imageSize: imageSize,
       ),
     );
   }
