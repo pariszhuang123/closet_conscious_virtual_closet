@@ -62,33 +62,40 @@ class ImageCalendarWidget extends StatelessWidget {
             ),
             calendarBuilders: CalendarBuilders(
               defaultBuilder: (context, date, _) {
-                // Find CalendarData for the specific date
+                logger.d('Rendering default cell for date: $date');
+                final normalizedDate = DateTime.utc(date.year, date.month, date.day);
+
                 final calendarEntry = calendarData.firstWhere(
-                      (entry) => entry.date.isAtSameMomentAs(date),
-                  orElse: () => CalendarData(
-                    date: date,
-                    outfitData: OutfitData(
-                      outfitId: '',
-                      outfitImageUrl: null,
-                      items: [],
-                    ),
-                  ),
+                      (entry) => entry.date.isAtSameMomentAs(normalizedDate),
+                  orElse: () {
+                    logger.w('No entry found for date: $date. Using empty CalendarData.');
+                    return CalendarData(
+                      date: normalizedDate,
+                      outfitData: OutfitData.empty(),
+                    );
+                  },
                 );
 
+                if (calendarEntry.outfitData.isNotEmpty) {
+                  logger.d('Rendering cell for date: $normalizedDate with outfit data.');
+                } else {
+                  logger.d('Date $normalizedDate has no outfit data.');
+                }
+
                 if (calendarEntry.outfitData.isEmpty) {
-                  // No outfit: Show plain text for the date
                   return Center(
                     child: Text(
-                      '${date.day}',
+                      '${normalizedDate.day}',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   );
                 }
 
                 final isGridDisplay = calendarEntry.outfitData.outfitImageUrl == null;
-
+                logger.d(
+                    'Rendering DayOutfitWidget for date: $date with outfitId: ${calendarEntry.outfitData.outfitId}');
                 return DayOutfitWidget(
-                  date: date,
+                  date: normalizedDate,
                   outfit: calendarEntry.outfitData,
                   isGridDisplay: isGridDisplay,
                   isSelectable: isCalendarSelectable,
@@ -97,17 +104,18 @@ class ImageCalendarWidget extends StatelessWidget {
                     logger.i('Outfit selected: $outfitId on date: $date');
                     context.read<MonthlyCalendarImagesBloc>().add(
                       CalendarInteraction(
-                        selectedDate: date,
+                        selectedDate: normalizedDate,
                         outfitId: outfitId,
                         isCalendarSelectable: true,
                       ),
                     );
                   },
                   onNavigate: () {
-                    logger.i('Navigating to outfitId: ${calendarEntry.outfitData.outfitId} on date: $date');
+                    logger.i(
+                        'Navigating to outfitId: ${calendarEntry.outfitData.outfitId} on date: $date');
                     context.read<MonthlyCalendarImagesBloc>().add(
                       CalendarInteraction(
-                        selectedDate: date,
+                        selectedDate: normalizedDate,
                         outfitId: calendarEntry.outfitData.outfitId,
                         isCalendarSelectable: false,
                       ),
@@ -132,19 +140,20 @@ class ImageCalendarWidget extends StatelessWidget {
               },
             ),
             onDaySelected: (selectedDay, _) {
+              logger.d('Day selected: $selectedDay');
               final calendarEntry = calendarData.firstWhere(
                     (entry) => entry.date.isAtSameMomentAs(selectedDay),
-                orElse: () => CalendarData(
-                  date: selectedDay,
-                  outfitData: OutfitData(
-                    outfitId: '',
-                    outfitImageUrl: null,
-                    items: [],
-                  ),
-                ),
+                orElse: () {
+                  logger.w('No entry found for selected date: $selectedDay. Using empty CalendarData.');
+                  return CalendarData(
+                    date: selectedDay,
+                    outfitData: OutfitData.empty(),
+                  );
+                },
               );
 
-              logger.i('Day selected: $selectedDay, OutfitId: ${calendarEntry.outfitData.outfitId}');
+              logger.i(
+                  'Day selected: $selectedDay, OutfitId: ${calendarEntry.outfitData.outfitId}');
               context.read<MonthlyCalendarImagesBloc>().add(
                 CalendarInteraction(
                   selectedDate: selectedDay,

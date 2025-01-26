@@ -24,132 +24,136 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
   void initState() {
     super.initState();
     eventNameController = TextEditingController();
-    // Dispatch initial fetch events
+    final logger = CustomLogger('MonthlyCalendarScreen');
+    logger.i('Initializing MonthlyCalendarScreen...');
+    logger.i('Dispatching FetchMonthlyCalendarMetadataEvent...');
     context.read<MonthlyCalendarMetadataBloc>().add(FetchMonthlyCalendarMetadataEvent());
+
+    logger.i('Dispatching FetchMonthlyCalendarImages...');
     context.read<MonthlyCalendarImagesBloc>().add(FetchMonthlyCalendarImages());
   }
 
   @override
   void dispose() {
-    // Dispose of the controller to avoid memory leaks
+    final logger = CustomLogger('MonthlyCalendarScreen');
+    logger.i('Disposing MonthlyCalendarScreen...');
     eventNameController.dispose();
     super.dispose();
   }
 
   @override
-    Widget build(BuildContext context) {
-      final logger = CustomLogger('MonthlyCalendarScreen');
-      logger.i('Building MonthlyCalendarScreen...');
+  Widget build(BuildContext context) {
+    final logger = CustomLogger('MonthlyCalendarScreen');
+    logger.i('Building MonthlyCalendarScreen UI...');
 
-      return BlocBuilder<CrossAxisCountCubit, int?>(
-        builder: (context, crossAxisCount) {
-          if (crossAxisCount == null) {
-            logger.w(
-                'CrossAxisCountCubit state is null. Showing CircularProgressIndicator.');
-            return const Center(child: CircularProgressIndicator());
-          }
+    return BlocBuilder<CrossAxisCountCubit, int?>(
+      builder: (context, crossAxisCount) {
+        if (crossAxisCount == null) {
+          logger.w(
+              'CrossAxisCountCubit state is null. Showing CircularProgressIndicator.');
+          return const Center(child: CircularProgressIndicator());
+        }
 
-          logger.i('CrossAxisCountCubit state: $crossAxisCount.');
+        logger.i('CrossAxisCountCubit state: $crossAxisCount.');
 
-          return Column(
-            children: [
-              // Metadata Section
-              Expanded(
-                flex: 1,
-                child: BlocBuilder<
-                    MonthlyCalendarMetadataBloc,
-                    MonthlyCalendarMetadataState>(
-                  builder: (context, state) {
-                    if (state is MonthlyCalendarLoadedState) {
-                      logger.i(
-                          'MonthlyCalendarMetadataBloc loaded with metadata.');
-                      final metadata = state.metadataList.first;
+        return Column(
+          children: [
+            // Metadata Section
+            Expanded(
+              flex: 1,
+              child: BlocBuilder<
+                  MonthlyCalendarMetadataBloc,
+                  MonthlyCalendarMetadataState>(
+                builder: (context, state) {
+                  if (state is MonthlyCalendarLoadedState) {
+                    logger.i('MonthlyCalendarMetadataBloc loaded with metadata.');
+                    final metadata = state.metadataList.first;
 
-                      if (eventNameController.text != metadata.eventName) {
-                        final cursorPosition = eventNameController.selection;
-                        eventNameController.value = eventNameController.value.copyWith(
-                          text: metadata.eventName,
-                          selection: cursorPosition,
+                    if (eventNameController.text != metadata.eventName) {
+                      final cursorPosition = eventNameController.selection;
+                      eventNameController.value = eventNameController.value.copyWith(
+                        text: metadata.eventName,
+                        selection: cursorPosition,
+                      );
+                      logger.d('Updated eventNameController text to: ${metadata.eventName}');
+                    }
+
+                    return MonthlyCalendarMetadata(
+                      metadata: metadata,
+                      eventNameController: eventNameController,
+                      theme: Theme.of(context),
+                      onEventNameChanged: (name) {
+                        logger.d('Event name changed to: $name');
+                        context.read<MonthlyCalendarMetadataBloc>().add(
+                          UpdateSelectedMetadataEvent(
+                              metadata.copyWith(eventName: name)),
                         );
-                      }
+                      },
+                      onFeedbackChanged: (feedback) {
+                        logger.d('Feedback changed to: $feedback');
+                        context.read<MonthlyCalendarMetadataBloc>().add(
+                          UpdateSelectedMetadataEvent(
+                              metadata.copyWith(feedback: feedback)),
+                        );
+                      },
+                      onCalendarSelectableChanged: (isSelectable) {
+                        logger.d('Calendar selectable changed to: $isSelectable');
+                        context.read<MonthlyCalendarMetadataBloc>().add(
+                          UpdateSelectedMetadataEvent(
+                              metadata.copyWith(isCalendarSelectable: isSelectable)),
+                        );
+                      },
+                      onOutfitActiveChanged: (isActive) {
+                        logger.d('Outfit active state changed to: ${isActive ? 'true' : 'false'}');
+                        context.read<MonthlyCalendarMetadataBloc>().add(
+                          UpdateSelectedMetadataEvent(
+                              metadata.copyWith(isOutfitActive: isActive ? 'true' : 'false')),
+                        );
+                      },
+                    );
+                  }
 
-                      return MonthlyCalendarMetadata(
-                        metadata: metadata,
-                        eventNameController: eventNameController,
-                        theme: Theme.of(context),
-                        onEventNameChanged: (name) {
-                          logger.d('Event name changed to: $name');
-                          context.read<MonthlyCalendarMetadataBloc>().add(
-                            UpdateSelectedMetadataEvent(
-                                metadata.copyWith(eventName: name)),
-                          );
-                        },
-                        onFeedbackChanged: (feedback) {
-                          logger.d('Feedback changed to: $feedback');
-                          context.read<MonthlyCalendarMetadataBloc>().add(
-                            UpdateSelectedMetadataEvent(
-                                metadata.copyWith(feedback: feedback)),
-                          );
-                        },
-                        onCalendarSelectableChanged: (isSelectable) {
-                          logger.d(
-                              'Calendar selectable changed to: $isSelectable');
-                          context.read<MonthlyCalendarMetadataBloc>().add(
-                            UpdateSelectedMetadataEvent(metadata.copyWith(
-                                isCalendarSelectable: isSelectable)),
-                          );
-                        },
-                        onOutfitActiveChanged: (isActive) {
-                          logger.d('Outfit active state changed to: ${isActive
-                              ? 'true'
-                              : 'false'}');
-                          context.read<MonthlyCalendarMetadataBloc>().add(
-                            UpdateSelectedMetadataEvent(metadata.copyWith(
-                                isOutfitActive: isActive ? 'true' : 'false')),
-                          );
-                        },
-                      );
-                    }
-
-                    logger.w(
-                        'MonthlyCalendarMetadataBloc state not loaded. Showing CircularProgressIndicator.');
-                    return const Center(child: CircularProgressIndicator());
-                  },
-                ),
+                  logger.w(
+                      'MonthlyCalendarMetadataBloc state not loaded. Showing CircularProgressIndicator.');
+                  return const Center(child: CircularProgressIndicator());
+                },
               ),
-              const Divider(height: 1),
-              // Calendar Section
-              Expanded(
-                flex: 2,
-                child: BlocBuilder<
-                    MonthlyCalendarImagesBloc,
-                    MonthlyCalendarImagesState>(
-                  builder: (context, state) {
-                    if (state is MonthlyCalendarImagesLoaded) {
-                      logger.i('MonthlyCalendarImagesBloc loaded with images.');
-                      final focusedDay = DateTime.parse(state.focusedDate);
-                      final firstDay = DateTime.parse(state.startDate);
-                      final lastDay = DateTime.parse(state.endDate);
+            ),
+            const Divider(height: 1),
+            // Calendar Section
+            Expanded(
+              flex: 2,
+              child: BlocBuilder<
+                  MonthlyCalendarImagesBloc,
+                  MonthlyCalendarImagesState>(
+                builder: (context, state) {
+                  if (state is MonthlyCalendarImagesLoaded) {
+                    logger.i('MonthlyCalendarImagesBloc loaded with images.');
+                    final focusedDay = DateTime.parse(state.focusedDate);
+                    final firstDay = DateTime.parse(state.startDate);
+                    final lastDay = DateTime.parse(state.endDate);
 
-                      return ImageCalendarWidget(
-                        calendarData: state.calendarData, // Pass the calendarData directly
-                        focusedDay: focusedDay,
-                        firstDay: firstDay,
-                        lastDay: lastDay,
-                        isCalendarSelectable: true,
-                        crossAxisCount: crossAxisCount,
-                      );
-                    }
+                    logger.i(
+                        'Loaded calendar data: Focused Day: $focusedDay, First Day: $firstDay, Last Day: $lastDay, Calendar Data Count: ${state.calendarData.length}');
+                    return ImageCalendarWidget(
+                      calendarData: state.calendarData,
+                      focusedDay: focusedDay,
+                      firstDay: firstDay,
+                      lastDay: lastDay,
+                      isCalendarSelectable: true,
+                      crossAxisCount: crossAxisCount,
+                    );
+                  }
 
-                    logger.w(
-                        'MonthlyCalendarImagesBloc state not loaded. Showing CircularProgressIndicator.');
-                    return const Center(child: CircularProgressIndicator());
-                  },
-                ),
+                  logger.w(
+                      'MonthlyCalendarImagesBloc state not loaded. Showing CircularProgressIndicator.');
+                  return const Center(child: CircularProgressIndicator());
+                },
               ),
-            ],
-          );
-        },
-      );
-    }
+            ),
+          ],
+        );
+      },
+    );
   }
+}

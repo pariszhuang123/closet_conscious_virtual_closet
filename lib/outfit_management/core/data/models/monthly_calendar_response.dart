@@ -1,4 +1,5 @@
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../../../core/utilities/logger.dart';
 
 class MonthlyCalendarResponse {
   final String status;
@@ -21,14 +22,15 @@ class MonthlyCalendarResponse {
 
   /// Factory to parse Supabase response
   factory MonthlyCalendarResponse.fromMap(Map<String, dynamic> map) {
+    final logger = CustomLogger('MonthlyCalendarResponse');
     try {
-      // Validate `calendar_data`
+      logger.i('Parsing MonthlyCalendarResponse...');
+
       if (map['calendar_data'] != null && map['calendar_data'] is! List) {
         throw FormatException(
             'Invalid `calendar_data` format: expected List, got ${map['calendar_data'].runtimeType}');
       }
 
-      // Parse and validate raw calendar data
       final rawCalendarData = map['calendar_data'] != null
           ? (map['calendar_data'] as List)
           .map((data) {
@@ -41,14 +43,13 @@ class MonthlyCalendarResponse {
           .toList()
           : <CalendarData>[];
 
-      // Populate all dates in the range
       final fullCalendarData = _populateAllDates(
         startDate: _parseDate(map['start_date'], 'start_date'),
         endDate: _parseDate(map['end_date'], 'end_date'),
         calendarData: rawCalendarData,
       );
 
-      // Validate required fields and return the parsed object
+      logger.i('Successfully parsed MonthlyCalendarResponse.');
       return MonthlyCalendarResponse(
         status: _validateString(map['status'], 'status'),
         focusedDate: _parseDate(map['focused_date'], 'focused_date'),
@@ -59,25 +60,73 @@ class MonthlyCalendarResponse {
         calendarData: fullCalendarData,
       );
     } catch (e) {
-      throw FormatException('Failed to parse MonthlyCalendarResponse: $e');
+      logger.e('Failed to parse MonthlyCalendarResponse: $e');
+      rethrow;
     }
   }
 
-  /// Parse dates safely
   static DateTime _parseDate(dynamic date, String fieldName) {
+    final logger = CustomLogger('MonthlyCalendarResponse._parseDate');
     if (date == null || date is! String) {
+      logger.e('Invalid or missing $fieldName: $date');
       throw FormatException('Invalid or missing $fieldName: $date');
     }
     try {
-      return DateTime.parse(date);
+      return DateTime.parse(date).toUtc();
     } catch (e) {
+      logger.e('Failed to parse $fieldName as DateTime: $date');
       throw FormatException('Failed to parse $fieldName as DateTime: $date');
     }
   }
 
+  static List<CalendarData> _populateAllDates({
+    required DateTime startDate,
+    required DateTime endDate,
+    required List<CalendarData> calendarData,
+  }) {
+    final logger = CustomLogger('MonthlyCalendarResponse._populateAllDates');
+    logger.i('Populating missing dates...');
+
+    final normalizedCalendarData = calendarData.map((data) {
+      final normalizedDate = data.date.toUtc();
+      return CalendarData(
+        date: normalizedDate,
+        outfitData: data.outfitData,
+      );
+    }).toList();
+
+    final allDates = <DateTime>[];
+    for (var date = startDate.toUtc();
+    date.isBefore(endDate) || date.isAtSameMomentAs(endDate);
+    date = date.add(const Duration(days: 1))) {
+      allDates.add(date);
+    }
+
+    final calendarDataMap = {
+      for (var entry in normalizedCalendarData) entry.date: entry,
+    };
+
+    return allDates.map((date) {
+      final entry = calendarDataMap[date] ??
+          CalendarData(
+            date: date,
+            outfitData: OutfitData.empty(),
+          );
+      if (entry.outfitData.isNotEmpty) {
+        logger.d('Date $date has an outfit.');
+      } else {
+        logger.w('Date $date is empty.');
+      }
+      return entry;
+    }).toList();
+  }
+
+
   /// Validate string fields
   static String _validateString(dynamic value, String fieldName) {
+    final logger = CustomLogger('MonthlyCalendarResponse._validateString');
     if (value == null || value is! String || value.isEmpty) {
+      logger.e('Invalid or missing $fieldName: $value');
       throw FormatException('Invalid or missing $fieldName: $value');
     }
     return value;
@@ -85,38 +134,12 @@ class MonthlyCalendarResponse {
 
   /// Validate boolean fields
   static bool _validateBool(dynamic value, String fieldName) {
+    final logger = CustomLogger('MonthlyCalendarResponse._validateBool');
     if (value == null || value is! bool) {
+      logger.e('Invalid or missing $fieldName: $value');
       throw FormatException('Invalid or missing $fieldName: $value');
     }
     return value;
-  }
-
-  /// Populate missing dates with default CalendarData
-  static List<CalendarData> _populateAllDates({
-    required DateTime startDate,
-    required DateTime endDate,
-    required List<CalendarData> calendarData,
-  }) {
-    final allDates = <DateTime>[];
-    for (var date = startDate;
-    date.isBefore(endDate) || date.isAtSameMomentAs(endDate);
-    date = date.add(const Duration(days: 1))) {
-      allDates.add(date);
-    }
-
-    // Map existing data by date for quick lookup
-    final calendarDataMap = {
-      for (var entry in calendarData) entry.date: entry,
-    };
-
-    // Fill missing dates with default data
-    return allDates.map((date) {
-      return calendarDataMap[date] ??
-          CalendarData(
-            date: date,
-            outfitData: OutfitData.empty(), // Default empty OutfitData
-          );
-    }).toList();
   }
 }
 
@@ -130,15 +153,20 @@ class CalendarData {
   });
 
   factory CalendarData.fromMap(Map<String, dynamic> map) {
+    final logger = CustomLogger('CalendarData');
     try {
-      return CalendarData(
+      logger.i('Parsing CalendarData...');
+      final calendarData = CalendarData(
         date: MonthlyCalendarResponse._parseDate(map['date'], 'date'),
         outfitData: map['outfit_data'] != null
             ? OutfitData.fromMap(map['outfit_data'] as Map<String, dynamic>)
             : OutfitData.empty(), // Use empty OutfitData if missing
       );
+      logger.i('Successfully parsed CalendarData for date: ${calendarData.date}');
+      return calendarData;
     } catch (e) {
-      throw FormatException('Failed to parse CalendarData: $e');
+      logger.e('Failed to parse CalendarData: $e');
+      rethrow;
     }
   }
 }
@@ -156,8 +184,10 @@ class OutfitData {
 
   /// Factory to parse OutfitData from Map
   factory OutfitData.fromMap(Map<String, dynamic> map) {
+    final logger = CustomLogger('OutfitData');
     try {
-      return OutfitData(
+      logger.i('Parsing OutfitData...');
+      final outfitData = OutfitData(
         outfitId: MonthlyCalendarResponse._validateString(map['outfit_id'], 'outfit_id'),
         outfitImageUrl: map['outfit_image_url'] == 'cc_none'
             ? null
@@ -174,13 +204,18 @@ class OutfitData {
             .toList()
             : [],
       );
+      logger.i('Successfully parsed OutfitData: ${outfitData.outfitId}');
+      return outfitData;
     } catch (e) {
-      throw FormatException('Failed to parse OutfitData: $e');
+      logger.e('Failed to parse OutfitData: $e');
+      rethrow;
     }
   }
 
   /// Create an empty OutfitData object
   factory OutfitData.empty() {
+    final logger = CustomLogger('OutfitData.empty');
+    logger.d('Creating empty OutfitData.');
     return OutfitData(
       outfitId: '', // Empty outfitId
       outfitImageUrl: null, // No image
