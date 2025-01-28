@@ -277,7 +277,6 @@ class OutfitFetchService {
       throw OutfitFetchException('Failed to fetch daily outfits');
     }
   }
-
 }
 
 class OutfitFetchException implements Exception {

@@ -444,16 +444,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "open_settings": MessageLookupByLibrary.simpleMessage("打开设置"),
         "other": MessageLookupByLibrary.simpleMessage("其他"),
         "outer": MessageLookupByLibrary.simpleMessage("外层"),
-        "outfitActive": MessageLookupByLibrary.simpleMessage("激活"),
+        "outfitActive": MessageLookupByLibrary.simpleMessage("活跃穿搭"),
         "outfitCreationSuccessContent":
             MessageLookupByLibrary.simpleMessage("造型已准备好。去征服世界吧，时尚达人！🦸‍♀️"),
         "outfitCreationSuccessTitle":
             MessageLookupByLibrary.simpleMessage("继续时尚！"),
-        "outfitInactive": MessageLookupByLibrary.simpleMessage("未激活"),
+        "outfitInactive": MessageLookupByLibrary.simpleMessage("非活跃穿搭"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("造型"),
         "outfitReviewContent":
             MessageLookupByLibrary.simpleMessage("您的造型评论已成功提交！"),
         "outfitReviewTitle": MessageLookupByLibrary.simpleMessage("造型评论已提交"),
+        "outfitStatus": MessageLookupByLibrary.simpleMessage("穿搭状态"),
+        "outfitsAll": MessageLookupByLibrary.simpleMessage("所有穿搭"),
         "outfits_upload": MessageLookupByLibrary.simpleMessage("上传的造型数量"),
         "perfume": MessageLookupByLibrary.simpleMessage("化妆品"),
         "permanentCloset": MessageLookupByLibrary.simpleMessage("永久衣橱"),

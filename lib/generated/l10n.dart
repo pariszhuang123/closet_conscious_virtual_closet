@@ -4340,21 +4340,41 @@ class S {
     );
   }
 
-  /// `Active`
+  /// `Active Outfits`
   String get outfitActive {
     return Intl.message(
-      'Active',
+      'Active Outfits',
       name: 'outfitActive',
       desc: '',
       args: [],
     );
   }
 
-  /// `Inactive`
+  /// `Inactive Outfits`
   String get outfitInactive {
     return Intl.message(
-      'Inactive',
+      'Inactive Outfits',
       name: 'outfitInactive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Outfits`
+  String get outfitsAll {
+    return Intl.message(
+      'All Outfits',
+      name: 'outfitsAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Outfit Status`
+  String get outfitStatus {
+    return Intl.message(
+      'Outfit Status',
+      name: 'outfitStatus',
       desc: '',
       args: [],
     );

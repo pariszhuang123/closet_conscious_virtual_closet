@@ -7,9 +7,9 @@ import '../../../../../core/utilities/logger.dart';
 class CalendarScaffold extends StatelessWidget {
   final Widget body; // Dynamic body for the scaffold
   final CustomLogger logger = CustomLogger('CalendarScaffold'); // Initialize logger
-  final ThemeData theme;
+  final ThemeData myOutfitTheme;
 
-  CalendarScaffold({super.key, required this.body, required this.theme});
+  CalendarScaffold({super.key, required this.body, required this.myOutfitTheme,});
 
   @override
   Widget build(BuildContext context) {

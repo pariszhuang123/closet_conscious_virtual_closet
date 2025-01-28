@@ -9,21 +9,30 @@ class MonthlyCalendarImagesInitial extends MonthlyCalendarImagesState {}
 
 class MonthlyCalendarImagesLoading extends MonthlyCalendarImagesState {}
 
+class NoReviewedOutfitState extends MonthlyCalendarImagesState {}
+
+class NoFilteredReviewedOutfitState extends MonthlyCalendarImagesState {}
+
 class MonthlyCalendarImagesLoaded extends MonthlyCalendarImagesState {
   final List<CalendarData> calendarData;
-  final String focusedDate; // Add focusedDate
-  final String startDate;   // Add startDate
-  final String endDate;     // Add endDate
+  final String focusedDate;
+  final String startDate;
+  final String endDate;
+  final bool hasPreviousOutfits;
+  final bool hasNextOutfits;
 
-  MonthlyCalendarImagesLoaded(
-      this.calendarData,
-      this.focusedDate,
-      this.startDate,
-      this.endDate,
-      );
+  MonthlyCalendarImagesLoaded({
+    required this.calendarData,
+    required this.focusedDate,
+    required this.startDate,
+    required this.endDate,
+    required this.hasPreviousOutfits,
+    required this.hasNextOutfits,
+  });
 
   @override
-  List<Object?> get props => [calendarData, focusedDate, startDate, endDate];
+  List<Object?> get props =>
+      [calendarData, focusedDate, startDate, endDate, hasPreviousOutfits, hasNextOutfits];
 }
 
 class NoReviewedOutfit extends MonthlyCalendarImagesState {}

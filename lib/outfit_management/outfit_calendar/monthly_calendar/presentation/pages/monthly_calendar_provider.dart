@@ -12,9 +12,9 @@ import '../../../../core/data/services/outfits_save_services.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
 
 class MonthlyCalendarProvider extends StatelessWidget {
-  final ThemeData theme;
+  final ThemeData myOutfitTheme;
 
-  const MonthlyCalendarProvider({super.key, required this.theme});
+  const MonthlyCalendarProvider({super.key, required this.myOutfitTheme});
 
   @override
   Widget build(BuildContext context) {

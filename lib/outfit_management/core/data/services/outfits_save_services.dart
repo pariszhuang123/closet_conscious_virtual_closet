@@ -94,7 +94,7 @@ class OutfitSaveService {
           .update({'event_name': eventNameToUse,
       })
           .eq('outfit_id', outfitId)
-          .select();  // Add this to return the updated row
+          .select(); // Add this to return the updated row
 
 
       if (response.isNotEmpty) {
@@ -111,7 +111,7 @@ class OutfitSaveService {
   }
 
 
-Future<bool> recordUserReview({
+  Future<bool> recordUserReview({
     required String userId,
     required int score,
     required int milestone,
@@ -196,23 +196,34 @@ Future<bool> recordUserReview({
     }
   }
 
-  Future<bool> navigateCalendar(String direction) async {
+  Future<bool> navigateCalendar(String direction,
+      String navigationMode) async {
     try {
       // Validate direction
       if (direction != 'backward' && direction != 'forward') {
-        throw ArgumentError('Invalid direction: $direction. Must be "backward" or "forward".');
+        throw ArgumentError(
+            'Invalid direction: $direction. Must be "backward" or "forward".');
+      }
+
+      // Validate navigationMode
+      if (navigationMode != 'detailed' && navigationMode != 'monthly') {
+        throw ArgumentError(
+            'Invalid navigation mode: $navigationMode. Must be "detailed" or "monthly".');
       }
 
       // Call the Supabase RPC function
       final response = await client.rpc('navigate_calendar', params: {
         'direction': direction,
+        'navigation_mode': navigationMode, // Pass the new parameter
       });
 
       if (response == true) {
-        logger.i('Successfully navigated calendar $direction.');
+        logger.i(
+            'Successfully navigated calendar $direction with mode $navigationMode.');
         return true;
       } else {
-        logger.e('Failed to navigate calendar $direction. Response: $response');
+        logger.e(
+            'Failed to navigate calendar $direction with mode $navigationMode. Response: $response');
         return false;
       }
     } catch (error) {
@@ -220,6 +231,4 @@ Future<bool> recordUserReview({
       return false;
     }
   }
-
 }
-

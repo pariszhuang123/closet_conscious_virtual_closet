@@ -35,24 +35,24 @@ class ImageCalendarWidget extends StatelessWidget {
     );
 
     return Column(
+      mainAxisSize: MainAxisSize.min, // Let the Column wrap its content
       children: [
-        Expanded(
-          child: TableCalendar(
-            firstDay: DateTime.utc(firstDay.year, firstDay.month, firstDay.day),
-            lastDay: DateTime.utc(lastDay.year, lastDay.month, lastDay.day),
-            focusedDay: DateTime.utc(focusedDay.year, focusedDay.month, focusedDay.day),
-            calendarStyle: _buildCalendarStyle(context),
-            headerStyle: _buildHeaderStyle(context),
-            calendarBuilders: CalendarBuilders(
-              defaultBuilder: (context, date, _) =>
-                  _buildDefaultCell(context, date, logger),
-              todayBuilder: (context, date, _) =>
-                  _buildTodayCell(context, date, logger),
-            ),
-            onDaySelected: (selectedDay, _) {
-              _handleDaySelected(context, selectedDay, logger);
-            },
+        TableCalendar(
+          firstDay: DateTime.utc(firstDay.year, firstDay.month, firstDay.day),
+          lastDay: DateTime.utc(lastDay.year, lastDay.month, lastDay.day),
+          focusedDay: DateTime.utc(focusedDay.year, focusedDay.month, focusedDay.day),
+          calendarStyle: _buildCalendarStyle(context),
+          headerStyle: _buildHeaderStyle(context),
+          daysOfWeekStyle: _buildDaysOfWeekStyle(context),
+          calendarBuilders: CalendarBuilders(
+            defaultBuilder: (context, date, _) =>
+                _buildDefaultCell(context, date, logger),
+            todayBuilder: (context, date, _) =>
+                _buildTodayCell(context, date, logger),
           ),
+          onDaySelected: (selectedDay, _) {
+            _handleDaySelected(context, selectedDay, logger);
+          },
         ),
         if (calendarData.isEmpty) _buildEmptyState(context),
       ],
@@ -71,6 +71,8 @@ class ImageCalendarWidget extends StatelessWidget {
         color: Theme.of(context).colorScheme.secondary,
         shape: BoxShape.rectangle,
       ),
+      cellMargin: EdgeInsets.zero, // Reduce margin between cells
+      cellAlignment: Alignment.center,
     );
   }
 
@@ -86,6 +88,14 @@ class ImageCalendarWidget extends StatelessWidget {
     );
   }
 
+  DaysOfWeekStyle _buildDaysOfWeekStyle(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme; // Access the theme's text styles
+
+    return DaysOfWeekStyle(
+      weekdayStyle: textTheme.bodyMedium!,
+      weekendStyle: textTheme.bodyMedium!
+    );
+  }
   /// Default cell builder
   Widget _buildDefaultCell(BuildContext context, DateTime date, CustomLogger logger) {
     final normalizedDate = DateTime.utc(date.year, date.month, date.day);

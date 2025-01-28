@@ -506,17 +506,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "open_settings": MessageLookupByLibrary.simpleMessage("Open Settings"),
         "other": MessageLookupByLibrary.simpleMessage("Misc"),
         "outer": MessageLookupByLibrary.simpleMessage("Outer"),
-        "outfitActive": MessageLookupByLibrary.simpleMessage("Active"),
+        "outfitActive": MessageLookupByLibrary.simpleMessage("Active Outfits"),
         "outfitCreationSuccessContent": MessageLookupByLibrary.simpleMessage(
             "Outfit ready. Go Slay the World, Fashionista! 🦸‍♀️"),
         "outfitCreationSuccessTitle":
             MessageLookupByLibrary.simpleMessage("Style On!"),
-        "outfitInactive": MessageLookupByLibrary.simpleMessage("Inactive"),
+        "outfitInactive":
+            MessageLookupByLibrary.simpleMessage("Inactive Outfits"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("Outfit"),
         "outfitReviewContent": MessageLookupByLibrary.simpleMessage(
             "Your outfit review has been submitted successfully!"),
         "outfitReviewTitle":
             MessageLookupByLibrary.simpleMessage("Outfit Review Submitted"),
+        "outfitStatus": MessageLookupByLibrary.simpleMessage("Outfit Status"),
+        "outfitsAll": MessageLookupByLibrary.simpleMessage("All Outfits"),
         "outfits_upload":
             MessageLookupByLibrary.simpleMessage("Number of outfits uploaded"),
         "perfume": MessageLookupByLibrary.simpleMessage("Cosmetic"),

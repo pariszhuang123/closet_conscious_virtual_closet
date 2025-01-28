@@ -56,6 +56,12 @@ class OutfitDisplayWidget extends StatelessWidget {
         key: ValueKey('outfit-grid-${outfit.outfitId}'),
         items: outfit.items!,
         crossAxisCount: crossAxisCount,
+        outfitId: outfit.outfitId, // Pass outfitId
+        onOutfitSelected: (selectedOutfitId) {
+          // Trigger the selection callback
+          logger.i('Outfit selected in grid: $selectedOutfitId');
+          onOutfitSelected?.call(selectedOutfitId);
+        },
       )
           : Center(
         child: Text(

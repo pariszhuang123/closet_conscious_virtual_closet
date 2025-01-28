@@ -275,8 +275,8 @@ class AppRoutes {
       case AppRoutes.monthlyCalendar:
         return MaterialPageRoute(
           builder: (_) => CalendarScaffold(
-            body: MonthlyCalendarProvider(theme: myOutfitTheme), // Pass theme to the provider
-            theme: myOutfitTheme, // Pass theme to the scaffold
+            body: MonthlyCalendarProvider(myOutfitTheme: myOutfitTheme), // Pass theme to the provider
+            myOutfitTheme: myOutfitTheme, // Pass theme to the scaffold
           ),
         );
 

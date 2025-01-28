@@ -429,8 +429,10 @@
   "calendarNotSelectable": "Outfit Details",
   "focusedDate": "Focused Date",
   "calendarSelectable": "Create Closet",
-  "outfitActive": "Active",
-  "outfitInactive": "Inactive",
+  "outfitActive": "Active Outfits",
+  "outfitInactive": "Inactive Outfits",
+  "outfitsAll": "All Outfits",
+  "outfitStatus": "Outfit Status",
   "filterEventName": "Filter by Event Name",
   "feedback": "Feedback",
   "noOutfitsInMonth": "No outfits found in this month. You can create your first reviewed outfit or choose another date where you have reviewed your outfit."

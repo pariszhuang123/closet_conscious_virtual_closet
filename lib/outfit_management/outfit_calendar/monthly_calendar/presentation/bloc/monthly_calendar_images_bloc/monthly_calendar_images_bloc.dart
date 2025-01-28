@@ -41,14 +41,27 @@ class MonthlyCalendarImagesBloc
       // Fetch response as a MonthlyCalendarResponse object
       final response = await fetchService.fetchMonthlyCalendarImages();
 
-      // Log success and handle the loaded state
-      logger.i('Fetched calendar data with ${response.calendarData.length} entries');
-      emit(MonthlyCalendarImagesLoaded(
-        response.calendarData,
-        response.focusedDate.toIso8601String(),
-        response.startDate.toIso8601String(),
-        response.endDate.toIso8601String(),
-      ));
+      // Check the status field in the response
+      if (response.status == 'no reviewed outfit') {
+        logger.i('No reviewed outfit found');
+        emit(NoReviewedOutfitState());
+      } else if (response.status == 'no reviewed outfit with filter') {
+        logger.i('No reviewed outfit found after applying filters');
+        emit(NoFilteredReviewedOutfitState());
+      } else if (response.status == 'success') {
+        logger.i('Fetched calendar data with ${response.calendarData.length} entries');
+        emit(MonthlyCalendarImagesLoaded(
+          calendarData: response.calendarData,
+          focusedDate: response.focusedDate.toIso8601String(),
+          startDate: response.startDate.toIso8601String(),
+          endDate: response.endDate.toIso8601String(),
+          hasPreviousOutfits: response.hasPreviousOutfits,
+          hasNextOutfits: response.hasNextOutfits,
+        ));
+      } else {
+        logger.e('Unexpected status: ${response.status}');
+        emit(MonthlyCalendarImagesError('Unexpected status: ${response.status}'));
+      }
     } catch (error) {
       logger.e('Error fetching calendar images: $error');
       emit(MonthlyCalendarImagesError('Failed to fetch calendar images.'));

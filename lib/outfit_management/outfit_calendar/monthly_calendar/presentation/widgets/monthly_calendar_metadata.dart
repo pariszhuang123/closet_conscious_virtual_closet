@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/widgets/form/custom_text_form.dart';
+import '../../../../../core/widgets/form/custom_drop_down_form.dart';
 import '../../../../../core/widgets/form/custom_toggle.dart';
 import '../../../../core/data/models/calendar_metadata.dart';
 
@@ -12,7 +13,7 @@ class MonthlyCalendarMetadata extends StatelessWidget {
   final void Function(String) onEventNameChanged;
   final void Function(String) onFeedbackChanged;
   final void Function(bool) onCalendarSelectableChanged;
-  final void Function(bool) onOutfitActiveChanged;
+  final void Function(String) onOutfitActiveChanged;
 
   const MonthlyCalendarMetadata({
     super.key,
@@ -47,7 +48,7 @@ class MonthlyCalendarMetadata extends StatelessWidget {
             const SizedBox(height: 8),
 
             // Feedback Dropdown
-            DropdownButtonFormField<String>(
+            CustomDropdownFormField<String>(
               value: metadata.feedback,
               items: [
                 DropdownMenuItem(value: 'all', child: Text(S.of(context).allFeedback)),
@@ -55,15 +56,15 @@ class MonthlyCalendarMetadata extends StatelessWidget {
                 DropdownMenuItem(value: 'alright', child: Text(S.of(context).alright)),
                 DropdownMenuItem(value: 'dislike', child: Text(S.of(context).dislike)),
               ],
+              labelText: S.of(context).feedback,
+              focusedBorderColor: theme.colorScheme.primary,
+              enabledBorderColor: theme.colorScheme.secondary,
               onChanged: (value) {
                 if (value != null) {
-                  onFeedbackChanged(value); // Pass non-null value to the callback
+                  onFeedbackChanged(value); // Handle the selected value
                 }
               },
-              decoration: InputDecoration(
-                labelText: S.of(context).feedback,
-                border: const OutlineInputBorder(),
-              ),
+              // Validator is optional here since the value is pre-populated
             ),
             const SizedBox(height: 8),
 
@@ -76,12 +77,22 @@ class MonthlyCalendarMetadata extends StatelessWidget {
             ),
             const SizedBox(height: 8),
 
-            // Outfit Active Toggle
-            CustomToggle(
-              value: metadata.isOutfitActive == 'true',
-              onChanged: (value) => onOutfitActiveChanged(value),
-              trueLabel: S.of(context).outfitActive,
-              falseLabel: S.of(context).outfitInactive,
+            CustomDropdownFormField<String>(
+              value: metadata.isOutfitActive,
+              items: [
+                DropdownMenuItem(value: 'all', child: Text(S.of(context).outfitsAll)),
+                DropdownMenuItem(value: 'active', child: Text(S.of(context).outfitActive)),
+                DropdownMenuItem(value: 'inactive', child: Text(S.of(context).outfitInactive)),
+              ],
+              labelText: S.of(context).outfitStatus,
+              focusedBorderColor: theme.colorScheme.primary,
+              enabledBorderColor: theme.colorScheme.secondary,
+              onChanged: (value) {
+                if (value != null) {
+                  onFeedbackChanged(value); // Handle the selected value
+                }
+              },
+              // Validator is optional here since the value is pre-populated
             ),
           ],
         ),

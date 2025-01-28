@@ -429,8 +429,10 @@
   "calendarNotSelectable": "穿搭详情",
   "focusedDate": "专注日期",
   "calendarSelectable": "创建衣橱",
-  "outfitActive": "激活",
-  "outfitInactive": "未激活",
+  "outfitActive": "活跃穿搭",
+  "outfitInactive": "非活跃穿搭",
+  "outfitsAll": "所有穿搭",
+  "outfitStatus": "穿搭状态",
   "filterEventName": "按活动名称筛选",
   "feedback": "反馈",
   "noOutfitsInMonth": "本月没有找到衣服。您可以创建第一个已评价的衣服，或者选择一个您已评价衣服的日期。"
