@@ -24,7 +24,7 @@ class CalendarMetadata {
   }
 
   String get computedEventName {
-    if (ignoreEventName && eventName == 'cc_none') {
+    if (ignoreEventName) {
       return ""; // Return empty string
     }
     return eventName;

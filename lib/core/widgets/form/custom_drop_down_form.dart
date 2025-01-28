@@ -7,6 +7,7 @@ class CustomDropdownFormField<T> extends StatelessWidget {
   final String? hintText;
   final TextStyle? labelStyle;
   final TextStyle? hintStyle;
+  final TextStyle? resultStyle;
   final Color focusedBorderColor;
   final Color? enabledBorderColor;
   final String? errorText;
@@ -22,6 +23,7 @@ class CustomDropdownFormField<T> extends StatelessWidget {
     this.hintText,
     this.labelStyle,
     this.hintStyle,
+    this.resultStyle,
     required this.focusedBorderColor,
     this.enabledBorderColor,
     this.errorText,
@@ -38,6 +40,7 @@ class CustomDropdownFormField<T> extends StatelessWidget {
       onChanged: onChanged,
       onSaved: onSaved,
       validator: validator,
+      style: resultStyle ?? Theme.of(context).textTheme.bodyMedium, // Use resultStyle here
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,

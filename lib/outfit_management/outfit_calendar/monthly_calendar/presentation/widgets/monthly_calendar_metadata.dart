@@ -59,6 +59,8 @@ class MonthlyCalendarMetadata extends StatelessWidget {
               labelText: S.of(context).feedback,
               focusedBorderColor: theme.colorScheme.primary,
               enabledBorderColor: theme.colorScheme.secondary,
+              labelStyle: theme.textTheme.bodyMedium,
+              resultStyle: theme.textTheme.bodyMedium,
               onChanged: (value) {
                 if (value != null) {
                   onFeedbackChanged(value); // Handle the selected value
@@ -87,6 +89,8 @@ class MonthlyCalendarMetadata extends StatelessWidget {
               labelText: S.of(context).outfitStatus,
               focusedBorderColor: theme.colorScheme.primary,
               enabledBorderColor: theme.colorScheme.secondary,
+              labelStyle: theme.textTheme.bodyMedium,
+              resultStyle: theme.textTheme.bodyMedium,
               onChanged: (value) {
                 if (value != null) {
                   onFeedbackChanged(value); // Handle the selected value

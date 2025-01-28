@@ -18,11 +18,9 @@ class ResetAndSubmitWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
       // Let the column wrap its content
       child: Column(
-        mainAxisSize: MainAxisSize.min, // never expands to infinite
-        crossAxisAlignment: CrossAxisAlignment.start, // or center
         children: [
           // Top-right icon: just use a Row with mainAxisAlignment.end
           Row(
@@ -38,7 +36,7 @@ class ResetAndSubmitWidget extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 60),
           // Submit button
           ThemedElevatedButton(
             onPressed: () {

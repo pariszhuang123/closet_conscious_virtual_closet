@@ -35,7 +35,7 @@ class ImageCalendarWidget extends StatelessWidget {
     );
 
     return Column(
-      mainAxisSize: MainAxisSize.min, // Let the Column wrap its content
+      mainAxisSize: MainAxisSize.max, // Let the Column wrap its content
       children: [
         TableCalendar(
           firstDay: DateTime.utc(firstDay.year, firstDay.month, firstDay.day),
@@ -80,6 +80,10 @@ class ImageCalendarWidget extends StatelessWidget {
   HeaderStyle _buildHeaderStyle(BuildContext context) {
     return HeaderStyle(
       titleTextStyle: Theme.of(context).textTheme.displayLarge!,
+      titleCentered: true,
+      formatButtonVisible: false, // Hide the format button
+      leftChevronVisible: false, // Hide the left chevron
+      rightChevronVisible: false, // Hide the right chevron
       formatButtonTextStyle: Theme.of(context).textTheme.bodyMedium!,
       formatButtonDecoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondaryContainer,
@@ -92,8 +96,8 @@ class ImageCalendarWidget extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme; // Access the theme's text styles
 
     return DaysOfWeekStyle(
-      weekdayStyle: textTheme.bodyMedium!,
-      weekendStyle: textTheme.bodyMedium!
+      weekdayStyle: textTheme.bodySmall!,
+      weekendStyle: textTheme.bodySmall!
     );
   }
   /// Default cell builder

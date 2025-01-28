@@ -144,14 +144,14 @@ class MonthlyCalendarImagesBloc
 
       if (success) {
         logger.i('Focused date updated successfully.');
-        emit(FocusedDateUpdated());
+        emit(FocusedDateUpdatedState());
       } else {
         logger.e('Failed to update focused date.');
-        emit(FocusedDateUpdateFailed('Failed to update focused date.'));
+        emit(FocusedDateUpdateFailedState('Failed to update focused date.'));
       }
     } catch (error) {
       logger.e('Error updating focused date: $error');
-      emit(FocusedDateUpdateFailed('An error occurred while updating focused date.'));
+      emit(FocusedDateUpdateFailedState('An error occurred while updating focused date.'));
     }
   }
 }

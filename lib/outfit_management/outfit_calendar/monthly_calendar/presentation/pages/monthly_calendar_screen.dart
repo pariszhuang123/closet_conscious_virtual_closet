@@ -134,7 +134,7 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                               },
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          const SizedBox(width: 5),
                           // Right side: Reset/Submit
                           ResetAndSubmitWidget(
                             onReset: _handleReset,
