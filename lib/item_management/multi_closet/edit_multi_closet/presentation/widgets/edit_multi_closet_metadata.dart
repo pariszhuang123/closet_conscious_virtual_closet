@@ -7,6 +7,8 @@ import '../../../create_multi_closet/presentation/widgets/permanent_closet_toggl
 import '../../../create_multi_closet/presentation/widgets/public_private_toggle.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../bloc/edit_closet_metadata_bloc/edit_closet_metadata_bloc.dart';
+import '../../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
+
 
 class EditMultiClosetMetadata extends StatefulWidget {
   final TextEditingController closetNameController;
@@ -188,7 +190,7 @@ class EditMultiClosetMetadataState extends State<EditMultiClosetMetadata> {
         }
 
         if (state is EditClosetMetadataLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: ClosetProgressIndicator());
         }
 
         if (state is EditClosetMetadataFailure) {

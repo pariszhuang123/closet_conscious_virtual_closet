@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../core/data/models/outfit_item_minimal.dart';
+import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../core/outfit_enums.dart';
 import '../../../../user_management/user_service_locator.dart';
 import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
@@ -246,9 +246,9 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
       if (itemIndex != -1) {
         // Create a new list where only the selected item is updated
-        final updatedItems = List<OutfitItemMinimal>.from(loadedState.items);
+        final updatedItems = List<ClosetItemMinimal>.from(loadedState.items);
         final updatedItem = updatedItems[itemIndex].copyWith(
-          isDisliked: !updatedItems[itemIndex].isDisliked,
+          isDisliked: !(updatedItems[itemIndex].isDisliked),
         );
         updatedItems[itemIndex] = updatedItem;
 
@@ -256,8 +256,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
         emit(loadedState.copyWith(items: updatedItems));
 
         // Log the updated items with their disliked status
-        _logger.d('Updated disliked items: ${updatedItems.where((item) =>
-        item.isDisliked).map((item) => item.itemId).toList()}');
+        _logger.d('Updated disliked items: ${updatedItems.where((item) => item.isDisliked).map((item) => item.itemId).toList()}');
       }
     }
   }

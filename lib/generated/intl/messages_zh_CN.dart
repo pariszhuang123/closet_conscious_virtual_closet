@@ -308,6 +308,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("你拍下了第一张自拍！展示你的风格，让你的衣橱闪耀吧！"),
         "fix_validation_errors":
             MessageLookupByLibrary.simpleMessage("修正错误以继续。"),
+        "focus": MessageLookupByLibrary.simpleMessage("专注当日"),
         "focusedDate": MessageLookupByLibrary.simpleMessage("专注日期"),
         "formal": MessageLookupByLibrary.simpleMessage("正式"),
         "general_permission_explanation":
@@ -379,6 +380,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("尚无成就——今天就开始解锁吧！"),
         "noClosetsAvailable": MessageLookupByLibrary.simpleMessage("没有可用的衣柜"),
         "noClosetsFound": MessageLookupByLibrary.simpleMessage("未找到衣橱"),
+        "noFilteredOutfitMessage": MessageLookupByLibrary.simpleMessage(
+            "没有符合当前筛选条件的穿搭。请调整筛选条件以找到已评价的穿搭。"),
         "noImage": MessageLookupByLibrary.simpleMessage("没有图片"),
         "noInternetMessage": MessageLookupByLibrary.simpleMessage(
             "我们正在享受一杯咖啡 ☕\n稍后重连，继续展现那些环保造型吧！"),
@@ -425,10 +428,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("可持续的开始！"),
         "noNewClothes90AchievementMessage":
             MessageLookupByLibrary.simpleMessage("您已达成90天不买新衣的目标！继续建立环保习惯！🌱"),
+        "noOutfitsAvailable":
+            MessageLookupByLibrary.simpleMessage("没有可用的服装或物品"),
         "noOutfitsInMonth": MessageLookupByLibrary.simpleMessage(
             "本月没有找到衣服。您可以创建第一个已评价的衣服，或者选择一个您已评价衣服的日期。"),
         "noReappearClosets":
             MessageLookupByLibrary.simpleMessage("未找到重新出现的衣橱。"),
+        "noReviewedOutfitMessage":
+            MessageLookupByLibrary.simpleMessage("您尚未评价任何穿搭。请从评价您的第一个穿搭开始！"),
         "npsExplanation":
             MessageLookupByLibrary.simpleMessage("0-10评分:\n0: 不太可能\n10: 非常可能"),
         "npsReviewEmailBody":

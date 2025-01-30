@@ -18,22 +18,57 @@ class MonthlyCalendarImagesLoaded extends MonthlyCalendarImagesState {
   final String focusedDate;
   final String startDate;
   final String endDate;
+  final bool isCalendarSelectable;
   final bool hasPreviousOutfits;
   final bool hasNextOutfits;
+  final List<String> selectedOutfitIds;
 
   MonthlyCalendarImagesLoaded({
     required this.calendarData,
     required this.focusedDate,
     required this.startDate,
     required this.endDate,
+    required this.isCalendarSelectable,
     required this.hasPreviousOutfits,
     required this.hasNextOutfits,
+    this.selectedOutfitIds = const [],
   });
 
   @override
-  List<Object?> get props =>
-      [calendarData, focusedDate, startDate, endDate, hasPreviousOutfits, hasNextOutfits];
+  List<Object?> get props => [
+    calendarData,
+    focusedDate,
+    startDate,
+    endDate,
+    isCalendarSelectable,
+    hasPreviousOutfits,
+    hasNextOutfits,
+    selectedOutfitIds,
+  ];
+
+  MonthlyCalendarImagesLoaded copyWith({
+    List<CalendarData>? calendarData,
+    String? focusedDate,
+    String? startDate,
+    String? endDate,
+    bool? isCalendarSelectable,
+    bool? hasPreviousOutfits,
+    bool? hasNextOutfits,
+    List<String>? selectedOutfitIds,
+  }) {
+    return MonthlyCalendarImagesLoaded(
+      calendarData: calendarData ?? this.calendarData,
+      focusedDate: focusedDate ?? this.focusedDate,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      isCalendarSelectable: isCalendarSelectable ?? this.isCalendarSelectable,
+      hasPreviousOutfits: hasPreviousOutfits ?? this.hasPreviousOutfits,
+      hasNextOutfits: hasNextOutfits ?? this.hasNextOutfits,
+      selectedOutfitIds: selectedOutfitIds ?? this.selectedOutfitIds, // ✅ Ordered selection
+    );
+  }
 }
+
 
 class NoReviewedOutfit extends MonthlyCalendarImagesState {}
 
@@ -49,13 +84,14 @@ class MonthlyCalendarImagesError extends MonthlyCalendarImagesState {
 }
 
 class OutfitSelectionUpdated extends MonthlyCalendarImagesState {
-  final List<String> selectedOutfitIds;
+  final List<String> selectedOutfitIds; // ✅ Stores ordered outfit selection
 
   OutfitSelectionUpdated(this.selectedOutfitIds);
 
   @override
   List<Object?> get props => [selectedOutfitIds];
 }
+
 
 class ActiveItemsFetched extends MonthlyCalendarImagesState {
   final List<String> selectedOutfitIds;
@@ -76,3 +112,7 @@ class FocusedDateUpdateFailedState extends MonthlyCalendarImagesState {
   @override
   List<Object?> get props => [message];
 }
+
+class MonthlyCalendarNavigationSuccessState extends MonthlyCalendarImagesState {}
+
+class MonthlyCalendarSaveFailureState extends MonthlyCalendarImagesState {}

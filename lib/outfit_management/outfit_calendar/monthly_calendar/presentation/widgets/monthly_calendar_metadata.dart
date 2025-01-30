@@ -93,7 +93,7 @@ class MonthlyCalendarMetadata extends StatelessWidget {
               resultStyle: theme.textTheme.bodyMedium,
               onChanged: (value) {
                 if (value != null) {
-                  onFeedbackChanged(value); // Handle the selected value
+                  onOutfitActiveChanged(value); // Handle the selected value
                 }
               },
               // Validator is optional here since the value is pre-populated

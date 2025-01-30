@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../core/data/models/outfit_item_minimal.dart';
+import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../user_management/user_service_locator.dart';
 import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
@@ -60,15 +60,22 @@ class OutfitWearBloc extends Bloc<OutfitWearEvent, OutfitWearState> {
       ConfirmOutfitCreation event, Emitter<OutfitWearState> emit) async {
     logger.i('Outfit creation confirmed with event name: ${event.eventName} and outfitId: ${event.outfitId}');
 
-    final success = await outfitSaveService.updateOutfitEventName(
-      outfitId: event.outfitId,
-      eventName: event.eventName, // This could be an empty string or null
-    );
+    emit(OutfitWearSubmitting());
 
-    if (success) {
-      emit(OutfitCreationSuccess());
-    } else {
-      emit(const OutfitWearError('Failed to update event name.'));
+    try {
+      final success = await outfitSaveService.updateOutfitEventName(
+        outfitId: event.outfitId,
+        eventName: event.eventName,
+      );
+
+      if (success) {
+        emit(OutfitCreationSuccess());
+      } else {
+        emit(const OutfitWearError('Failed to update event name.'));
+      }
+    } catch (e) {
+      logger.e('Error while submitting outfit review: $e');
+      emit(const OutfitWearError('An error occurred while submitting the outfit review.'));
     }
   }
 }

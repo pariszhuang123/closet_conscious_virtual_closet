@@ -21,3 +21,4 @@ class SaveMetadataEvent extends MonthlyCalendarMetadataEvent {
 }
 
 class ResetMetadataEvent extends MonthlyCalendarMetadataEvent {}
+

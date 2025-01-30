@@ -277,6 +277,10 @@ class TypeDataList {
     return TypeData('selectAll', (context) => S.of(context).selectAll, 'assets/icons/general/select_all.svg', false);
   }
 
+  static TypeData focus(BuildContext context) {
+    return TypeData('focus', (context) => S.of(context).focus, 'assets/icons/my_outfit/calendar/zoom_in.svg', false);
+  }
+
   static List<TypeData> gridSizes(BuildContext context) {
     return [
       TypeData('3', (context) => S.of(context).gridSize3, 'assets/icons/general/arrange/counter_3.svg', false),

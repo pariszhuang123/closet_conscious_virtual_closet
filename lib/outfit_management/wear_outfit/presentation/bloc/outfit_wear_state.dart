@@ -12,15 +12,17 @@ class OutfitWearInitial extends OutfitWearState {}
 class OutfitWearLoading extends OutfitWearState {}
 
 class OutfitWearLoaded extends OutfitWearState {
-  final List<OutfitItemMinimal> items; // Assuming OutfitItem is your model class
-  const OutfitWearLoaded(this.items);
+  final List<ClosetItemMinimal> items;  // Assuming OutfitItem is your model class
+
+  const OutfitWearLoaded(
+      this.items);
 
   @override
   List<Object?> get props => [items];
 }
 
 class SelfieTaken extends OutfitWearState {
-  final List<OutfitItemMinimal> items; // Updated list with the selfie at the top
+  final List<ClosetItemMinimal> items; // Updated list with the selfie at the top
   const SelfieTaken(this.items);
 
   @override
@@ -45,5 +47,7 @@ class OutfitImageUrlAvailable extends OutfitWearState {
   @override
   List<Object> get props => [imageUrl];
 }
+
+class OutfitWearSubmitting extends OutfitWearState {}
 
 class OutfitCreationSuccess extends OutfitWearState {}

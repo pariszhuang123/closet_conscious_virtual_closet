@@ -358,6 +358,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "You’ve taken your first selfie! Show off your style and let your closet shine!"),
         "fix_validation_errors":
             MessageLookupByLibrary.simpleMessage("Fix the errors to continue."),
+        "focus": MessageLookupByLibrary.simpleMessage("Day Focus"),
         "focusedDate": MessageLookupByLibrary.simpleMessage("Focused Date"),
         "formal": MessageLookupByLibrary.simpleMessage("Formal"),
         "general_permission_explanation": MessageLookupByLibrary.simpleMessage(
@@ -443,6 +444,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No closets available"),
         "noClosetsFound":
             MessageLookupByLibrary.simpleMessage("No closets found"),
+        "noFilteredOutfitMessage": MessageLookupByLibrary.simpleMessage(
+            "No outfits match your current filter. Adjust the filter to find reviewed outfits."),
         "noImage": MessageLookupByLibrary.simpleMessage("No Image Available"),
         "noInternetMessage": MessageLookupByLibrary.simpleMessage(
             "We\'re on a coffee break ☕\nReconnect soon to keep rocking those eco-friendly looks!"),
@@ -487,10 +490,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sustainable Start!"),
         "noNewClothes90AchievementMessage": MessageLookupByLibrary.simpleMessage(
             "You’ve hit 90 days without new clothes! Keep building those eco-friendly habits! 🌱"),
+        "noOutfitsAvailable":
+            MessageLookupByLibrary.simpleMessage("No outfit or item available"),
         "noOutfitsInMonth": MessageLookupByLibrary.simpleMessage(
             "No outfits found in this month. You can create your first reviewed outfit or choose another date where you have reviewed your outfit."),
         "noReappearClosets": MessageLookupByLibrary.simpleMessage(
             "No reappeared closets found."),
+        "noReviewedOutfitMessage": MessageLookupByLibrary.simpleMessage(
+            "You haven’t reviewed any outfits yet. Start by reviewing your first outfit!"),
         "npsExplanation": MessageLookupByLibrary.simpleMessage(
             "On a scale from 0 to 10:\n0: Not at all likely\n10: Extremely likely"),
         "npsReviewEmailBody": MessageLookupByLibrary.simpleMessage(

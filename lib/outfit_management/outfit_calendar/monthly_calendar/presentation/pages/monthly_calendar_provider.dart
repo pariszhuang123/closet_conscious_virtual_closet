@@ -70,7 +70,7 @@ class MonthlyCalendarProvider extends StatelessWidget {
         ),
       ],
       child: MonthlyCalendarScreen(
-        theme: Theme.of(context), // Pass the theme here
+        theme: myOutfitTheme, // Pass myOutfitTheme explicitly if needed
       ),
     );
   }

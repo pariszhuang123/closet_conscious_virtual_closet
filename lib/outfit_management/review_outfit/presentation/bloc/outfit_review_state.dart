@@ -67,7 +67,7 @@ class OutfitImageUrlAvailable extends OutfitReviewState {
 }
 
 class OutfitReviewItemsLoaded extends OutfitReviewState {
-  final List<OutfitItemMinimal> items;
+  final List<ClosetItemMinimal> items;
 
   const OutfitReviewItemsLoaded({
     required this.items,
@@ -80,7 +80,7 @@ class OutfitReviewItemsLoaded extends OutfitReviewState {
 
   @override
   OutfitReviewItemsLoaded copyWith({
-    List<OutfitItemMinimal>? items,
+    List<ClosetItemMinimal>? items,
     String? outfitId,
     String? eventName,  // Add eventName to copyWith method
     OutfitReviewFeedback? feedback,

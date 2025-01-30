@@ -45,3 +45,15 @@ class UpdateFocusedDate extends MonthlyCalendarImagesEvent {
   @override
   List<Object?> get props => [selectedDate, outfitId];
 }
+
+class NavigateCalendarEvent extends MonthlyCalendarImagesEvent {
+  final String direction;
+  final String navigationMode;
+
+  NavigateCalendarEvent({
+    required this.direction,
+  }) : navigationMode = 'monthly'; // Preset navigationMode to "monthly"
+
+  @override
+  List<Object?> get props => [direction, navigationMode];
+}

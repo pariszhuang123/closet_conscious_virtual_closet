@@ -8,6 +8,7 @@ import '../../../../../../generated/l10n.dart';
 import '../../../../../core/utilities/routes.dart';
 import '../../../../core/data/items_enums.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
+import '../../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 
 class SwapClosetScreen extends StatelessWidget {
   final String? currentClosetId;
@@ -87,7 +88,7 @@ class SwapClosetScreen extends StatelessWidget {
         child: BlocBuilder<SwapClosetBloc, SwapClosetState>(
           builder: (context, state) {
             if (state.status == ClosetSwapStatus.loading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: ClosetProgressIndicator());
             } else if (state.status == ClosetSwapStatus.failure && state.error != null) {
               return Center(
                 child: Text(
@@ -101,7 +102,7 @@ class SwapClosetScreen extends StatelessWidget {
               future: _fetchCrossAxisCount(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child: ClosetProgressIndicator());
                 } else if (snapshot.hasError) {
                   logger.e('Error fetching crossAxisCount: ${snapshot.error}');
                   return Center(child: Text(S.of(context).failedToLoadItems));

@@ -9,6 +9,9 @@ import '../widgets/reset_and_submit_widget.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
+import '../../../../../generated/l10n.dart';
+
 
 class MonthlyCalendarScreen extends StatefulWidget {
   final ThemeData theme;
@@ -59,19 +62,33 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
   Widget build(BuildContext context) {
     logger.i('Building MonthlyCalendarScreen UI...');
 
-    return BlocListener<MonthlyCalendarMetadataBloc, MonthlyCalendarMetadataState>(
-      listener: (context, state) {
-        if (state is MonthlyCalendarSaveSuccessState ||
-            state is MonthlyCalendarResetSuccessState) {
-          logger.i('Save or Reset succeeded. Navigating to createOutfit...');
-          Navigator.pushReplacementNamed(context, AppRoutes.monthlyCalendar);
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        // Listener for MonthlyCalendarMetadataBloc
+        BlocListener<MonthlyCalendarMetadataBloc, MonthlyCalendarMetadataState>(
+          listener: (context, state) {
+            if (state is MonthlyCalendarSaveSuccessState ||
+                state is MonthlyCalendarResetSuccessState) {
+              logger.i('Save or Reset succeeded. Navigating to monthlyCalendar...');
+              Navigator.pushReplacementNamed(context, AppRoutes.monthlyCalendar);
+            }
+          },
+        ),
+        // Listener for MonthlyCalendarImagesBloc
+        BlocListener<MonthlyCalendarImagesBloc, MonthlyCalendarImagesState>(
+          listener: (context, state) {
+            if (state is MonthlyCalendarNavigationSuccessState) {
+              logger.i('Navigation successful. Navigating to monthly calendar...');
+              Navigator.pushReplacementNamed(context, AppRoutes.monthlyCalendar);
+            }
+          },
+        ),
+      ],
       child: BlocBuilder<CrossAxisCountCubit, int?>(
         builder: (context, crossAxisCount) {
           if (crossAxisCount == null) {
-            logger.w('CrossAxisCountCubit state is null. Showing CircularProgressIndicator.');
-            return const Center(child: CircularProgressIndicator());
+            logger.w('CrossAxisCountCubit state is null. Showing OutfitProgressIndicator.');
+            return const Center(child: OutfitProgressIndicator());
           }
 
           logger.i('CrossAxisCountCubit state: $crossAxisCount.');
@@ -126,11 +143,11 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                                     .read<MonthlyCalendarMetadataBloc>()
                                     .add(UpdateSelectedMetadataEvent(metadata.copyWith(isCalendarSelectable: isSelectable)));
                               },
-                              onOutfitActiveChanged: (selectedValue) {
-                                logger.d('Outfit active state changed to: $selectedValue');
+                              onOutfitActiveChanged: (isOutfitActive) {
+                                logger.d('Outfit active state changed to: $isOutfitActive');
                                 context
                                     .read<MonthlyCalendarMetadataBloc>()
-                                    .add(UpdateSelectedMetadataEvent(metadata.copyWith(isOutfitActive: selectedValue)));
+                                    .add(UpdateSelectedMetadataEvent(metadata.copyWith(isOutfitActive: isOutfitActive)));
                               },
                             ),
                           ),
@@ -145,7 +162,7 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                     }
 
                     logger.w('MetadataBloc state not loaded yet. Showing loading indicator.');
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: OutfitProgressIndicator());
                   },
                 ),
 
@@ -156,6 +173,12 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                   builder: (context, state) {
                     if (state is MonthlyCalendarImagesLoaded) {
                       logger.i('MonthlyCalendarImagesBloc loaded with images.');
+
+                      // Chevron visibility
+                      final hasPreviousOutfits = state.hasPreviousOutfits;
+                      final hasNextOutfits = state.hasNextOutfits;
+                      final isCalendarSelectable = state.isCalendarSelectable;
+
                       final focusedDay = DateTime.parse(state.focusedDate);
                       final firstDay = DateTime.parse(state.startDate);
                       final lastDay = DateTime.parse(state.endDate);
@@ -165,23 +188,93 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                             'FocusedDay: $focusedDay, '
                             'FirstDay: $firstDay, '
                             'LastDay: $lastDay, '
+                            'isCalendarSelectable: $isCalendarSelectable,'
                             'Calendar Data Count: ${state.calendarData.length}',
                       );
 
-                      return ImageCalendarWidget(
-                        calendarData: state.calendarData,
-                        focusedDay: focusedDay,
-                        firstDay: firstDay,
-                        lastDay: lastDay,
-                        isCalendarSelectable: true,
-                        crossAxisCount: crossAxisCount,
+                      return Column(
+                        children: [
+                          // Chevron Row
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Left Chevron
+                              if (hasPreviousOutfits)
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.chevron_left,
+                                    color: Theme.of(context).iconTheme.color, // Use theme's icon color
+                                  ),
+                                  iconSize: Theme.of(context).iconTheme.size, // Use theme's icon size or default
+                                  onPressed: () {
+                                    context
+                                        .read<MonthlyCalendarImagesBloc>()
+                                        .add(NavigateCalendarEvent(direction: 'backward'));
+                                  },
+                                )
+                              else
+                                SizedBox(
+                                  width: Theme.of(context).iconTheme.size ?? 48, // Placeholder for alignment
+                                ),
+
+                              // Right Chevron
+                              if (hasNextOutfits)
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.chevron_right,
+                                    color: Theme.of(context).iconTheme.color, // Use theme's icon color
+                                  ),
+                                  iconSize: Theme.of(context).iconTheme.size, // Use theme's icon size or default
+                                  onPressed: () {
+                                    context
+                                        .read<MonthlyCalendarImagesBloc>()
+                                        .add(NavigateCalendarEvent(direction: 'forward'));
+                                  },
+                                )
+                              else
+                                SizedBox(
+                                  width: Theme.of(context).iconTheme.size ?? 48, // Placeholder for alignment
+                                ),
+                            ],
+                          ),
+
+                          // Calendar Widget
+                          ImageCalendarWidget(
+                            calendarData: state.calendarData,
+                            focusedDay: focusedDay,
+                            firstDay: firstDay,
+                            lastDay: lastDay,
+                            isCalendarSelectable: isCalendarSelectable,
+                            crossAxisCount: crossAxisCount,
+                          ),
+                        ],
+                      );
+                    } else if (state is NoReviewedOutfitState) {
+                      logger.w('No reviewed outfits found.');
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          S.of(context).noReviewedOutfitMessage, // Localized string for "review your first outfit"
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    } else if (state is NoFilteredReviewedOutfitState) {
+                      logger.w('No reviewed outfits found for the current filter.');
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          S.of(context).noFilteredOutfitMessage, // Localized string for "change your filters"
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          textAlign: TextAlign.center,
+                        ),
                       );
                     }
 
                     logger.w('MonthlyCalendarImagesBloc state not loaded. Showing loading indicator.');
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: OutfitProgressIndicator());
                   },
-                ),
+                )
               ],
             ),
           );

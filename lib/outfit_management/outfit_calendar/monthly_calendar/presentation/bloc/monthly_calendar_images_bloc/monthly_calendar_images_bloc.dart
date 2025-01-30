@@ -28,6 +28,7 @@ class MonthlyCalendarImagesBloc
     on<ToggleOutfitSelection>(_onToggleOutfitSelection);
     on<FetchActiveItems>(_onFetchActiveItems);
     on<UpdateFocusedDate>(_onUpdateFocusedDate);
+    on<NavigateCalendarEvent>(_onNavigateCalendar);
   }
 
   Future<void> _onFetchMonthlyCalendarImages(
@@ -55,6 +56,7 @@ class MonthlyCalendarImagesBloc
           focusedDate: response.focusedDate.toIso8601String(),
           startDate: response.startDate.toIso8601String(),
           endDate: response.endDate.toIso8601String(),
+          isCalendarSelectable: response.isCalendarSelectable,
           hasPreviousOutfits: response.hasPreviousOutfits,
           hasNextOutfits: response.hasNextOutfits,
         ));
@@ -154,4 +156,26 @@ class MonthlyCalendarImagesBloc
       emit(FocusedDateUpdateFailedState('An error occurred while updating focused date.'));
     }
   }
+  Future<void> _onNavigateCalendar(
+      NavigateCalendarEvent event,
+      Emitter<MonthlyCalendarImagesState> emit) async {
+    try {
+      final success = await saveService.navigateCalendar(
+        event.direction,
+        event.navigationMode, // Use the navigationMode from the event
+      );
+
+      if (success) {
+        logger.i('Navigation successful');
+        emit(MonthlyCalendarNavigationSuccessState());
+      } else {
+        logger.e('Navigation failed');
+        emit(MonthlyCalendarSaveFailureState());
+      }
+    } catch (error) {
+      logger.e('Error during calendar navigation: $error');
+      emit(MonthlyCalendarSaveFailureState());
+    }
+  }
+
 }

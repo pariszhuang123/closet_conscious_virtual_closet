@@ -4409,6 +4409,46 @@ class S {
       args: [],
     );
   }
+
+  /// `You haven’t reviewed any outfits yet. Start by reviewing your first outfit!`
+  String get noReviewedOutfitMessage {
+    return Intl.message(
+      'You haven’t reviewed any outfits yet. Start by reviewing your first outfit!',
+      name: 'noReviewedOutfitMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No outfits match your current filter. Adjust the filter to find reviewed outfits.`
+  String get noFilteredOutfitMessage {
+    return Intl.message(
+      'No outfits match your current filter. Adjust the filter to find reviewed outfits.',
+      name: 'noFilteredOutfitMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No outfit or item available`
+  String get noOutfitsAvailable {
+    return Intl.message(
+      'No outfit or item available',
+      name: 'noOutfitsAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Day Focus`
+  String get focus {
+    return Intl.message(
+      'Day Focus',
+      name: 'focus',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

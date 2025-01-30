@@ -435,5 +435,9 @@
   "outfitStatus": "Outfit Status",
   "filterEventName": "Filter by Event Name",
   "feedback": "Feedback",
-  "noOutfitsInMonth": "No outfits found in this month. You can create your first reviewed outfit or choose another date where you have reviewed your outfit."
+  "noOutfitsInMonth": "No outfits found in this month. You can create your first reviewed outfit or choose another date where you have reviewed your outfit.",
+  "noReviewedOutfitMessage": "You haven’t reviewed any outfits yet. Start by reviewing your first outfit!",
+  "noFilteredOutfitMessage": "No outfits match your current filter. Adjust the filter to find reviewed outfits.",
+  "noOutfitsAvailable": "No outfit or item available",
+  "focus": "Day Focus"
 }

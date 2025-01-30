@@ -143,6 +143,7 @@ flutter:
 
     - assets/icons/my_outfit/additional_features/
     - assets/icons/my_outfit/outfit_review/
+    - assets/icons/my_outfit/calendar/
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

@@ -1,5 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../core/data/models/outfit_item_minimal.dart';
+
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../core/data/models/calendar_metadata.dart';
 import '../../../core/data/models/monthly_calendar_response.dart';
@@ -46,7 +46,7 @@ class OutfitFetchService {
   }
 
 
-  Future<List<OutfitItemMinimal>> fetchOutfitItems(String outfitId) async {
+  Future<List<ClosetItemMinimal>> fetchOutfitItems(String outfitId) async {
     final response = await _executeQuery(
           () => client.rpc('get_outfit_items', params: {'outfit_id': outfitId}),
       'fetchOutfitItems - Fetching items for outfit $outfitId',
@@ -54,7 +54,7 @@ class OutfitFetchService {
 
     if (response is List<dynamic>) {
       return response.map((item) =>
-          OutfitItemMinimal(
+          ClosetItemMinimal(
             itemId: item['item_id'],
             imageUrl: item['image_url'],
             name: item['name'],

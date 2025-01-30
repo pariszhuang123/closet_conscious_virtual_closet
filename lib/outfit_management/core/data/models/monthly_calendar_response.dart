@@ -6,6 +6,7 @@ class MonthlyCalendarResponse {
   final DateTime focusedDate;
   final DateTime startDate;
   final DateTime endDate;
+  final bool isCalendarSelectable;
   final bool hasPreviousOutfits;
   final bool hasNextOutfits;
   final List<CalendarData> calendarData;
@@ -15,6 +16,7 @@ class MonthlyCalendarResponse {
     required this.focusedDate,
     required this.startDate,
     required this.endDate,
+    required this.isCalendarSelectable,
     required this.hasPreviousOutfits,
     required this.hasNextOutfits,
     required this.calendarData,
@@ -55,6 +57,8 @@ class MonthlyCalendarResponse {
         focusedDate: _parseDate(map['focused_date'], 'focused_date'),
         startDate: _parseDate(map['start_date'], 'start_date'),
         endDate: _parseDate(map['end_date'], 'end_date'),
+        isCalendarSelectable:
+        _validateBool(map['isCalendarSelectable'], 'isCalendarSelectable'),
         hasPreviousOutfits:
         _validateBool(map['has_previous_outfits'], 'has_previous_outfits'),
         hasNextOutfits: _validateBool(map['has_next_outfits'], 'has_next_outfits'),

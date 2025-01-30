@@ -123,7 +123,11 @@ class ImageCalendarWidget extends StatelessWidget {
         date: normalizedDate,
         outfit: calendarEntry.outfitData,
         isGridDisplay: isGridDisplay,
-        isSelectable: isCalendarSelectable,
+        isSelectable: isCalendarSelectable, // ✅ Pass the correct value
+        selectedOutfitIds: context.select((MonthlyCalendarImagesBloc bloc) =>
+        (bloc.state is MonthlyCalendarImagesLoaded)
+            ? (bloc.state as MonthlyCalendarImagesLoaded).selectedOutfitIds
+            : []), // ✅ Fetch selected outfit IDs from the Bloc
         crossAxisCount: crossAxisCount,
         onOutfitSelected: (outfitId) {
           logger.i('Outfit selected: $outfitId on date: $normalizedDate');
