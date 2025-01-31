@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utilities/routes.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
-import '../../../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/widgets/container/logo_text_container.dart';
 import '../bloc/outfit_review_bloc.dart';
 import '../widgets/outfit_review_container.dart';
-import '../widgets/comment_field.dart';
-import '../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../../../core/widgets/form/comment_field.dart';
 import '../../../../core/data/type_data.dart';
-import '../../../../core/user_photo/presentation/widgets/base/user_photo.dart';
 import '../widgets/outfit_review_custom_dialogue.dart';
 import '../../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../../core/core_enums.dart';
 import '../../../core/outfit_enums.dart';
+import '../widgets/outfit_review_content.dart';
 
 class OutfitReviewScreen extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -101,6 +98,7 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                         } else if (state is ReviewSubmissionSuccess) {
                           showDialog(
                             context: context,
+                            barrierDismissible: false,
                             builder: (BuildContext context) {
                               return OutfitReviewCustomDialog(
                                 theme: widget.myOutfitTheme,
@@ -122,107 +120,18 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                         );
                       },
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 25),
                     BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
                       builder: (context, state) {
-                        logger.i('Building OutfitReview grid with state: $state');
-                        if (state is OutfitReviewItemsLoaded) {
-                          // Determine feedback sentence based on selection
-                          String feedbackSentence = '';
-                          switch (state.feedback) {
-                            case OutfitReviewFeedback.alright:
-                              feedbackSentence = S.of(context).alright_feedback_sentence;
-                              break;
-                            case OutfitReviewFeedback.dislike:
-                              feedbackSentence = S.of(context).dislike_feedback_sentence;
-                              break;
-                            default:
-                              feedbackSentence = '';
-                          }
-
-                          return Expanded(
-                            child: Stack(
-                              children: [
-                                if (feedbackSentence.isNotEmpty)
-                                  Positioned(
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                                      margin: const EdgeInsets.only(bottom: 8.0),
-                                      color: Theme.of(context).cardColor,
-                                      child: Text(
-                                        feedbackSentence,
-                                        style: Theme.of(context).textTheme.titleMedium,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ),
-                                Positioned(
-                                  top: feedbackSentence.isNotEmpty ? 48.0 : 0.0,
-                                  left: 0,
-                                  right: 0,
-                                  bottom: 0,
-                                  child: BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
-                                    builder: (context, multiSelectionState) {
-                                      return BlocBuilder<CrossAxisCountCubit, int>(
-                                        builder: (context, crossAxisCount) {
-                                          return InteractiveItemGrid(
-                                            scrollController: ScrollController(),
-                                            items: state.items,
-                                            crossAxisCount: crossAxisCount,
-                                            selectedItemIds: context.watch<MultiSelectionItemCubit>().state.selectedItemIds,
-                                            isDisliked: false,
-                                            selectionMode: state.canSelectItems
-                                                ? SelectionMode.multiSelection
-                                                : SelectionMode.disabled,
-                                          );
-                                        },
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-
-                        } else if (state is OutfitReviewInitial) {
-                          logger.i("Dispatching initial CheckAndLoadOutfit with feedback: like");
-                          context.read<OutfitReviewBloc>().add(CheckAndLoadOutfit(OutfitReviewFeedback.like));
-                          return const Center(child: OutfitProgressIndicator());
-                        } else if (state is OutfitReviewLoading || state is ReviewSubmissionInProgress) {
-                          // Show loading indicator for both loading and submission progress states
-                          return  const Center(child: OutfitProgressIndicator(),
-                          );
-                        } else if (state is NavigateToMyOutfit) {
-                          logger.i('Navigating to My Outfit');
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            Navigator.pushReplacementNamed(context, AppRoutes.createOutfit);
-                          });
-                          return Container();
-                        } else if (state is OutfitImageUrlAvailable) {
-                          final outfitImageUrl = state.imageUrl;
-                          logger.i("Displaying outfit image URL: $outfitImageUrl");
-                          return Expanded(
-                            child: SingleChildScrollView(
-                              child: Center(
-                                child: UserPhoto(
-                                  imageUrl: outfitImageUrl,
-                                  imageSize: ImageSize.selfie,
-                                ),
-                              ),
-                            ),
-                          );
-                        } else if (state is OutfitReviewError) {
-                          logger.e("Error in outfit review: ${state.message}");
-                          return Center(child: Text(state.message));
-                        }
-                        return Container();
+                        return OutfitReviewContent(
+                          state: state,
+                          theme: widget.myOutfitTheme,
+                        );
                       },
                     ),
 
                     const SizedBox(height: 16),
+
 
                     CommentField(
                       controller: _commentController,
@@ -236,12 +145,13 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                       child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
                         builder: (context, state) {
                           final isSubmitting = state is ReviewSubmissionInProgress;
+                          final selectedItems = context.watch<MultiSelectionItemCubit>().state.selectedItemIds;
 
                           // Adjust the button's enabled/disabled state based on validation logic
                           bool isButtonDisabled = false;
                           if (state is OutfitReviewItemsLoaded) {
                             isButtonDisabled = !(state.feedback == OutfitReviewFeedback.like ||
-                                state.items.any((item) => item.isDisliked));
+                                selectedItems.isNotEmpty); // Ensure at least one item is selected
                           } else if (state is OutfitImageUrlAvailable) {
                             isButtonDisabled = state.feedback != OutfitReviewFeedback.like;
                           }
@@ -254,12 +164,7 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                                 final outfitId = state.outfitId ?? "";
                                 final feedback = state.feedback.toString();
                                 final comments = _commentController.text;
-                                final selectedItems = state is OutfitReviewItemsLoaded
-                                  ? state.items
-                                    .where((item) => item.isDisliked)
-                                    .map((item) => item.itemId)
-                                    .toList()
-                                    : <String>[]; // Empty list if state is OutfitImageUrlAvailable
+                                final selectedItems = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
 
                                 logger.i("Submit button pressed. Comment: $comments");
 

@@ -89,6 +89,7 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
           if (state is OutfitCreationSuccess) {
             showDialog(
               context: context,
+              barrierDismissible: false,
               builder: (BuildContext context) {
                 return OutfitCreationSuccessDialog(
                   theme: myOutfitTheme,

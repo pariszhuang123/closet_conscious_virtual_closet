@@ -72,6 +72,7 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
   void _showCustomDialog(String title, Widget content) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return CustomAlertDialog(
           title: title,

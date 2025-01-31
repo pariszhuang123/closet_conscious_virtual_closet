@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../generated/l10n.dart';
-import '../../../../core/widgets/container/base_container.dart';
+import '../../../generated/l10n.dart';
+import '../container/base_container.dart';
 
 class CommentField extends StatelessWidget {
   final TextEditingController controller;

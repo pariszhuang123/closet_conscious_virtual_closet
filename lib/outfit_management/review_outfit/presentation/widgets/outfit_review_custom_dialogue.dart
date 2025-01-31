@@ -30,13 +30,20 @@ class OutfitReviewCustomDialogState extends State<OutfitReviewCustomDialog> {
 
   @override
   Widget build(BuildContext context) {
-    // Disable interactions and show the custom dialog
-    return AbsorbPointer(
-      absorbing: true, // Absorb all interactions
-      child: CustomAlertDialog(
-        title: S.of(context).outfitReviewTitle,
-        content: Text(S.of(context).outfitReviewContent),
-        theme: widget.theme,
+    return PopScope(
+      canPop: false, // Prevents back navigation
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (didPop) {
+          // Do nothing, effectively preventing the back action
+        }
+      },
+      child: AbsorbPointer(
+        absorbing: true, // Absorb all interactions
+        child: CustomAlertDialog(
+          title: S.of(context).outfitReviewTitle,
+          content: Text(S.of(context).outfitReviewContent),
+          theme: widget.theme,
+        ),
       ),
     );
   }

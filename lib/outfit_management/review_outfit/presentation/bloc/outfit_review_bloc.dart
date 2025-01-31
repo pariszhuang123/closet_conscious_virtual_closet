@@ -55,7 +55,6 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       : super(OutfitReviewInitial()) {
     on<CheckAndLoadOutfit>(_onCheckAndLoadOutfit);
     on<FetchOutfitItems>(_onFetchOutfitItems);
-    on<ToggleItemSelection>(_onToggleItemSelection);
     on<FeedbackSelected>(_onFeedbackSelected);
     on<SubmitOutfitReview>(_onSubmitOutfitReview);
     on<ValidateSelectedItems>(_onValidateSelectedItems);
@@ -252,37 +251,6 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     }
   }
 
-  void _onToggleItemSelection(ToggleItemSelection event,
-      Emitter<OutfitReviewState> emit) {
-    if (state is OutfitReviewItemsLoaded) {
-      final loadedState = state as OutfitReviewItemsLoaded;
-
-      // Check if the current feedback is "like"
-      if (loadedState.feedback == OutfitReviewFeedback.like) {
-        _logger.d('Item selection is disabled when feedback is "like".');
-        return; // Exit the method early to prevent toggling
-      }
-
-      // Find the index of the item to be updated
-      final itemIndex = loadedState.items.indexWhere((item) =>
-      item.itemId == event.itemId);
-
-      if (itemIndex != -1) {
-        // Create a new list where only the selected item is updated
-        final updatedItems = List<ClosetItemMinimal>.from(loadedState.items);
-        final updatedItem = updatedItems[itemIndex].copyWith(
-          isDisliked: !(updatedItems[itemIndex].isDisliked),
-        );
-        updatedItems[itemIndex] = updatedItem;
-
-        // Emit the new state with the updated list
-        emit(loadedState.copyWith(items: updatedItems));
-
-        // Log the updated items with their disliked status
-        _logger.d('Updated disliked items: ${updatedItems.where((item) => item.isDisliked).map((item) => item.itemId).toList()}');
-      }
-    }
-  }
 
   void _onValidateSelectedItems(ValidateSelectedItems event,
       Emitter<OutfitReviewState> emit) {
@@ -300,20 +268,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
   Future<void> _onValidateReviewSubmission(ValidateReviewSubmission event, Emitter<OutfitReviewState> emit) async {
     _logger.i('Validating review submission for outfitId: ${event.outfitId}');
 
-    List<String> dislikedItemIds = [];
-
-    // Check if state is OutfitReviewItemsLoaded and extract disliked items
-    if (state is OutfitReviewItemsLoaded) {
-      final loadedState = state as OutfitReviewItemsLoaded;
-
-      // Extract disliked items from loadedState.items
-      dislikedItemIds = loadedState.items
-          .where((item) => item.isDisliked)
-          .map((item) => item.itemId)
-          .toList();
-
-      _logger.i('Disliked items: ${dislikedItemIds.length}');
-    }
+    List<String> dislikedItemIds = event.selectedItems; // Use selected items from MultiSelectionItemCubit
 
     // Convert the feedback enum to string for logging
     final OutfitReviewFeedback feedbackEnum = stringToFeedback(

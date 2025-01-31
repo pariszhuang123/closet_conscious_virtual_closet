@@ -85,6 +85,7 @@ class ArchiveBottomSheetState extends State<ArchiveBottomSheet> {
   }) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return CustomAlertDialog(
           title: title,
