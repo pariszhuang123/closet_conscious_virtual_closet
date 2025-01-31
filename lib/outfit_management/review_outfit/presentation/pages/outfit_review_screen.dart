@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utilities/routes.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
-import '../../../../core/widgets/layout/base_layout/base_grid.dart';
-import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
+import '../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
+import '../../../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../core/widgets/container/logo_text_container.dart';
 import '../bloc/outfit_review_bloc.dart';
@@ -13,7 +13,6 @@ import '../widgets/outfit_review_container.dart';
 import '../widgets/comment_field.dart';
 import '../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../core/data/type_data.dart';
-import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../../core/user_photo/presentation/widgets/base/user_photo.dart';
 import '../widgets/outfit_review_custom_dialogue.dart';
 import '../../../../core/widgets/feedback/custom_snack_bar.dart';
@@ -108,6 +107,9 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                               );
                             },
                           );
+                        } else if (state is OutfitReviewItemsLoaded) {
+                          // 🎯 CLEAR SELECTION ONLY WHEN FEEDBACK CHANGES
+                            context.read<MultiSelectionItemCubit>().clearSelection();
                         }
                       },
                       builder: (context, state) {
@@ -124,8 +126,8 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                     BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
                       builder: (context, state) {
                         logger.i('Building OutfitReview grid with state: $state');
-
                         if (state is OutfitReviewItemsLoaded) {
+                          // Determine feedback sentence based on selection
                           String feedbackSentence = '';
                           switch (state.feedback) {
                             case OutfitReviewFeedback.alright:
@@ -162,33 +164,21 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                                   left: 0,
                                   right: 0,
                                   bottom: 0,
-                                  child: BlocBuilder<CrossAxisCountCubit, int>(
-                                    builder: (context, crossAxisCount) {
-                                      return BaseGrid<ClosetItemMinimal>(
-                                        items: state.items,
-                                        scrollController: ScrollController(),
-                                        itemBuilder: (context, item, index) {
-                                          logger.i('Rendering item: ${item.name}, isDisliked: ${item.isDisliked}');
-                                          return Padding(
-                                            padding: const EdgeInsets.all(4.0),
-                                            child: EnhancedUserPhoto(
-                                              imageUrl: item.imageUrl,
-                                              imageSize: ImageSize.itemGrid3,
-                                              isSelected: false,
-                                              isDisliked: item.isDisliked,
-                                              onPressed: () {
-                                                logger.i('Item tapped: ${item.itemId}, current isDisliked: ${item.isDisliked}');
-                                                context.read<OutfitReviewBloc>().add(
-                                                  ToggleItemSelection(item.itemId, state.feedback),
-                                                );
-                                              },
-                                              itemName: item.name,
-                                              itemId: item.itemId,
-                                            ),
+                                  child: BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
+                                    builder: (context, multiSelectionState) {
+                                      return BlocBuilder<CrossAxisCountCubit, int>(
+                                        builder: (context, crossAxisCount) {
+                                          return InteractiveItemGrid(
+                                            scrollController: ScrollController(),
+                                            items: state.items,
+                                            crossAxisCount: crossAxisCount,
+                                            selectedItemIds: context.watch<MultiSelectionItemCubit>().state.selectedItemIds,
+                                            isDisliked: false,
+                                            selectionMode: state.canSelectItems
+                                                ? SelectionMode.multiSelection
+                                                : SelectionMode.disabled,
                                           );
                                         },
-                                        crossAxisCount: crossAxisCount, // Dynamic cross-axis count
-                                        childAspectRatio: 2 / 3,
                                       );
                                     },
                                   ),
@@ -196,6 +186,7 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                               ],
                             ),
                           );
+
                         } else if (state is OutfitReviewInitial) {
                           logger.i("Dispatching initial CheckAndLoadOutfit with feedback: like");
                           context.read<OutfitReviewBloc>().add(CheckAndLoadOutfit(OutfitReviewFeedback.like));

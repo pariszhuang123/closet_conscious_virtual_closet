@@ -15,39 +15,8 @@ abstract class OutfitReviewState extends Equatable {
     this.hasSelectedItems = false,
   });
 
-  OutfitReviewState copyWith({
-    String? outfitId,
-    String? eventName,
-    OutfitReviewFeedback? feedback,
-    bool? canSelectItems,
-    bool? hasSelectedItems,
-  }) {
-    return _OutfitReviewState(
-      outfitId: outfitId ?? this.outfitId,
-      eventName: eventName ?? this.eventName,
-      feedback: feedback ?? this.feedback,
-      canSelectItems: canSelectItems ?? this.canSelectItems,
-      hasSelectedItems: hasSelectedItems ?? this.hasSelectedItems,
-    );
-  }
-
   @override
   List<Object?> get props => [outfitId, eventName, feedback, canSelectItems, hasSelectedItems];
-}
-
-class OutfitEventNameError extends OutfitReviewState {
-  final String message;
-  const OutfitEventNameError(this.message);
-}
-
-class _OutfitReviewState extends OutfitReviewState {
-  const _OutfitReviewState({
-    required super.outfitId,
-    required super.eventName,
-    required super.feedback,
-    required super.canSelectItems,
-    required super.hasSelectedItems,
-  });
 }
 
 class OutfitReviewInitial extends OutfitReviewState {}
@@ -58,7 +27,6 @@ class OutfitReviewLoading extends OutfitReviewState {
 
 class OutfitImageUrlAvailable extends OutfitReviewState {
   final String imageUrl;
-
 
   const OutfitImageUrlAvailable(this.imageUrl, {super.outfitId, super.eventName});
 
@@ -78,25 +46,23 @@ class OutfitReviewItemsLoaded extends OutfitReviewState {
     super.hasSelectedItems,
   });
 
-  @override
   OutfitReviewItemsLoaded copyWith({
     List<ClosetItemMinimal>? items,
     String? outfitId,
-    String? eventName,  // Add eventName to copyWith method
+    String? eventName,
     OutfitReviewFeedback? feedback,
     bool? canSelectItems,
     bool? hasSelectedItems,
   }) {
     return OutfitReviewItemsLoaded(
-      items: items ?? this.items,  // This line ensures items can be copied
+      items: items ?? this.items,
       outfitId: outfitId ?? this.outfitId,
-      eventName: eventName ?? this.eventName,  // Ensure eventName is copied
+      eventName: eventName ?? this.eventName,
       feedback: feedback ?? this.feedback,
       canSelectItems: canSelectItems ?? this.canSelectItems,
       hasSelectedItems: hasSelectedItems ?? this.hasSelectedItems,
     );
   }
-
 
   @override
   List<Object?> get props => [
@@ -125,10 +91,9 @@ class FeedbackUpdated extends OutfitReviewState {
       OutfitReviewFeedback feedback, {
         super.outfitId,
         super.eventName,
-        super.canSelectItems,
-        super.hasSelectedItems,
       }) : super(
     feedback: feedback,
+    canSelectItems: feedback == OutfitReviewFeedback.dislike || feedback == OutfitReviewFeedback.alright,
   );
 
   @override
@@ -139,8 +104,7 @@ class NoOutfitItemsFound extends OutfitReviewState {
   const NoOutfitItemsFound({super.outfitId});
 }
 
-class ReviewInvalidItems extends OutfitReviewState {
-}
+class ReviewInvalidItems extends OutfitReviewState {}
 
 class ReviewSubmissionInProgress extends OutfitReviewState {}
 
@@ -156,10 +120,7 @@ class ReviewSubmissionFailure extends OutfitReviewState {
 }
 
 class InvalidReviewSubmission extends OutfitReviewState {
-
-  const InvalidReviewSubmission({
-    super.outfitId
-  });
+  const InvalidReviewSubmission({super.outfitId});
 
   @override
   List<Object?> get props => [outfitId];

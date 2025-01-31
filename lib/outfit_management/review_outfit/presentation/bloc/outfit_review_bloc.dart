@@ -79,10 +79,13 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
           _logger.i('Outfit ID: ${response.outfitId}, Event Name: ${response.eventName}');
 
           // Update state with the fetched outfitId and eventName
-          emit(state.copyWith(
-            feedback: event.feedback,
+          emit(OutfitReviewItemsLoaded(
+            items: const [],
             outfitId: response.outfitId,
-            eventName: response.eventName,  // Add event name to the state
+            eventName: response.eventName,
+            feedback: event.feedback,
+            canSelectItems: event.feedback != OutfitReviewFeedback.like,
+            hasSelectedItems: false,
           ));
 
           // Handle the feedback depending on the type
@@ -190,7 +193,27 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
 
     _logger.i('Feedback selected: $feedback for outfitId: ${event.outfitId}');
 
-    emit(state.copyWith(feedback: feedback));
+    // Check if the state is OutfitReviewItemsLoaded before calling copyWith
+    if (state is OutfitReviewItemsLoaded) {
+      final loadedState = state as OutfitReviewItemsLoaded;
+
+      emit(loadedState.copyWith(
+        feedback: feedback,
+        canSelectItems: feedback != OutfitReviewFeedback.like,
+        hasSelectedItems: loadedState.items.any((item) => item.isDisliked),
+      ));
+    } else {
+      // If it's not OutfitReviewItemsLoaded, manually emit a new state
+      emit(OutfitReviewItemsLoaded(
+        items: const [], // Empty items list (default)
+        outfitId: state.outfitId,
+        eventName: state.eventName,
+        feedback: feedback,
+        canSelectItems: feedback != OutfitReviewFeedback.like,
+        hasSelectedItems: false,
+      ));
+    }
+
 
     if (feedback == OutfitReviewFeedback.like) {
       _logger.i('Handling "like" feedback');

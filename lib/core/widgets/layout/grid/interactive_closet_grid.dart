@@ -53,6 +53,11 @@ class InteractiveItemGrid extends StatelessWidget {
   }
 
   void _handleTap(BuildContext context, String closetId) {
+    if (selectionMode == SelectionMode.disabled) {
+      _logger.d('Selection disabled. Ignoring tap.');
+      return;
+    }
+
     switch (selectionMode) {
       case SelectionMode.singleSelection:
         _logger.d('Single selection mode activated for closetId: $closetId');
@@ -71,6 +76,10 @@ class InteractiveItemGrid extends StatelessWidget {
         } else {
           _logger.w('No action defined for action mode.');
         }
+        break;
+
+      case SelectionMode.disabled:
+        _logger.d('Selection is disabled.');
         break;
     }
   }

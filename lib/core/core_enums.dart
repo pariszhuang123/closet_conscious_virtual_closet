@@ -37,4 +37,5 @@ enum SelectionMode {
   singleSelection,
   multiSelection,
   action,
+  disabled,
 }
