@@ -58,7 +58,7 @@ class MonthlyCalendarResponse {
         startDate: _parseDate(map['start_date'], 'start_date'),
         endDate: _parseDate(map['end_date'], 'end_date'),
         isCalendarSelectable:
-        _validateBool(map['isCalendarSelectable'], 'isCalendarSelectable'),
+        _validateBool(map['is_calendar_selectable'], 'is_calendar_selectable'),
         hasPreviousOutfits:
         _validateBool(map['has_previous_outfits'], 'has_previous_outfits'),
         hasNextOutfits: _validateBool(map['has_next_outfits'], 'has_next_outfits'),
@@ -181,12 +181,12 @@ class CalendarData {
 class OutfitData {
   final String outfitId;
   final String? outfitImageUrl;
-  final List<ClosetItemMinimal>? items;
+  final ClosetItemMinimal? item;
 
   OutfitData({
     required this.outfitId,
     this.outfitImageUrl,
-    this.items,
+    this.item,
   });
 
   factory OutfitData.fromMap(Map<String, dynamic> map) {
@@ -198,15 +198,9 @@ class OutfitData {
         outfitImageUrl: map['outfit_image_url'] == 'cc_none'
             ? null
             : MonthlyCalendarResponse._validateString(map['outfit_image_url'], 'outfit_image_url'),
-        items: (map['items'] != null && map['items'] is List)
-            ? (map['items'] as List).map((item) {
-          if (item is Map<String, dynamic>) {
-            return ClosetItemMinimal.fromMap(item);
-          } else {
-            throw FormatException('Invalid entry in `items`: $item');
-          }
-        }).toList()
-            : [],
+        item: map['items'] != null && map['items'] is Map<String, dynamic>
+            ? ClosetItemMinimal.fromMap(map['items'] as Map<String, dynamic>) // ✅ Directly parse single item
+            : null,
       );
       logger.i('Successfully parsed OutfitData: ${outfitData.outfitId}');
       return outfitData;
@@ -222,10 +216,10 @@ class OutfitData {
     return OutfitData(
       outfitId: '',
       outfitImageUrl: null,
-      items: [],
+      item: null,
     );
   }
 
-  bool get isEmpty => outfitId.isEmpty && (items == null || items!.isEmpty);
+  bool get isEmpty => outfitId.isEmpty && (item == null);
   bool get isNotEmpty => !isEmpty;
 }

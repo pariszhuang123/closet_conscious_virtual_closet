@@ -22,28 +22,28 @@ class OutfitDisplayWidget extends StatelessWidget {
     final logger = CustomLogger('OutfitDisplayWidget');
     logger.i('Building OutfitDisplayWidget for outfitId: ${outfit.outfitId}.');
 
-    final bool hasOutfitImage = outfit.outfitImageUrl != null && outfit.outfitImageUrl != 'cc_none';
-    final bool hasValidItems = outfit.items != null && outfit.items!.isNotEmpty;
+    final bool hasOutfitImage = outfit.outfitImageUrl != null;
+    final bool hasItemImage = outfit.item?.imageUrl != null;
 
-    if (!hasOutfitImage && !hasValidItems) {
-      logger.w('Outfit ${outfit.outfitId} has no outfit image and no valid items.');
+    if (!hasOutfitImage && !hasItemImage) {
+      logger.w('Outfit ${outfit.outfitId} has no outfit image and no valid item image.');
     }
 
     return hasOutfitImage
         ? OutfitImageWidget(
-      key: ValueKey('outfit-image-${outfit.outfitId}'), // ✅ Matches RPC when outfit image exists
+      key: ValueKey('outfit-image-${outfit.outfitId}'),
       imageUrl: outfit.outfitImageUrl!,
       imageSize: imageSize,
     )
-        : hasValidItems
+        : hasItemImage
         ? OutfitImageWidget(
-      key: ValueKey('outfit-item-image-${outfit.outfitId}'), // ✅ Matches RPC for first item image
-      imageUrl: outfit.items!.first.imageUrl, // ✅ Uses the first item's image
+      key: ValueKey('outfit-item-image-${outfit.outfitId}'),
+      imageUrl: outfit.item!.imageUrl,
       imageSize: imageSize,
     )
         : Center(
       child: Text(
-        S.of(context).noOutfitsAvailable, // ✅ Uses localized text
+        S.of(context).noOutfitsAvailable,
         style: Theme.of(context).textTheme.bodyMedium,
       ),
     );
