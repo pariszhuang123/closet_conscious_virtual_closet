@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/widgets/form/custom_text_form.dart';
 import '../../../../../core/widgets/form/custom_drop_down_form.dart';
-import '../../../../../core/widgets/form/custom_toggle.dart';
 import '../../../../core/data/models/calendar_metadata.dart';
 
 class MonthlyCalendarMetadata extends StatelessWidget {
@@ -12,7 +11,6 @@ class MonthlyCalendarMetadata extends StatelessWidget {
   final CalendarMetadata metadata;
   final void Function(String) onEventNameChanged;
   final void Function(String) onFeedbackChanged;
-  final void Function(bool) onCalendarSelectableChanged;
   final void Function(String) onOutfitActiveChanged;
 
   const MonthlyCalendarMetadata({
@@ -22,7 +20,6 @@ class MonthlyCalendarMetadata extends StatelessWidget {
     required this.metadata,
     required this.onEventNameChanged,
     required this.onFeedbackChanged,
-    required this.onCalendarSelectableChanged,
     required this.onOutfitActiveChanged,
   });
 
@@ -69,16 +66,6 @@ class MonthlyCalendarMetadata extends StatelessWidget {
               // Validator is optional here since the value is pre-populated
             ),
             const SizedBox(height: 8),
-
-            // Calendar Selectable Toggle
-            CustomToggle(
-              value: metadata.isCalendarSelectable,
-              onChanged: onCalendarSelectableChanged,
-              trueLabel: S.of(context).calendarSelectable,
-              falseLabel: S.of(context).calendarNotSelectable,
-            ),
-            const SizedBox(height: 8),
-
             CustomDropdownFormField<String>(
               value: metadata.isOutfitActive,
               items: [

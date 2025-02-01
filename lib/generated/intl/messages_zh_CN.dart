@@ -481,6 +481,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("请输入有效金额（0 或更高）。"),
         "please_select_the_category_above":
             MessageLookupByLibrary.simpleMessage("请先选择上方的类别"),
+        "previous": MessageLookupByLibrary.simpleMessage("上一步"),
         "pricePerWear": MessageLookupByLibrary.simpleMessage("每次穿着价格"),
         "privacyTerms": MessageLookupByLibrary.simpleMessage("隐私条款"),
         "privacyTermsUrl": MessageLookupByLibrary.simpleMessage(

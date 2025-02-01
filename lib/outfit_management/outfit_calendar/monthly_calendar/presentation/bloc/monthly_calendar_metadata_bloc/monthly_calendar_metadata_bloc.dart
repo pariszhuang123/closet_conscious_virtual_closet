@@ -85,29 +85,27 @@ class MonthlyCalendarMetadataBloc
     }
 
     final currentState = state as MonthlyCalendarLoadedState;
+    final metadata = currentState.metadataList.first; // Get the latest metadata
 
     emit(MonthlyCalendarSaveInProgressState());
-    logger.d('Saving metadata list: ${currentState.metadataList}');
+    logger.d('Saving updated metadata: isCalendarSelectable = ${metadata.isCalendarSelectable}');
 
     try {
-      // Iterate over metadataList and save each metadata
-      for (final metadata in currentState.metadataList) {
-        final success = await saveService.saveCalendarMetadata(metadata);
+      final success = await saveService.saveCalendarMetadata(metadata);
 
-        if (!success) {
-          logger.e('Failed to save metadata: $metadata');
-          emit(MonthlyCalendarSaveFailureState('Failed to save some metadata'));
-          return;
-        }
+      if (!success) {
+        logger.e('Failed to save metadata');
+        emit(MonthlyCalendarSaveFailureState('Failed to save metadata'));
+        return;
       }
 
-      logger.i('All metadata saved successfully');
+      logger.i('Metadata saved successfully: isCalendarSelectable = ${metadata.isCalendarSelectable}');
       emit(MonthlyCalendarSaveSuccessState());
 
-      // Re-emit the updated metadata list to ensure consistency
-      emit(currentState.copyWith());
+      // Re-emit the updated state to reflect changes
+      emit(MonthlyCalendarLoadedState(metadataList: [metadata]));
     } catch (error) {
-      logger.e('Error during save operation: $error');
+      logger.e('Error saving metadata: $error');
       emit(MonthlyCalendarSaveFailureState(error.toString()));
     }
   }

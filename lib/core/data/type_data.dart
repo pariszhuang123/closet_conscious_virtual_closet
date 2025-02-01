@@ -281,6 +281,14 @@ class TypeDataList {
     return TypeData('focus', (context) => S.of(context).focus, 'assets/icons/my_outfit/calendar/zoom_in.svg', false);
   }
 
+  static TypeData previous(BuildContext context) {
+    return TypeData('previous', (context) => S.of(context).previous, 'assets/icons/my_outfit/calendar/chevron_left.svg', false);
+  }
+
+  static TypeData next(BuildContext context) {
+    return TypeData('next', (context) => S.of(context).next, 'assets/icons/my_outfit/calendar/chevron_right.svg', false);
+  }
+
   static List<TypeData> gridSizes(BuildContext context) {
     return [
       TypeData('3', (context) => S.of(context).gridSize3, 'assets/icons/general/arrange/counter_3.svg', false),

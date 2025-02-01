@@ -551,6 +551,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "please_select_the_category_above":
             MessageLookupByLibrary.simpleMessage(
                 "Please select the category above"),
+        "previous": MessageLookupByLibrary.simpleMessage("Previous"),
         "pricePerWear": MessageLookupByLibrary.simpleMessage("Price Per Wear"),
         "privacyTerms": MessageLookupByLibrary.simpleMessage("Privacy Terms"),
         "privacyTermsUrl": MessageLookupByLibrary.simpleMessage(

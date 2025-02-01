@@ -1,5 +1,5 @@
 class FormattedNumber {
-  final int value;
+  final num value;
   final String suffix;
 
   FormattedNumber(this.value, this.suffix);
@@ -7,14 +7,18 @@ class FormattedNumber {
 
 FormattedNumber formatNumber(num number) {
   if (number < 1000) {
-    return FormattedNumber(number.toInt(), '');
+    return FormattedNumber(number.round(), ''); // Keep as int when below 1000
   } else if (number < 1000000) {
-    return FormattedNumber((number / 1000).round(), 'K');
+    double val = (number / 1000 * 10).round() / 10;
+    return FormattedNumber(val, 'K');
   } else if (number < 1000000000) {
-    return FormattedNumber((number / 1000000).round(), 'M');
+    double val = (number / 1000000 * 10).round() / 10;
+    return FormattedNumber(val, 'M');
   } else if (number < 1000000000000) {
-    return FormattedNumber((number / 1000000000).round(), 'B');
+    double val = (number / 1000000000 * 10).round() / 10;
+    return FormattedNumber(val, 'B');
   } else {
-    return FormattedNumber((number / 1000000000000).round(), 'T');
+    double val = (number / 1000000000000 * 10).round() / 10;
+    return FormattedNumber(val, 'T');
   }
 }

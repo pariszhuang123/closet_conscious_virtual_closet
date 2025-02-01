@@ -1100,6 +1100,16 @@ class S {
     );
   }
 
+  /// `Previous`
+  String get previous {
+    return Intl.message(
+      'Previous',
+      name: 'previous',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Item Name field is not filled.`
   String get itemNameFieldNotFilled {
     return Intl.message(
