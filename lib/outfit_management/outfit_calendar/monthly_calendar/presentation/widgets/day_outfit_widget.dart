@@ -30,14 +30,14 @@ class DayOutfitWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final logger = CustomLogger('DayOutfitWidget');
-    final imageSize = isGridDisplay ? ImageSize.calendarOutfitItemGrid3 : ImageSize.calendarSelfie;
+    const imageSize = ImageSize.monthlyCalendarImage;
 
     final bool isSelected = selectedOutfitIds.contains(outfit.outfitId); // ✅ Uses List<String>
 
     logger.d('Building widget for outfit ID: ${outfit.outfitId}');
     logger.d('Grid Display: $isGridDisplay, Selected: $isSelected, Date: $date');
 
-    return GestureDetector( // ✅ Handles taps at the DayOutfitWidget level
+    return GestureDetector(
       onTap: () {
         if (isSelectable) {
           logger.i('Outfit selected: ${outfit.outfitId}');
@@ -47,20 +47,28 @@ class DayOutfitWidget extends StatelessWidget {
           onNavigate();
         }
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          border: isSelected
-              ? Border.all(color: Theme.of(context).colorScheme.primary, width: 3)
-              : null,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        padding: const EdgeInsets.all(4.0),
-        child: OutfitDisplayWidget( // ✅ Keeps OutfitDisplayWidget purely visual
-          outfit: outfit,
-          crossAxisCount: isGridDisplay ? crossAxisCount : 1,
-          imageSize: imageSize,
-        ),
+      child: Stack(
+        children: [
+          // The outfit image
+          OutfitDisplayWidget(
+            outfit: outfit,
+            imageSize: imageSize,
+          ),
+
+          // Border overlay when selected
+          if (isSelected)
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 3,
+                  ),
+                  borderRadius: BorderRadius.circular(8), // Match OutfitDisplayWidget corners
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

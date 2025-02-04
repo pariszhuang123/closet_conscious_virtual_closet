@@ -182,11 +182,13 @@ class OutfitData {
   final String outfitId;
   final String? outfitImageUrl;
   final ClosetItemMinimal? item;
+  final bool? isActive;
 
   OutfitData({
     required this.outfitId,
     this.outfitImageUrl,
     this.item,
+    this.isActive = true,
   });
 
   factory OutfitData.fromMap(Map<String, dynamic> map) {
@@ -201,6 +203,7 @@ class OutfitData {
         item: map['items'] != null && map['items'] is Map<String, dynamic>
             ? ClosetItemMinimal.fromMap(map['items'] as Map<String, dynamic>) // ✅ Directly parse single item
             : null,
+        isActive: map['is_active'] as bool? ?? true, // ✅ Ensure correct mapping from Supabase
       );
       logger.i('Successfully parsed OutfitData: ${outfitData.outfitId}');
       return outfitData;

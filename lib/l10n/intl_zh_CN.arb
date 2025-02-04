@@ -424,6 +424,7 @@
   "trialIncludedCustomize": "自定义网格大小，并按每次穿着成本、更新日期等排序物品。",
   "trialIncludedClosets": "创建和管理多个衣橱（永久衣橱和隐藏衣橱）",
   "trialIncludedOutfits": "每天创建多个穿搭",
+  "trialIncludedCalendar": "允许你以日历格式查看以前的穿搭，并与多重衣橱功能集成",
   "eventName": "活动名称",
   "allFeedback": "所有",
   "calendarFeatureTitle": "日历",
@@ -440,5 +441,9 @@
   "noReviewedOutfitMessage": "您尚未评价任何穿搭。请从评价您的第一个穿搭开始！",
   "noFilteredOutfitMessage": "没有符合当前筛选条件的穿搭。请调整筛选条件以找到已评价的穿搭。",
   "noOutfitsAvailable": "没有可用的服装或物品",
-  "focus": "专注当日"
+  "focus": "专注当日",
+  "noOutfitComments": "这套穿搭没有评论。",
+  "viewMonthlyCalendarDescription": "以日历格式查看您的所有穿搭。可按活动名称、当前穿搭和穿搭反馈进行筛选。",
+  "createClosetCalendarDescription": "选择您感兴趣的穿搭，并查看所有相关物品以创建衣橱。",
+  "viewDailyCalendarDescription": "查看当天穿搭的所有详情，包括活动名称、评论和穿搭反馈."
 }

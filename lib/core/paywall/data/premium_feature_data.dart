@@ -236,10 +236,27 @@ class FeatureDataList {
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_all_closet.jpg',
             getDescription: (context) => S.of(context).editAllMultiClosetDescription,
           ),
-
         ],
       ),
-
+      FeatureData(
+        getTitle: (context) => S.of(context).calendarFeatureTitle,
+        featureKey: FeatureKey.calendar,
+        isUsageFeature: false,
+        parts: [
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/view_closet.jpg',
+            getDescription: (context) => S.of(context).viewMonthlyCalendarDescription,
+          ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/create_closet.jpg',
+            getDescription: (context) => S.of(context).createClosetCalendarDescription,
+          ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/swap_closet.jpg',
+            getDescription: (context) => S.of(context).viewDailyCalendarDescription,
+          ),
+        ],
+      ),
     ];
   }
 }

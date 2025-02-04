@@ -1,3 +1,4 @@
+import 'package:closet_conscious/core/data/services/core_save_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -12,6 +13,7 @@ import '../../../core/presentation/bloc/update_closet_metadata_cubit/update_clos
 import '../../../../core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import 'create_multi_closet_screen.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../../core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
 
 class CreateMultiClosetProvider extends StatelessWidget {
   final List<String> selectedItemIds;
@@ -28,6 +30,7 @@ class CreateMultiClosetProvider extends StatelessWidget {
     final itemFetchService = GetIt.instance<ItemFetchService>();
     final itemSaveService = GetIt.instance<ItemSaveService>();
     final coreFetchService = GetIt.instance<CoreFetchService>();
+    final coreSaveService = GetIt.instance<CoreSaveService>();
 
     logger.i('CreateMultiClosetProvider initialized with selectedItemIds: $selectedItemIds');
 
@@ -60,6 +63,12 @@ class CreateMultiClosetProvider extends StatelessWidget {
             cubit.fetchCrossAxisCount(); // Trigger initial fetch
             return cubit;
           },
+        ),
+        BlocProvider(
+          create: (_) => MultiClosetNavigationBloc(
+            fetchService: coreFetchService,
+            saveService: coreSaveService,
+          ),
         ),
       ],
       child: CreateMultiClosetScreen(

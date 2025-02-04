@@ -65,6 +65,7 @@ class TrialStartedDialog extends StatelessWidget {
       S.of(context).trialIncludedCustomize,
       S.of(context).trialIncludedClosets,
       S.of(context).trialIncludedOutfits,
+      S.of(context).trialIncludedCalendar,
     ];
 
     return points.map((point) => _buildBulletPoint(point, context)).toList();

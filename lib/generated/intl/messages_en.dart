@@ -192,6 +192,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "costOfNewItems": MessageLookupByLibrary.simpleMessage(
             "Cost of new items you\'ve added"),
         "createCloset": MessageLookupByLibrary.simpleMessage("Create Closet"),
+        "createClosetCalendarDescription": MessageLookupByLibrary.simpleMessage(
+            "Select the outfits you want and see all related items to create a Closet."),
         "createMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "Create a new multi-closet, organize items,\nand add metadata to keep your closets structured"),
         "create_closet": MessageLookupByLibrary.simpleMessage("Create Closet"),
@@ -490,6 +492,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sustainable Start!"),
         "noNewClothes90AchievementMessage": MessageLookupByLibrary.simpleMessage(
             "You’ve hit 90 days without new clothes! Keep building those eco-friendly habits! 🌱"),
+        "noOutfitComments": MessageLookupByLibrary.simpleMessage(
+            "No comments available for this outfit."),
         "noOutfitsAvailable":
             MessageLookupByLibrary.simpleMessage("No outfit or item available"),
         "noOutfitsInMonth": MessageLookupByLibrary.simpleMessage(
@@ -685,6 +689,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Premium features are now locked. Access them anytime by  making a one-time purchase."),
         "trialEndedTitle":
             MessageLookupByLibrary.simpleMessage("Your Trial Has Ended"),
+        "trialIncludedCalendar": MessageLookupByLibrary.simpleMessage(
+            "Allow you to view previous outfits in a calendar format and integrate with multi-closet feature."),
         "trialIncludedClosets": MessageLookupByLibrary.simpleMessage(
             "Create and manage multiple closets (permanent and disappearing closets)"),
         "trialIncludedCustomize": MessageLookupByLibrary.simpleMessage(
@@ -761,6 +767,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Error found. Check your input."),
         "viewClosetItemsButton":
             MessageLookupByLibrary.simpleMessage("View Closet Items"),
+        "viewDailyCalendarDescription": MessageLookupByLibrary.simpleMessage(
+            "See all details of your outfit for the day, including event name, comments, and feedback."),
+        "viewMonthlyCalendarDescription": MessageLookupByLibrary.simpleMessage(
+            "View all your outfits in a calendar format. Filter by event name, active outfit, and outfit feedback."),
         "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "Explore options for your multi-closets.\nYou can create a new multi-closet,\nedit items from all multi-closets,\nor make changes to a single multi-closet."),
         "warning": MessageLookupByLibrary.simpleMessage("Warning"),

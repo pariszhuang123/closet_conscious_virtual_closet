@@ -7,6 +7,7 @@ import 'monthly_calendar_screen.dart';
 import '../bloc/monthly_calendar_metadata_bloc/monthly_calendar_metadata_bloc.dart';
 import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../../core/presentation/bloc/calendar_navigation_bloc.dart';
 import '../../../../core/data/services/outfits_fetch_services.dart';
 import '../../../../core/data/services/outfits_save_services.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
@@ -66,6 +67,15 @@ class MonthlyCalendarProvider extends StatelessWidget {
             cubit.fetchCrossAxisCount();
             logger.i('CrossAxisCount fetch operation initiated.');
             return cubit;
+          },
+        ),
+        BlocProvider(
+          create: (_) {
+            logger.i('Creating CalendarNavigationBloc...');
+            final bloc = CalendarNavigationBloc(fetchService: coreFetchService);
+            bloc.add(CheckCalendarAccessEvent()); // Dispatch the event to check access
+            logger.i('CheckCalendarAccessEvent dispatched.');
+            return bloc;
           },
         ),
       ],

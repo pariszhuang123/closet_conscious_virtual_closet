@@ -424,6 +424,7 @@
   "trialIncludedCustomize": "Customize grid size and sort items by cost per wear, updated date, and more.",
   "trialIncludedClosets": "Create and manage multiple closets (permanent and disappearing closets)",
   "trialIncludedOutfits": "Create multiple outfits a day",
+  "trialIncludedCalendar": "Allow you to view previous outfits in a calendar format and integrate with multi-closet feature.",
   "eventName": "Event Name",
   "allFeedback": "All",
   "calendarFeatureTitle": "Calendar",
@@ -440,5 +441,9 @@
   "noReviewedOutfitMessage": "You haven’t reviewed any outfits yet. Start by reviewing your first outfit!",
   "noFilteredOutfitMessage": "No outfits match your current filter. Adjust the filter to find reviewed outfits.",
   "noOutfitsAvailable": "No outfit or item available",
-  "focus": "Day Focus"
+  "focus": "Day Focus",
+  "noOutfitComments": "No comments available for this outfit.",
+  "viewMonthlyCalendarDescription": "View all your outfits in a calendar format. Filter by event name, active outfit, and outfit feedback.",
+  "createClosetCalendarDescription": "Select the outfits you want and see all related items to create a Closet.",
+  "viewDailyCalendarDescription": "See all details of your outfit for the day, including event name, comments, and feedback."
 }

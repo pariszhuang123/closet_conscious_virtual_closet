@@ -7,21 +7,6 @@ abstract class MonthlyCalendarImagesEvent extends Equatable {
 
 class FetchMonthlyCalendarImages extends MonthlyCalendarImagesEvent {}
 
-class CalendarInteraction extends MonthlyCalendarImagesEvent {
-  final bool isCalendarSelectable;
-  final DateTime selectedDate;
-  final String? outfitId; // Nullable outfitId
-
-  CalendarInteraction({
-    required this.isCalendarSelectable,
-    required this.selectedDate,
-    this.outfitId,
-  });
-
-  @override
-  List<Object?> get props => [isCalendarSelectable, selectedDate, outfitId];
-}
-
 
 class ToggleOutfitSelection extends MonthlyCalendarImagesEvent {
   final String outfitId;
@@ -32,18 +17,23 @@ class ToggleOutfitSelection extends MonthlyCalendarImagesEvent {
   List<Object?> get props => [outfitId];
 }
 
-class FetchActiveItems extends MonthlyCalendarImagesEvent {}
+class FetchActiveItems extends MonthlyCalendarImagesEvent {
+  final List<String> selectedOutfitIds;
+
+  FetchActiveItems({required this.selectedOutfitIds});
+
+  @override
+  List<Object?> get props => [selectedOutfitIds];
+}
 
 class UpdateFocusedDate extends MonthlyCalendarImagesEvent {
   final DateTime selectedDate;
-  final String outfitId;
 
   UpdateFocusedDate({
-    required this.selectedDate,
-    required this.outfitId}); // Use named parameters
+    required this.selectedDate}); // Use named parameters
 
   @override
-  List<Object?> get props => [selectedDate, outfitId];
+  List<Object?> get props => [selectedDate];
 }
 
 class NavigateCalendarEvent extends MonthlyCalendarImagesEvent {

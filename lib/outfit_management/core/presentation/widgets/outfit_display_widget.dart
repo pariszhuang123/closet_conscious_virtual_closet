@@ -7,13 +7,11 @@ import '../../../../generated/l10n.dart';
 
 class OutfitDisplayWidget extends StatelessWidget {
   final OutfitData outfit;
-  final int crossAxisCount;
   final ImageSize imageSize;
 
   const OutfitDisplayWidget({
     super.key,
     required this.outfit,
-    required this.crossAxisCount,
     required this.imageSize,
   });
 
@@ -34,12 +32,14 @@ class OutfitDisplayWidget extends StatelessWidget {
       key: ValueKey('outfit-image-${outfit.outfitId}'),
       imageUrl: outfit.outfitImageUrl!,
       imageSize: imageSize,
+      isActive: outfit.isActive ?? true, // ✅ Provide a default value
     )
         : hasItemImage
         ? OutfitImageWidget(
       key: ValueKey('outfit-item-image-${outfit.outfitId}'),
       imageUrl: outfit.item!.imageUrl,
       imageSize: imageSize,
+      isActive: outfit.item!.itemIsActive, // ✅ Pass itemIsActive for item
     )
         : Center(
       child: Text(

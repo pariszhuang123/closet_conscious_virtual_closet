@@ -1,6 +1,7 @@
 enum ImageSize {
   selfie,
-  calendarSelfie,// Size for selfies
+  monthlyCalendarImage,// Size for selfies
+  dailyCalendarImage,
   itemInteraction, // Size for item interaction screen
   closetMetadata,
   itemGrid2,

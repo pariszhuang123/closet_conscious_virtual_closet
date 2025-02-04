@@ -4290,6 +4290,16 @@ class S {
     );
   }
 
+  /// `Allow you to view previous outfits in a calendar format and integrate with multi-closet feature.`
+  String get trialIncludedCalendar {
+    return Intl.message(
+      'Allow you to view previous outfits in a calendar format and integrate with multi-closet feature.',
+      name: 'trialIncludedCalendar',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Event Name`
   String get eventName {
     return Intl.message(
@@ -4455,6 +4465,46 @@ class S {
     return Intl.message(
       'Day Focus',
       name: 'focus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No comments available for this outfit.`
+  String get noOutfitComments {
+    return Intl.message(
+      'No comments available for this outfit.',
+      name: 'noOutfitComments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View all your outfits in a calendar format. Filter by event name, active outfit, and outfit feedback.`
+  String get viewMonthlyCalendarDescription {
+    return Intl.message(
+      'View all your outfits in a calendar format. Filter by event name, active outfit, and outfit feedback.',
+      name: 'viewMonthlyCalendarDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select the outfits you want and see all related items to create a Closet.`
+  String get createClosetCalendarDescription {
+    return Intl.message(
+      'Select the outfits you want and see all related items to create a Closet.',
+      name: 'createClosetCalendarDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See all details of your outfit for the day, including event name, comments, and feedback.`
+  String get viewDailyCalendarDescription {
+    return Intl.message(
+      'See all details of your outfit for the day, including event name, comments, and feedback.',
+      name: 'viewDailyCalendarDescription',
       desc: '',
       args: [],
     );

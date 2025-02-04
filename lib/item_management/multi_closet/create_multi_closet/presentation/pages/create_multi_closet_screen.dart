@@ -18,6 +18,8 @@ import '../../../core/presentation/bloc/update_closet_metadata_cubit/update_clos
 import '../../../../core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../core/presentation/widgets/multi_closet_feature_container.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../../core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
+import '../../../../../core/paywall/data/feature_key.dart';
 
 class CreateMultiClosetScreen extends StatefulWidget {
   final List<String> selectedItemIds;
@@ -95,6 +97,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
     logger.i('CreateMultiClosetScreen initialized');
     context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
     context.read<ViewItemsBloc>().add(FetchItemsEvent(0));
+    context.read<MultiClosetNavigationBloc>().add(CheckMultiClosetAccessEvent());
 
     // Add scroll listener for infinite scrolling
     _scrollController.addListener(() {
@@ -128,150 +131,160 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
 
   @override
   Widget build(BuildContext context) {
-    logger.i('CreateMultiClosetScreen initialized with selectedItemIds: ${widget.selectedItemIds}');
+    logger.i('Building CreateMultiClosetScreen with selectedItemIds: ${widget.selectedItemIds}');
 
     final theme = Theme.of(context);
-    logger.d('Building CreateMultiClosetScreen UI');
 
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      behavior: HitTestBehavior.translucent,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<MultiClosetNavigationBloc, MultiClosetNavigationState>(
+          listener: (context, state) {
+            if (state is MultiClosetAccessDeniedState) {
+              logger.w('Access denied: Navigating to payment page');
+              Navigator.pushReplacementNamed(
+                context,
+                AppRoutes.payment,
+                arguments: {
+                  'featureKey': FeatureKey.multicloset,
+                  'isFromMyCloset': true,
+                  'previousRoute': AppRoutes.monthlyCalendar,
+                  'nextRoute': AppRoutes.createMultiCloset,
+                },
+              );
+            }
+          },
+        ),
+        BlocListener<CreateMultiClosetBloc, CreateMultiClosetState>(
+          listener: (context, state) {
+            if (state.status == ClosetStatus.success) {
+              logger.i('Closet created successfully.');
+              CustomSnackbar(
+                message: S.of(context).closet_created_successfully,
+                theme: Theme.of(context),
+              ).show(context);
+              _navigateToMyCloset(context);
+            } else if (state.status == ClosetStatus.failure) {
+              logger.e('Error creating closet: ${state.error}');
+              CustomSnackbar(
+                message: S.of(context).error_creating_closet(state.error ?? ''),
+                theme: Theme.of(context),
+              ).show(context);
+            }
+          },
+        ),
+      ],
+      child: GestureDetector(  // Wrap the UI inside the child parameter
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        behavior: HitTestBehavior.translucent,
         child: BlocBuilder<CrossAxisCountCubit, int>(
-        builder: (context, crossAxisCount) {
+          builder: (context, crossAxisCount) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MultiClosetFeatureContainer(
+                  theme: myClosetTheme,
+                  onFilterButtonPressed: () => _onFilterButtonPressed(context, false),
+                  onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
+                  onResetButtonPressed: () => _onResetButtonPressed(context),
+                  onSelectAllButtonPressed: () => _onSelectAllButtonPressed(context),
+                ),
+                const SizedBox(height: 10),
+                BlocBuilder<CreateMultiClosetBloc, CreateMultiClosetState>(
+                  builder: (context, createClosetState) {
+                    validationErrors = createClosetState.validationErrors ?? {};
+                    return BlocBuilder<UpdateClosetMetadataCubit, UpdateClosetMetadataState>(
+                      builder: (context, metadataState) {
+                        closetNameController.text = metadataState.closetName;
+                        monthsController.text = metadataState.monthsLater?.toString() ?? '';
+                        return CreateMultiClosetMetadata(
+                          closetNameController: closetNameController,
+                          monthsController: monthsController,
+                          closetType: metadataState.closetType,
+                          isPublic: metadataState.isPublic ?? false,
+                          theme: theme,
+                          errorKeys: validationErrors,
+                        );
+                      },
+                    );
+                  },
+                ),
 
-            return MultiBlocListener(
-              listeners: [
-                BlocListener<CreateMultiClosetBloc, CreateMultiClosetState>(
-                  listener: (context, state) {
-                    if (state.status == ClosetStatus.valid) {
-                      logger.i('Validation succeeded. Triggering CreateMultiClosetRequested event.');
+                const SizedBox(height: 16),
 
-                      final metadataState = context.read<UpdateClosetMetadataCubit>().state;
-                      context.read<CreateMultiClosetBloc>().add(CreateMultiClosetRequested(
-                        closetName: metadataState.closetName,
-                        closetType: metadataState.closetType,
-                        isPublic: metadataState.isPublic,
-                        monthsLater: metadataState.monthsLater,
-                        itemIds: context.read<MultiSelectionItemCubit>().state.selectedItemIds,
-                      ));
-                    } else if (state.status == ClosetStatus.failure && state.validationErrors != null) {
-                      logger.e('Validation errors: ${state.validationErrors}');
-                      CustomSnackbar(
-                        message: S.of(context).fix_validation_errors,
-                        theme: Theme.of(context),
-                      ).show(context);
-                    } else if (state.status == ClosetStatus.success) {
-                      logger.i('Closet created successfully.');
-                      CustomSnackbar(
-                        message: S.of(context).closet_created_successfully,
-                        theme: Theme.of(context),
-                      ).show(context);
-                      _navigateToMyCloset(context);
-                    } else if (state.status == ClosetStatus.failure && state.error != null) {
-                      logger.e('Error creating closet: ${state.error}');
-                      CustomSnackbar(
-                        message: S.of(context).error_creating_closet(state.error ?? ''),
-                        theme: Theme.of(context),
-                      ).show(context);
+                // Item Grid
+                Expanded(
+                  child: BlocBuilder<ViewItemsBloc, ViewItemsState>(
+                    builder: (context, viewState) {
+                      if (viewState is ItemsLoading) {
+                        return const Center(child: ClosetProgressIndicator());
+                      } else if (viewState is ItemsError) {
+                        return Center(child: Text(S
+                            .of(context)
+                            .failedToLoadItems));
+                      } else if (viewState is ItemsLoaded) {
+                        return InteractiveItemGrid(
+                          items: viewState.items,
+                          scrollController: _scrollController,
+                          crossAxisCount: crossAxisCount,
+                          isDisliked: false,
+                          selectionMode: SelectionMode.multiSelection,
+                          selectedItemIds: widget.selectedItemIds,
+                        );
+                      } else {
+                        return Center(child: Text(S
+                            .of(context)
+                            .noItemsInCloset));
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Save Button
+                BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
+                  builder: (context, selectionItemState) {
+                    if (!selectionItemState.hasSelectedItems) {
+                      return const SizedBox.shrink();
                     }
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        bottom: MediaQuery
+                            .of(context)
+                            .viewInsets
+                            .bottom + 20,
+                      ),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: ThemedElevatedButton(
+                          text: S
+                              .of(context)
+                              .create_closet,
+                          onPressed: () {
+                            final metadataState = context
+                                .read<UpdateClosetMetadataCubit>()
+                                .state;
+                            context.read<CreateMultiClosetBloc>().add(
+                                CreateMultiClosetValidate(
+                                  closetName: metadataState.closetName,
+                                  closetType: metadataState.closetType,
+                                  isPublic: metadataState.isPublic,
+                                  monthsLater: metadataState.monthsLater,
+                                ));
+
+                          },
+                        ),
+                      ),
+                    );
                   },
                 ),
               ],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MultiClosetFeatureContainer(
-                    theme: myClosetTheme,
-                    onFilterButtonPressed:  () => _onFilterButtonPressed(context, false),
-                    onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
-                    onResetButtonPressed: () => _onResetButtonPressed(context),
-                    onSelectAllButtonPressed: () => _onSelectAllButtonPressed(context),
-                  ),
-                  const SizedBox(height: 10),
-
-                  BlocBuilder<CreateMultiClosetBloc, CreateMultiClosetState>(
-                    builder: (context, createClosetState) {
-                      validationErrors = createClosetState.validationErrors ?? {};
-                      return BlocBuilder<UpdateClosetMetadataCubit, UpdateClosetMetadataState>(
-                        builder: (context, metadataState) {
-                          closetNameController.text = metadataState.closetName;
-                          monthsController.text = metadataState.monthsLater?.toString() ?? '';
-                          return CreateMultiClosetMetadata(
-                            closetNameController: closetNameController,
-                            monthsController: monthsController,
-                            closetType: metadataState.closetType,
-                            isPublic: metadataState.isPublic ?? false,
-                            theme: theme,
-                            errorKeys: validationErrors, // Pass validation errors from the bloc state
-                          );
-                        },
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  // Item Grid
-                  Expanded(
-                    child: BlocBuilder<ViewItemsBloc, ViewItemsState>(
-                      builder: (context, viewState) {
-                        if (viewState is ItemsLoading) {
-                          return const Center(child: ClosetProgressIndicator());
-                        } else if (viewState is ItemsError) {
-                          return Center(child: Text(S.of(context).failedToLoadItems));
-                        } else if (viewState is ItemsLoaded) {
-                          return InteractiveItemGrid(
-                            items: viewState.items,
-                            scrollController: _scrollController,
-                            crossAxisCount: crossAxisCount,
-                            isDisliked: false,
-                            selectionMode: SelectionMode.multiSelection,
-                            selectedItemIds: widget.selectedItemIds, // Pass the selectedItemIds
-                          );
-                        } else {
-                          return Center(child: Text(S.of(context).noItemsInCloset));
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Save Button
-                  BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
-                    builder: (context, selectionItemState) {
-                      if (!selectionItemState.hasSelectedItems) {
-                        return const SizedBox.shrink();
-                      }
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          left: 16,
-                          right: 16,
-                          bottom: MediaQuery.of(context).viewInsets.bottom + 20, // Adjust padding for keyboard
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: ThemedElevatedButton(
-                            text: S.of(context).create_closet,
-                            onPressed: () {
-                              final metadataState = context.read<UpdateClosetMetadataCubit>().state;
-                              context.read<CreateMultiClosetBloc>().add(CreateMultiClosetValidate(
-                                closetName: metadataState.closetName,
-                                closetType: metadataState.closetType,
-                                isPublic: metadataState.isPublic,
-                                monthsLater: metadataState.monthsLater,
-                              ));
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
             );
-          }
+          },
+        ),
       ),
     );
   }

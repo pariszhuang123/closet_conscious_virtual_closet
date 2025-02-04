@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/monthly_calendar_metadata_bloc/monthly_calendar_metadata_bloc.dart';
 import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
+import '../../../core/presentation/bloc/calendar_navigation_bloc.dart';
 import '../widgets/monthly_calendar_metadata.dart';
 import '../widgets/image_calendar_widget.dart';
 import '../widgets/monthly_feature_container.dart';
@@ -12,6 +13,7 @@ import '../../../../../core/utilities/routes.dart';
 import '../../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/widgets/button/themed_elevated_button.dart';
+import '../../../../../core/paywall/data/feature_key.dart';
 
 class MonthlyCalendarScreen extends StatefulWidget {
   final ThemeData theme;
@@ -58,12 +60,42 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
     context.read<MonthlyCalendarMetadataBloc>().add(SaveMetadataEvent());
   }
 
+  void _handleCreateCloset() {
+    final state = context.read<MonthlyCalendarImagesBloc>().state;
+
+    if (state is MonthlyCalendarImagesLoaded && state.selectedOutfitIds.isNotEmpty) {
+      logger.i('Creating closet with selected outfits: ${state.selectedOutfitIds}');
+
+      context.read<MonthlyCalendarImagesBloc>().add(
+        FetchActiveItems(selectedOutfitIds: state.selectedOutfitIds),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     logger.i('Building MonthlyCalendarScreen UI...');
 
     return MultiBlocListener(
       listeners: [
+        BlocListener<CalendarNavigationBloc, CalendarNavigationState>(
+          listener: (context, state) {
+            if (state is CalendarAccessDeniedState) {
+              logger.w('Access denied: Navigating to payment page');
+              Navigator.pushReplacementNamed(
+                context,
+                AppRoutes.payment,
+                arguments: {
+                  'featureKey': FeatureKey.calendar,
+                  'isFromMyCloset': false,
+                  'previousRoute': AppRoutes.createOutfit,
+                  'nextRoute': AppRoutes.monthlyCalendar,
+                },
+              );
+            }
+          },
+        ),
+
         // Listener for MonthlyCalendarMetadataBloc
         BlocListener<MonthlyCalendarMetadataBloc, MonthlyCalendarMetadataState>(
           listener: (context, state) {
@@ -78,8 +110,24 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
         BlocListener<MonthlyCalendarImagesBloc, MonthlyCalendarImagesState>(
           listener: (context, state) {
             if (state is MonthlyCalendarNavigationSuccessState) {
-              logger.i('Navigation successful. Navigating to monthly calendar...');
-              Navigator.pushReplacementNamed(context, AppRoutes.monthlyCalendar);
+              logger.i('Navigation successful. Navigating to daily calendar...');
+              Navigator.pushReplacementNamed(context, AppRoutes.dailyCalendar);
+            }
+            if (state is FocusedDateUpdatedState) {
+              logger.i('Focused Date updated successful. Navigating to daily calendar...');
+              Navigator.pushReplacementNamed(context, AppRoutes.dailyCalendar);
+            }
+            if (state is ActiveItemsFetched) {
+              logger.i('Navigation successful. Navigating to create Closet...');
+
+              // Ensure activeItemId is included in the navigation arguments
+              Navigator.pushReplacementNamed(
+                context,
+                AppRoutes.createMultiCloset,
+                arguments: {
+                  'selectedItemIds': state.activeItemIds, // Assuming activeItemIds is a List<String>
+                },
+              );
             }
           },
         ),
@@ -197,6 +245,28 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                               isCalendarSelectable: state.isCalendarSelectable,
                               crossAxisCount: crossAxisCount,
                             );
+                          } else if (state is NoReviewedOutfitState) {
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(
+                                  S.of(context).noReviewedOutfitMessage,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context).textTheme.titleMedium,
+                                ),
+                              ),
+                            );
+                          } else if (state is NoFilteredReviewedOutfitState) {
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Text(
+                                  S.of(context).noFilteredOutfitMessage,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context).textTheme.titleMedium,
+                                ),
+                              ),
+                            );
                           }
                           return const Center(child: OutfitProgressIndicator());
                         },
@@ -208,9 +278,21 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
               SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: ThemedElevatedButton(
-                    onPressed: _handleUpdate,
-                    text: S.of(context).update,
+                  child: BlocBuilder<MonthlyCalendarImagesBloc, MonthlyCalendarImagesState>(
+                    builder: (context, state) {
+                      String buttonText = S.of(context).update;
+                      VoidCallback? onPressed = _handleUpdate;
+
+                      if (state is MonthlyCalendarImagesLoaded && state.selectedOutfitIds.isNotEmpty) {
+                        buttonText = S.of(context).createCloset;
+                        onPressed = _handleCreateCloset;
+                      }
+
+                      return ThemedElevatedButton(
+                        onPressed: onPressed,
+                        text: buttonText,
+                      );
+                    },
                   ),
                 ),
               ),

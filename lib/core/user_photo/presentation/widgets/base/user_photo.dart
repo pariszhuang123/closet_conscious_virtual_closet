@@ -19,8 +19,8 @@ class UserPhoto extends StatelessWidget {
     switch (size) {
       case ImageSize.selfie:
         return {'width': 450, 'height': 450}; // Dimensions for selfies
-      case ImageSize.calendarSelfie:
-        return {'width': 100, 'height': 100}; // Dimensions for selfies
+      case ImageSize.monthlyCalendarImage:
+        return {'width': 50, 'height': 50}; // Dimensions for monthly calendar images
       case ImageSize.itemInteraction:
         return {'width': 275, 'height': 275}; // Dimensions for item interaction screen
       case ImageSize.itemGrid2:

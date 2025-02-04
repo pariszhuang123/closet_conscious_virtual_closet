@@ -1,9 +1,9 @@
+import 'package:fpdart/fpdart.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../core/data/models/calendar_metadata.dart';
 import '../../../core/data/models/monthly_calendar_response.dart';
-import '../../../core/data/models/daily_outfit.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../core/outfit_enums.dart';
 
@@ -16,14 +16,20 @@ class OutfitFetchService {
     CustomLogger? logger,
   }) : logger = logger ?? CustomLogger('OutfitFetchServiceLogger');
 
-  Future<List<ClosetItemMinimal>> fetchCreateOutfitItemsRPC(int currentPage, OutfitItemCategory category) async {
+  Future<List<ClosetItemMinimal>> fetchCreateOutfitItemsRPC(int currentPage,
+      OutfitItemCategory category) async {
     try {
       // Convert category enum to string
-      final categoryString = category.toString().split('.').last;
-      logger.d('Fetching items for pages $currentPage with category filter: $categoryString');
+      final categoryString = category
+          .toString()
+          .split('.')
+          .last;
+      logger.d(
+          'Fetching items for pages $currentPage with category filter: $categoryString');
 
       // Call the RPC function with the converted category string
-      final response = await client.rpc('fetch_outfit_items_with_preferences', params: {
+      final response = await client.rpc(
+          'fetch_outfit_items_with_preferences', params: {
         'p_current_page': currentPage,
         'p_category': categoryString
       }).select();
@@ -31,16 +37,19 @@ class OutfitFetchService {
       logger.d('RPC response received with ${response.length} items');
 
       // Map the response to a list of ClosetItemMinimal objects
-      final items = (response as List).map((item) => ClosetItemMinimal.fromMap(item)).toList();
+      final items = (response as List).map((item) =>
+          ClosetItemMinimal.fromMap(item)).toList();
 
       for (var item in items) {
         logger.d('Item received with itemType: ${item.itemType}');
       }
 
-      logger.d('Returning all ${items.length} items without category filtering');
+      logger.d(
+          'Returning all ${items.length} items without category filtering');
       return items; // Return all items if no category filter is applied
     } catch (error) {
-      logger.e('RPC Error when fetching items for pages $currentPage with category "$category": $error');
+      logger.e(
+          'RPC Error when fetching items for pages $currentPage with category "$category": $error');
       throw Exception('Failed to fetch items via RPC');
     }
   }
@@ -108,14 +117,16 @@ class OutfitFetchService {
 
   Future<OutfitFetchResponse?> fetchOutfitId(String userId) async {
     final response = await _executeQuery(
-          () => client.rpc('fetch_outfitid', params: {'p_user_id': userId}).single(),
+          () =>
+          client.rpc('fetch_outfitid', params: {'p_user_id': userId}).single(),
       'fetchOutfitId - Fetching outfit ID and event name for user $userId',
     );
 
     if (response['status'] == 'success') {
       return OutfitFetchResponse.fromMap(response);
     } else {
-      logger.w('fetchOutfitId - Failed to fetch outfit ID for user $userId: ${response['message']}');
+      logger.w(
+          'fetchOutfitId - Failed to fetch outfit ID for user $userId: ${response['message']}');
       return null;
     }
   }
@@ -133,7 +144,8 @@ class OutfitFetchService {
     }
   }
 
-  Future<Map<String, dynamic>?> fetchAchievementData(String rpcFunctionName) async {
+  Future<Map<String, dynamic>?> fetchAchievementData(
+      String rpcFunctionName) async {
     final response = await _executeQuery(
           () => client.rpc(rpcFunctionName),
       'fetchAchievementData - Fetching data using function $rpcFunctionName',
@@ -145,7 +157,8 @@ class OutfitFetchService {
       final featureStatus = response['feature'] as String?;
       final achievementName = response['achievement_name'] as String?;
       // Log achievement details
-      logger.i('fetchAchievementData - Badge URL: $badgeUrl, Feature status: $featureStatus, Achievement name: $achievementName');
+      logger.i(
+          'fetchAchievementData - Badge URL: $badgeUrl, Feature status: $featureStatus, Achievement name: $achievementName');
 
       // Return the full response with achievement and reward details
       return {
@@ -192,7 +205,7 @@ class OutfitFetchService {
     }
   }
 
-  Future<MonthlyCalendarResponse> fetchMonthlyCalendarImages() async {
+  Future<Either<String, MonthlyCalendarResponse>> fetchMonthlyCalendarImages() async {
     try {
       logger.d('Fetching monthly calendar images');
 
@@ -202,31 +215,31 @@ class OutfitFetchService {
       // Log the raw response from Supabase
       logger.d('Received response from Supabase: $response');
 
-      // Check for errors in the response (if the error is part of the Map)
-      if (response.containsKey('error')) {
-        final error = response['error'] as Map<String, dynamic>? ?? {};
-        final errorMessage = error['message'] ?? 'Unknown error';
-        logger.e('Error fetching monthly calendar images: $errorMessage');
-        throw OutfitFetchException(errorMessage);
+      // Check if only a status is provided
+      if (response.containsKey('status') && !response.containsKey('calendar_data')) {
+        final statusMessage = response['status'] as String;
+        logger.w('RPC returned status only: $statusMessage');
+        return Left(statusMessage); // Return the status as a Left value
       }
 
-      // Parse the response into a MonthlyCalendarResponse object
+      // Parse full RPC response
       logger.d('Parsing the full RPC response into MonthlyCalendarResponse');
       final monthlyResponse = MonthlyCalendarResponse.fromMap(response);
 
-      logger.i(
-          'Parsed MonthlyCalendarResponse: ${monthlyResponse.calendarData.length} calendar entries found.');
+      logger.i('Parsed MonthlyCalendarResponse: ${monthlyResponse.calendarData.length} calendar entries found.');
+      return Right(monthlyResponse); // Return the full response as a Right value
 
-      return monthlyResponse; // Return the fully parsed response
     } catch (error) {
       logger.e('Error fetching monthly calendar images: $error');
       throw OutfitFetchException('Failed to fetch monthly calendar images');
     }
   }
 
-  Future<List<String>> getActiveItemsFromCalendar(List<String> selectedOutfitIds) async {
+  Future<List<String>> getActiveItemsFromCalendar(
+      List<String> selectedOutfitIds) async {
     try {
-      logger.d('Fetching active items for selected outfits: $selectedOutfitIds');
+      logger.d(
+          'Fetching active items for selected outfits: $selectedOutfitIds');
 
       // Call the RPC function with the selected outfit IDs
       final response = await client.rpc(
@@ -241,7 +254,8 @@ class OutfitFetchService {
         // Cast the response to a list of strings (UUIDs)
         return response.cast<String>();
       } else {
-        logger.w('Unexpected response format from get_active_items_from_calendar');
+        logger.w(
+            'Unexpected response format from get_active_items_from_calendar');
         throw OutfitFetchException('Invalid response format');
       }
     } catch (error) {
@@ -250,24 +264,18 @@ class OutfitFetchService {
     }
   }
 
-  Future<List<DailyOutfit>> fetchDailyOutfits(DateTime focusedDate) async {
+  Future<Map<String, dynamic>> fetchDailyCalendarOutfits() async {
     try {
-      logger.d('Fetching daily outfits for date: $focusedDate');
+      logger.d('Fetching daily outfits');
 
-      // Call the RPC function with the focused date
-      final response = await client.rpc(
-        'fetch_daily_outfits',
-        params: {'focused_date': focusedDate.toIso8601String()},
-      );
+      // Call the RPC function
+      final response = await client.rpc('fetch_daily_outfits');
 
-      // Ensure the response is a list
-      if (response is List<dynamic>) {
-        logger.d('Daily outfits fetched successfully with ${response.length} entries');
+      // Ensure response is a Map
+      if (response is Map<String, dynamic>) {
+        logger.d('Daily outfits fetched successfully');
 
-        // Parse the response into a list of `DailyOutfit` objects
-        return response
-            .map((outfit) => DailyOutfit.fromMap(outfit as Map<String, dynamic>))
-            .toList();
+        return response; // Return full JSON, not just outfits
       } else {
         logger.w('Unexpected response format from fetch_daily_outfits');
         throw OutfitFetchException('Invalid response format');

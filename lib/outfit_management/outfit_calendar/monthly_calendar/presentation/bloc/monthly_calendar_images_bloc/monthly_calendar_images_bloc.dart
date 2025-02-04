@@ -15,8 +15,6 @@ class MonthlyCalendarImagesBloc
   final OutfitSaveService saveService;
   final CustomLogger logger;
 
-  final List<String> _selectedOutfitIds = [];
-
   MonthlyCalendarImagesBloc({
     required this.fetchService,
     required this.saveService,
@@ -24,7 +22,6 @@ class MonthlyCalendarImagesBloc
   })  : logger = logger ?? CustomLogger('MonthlyCalendarImagesBloc'),
         super(MonthlyCalendarImagesInitial()) {
     on<FetchMonthlyCalendarImages>(_onFetchMonthlyCalendarImages);
-    on<CalendarInteraction>(_onCalendarInteraction);
     on<ToggleOutfitSelection>(_onToggleOutfitSelection);
     on<FetchActiveItems>(_onFetchActiveItems);
     on<UpdateFocusedDate>(_onUpdateFocusedDate);
@@ -39,61 +36,40 @@ class MonthlyCalendarImagesBloc
     logger.d('Fetching monthly calendar images');
 
     try {
-      // Fetch response as a MonthlyCalendarResponse object
-      final response = await fetchService.fetchMonthlyCalendarImages();
+      // Fetch response which could be either a status string or a full response
+      final result = await fetchService.fetchMonthlyCalendarImages();
 
-      // Check the status field in the response
-      if (response.status == 'no reviewed outfit') {
-        logger.i('No reviewed outfit found');
-        emit(NoReviewedOutfitState());
-      } else if (response.status == 'no reviewed outfit with filter') {
-        logger.i('No reviewed outfit found after applying filters');
-        emit(NoFilteredReviewedOutfitState());
-      } else if (response.status == 'success') {
-        logger.i('Fetched calendar data with ${response.calendarData.length} entries');
-        emit(MonthlyCalendarImagesLoaded(
-          calendarData: response.calendarData,
-          focusedDate: response.focusedDate.toIso8601String(),
-          startDate: response.startDate.toIso8601String(),
-          endDate: response.endDate.toIso8601String(),
-          isCalendarSelectable: response.isCalendarSelectable,
-          hasPreviousOutfits: response.hasPreviousOutfits,
-          hasNextOutfits: response.hasNextOutfits,
-        ));
-      } else {
-        logger.e('Unexpected status: ${response.status}');
-        emit(MonthlyCalendarImagesError('Unexpected status: ${response.status}'));
-      }
+      result.match(
+            (status) {
+          // Handle different status cases
+          if (status == 'no reviewed outfit') {
+            logger.i('No reviewed outfit found');
+            emit(NoReviewedOutfitState());
+          } else if (status == 'no reviewed outfit with filter') {
+            logger.i('No reviewed outfit found after applying filters');
+            emit(NoFilteredReviewedOutfitState());
+          } else {
+            logger.e('Unexpected status: $status');
+            emit(MonthlyCalendarImagesError('Unexpected status: $status'));
+          }
+        },
+            (monthlyResponse) {
+          // If full response is received, emit the success state
+          logger.i('Fetched calendar data with ${monthlyResponse.calendarData.length} entries');
+          emit(MonthlyCalendarImagesLoaded(
+            calendarData: monthlyResponse.calendarData,
+            focusedDate: monthlyResponse.focusedDate.toIso8601String(),
+            startDate: monthlyResponse.startDate.toIso8601String(),
+            endDate: monthlyResponse.endDate.toIso8601String(),
+            isCalendarSelectable: monthlyResponse.isCalendarSelectable,
+            hasPreviousOutfits: monthlyResponse.hasPreviousOutfits,
+            hasNextOutfits: monthlyResponse.hasNextOutfits,
+          ));
+        },
+      );
     } catch (error) {
       logger.e('Error fetching calendar images: $error');
       emit(MonthlyCalendarImagesError('Failed to fetch calendar images.'));
-    }
-  }
-
-
-  Future<void> _onCalendarInteraction(
-      CalendarInteraction event,
-      Emitter<MonthlyCalendarImagesState> emit,
-      ) async {
-    if (event.isCalendarSelectable) {
-      // Outfit selection logic when selectable
-      if (event.outfitId != null) {
-        add(ToggleOutfitSelection(outfitId: event.outfitId!));
-      } else {
-        logger.d('Date selected without an outfit ID; no action triggered.');
-        // No action needed if outfitId is null
-      }
-    } else {
-      // Focused date update logic when not selectable
-      if (event.outfitId != null) {
-        add(UpdateFocusedDate(
-          selectedDate: event.selectedDate,
-          outfitId: event.outfitId!,
-        ));
-      } else {
-        logger.d('Date selected without an outfit ID; no action triggered.');
-        // No action needed if outfitId is null
-      }
     }
   }
 
@@ -101,34 +77,41 @@ class MonthlyCalendarImagesBloc
       ToggleOutfitSelection event,
       Emitter<MonthlyCalendarImagesState> emit,
       ) {
-    if (_selectedOutfitIds.contains(event.outfitId)) {
-      _selectedOutfitIds.remove(event.outfitId);
-      logger.d('Deselected outfit ID: ${event.outfitId}');
-    } else {
-      _selectedOutfitIds.add(event.outfitId);
-      logger.d('Selected outfit ID: ${event.outfitId}');
-    }
+    final currentState = state;
 
-    emit(OutfitSelectionUpdated(List.from(_selectedOutfitIds)));
+    if (currentState is MonthlyCalendarImagesLoaded) {
+      List<String> updatedSelectedOutfits = List.from(currentState.selectedOutfitIds);
+
+      if (updatedSelectedOutfits.contains(event.outfitId)) {
+        updatedSelectedOutfits.remove(event.outfitId);
+        logger.d('Deselected outfit ID: ${event.outfitId}');
+      } else {
+        updatedSelectedOutfits.add(event.outfitId);
+        logger.d('Selected outfit ID: ${event.outfitId}');
+      }
+
+      // Emit a new MonthlyCalendarImagesLoaded state with updated selected outfits
+      emit(currentState.copyWith(selectedOutfitIds: updatedSelectedOutfits));
+    }
   }
 
   Future<void> _onFetchActiveItems(
       FetchActiveItems event,
       Emitter<MonthlyCalendarImagesState> emit,
       ) async {
-    if (_selectedOutfitIds.isEmpty) {
+    if (event.selectedOutfitIds.isEmpty) {
       logger.w('No outfits selected for fetching active items');
       emit(MonthlyCalendarImagesError('No outfits selected.'));
       return;
     }
 
     emit(MonthlyCalendarImagesLoading());
-    logger.d('Fetching active items for selected outfits: $_selectedOutfitIds');
+    logger.d('Fetching active items for selected outfits: ${event.selectedOutfitIds}');
 
     try {
-      final itemIds = await fetchService.getActiveItemsFromCalendar(_selectedOutfitIds);
+      final List<String> activeItemIds = await fetchService.getActiveItemsFromCalendar(event.selectedOutfitIds);
       logger.i('Active items fetched successfully for selected outfits');
-      emit(ActiveItemsFetched(itemIds));
+      emit(ActiveItemsFetched(activeItemIds));
     } catch (error) {
       logger.e('Error fetching active items: $error');
       emit(MonthlyCalendarImagesError('Failed to fetch active items.'));
@@ -140,7 +123,7 @@ class MonthlyCalendarImagesBloc
       Emitter<MonthlyCalendarImagesState> emit,
       ) async {
 
-    logger.d('Updating focused date: ${event.selectedDate} for outfit ID: ${event.outfitId}');
+    logger.d('Updating focused date: ${event.selectedDate}');
     try {
       final success = await saveService.updateFocusedDate(event.selectedDate.toIso8601String());
 

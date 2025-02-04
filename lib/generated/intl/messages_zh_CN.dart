@@ -165,6 +165,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "contactUs": MessageLookupByLibrary.simpleMessage("联系我们"),
         "costOfNewItems": MessageLookupByLibrary.simpleMessage("您添加的新物品的费用"),
         "createCloset": MessageLookupByLibrary.simpleMessage("创建衣柜"),
+        "createClosetCalendarDescription":
+            MessageLookupByLibrary.simpleMessage("选择您感兴趣的穿搭，并查看所有相关物品以创建衣橱。"),
         "createMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "创建一个新的多衣橱，整理物品并添加元数据以保持衣橱有序。"),
         "create_closet": MessageLookupByLibrary.simpleMessage("创建衣橱"),
@@ -428,6 +430,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("可持续的开始！"),
         "noNewClothes90AchievementMessage":
             MessageLookupByLibrary.simpleMessage("您已达成90天不买新衣的目标！继续建立环保习惯！🌱"),
+        "noOutfitComments": MessageLookupByLibrary.simpleMessage("这套穿搭没有评论。"),
         "noOutfitsAvailable":
             MessageLookupByLibrary.simpleMessage("没有可用的服装或物品"),
         "noOutfitsInMonth": MessageLookupByLibrary.simpleMessage(
@@ -586,6 +589,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "trialEndedNextSteps": MessageLookupByLibrary.simpleMessage(
             "高级功能现已锁定。您可以随时通过一次性购买来解锁这些功能。"),
         "trialEndedTitle": MessageLookupByLibrary.simpleMessage("您的试用期已结束"),
+        "trialIncludedCalendar":
+            MessageLookupByLibrary.simpleMessage("允许你以日历格式查看以前的穿搭，并与多重衣橱功能集成"),
         "trialIncludedClosets":
             MessageLookupByLibrary.simpleMessage("创建和管理多个衣橱（永久衣橱和隐藏衣橱）"),
         "trialIncludedCustomize":
@@ -656,6 +661,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "validDate": MessageLookupByLibrary.simpleMessage("有效日期"),
         "validation_error": MessageLookupByLibrary.simpleMessage("发现错误。请检查输入。"),
         "viewClosetItemsButton": MessageLookupByLibrary.simpleMessage("查看衣橱物品"),
+        "viewDailyCalendarDescription":
+            MessageLookupByLibrary.simpleMessage("查看当天穿搭的所有详情，包括活动名称、评论和穿搭反馈."),
+        "viewMonthlyCalendarDescription": MessageLookupByLibrary.simpleMessage(
+            "以日历格式查看您的所有穿搭。可按活动名称、当前穿搭和穿搭反馈进行筛选。"),
         "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "探索您的多衣橱选项。您可以创建一个新的多衣橱，\n从所有多衣橱中编辑物品，或对单个多衣橱进行修改。"),
         "warning": MessageLookupByLibrary.simpleMessage("警告"),

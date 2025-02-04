@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../widgets/layout/page_indicator.dart';
 
 class FeatureCarousel extends StatefulWidget {
   final List<String> imageUrls;
@@ -45,21 +46,10 @@ class FeatureCarouselState extends State<FeatureCarousel> {
         const SizedBox(height: 10),
 
         // Page Indicator below the image
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(widget.imageUrls.length, (index) {
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 4.0),
-              width: currentIndex == index ? 12.0 : 8.0,
-              height: currentIndex == index ? 12.0 : 8.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: currentIndex == index
-                    ? widget.theme.colorScheme.primary
-                    : Colors.grey,
-              ),
-            );
-          }),
+        PageIndicator(
+          itemCount: widget.imageUrls.length,
+          currentIndex: currentIndex,
+          theme: widget.theme,
         ),
 
         const SizedBox(height: 16),

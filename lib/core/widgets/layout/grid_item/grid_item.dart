@@ -41,6 +41,7 @@ class GridItem extends StatelessWidget {
       getItemName: (item) => item.name,
       getItemId: (item) => item.itemId,
       getImageUrl: (item) => item.imageUrl,
+      getIsActive: (item) => item.itemIsActive, // ✅ Pass isActive to BaseGridItem
     );
   }
 }
