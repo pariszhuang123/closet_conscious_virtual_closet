@@ -1,35 +1,20 @@
-// image_resizer.dart
 import 'dart:io';
-import 'dart:typed_data';
-import 'package:image/image.dart' as img;
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ImageResizer {
-  // Function to resize an image and return the resized image file
-  static Future<File> resizeImage(File imageFile, {int scaleFactor = 4}) async {
-    // Read the image as bytes
-    Uint8List imageData = await imageFile.readAsBytes();
-
-    // Decode image from Uint8List
-    img.Image originalImage = img.decodeImage(imageData)!;
-
-    // Calculate new dimensions based on the scaleFactor
-    int newWidth = (originalImage.width / scaleFactor).round();
-    int newHeight = (originalImage.height / scaleFactor).round();
-
-    // Resize the image
-    img.Image resizedImage = img.copyResize(originalImage, width: newWidth, height: newHeight);
-
-    // Encode the resized image back to Uint8List
-    Uint8List resizedImageData = Uint8List.fromList(img.encodeJpg(resizedImage));
-
-    // Save the resized image to a temporary file
+  // Compress and resize to JPEG for optimal upload
+  static Future<File> compressToJpeg(File imageFile, {int quality = 85}) async {
     final Directory tempDir = await getTemporaryDirectory();
-    final String tempPath = tempDir.path;
-    final String resizedImagePath = '$tempPath/resized_${DateTime.now().millisecondsSinceEpoch}.jpg';
-    final File resizedImageFile = File(resizedImagePath);
-    resizedImageFile.writeAsBytesSync(resizedImageData);
+    final String targetPath = '${tempDir.path}/compressed_${DateTime.now().millisecondsSinceEpoch}.jpg';
 
-    return resizedImageFile;
+    final XFile? compressedImage = await FlutterImageCompress.compressAndGetFile(
+      imageFile.path,  // Input image file
+      targetPath,      // Output file path
+      quality: quality,  // Reduce quality for better compression
+      format: CompressFormat.jpeg,
+    );
+
+    return File(compressedImage!.path);
   }
 }

@@ -6,17 +6,20 @@ import '../../utilities/image_resizer.dart';
 class PhotoCaptureService {
   final ImagePicker picker = ImagePicker();
 
-  // Function to capture a photo and resize it
+  // Capture a photo at max width 1024 and quality 100, then process further
   Future<File?> captureAndResizePhoto() async {
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 1024,  // Limit image width
+      imageQuality: 100, // No compression yet (max quality)
+    );
 
     if (image != null) {
-      // Resize the captured image
-      File resizedImageFile = await ImageResizer.resizeImage(File(image.path));
+      // Send captured image to ImageResizer for final compression
+      File resizedImageFile = await ImageResizer.compressToJpeg(File(image.path));
       return resizedImageFile;
     } else {
-      // Return null if the user cancels the capture
-      return null;
+      return null;  // Return null if user cancels
     }
   }
 }
