@@ -20,26 +20,38 @@ class OutfitDisplayWidget extends StatelessWidget {
     final logger = CustomLogger('OutfitDisplayWidget');
     logger.i('Building OutfitDisplayWidget for outfitId: ${outfit.outfitId}.');
 
-    final bool hasOutfitImage = outfit.outfitImageUrl != null;
-    final bool hasItemImage = outfit.item?.imageUrl != null;
+    // ✅ Ignore "cc_none" and treat as no outfit image
+    final bool hasValidOutfitImage =
+        outfit.outfitImageUrl != null && outfit.outfitImageUrl != "cc_none";
 
-    if (!hasOutfitImage && !hasItemImage) {
+    if (outfit.item == null) {
+      logger.e('❌ No item found in OutfitData for outfitId: ${outfit.outfitId}');
+    } else {
+      logger.i('✅ Found item: ${outfit.item!.name}, imageUrl: ${outfit.item!.imageUrl}');
+    }
+
+    // ✅ If `outfit.item` exists, use it (Calendar case)
+    final bool hasValidItemImage =
+        outfit.item != null && outfit.item!.imageUrl.isNotEmpty;
+
+    // ✅ Log when no valid image is found
+    if (!hasValidOutfitImage && !hasValidItemImage) {
       logger.w('Outfit ${outfit.outfitId} has no outfit image and no valid item image.');
     }
 
-    return hasOutfitImage
+    return hasValidOutfitImage
         ? OutfitImageWidget(
       key: ValueKey('outfit-image-${outfit.outfitId}'),
       imageUrl: outfit.outfitImageUrl!,
       imageSize: imageSize,
-      isActive: outfit.isActive ?? true, // ✅ Provide a default value
+      isActive: outfit.isActive ?? true, // ✅ Default true
     )
-        : hasItemImage
+        : hasValidItemImage
         ? OutfitImageWidget(
       key: ValueKey('outfit-item-image-${outfit.outfitId}'),
       imageUrl: outfit.item!.imageUrl,
       imageSize: imageSize,
-      isActive: outfit.item!.itemIsActive, // ✅ Pass itemIsActive for item
+      isActive: outfit.item!.itemIsActive, // ✅ Ensure default value
     )
         : Center(
       child: Text(

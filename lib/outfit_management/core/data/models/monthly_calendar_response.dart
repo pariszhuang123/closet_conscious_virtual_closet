@@ -194,21 +194,33 @@ class OutfitData {
   factory OutfitData.fromMap(Map<String, dynamic> map) {
     final logger = CustomLogger('OutfitData');
     try {
-      logger.i('Parsing OutfitData...');
+      logger.i('Parsing OutfitData for outfitId: ${map['outfit_id']}');
+
+      final dynamic itemsData = map['items'];
+
+      // ✅ Debug: Print raw Supabase response for items
+      logger.i('Raw items data: $itemsData');
+
       final outfitData = OutfitData(
         outfitId: MonthlyCalendarResponse._validateString(map['outfit_id'], 'outfit_id'),
         outfitImageUrl: map['outfit_image_url'] == 'cc_none'
             ? null
             : MonthlyCalendarResponse._validateString(map['outfit_image_url'], 'outfit_image_url'),
-        item: map['items'] != null && map['items'] is Map<String, dynamic>
-            ? ClosetItemMinimal.fromMap(map['items'] as Map<String, dynamic>) // ✅ Directly parse single item
+
+        // ✅ Handle both single object and list case
+        item: (itemsData is List && itemsData.isNotEmpty)
+            ? ClosetItemMinimal.fromMap(itemsData.first as Map<String, dynamic>)
+            : (itemsData is Map<String, dynamic>)
+            ? ClosetItemMinimal.fromMap(itemsData)
             : null,
-        isActive: map['is_active'] as bool? ?? true, // ✅ Ensure correct mapping from Supabase
+
+        isActive: map['is_active'] as bool? ?? true,
       );
-      logger.i('Successfully parsed OutfitData: ${outfitData.outfitId}');
+
+      logger.i('✅ Successfully parsed OutfitData: ${outfitData.outfitId}, item: ${outfitData.item?.name}');
       return outfitData;
     } catch (e) {
-      logger.e('Failed to parse OutfitData: $e');
+      logger.e('❌ Failed to parse OutfitData: $e');
       rethrow;
     }
   }

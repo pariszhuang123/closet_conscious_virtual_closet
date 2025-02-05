@@ -156,14 +156,30 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
         ),
         BlocListener<CreateMultiClosetBloc, CreateMultiClosetState>(
           listener: (context, state) {
-            if (state.status == ClosetStatus.success) {
+            if (state.status == ClosetStatus.valid) {
+              logger.i('Validation succeeded. Triggering CreateMultiClosetRequested event.');
+              final metadataState = context.read<UpdateClosetMetadataCubit>().state;
+              context.read<CreateMultiClosetBloc>().add(CreateMultiClosetRequested(
+                closetName: metadataState.closetName,
+                closetType: metadataState.closetType,
+                isPublic: metadataState.isPublic,
+                monthsLater: metadataState.monthsLater,
+                itemIds: context.read<MultiSelectionItemCubit>().state.selectedItemIds,
+              ));
+            } else if (state.status == ClosetStatus.failure && state.validationErrors != null) {
+              logger.e('Validation errors: ${state.validationErrors}');
+              CustomSnackbar(
+                message: S.of(context).fix_validation_errors,
+                theme: Theme.of(context),
+              ).show(context);
+            } else if (state.status == ClosetStatus.success) {
               logger.i('Closet created successfully.');
               CustomSnackbar(
                 message: S.of(context).closet_created_successfully,
                 theme: Theme.of(context),
               ).show(context);
               _navigateToMyCloset(context);
-            } else if (state.status == ClosetStatus.failure) {
+            } else if (state.status == ClosetStatus.failure && state.error != null) {
               logger.e('Error creating closet: ${state.error}');
               CustomSnackbar(
                 message: S.of(context).error_creating_closet(state.error ?? ''),
