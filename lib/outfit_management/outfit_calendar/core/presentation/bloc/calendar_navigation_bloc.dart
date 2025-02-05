@@ -16,7 +16,9 @@ class CalendarNavigationBloc extends Bloc<CalendarNavigationEvent, CalendarNavig
         super(CalendarNavigationInitialState()){
 
     on<CheckCalendarAccessEvent>(_onCheckCalendarAccess);
+    on<CheckMultiClosetAccessEvent>(_onCheckMultiClosetAccess);
   }
+
 
   Future<void> _onCheckCalendarAccess(
       CheckCalendarAccessEvent event, Emitter<CalendarNavigationState> emit) async {
@@ -32,6 +34,22 @@ class CalendarNavigationBloc extends Bloc<CalendarNavigationEvent, CalendarNavig
     } catch (error) {
       logger.e('Error checking multi-closet access: $error');
       emit(CalendarNavigationErrorState());
+    }
+  }
+  Future<void> _onCheckMultiClosetAccess(
+      CheckMultiClosetAccessEvent event, Emitter<CalendarNavigationState> emit) async {
+    logger.i('Checking multi-closet access.');
+    try {
+      final hasAccess = await fetchService.checkMultiClosetFeature();
+      logger.d('Multi-closet access check result: $hasAccess.');
+      if (hasAccess) {
+        emit(MultiClosetAccessGrantedState());
+      } else {
+        emit(MultiClosetAccessDeniedState());
+      }
+    } catch (error) {
+      logger.e('Error checking multi-closet access: $error');
+      emit(MultiClosetNavigationErrorState());
     }
   }
 }

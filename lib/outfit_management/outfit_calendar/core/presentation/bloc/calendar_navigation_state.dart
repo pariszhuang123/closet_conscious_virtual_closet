@@ -8,3 +8,8 @@ class CalendarAccessGrantedState extends CalendarNavigationState {}
 class CalendarAccessDeniedState extends CalendarNavigationState {}
 
 class CalendarNavigationErrorState extends CalendarNavigationState {}
+
+class MultiClosetAccessGrantedState extends CalendarNavigationState {}
+class MultiClosetAccessDeniedState extends CalendarNavigationState {}
+
+class MultiClosetNavigationErrorState extends CalendarNavigationState {}

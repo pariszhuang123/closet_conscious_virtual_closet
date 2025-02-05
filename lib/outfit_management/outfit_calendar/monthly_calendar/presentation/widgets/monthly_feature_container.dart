@@ -7,6 +7,7 @@ import '../../../../../core/core_enums.dart';
 import '../../../../../core/data/type_data.dart';
 import '../bloc/monthly_calendar_metadata_bloc/monthly_calendar_metadata_bloc.dart';
 import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
+import '../../../core/presentation/bloc/calendar_navigation_bloc.dart';
 
 class MonthlyFeatureContainer extends StatelessWidget {
   final ThemeData theme;
@@ -60,6 +61,11 @@ class MonthlyFeatureContainer extends StatelessWidget {
         return state is MonthlyCalendarLoadedState &&
             state.metadataList.isNotEmpty &&
             !state.metadataList.first.isCalendarSelectable;
+      },
+    ) && context.select<CalendarNavigationBloc, bool>(
+          (bloc) {
+        final state = bloc.state;
+        return state is MultiClosetAccessGrantedState; // Ensure permission is granted
       },
     );
 
