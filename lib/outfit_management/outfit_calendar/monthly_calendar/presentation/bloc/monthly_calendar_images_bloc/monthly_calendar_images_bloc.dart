@@ -149,8 +149,8 @@ class MonthlyCalendarImagesBloc
       );
 
       if (success) {
-        logger.i('Navigation successful');
-        emit(MonthlyCalendarNavigationSuccessState());
+        logger.i('Navigation successful with selected outfits: ${event.selectedOutfitIds}');
+        emit(MonthlyCalendarNavigationSuccessState(selectedOutfitIds: event.selectedOutfitIds));
       } else {
         logger.e('Navigation failed');
         emit(MonthlyCalendarSaveFailureState());

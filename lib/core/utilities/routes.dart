@@ -275,10 +275,20 @@ class AppRoutes {
 
       case AppRoutes.monthlyCalendar:
         return MaterialPageRoute(
-          builder: (_) => CalendarScaffold(
-            body: MonthlyCalendarProvider(myOutfitTheme: myOutfitTheme), // Pass theme to the provider
-            myOutfitTheme: myOutfitTheme, // Pass theme to the scaffold
-          ),
+          builder: (context) {
+            final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+            // ✅ Extract selectedOutfitIds from arguments safely
+            final selectedOutfitIds = (args?['selectedOutfitIds'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [];
+
+            return CalendarScaffold(
+              body: MonthlyCalendarProvider(
+                myOutfitTheme: myOutfitTheme,
+                selectedOutfitIds: selectedOutfitIds, // ✅ Forward to provider
+              ),
+              myOutfitTheme: myOutfitTheme,
+            );
+          },
         );
 
       case AppRoutes.dailyCalendar:

@@ -14,13 +14,19 @@ import '../../../../../core/data/services/core_fetch_services.dart';
 
 class MonthlyCalendarProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
+  final List<String> selectedOutfitIds; // ✅ Add this parameter
 
-  const MonthlyCalendarProvider({super.key, required this.myOutfitTheme});
+  const MonthlyCalendarProvider({
+    super.key,
+    required this.myOutfitTheme,
+    this.selectedOutfitIds = const [], // ✅ Default to empty list
+  });
 
   @override
   Widget build(BuildContext context) {
     final logger = CustomLogger('MonthlyCalendarProvider');
     logger.i('Initializing MonthlyCalendarProvider...');
+    logger.i('Received selected outfits: $selectedOutfitIds'); // ✅ Log selected outfits
 
     final supabaseClient = Supabase.instance.client;
     logger.i('Supabase client initialized.');
@@ -80,7 +86,8 @@ class MonthlyCalendarProvider extends StatelessWidget {
         ),
       ],
       child: MonthlyCalendarScreen(
-        theme: myOutfitTheme, // Pass myOutfitTheme explicitly if needed
+        theme: myOutfitTheme,
+        selectedOutfitIds: selectedOutfitIds, // ✅ Forward to screen
       ),
     );
   }

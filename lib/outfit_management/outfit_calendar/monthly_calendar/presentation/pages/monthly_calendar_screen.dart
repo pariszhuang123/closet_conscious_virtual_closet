@@ -17,8 +17,13 @@ import '../../../../../core/paywall/data/feature_key.dart';
 
 class MonthlyCalendarScreen extends StatefulWidget {
   final ThemeData theme;
+  final List<String> selectedOutfitIds; // ✅ Add selected outfits
 
-  const MonthlyCalendarScreen({super.key, required this.theme});
+  const MonthlyCalendarScreen({
+    super.key,
+    required this.theme,
+    this.selectedOutfitIds = const [], // ✅ Default to an empty list
+  });
 
   @override
   MonthlyCalendarScreenState createState() => MonthlyCalendarScreenState();
@@ -33,7 +38,7 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
     super.initState();
     eventNameController = TextEditingController();
     logger = CustomLogger('MonthlyCalendarScreen');
-    logger.i('Initializing MonthlyCalendarScreen...');
+    logger.i('Initializing MonthlyCalendarScreen with selectedOutfitIds: ${widget.selectedOutfitIds}');
 
     // Dispatch initial events
     context.read<MonthlyCalendarMetadataBloc>().add(
@@ -41,6 +46,7 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
     logger.i('Dispatched FetchMonthlyCalendarMetadataEvent.');
     context.read<MonthlyCalendarImagesBloc>().add(FetchMonthlyCalendarImages());
     logger.i('Dispatched FetchMonthlyCalendarImages.');
+    context.read<CalendarNavigationBloc>().add(CheckMultiClosetAccessEvent());
   }
 
   @override
@@ -110,8 +116,15 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
         BlocListener<MonthlyCalendarImagesBloc, MonthlyCalendarImagesState>(
           listener: (context, state) {
             if (state is MonthlyCalendarNavigationSuccessState) {
-              logger.i('Navigation successful. Navigating to daily calendar...');
-              Navigator.pushReplacementNamed(context, AppRoutes.dailyCalendar);
+              logger.i('Navigation successful. Navigating to monthly calendar with selected outfits: ${state.selectedOutfitIds}');
+
+              Navigator.pushReplacementNamed(
+                context,
+                AppRoutes.monthlyCalendar,
+                arguments: {
+                  'selectedOutfitIds': state.selectedOutfitIds, // Will always be a list
+                },
+              );
             }
             if (state is FocusedDateUpdatedState) {
               logger.i('Focused Date updated successful. Navigating to daily calendar...');
@@ -155,10 +168,30 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                       MonthlyFeatureContainer(
                         theme: Theme.of(context),
                         onPreviousButtonPressed: () {
-                          context.read<MonthlyCalendarImagesBloc>().add(NavigateCalendarEvent(direction: 'backward'));
+                          final state = context.read<MonthlyCalendarImagesBloc>().state;
+
+                          // Ensure selectedOutfitIds is always a List<String>
+                          if (state is MonthlyCalendarImagesLoaded) {
+                            context.read<MonthlyCalendarImagesBloc>().add(
+                              NavigateCalendarEvent(
+                                direction: 'backward',
+                                selectedOutfitIds: List<String>.from(state.selectedOutfitIds), // Ensure type safety
+                              ),
+                            );
+                          }
                         },
+
                         onNextButtonPressed: () {
-                          context.read<MonthlyCalendarImagesBloc>().add(NavigateCalendarEvent(direction: 'forward'));
+                          final state = context.read<MonthlyCalendarImagesBloc>().state;
+
+                          if (state is MonthlyCalendarImagesLoaded) {
+                            context.read<MonthlyCalendarImagesBloc>().add(
+                              NavigateCalendarEvent(
+                                direction: 'forward',
+                                selectedOutfitIds: List<String>.from(state.selectedOutfitIds), // Ensure type safety
+                              ),
+                            );
+                          }
                         },
                         onFocusButtonPressed: () {
                           final state = context.read<MonthlyCalendarMetadataBloc>().state;

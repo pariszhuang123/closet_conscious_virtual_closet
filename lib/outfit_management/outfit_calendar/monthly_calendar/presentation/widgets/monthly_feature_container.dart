@@ -8,6 +8,7 @@ import '../../../../../core/data/type_data.dart';
 import '../bloc/monthly_calendar_metadata_bloc/monthly_calendar_metadata_bloc.dart';
 import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
 import '../../../core/presentation/bloc/calendar_navigation_bloc.dart';
+import '../../../../../core/utilities/logger.dart';
 
 class MonthlyFeatureContainer extends StatelessWidget {
   final ThemeData theme;
@@ -17,7 +18,9 @@ class MonthlyFeatureContainer extends StatelessWidget {
   final VoidCallback onCreateClosetButtonPressed;
   final VoidCallback onResetButtonPressed;
 
-  const MonthlyFeatureContainer({
+  final CustomLogger logger = CustomLogger('MonthlyFeatureContainer');
+
+  MonthlyFeatureContainer({
     super.key,
     required this.theme,
     required this.onPreviousButtonPressed,
@@ -29,7 +32,25 @@ class MonthlyFeatureContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Use BlocSelector to extract only the necessary state parts
+    final metadataBlocState = context.watch<MonthlyCalendarMetadataBloc>().state;
+    final calendarNavBlocState = context.select<CalendarNavigationBloc, CalendarNavigationState>((bloc) => bloc.state);
+
+    bool isCalendarSelectable = false;
+    bool multiClosetAccessGranted = false;
+
+    if (metadataBlocState is MonthlyCalendarLoadedState && metadataBlocState.metadataList.isNotEmpty) {
+      isCalendarSelectable = metadataBlocState.metadataList.first.isCalendarSelectable;
+    }
+
+    if (calendarNavBlocState is MultiClosetAccessGrantedState) {
+      multiClosetAccessGranted = true;
+    }
+
+    logger.d("MetadataBloc State: ${metadataBlocState.runtimeType}");
+    logger.d("CalendarNavigationBloc State: ${calendarNavBlocState.runtimeType}");
+    logger.d("isCalendarSelectable: $isCalendarSelectable");
+    logger.d("MultiClosetAccessGrantedState: $multiClosetAccessGranted");
+
     final bool showPrevious = context.select<MonthlyCalendarImagesBloc, bool>(
           (bloc) {
         final state = bloc.state;
@@ -53,37 +74,26 @@ class MonthlyFeatureContainer extends StatelessWidget {
       },
     );
 
-    final bool showCreateCloset = context.select<
-        MonthlyCalendarMetadataBloc,
-        bool>(
-          (bloc) {
-        final state = bloc.state;
-        return state is MonthlyCalendarLoadedState &&
-            state.metadataList.isNotEmpty &&
-            !state.metadataList.first.isCalendarSelectable;
-      },
-    ) && context.select<CalendarNavigationBloc, bool>(
-          (bloc) {
-        final state = bloc.state;
-        return state is MultiClosetAccessGrantedState; // Ensure permission is granted
-      },
-    );
+    final bool showCreateCloset = (metadataBlocState is MonthlyCalendarLoadedState &&
+        metadataBlocState.metadataList.isNotEmpty &&
+        !metadataBlocState.metadataList.first.isCalendarSelectable) &&
+        (calendarNavBlocState is MultiClosetAccessGrantedState);
+
+    logger.d("showCreateCloset: $showCreateCloset");
 
     return BaseContainer(
       theme: theme,
       child: Wrap(
-        spacing: 8, // Adjust spacing between buttons
-        runSpacing: 8, // Adjust vertical spacing if buttons wrap
-        alignment: WrapAlignment.center, // Center buttons dynamically
+        spacing: 8,
+        runSpacing: 8,
+        alignment: WrapAlignment.center,
         children: [
           if (showPrevious)
             NavigationTypeButton(
               label: TypeDataList.previous(context).getName(context),
               selectedLabel: '',
               onPressed: onPreviousButtonPressed,
-              assetPath: TypeDataList
-                  .previous(context)
-                  .assetPath,
+              assetPath: TypeDataList.previous(context).assetPath,
               isFromMyCloset: false,
               buttonType: ButtonType.secondary,
               usePredefinedColor: false,
@@ -93,9 +103,7 @@ class MonthlyFeatureContainer extends StatelessWidget {
               label: TypeDataList.next(context).getName(context),
               selectedLabel: '',
               onPressed: onNextButtonPressed,
-              assetPath: TypeDataList
-                  .next(context)
-                  .assetPath,
+              assetPath: TypeDataList.next(context).assetPath,
               isFromMyCloset: false,
               buttonType: ButtonType.secondary,
               usePredefinedColor: false,
@@ -105,9 +113,7 @@ class MonthlyFeatureContainer extends StatelessWidget {
               label: TypeDataList.focus(context).getName(context),
               selectedLabel: '',
               onPressed: onFocusButtonPressed,
-              assetPath: TypeDataList
-                  .focus(context)
-                  .assetPath,
+              assetPath: TypeDataList.focus(context).assetPath,
               isFromMyCloset: false,
               buttonType: ButtonType.secondary,
               usePredefinedColor: false,
@@ -117,9 +123,7 @@ class MonthlyFeatureContainer extends StatelessWidget {
               label: TypeDataList.createCloset(context).getName(context),
               selectedLabel: '',
               onPressed: onCreateClosetButtonPressed,
-              assetPath: TypeDataList
-                  .createCloset(context)
-                  .assetPath,
+              assetPath: TypeDataList.createCloset(context).assetPath,
               isFromMyCloset: false,
               buttonType: ButtonType.secondary,
               usePredefinedColor: false,
@@ -128,9 +132,7 @@ class MonthlyFeatureContainer extends StatelessWidget {
             label: TypeDataList.reset(context).getName(context),
             selectedLabel: '',
             onPressed: onResetButtonPressed,
-            assetPath: TypeDataList
-                .reset(context)
-                .assetPath,
+            assetPath: TypeDataList.reset(context).assetPath,
             isFromMyCloset: false,
             buttonType: ButtonType.secondary,
             usePredefinedColor: false,

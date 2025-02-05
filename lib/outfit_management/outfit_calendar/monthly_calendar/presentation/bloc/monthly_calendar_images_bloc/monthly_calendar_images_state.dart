@@ -103,6 +103,13 @@ class FocusedDateUpdateFailedState extends MonthlyCalendarImagesState {
   List<Object?> get props => [message];
 }
 
-class MonthlyCalendarNavigationSuccessState extends MonthlyCalendarImagesState {}
+class MonthlyCalendarNavigationSuccessState extends MonthlyCalendarImagesState {
+  final List<String> selectedOutfitIds;
+
+  MonthlyCalendarNavigationSuccessState({required this.selectedOutfitIds});
+
+  @override
+  List<Object?> get props => [selectedOutfitIds];
+}
 
 class MonthlyCalendarSaveFailureState extends MonthlyCalendarImagesState {}
