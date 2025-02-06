@@ -57,13 +57,16 @@ class MonthlyCalendarProvider extends StatelessWidget {
         BlocProvider(
           create: (_) {
             logger.i('Creating MonthlyCalendarImagesBloc...');
-            final bloc = MonthlyCalendarImagesBloc(
+            final imagesBloc = MonthlyCalendarImagesBloc(
               fetchService: fetchService,
               saveService: saveService,
             );
-            bloc.add(FetchMonthlyCalendarImages());
-            logger.i('FetchMonthlyCalendarImages event dispatched.');
-            return bloc;
+            imagesBloc.add(SetInitialSelectedOutfits(selectedOutfitIds));
+
+            // 3) Now fetch the calendar images
+            imagesBloc.add(FetchMonthlyCalendarImages());
+
+            return imagesBloc;
           },
         ),
         BlocProvider(

@@ -39,14 +39,6 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
     eventNameController = TextEditingController();
     logger = CustomLogger('MonthlyCalendarScreen');
     logger.i('Initializing MonthlyCalendarScreen with selectedOutfitIds: ${widget.selectedOutfitIds}');
-
-    // Dispatch initial events
-    context.read<MonthlyCalendarMetadataBloc>().add(
-        FetchMonthlyCalendarMetadataEvent());
-    logger.i('Dispatched FetchMonthlyCalendarMetadataEvent.');
-    context.read<MonthlyCalendarImagesBloc>().add(FetchMonthlyCalendarImages());
-    logger.i('Dispatched FetchMonthlyCalendarImages.');
-    context.read<CalendarNavigationBloc>().add(CheckMultiClosetAccessEvent());
   }
 
   @override

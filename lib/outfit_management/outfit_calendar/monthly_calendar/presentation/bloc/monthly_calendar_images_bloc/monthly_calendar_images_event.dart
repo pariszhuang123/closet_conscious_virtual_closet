@@ -7,6 +7,14 @@ abstract class MonthlyCalendarImagesEvent extends Equatable {
 
 class FetchMonthlyCalendarImages extends MonthlyCalendarImagesEvent {}
 
+class SetInitialSelectedOutfits extends MonthlyCalendarImagesEvent {
+  final List<String> selectedOutfitIds;
+
+  SetInitialSelectedOutfits(this.selectedOutfitIds);
+
+  @override
+  List<Object?> get props => [selectedOutfitIds];
+}
 
 class ToggleOutfitSelection extends MonthlyCalendarImagesEvent {
   final String outfitId;

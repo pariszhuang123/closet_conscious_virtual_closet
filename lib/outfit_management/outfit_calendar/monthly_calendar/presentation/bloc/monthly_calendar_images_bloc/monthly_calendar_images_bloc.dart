@@ -9,6 +9,8 @@ import '../../../../../core/data/services/outfits_save_services.dart';
 part 'monthly_calendar_images_event.dart';
 part 'monthly_calendar_images_state.dart';
 
+List<String> _initialSelectedOutfits = [];
+
 class MonthlyCalendarImagesBloc
     extends Bloc<MonthlyCalendarImagesEvent, MonthlyCalendarImagesState> {
   final OutfitFetchService fetchService;
@@ -21,12 +23,29 @@ class MonthlyCalendarImagesBloc
     CustomLogger? logger,
   })  : logger = logger ?? CustomLogger('MonthlyCalendarImagesBloc'),
         super(MonthlyCalendarImagesInitial()) {
+    on<SetInitialSelectedOutfits>(_onSetInitialSelectedOutfits);
     on<FetchMonthlyCalendarImages>(_onFetchMonthlyCalendarImages);
     on<ToggleOutfitSelection>(_onToggleOutfitSelection);
     on<FetchActiveItems>(_onFetchActiveItems);
     on<UpdateFocusedDate>(_onUpdateFocusedDate);
     on<NavigateCalendarEvent>(_onNavigateCalendar);
   }
+
+  void _onSetInitialSelectedOutfits(
+      SetInitialSelectedOutfits event,
+      Emitter<MonthlyCalendarImagesState> emit,
+      ) {
+    final currentState = state;
+    if (currentState is MonthlyCalendarImagesLoaded) {
+      // If we are already loaded, just copy with new outfits
+      emit(currentState.copyWith(selectedOutfitIds: event.selectedOutfitIds));
+    } else {
+      // If not loaded, stash them for when we do load
+      _initialSelectedOutfits = event.selectedOutfitIds;
+    }
+    logger.d('Set initial selected outfits: ${event.selectedOutfitIds}');
+  }
+
 
   Future<void> _onFetchMonthlyCalendarImages(
       FetchMonthlyCalendarImages event,
@@ -56,6 +75,16 @@ class MonthlyCalendarImagesBloc
             (monthlyResponse) {
           // If full response is received, emit the success state
           logger.i('Fetched calendar data with ${monthlyResponse.calendarData.length} entries');
+
+          List<String> existingIds = [];
+          if (state is MonthlyCalendarImagesLoaded) {
+            existingIds =
+                (state as MonthlyCalendarImagesLoaded).selectedOutfitIds;
+          } else {
+            // not loaded yet—use the “initial” stash
+            existingIds = _initialSelectedOutfits;
+          }
+
           emit(MonthlyCalendarImagesLoaded(
             calendarData: monthlyResponse.calendarData,
             focusedDate: monthlyResponse.focusedDate.toIso8601String(),
@@ -64,6 +93,7 @@ class MonthlyCalendarImagesBloc
             isCalendarSelectable: monthlyResponse.isCalendarSelectable,
             hasPreviousOutfits: monthlyResponse.hasPreviousOutfits,
             hasNextOutfits: monthlyResponse.hasNextOutfits,
+            selectedOutfitIds: existingIds, // keep existing selections
           ));
         },
       );
