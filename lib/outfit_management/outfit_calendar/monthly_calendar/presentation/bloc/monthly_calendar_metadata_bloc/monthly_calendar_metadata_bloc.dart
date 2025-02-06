@@ -22,7 +22,8 @@ class MonthlyCalendarMetadataBloc
     required this.fetchService,
     required this.saveService,
     CustomLogger? logger,
-  })  : logger = logger ?? CustomLogger('MonthlyCalendarMetadataBloc'),
+  })
+      : logger = logger ?? CustomLogger('MonthlyCalendarMetadataBloc'),
         super(MonthlyCalendarInitialState()) {
     on<FetchMonthlyCalendarMetadataEvent>(_onFetchMetadata);
     on<UpdateSelectedMetadataEvent>(_onUpdateMetadata);
@@ -35,8 +36,9 @@ class MonthlyCalendarMetadataBloc
   Future<void> _onFetchMetadata(
       FetchMonthlyCalendarMetadataEvent event,
       Emitter<MonthlyCalendarMetadataState> emit) async {
+    logger.d('Received FetchMonthlyCalendarMetadataEvent: $event');
     emit(MonthlyCalendarLoadingState());
-    logger.d('Fetching calendar metadata');
+    logger.d('Emitted MonthlyCalendarLoadingState');
     try {
       _metadataList = await fetchService.fetchCalendarMetadata();
 
@@ -46,19 +48,20 @@ class MonthlyCalendarMetadataBloc
 
       logger.i('Fetched ${_metadataList.length} metadata entries');
       emit(MonthlyCalendarLoadedState(metadataList: updatedMetadataList));
+      logger.d('Emitted MonthlyCalendarLoadedState');
     } catch (error) {
       logger.e('Error fetching metadata: $error');
       emit(MonthlyCalendarSaveFailureState(error.toString()));
+      logger.d('Emitted MonthlyCalendarSaveFailureState');
     }
   }
 
   void _onUpdateMetadata(
       UpdateSelectedMetadataEvent event,
       Emitter<MonthlyCalendarMetadataState> emit) {
+    logger.d('Received UpdateSelectedMetadataEvent: $event');
     if (state is MonthlyCalendarLoadedState) {
       final currentState = state as MonthlyCalendarLoadedState;
-
-      // Update the specific metadata in the list
       final updatedMetadata = currentState.metadataList.first.copyWith(
         eventName: event.updatedMetadata.eventName,
         feedback: event.updatedMetadata.feedback,
@@ -66,63 +69,64 @@ class MonthlyCalendarMetadataBloc
         isCalendarSelectable: event.updatedMetadata.isCalendarSelectable,
         isOutfitActive: event.updatedMetadata.isOutfitActive,
       );
-
-
-      // Emit the updated state
       emit(MonthlyCalendarLoadedState(metadataList: [updatedMetadata]));
+      logger.d('Emitted MonthlyCalendarLoadedState with updated metadata');
     } else {
-      logger.w('Cannot update metadata in non-loaded state');
+      logger.w('Cannot update metadata in non-loaded state: $state');
     }
   }
 
   Future<void> _onSaveMetadata(
       SaveMetadataEvent event,
       Emitter<MonthlyCalendarMetadataState> emit) async {
+    logger.d('Received SaveMetadataEvent: $event');
     if (state is! MonthlyCalendarLoadedState) {
-      logger.w('Save operation attempted in an invalid state');
+      logger.w('Save operation attempted in an invalid state: $state');
       emit(MonthlyCalendarSaveFailureState('Invalid state for saving metadata'));
+      logger.d('Emitted MonthlyCalendarSaveFailureState');
       return;
     }
 
     final currentState = state as MonthlyCalendarLoadedState;
-    final metadata = currentState.metadataList.first; // Get the latest metadata
+    final metadata = currentState.metadataList.first;
 
     emit(MonthlyCalendarSaveInProgressState());
-    logger.d('Saving updated metadata: isCalendarSelectable = ${metadata.isCalendarSelectable}');
-
+    logger.d('Emitted MonthlyCalendarSaveInProgressState');
     try {
       final success = await saveService.saveCalendarMetadata(metadata);
 
       if (!success) {
         logger.e('Failed to save metadata');
         emit(MonthlyCalendarSaveFailureState('Failed to save metadata'));
+        logger.d('Emitted MonthlyCalendarSaveFailureState');
         return;
       }
 
       logger.i('Metadata saved successfully: isCalendarSelectable = ${metadata.isCalendarSelectable}');
       emit(MonthlyCalendarSaveSuccessState());
+      logger.d('Emitted MonthlyCalendarSaveSuccessState');
 
       // Re-emit the updated state to reflect changes
       emit(MonthlyCalendarLoadedState(metadataList: [metadata]));
+      logger.d('Emitted MonthlyCalendarLoadedState after save');
     } catch (error) {
       logger.e('Error saving metadata: $error');
       emit(MonthlyCalendarSaveFailureState(error.toString()));
+      logger.d('Emitted MonthlyCalendarSaveFailureState');
     }
   }
 
   Future<void> _onResetMetadata(ResetMetadataEvent event,
       Emitter<MonthlyCalendarMetadataState> emit) async {
+    logger.d('ResetMetadataEvent triggered.');
     emit(MonthlyCalendarLoadingState());
-    logger.d('Resetting monthly calendar metadata');
-
     try {
       final success = await saveService.resetMonthlyCalendar();
-
       if (success) {
-        logger.i('Monthly calendar reset successfully');
+        logger.i('Monthly calendar reset successfully.');
         emit(MonthlyCalendarResetSuccessState());
       } else {
-        logger.e('Failed to reset monthly calendar metadata');
+        logger.e('Failed to reset metadata.');
         emit(MonthlyCalendarSaveFailureState('Failed to reset metadata'));
       }
     } catch (error) {

@@ -105,8 +105,8 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
         // Listener for MonthlyCalendarMetadataBloc
         BlocListener<MonthlyCalendarMetadataBloc, MonthlyCalendarMetadataState>(
           listener: (context, state) {
-            if (state is MonthlyCalendarSaveSuccessState ||
-                state is MonthlyCalendarResetSuccessState) {
+            logger.d('MetadataBloc emitted state: $state');
+            if (state is MonthlyCalendarSaveSuccessState || state is MonthlyCalendarResetSuccessState) {
               logger.i('Save or Reset succeeded. Navigating to monthlyCalendar...');
               Navigator.pushReplacementNamed(context, AppRoutes.monthlyCalendar);
             }

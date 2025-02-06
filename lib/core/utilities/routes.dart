@@ -275,6 +275,7 @@ class AppRoutes {
 
       case AppRoutes.monthlyCalendar:
         return MaterialPageRoute(
+          settings: settings,  // <-- Add this line to pass the RouteSettings along.
           builder: (context) {
             final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
