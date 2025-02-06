@@ -82,8 +82,10 @@ class MonthlyCalendarProvider extends StatelessWidget {
           create: (_) {
             logger.i('Creating CalendarNavigationBloc...');
             final bloc = CalendarNavigationBloc(fetchService: coreFetchService);
-            bloc.add(CheckCalendarAccessEvent()); // Dispatch the event to check access
+            bloc.add(CheckCalendarAccessEvent()); // Dispatch the event to check calendar access
             logger.i('CheckCalendarAccessEvent dispatched.');
+            bloc.add(CheckMultiClosetAccessEvent()); // Dispatch the event to check multicloset access
+            logger.i('CheckMultiClosetAccessEvent dispatched.');
             return bloc;
           },
         ),
