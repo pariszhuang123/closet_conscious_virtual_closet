@@ -1,3 +1,5 @@
+DROP FUNCTION IF EXISTS update_focused_date(UUID);
+
 CREATE OR REPLACE FUNCTION update_focused_date(f_outfit_id UUID)
 RETURNS BOOLEAN
 SECURITY INVOKER
