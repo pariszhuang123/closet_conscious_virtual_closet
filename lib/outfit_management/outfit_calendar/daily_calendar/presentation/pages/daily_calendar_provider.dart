@@ -9,16 +9,21 @@ import '../../../../../core/data/services/core_fetch_services.dart';
 import 'daily_calendar_screen.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/core_service_locator.dart';
+import '../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../../outfit_service_locator.dart';
 
 class DailyCalendarProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
+  final String? outfitId; // ✅ Accept outfitId as an argument
+  final List<String> selectedItemIds; // ✅ Add this parameter
 
   static final _logger = CustomLogger('DailyCalendarProvider');
 
   const DailyCalendarProvider({
     super.key,
     required this.myOutfitTheme,
+    this.outfitId, // ✅ Make it optional for flexibility
+    this.selectedItemIds = const [], // ✅ Default to empty list to avoid null issues
   });
 
   @override
@@ -46,10 +51,20 @@ class DailyCalendarProvider extends StatelessWidget {
               ..fetchCrossAxisCount();
           },
         ),
+        BlocProvider(
+          create: (_) {
+            _logger.i('Creating MultiSelectionItemCubit...');
+            final cubit = MultiSelectionItemCubit();
+            cubit.initializeSelection(selectedItemIds); // ✅ Initialize selection
+            _logger.i('MultiSelectionItemCubit initialized with selected items.');
+            return cubit;
+          },
+        ),
       ],
       // Wrap content in CalendarScaffold
       child: DailyCalendarScreen(
-        theme: myOutfitTheme, // Pass myOutfitTheme explicitly if needed
+        theme: myOutfitTheme,
+        outfitId: outfitId
       ),
     );
   }

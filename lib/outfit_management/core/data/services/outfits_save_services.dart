@@ -158,7 +158,7 @@ class OutfitSaveService {
     }
   }
 
-  Future<bool> updateFocusedDate(String selectedDate) async {
+  Future<bool> updateFocusedDate(String outfitId) async {
     try {
       final authBloc = locator<AuthBloc>();
       final userId = authBloc.userId;
@@ -167,15 +167,23 @@ class OutfitSaveService {
         throw Exception("User not authenticated");
       }
 
-      await Supabase.instance.client
-          .from('shared_preferences')
-          .update({'focused_date': selectedDate}).eq('user_id', userId);
+      logger.d('Updating focused date using outfitId: $outfitId');
 
-      logger.i('Update successfully with focused date.');
-      return true; // Indicating success
+      final response = await Supabase.instance.client.rpc(
+        'update_focused_date',
+        params: {'f_outfit_id': outfitId},
+      );
+
+      if (response == true) {
+        logger.i('Focused date updated successfully in Supabase.');
+        return true;
+      } else {
+        logger.w('No update occurred in Supabase (outfit not found or unauthorized).');
+        return false;
+      }
     } catch (e) {
       logger.e('Error updating focused date: $e');
-      return false; // Indicating failure
+      return false;
     }
   }
 

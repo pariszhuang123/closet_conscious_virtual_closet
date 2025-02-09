@@ -35,13 +35,12 @@ class FetchActiveItems extends MonthlyCalendarImagesEvent {
 }
 
 class UpdateFocusedDate extends MonthlyCalendarImagesEvent {
-  final DateTime selectedDate;
+  final String outfitId;
 
-  UpdateFocusedDate({
-    required this.selectedDate}); // Use named parameters
+  UpdateFocusedDate({required this.outfitId}); // Use named parameter
 
   @override
-  List<Object?> get props => [selectedDate];
+  List<Object?> get props => [outfitId];
 }
 
 class NavigateCalendarEvent extends MonthlyCalendarImagesEvent {

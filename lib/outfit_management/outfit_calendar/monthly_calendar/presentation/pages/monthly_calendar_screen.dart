@@ -119,8 +119,14 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
               );
             }
             if (state is FocusedDateUpdatedState) {
-              logger.i('Focused Date updated successful. Navigating to daily calendar...');
-              Navigator.pushReplacementNamed(context, AppRoutes.dailyCalendar);
+              logger.i('Focused Date updated successfully. Navigating to daily calendar with outfitId: ${state.outfitId}');
+              Navigator.pushReplacementNamed(
+                context,
+                AppRoutes.dailyCalendar,
+                arguments: {
+                  'outfitId': state.outfitId, // ✅ Pass outfitId in navigation arguments
+                },
+              );
             }
             if (state is ActiveItemsFetched) {
               logger.i('Navigation successful. Navigating to create Closet...');

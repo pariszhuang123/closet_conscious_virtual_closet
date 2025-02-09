@@ -293,10 +293,16 @@ class AppRoutes {
         );
 
       case AppRoutes.dailyCalendar:
+        final args = settings.arguments as Map<String, dynamic>?; // ✅ Extract arguments
+        final outfitId = args?['outfitId'] as String?; // ✅ Get outfitId from arguments
+
         return MaterialPageRoute(
           builder: (_) => CalendarScaffold(
-            body: DailyCalendarProvider(myOutfitTheme: myOutfitTheme), // Pass theme to the provider
-            myOutfitTheme: myOutfitTheme, // Pass theme to the scaffold
+            body: DailyCalendarProvider(
+              myOutfitTheme: myOutfitTheme,
+              outfitId: outfitId, // ✅ Pass outfitId
+            ),
+            myOutfitTheme: myOutfitTheme,
           ),
         );
 

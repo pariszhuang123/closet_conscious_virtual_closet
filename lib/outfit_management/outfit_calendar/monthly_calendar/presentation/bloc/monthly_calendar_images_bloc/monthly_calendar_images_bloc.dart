@@ -152,23 +152,24 @@ class MonthlyCalendarImagesBloc
       UpdateFocusedDate event,
       Emitter<MonthlyCalendarImagesState> emit,
       ) async {
+    logger.d('Updating focused date using outfitId: ${event.outfitId}');
 
-    logger.d('Updating focused date: ${event.selectedDate}');
     try {
-      final success = await saveService.updateFocusedDate(event.selectedDate.toIso8601String());
+      final success = await saveService.updateFocusedDate(event.outfitId);
 
       if (success) {
         logger.i('Focused date updated successfully.');
-        emit(FocusedDateUpdatedState());
+        emit(FocusedDateUpdatedState(outfitId: event.outfitId));
       } else {
-        logger.e('Failed to update focused date.');
-        emit(FocusedDateUpdateFailedState('Failed to update focused date.'));
+        logger.w('Failed to update focused date.');
+        emit(FocusedDateUpdateFailedState('Failed to update focused date. Outfit may not exist or be unauthorized.'));
       }
     } catch (error) {
       logger.e('Error updating focused date: $error');
       emit(FocusedDateUpdateFailedState('An error occurred while updating focused date.'));
     }
   }
+
   Future<void> _onNavigateCalendar(
       NavigateCalendarEvent event,
       Emitter<MonthlyCalendarImagesState> emit) async {

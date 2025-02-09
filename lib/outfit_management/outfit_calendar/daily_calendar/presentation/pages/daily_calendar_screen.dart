@@ -13,10 +13,11 @@ import '../../../../../core/utilities/routes.dart';
 
 class DailyCalendarScreen extends StatelessWidget {
   final ThemeData theme;
+  final String? outfitId; // ✅ Accept outfitId
 
   static final _logger = CustomLogger('DailyCalendarScreen');
 
-  const DailyCalendarScreen({super.key, required this.theme});
+  const DailyCalendarScreen({super.key, required this.theme, this.outfitId});
 
   @override
   Widget build(BuildContext context) {

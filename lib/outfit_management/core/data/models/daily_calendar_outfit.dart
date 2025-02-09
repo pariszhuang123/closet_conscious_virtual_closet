@@ -17,7 +17,7 @@ class DailyCalendarOutfit {
     required this.isActive,
     this.outfitImageUrl,
     required this.eventName,
-    required this.outfitComments, // New field
+    this.outfitComments, // New field
     required this.items,
   });
 

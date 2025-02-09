@@ -92,7 +92,14 @@ class ActiveItemsFetched extends MonthlyCalendarImagesState {
   List<Object?> get props => [activeItemIds];
 }
 
-class FocusedDateUpdatedState extends MonthlyCalendarImagesState {}
+class FocusedDateUpdatedState extends MonthlyCalendarImagesState {
+  final String outfitId;
+
+  FocusedDateUpdatedState({required this.outfitId});
+
+  @override
+  List<Object?> get props => [outfitId];
+}
 
 class FocusedDateUpdateFailedState extends MonthlyCalendarImagesState {
   final String message;

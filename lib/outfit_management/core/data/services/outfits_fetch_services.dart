@@ -205,18 +205,22 @@ class OutfitFetchService {
     }
   }
 
-  Future<Either<String, MonthlyCalendarResponse>> fetchMonthlyCalendarImages() async {
+  Future<Either<String,
+      MonthlyCalendarResponse>> fetchMonthlyCalendarImages() async {
     try {
       logger.d('Fetching monthly calendar images');
 
       // Fetch RPC response
-      final response = await client.rpc('fetch_monthly_calendar_images') as Map<String, dynamic>;
+      final response = await client.rpc('fetch_monthly_calendar_images') as Map<
+          String,
+          dynamic>;
 
       // Log the raw response from Supabase
       logger.d('Received response from Supabase: $response');
 
       // Check if only a status is provided
-      if (response.containsKey('status') && !response.containsKey('calendar_data')) {
+      if (response.containsKey('status') &&
+          !response.containsKey('calendar_data')) {
         final statusMessage = response['status'] as String;
         logger.w('RPC returned status only: $statusMessage');
         return Left(statusMessage); // Return the status as a Left value
@@ -226,8 +230,10 @@ class OutfitFetchService {
       logger.d('Parsing the full RPC response into MonthlyCalendarResponse');
       final monthlyResponse = MonthlyCalendarResponse.fromMap(response);
 
-      logger.i('Parsed MonthlyCalendarResponse: ${monthlyResponse.calendarData.length} calendar entries found.');
-      return Right(monthlyResponse); // Return the full response as a Right value
+      logger.i('Parsed MonthlyCalendarResponse: ${monthlyResponse.calendarData
+          .length} calendar entries found.');
+      return Right(
+          monthlyResponse); // Return the full response as a Right value
 
     } catch (error) {
       logger.e('Error fetching monthly calendar images: $error');
@@ -271,9 +277,12 @@ class OutfitFetchService {
       // Call the RPC function
       final response = await client.rpc('fetch_daily_outfits');
 
+      // Log the raw response data and its type
+      logger.d('Raw response received: ${response.runtimeType} -> $response');
+
       // Ensure response is a Map
       if (response is Map<String, dynamic>) {
-        logger.d('Daily outfits fetched successfully');
+        logger.d('Daily outfits fetched successfully: ${response.keys}');
 
         return response; // Return full JSON, not just outfits
       } else {

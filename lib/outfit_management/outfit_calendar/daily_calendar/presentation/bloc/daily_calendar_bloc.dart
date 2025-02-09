@@ -9,7 +9,6 @@ import '../../../../../core/utilities/logger.dart';
 part 'daily_calendar_event.dart';
 part 'daily_calendar_state.dart';
 
-
 class DailyCalendarBloc extends Bloc<DailyCalendarEvent, DailyCalendarState> {
   final OutfitFetchService outfitFetchService;
   final OutfitSaveService outfitSaveService;
@@ -28,6 +27,8 @@ class DailyCalendarBloc extends Bloc<DailyCalendarEvent, DailyCalendarState> {
       FetchDailyCalendarEvent event,
       Emitter<DailyCalendarState> emit,
       ) async {
+    _logger.d('Event received: FetchDailyCalendarEvent');
+
     try {
       emit(DailyCalendarLoading());
       _logger.d('State emitted: DailyCalendarLoading');
@@ -35,15 +36,23 @@ class DailyCalendarBloc extends Bloc<DailyCalendarEvent, DailyCalendarState> {
       // Fetch the full RPC response (not just outfits)
       final Map<String, dynamic> fetchResult = await outfitFetchService.fetchDailyCalendarOutfits();
 
+      _logger.d('Raw response received: ${fetchResult.runtimeType} -> $fetchResult');
+
       // Extract metadata
       final bool hasPreviousOutfits = fetchResult['has_previous_outfits'] as bool? ?? false;
       final bool hasNextOutfits = fetchResult['has_next_outfits'] as bool? ?? false;
-      final DateTime focusedDate = DateTime.parse(fetchResult['focused_date'] as String);
+      final String focusedDateStr = fetchResult['focused_date'] as String;
+      final DateTime focusedDate = DateTime.parse(focusedDateStr);
+
+      _logger.d('Parsed response type: hasPreviousOutfits=$hasPreviousOutfits, '
+          'hasNextOutfits=$hasNextOutfits, focusedDate=$focusedDate');
 
       // Extract and convert outfits
-      final List<DailyCalendarOutfit> dailyOutfits = (fetchResult['outfits'] as List<dynamic>)
-          .map<DailyCalendarOutfit>((outfit) => DailyCalendarOutfit.fromMap(outfit as Map<String, dynamic>))
-          .toList();
+      final List<DailyCalendarOutfit> dailyOutfits = (fetchResult['outfits'] as List<dynamic>?)
+          ?.map<DailyCalendarOutfit>((outfit) => DailyCalendarOutfit.fromMap(outfit as Map<String, dynamic>))
+          .toList() ?? [];
+
+      _logger.d('Outfits parsed successfully: ${dailyOutfits.length} items');
 
       // Emit new state
       emit(DailyCalendarLoaded(
@@ -53,9 +62,9 @@ class DailyCalendarBloc extends Bloc<DailyCalendarEvent, DailyCalendarState> {
         focusedDate: focusedDate, // Optional if needed later
       ));
       _logger.d('State emitted: DailyCalendarLoaded with ${dailyOutfits.length} outfits');
-    } catch (e) {
-      _logger.e('Error fetching daily outfits: $e');
-      emit(DailyCalendarError(e.toString()));
+    } catch (error) {
+      _logger.e('Error fetching daily outfits: $error');
+      emit(DailyCalendarError(error.toString()));
       _logger.d('State emitted: DailyCalendarError');
     }
   }
@@ -63,6 +72,8 @@ class DailyCalendarBloc extends Bloc<DailyCalendarEvent, DailyCalendarState> {
   Future<void> _onNavigateCalendar(
       NavigateCalendarEvent event,
       Emitter<DailyCalendarState> emit) async {
+    _logger.d('Event received: NavigateCalendarEvent - Direction: ${event.direction}, Mode: ${event.navigationMode}');
+
     try {
       final success = await outfitSaveService.navigateCalendar(
         event.direction,
@@ -72,13 +83,16 @@ class DailyCalendarBloc extends Bloc<DailyCalendarEvent, DailyCalendarState> {
       if (success) {
         _logger.i('Navigation successful');
         emit(MonthlyCalendarNavigationSuccessState());
+        _logger.d('State emitted: MonthlyCalendarNavigationSuccessState');
       } else {
         _logger.e('Navigation failed');
         emit(MonthlyCalendarSaveFailureState());
+        _logger.d('State emitted: MonthlyCalendarSaveFailureState');
       }
     } catch (error) {
       _logger.e('Error during calendar navigation: $error');
       emit(MonthlyCalendarSaveFailureState());
+      _logger.d('State emitted: MonthlyCalendarSaveFailureState');
     }
   }
 }

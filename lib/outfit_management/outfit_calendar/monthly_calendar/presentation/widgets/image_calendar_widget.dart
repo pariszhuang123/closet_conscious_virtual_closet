@@ -138,13 +138,15 @@ class ImageCalendarWidget extends StatelessWidget {
           );
         },
         onNavigate: () {
-          logger.i(
-              'Navigating to focused Date: $normalizedDate');
-          context.read<MonthlyCalendarImagesBloc>().add(
-            UpdateFocusedDate(
-              selectedDate: normalizedDate,
-            ),
-          );
+          final outfitId = calendarEntry.outfitData.outfitId;
+          if (outfitId.isNotEmpty) {
+            logger.i('Updating focused date using outfitId: $outfitId');
+            context.read<MonthlyCalendarImagesBloc>().add(
+              UpdateFocusedDate(outfitId: outfitId),
+            );
+          } else {
+            logger.w('No valid outfitId found for navigation. Ignoring request.');
+          }
         },
       );
     }
@@ -180,37 +182,35 @@ class ImageCalendarWidget extends StatelessWidget {
   void _handleDaySelected(BuildContext context, DateTime selectedDay, CustomLogger logger) {
     final normalizedDay = DateTime.utc(selectedDay.year, selectedDay.month, selectedDay.day);
     logger.d('Day selected: $normalizedDay');
-    if (isCalendarSelectable) {
-      // Fetch outfitId only when calendar is selectable
-      final calendarEntry = calendarData.firstWhere(
-            (entry) => entry.date.isAtSameMomentAs(normalizedDay),
-        orElse: () {
-          logger.w('No entry found for selected date: $normalizedDay. Using empty CalendarData.');
-          return CalendarData(
-            date: normalizedDay,
-            outfitData: OutfitData.empty(),
-          );
-        },
-      );
 
-      logger.i('Day selected: $normalizedDay, OutfitId: ${calendarEntry.outfitData.outfitId}');
-      final outfitId = calendarEntry.outfitData.outfitId;
+    // Fetch outfitId for the selected date
+    final calendarEntry = calendarData.firstWhere(
+          (entry) => entry.date.isAtSameMomentAs(normalizedDay),
+      orElse: () {
+        logger.w('No entry found for selected date: $normalizedDay. Using empty CalendarData.');
+        return CalendarData(
+          date: normalizedDay,
+          outfitData: OutfitData.empty(),
+        );
+      },
+    );
 
-      // ✅ Prevent selecting an invalid outfitId (null or empty)
-      if (outfitId.isNotEmpty) {
-        logger.i('Valid outfit selected: $outfitId on date: $normalizedDay');
+    final outfitId = calendarEntry.outfitData.outfitId;
+
+    if (outfitId.isNotEmpty) {
+      if (isCalendarSelectable) {
+        logger.i('Toggling outfit selection for outfitId: $outfitId on date: $normalizedDay');
         context.read<MonthlyCalendarImagesBloc>().add(
           ToggleOutfitSelection(outfitId: outfitId),
         );
       } else {
-        logger.w('No valid outfitId found for selected date: $normalizedDay. Selection ignored.');
+        logger.i('Updating focused date using outfitId: $outfitId');
+        context.read<MonthlyCalendarImagesBloc>().add(
+          UpdateFocusedDate(outfitId: outfitId),
+        );
       }
     } else {
-      // If calendar is not selectable, just update the focused date
-      logger.i('Updating focused date: $normalizedDay');
-      context.read<MonthlyCalendarImagesBloc>().add(
-        UpdateFocusedDate(selectedDate: normalizedDay),
-      );
+      logger.w('No valid outfitId found for selected date: $normalizedDay. Ignoring update.');
     }
   }
 
