@@ -20,7 +20,7 @@ class UserPhoto extends StatelessWidget {
       case ImageSize.selfie:
         return {'width': 450, 'height': 450}; // Dimensions for selfies
       case ImageSize.monthlyCalendarImage:
-        return {'width': 50, 'height': 50}; // Dimensions for monthly calendar images
+        return {'width': 75, 'height': 75}; // Dimensions for monthly calendar images
       case ImageSize.itemInteraction:
         return {'width': 275, 'height': 275}; // Dimensions for item interaction screen
       case ImageSize.itemGrid2:
@@ -30,14 +30,7 @@ class UserPhoto extends StatelessWidget {
       case ImageSize.itemGrid5:
         return {'width': 110, 'height': 110}; // Dimensions for item grid (5 per row)
       case ImageSize.itemGrid7:
-        return {'width': 60, 'height': 60}; // Grid 7 dimensions
-      case ImageSize.calendarOutfitItemGrid3:
-        return {'width': 25, 'height': 25}; // Dimensions for item grid (3 per row)
-      case ImageSize.calendarOutfitItemGrid5:
-        return {'width': 15, 'height': 15}; // Dimensions for item grid (5 per row)
-      case ImageSize.calendarOutfitItemGrid7:
-        return {'width': 10, 'height': 10}; // Grid 7 dimensions
-
+        return {'width': 75, 'height': 75}; // Grid 7 dimensions
       default:
         return {'width': 175, 'height': 175}; // Fallback dimensions
     }
