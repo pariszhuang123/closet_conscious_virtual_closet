@@ -14,22 +14,19 @@ import '../../../theme/my_outfit_theme.dart';
 class TrialStartedScreen extends StatelessWidget {
   final bool isFromMyCloset;
   final String selectedFeatureRoute;
-  final CustomLogger _logger = CustomLogger(
-      'TrialStartedScreen'); // ✅ Initialize logger
+  final CustomLogger _logger = CustomLogger('TrialStartedScreen');
 
   TrialStartedScreen({
     super.key,
     required this.isFromMyCloset,
-    required this.selectedFeatureRoute, // ✅ Directly passes AppRoutes.filter instead of "filter"
+    required this.selectedFeatureRoute,
   }) {
-    // ✅ Log constructor values when initialized
     _logger.i("Screen Initialized:");
     _logger.d("isFromMyCloset: $isFromMyCloset");
     _logger.d("returnRoute: $selectedFeatureRoute");
 
     if (selectedFeatureRoute.isEmpty) {
-      _logger.w(
-          "⚠️ Warning: selectedFeatureRoute is empty. This may cause navigation issues.");
+      _logger.w("⚠️ Warning: selectedFeatureRoute is empty. This may cause navigation issues.");
     }
   }
 
@@ -38,100 +35,91 @@ class TrialStartedScreen extends StatelessWidget {
     final localization = S.of(context);
 
     return Theme(
-        data: isFromMyCloset ? myClosetTheme : myOutfitTheme, // Dynamically switch theme
-        child: PopScope(
-      canPop: false, // ✅ Prevents back navigation
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text(localization.trialStartedTitle),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.close, color: Theme
-                  .of(context)
-                  .colorScheme
-                  .onSurface),
-              onPressed: () {
-                const route = AppRoutes.myCloset;
-                _logger.i("Close button tapped. Navigating to: $route");
-                Navigator.pushReplacementNamed(context, route);
-              },
-            ),
-          ],
-        ),
-        body: BlocListener<TrialBloc, TrialState>(
-          listenWhen: (previous, current) => current is TrialActivated,
-          listener: (context, state) {
-            if (state is TrialActivated) {
-              _logger.i("TrialActivated state detected. Showing dialog...");
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) =>
-                    TrialStartedDialog(
-                      onClose: () {
-                        _navigateToFeature(context);
-                      },
-                      selectedFeature: selectedFeatureRoute, // ✅ Uses AppRoutes.filter, not "filter"
+      data: isFromMyCloset ? myClosetTheme : myOutfitTheme,
+      child: PopScope(
+        canPop: false,
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: Text(localization.trialStartedTitle),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.close, color: Theme.of(context).colorScheme.onSurface),
+                onPressed: () {
+                  const route = AppRoutes.myCloset;
+                  _logger.i("Close button tapped. Navigating to: $route");
+                  Navigator.pushReplacementNamed(context, route);
+                },
+              ),
+            ],
+          ),
+          body: BlocListener<TrialBloc, TrialState>(
+            listenWhen: (previous, current) => current is TrialActivated,
+            listener: (context, state) {
+              if (state is TrialActivated) {
+                _logger.i("TrialActivated state detected. Showing dialog...");
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => TrialStartedDialog(
+                    onClose: () {
+                      _navigateToFeature(context);
+                    },
+                    selectedFeature: selectedFeatureRoute,
+                  ),
+                );
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// ✅ **Scrollable Trial List**
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: TrialList(isFromMyCloset: isFromMyCloset),
                     ),
-              );
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+                  ),
+                  const SizedBox(height: 20),
 
-                /// ✅ **Show Trial List Above Button**
-                TrialList(isFromMyCloset: isFromMyCloset),
+                  /// ✅ **Trial Message (Always Visible)**
+                  Text(
+                    localization.trialStartedMessage,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 20),
 
-                const SizedBox(height: 20),
+                  /// ✅ **Fixed Button at the Bottom**
+                  BlocBuilder<TrialBloc, TrialState>(
+                    builder: (context, state) {
+                      if (state is TrialActivationInProgress) {
+                        _logger.i("TrialActivationInProgress: Showing loading indicator.");
+                        return const Center(child: ClosetProgressIndicator());
+                      }
 
-                /// ✅ **Localized Trial Message**
-                Text(
-                  localization.trialStartedMessage,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .titleMedium,
-                ),
-
-                const SizedBox(height: 20),
-
-                /// ✅ **BlocBuilder for Button State**
-                BlocBuilder<TrialBloc, TrialState>(
-                  builder: (context, state) {
-                    if (state is TrialActivationInProgress) {
-                      _logger.i(
-                          "TrialActivationInProgress: Showing loading indicator.");
-                      return const Center(child: ClosetProgressIndicator());
-                    }
-
-                    return Center(
-                      child: ElevatedButton(
-                        onPressed: state is TrialActivationInProgress
-                            ? null
-                            : () {
-                          _logger.i(
-                              "Start Free Trial button tapped. Dispatching event...");
-                          context.read<TrialBloc>().add(ActivateTrialEvent());
-                        },
-                        child: Text(localization.startFreeTrial),
-                      ),
-                    );
-                  },
-                ),
-              ],
+                      return Center(
+                        child: ElevatedButton(
+                          onPressed: state is TrialActivationInProgress
+                              ? null
+                              : () {
+                            _logger.i("Start Free Trial button tapped. Dispatching event...");
+                            context.read<TrialBloc>().add(ActivateTrialEvent());
+                          },
+                          child: Text(localization.startFreeTrial),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
-        )
     );
   }
 
-  /// ✅ **Navigates to the correct AppRoutes value directly**
   void _navigateToFeature(BuildContext context) {
     _logger.i("Navigating to feature...");
     _logger.d("Initial selectedFeatureRoute: $selectedFeatureRoute");
@@ -143,7 +131,7 @@ class TrialStartedScreen extends StatelessWidget {
       safeRoute,
       arguments: {
         'isFromMyCloset': isFromMyCloset,
-        'selectedFeatureRoute': safeRoute, // ✅ Ensure returnRoute is passed
+        'selectedFeatureRoute': safeRoute,
       },
     );
   }
