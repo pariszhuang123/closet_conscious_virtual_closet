@@ -31,6 +31,7 @@ class MyClosetProvider extends StatelessWidget {
         BlocProvider<NavigateItemBloc>(
           create: (context) => NavigateItemBloc(
             itemFetchService: itemFetchService,
+            coreFetchService: coreFetchService
           ),
         ),
         BlocProvider<ViewItemsBloc>(

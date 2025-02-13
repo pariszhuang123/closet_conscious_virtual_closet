@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../../core/presentation/widgets/outfit_review_button.dart';
 import '../../../../../core/widgets/form/comment_field.dart';
+import '../../../../../generated/l10n.dart';
 
 class ReviewAndCommentRow extends StatelessWidget {
   final String outfitId;
-  final String? feedback;
+  final String feedback;
+  final String? outfitComments;
   final ThemeData theme;
   final TextEditingController? controller;
   final bool isReadOnly; // New flag to control editability
@@ -13,6 +15,7 @@ class ReviewAndCommentRow extends StatelessWidget {
     super.key,
     required this.outfitId,
     required this.feedback,
+    this.outfitComments,
     required this.theme,
     this.controller,
     this.isReadOnly = false, // Default to false for editable mode
@@ -37,7 +40,9 @@ class ReviewAndCommentRow extends StatelessWidget {
           Expanded(
             child: CommentField(
               controller: isReadOnly ? null : controller,
-              initialText: feedback, // Use feedback as read-only text
+              initialText: (outfitComments == "cc_none" || outfitComments == null)
+                  ? S.of(context).encourageComment // Localization
+                  : outfitComments,
               theme: theme,
               isReadOnly: isReadOnly, // Toggle between editable & read-only
             ),

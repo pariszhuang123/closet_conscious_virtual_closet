@@ -35,18 +35,35 @@ class ViewMultiClosetScreen extends StatelessWidget {
 
     return BlocListener<MultiClosetNavigationBloc, MultiClosetNavigationState>(
       listener: (context, state) {
-        if (state is MultiClosetAccessDeniedState) {
-          logger.w('Access denied: Navigating to payment page');
-          Navigator.pushReplacementNamed(
-            context,
-            AppRoutes.payment,
-            arguments: {
-              'featureKey': FeatureKey.multicloset,
-              'isFromMyCloset': isFromMyCloset,
-              'previousRoute': AppRoutes.myCloset,
-              'nextRoute': AppRoutes.viewMultiCloset,
-            },
-          );
+
+        if (state is MultiClosetAccessState) {
+          if (state.accessStatus == AccessStatus.trialPending) {
+            logger.i('Trial pending, navigating to trialStarted screen');
+
+            Navigator.pushReplacementNamed(
+              context,
+              AppRoutes.trialStarted,
+              arguments: {
+                'selectedFeatureRoute': AppRoutes.viewMultiCloset,
+                'isFromMyCloset': isFromMyCloset,
+              },
+            );
+          }
+
+          if (state.accessStatus == AccessStatus.denied) {
+            logger.w('Access denied: Navigating to payment page');
+
+            Navigator.pushReplacementNamed(
+              context,
+              AppRoutes.payment,
+              arguments: {
+                'featureKey': FeatureKey.multicloset,
+                'isFromMyCloset': isFromMyCloset,
+                'previousRoute': AppRoutes.myCloset,
+                'nextRoute': AppRoutes.viewMultiCloset,
+              },
+            );
+          }
         } else if (state is CreateMultiClosetNavigationState) {
           logger.i('Navigating to Create Multi Closet screen.');
           Navigator.pushNamed(context, AppRoutes.createMultiCloset);

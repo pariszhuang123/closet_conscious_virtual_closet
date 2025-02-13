@@ -357,23 +357,30 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   _isNavigating = false; // Reset navigating after returning
                 });
               }
-              if (state is OutfitAccessGrantedState) {
-                // Do nothing specific since the user is already in MyOutfitScreen
-                logger.i(
-                    'Outfit access granted, continuing with current process.');
-              } else if (state is OutfitAccessDeniedState) {
-                // Access denied, navigate to the payment screen
-                logger.i('Outfit access denied, navigating to payment screen.');
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.payment,
-                  arguments: {
-                    'featureKey': FeatureKey.multiOutfit, // Pass necessary data
-                    'isFromMyCloset': false,
-                    'previousRoute': AppRoutes.myCloset,
-                    'nextRoute': AppRoutes.createOutfit
-                  },
-                );
+              if (state is MultiOutfitAccessState) {
+                if (state.accessStatus == AccessStatus.denied) {
+                  logger.w('Access denied: Navigating to payment page');
+                  Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.payment,
+                    arguments: {
+                      'featureKey': FeatureKey.multiOutfit,
+                      'isFromMyCloset': false,
+                      'previousRoute': AppRoutes.myCloset,
+                      'nextRoute': AppRoutes.createOutfit,
+                    },
+                  );
+                } else if (state.accessStatus == AccessStatus.trialPending) {
+                  logger.i('Trial pending, navigating to trialStarted screen');
+                  Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.trialStarted,
+                    arguments: {
+                      'selectedFeatureRoute': AppRoutes.myCloset, // ✅ Correct AppRoutes value
+                      'isFromMyCloset': false,
+                    },
+                  );
+                }
               }
             },
           ),

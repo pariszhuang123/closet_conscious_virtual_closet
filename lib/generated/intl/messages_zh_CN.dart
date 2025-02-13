@@ -79,9 +79,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "您已经穿过衣橱中的每一件物品！您正在掌控自己的时尚选择。"),
         "allFeedback": MessageLookupByLibrary.simpleMessage("所有"),
-        "alright": MessageLookupByLibrary.simpleMessage("还不错 🤷‍♀️"),
+        "alright": MessageLookupByLibrary.simpleMessage("不确定\n🤷‍♀️"),
         "alright_feedback_sentence":
-            MessageLookupByLibrary.simpleMessage("点击不太适合这个造型的物品。"),
+            MessageLookupByLibrary.simpleMessage("点击你不确定的物品。"),
         "amountSpent": MessageLookupByLibrary.simpleMessage("花费金额"),
         "amountSpentFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("花费金额未填写。"),
@@ -245,6 +245,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "editSingleMultiClosetDescription":
             MessageLookupByLibrary.simpleMessage(
                 "编辑单个多衣橱。将物品转移到另一个衣橱，\n更新元数据，更改多衣橱图片，或归档该衣橱。"),
+        "encourageComment":
+            MessageLookupByLibrary.simpleMessage("你还没有为这套搭配添加评论！"),
         "enterAmountSpentHint": MessageLookupByLibrary.simpleMessage("输入花费金额"),
         "enterClosetName": MessageLookupByLibrary.simpleMessage("请输入衣橱名称"),
         "enterEventName": MessageLookupByLibrary.simpleMessage("这个是什么场合？"),
@@ -560,6 +562,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("具体类型未填写。"),
         "spendingTooltip": MessageLookupByLibrary.simpleMessage("您购买新物品的花费金额"),
         "spring": MessageLookupByLibrary.simpleMessage("春季"),
+        "startFreeTrial": MessageLookupByLibrary.simpleMessage("开始免费试用"),
         "styleOn": MessageLookupByLibrary.simpleMessage("评论造型"),
         "success": MessageLookupByLibrary.simpleMessage("成功"),
         "summer": MessageLookupByLibrary.simpleMessage("夏季"),
@@ -601,10 +604,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("每天创建多个穿搭"),
         "trialIncludedTitle": MessageLookupByLibrary.simpleMessage("试用包含的功能"),
         "trialStartedMessage": MessageLookupByLibrary.simpleMessage(
-            "您已成功激活您的高级试用。所有高级功能现已可用，为您带来更佳体验！"),
-        "trialStartedNextSteps":
-            MessageLookupByLibrary.simpleMessage("探索应用并试用高级功能。您的试用将在30天后到期。"),
-        "trialStartedTitle": MessageLookupByLibrary.simpleMessage("试用已激活"),
+            "这些是您可以探索的所有高级功能。您想立即开始您的 30 天免费试用吗？"),
+        "trialStartedNextSteps": MessageLookupByLibrary.simpleMessage(
+            "您已成功激活高级功能。所有高级功能现已可用，以提升您的体验。"),
+        "trialStartedNextStepsTitle":
+            MessageLookupByLibrary.simpleMessage("试用已激活！"),
+        "trialStartedTitle": MessageLookupByLibrary.simpleMessage("探索高级权益"),
         "unableToProcessAccountDeletion": MessageLookupByLibrary.simpleMessage(
             "我们暂时无法处理您的账号删除请求。请发送电子邮件至support@example.com获取帮助。"),
         "unableToRetrieveUserId":

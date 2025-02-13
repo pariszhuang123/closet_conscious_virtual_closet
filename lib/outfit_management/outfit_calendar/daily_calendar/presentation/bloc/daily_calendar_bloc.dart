@@ -82,17 +82,17 @@ class DailyCalendarBloc extends Bloc<DailyCalendarEvent, DailyCalendarState> {
 
       if (success) {
         _logger.i('Navigation successful');
-        emit(MonthlyCalendarNavigationSuccessState());
-        _logger.d('State emitted: MonthlyCalendarNavigationSuccessState');
+        emit(DailyCalendarNavigationSuccessState());
+        _logger.d('State emitted: DailyCalendarNavigationSuccessState');
       } else {
         _logger.e('Navigation failed');
-        emit(MonthlyCalendarSaveFailureState());
-        _logger.d('State emitted: MonthlyCalendarSaveFailureState');
+        emit(DailyCalendarSaveFailureState());
+        _logger.d('State emitted: DailyCalendarSaveFailureState');
       }
     } catch (error) {
       _logger.e('Error during calendar navigation: $error');
-      emit(MonthlyCalendarSaveFailureState());
-      _logger.d('State emitted: MonthlyCalendarSaveFailureState');
+      emit(DailyCalendarSaveFailureState());
+      _logger.d('State emitted: DailyCalendarSaveFailureState');
     }
   }
 }

@@ -64,6 +64,19 @@ class CustomizeScreen extends StatelessWidget {
                 arguments: {'selectedItemIds': selectedItemIds},
               );
             }
+            if (state.accessStatus == AccessStatus.trialPending) {
+              _logger.i('Trial pending, navigating to trialStarted screen');
+
+              Navigator.pushReplacementNamed(
+                context,
+                AppRoutes.trialStarted,
+                arguments: {
+                  'selectedFeatureRoute': AppRoutes.customize, // ✅ Pass actual AppRoutes value
+                  'isFromMyCloset': isFromMyCloset,
+                },
+              );
+            }
+
             if (state.accessStatus == AccessStatus.denied) {
               _logger.i('AccessStatus: denied, navigating to payment screen');
               Navigator.pushReplacementNamed(

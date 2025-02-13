@@ -58,8 +58,9 @@ class MyOutfitProvider extends StatelessWidget {
             _logger.d('Initializing NavigateOutfitBloc');
             final outfitFetchService = GetIt.instance<OutfitFetchService>();
             final outfitSaveService = GetIt.instance<OutfitSaveService>();
+            final coreFetchServices = GetIt.instance<CoreFetchService>();
             _logger.d('Fetched services for NavigateOutfitBloc: OutfitFetchService and OutfitSaveService');
-            return NavigateOutfitBloc(outfitFetchService: outfitFetchService, outfitSaveService: outfitSaveService);
+            return NavigateOutfitBloc(outfitFetchService: outfitFetchService, outfitSaveService: outfitSaveService, coreFetchService: coreFetchServices);
           },
         ),
         BlocProvider(

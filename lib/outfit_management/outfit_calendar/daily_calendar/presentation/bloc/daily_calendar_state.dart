@@ -26,9 +26,9 @@ class DailyCalendarLoaded extends DailyCalendarState {
   List<Object?> get props => [dailyOutfits, hasPreviousOutfits, hasNextOutfits, focusedDate];
 }
 
-class MonthlyCalendarNavigationSuccessState extends DailyCalendarState {}
+class DailyCalendarNavigationSuccessState extends DailyCalendarState {}
 
-class MonthlyCalendarSaveFailureState extends DailyCalendarState {}
+class DailyCalendarSaveFailureState extends DailyCalendarState {}
 
 class DailyCalendarError extends DailyCalendarState {
   final String message;

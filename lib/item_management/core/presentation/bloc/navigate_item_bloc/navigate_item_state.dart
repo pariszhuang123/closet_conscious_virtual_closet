@@ -109,11 +109,6 @@ class TrialEndedSuccessState extends NavigateItemState {
   List<Object?> get props => [];
 }
 
-class TrialStartedSuccessState extends NavigateItemState {
-  @override
-  List<Object?> get props => [];
-}
-
 // New failure state for handling errors in achievement fetch or save
 class NavigateItemFailureState extends NavigateItemState {
   final String error;

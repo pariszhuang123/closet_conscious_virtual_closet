@@ -66,8 +66,8 @@ class CreateMultiClosetProvider extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => MultiClosetNavigationBloc(
-            fetchService: coreFetchService,
-            saveService: coreSaveService,
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
           ),
         ),
       ],

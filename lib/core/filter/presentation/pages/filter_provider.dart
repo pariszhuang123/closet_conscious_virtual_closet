@@ -40,8 +40,8 @@ class FilterProvider extends StatelessWidget {
           create: (context) {
             logger.d('Initializing FilterBloc with core services');
             final filterBloc = FilterBloc(
-              fetchService: coreFetchService,
-              saveService: coreSaveService,
+              coreFetchService: coreFetchService,
+              coreSaveService: coreSaveService,
             );
             filterBloc.add(LoadFilterEvent());
             return filterBloc;

@@ -73,6 +73,19 @@ class FilterScreen extends StatelessWidget {
                   arguments: {'selectedItemIds': selectedItemIds},
                 );
               }
+              if (state.accessStatus == AccessStatus.trialPending) {
+                _logger.i('Trial pending, navigating to trialStarted screen');
+
+                Navigator.pushReplacementNamed(
+                  context,
+                  AppRoutes.trialStarted,
+                  arguments: {
+                    'selectedFeatureRoute': AppRoutes.filter, // ✅ Pass actual AppRoutes value
+                    'isFromMyCloset': isFromMyCloset,
+                  },
+                );
+              }
+
               // Handle denied access state
               if (state.accessStatus == AccessStatus.denied) {
                 _logger.i('AccessStatus: denied, navigating to payment screen');

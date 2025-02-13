@@ -174,16 +174,6 @@ class OutfitFetchService {
     }
   }
 
-  Future<bool> checkOutfitAccess() async {
-    final result = await client.rpc('check_user_access_to_create_outfit');
-
-    if (result is bool) {
-      return result;
-    } else {
-      throw Exception('Unexpected result from RPC: $result');
-    }
-  }
-
   Future<List<CalendarMetadata>> fetchCalendarMetadata() async {
     try {
       logger.d('Fetching calendar metadata');

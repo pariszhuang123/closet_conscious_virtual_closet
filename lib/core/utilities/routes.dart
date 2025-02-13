@@ -17,6 +17,7 @@ import '../../item_management/multi_closet/reappear_closet/presentation/pages/re
 import '../../outfit_management/outfit_calendar/core/presentation/pages/calendar_scaffold.dart';
 import '../../outfit_management/outfit_calendar/monthly_calendar/presentation/pages/monthly_calendar_provider.dart';
 import '../../outfit_management/outfit_calendar/daily_calendar/presentation/pages/daily_calendar_provider.dart';
+import '../../core/presentation/pages/trial_started/trial_started_provider.dart';
 import '../screens/webview_screen.dart';
 import '../../user_management/achievements/data/models/achievements_page_argument.dart';
 import '../../core/data/models/arguments.dart';
@@ -55,6 +56,7 @@ class AppRoutes {
   static const String reappearCloset = '/reappear_closet';
   static const String monthlyCalendar = '/monthly_calendar';
   static const String dailyCalendar = '/daily_calendar';
+  static const String trialStarted = '/trial_started';
 
 
   static final CustomLogger logger = CustomLogger('AppRoutes');
@@ -88,7 +90,7 @@ class AppRoutes {
         final args = settings.arguments as Map<String, dynamic>? ?? {};
         final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
         final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
-        final String returnRoute = args['returnRoute'] as String; // Extract returnRoute
+        final String returnRoute = args['returnRoute'] as String? ?? AppRoutes.myCloset; // Extract returnRoute
         logger.d("Navigating to customize  with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds, returnRoute: $returnRoute");
         return MaterialPageRoute(
           builder: (_) => CustomizeProvider(
@@ -101,7 +103,7 @@ class AppRoutes {
         final args = settings.arguments as Map<String, dynamic>? ?? {};
         final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
         final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
-        final String returnRoute = args['returnRoute'] as String; // Extract returnRoute
+        final String returnRoute = args['returnRoute'] as String? ?? AppRoutes.myCloset; // Extract returnRoute
         logger.d("Navigating to filter with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds, returnRoute: $returnRoute");
 
         return MaterialPageRoute(
@@ -284,7 +286,7 @@ class AppRoutes {
 
             return CalendarScaffold(
               body: MonthlyCalendarProvider(
-                myOutfitTheme: myOutfitTheme,
+                isFromMyCloset: false,
                 selectedOutfitIds: selectedOutfitIds, // ✅ Forward to provider
               ),
               myOutfitTheme: myOutfitTheme,
@@ -303,6 +305,20 @@ class AppRoutes {
               outfitId: outfitId, // ✅ Pass outfitId
             ),
             myOutfitTheme: myOutfitTheme,
+          ),
+        );
+
+      case AppRoutes.trialStarted:
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? false;
+        final String selectedFeatureRoute = args['selectedFeatureRoute'] as String;
+
+        logger.d("Navigating to TrialStarted with isFromMyCloset: $isFromMyCloset, selectedFeatureRoute: $selectedFeatureRoute");
+
+        return MaterialPageRoute(
+          builder: (_) => TrialStartedProvider(
+            isFromMyCloset: isFromMyCloset,
+            selectedFeatureRoute: selectedFeatureRoute, // ✅ Pass AppRoutes value directly
           ),
         );
 

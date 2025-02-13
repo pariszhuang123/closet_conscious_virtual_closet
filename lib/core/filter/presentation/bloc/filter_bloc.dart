@@ -13,12 +13,12 @@ part 'filter_event.dart';
 
 class FilterBloc extends Bloc<FilterEvent, FilterState> {
   final CustomLogger logger;
-  final CoreFetchService fetchService;
-  final CoreSaveService saveService;
+  final CoreFetchService coreFetchService;
+  final CoreSaveService coreSaveService;
 
   FilterBloc({
-    required this.fetchService,
-    required this.saveService,
+    required this.coreFetchService,
+    required this.coreSaveService,
   }) : logger = CustomLogger('FilterBlocLogger'),
         super(const FilterState()) {
     logger.i('FilterBloc initialized');
@@ -36,12 +36,12 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
 
     try {
       // Fetch all closets for the user
-      final closetData = await fetchService.fetchPermanentClosets();
+      final closetData = await coreFetchService.fetchPermanentClosets();
       logger.i('Fetched all closets successfully: ${closetData.length} items');
 
       final allClosetsDisplay = closetData.map((closetMap) => MultiClosetMinimal.fromMap(closetMap)).toList();
 
-      final filterData = await fetchService.fetchFilterSettings();
+      final filterData = await coreFetchService.fetchFilterSettings();
       logger.i('Filter settings loaded successfully');
 
       final FilterSettings filterSettings = filterData['filters'];
@@ -78,7 +78,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
 
     try {
       // Use fetchService to check if the user has multi_closet access
-      final hasFeature = await fetchService.checkMultiClosetFeature();
+      final hasFeature = await coreFetchService.checkMultiClosetFeature();
       logger.i('Multi-closet feature access: $hasFeature');
 
       // Update state with the result
@@ -145,7 +145,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         accessoryType: state.accessoryType,
       );
 
-      final isSuccess = await saveService.saveFilterSettings(
+      final isSuccess = await coreSaveService.saveFilterSettings(
         filterSettings: filterSettings,
         selectedClosetId: state.selectedClosetId,
         allCloset: state.allCloset,
@@ -170,7 +170,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     emit(state.copyWith(saveStatus: SaveStatus.inProgress));
 
     try {
-      final result = await saveService.saveDefaultSelection();
+      final result = await coreSaveService.saveDefaultSelection();
       logger.i('Default filter settings loaded successfully');
 
       emit(state.copyWith(
@@ -196,19 +196,29 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
   }
 
   Future<void> _onCheckFilterAccess(
-      CheckFilterAccessEvent event,
-      Emitter<FilterState> emit) async {
-    logger.i('Checking if the user has access to the filter pages.');
+      CheckFilterAccessEvent event, Emitter<FilterState> emit) async {
+    logger.i('Checking if the user has access to the filter feature.');
 
     try {
-      bool canAccessFilterPage = await fetchService.accessFilterPage();
+      // Step 1: Check if user already has access via milestones, purchases, etc.
+      bool hasFilterAccess = await coreFetchService.accessFilterPage();
 
-      if (canAccessFilterPage) {
+      if (hasFilterAccess) {
         emit(state.copyWith(accessStatus: AccessStatus.granted));
-        logger.i('Filter pages access granted.');
+        logger.i('User already has filter access via milestones/purchase.');
+        return; // Exit early since access is granted
+      }
+
+      // Step 2: If no access, check trial status
+      logger.w('User does not have filter access, checking trial status...');
+      bool trialPending = await coreFetchService.isTrialPending();
+
+      if (trialPending) {
+        logger.i('Trial is pending. Navigating to trialStarted.');
+        emit(state.copyWith(accessStatus: AccessStatus.trialPending));
       } else {
+        logger.i('Trial not pending. Navigating to payment screen.');
         emit(state.copyWith(accessStatus: AccessStatus.denied));
-        logger.w('Filter access denied.');
       }
     } catch (error) {
       logger.e('Error checking filter access: $error');

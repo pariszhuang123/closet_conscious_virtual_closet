@@ -60,9 +60,3 @@ class TrialEndedEvent extends NavigateItemEvent {
   List<Object?> get props => [];
 }
 
-class TrialStartedEvent extends NavigateItemEvent {
-  const TrialStartedEvent();
-
-  @override
-  List<Object?> get props => [];
-}

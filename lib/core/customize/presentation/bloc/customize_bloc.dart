@@ -11,13 +11,14 @@ part 'customize_state.dart';
 
 class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
   final CustomLogger logger;
-  final CoreFetchService fetchService;
-  final CoreSaveService saveService;
+  final CoreFetchService coreFetchService;
+  final CoreSaveService coreSaveService;
 
   CustomizeBloc({
-    required this.fetchService,
-    required this.saveService,
-  }) : logger = CustomLogger('ArrangeBlocLogger'),
+    required this.coreFetchService,
+    required this.coreSaveService,
+  })
+      : logger = CustomLogger('ArrangeBlocLogger'),
         super(const CustomizeState(
         gridSize: 3,
         sortCategory: 'updated_at',
@@ -31,10 +32,11 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
     on<CheckCustomizeAccessEvent>(_onCheckCustomizeAccess);
   }
 
-  Future<void> _onLoadCustomize(LoadCustomizeEvent event, Emitter<CustomizeState> emit) async {
+  Future<void> _onLoadCustomize(LoadCustomizeEvent event,
+      Emitter<CustomizeState> emit) async {
     emit(state.copyWith(saveStatus: SaveStatus.inProgress));
     try {
-      final settings = await fetchService.fetchArrangementSettings();
+      final settings = await coreFetchService.fetchArrangementSettings();
       final gridSize = settings['grid'] as int? ?? 3;
       final sortCategory = settings['sort'] as String? ?? 'updated_at';
       final sortOrder = settings['sort_order'] as String? ?? 'ASC';
@@ -51,7 +53,8 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
     }
   }
 
-  Future<void> _onUpdateCustomize(UpdateCustomizeEvent event, Emitter<CustomizeState> emit) async {
+  Future<void> _onUpdateCustomize(UpdateCustomizeEvent event,
+      Emitter<CustomizeState> emit) async {
     emit(state.copyWith(
       gridSize: event.gridSize ?? state.gridSize,
       sortCategory: event.sortCategory ?? state.sortCategory,
@@ -59,10 +62,11 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
     ));
   }
 
-  Future<void> _onSaveCustomize(SaveCustomizeEvent event, Emitter<CustomizeState> emit) async {
+  Future<void> _onSaveCustomize(SaveCustomizeEvent event,
+      Emitter<CustomizeState> emit) async {
     emit(state.copyWith(saveStatus: SaveStatus.inProgress));
     try {
-      await saveService.saveArrangementSettings(
+      await coreSaveService.saveArrangementSettings(
         gridSize: state.gridSize,
         sortCategory: state.sortCategory,
         sortOrder: state.sortOrder,
@@ -74,10 +78,11 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
     }
   }
 
-  Future<void> _onResetCustomize(ResetCustomizeEvent event, Emitter<CustomizeState> emit) async {
+  Future<void> _onResetCustomize(ResetCustomizeEvent event,
+      Emitter<CustomizeState> emit) async {
     emit(state.copyWith(saveStatus: SaveStatus.inProgress));
     try {
-      await saveService.resetArrangementSettings();
+      await coreSaveService.resetArrangementSettings();
       emit(const CustomizeState(
         gridSize: 3,
         sortCategory: 'updated_at',
@@ -90,25 +95,34 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
     }
   }
 
-  Future<void> _onCheckCustomizeAccess(
-      CheckCustomizeAccessEvent event,
+  Future<void> _onCheckCustomizeAccess(CheckCustomizeAccessEvent event,
       Emitter<CustomizeState> emit) async {
     logger.i('Checking if the user has access to the customize pages.');
-    try {
-      bool canAccessCustomizePage = await fetchService.accessCustomizePage();
 
-      if (canAccessCustomizePage) {
+    try {
+      // Step 1: Check if user already has access via milestones, purchases, etc.
+      bool hasCustomizeAccess = await coreFetchService.accessCustomizePage();
+
+      if (hasCustomizeAccess) {
         emit(state.copyWith(accessStatus: AccessStatus.granted));
-        logger.i('Customize pages access granted.');
+        logger.i('User already has customize access via milestones/purchase.');
+        return; // Exit early since access is granted
+      }
+
+      // Step 2: If no access, check trial status
+      logger.w('User does not have customize access, checking trial status...');
+      bool trialPending = await coreFetchService.isTrialPending();
+
+      if (trialPending) {
+        logger.i('Trial is pending. Navigating to trialStarted.');
+        emit(state.copyWith(accessStatus: AccessStatus.trialPending));
       } else {
+        logger.i('Trial not pending. Navigating to payment screen.');
         emit(state.copyWith(accessStatus: AccessStatus.denied));
-        logger.w('Customize access denied.');
       }
     } catch (error) {
       logger.e('Error checking customize access: $error');
-      emit(state.copyWith(accessStatus: AccessStatus.error,
-      ));
+      emit(state.copyWith(accessStatus: AccessStatus.error));
     }
   }
 }
-

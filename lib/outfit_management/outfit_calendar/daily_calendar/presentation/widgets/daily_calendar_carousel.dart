@@ -85,6 +85,7 @@ class _DailyCalendarCarouselState extends State<DailyCalendarCarousel> {
                   ReviewAndCommentRow(
                     outfitId: outfits[index].outfitId,
                     feedback: outfits[index].feedback,
+                    outfitComments: outfits[index].outfitComments,
                     theme: widget.theme,
                     isReadOnly: true,
                   ),

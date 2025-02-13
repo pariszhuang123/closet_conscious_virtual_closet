@@ -165,6 +165,16 @@ class CoreFetchService {
     }
   }
 
+  Future<bool> checkOutfitAccess() async {
+    final result = await Supabase.instance.client.rpc('check_user_access_to_create_outfit');
+
+    if (result is bool) {
+      return result;
+    } else {
+      throw Exception('Unexpected result from RPC: $result');
+    }
+  }
+
   /// Checks access to customize pages
   Future<bool> accessCustomizePage() async {
     _logger.i('Starting access check for customize pages.');
@@ -256,6 +266,77 @@ class CoreFetchService {
       _logger.e(
           'Exception caught during checkCalendarFeature: $e'); // Log any exceptions for debugging
       return false; // Return false if there's an error
+    }
+  }
+
+  Future<bool> isTrialPending() async {
+    try {
+      _logger.i('Checking trial status from Supabase.');
+      final data = await Supabase.instance.client
+          .from('premium_services')
+          .select('trial_status')
+          .single();
+
+      if (data.isNotEmpty) {
+        final String trialStatus = data['trial_status'] as String;
+
+        _logger.i('Trial status retrieved: $trialStatus');
+
+        // Return true if the status is 'pending', otherwise return false
+        return trialStatus == 'pending';
+      } else {
+        _logger.w('No trial status found, defaulting to false.');
+        return false;
+      }
+    } catch (e) {
+      _logger.e('Error fetching trial status: $e');
+      return false; // Default to false on error
+    }
+  }
+
+  Future<bool> trialStarted() async {
+    try {
+      // Log the action
+      _logger.d('Trial had started.');
+
+      // Call the RPC function
+      final response = await Supabase.instance.client.rpc('activate_trial_premium_features');
+      _logger.d('Raw RPC response for Trial Started: $response (${response.runtimeType})');
+
+      // Evaluate the response
+      if (response == true) {
+        _logger.d('Trial features had being activated.');
+        return true;
+      } else {
+        _logger.d('No trial features had being activated.');
+        return false;
+      }
+    } catch (e) {
+      _logger.e('Error starting trial: $e');
+      return false;
+    }
+  }
+
+  Future<bool> trialEnded() async {
+    try {
+      // Log the action
+      _logger.d('Validating and updating trial features.');
+
+      // Call the RPC function
+      final response = await Supabase.instance.client.rpc('validate_and_update_trial_features');
+      _logger.d('Raw RPC response for Trial Ended: $response (${response.runtimeType})');
+
+      // Evaluate the response
+      if (response == true) {
+        _logger.d('Trial features validated and updated successfully.');
+        return true;
+      } else {
+        _logger.d('No trial features required updating.');
+        return false;
+      }
+    } catch (e) {
+      _logger.e('Error ending trial: $e');
+      return false;
     }
   }
 
@@ -362,4 +443,5 @@ class CoreFetchService {
       throw Exception('Failed to access filter pages: $error');
     }
   }
+
 }

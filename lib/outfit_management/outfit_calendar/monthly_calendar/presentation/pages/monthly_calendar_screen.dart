@@ -10,18 +10,22 @@ import '../widgets/monthly_feature_container.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/core_enums.dart';
 import '../../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/widgets/button/themed_elevated_button.dart';
 import '../../../../../core/paywall/data/feature_key.dart';
+import '../../../../../core/theme/my_closet_theme.dart';
+import '../../../../../core/theme/my_outfit_theme.dart';
+
 
 class MonthlyCalendarScreen extends StatefulWidget {
-  final ThemeData theme;
-  final List<String> selectedOutfitIds; // ✅ Add selected outfits
+  final bool isFromMyCloset;
+  final List<String> selectedOutfitIds; // ✅ Add selected outfit
 
   const MonthlyCalendarScreen({
     super.key,
-    required this.theme,
+    required this.isFromMyCloset,
     this.selectedOutfitIds = const [], // ✅ Default to an empty list
   });
 
@@ -74,22 +78,39 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
   Widget build(BuildContext context) {
     logger.i('Building MonthlyCalendarScreen UI...');
 
-    return MultiBlocListener(
+    ThemeData theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
+    logger.d('Theme selected: ${widget.isFromMyCloset ? "myClosetTheme" : "myOutfitTheme"}');
+
+    return Theme(
+      data: theme, // ✅ Apply theme globally
+      child: MultiBlocListener(
       listeners: [
         BlocListener<CalendarNavigationBloc, CalendarNavigationState>(
           listener: (context, state) {
-            if (state is CalendarAccessDeniedState) {
-              logger.w('Access denied: Navigating to payment page');
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.payment,
-                arguments: {
-                  'featureKey': FeatureKey.calendar,
-                  'isFromMyCloset': false,
-                  'previousRoute': AppRoutes.createOutfit,
-                  'nextRoute': AppRoutes.monthlyCalendar,
-                },
-              );
+            if (state is CalendarAccessState) {
+              if (state.accessStatus == AccessStatus.denied) {
+                logger.w('Access denied: Navigating to payment page');
+                Navigator.pushReplacementNamed(
+                  context,
+                  AppRoutes.payment,
+                  arguments: {
+                    'featureKey': FeatureKey.calendar,
+                    'isFromMyCloset': widget.isFromMyCloset,
+                    'previousRoute': AppRoutes.createOutfit,
+                    'nextRoute': AppRoutes.monthlyCalendar,
+                  },
+                );
+              } else if (state.accessStatus == AccessStatus.trialPending) {
+                logger.i('Trial pending, navigating to trialStarted screen');
+                Navigator.pushReplacementNamed(
+                  context,
+                  AppRoutes.trialStarted,
+                  arguments: {
+                    'selectedFeatureRoute': AppRoutes.monthlyCalendar, // ✅ Correct AppRoutes value
+                    'isFromMyCloset': widget.isFromMyCloset,
+                  },
+                );
+              }
             }
           },
         ),
@@ -331,6 +352,8 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
           );
         },
       ),
+    )
     );
+
   }
 }

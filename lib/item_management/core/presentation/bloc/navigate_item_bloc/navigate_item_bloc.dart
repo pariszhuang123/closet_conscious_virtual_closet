@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../data/services/item_fetch_service.dart';
+import '../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../../../../user_management/user_service_locator.dart';
 
@@ -10,15 +11,16 @@ part 'navigate_item_state.dart';
 
 class NavigateItemBloc extends Bloc<NavigateItemEvent, NavigateItemState> {
   final ItemFetchService itemFetchService;
+  final CoreFetchService coreFetchService;
   final CustomLogger logger;
   final AuthBloc authBloc;
 
   NavigateItemBloc({
-    ItemFetchService? itemFetchService,
+    required this.coreFetchService,
+    required this.itemFetchService, // Require it
     CustomLogger? logger,
     AuthBloc? authBloc,
-  })  : itemFetchService = itemFetchService ?? ItemFetchService(),
-        logger = logger ?? CustomLogger('NavigateItemBlocLogger'),
+  })  : logger = logger ?? CustomLogger('NavigateItemBlocLogger'),
         authBloc = authBloc ?? locator<AuthBloc>(),
         super(InitialNavigateItemState()) {
     on<FetchFirstItemUploadedAchievementEvent>(_onFetchFirstItemUploadedAchievement);
@@ -27,7 +29,6 @@ class NavigateItemBloc extends Bloc<NavigateItemEvent, NavigateItemState> {
     on<FetchFirstItemSoldAchievementEvent>(_onFetchFirstItemSoldAchievement);
     on<FetchFirstItemSwapAchievementEvent>(_onFetchFirstItemSwapAchievement);
     on<FetchDisappearedClosetsEvent>(_onFetchDisappearedClosets);
-    on<TrialStartedEvent>(_onTrialStarted);
     on<TrialEndedEvent>(_onTrialEnded);
   }
 
@@ -134,33 +135,13 @@ class NavigateItemBloc extends Bloc<NavigateItemEvent, NavigateItemState> {
     }
   }
 
-  Future<void> _onTrialStarted(
-      TrialStartedEvent event,
-      Emitter<NavigateItemState> emit,
-      ) async {
-    try {
-      // Call the service to validate and update trial features
-      final isUpdated = await itemFetchService.trialStarted();
-
-      if (isUpdated) {
-        // Emit success state if the RPC returns true
-        emit(TrialStartedSuccessState());
-        logger.i('Trial started.');
-      }
-      // Do nothing for false; it's not relevant for the UI in this case
-    } catch (error) {
-      // Log the error but do not emit a failure state since it doesn't matter here
-      logger.e('Error validating and updating trial features: $error');
-    }
-  }
-
   Future<void> _onTrialEnded(
       TrialEndedEvent event,
       Emitter<NavigateItemState> emit,
       ) async {
     try {
       // Call the service to validate and update trial features
-      final isUpdated = await itemFetchService.trialEnded();
+      final isUpdated = await coreFetchService.trialEnded();
 
       if (isUpdated) {
         // Emit success state if the RPC returns true

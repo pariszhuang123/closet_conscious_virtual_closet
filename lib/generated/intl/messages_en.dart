@@ -87,9 +87,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "allClothesWornAchievementMessage": MessageLookupByLibrary.simpleMessage(
             "You\'ve worn every single item in your closet! You\'re mastering mindful fashion choices."),
         "allFeedback": MessageLookupByLibrary.simpleMessage("All"),
-        "alright": MessageLookupByLibrary.simpleMessage("It’s alright\n🤷‍♀️"),
+        "alright": MessageLookupByLibrary.simpleMessage("Not sure\n🤷‍♀️"),
         "alright_feedback_sentence": MessageLookupByLibrary.simpleMessage(
-            "Tap the items that don’t quite fit this outfit."),
+            "Tap the items you\'re unsure about."),
         "amountSpent": MessageLookupByLibrary.simpleMessage("Amount Spent"),
         "amountSpentFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Amount Spent field is not filled."),
@@ -281,6 +281,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "editPageTitle": MessageLookupByLibrary.simpleMessage("Edit Item"),
         "editSingleMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "Edit a single multi-closet.\nTransfer items to another closet,\nupdate metadata,\nchange the multi-closet image,\nor archive the closet."),
+        "encourageComment": MessageLookupByLibrary.simpleMessage(
+            "You haven’t added a comment for this outfit yet!"),
         "enterAmountSpentHint":
             MessageLookupByLibrary.simpleMessage("Enter amount spent"),
         "enterClosetName":
@@ -654,6 +656,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "spendingTooltip": MessageLookupByLibrary.simpleMessage(
             "How much you’ve spent on new items so far"),
         "spring": MessageLookupByLibrary.simpleMessage("Spring"),
+        "startFreeTrial":
+            MessageLookupByLibrary.simpleMessage("Start Free Trial"),
         "styleOn": MessageLookupByLibrary.simpleMessage("Review Outfit"),
         "success": MessageLookupByLibrary.simpleMessage("Success"),
         "summer": MessageLookupByLibrary.simpleMessage("Summer"),
@@ -702,11 +706,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "trialIncludedTitle": MessageLookupByLibrary.simpleMessage(
             "What’s included in your trial"),
         "trialStartedMessage": MessageLookupByLibrary.simpleMessage(
-            "You have successfully activated your premium trial. All premium features are now available to enhance your experience!"),
+            "These are all the premium features you can explore. Do you want to start your 30-day free trial now?"),
         "trialStartedNextSteps": MessageLookupByLibrary.simpleMessage(
-            "Explore the app and try out the premium features. Your trial will expire in 30 days."),
+            "You have successfully activated your premium features. All premium features are now available to enhance your experience."),
+        "trialStartedNextStepsTitle":
+            MessageLookupByLibrary.simpleMessage("Trial Activated!"),
         "trialStartedTitle":
-            MessageLookupByLibrary.simpleMessage("Trial Activated"),
+            MessageLookupByLibrary.simpleMessage("Explore Premium Benefits"),
         "unableToProcessAccountDeletion": MessageLookupByLibrary.simpleMessage(
             "We’re unable to process your account deletion right now. Could you kindly email us at support@example.com for assistance?"),
         "unableToRetrieveUserId": MessageLookupByLibrary.simpleMessage(

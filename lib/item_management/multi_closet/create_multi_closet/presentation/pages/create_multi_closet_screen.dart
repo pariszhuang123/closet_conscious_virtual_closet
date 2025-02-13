@@ -139,7 +139,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
       listeners: [
         BlocListener<MultiClosetNavigationBloc, MultiClosetNavigationState>(
           listener: (context, state) {
-            if (state is MultiClosetAccessDeniedState) {
+            if (state is MultiClosetAccessState && state.accessStatus == AccessStatus.denied) {
               logger.w('Access denied: Navigating to payment page');
               Navigator.pushReplacementNamed(
                 context,

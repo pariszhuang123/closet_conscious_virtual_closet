@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:equatable/equatable.dart';
 
+import '../../../../../core/core_enums.dart';
 import '../../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../../../core/utilities/logger.dart';
 
@@ -7,49 +9,46 @@ part 'calendar_navigation_event.dart';
 part 'calendar_navigation_state.dart';
 
 class CalendarNavigationBloc extends Bloc<CalendarNavigationEvent, CalendarNavigationState> {
-  final CoreFetchService fetchService;
+  final CoreFetchService coreFetchService;
   final CustomLogger logger;
 
   CalendarNavigationBloc({
-    required this.fetchService,
+    required this.coreFetchService,
   })  : logger = CustomLogger('CalendarNavigationBloc'),
         super(CalendarNavigationInitialState()){
 
     on<CheckCalendarAccessEvent>(_onCheckCalendarAccess);
-    on<CheckMultiClosetAccessEvent>(_onCheckMultiClosetAccess);
   }
 
 
   Future<void> _onCheckCalendarAccess(
       CheckCalendarAccessEvent event, Emitter<CalendarNavigationState> emit) async {
-    logger.i('Checking multi-closet access.');
+    logger.i('Checking calendar feature access.');
+
     try {
-      final hasAccess = await fetchService.checkCalendarFeature();
-      logger.d('Multi-closet access check result: $hasAccess.');
+      // Step 1: Check if user has access via milestones, purchases, etc.
+      bool hasAccess = await coreFetchService.checkCalendarFeature();
+
       if (hasAccess) {
-        emit(CalendarAccessGrantedState());
+        emit(const CalendarAccessState(accessStatus: AccessStatus.granted));
+        logger.i('User has access to calendar feature.');
+        return;
+      }
+
+      // Step 2: If no access, check trial status
+      logger.w('User does not have calendar access, checking trial status...');
+      bool trialPending = await coreFetchService.isTrialPending();
+
+      if (trialPending) {
+        logger.i('Trial is pending. Navigating to trialStarted.');
+        emit(const CalendarAccessState(accessStatus: AccessStatus.trialPending));
       } else {
-        emit(CalendarAccessDeniedState());
+        logger.i('Trial not pending. Navigating to payment screen.');
+        emit(const CalendarAccessState(accessStatus: AccessStatus.denied));
       }
     } catch (error) {
-      logger.e('Error checking multi-closet access: $error');
-      emit(CalendarNavigationErrorState());
-    }
-  }
-  Future<void> _onCheckMultiClosetAccess(
-      CheckMultiClosetAccessEvent event, Emitter<CalendarNavigationState> emit) async {
-    logger.i('Checking multi-closet access.');
-    try {
-      final hasAccess = await fetchService.checkMultiClosetFeature();
-      logger.d('Multi-closet access check result: $hasAccess.');
-      if (hasAccess) {
-        emit(MultiClosetAccessGrantedState());
-      } else {
-        emit(MultiClosetAccessDeniedState());
-      }
-    } catch (error) {
-      logger.e('Error checking multi-closet access: $error');
-      emit(MultiClosetNavigationErrorState());
+      logger.e('Error checking calendar access: $error');
+      emit(const CalendarAccessState(accessStatus: AccessStatus.error));
     }
   }
 }

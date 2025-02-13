@@ -5,20 +5,22 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../../core/utilities/logger.dart';
 import 'monthly_calendar_screen.dart';
 import '../bloc/monthly_calendar_metadata_bloc/monthly_calendar_metadata_bloc.dart';
+import '../../../../../item_management/multi_closet/core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
 import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../core/presentation/bloc/calendar_navigation_bloc.dart';
 import '../../../../core/data/services/outfits_fetch_services.dart';
 import '../../../../core/data/services/outfits_save_services.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
+import '../../../../../core/data/services/core_save_services.dart';
 
 class MonthlyCalendarProvider extends StatelessWidget {
-  final ThemeData myOutfitTheme;
+  final bool isFromMyCloset;
   final List<String> selectedOutfitIds; // ✅ Add this parameter
 
   const MonthlyCalendarProvider({
     super.key,
-    required this.myOutfitTheme,
+    required this.isFromMyCloset,
     this.selectedOutfitIds = const [], // ✅ Default to empty list
   });
 
@@ -39,6 +41,9 @@ class MonthlyCalendarProvider extends StatelessWidget {
 
     final coreFetchService = CoreFetchService();
     logger.i('CoreFetchService created.');
+
+    final coreSaveService = CoreSaveService();
+    logger.i('CoreSaveService created.');
 
     return MultiBlocProvider(
       providers: [
@@ -81,17 +86,27 @@ class MonthlyCalendarProvider extends StatelessWidget {
         BlocProvider(
           create: (_) {
             logger.i('Creating CalendarNavigationBloc...');
-            final bloc = CalendarNavigationBloc(fetchService: coreFetchService);
+            final bloc = CalendarNavigationBloc(coreFetchService: coreFetchService);
             bloc.add(CheckCalendarAccessEvent()); // Dispatch the event to check calendar access
             logger.i('CheckCalendarAccessEvent dispatched.');
-            bloc.add(CheckMultiClosetAccessEvent()); // Dispatch the event to check multicloset access
+            return bloc;
+          },
+        ),
+        BlocProvider(
+          create: (_) {
+            logger.i('Creating MultiClosetNavigationBloc...');
+            final bloc = MultiClosetNavigationBloc(
+              coreFetchService: coreFetchService,
+              coreSaveService: coreSaveService,
+            );
+            bloc.add(CheckMultiClosetAccessEvent()); // ✅ Move event dispatch here
             logger.i('CheckMultiClosetAccessEvent dispatched.');
             return bloc;
           },
         ),
       ],
       child: MonthlyCalendarScreen(
-        theme: myOutfitTheme,
+        isFromMyCloset: isFromMyCloset,
         selectedOutfitIds: selectedOutfitIds, // ✅ Forward to screen
       ),
     );

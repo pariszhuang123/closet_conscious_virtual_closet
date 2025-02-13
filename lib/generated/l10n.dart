@@ -2180,10 +2180,10 @@ class S {
     );
   }
 
-  /// `It’s alright\n🤷‍♀️`
+  /// `Not sure\n🤷‍♀️`
   String get alright {
     return Intl.message(
-      'It’s alright\n🤷‍♀️',
+      'Not sure\n🤷‍♀️',
       name: 'alright',
       desc: '',
       args: [],
@@ -2300,10 +2300,10 @@ class S {
     );
   }
 
-  /// `Tap the items that don’t quite fit this outfit.`
+  /// `Tap the items you're unsure about.`
   String get alright_feedback_sentence {
     return Intl.message(
-      'Tap the items that don’t quite fit this outfit.',
+      'Tap the items you\'re unsure about.',
       name: 'alright_feedback_sentence',
       desc: '',
       args: [],
@@ -4210,31 +4210,41 @@ class S {
     );
   }
 
-  /// `Trial Activated`
+  /// `Explore Premium Benefits`
   String get trialStartedTitle {
     return Intl.message(
-      'Trial Activated',
+      'Explore Premium Benefits',
       name: 'trialStartedTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `You have successfully activated your premium trial. All premium features are now available to enhance your experience!`
+  /// `These are all the premium features you can explore. Do you want to start your 30-day free trial now?`
   String get trialStartedMessage {
     return Intl.message(
-      'You have successfully activated your premium trial. All premium features are now available to enhance your experience!',
+      'These are all the premium features you can explore. Do you want to start your 30-day free trial now?',
       name: 'trialStartedMessage',
       desc: '',
       args: [],
     );
   }
 
-  /// `Explore the app and try out the premium features. Your trial will expire in 30 days.`
+  /// `You have successfully activated your premium features. All premium features are now available to enhance your experience.`
   String get trialStartedNextSteps {
     return Intl.message(
-      'Explore the app and try out the premium features. Your trial will expire in 30 days.',
+      'You have successfully activated your premium features. All premium features are now available to enhance your experience.',
       name: 'trialStartedNextSteps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trial Activated!`
+  String get trialStartedNextStepsTitle {
+    return Intl.message(
+      'Trial Activated!',
+      name: 'trialStartedNextStepsTitle',
       desc: '',
       args: [],
     );
@@ -4505,6 +4515,26 @@ class S {
     return Intl.message(
       'See all details of your outfit for the day, including event name, comments, and feedback.',
       name: 'viewDailyCalendarDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You haven’t added a comment for this outfit yet!`
+  String get encourageComment {
+    return Intl.message(
+      'You haven’t added a comment for this outfit yet!',
+      name: 'encourageComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Free Trial`
+  String get startFreeTrial {
+    return Intl.message(
+      'Start Free Trial',
+      name: 'startFreeTrial',
       desc: '',
       args: [],
     );

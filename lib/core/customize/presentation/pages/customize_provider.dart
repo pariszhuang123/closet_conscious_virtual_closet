@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart'; // Import GetIt
 
 import '../../../data/services/core_fetch_services.dart';
 import '../../../data/services/core_save_services.dart';
@@ -12,16 +13,14 @@ class CustomizeProvider extends StatelessWidget {
   final List<String> selectedItemIds;
   final String returnRoute;
 
-  // Initialize services and logger at the class level
-  final CoreFetchService _coreFetchService = CoreFetchService();
-  final CoreSaveService _coreSaveService = CoreSaveService();
+  // Initialize logger at the class level
   final CustomLogger _logger = CustomLogger('CustomizeProvider');
 
   CustomizeProvider({
     super.key,
     required this.isFromMyCloset,
     required this.selectedItemIds,
-    required this.returnRoute, // Make it required
+    required this.returnRoute,
   }) {
     _logger.i('CustomizeProvider initialized with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds');
   }
@@ -30,12 +29,16 @@ class CustomizeProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.d('Building CustomizeProvider widgets');
 
+    // Fetch services from GetIt inside the build method
+    final coreFetchService = GetIt.instance.get<CoreFetchService>();
+    final coreSaveService = GetIt.instance.get<CoreSaveService>();
+
     return BlocProvider(
       create: (context) {
         _logger.d('Creating CustomizeBloc with core services');
         final customizeBloc = CustomizeBloc(
-          fetchService: _coreFetchService,
-          saveService: _coreSaveService,
+          coreFetchService: coreFetchService,
+          coreSaveService: coreSaveService,
         );
 
         _logger.i('Adding LoadCustomizeEvent to CustomizeBloc');
@@ -45,7 +48,7 @@ class CustomizeProvider extends StatelessWidget {
       child: CustomizeScreen(
         isFromMyCloset: isFromMyCloset,
         selectedItemIds: selectedItemIds,
-        returnRoute: returnRoute, // Pass it to FilterScreen
+        returnRoute: returnRoute,
       ),
     );
   }

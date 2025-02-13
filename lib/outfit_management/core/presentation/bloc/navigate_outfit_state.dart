@@ -100,21 +100,12 @@ class NavigateOutfitFailureState extends NavigateOutfitState {
   List<Object?> get props => [error];
 }
 
-class OutfitAccessGrantedState extends NavigateOutfitState {
-  @override
-  List<Object?> get props => [];
-}
+class MultiOutfitAccessState extends NavigateOutfitState {
+  final AccessStatus accessStatus;
 
-class OutfitAccessDeniedState extends NavigateOutfitState {
-  @override
-  List<Object?> get props => [];
-}
-
-class OutfitAccessErrorState extends NavigateOutfitState {
-  final String errorMessage;
-
-  const OutfitAccessErrorState(this.errorMessage);
+  const MultiOutfitAccessState({this.accessStatus = AccessStatus.pending});
 
   @override
-  List<Object?> get props => [errorMessage];
+  List<Object> get props => [accessStatus];
 }
+
