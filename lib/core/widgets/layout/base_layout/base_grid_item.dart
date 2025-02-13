@@ -41,7 +41,7 @@ class BaseGridItem<T> extends StatelessWidget {
     _logger.d('Rendering BaseGridItem for itemId: $itemId, isSelected: $isSelected, isActive: $isActive');
 
     return Container(
-      key: ValueKey('${itemId}_$isSelected'), // Composite key for rebuild accuracy
+      key: ValueKey('${itemId}_${isSelected || isDisliked}'), // Unified selection logic
       child: GrayscaleWrapper(
         applyGrayscale: !isActive, // ✅ Apply grayscale when item is inactive
         child: EnhancedUserPhoto(

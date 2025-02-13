@@ -499,7 +499,6 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                               return InteractiveItemGrid(
                                 scrollController: _scrollController,
                                 items: currentItems,
-                                isDisliked: false,
                                 selectionMode: SelectionMode.multiSelection,
                                 crossAxisCount: crossAxisCount,
                                 selectedItemIds: widget.selectedItemIds,

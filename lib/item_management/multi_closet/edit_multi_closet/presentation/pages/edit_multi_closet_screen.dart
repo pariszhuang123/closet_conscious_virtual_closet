@@ -398,7 +398,6 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                             items: viewState.items,
                             scrollController: _scrollController,
                             crossAxisCount: crossAxisCount,
-                            isDisliked: false,
                             selectionMode: SelectionMode.multiSelection,
                             selectedItemIds: widget.selectedItemIds,
                           );

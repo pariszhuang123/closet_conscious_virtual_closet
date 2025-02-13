@@ -244,7 +244,6 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                           items: viewState.items,
                           scrollController: _scrollController,
                           crossAxisCount: crossAxisCount,
-                          isDisliked: false,
                           selectionMode: SelectionMode.multiSelection,
                           selectedItemIds: widget.selectedItemIds,
                         );

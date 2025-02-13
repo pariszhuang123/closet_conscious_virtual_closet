@@ -5,6 +5,7 @@ import '../../../../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../../../../core/core_enums.dart';
 import '../../../../core/presentation/widgets/outfit_image_widget.dart'; // Import OutfitImageWidget
 
+
 class CarouselOutfit extends StatelessWidget {
   final DailyCalendarOutfit outfit;
   final int crossAxisCount;
@@ -38,7 +39,6 @@ class CarouselOutfit extends StatelessWidget {
           items: outfit.items,
           crossAxisCount: crossAxisCount,
           selectedItemIds: const [],
-          isDisliked: false,
           selectionMode: SelectionMode.disabled,
         ),
       );

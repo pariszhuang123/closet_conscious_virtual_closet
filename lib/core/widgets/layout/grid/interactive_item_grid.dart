@@ -16,7 +16,6 @@ class InteractiveItemGrid extends StatelessWidget {
   final List<ClosetItemMinimal> items;
   final int crossAxisCount;
   final List<String> selectedItemIds;
-  final bool isDisliked;
   final SelectionMode selectionMode; // New parameter
   final VoidCallback? onAction; // Optional callback for action mode
 
@@ -27,7 +26,6 @@ class InteractiveItemGrid extends StatelessWidget {
     required this.items,
     required this.crossAxisCount,
     required this.selectedItemIds,
-    required this.isDisliked,
     required this.selectionMode,
     this.onAction, // Optional
 
@@ -116,7 +114,7 @@ class InteractiveItemGrid extends StatelessWidget {
                 key: ValueKey('${item.itemId}_$isSelected'),
                 item: item,
                 isSelected: isSelected,
-                isDisliked: isDisliked,
+                isDisliked: item.isDisliked,
                 imageSize: imageSize,
                 showItemName: showItemName,
                 onItemTapped: () {
@@ -137,7 +135,7 @@ class InteractiveItemGrid extends StatelessWidget {
                 key: ValueKey('${item.itemId}_$isSelected'),
                 item: item,
                 isSelected: isSelected,
-                isDisliked: isDisliked,
+                isDisliked: item.isDisliked,
                 imageSize: imageSize,
                 showItemName: showItemName,
                 onItemTapped: () {

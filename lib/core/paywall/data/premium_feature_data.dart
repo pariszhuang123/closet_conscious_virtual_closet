@@ -244,15 +244,15 @@ class FeatureDataList {
         isUsageFeature: false,
         parts: [
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/view_closet.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/monthly_calendar.jpg',
             getDescription: (context) => S.of(context).viewMonthlyCalendarDescription,
           ),
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/create_closet.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/monthly_calendar_create_closet.jpg',
             getDescription: (context) => S.of(context).createClosetCalendarDescription,
           ),
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/swap_closet.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/daily_calendar.jpg',
             getDescription: (context) => S.of(context).viewDailyCalendarDescription,
           ),
         ],

@@ -167,7 +167,6 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
                                         items: state.items,
                                         crossAxisCount: crossAxisCount,
                                         selectedItemIds: const [], // No selection
-                                        isDisliked: false,
                                         selectionMode: SelectionMode.action, // No selection
                                         onAction: null, // No action needed
                                       );
