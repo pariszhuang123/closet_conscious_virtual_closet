@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
+import '../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../bloc/daily_calendar_bloc.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../widgets/daily_calendar_carousel.dart';
@@ -18,6 +19,19 @@ class DailyCalendarScreen extends StatelessWidget {
   static final _logger = CustomLogger('DailyCalendarScreen');
 
   const DailyCalendarScreen({super.key, required this.theme, this.outfitId});
+
+  void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
+    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
+    Navigator.pushNamed(
+      context,
+      AppRoutes.customize,
+      arguments: {
+        'isFromMyCloset': true,
+        'selectedItemIds': selectedItemIds,
+        'returnRoute': AppRoutes.dailyCalendar,
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +77,7 @@ class DailyCalendarScreen extends StatelessWidget {
                 _logger.d('CrossAxisCountCubit State: $crossAxisCount');
 
                 return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     DailyFeatureContainer(
                       theme: Theme.of(context),
@@ -71,6 +86,7 @@ class DailyCalendarScreen extends StatelessWidget {
                         Navigator.pushReplacementNamed(
                             context, AppRoutes.monthlyCalendar);
                       },
+                      onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
                       onPreviousButtonPressed: () {
                         _logger.i("Previous button pressed");
                         context.read<DailyCalendarBloc>().add(

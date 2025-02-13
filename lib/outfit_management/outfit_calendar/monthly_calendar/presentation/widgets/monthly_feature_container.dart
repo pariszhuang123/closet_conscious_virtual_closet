@@ -76,7 +76,7 @@ class MonthlyFeatureContainer extends StatelessWidget {
       child: Wrap(
         spacing: 8,
         runSpacing: 8,
-        alignment: WrapAlignment.center,
+        alignment: WrapAlignment.start,
         children: [
           if (showPrevious)
             NavigationTypeButton(

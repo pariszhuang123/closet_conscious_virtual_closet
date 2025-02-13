@@ -10,6 +10,7 @@ import '../bloc/daily_calendar_bloc.dart';
 class DailyFeatureContainer extends StatelessWidget {
   final ThemeData theme;
   final VoidCallback onCalendarButtonPressed;
+  final VoidCallback onArrangeButtonPressed;
   final VoidCallback onPreviousButtonPressed;
   final VoidCallback onNextButtonPressed;
 
@@ -17,6 +18,7 @@ class DailyFeatureContainer extends StatelessWidget {
     super.key,
     required this.theme,
     required this.onCalendarButtonPressed,
+    required this.onArrangeButtonPressed,
     required this.onPreviousButtonPressed,
     required this.onNextButtonPressed,
   });
@@ -42,7 +44,7 @@ class DailyFeatureContainer extends StatelessWidget {
       child: Wrap(
         spacing: 8, // Adjust spacing between buttons
         runSpacing: 8, // Adjust vertical spacing if buttons wrap
-        alignment: WrapAlignment.center, // Center buttons dynamically
+        alignment: WrapAlignment.start, // Start buttons dynamically
         children: [
           NavigationTypeButton(
             label: TypeDataList.calendar(context).getName(context),
@@ -51,6 +53,15 @@ class DailyFeatureContainer extends StatelessWidget {
             assetPath: TypeDataList
                 .calendar(context)
                 .assetPath,
+            isFromMyCloset: false,
+            buttonType: ButtonType.secondary,
+            usePredefinedColor: false,
+          ),
+          NavigationTypeButton(
+            label: TypeDataList.arrange(context).getName(context),
+            selectedLabel: '',
+            onPressed: onArrangeButtonPressed,
+            assetPath: TypeDataList.arrange(context).assetPath,
             isFromMyCloset: false,
             buttonType: ButtonType.secondary,
             usePredefinedColor: false,

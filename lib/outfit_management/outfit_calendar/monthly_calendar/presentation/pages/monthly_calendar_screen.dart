@@ -182,7 +182,7 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       MonthlyFeatureContainer(
                         theme: Theme.of(context),
