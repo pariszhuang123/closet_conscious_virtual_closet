@@ -59,7 +59,6 @@ dependencies:
   fpdart: ^1.1.0
   get_it: ^7.7.0
   image_picker: ^1.1.2
-  flutter_image_compress: ^2.4.0
   image: ^4.2.0
   path_provider: ^2.1.4
   url_launcher: ^6.3.0
