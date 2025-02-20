@@ -61,7 +61,7 @@ begin
                     ))))
                     AND (sp.filter->'shoes_type' IS NULL OR (i.item_type = 'shoes' AND EXISTS (
                         SELECT 1 FROM jsonb_array_elements_text(sp.filter->'shoes_type') elem WHERE elem = s.shoes_type
-                    ))))
+                    )))
                 )
             )
     )
