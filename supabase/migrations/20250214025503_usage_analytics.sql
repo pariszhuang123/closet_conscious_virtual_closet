@@ -67,6 +67,7 @@ begin
                     ))
                 )
             )
+        )
     )
     select
         coalesce(count(item_id), 0) as total_items,
