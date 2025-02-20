@@ -486,31 +486,33 @@ SET search_path = ''
 AS $$
 DECLARE
     current_user_id UUID := auth.uid();  -- Standardized declaration of current user
+    result JSONB;
 BEGIN
-    RETURN
-        SELECT JSONB_BUILD_OBJECT(
-            'outfit_id', o.outfit_id,
-            'outfit_image_url', o.outfit_image_url,
-            'outfit_is_active', o.is_active,
-            'fallback_items', fallback_items.items
-        )
-        FROM public.outfits o
-        LEFT JOIN LATERAL (
-            SELECT JSONB_AGG(
-                JSONB_BUILD_OBJECT(
-                    'item_id', i2.item_id,
-                    'image_url', i2.image_url,
-                    'name', i2.name,
-                    'item_is_active', i2.is_active,
-                    'is_disliked', oi2.disliked
-                )
-            ) AS items
-            FROM public.outfit_items oi2
-            JOIN public.items i2 ON oi2.item_id = i2.item_id
-            WHERE oi2.outfit_id = o.outfit_id
-        ) AS fallback_items ON (COALESCE(o.outfit_image_url, '') = 'cc_none')  -- ✅ Ensure `NULL` safety
-        WHERE o.outfit_id = f_outfit_id
-        AND o.user_id = current_user_id;  -- ✅ Fixed `RETURN` syntax
+    SELECT JSONB_BUILD_OBJECT(
+        'outfit_id', o.outfit_id,
+        'outfit_image_url', o.outfit_image_url,
+        'outfit_is_active', o.is_active,
+        'fallback_items', fallback_items.items
+    ) INTO result
+    FROM public.outfits o
+    LEFT JOIN LATERAL (
+        SELECT JSONB_AGG(
+            JSONB_BUILD_OBJECT(
+                'item_id', i2.item_id,
+                'image_url', i2.image_url,
+                'name', i2.name,
+                'item_is_active', i2.is_active,
+                'is_disliked', oi2.disliked
+            )
+        ) AS items
+        FROM public.outfit_items oi2
+        JOIN public.items i2 ON oi2.item_id = i2.item_id
+        WHERE oi2.outfit_id = o.outfit_id
+    ) AS fallback_items ON (COALESCE(o.outfit_image_url, '') = 'cc_none')
+    WHERE o.outfit_id = f_outfit_id
+    AND o.user_id = current_user_id;
+
+    RETURN result;
 END;
 $$;
 
