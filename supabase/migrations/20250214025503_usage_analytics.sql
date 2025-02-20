@@ -331,31 +331,33 @@ begin
     -- 🚀 OPTIMIZATION: If all_closet = TRUE, skip filtering logic
     if user_all_closet = TRUE then
         return query
-        with reviewed_outfits as (
-            select feedback
-            from public.outfits
-            where user_id = current_user_id
-              and reviewed = TRUE
-              and created_at >=
+        (
+            with reviewed_outfits as (
+                select feedback
+                from public.outfits
+                where user_id = current_user_id
+                  and reviewed = TRUE
+                  and created_at >=
+                    case
+                        when first_reviewed_outfit_date <= NOW() - INTERVAL '60 days'
+                        then NOW() - INTERVAL '60 days'
+                        else first_reviewed_outfit_date
+                    end
+            )
+            select
+                count(*) as total_reviews,
+                coalesce(100.0 * sum(case when feedback = 'like' then 1 else 0 end) / count(*), 0) as like_percentage,
+                coalesce(100.0 * sum(case when feedback = 'alright' then 1 else 0 end) / count(*), 0) as alright_percentage,
+                coalesce(100.0 * sum(case when feedback = 'dislike' then 1 else 0 end) / count(*), 0) as dislike_percentage,
+                'data available' as status,
                 case
                     when first_reviewed_outfit_date <= NOW() - INTERVAL '60 days'
-                    then NOW() - INTERVAL '60 days'
-                    else first_reviewed_outfit_date
-                end
-        )
-        select
-            count(*) as total_reviews,
-            coalesce(100.0 * sum(case when feedback = 'like' then 1 else 0 end) / count(*), 0) as like_percentage,
-            coalesce(100.0 * sum(case when feedback = 'alright' then 1 else 0 end) / count(*), 0) as alright_percentage,
-            coalesce(100.0 * sum(case when feedback = 'dislike' then 1 else 0 end) / count(*), 0) as dislike_percentage,
-            'data available' as status,
-            case
-                when first_reviewed_outfit_date <= NOW() - INTERVAL '60 days'
-                then 60
-                else extract(day from NOW() - first_reviewed_outfit_date)
-            end as days_tracked,
-           'allClosetShown' as closet_shown;  -- ✅ Showing "allClosetShown" when all closets are included
-        from reviewed_outfits;
+                    then 60
+                    else extract(day from NOW() - first_reviewed_outfit_date)
+                end as days_tracked,
+               'allClosetShown' as closet_shown  -- ✅ Showing "allClosetShown" when all closets are included
+            from reviewed_outfits
+        );
 
     else
         -- 1️⃣ Get valid outfit IDs based on closet filtering
