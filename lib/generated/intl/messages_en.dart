@@ -117,6 +117,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ascending": MessageLookupByLibrary.simpleMessage("Ascending"),
         "athletic": MessageLookupByLibrary.simpleMessage("Athletic"),
         "autumn": MessageLookupByLibrary.simpleMessage("Autumn"),
+        "avgPricePerWear":
+            MessageLookupByLibrary.simpleMessage("Avg Price Per Wear"),
         "bag": MessageLookupByLibrary.simpleMessage("Bag"),
         "base": MessageLookupByLibrary.simpleMessage("Base"),
         "basicFilterDescription": MessageLookupByLibrary.simpleMessage(
@@ -194,6 +196,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "createCloset": MessageLookupByLibrary.simpleMessage("Create Closet"),
         "createClosetCalendarDescription": MessageLookupByLibrary.simpleMessage(
             "Select the outfits you want and see all related items to create a Closet."),
+        "createClosetItemAnalyticsDescription":
+            MessageLookupByLibrary.simpleMessage(
+                "Build your dream capsule wardrobe with pieces you already love."),
         "createMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "Create a new multi-closet, organize items,\nand add metadata to keep your closets structured"),
         "create_closet": MessageLookupByLibrary.simpleMessage("Create Closet"),
@@ -401,6 +406,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Item Type field is not filled."),
         "itemUploaded_itemUploaded":
             MessageLookupByLibrary.simpleMessage("Item Uploaded"),
+        "itemWithRelatedOutfitsDescription": MessageLookupByLibrary.simpleMessage(
+            "See the outfits this item has brought to life—your style, your way."),
         "item_name": MessageLookupByLibrary.simpleMessage("Item Name"),
         "itemsUploadedTooltip": MessageLookupByLibrary.simpleMessage(
             "Number of items you\'ve uploaded to your conscious closet"),
@@ -527,6 +534,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "outfitInactive":
             MessageLookupByLibrary.simpleMessage("Inactive Outfits"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("Outfit"),
+        "outfitRelatedOutfitsDescription": MessageLookupByLibrary.simpleMessage(
+            "Find new ways to wear what you own—similar outfit ideas based on your favorites."),
         "outfitReviewContent": MessageLookupByLibrary.simpleMessage(
             "Your outfit review has been submitted successfully!"),
         "outfitReviewTitle":
@@ -672,6 +681,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Interested in swapping items or getting notified about swap events nearby? We’re thinking about this feature—what do you think?"),
         "swapFeatureTitle": MessageLookupByLibrary.simpleMessage("Swap Items?"),
         "swap_item": MessageLookupByLibrary.simpleMessage("Swap QR"),
+        "tabItemAnalytics":
+            MessageLookupByLibrary.simpleMessage("Item Analytics"),
+        "tabOutfitAnalytics":
+            MessageLookupByLibrary.simpleMessage("Outfit Analytics"),
         "tagline": MessageLookupByLibrary.simpleMessage(
             "Shop Your Closet\nLove Your Style!"),
         "tech": MessageLookupByLibrary.simpleMessage("Tech"),
@@ -685,6 +698,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "You need to accept the terms and conditions before signing in."),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "top": MessageLookupByLibrary.simpleMessage("Top"),
+        "totalCost": MessageLookupByLibrary.simpleMessage("Total Cost"),
+        "totalItems": MessageLookupByLibrary.simpleMessage("Total Items"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "Track your cost per wear and get personalized outfit insights. Would this be helpful?"),
         "trialEndedMessage": MessageLookupByLibrary.simpleMessage(
@@ -767,6 +782,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "upload_successful": MessageLookupByLibrary.simpleMessage(
             "Success! Your closet just got a little more stylish! 🎉"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("Upload"),
+        "usageAnalyticsFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("Your Closet Insights"),
+        "usageAnalyticsTitle":
+            MessageLookupByLibrary.simpleMessage("Usage Analytics"),
         "usageInsights": MessageLookupByLibrary.simpleMessage("Usage Insights"),
         "validDate": MessageLookupByLibrary.simpleMessage("Valid Date"),
         "validation_error": MessageLookupByLibrary.simpleMessage(
@@ -779,6 +798,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "View all your outfits in a calendar format. Filter by event name, active outfit, and outfit feedback."),
         "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "Explore options for your multi-closets.\nYou can create a new multi-closet,\nedit items from all multi-closets,\nor make changes to a single multi-closet."),
+        "viewOutfitAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
+            "Discover your style story—track how often you love, feel unsure about, or rethink your outfits."),
+        "viewSummaryItemAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
+            "See your closet in numbers—total cost, item count, and cost per wear, all at a glance."),
         "warning": MessageLookupByLibrary.simpleMessage("Warning"),
         "white": MessageLookupByLibrary.simpleMessage("White"),
         "winter": MessageLookupByLibrary.simpleMessage("Winter"),

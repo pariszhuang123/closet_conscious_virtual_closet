@@ -24,6 +24,8 @@ class AccessCustomizeFeatureDenied extends TrialState {}
 
 class AccessCalendarFeatureDenied extends TrialState {}
 
+class AccessUsageAnalyticsFeatureDenied extends TrialState {}
+
 class AccessOutfitCreationFeatureDenied extends TrialState {}
 
 /// ✅ **Unified Denied State (If Multiple Features Are Denied)**

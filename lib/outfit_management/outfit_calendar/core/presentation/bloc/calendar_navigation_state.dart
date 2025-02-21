@@ -25,6 +25,3 @@ class CalendarAccessState extends CalendarNavigationState {
   @override
   List<Object> get props => [accessStatus];
 }
-
-
-class MultiClosetNavigationErrorState extends CalendarNavigationState {}

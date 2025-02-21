@@ -448,5 +448,17 @@
   "createClosetCalendarDescription": "Select the outfits you want and see all related items to create a Closet.",
   "viewDailyCalendarDescription": "See all details of your outfit for the day, including event name, comments, and feedback.",
   "encourageComment": "You haven’t added a comment for this outfit yet!",
-  "startFreeTrial": "Start Free Trial"
+  "startFreeTrial": "Start Free Trial",
+  "usageAnalyticsTitle": "Usage Analytics",
+  "tabItemAnalytics": "Item Analytics",
+  "tabOutfitAnalytics": "Outfit Analytics",
+  "totalItems": "Total Items",
+  "totalCost": "Total Cost",
+  "avgPricePerWear": "Avg Price Per Wear",
+  "viewSummaryItemAnalyticsDescription": "See your closet in numbers—total cost, item count, and cost per wear, all at a glance.",
+  "viewOutfitAnalyticsDescription": "Discover your style story—track how often you love, feel unsure about, or rethink your outfits.",
+  "usageAnalyticsFeatureTitle": "Your Closet Insights",
+  "outfitRelatedOutfitsDescription": "Find new ways to wear what you own—similar outfit ideas based on your favorites.",
+  "itemWithRelatedOutfitsDescription": "See the outfits this item has brought to life—your style, your way.",
+  "createClosetItemAnalyticsDescription": "Build your dream capsule wardrobe with pieces you already love."
 }

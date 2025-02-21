@@ -163,52 +163,52 @@ class PaymentScreenState extends State<PaymentScreen> {
                   // Main content
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        // Row for Title and Close Icon
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: Text(
-                                featureData.getTitle(context),
-                                style: appliedTheme.textTheme.displayLarge,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  featureData.getTitle(context),
+                                  style: appliedTheme.textTheme.displayLarge,
+                                ),
                               ),
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.close, color: appliedTheme.colorScheme.onSurface),
-                              onPressed: _onCancel,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
+                              IconButton(
+                                icon: Icon(Icons.close, color: appliedTheme.colorScheme.onSurface),
+                                onPressed: _onCancel,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
 
-                        FeatureCarousel(
-                          imageUrls: featureData.parts.map((part) => part.imageUrl).toList(),
-                          descriptions: featureData.parts.map((part) => part.getDescription(context)).toList(),
-                          theme: appliedTheme,
-                        ),
+                          FeatureCarousel(
+                            imageUrls: featureData.parts.map((part) => part.imageUrl).toList(),
+                            descriptions: featureData.parts.map((part) => part.getDescription(context)).toList(),
+                            theme: appliedTheme,
+                          ),
 
-                        const SizedBox(height: 24),
+                          const SizedBox(height: 24),
 
-                        // Display price
-                        // Themed Elevated Button
-                        ThemedElevatedButton(
-                          text: _isProductDetailsReady
-                              ? "${S.of(context).purchase_button} ${_productDetails.price}"
-                              : S.of(context).loading_text, // Display loading text until _productDetails is available
-                          onPressed: isLoading
-                              ? null
-                              : () {
-                            _logger.i('Processing payment for featureKey: ${featureData.featureKey.key}');
-                            final isIOS = Platform.isIOS; // Updated platform check
-                            _logger.i('Platform check - isIOS: $isIOS');
-                            BlocProvider.of<PaymentBloc>(context).add(
-                              ProcessPayment(featureData.featureKey, isIOS: isIOS),
-                            );
-                          },
-                        ),
-                      ],
+                          ThemedElevatedButton(
+                            text: _isProductDetailsReady
+                                ? "${S.of(context).purchase_button} ${_productDetails.price}"
+                                : S.of(context).loading_text,
+                            onPressed: isLoading
+                                ? null
+                                : () {
+                              _logger.i('Processing payment for featureKey: ${featureData.featureKey.key}');
+                              final isIOS = Platform.isIOS;
+                              _logger.i('Platform check - isIOS: $isIOS');
+                              BlocProvider.of<PaymentBloc>(context).add(
+                                ProcessPayment(featureData.featureKey, isIOS: isIOS),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   // Loading indicator

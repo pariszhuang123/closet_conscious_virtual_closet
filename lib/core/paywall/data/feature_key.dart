@@ -15,7 +15,9 @@ enum FeatureKey {
   customize,
   filter,
   multicloset,
-  calendar
+  calendar,
+  usageAnalytics
+
 }
 
 extension FeatureKeyExtension on FeatureKey {
@@ -55,6 +57,8 @@ extension FeatureKeyExtension on FeatureKey {
         return 'com.makinglifeeasie.closetconscious.multicloset';
       case FeatureKey.calendar:
         return 'com.makinglifeeasie.closetconscious.calendar';
+      case FeatureKey.usageAnalytics:
+        return 'com.makinglifeeasie.closetconscious.usageanalytics';
     }
   }
 }

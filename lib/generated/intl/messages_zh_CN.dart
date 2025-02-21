@@ -104,6 +104,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ascending": MessageLookupByLibrary.simpleMessage("升序"),
         "athletic": MessageLookupByLibrary.simpleMessage("运动"),
         "autumn": MessageLookupByLibrary.simpleMessage("秋季"),
+        "avgPricePerWear": MessageLookupByLibrary.simpleMessage("平均每次穿着成本"),
         "bag": MessageLookupByLibrary.simpleMessage("包"),
         "base": MessageLookupByLibrary.simpleMessage("基础层"),
         "basicFilterDescription": MessageLookupByLibrary.simpleMessage(
@@ -167,6 +168,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "createCloset": MessageLookupByLibrary.simpleMessage("创建衣柜"),
         "createClosetCalendarDescription":
             MessageLookupByLibrary.simpleMessage("选择您感兴趣的穿搭，并查看所有相关物品以创建衣橱。"),
+        "createClosetItemAnalyticsDescription":
+            MessageLookupByLibrary.simpleMessage("用现有衣物打造你的理想胶囊衣橱。"),
         "createMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "创建一个新的多衣橱，整理物品并添加元数据以保持衣橱有序。"),
         "create_closet": MessageLookupByLibrary.simpleMessage("创建衣橱"),
@@ -346,6 +349,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("物品类型未填写。"),
         "itemUploaded_itemUploaded":
             MessageLookupByLibrary.simpleMessage("物品已上传"),
+        "itemWithRelatedOutfitsDescription":
+            MessageLookupByLibrary.simpleMessage("看看这件单品出现在哪些穿搭里——你的风格，由你定义。"),
         "item_name": MessageLookupByLibrary.simpleMessage("物品名称"),
         "itemsUploadedTooltip":
             MessageLookupByLibrary.simpleMessage("您上传到环保衣橱的物品数量"),
@@ -463,6 +468,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("继续时尚！"),
         "outfitInactive": MessageLookupByLibrary.simpleMessage("非活跃穿搭"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("造型"),
+        "outfitRelatedOutfitsDescription":
+            MessageLookupByLibrary.simpleMessage("探索更多穿搭灵感——根据你的主穿搭找到相似造型。"),
         "outfitReviewContent":
             MessageLookupByLibrary.simpleMessage("您的造型评论已成功提交！"),
         "outfitReviewTitle": MessageLookupByLibrary.simpleMessage("造型评论已提交"),
@@ -575,6 +582,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "有兴趣交换物品或收到附近交换活动的通知吗？我们正在考虑这个功能——您怎么看？"),
         "swapFeatureTitle": MessageLookupByLibrary.simpleMessage("交换物品？"),
         "swap_item": MessageLookupByLibrary.simpleMessage("交换二维码"),
+        "tabItemAnalytics": MessageLookupByLibrary.simpleMessage("单品分析"),
+        "tabOutfitAnalytics": MessageLookupByLibrary.simpleMessage("穿搭分析"),
         "tagline": MessageLookupByLibrary.simpleMessage("在衣橱里购物\n爱上你的风格！"),
         "tech": MessageLookupByLibrary.simpleMessage("科技产品"),
         "termsAcknowledgement": MessageLookupByLibrary.simpleMessage("我已阅读 "),
@@ -585,6 +594,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("您需要接受条款和条件才能登录。"),
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
         "top": MessageLookupByLibrary.simpleMessage("上衣"),
+        "totalCost": MessageLookupByLibrary.simpleMessage("总花费"),
+        "totalItems": MessageLookupByLibrary.simpleMessage("总单品数"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "我们正在探索如何帮助您跟踪物品的穿着成本，并提供个性化的穿搭洞察。这个功能对您有帮助吗？"),
         "trialEndedMessage":
@@ -662,6 +673,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "upload_successful":
             MessageLookupByLibrary.simpleMessage("成功！您的衣橱又增添了一些时尚！🎉"),
         "upload_upload": MessageLookupByLibrary.simpleMessage("上传"),
+        "usageAnalyticsFeatureTitle":
+            MessageLookupByLibrary.simpleMessage("你的衣橱洞察"),
+        "usageAnalyticsTitle": MessageLookupByLibrary.simpleMessage("使用分析"),
         "usageInsights": MessageLookupByLibrary.simpleMessage("使用情况分析"),
         "validDate": MessageLookupByLibrary.simpleMessage("有效日期"),
         "validation_error": MessageLookupByLibrary.simpleMessage("发现错误。请检查输入。"),
@@ -672,6 +686,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "以日历格式查看您的所有穿搭。可按活动名称、当前穿搭和穿搭反馈进行筛选。"),
         "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "探索您的多衣橱选项。您可以创建一个新的多衣橱，\n从所有多衣橱中编辑物品，或对单个多衣橱进行修改。"),
+        "viewOutfitAnalyticsDescription":
+            MessageLookupByLibrary.simpleMessage("发现你的穿搭风格——看看你喜欢、犹豫或想调整的比例。"),
+        "viewSummaryItemAnalyticsDescription":
+            MessageLookupByLibrary.simpleMessage(
+                "用数据掌控衣橱——总花费、物品数量、每次穿搭成本，一目了然。"),
         "warning": MessageLookupByLibrary.simpleMessage("警告"),
         "white": MessageLookupByLibrary.simpleMessage("白色"),
         "winter": MessageLookupByLibrary.simpleMessage("冬季"),

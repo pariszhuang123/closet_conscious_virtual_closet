@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../screens/closet/closet_provider.dart';
-import '../../user_management/authentication/presentation/pages/homepage/home_page_provider.dart';
 import '../../screens/outfit/my_outfit_provider.dart';
+import '../../user_management/authentication/presentation/pages/homepage/home_page_provider.dart';
 import '../../user_management/achievements/presentation/pages/achievements_page.dart';
 import '../../user_management/authentication/presentation/pages/login/login_screen.dart';
 import '../../item_management/upload_item/presentation/pages/upload_item_provider.dart';
@@ -17,12 +17,14 @@ import '../../item_management/multi_closet/reappear_closet/presentation/pages/re
 import '../../outfit_management/outfit_calendar/core/presentation/pages/calendar_scaffold.dart';
 import '../../outfit_management/outfit_calendar/monthly_calendar/presentation/pages/monthly_calendar_provider.dart';
 import '../../outfit_management/outfit_calendar/daily_calendar/presentation/pages/daily_calendar_provider.dart';
-import '../../core/presentation/pages/trial_started/trial_started_provider.dart';
-import '../screens/webview_screen.dart';
-import '../../user_management/achievements/data/models/achievements_page_argument.dart';
-import '../../core/data/models/arguments.dart';
 import '../../outfit_management/review_outfit/presentation/pages/outfit_review_provider.dart';
 import '../../outfit_management/wear_outfit/presentation/pages/outfit_wear_provider.dart';
+import '../screens/webview_screen.dart';
+import '../../user_management/achievements/data/models/achievements_page_argument.dart';
+import '../data/models/arguments.dart';
+import '../presentation/pages/trial_started/trial_started_provider.dart';
+import '../usage_analytics/core/presentation/pages/usage_analytics_scaffold.dart';
+import '../usage_analytics/item_analytics/summary_item_analytics/presentation/pages/summary_items_provider.dart';
 import '../paywall/presentation/pages/payment_provider.dart';
 import '../user_photo/presentation/pages/photo_provider.dart';
 import '../customize/presentation/pages/customize_provider.dart';
@@ -57,6 +59,7 @@ class AppRoutes {
   static const String monthlyCalendar = '/monthly_calendar';
   static const String dailyCalendar = '/daily_calendar';
   static const String trialStarted = '/trial_started';
+  static const String summaryItemsAnalytics = '/summary_items_analytics';
 
 
   static final CustomLogger logger = CustomLogger('AppRoutes');
@@ -305,6 +308,25 @@ class AppRoutes {
               outfitId: outfitId, // ✅ Pass outfitId
             ),
             myOutfitTheme: myOutfitTheme,
+          ),
+        );
+
+      case AppRoutes.summaryItemsAnalytics:
+
+        logger.i('Navigating to $summaryItemsAnalytics with arguments: ${settings.arguments}');
+
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
+
+        logger.d('Parsed arguments -> selectedItemIds: $selectedItemIds');
+
+        return MaterialPageRoute(
+          builder: (_) => UsageAnalyticsScaffold(
+            body: SummaryItemsProvider(
+              isFromMyCloset: true,
+              selectedItemIds: selectedItemIds,
+            ),
+            isFromMyCloset: true,
           ),
         );
 

@@ -31,6 +31,9 @@ class TrialBloc extends Bloc<TrialEvent, TrialState> {
     if (!await coreFetchService.checkCalendarFeature()) {
       deniedStates.add(AccessCalendarFeatureDenied());
     }
+    if (!await coreFetchService.checkUsageAnalyticsFeature()) {
+      deniedStates.add(AccessUsageAnalyticsFeatureDenied());
+    }
     if (!await coreFetchService.checkOutfitAccess()) {
       deniedStates.add(AccessOutfitCreationFeatureDenied());
     }

@@ -269,6 +269,44 @@ class CoreFetchService {
     }
   }
 
+  Future<bool> checkUsageAnalyticsFeature() async {
+    _logger.d('Starting check for usage analytics feature.');
+
+    try {
+      // Fetching the one_off_features JSON data
+      final data = await Supabase.instance.client
+          .from('premium_services')
+          .select('one_off_features')
+          .single();
+
+      _logger.i('Fetched data: $data'); // Log the entire response for debugging
+
+      // Check if data is null or empty
+      if (data.isEmpty) {
+        _logger.e('Error: No data found in response.');
+        return false; // Return false if there's no data
+      }
+
+      // Extract one_off_features JSON field
+      final features = data['one_off_features'];
+      _logger.d(
+          'Extracted features data: $features'); // Log the one_off_features data for debugging
+
+      // Check if the specific key exists in the JSON
+      final hasUsageAnalyticsFeature = features != null && features.containsKey(
+          'com.makinglifeeasie.closetconscious.usageanalytics');
+      _logger.i(
+          'Has usageAnalytics feature: $hasUsageAnalyticsFeature'); // Log the result for debugging
+
+      return hasUsageAnalyticsFeature;
+    } catch (e) {
+      _logger.e(
+          'Exception caught during checkUsageAnalyticsFeature: $e'); // Log any exceptions for debugging
+      return false; // Return false if there's an error
+    }
+  }
+
+
   Future<bool> isTrialPending() async {
     try {
       _logger.i('Checking trial status from Supabase.');
@@ -444,4 +482,126 @@ class CoreFetchService {
     }
   }
 
+  Future<Map<String, dynamic>> getFilteredItemSummary() async {
+    try {
+      _logger.d('Fetching filtered item summary');
+
+      final response = await Supabase.instance.client
+          .rpc('get_filtered_item_summary')
+          .single();
+
+      _logger.i('Filtered item summary fetched successfully: $response');
+      return response;
+        } catch (e) {
+      _logger.e('Error fetching filtered item summary: $e');
+      rethrow;
+    }
+  }
+
+  /// Fetches related outfits for a given item ID with pagination
+  Future<Map<String, dynamic>> getItemRelatedOutfits({
+    required String itemId,
+    required int currentPage,
+  }) async {
+    try {
+      _logger.d('Fetching related outfits for item ID: $itemId, page: $currentPage');
+
+      final response = await Supabase.instance.client.rpc(
+        'get_item_related_outfits',
+        params: {
+          'f_item_id': itemId,
+          'p_current_page': currentPage,
+        },
+      );
+
+      if (response.error != null) {
+        _logger.e('Error fetching related outfits: ${response.error!.message}');
+        throw Exception('Error fetching related outfits: ${response.error!.message}');
+      }
+
+      final data = response.data as Map<String, dynamic>?;
+      if (data == null) {
+        _logger.e('Unexpected response format or no data returned');
+        throw Exception('Unexpected response format or no data returned');
+      }
+
+      _logger.i('Successfully fetched related outfits: $data');
+      return data;
+    } catch (e) {
+      _logger.e('Error in getItemRelatedOutfits: $e');
+      rethrow;
+    }
+  }
+
+  /// Fetches outfit usage analytics from Supabase RPC `get_outfit_usage_analytics`
+  Future<Map<String, dynamic>> getOutfitUsageAnalytics() async {
+    try {
+      _logger.d('Fetching outfit usage analytics from RPC');
+
+      final response = await Supabase.instance.client.rpc('get_outfit_usage_analytics');
+
+      if (response.error != null) {
+        _logger.e('Error fetching outfit usage analytics: ${response.error!.message}');
+        throw Exception(response.error!.message);
+      }
+
+      if (response.data == null || response.data.isEmpty) {
+        _logger.e('No outfit usage analytics data returned.');
+        throw Exception('No data returned from RPC.');
+      }
+
+      // Extract first row (since the RPC returns a single row of data)
+      final Map<String, dynamic> analyticsData = response.data[0];
+
+      _logger.i('Outfit usage analytics fetched successfully: $analyticsData');
+      return analyticsData;
+    } catch (e) {
+      _logger.e('Error fetching outfit usage analytics: $e');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchFilteredOutfits({required int currentPage}) async {
+    try {
+      _logger.d('Fetching filtered outfits for page: $currentPage');
+
+      final response = await Supabase.instance.client.rpc(
+        'get_filtered_outfits',
+        params: {'p_current_page': currentPage},
+      );
+
+      if (response is Map<String, dynamic> && response['status'] == 'success') {
+        _logger.i('Filtered outfits fetched successfully');
+        return response;
+      } else {
+        _logger.e('Unexpected response format: $response');
+        throw Exception('Failed to fetch filtered outfits');
+      }
+    } catch (e) {
+      _logger.e('Error fetching filtered outfits: $e');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchRelatedOutfits(String outfitId) async {
+    try {
+      _logger.d('Fetching related outfits for outfitId: $outfitId');
+
+      final response = await Supabase.instance.client.rpc(
+        'get_related_outfits',
+        params: {'f_outfit_id': outfitId},
+      ) as Map<String, dynamic>;
+
+      if (response.isNotEmpty) {
+        _logger.i('Related outfits fetched successfully: $response');
+        return response;
+      } else {
+        _logger.e('Unexpected response format or no data returned: $response');
+        throw Exception('Unexpected response format or no data returned');
+      }
+    } catch (e) {
+      _logger.e('Error fetching related outfits: $e');
+      rethrow;
+    }
+  }
 }

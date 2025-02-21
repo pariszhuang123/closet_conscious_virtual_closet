@@ -5,6 +5,7 @@ class ClosetItemMinimal extends Equatable {
   final String imageUrl;
   final String name;
   final String? itemType;
+  final String? sortValue;
   final bool isDisliked;  // Keep nullable internally
   final bool itemIsActive;
 
@@ -13,6 +14,7 @@ class ClosetItemMinimal extends Equatable {
     required this.imageUrl,
     required this.name,
     this.itemType,
+    this.sortValue,
     this.isDisliked = false,
     this.itemIsActive = true
   });
@@ -23,6 +25,7 @@ class ClosetItemMinimal extends Equatable {
       imageUrl: map['image_url'] as String,
       name: map['name'] as String,
       itemType: map['item_type'] as String?, // Allow nullable casting
+      sortValue: map['sort_value'] as String?,
       isDisliked: map['is_disliked'] as bool? ?? false,  // Corrected line
       itemIsActive: (map.containsKey('item_is_active') && map['item_is_active'] != null)
           ? map['item_is_active'] as bool
@@ -49,6 +52,6 @@ class ClosetItemMinimal extends Equatable {
   }
 
   @override
-  List<Object?> get props => [itemId, imageUrl, name, itemType, isDisliked, itemIsActive];
+  List<Object?> get props => [itemId, imageUrl, name, itemType, isDisliked, itemIsActive, sortValue];
 }
 

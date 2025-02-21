@@ -257,6 +257,33 @@ class FeatureDataList {
           ),
         ],
       ),
+      FeatureData(
+        getTitle: (context) => S.of(context).usageAnalyticsFeatureTitle,
+        featureKey: FeatureKey.usageAnalytics,
+        isUsageFeature: false,
+        parts: [
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/monthly_calendar.jpg',
+            getDescription: (context) => S.of(context).viewSummaryItemAnalyticsDescription,
+          ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/monthly_calendar.jpg',
+            getDescription: (context) => S.of(context).createClosetItemAnalyticsDescription,
+          ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/monthly_calendar_create_closet.jpg',
+            getDescription: (context) => S.of(context).itemWithRelatedOutfitsDescription,
+          ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/daily_calendar.jpg',
+            getDescription: (context) => S.of(context).viewOutfitAnalyticsDescription,
+          ),
+          FeaturePart(
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/daily_calendar.jpg',
+            getDescription: (context) => S.of(context).outfitRelatedOutfitsDescription,
+          ),
+        ],
+      ),
     ];
   }
 }

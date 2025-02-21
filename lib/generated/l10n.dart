@@ -4539,6 +4539,126 @@ class S {
       args: [],
     );
   }
+
+  /// `Usage Analytics`
+  String get usageAnalyticsTitle {
+    return Intl.message(
+      'Usage Analytics',
+      name: 'usageAnalyticsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Item Analytics`
+  String get tabItemAnalytics {
+    return Intl.message(
+      'Item Analytics',
+      name: 'tabItemAnalytics',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Outfit Analytics`
+  String get tabOutfitAnalytics {
+    return Intl.message(
+      'Outfit Analytics',
+      name: 'tabOutfitAnalytics',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Items`
+  String get totalItems {
+    return Intl.message(
+      'Total Items',
+      name: 'totalItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Cost`
+  String get totalCost {
+    return Intl.message(
+      'Total Cost',
+      name: 'totalCost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Avg Price Per Wear`
+  String get avgPricePerWear {
+    return Intl.message(
+      'Avg Price Per Wear',
+      name: 'avgPricePerWear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See your closet in numbers—total cost, item count, and cost per wear, all at a glance.`
+  String get viewSummaryItemAnalyticsDescription {
+    return Intl.message(
+      'See your closet in numbers—total cost, item count, and cost per wear, all at a glance.',
+      name: 'viewSummaryItemAnalyticsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discover your style story—track how often you love, feel unsure about, or rethink your outfits.`
+  String get viewOutfitAnalyticsDescription {
+    return Intl.message(
+      'Discover your style story—track how often you love, feel unsure about, or rethink your outfits.',
+      name: 'viewOutfitAnalyticsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Closet Insights`
+  String get usageAnalyticsFeatureTitle {
+    return Intl.message(
+      'Your Closet Insights',
+      name: 'usageAnalyticsFeatureTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Find new ways to wear what you own—similar outfit ideas based on your favorites.`
+  String get outfitRelatedOutfitsDescription {
+    return Intl.message(
+      'Find new ways to wear what you own—similar outfit ideas based on your favorites.',
+      name: 'outfitRelatedOutfitsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See the outfits this item has brought to life—your style, your way.`
+  String get itemWithRelatedOutfitsDescription {
+    return Intl.message(
+      'See the outfits this item has brought to life—your style, your way.',
+      name: 'itemWithRelatedOutfitsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Build your dream capsule wardrobe with pieces you already love.`
+  String get createClosetItemAnalyticsDescription {
+    return Intl.message(
+      'Build your dream capsule wardrobe with pieces you already love.',
+      name: 'createClosetItemAnalyticsDescription',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
