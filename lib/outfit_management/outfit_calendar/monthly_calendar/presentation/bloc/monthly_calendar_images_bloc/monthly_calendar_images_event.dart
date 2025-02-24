@@ -5,33 +5,13 @@ abstract class MonthlyCalendarImagesEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FetchMonthlyCalendarImages extends MonthlyCalendarImagesEvent {}
+class FetchMonthlyCalendarImages extends MonthlyCalendarImagesEvent {
+  final List<String> selectedOutfitIds;  // Add selected outfits from outfit_selection_bloc
 
-class SetInitialSelectedOutfits extends MonthlyCalendarImagesEvent {
-  final List<String> selectedOutfitIds;
-
-  SetInitialSelectedOutfits(this.selectedOutfitIds);
+  FetchMonthlyCalendarImages({required this.selectedOutfitIds});
 
   @override
-  List<Object?> get props => [selectedOutfitIds];
-}
-
-class ToggleOutfitSelection extends MonthlyCalendarImagesEvent {
-  final String outfitId;
-
-  ToggleOutfitSelection({required this.outfitId});
-
-  @override
-  List<Object?> get props => [outfitId];
-}
-
-class FetchActiveItems extends MonthlyCalendarImagesEvent {
-  final List<String> selectedOutfitIds;
-
-  FetchActiveItems({required this.selectedOutfitIds});
-
-  @override
-  List<Object?> get props => [selectedOutfitIds];
+  List<Object> get props => [selectedOutfitIds];
 }
 
 class UpdateFocusedDate extends MonthlyCalendarImagesEvent {

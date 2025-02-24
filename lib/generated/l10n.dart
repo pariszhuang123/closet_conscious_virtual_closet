@@ -4659,6 +4659,16 @@ class S {
       args: [],
     );
   }
+
+  /// `You have created {totalReviews} outfits in the last {daysTracked} days.`
+  String analyticsSummary(Object totalReviews, Object daysTracked) {
+    return Intl.message(
+      'You have created $totalReviews outfits in the last $daysTracked days.',
+      name: 'analyticsSummary',
+      desc: '',
+      args: [totalReviews, daysTracked],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

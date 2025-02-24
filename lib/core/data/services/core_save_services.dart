@@ -10,6 +10,7 @@ import '../../../core/utilities/logger.dart';
 import '../../../user_management/user_service_locator.dart';
 import '../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../filter/data/models/filter_setting.dart';
+import '../../../outfit_management/core/outfit_enums.dart';
 
 class CoreSaveService {
   final CustomLogger logger;
@@ -381,6 +382,23 @@ class CoreSaveService {
     'closet_id': closetId,
       'all_closet': false,
     }).eq('user_id', userId);
+  }
+
+  Future<void> updateOutfitReviewFeedback(OutfitReviewFeedback feedback) async {
+    final authBloc = locator<AuthBloc>();
+    final userId = authBloc.userId;
+
+    if (userId == null) {
+      throw Exception("User not authenticated");
+    }
+
+    await Supabase.instance.client
+        .from('shared_preferences')
+        .update({
+      'feedback': feedback.name, // Convert enum to string
+      'updated_at': DateTime.now().toUtc().toIso8601String(),
+    })
+        .eq('user_id', userId);
   }
 }
 

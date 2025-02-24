@@ -5,26 +5,31 @@ import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/theme/my_closet_theme.dart';
 import '../../../../../core/theme/my_outfit_theme.dart';
 import '../../../../../core/utilities/routes.dart';
+import '../../../../widgets/layout/bottom_nav_bar/analytics_bottom_nav_bar.dart';
 
-class UsageAnalyticsScaffold extends StatelessWidget {
+class UsageAnalyticsScaffold extends StatefulWidget {
   final Widget body;
-  final bool isFromMyCloset; // Determines the theme
-  final CustomLogger logger = CustomLogger('UsageAnalyticsScaffold');
+  final bool isFromMyCloset; // Determines which theme to use
 
-  UsageAnalyticsScaffold({
+  const UsageAnalyticsScaffold({
     super.key,
     required this.body,
     required this.isFromMyCloset,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final theme = isFromMyCloset ? myClosetTheme : myOutfitTheme; // Apply correct theme
-    final title = S.of(context).usageAnalyticsTitle; // Localized title
-    final tabItemAnalytics = S.of(context).tabItemAnalytics;
-    final tabOutfitAnalytics = S.of(context).tabOutfitAnalytics;
+  State<UsageAnalyticsScaffold> createState() => _UsageAnalyticsScaffoldState();
+}
 
-    logger.i('Building UsageAnalyticsScaffold for ${isFromMyCloset ? "Closet" : "Outfit"}');
+class _UsageAnalyticsScaffoldState extends State<UsageAnalyticsScaffold> {
+  final CustomLogger logger = CustomLogger('UsageAnalyticsScaffold');
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme; // Apply correct theme
+    final title = S.of(context).usageAnalyticsTitle; // Localized title
+
+    logger.i('Building UsageAnalyticsScaffold for ${widget.isFromMyCloset ? "Closet" : "Outfit"}');
 
     return Theme(
       data: theme,
@@ -34,8 +39,8 @@ class UsageAnalyticsScaffold extends StatelessWidget {
           logger.i('Pop invoked: didPop = $didPop, result = $result');
 
           if (didPop) {
-            final destination = isFromMyCloset ? AppRoutes.myCloset : AppRoutes.createOutfit;
-            logger.i('Navigating to ${isFromMyCloset ? "My Closet" : "Create Outfit"} screen');
+            final destination = widget.isFromMyCloset ? AppRoutes.myCloset : AppRoutes.createOutfit;
+            logger.i('Navigating to ${widget.isFromMyCloset ? "My Closet" : "Create Outfit"} screen');
 
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pushReplacementNamed(destination);
@@ -44,25 +49,21 @@ class UsageAnalyticsScaffold extends StatelessWidget {
             logger.w('Pop action not allowed');
           }
         },
-        child: DefaultTabController(
-          length: 2, // Two tabs: Item Analytics & Outfit Analytics
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                title,
-                style: theme.textTheme.titleMedium,
-              ),
-              bottom: TabBar(
-                indicatorColor: theme.colorScheme.primary, // Themed indicator
-                labelColor: theme.colorScheme.onSurface, // Active tab text color
-                unselectedLabelColor: theme.colorScheme.secondary, // Inactive tab text color
-                tabs: [
-                  Tab(text: tabItemAnalytics),
-                  Tab(text: tabOutfitAnalytics),
-                ],
-              ),
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              title,
+              style: theme.textTheme.titleMedium,
             ),
-            body: body, // Injects the dynamic body
+          ),
+
+          /// Dynamic body content
+          body: widget.body,
+
+          /// Custom Bottom Navigation Bar
+          bottomNavigationBar: AnalyticsBottomNavBar(
+            currentIndex: widget.isFromMyCloset ? 0 : 1, // Highlight correct tab
+            isFromMyCloset: widget.isFromMyCloset,
           ),
         ),
       ),

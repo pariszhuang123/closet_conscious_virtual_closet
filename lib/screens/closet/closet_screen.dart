@@ -21,6 +21,7 @@ import '../../core/widgets/button/themed_elevated_button.dart';
 import '../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../core/widgets/dialog/trial_ended_dialog.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
 
 class MyClosetScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -32,7 +33,7 @@ class MyClosetScreen extends StatefulWidget {
 }
 
 class MyClosetScreenState extends State<MyClosetScreen> {
-  int _selectedIndex = 0;
+  final int _selectedIndex = 0;
   final ScrollController _scrollController = ScrollController();
   final CustomLogger logger = CustomLogger('MyClosetPage');
 
@@ -62,16 +63,6 @@ class MyClosetScreenState extends State<MyClosetScreen> {
         }
       }
     });
-  }
-
-  void _onItemTapped(int index) {
-    if (index == 1) {
-      Navigator.pushReplacementNamed(context, AppRoutes.createOutfit);
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
   }
 
   void _triggerItemUploadAchievement() {
@@ -374,21 +365,9 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                             ],
                           ),
                         ),
-                        bottomNavigationBar: BottomNavigationBar(
-                          items: [
-                            BottomNavigationBarItem(
-                              icon: const Icon(Icons.dry_cleaning_outlined),
-                              label: S.of(context).myClosetTitle,
-                            ),
-                            BottomNavigationBarItem(
-                              icon: const Icon(Icons.wc_outlined),
-                              label: S.of(context).myOutfitTitle,
-                            ),
-                          ],
+                        bottomNavigationBar: MainBottomNavBar(
                           currentIndex: _selectedIndex,
-                          selectedItemColor: widget.myClosetTheme.bottomNavigationBarTheme.selectedItemColor,
-                          backgroundColor: widget.myClosetTheme.bottomNavigationBarTheme.backgroundColor,
-                          onTap: _onItemTapped,
+                          isFromMyCloset: true, // Since this is the closet screen
                         ),
                       ),
                     ),

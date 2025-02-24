@@ -12,15 +12,15 @@ part 'monthly_calendar_metadata_state.dart';
 
 class MonthlyCalendarMetadataBloc
     extends Bloc<MonthlyCalendarMetadataEvent, MonthlyCalendarMetadataState> {
-  final OutfitFetchService fetchService;
-  final OutfitSaveService saveService;
+  final OutfitFetchService outfitFetchService;
+  final OutfitSaveService outfitSaveService;
   final CustomLogger logger;
 
   List<CalendarMetadata> _metadataList = [];
 
   MonthlyCalendarMetadataBloc({
-    required this.fetchService,
-    required this.saveService,
+    required this.outfitFetchService,
+    required this.outfitSaveService,
     CustomLogger? logger,
   })
       : logger = logger ?? CustomLogger('MonthlyCalendarMetadataBloc'),
@@ -40,7 +40,7 @@ class MonthlyCalendarMetadataBloc
     emit(MonthlyCalendarLoadingState());
     logger.d('Emitted MonthlyCalendarLoadingState');
     try {
-      _metadataList = await fetchService.fetchCalendarMetadata();
+      _metadataList = await outfitFetchService.fetchCalendarMetadata();
 
       final updatedMetadataList = _metadataList.map((metadata) {
         return metadata.copyWith(eventName: metadata.computedEventName);
@@ -93,7 +93,7 @@ class MonthlyCalendarMetadataBloc
     emit(MonthlyCalendarSaveInProgressState());
     logger.d('Emitted MonthlyCalendarSaveInProgressState');
     try {
-      final success = await saveService.saveCalendarMetadata(metadata);
+      final success = await outfitSaveService.saveCalendarMetadata(metadata);
 
       if (!success) {
         logger.e('Failed to save metadata');
@@ -121,7 +121,7 @@ class MonthlyCalendarMetadataBloc
     logger.d('ResetMetadataEvent triggered.');
     emit(MonthlyCalendarLoadingState());
     try {
-      final success = await saveService.resetMonthlyCalendar();
+      final success = await outfitSaveService.resetMonthlyCalendar();
       if (success) {
         logger.i('Monthly calendar reset successfully.');
         emit(MonthlyCalendarResetSuccessState());

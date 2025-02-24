@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/monthly_calendar_metadata_bloc/monthly_calendar_metadata_bloc.dart';
 import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
-import '../../../core/presentation/bloc/calendar_navigation_bloc.dart';
+import '../../../core/presentation/bloc/calendar_navigation_bloc/calendar_navigation_bloc.dart';
+import '../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
 import '../widgets/monthly_calendar_metadata.dart';
 import '../widgets/image_calendar_widget.dart';
 import '../widgets/monthly_feature_container.dart';
@@ -57,15 +58,19 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
     context.read<MonthlyCalendarMetadataBloc>().add(ResetMetadataEvent());
   }
 
+  void _handleToggleOutfitSelection(String outfitId) {
+    final outfitSelectionBloc = context.read<OutfitSelectionBloc>();
+
+    outfitSelectionBloc.add(ToggleOutfitSelectionEvent(outfitId));
+
+  }
+
   void _handleCreateCloset() {
-    final state = context.read<MonthlyCalendarImagesBloc>().state;
+    final outfitSelectionState = context.read<OutfitSelectionBloc>().state;
 
-    if (state is MonthlyCalendarImagesLoaded && state.selectedOutfitIds.isNotEmpty) {
-      logger.i('Creating closet with selected outfits: ${state.selectedOutfitIds}');
-
-      context.read<MonthlyCalendarImagesBloc>().add(
-        FetchActiveItems(selectedOutfitIds: state.selectedOutfitIds),
-      );
+    if (outfitSelectionState is OutfitSelectionUpdated && outfitSelectionState.selectedOutfitIds.isNotEmpty) {
+      logger.i('Fetching active items for selected outfits: ${outfitSelectionState.selectedOutfitIds}');
+      context.read<OutfitSelectionBloc>().add(FetchActiveItemsEvent(outfitSelectionState.selectedOutfitIds));
     }
   }
 
@@ -144,16 +149,16 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                 },
               );
             }
+          },
+        ),
+        BlocListener<OutfitSelectionBloc, OutfitSelectionState>(
+          listener: (context, state) {
             if (state is ActiveItemsFetched) {
-              logger.i('Navigation successful. Navigating to create Closet...');
-
-              // Ensure activeItemId is included in the navigation arguments
+              logger.i('Active items fetched. Navigating to create multi-closet.');
               Navigator.pushReplacementNamed(
                 context,
                 AppRoutes.createMultiCloset,
-                arguments: {
-                  'selectedItemIds': state.activeItemIds, // Assuming activeItemIds is a List<String>
-                },
+                arguments: {'selectedItemIds': state.activeItemIds},
               );
             }
           },
@@ -181,15 +186,18 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                     children: [
                       MonthlyFeatureContainer(
                         theme: Theme.of(context),
+
                         onPreviousButtonPressed: () {
                           final state = context.read<MonthlyCalendarImagesBloc>().state;
+                          final selectedOutfitIds = context.read<OutfitSelectionBloc>().state is OutfitSelectionUpdated
+                              ? (context.read<OutfitSelectionBloc>().state as OutfitSelectionUpdated).selectedOutfitIds
+                              : <String>[];
 
-                          // Ensure selectedOutfitIds is always a List<String>
                           if (state is MonthlyCalendarImagesLoaded) {
                             context.read<MonthlyCalendarImagesBloc>().add(
                               NavigateCalendarEvent(
                                 direction: 'backward',
-                                selectedOutfitIds: List<String>.from(state.selectedOutfitIds), // Ensure type safety
+                                selectedOutfitIds: selectedOutfitIds, // Use latest outfit selections
                               ),
                             );
                           }
@@ -197,16 +205,20 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
 
                         onNextButtonPressed: () {
                           final state = context.read<MonthlyCalendarImagesBloc>().state;
+                          final selectedOutfitIds = context.read<OutfitSelectionBloc>().state is OutfitSelectionUpdated
+                              ? (context.read<OutfitSelectionBloc>().state as OutfitSelectionUpdated).selectedOutfitIds
+                              : <String>[];
 
                           if (state is MonthlyCalendarImagesLoaded) {
                             context.read<MonthlyCalendarImagesBloc>().add(
                               NavigateCalendarEvent(
                                 direction: 'forward',
-                                selectedOutfitIds: List<String>.from(state.selectedOutfitIds), // Ensure type safety
+                                selectedOutfitIds: selectedOutfitIds, // Use latest outfit selections
                               ),
                             );
                           }
                         },
+
                         onFocusButtonPressed: () {
                           final state = context.read<MonthlyCalendarMetadataBloc>().state;
                           if (state is MonthlyCalendarLoadedState) {
@@ -284,15 +296,27 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                       BlocBuilder<MonthlyCalendarImagesBloc, MonthlyCalendarImagesState>(
                         builder: (context, state) {
                           if (state is MonthlyCalendarImagesLoaded) {
-                            return ImageCalendarWidget(
-                              calendarData: state.calendarData,
-                              focusedDay: DateTime.parse(state.focusedDate),
-                              firstDay: DateTime.parse(state.startDate),
-                              lastDay: DateTime.parse(state.endDate),
-                              isCalendarSelectable: state.isCalendarSelectable,
-                              crossAxisCount: crossAxisCount,
+                            return BlocBuilder<OutfitSelectionBloc, OutfitSelectionState>(
+                              builder: (context, outfitState) {
+                                List<String> selectedOutfits = outfitState is OutfitSelectionUpdated
+                                    ? outfitState.selectedOutfitIds
+                                    : [];
+
+                                return ImageCalendarWidget(
+                                  calendarData: state.calendarData,
+                                  selectedOutfitIds: selectedOutfits,
+                                  focusedDay: DateTime.parse(state.focusedDate),
+                                  firstDay: DateTime.parse(state.startDate),
+                                  lastDay: DateTime.parse(state.endDate),
+                                  isCalendarSelectable: state.isCalendarSelectable,
+                                  crossAxisCount: crossAxisCount,
+                                  onToggleSelection: _handleToggleOutfitSelection,
+                                );
+                              },
                             );
-                          } else if (state is NoReviewedOutfitState) {
+                          }
+                          // 🛑 Handle cases where there are no reviewed outfits
+                          else if (state is NoReviewedOutfitState) {
                             return Center(
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
@@ -303,7 +327,9 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                                 ),
                               ),
                             );
-                          } else if (state is NoFilteredReviewedOutfitState) {
+                          }
+                          // 🛑 Handle cases where filtering removes all outfits
+                          else if (state is NoFilteredReviewedOutfitState) {
                             return Center(
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
@@ -325,15 +351,15 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
               SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: BlocBuilder<MonthlyCalendarImagesBloc, MonthlyCalendarImagesState>(
+                  child: BlocBuilder<OutfitSelectionBloc, OutfitSelectionState>(
                     builder: (context, state) {
-                      if (state is MonthlyCalendarImagesLoaded && state.selectedOutfitIds.isNotEmpty) {
+                      if (state is OutfitSelectionUpdated && state.selectedOutfitIds.isNotEmpty) {
                         return ThemedElevatedButton(
                           onPressed: _handleCreateCloset,
                           text: S.of(context).createCloset,
                         );
                       }
-                      return const SizedBox.shrink(); // Hides the button when no outfits are selected
+                      return const SizedBox.shrink();
                     },
                   ),
                 ),

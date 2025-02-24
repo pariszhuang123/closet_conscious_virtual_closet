@@ -20,9 +20,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh_CN';
 
-  static String m0(closetName) => "您的消失衣橱\'${closetName}\'现已永久可用，您可以访问其所有物品！";
+  static String m0(totalReviews, daysTracked) =>
+      "你在过去的 ${daysTracked} 天里创建了 ${totalReviews} 套穿搭。";
 
-  static String m1(error) => "错误：${error}";
+  static String m1(closetName) => "您的消失衣橱\'${closetName}\'现已永久可用，您可以访问其所有物品！";
+
+  static String m2(error) => "错误：${error}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -86,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "amountSpentFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("花费金额未填写。"),
         "amountSpentLabel": MessageLookupByLibrary.simpleMessage("花费金额"),
+        "analyticsSummary": m0,
         "and": MessageLookupByLibrary.simpleMessage(" 和 "),
         "appInformationSection": MessageLookupByLibrary.simpleMessage("应用信息"),
         "archive": MessageLookupByLibrary.simpleMessage("归档"),
@@ -139,7 +143,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "closetName": MessageLookupByLibrary.simpleMessage("衣橱名称"),
         "closetNameCannotBeEmpty":
             MessageLookupByLibrary.simpleMessage("衣橱名称不能为空"),
-        "closetReappearMessage": m0,
+        "closetReappearMessage": m1,
         "closetReappearTitle": MessageLookupByLibrary.simpleMessage("衣橱重新出现"),
         "closetType": MessageLookupByLibrary.simpleMessage("衣橱类型"),
         "closetUploadAchievement":
@@ -261,7 +265,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorIncrement":
             MessageLookupByLibrary.simpleMessage("哎呀！我们无法记录您的兴趣。请再试一次！"),
         "errorSavingCloset": MessageLookupByLibrary.simpleMessage("保存衣橱时出错"),
-        "error_creating_closet": m1,
+        "error_creating_closet": m2,
         "event": MessageLookupByLibrary.simpleMessage("活动"),
         "eventName": MessageLookupByLibrary.simpleMessage("活动名称"),
         "everyday": MessageLookupByLibrary.simpleMessage("日常"),

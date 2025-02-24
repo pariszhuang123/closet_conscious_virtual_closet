@@ -24,7 +24,7 @@ import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../core/screens/achievement_completed_screen.dart';
 import '../../core/paywall/data/feature_key.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
-
+import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
 
 class MyOutfitScreen extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -42,7 +42,7 @@ class MyOutfitScreen extends StatefulWidget {
 }
 
 class MyOutfitScreenState extends State<MyOutfitScreen> {
-  int _selectedIndex = 1;
+  final int _selectedIndex = 1;
   final CustomLogger logger = CustomLogger('OutfitPage');
   final ScrollController _scrollController = ScrollController();
   int newOutfitCount = 2;
@@ -80,7 +80,10 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
 
   void _onSaveOutfit() {
     logger.i('Save outfit button pressed');
-    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
+    final selectedItemIds = context
+        .read<MultiSelectionItemCubit>()
+        .state
+        .selectedItemIds;
     logger.d('Selected items: $selectedItemIds');
 
     context.read<SaveOutfitItemsBloc>().add(SaveOutfitEvent(selectedItemIds));
@@ -141,7 +144,10 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
+    final selectedItemIds = context
+        .read<MultiSelectionItemCubit>()
+        .state
+        .selectedItemIds;
     Navigator.of(context).pushNamed(
       AppRoutes.filter,
       arguments: {
@@ -153,7 +159,10 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
+    final selectedItemIds = context
+        .read<MultiSelectionItemCubit>()
+        .state
+        .selectedItemIds;
     Navigator.of(context).pushNamed(
       AppRoutes.customize,
       arguments: {
@@ -197,18 +206,6 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
       }
     } catch (e) {
       logger.e('Error fetching new outfits count: $e');
-    }
-  }
-
-  void _onItemTapped(int index) {
-    logger.i('Bottom navigation item tapped, index: $index');
-    if (index == 0) {
-      logger.i('Navigating to My Closet Provider');
-      Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
     }
   }
 
@@ -376,7 +373,8 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                     context,
                     AppRoutes.trialStarted,
                     arguments: {
-                      'selectedFeatureRoute': AppRoutes.myCloset, // ✅ Correct AppRoutes value
+                      'selectedFeatureRoute': AppRoutes.myCloset,
+                      // ✅ Correct AppRoutes value
                       'isFromMyCloset': false,
                     },
                   );
@@ -386,13 +384,18 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
           ),
           BlocListener<SaveOutfitItemsBloc, SaveOutfitItemsState>(
             listener: (context, state) {
-              if (state.saveStatus == SaveStatus.success && state.outfitId != null) {
-                logger.i('Navigating to OutfitWearProvider for outfitId: ${state.outfitId}');
-                Navigator.pushNamed(context, AppRoutes.wearOutfit, arguments: state.outfitId);
+              if (state.saveStatus == SaveStatus.success &&
+                  state.outfitId != null) {
+                logger.i('Navigating to OutfitWearProvider for outfitId: ${state
+                    .outfitId}');
+                Navigator.pushNamed(
+                    context, AppRoutes.wearOutfit, arguments: state.outfitId);
               }
               if (state.saveStatus == SaveStatus.failure) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(S.of(context).failedToSaveOutfit)),
+                  SnackBar(content: Text(S
+                      .of(context)
+                      .failedToSaveOutfit)),
                 );
               }
             },
@@ -469,8 +472,10 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   OutfitFeatureContainer(
                     theme: widget.myOutfitTheme,
                     outfitCount: newOutfitCount,
-                    onFilterButtonPressed:  () => _onFilterButtonPressed(context, false),
-                    onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
+                    onFilterButtonPressed: () =>
+                        _onFilterButtonPressed(context, false),
+                    onArrangeButtonPressed: () =>
+                        _onArrangeButtonPressed(context, false),
                     onCalendarButtonPressed: _onCalendarButtonPressed,
                     onStylistButtonPressed: _onAiStylistButtonPressed,
                   ),
@@ -478,17 +483,22 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   Expanded(
                     child: BlocBuilder<CrossAxisCountCubit, int>(
                       builder: (context, crossAxisCount) {
-                        return BlocBuilder<FetchOutfitItemBloc, FetchOutfitItemState>(
+                        return BlocBuilder<
+                            FetchOutfitItemBloc,
+                            FetchOutfitItemState>(
                           builder: (context, state) {
                             logger.i(
                                 'FetchOutfitItemBloc builder triggered with state: $state');
 
                             final currentItems =
-                                state.categoryItems[state.currentCategory] ?? [];
+                                state.categoryItems[state.currentCategory] ??
+                                    [];
 
                             if (state.saveStatus == SaveStatus.failure) {
                               return Center(
-                                  child: Text(S.of(context).failedToLoadItems));
+                                  child: Text(S
+                                      .of(context)
+                                      .failedToLoadItems));
                             } else if (currentItems.isEmpty) {
                               _snackBarShown = false;
                               return Center(
@@ -511,14 +521,18 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
+                    child: BlocBuilder<
+                        MultiSelectionItemCubit,
+                        MultiSelectionItemState>(
                       builder: (context, state) {
                         logger.i(
                             'SelectionOutfitItemBloc bottom button builder triggered with state: $state');
                         return state.hasSelectedItems
                             ? ElevatedButton(
                           onPressed: _onSaveOutfit,
-                          child: Text(S.of(context).OutfitDay),
+                          child: Text(S
+                              .of(context)
+                              .OutfitDay),
                         )
                             : const SizedBox.shrink();
                       },
@@ -527,27 +541,9 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                 ],
               ),
             ),
-            bottomNavigationBar: BottomNavigationBar(
-              items: [
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.dry_cleaning_outlined),
-                  label: S
-                      .of(context)
-                      .myClosetTitle,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.wc_outlined),
-                  label: S
-                      .of(context)
-                      .myOutfitTitle,
-                ),
-              ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: widget.myOutfitTheme.bottomNavigationBarTheme
-                  .selectedItemColor,
-              backgroundColor: widget.myOutfitTheme.bottomNavigationBarTheme
-                  .backgroundColor,
-              onTap: _onItemTapped,
+            bottomNavigationBar: MainBottomNavBar(
+              currentIndex: _selectedIndex, // My Outfit tab
+              isFromMyCloset: false, // This is the outfit screen, not the closet
             ),
           ),
         ),

@@ -25,6 +25,7 @@ import '../data/models/arguments.dart';
 import '../presentation/pages/trial_started/trial_started_provider.dart';
 import '../usage_analytics/core/presentation/pages/usage_analytics_scaffold.dart';
 import '../usage_analytics/item_analytics/summary_item_analytics/presentation/pages/summary_items_provider.dart';
+import '../usage_analytics/outfit_analytics/summary_outfit_analytics/presentation/pages/summary_outfit_analytics_provider.dart';
 import '../paywall/presentation/pages/payment_provider.dart';
 import '../user_photo/presentation/pages/photo_provider.dart';
 import '../customize/presentation/pages/customize_provider.dart';
@@ -60,6 +61,7 @@ class AppRoutes {
   static const String dailyCalendar = '/daily_calendar';
   static const String trialStarted = '/trial_started';
   static const String summaryItemsAnalytics = '/summary_items_analytics';
+  static const String summaryOutfitAnalytics = '/summary_outfit_analytics';
 
 
   static final CustomLogger logger = CustomLogger('AppRoutes');
@@ -75,258 +77,275 @@ class AppRoutes {
     ));
 
     switch (settings.name) {
-      case login:
-        Sentry.addBreadcrumb(Breadcrumb(
-          message: "Opening login screen",
-          category: "auth",
-          level: SentryLevel.info,
-        ));
-        return MaterialPageRoute(builder: (_) => LoginScreen(myClosetTheme: myClosetTheme));
-      case home:
-        Sentry.addBreadcrumb(Breadcrumb(
-          message: "Opening homepage",
-          category: "auth",
-          level: SentryLevel.info,
-        ));
-        return MaterialPageRoute(builder: (_) => HomePageProvider(myClosetTheme: myClosetTheme));
-      case AppRoutes.customize:
-        final args = settings.arguments as Map<String, dynamic>? ?? {};
-        final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
-        final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
-        final String returnRoute = args['returnRoute'] as String? ?? AppRoutes.myCloset; // Extract returnRoute
-        logger.d("Navigating to customize  with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds, returnRoute: $returnRoute");
-        return MaterialPageRoute(
-          builder: (_) => CustomizeProvider(
-            isFromMyCloset: isFromMyCloset,
-            selectedItemIds: selectedItemIds,
-            returnRoute: returnRoute,
-          ),
-        );
-      case AppRoutes.filter:
-        final args = settings.arguments as Map<String, dynamic>? ?? {};
-        final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
-        final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
-        final String returnRoute = args['returnRoute'] as String? ?? AppRoutes.myCloset; // Extract returnRoute
-        logger.d("Navigating to filter with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds, returnRoute: $returnRoute");
-
-        return MaterialPageRoute(
-          builder: (_) => FilterProvider(
-            isFromMyCloset: isFromMyCloset,
-            selectedItemIds: selectedItemIds,
-            returnRoute: returnRoute,
-          ),
-        );
-      case myCloset:
-        return MaterialPageRoute(
-          builder: (_) => MyClosetProvider(myClosetTheme: myClosetTheme),
-        );
-      case createOutfit:
-        final args = settings.arguments as Map<String, dynamic>? ?? {};
-        final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
-        logger.d("Navigating to Create Outfit with selectedItemIds: $selectedItemIds");
-        return MaterialPageRoute(
-          builder: (_) => MyOutfitProvider(
-            myOutfitTheme: myOutfitTheme,
-            selectedItemIds: selectedItemIds,
-          ),
-        );
-      case wearOutfit:
-        final outfitId = settings.arguments as String;
-        logger.d("Navigating to Wear Outfit with outfitId: $outfitId");
-        return MaterialPageRoute(
-          builder: (_) => OutfitWearProvider(outfitId: outfitId),
-        );
-      case reviewOutfit:
-        return MaterialPageRoute(
-          builder: (_) => OutfitReviewProvider(myOutfitTheme: myOutfitTheme),
-        );
-      case uploadItem:
-        final imageUrl = settings.arguments as String;
-        logger.d("Navigating to Upload Item with imageUrl: $imageUrl");
-        return MaterialPageRoute(
-          builder: (_) => UploadItemProvider(imageUrl: imageUrl, myClosetTheme: myClosetTheme), // Pass the imageUrl
-        );
-      case uploadItemPhoto:
-        logger.d("Navigating to uploadItemPhoto");
-        return MaterialPageRoute(
-          builder: (_) => const PhotoProvider(cameraContext: CameraPermissionContext.uploadItem),
-        );
-      case selfiePhoto:
-        final outfitId = settings.arguments as String;
-        logger.d("Navigating to selfiePhoto with outfitId: $outfitId");
-        return MaterialPageRoute(
-          builder: (_) => PhotoProvider(outfitId: outfitId, cameraContext: CameraPermissionContext.selfie),
-        );
-      case editPhoto:
-        final itemId = settings.arguments as String;
-        logger.d("Navigating to editPhoto with itemId: $itemId");
-        return MaterialPageRoute(
-          builder: (_) => PhotoProvider(itemId: itemId, cameraContext: CameraPermissionContext.editItem),
-        );
-      case editClosetPhoto:
-        final closetId = settings.arguments as String;
-        logger.d("Navigating to editClosetPhoto with closetId: $closetId");
-        return MaterialPageRoute(
-          builder: (_) => PhotoProvider(closetId: closetId, cameraContext: CameraPermissionContext.editCloset),
-        );
-      case editItem:
-        final itemId = settings.arguments as String;
-        logger.d("Navigating to editItem with itemId: $itemId");
-        return MaterialPageRoute(
-          builder: (_) => EditItemProvider(itemId: itemId),
-        );
-      case viewMultiCloset:
-        final args = settings.arguments as Map<String, dynamic>? ?? {};
-        logger.d("Arguments for viewMultiCloset: $args"); // Log arguments
-        final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
-        logger.d("Navigating to ViewMultiCloset with isFromMyCloset: $isFromMyCloset");
-        return MaterialPageRoute(
-          builder: (_) => MultiClosetScaffold(
-            body: ViewMultiClosetProvider(
+        case login:
+          Sentry.addBreadcrumb(Breadcrumb(
+            message: "Opening login screen",
+            category: "auth",
+            level: SentryLevel.info,
+          ));
+          return MaterialPageRoute(builder: (_) => LoginScreen(myClosetTheme: myClosetTheme));
+        case home:
+          Sentry.addBreadcrumb(Breadcrumb(
+            message: "Opening homepage",
+            category: "auth",
+            level: SentryLevel.info,
+          ));
+          return MaterialPageRoute(builder: (_) => HomePageProvider(myClosetTheme: myClosetTheme));
+        case AppRoutes.customize:
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
+          final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
+          final String returnRoute = args['returnRoute'] as String? ?? AppRoutes.myCloset; // Extract returnRoute
+          logger.d("Navigating to customize  with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds, returnRoute: $returnRoute");
+          return MaterialPageRoute(
+            builder: (_) => CustomizeProvider(
               isFromMyCloset: isFromMyCloset,
+              selectedItemIds: selectedItemIds,
+              returnRoute: returnRoute,
             ),
-          ),
-        );
-      case createMultiCloset:
-        final args = settings.arguments as Map<String, dynamic>? ?? {};
-        final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
+          );
+        case AppRoutes.filter:
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
+          final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
+          final String returnRoute = args['returnRoute'] as String? ?? AppRoutes.myCloset; // Extract returnRoute
+          logger.d("Navigating to filter with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds, returnRoute: $returnRoute");
 
-        return MaterialPageRoute(
-          builder: (_) => MultiClosetScaffold(
-            body: CreateMultiClosetProvider(
+          return MaterialPageRoute(
+            builder: (_) => FilterProvider(
+              isFromMyCloset: isFromMyCloset,
+              selectedItemIds: selectedItemIds,
+              returnRoute: returnRoute,
+            ),
+          );
+        case myCloset:
+          return MaterialPageRoute(
+            builder: (_) => MyClosetProvider(myClosetTheme: myClosetTheme),
+          );
+        case createOutfit:
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
+          logger.d("Navigating to Create Outfit with selectedItemIds: $selectedItemIds");
+          return MaterialPageRoute(
+            builder: (_) => MyOutfitProvider(
+              myOutfitTheme: myOutfitTheme,
               selectedItemIds: selectedItemIds,
             ),
-          ),
-        );
-      case editMultiCloset:
-        logger.i('Navigating to $editMultiCloset with arguments: ${settings.arguments}');
-
-        final args = settings.arguments as Map<String, dynamic>? ?? {};
-        final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
-
-        logger.d('Parsed arguments -> selectedItemIds: $selectedItemIds');
-
-        return MaterialPageRoute(
-          builder: (_) {
-            logger.i('Building MultiClosetScaffold with EditMultiClosetProvider.');
-            return MultiClosetScaffold(
-              body: EditMultiClosetProvider(
-                selectedItemIds: selectedItemIds,
-              ),
-            );
-          },
-        );
-
-      case swapCloset:
-        logger.i("Matched route: swapCloset");
-
-        try {
+          );
+        case wearOutfit:
+          final outfitId = settings.arguments as String;
+          logger.d("Navigating to Wear Outfit with outfitId: $outfitId");
+          return MaterialPageRoute(
+            builder: (_) => OutfitWearProvider(outfitId: outfitId),
+          );
+        case reviewOutfit:
+          return MaterialPageRoute(
+            builder: (_) => OutfitReviewProvider(myOutfitTheme: myOutfitTheme),
+          );
+        case uploadItem:
+          final imageUrl = settings.arguments as String;
+          logger.d("Navigating to Upload Item with imageUrl: $imageUrl");
+          return MaterialPageRoute(
+            builder: (_) => UploadItemProvider(imageUrl: imageUrl, myClosetTheme: myClosetTheme), // Pass the imageUrl
+          );
+        case uploadItemPhoto:
+          logger.d("Navigating to uploadItemPhoto");
+          return MaterialPageRoute(
+            builder: (_) => const PhotoProvider(cameraContext: CameraPermissionContext.uploadItem),
+          );
+        case selfiePhoto:
+          final outfitId = settings.arguments as String;
+          logger.d("Navigating to selfiePhoto with outfitId: $outfitId");
+          return MaterialPageRoute(
+            builder: (_) => PhotoProvider(outfitId: outfitId, cameraContext: CameraPermissionContext.selfie),
+          );
+        case editPhoto:
+          final itemId = settings.arguments as String;
+          logger.d("Navigating to editPhoto with itemId: $itemId");
+          return MaterialPageRoute(
+            builder: (_) => PhotoProvider(itemId: itemId, cameraContext: CameraPermissionContext.editItem),
+          );
+        case editClosetPhoto:
+          final closetId = settings.arguments as String;
+          logger.d("Navigating to editClosetPhoto with closetId: $closetId");
+          return MaterialPageRoute(
+            builder: (_) => PhotoProvider(closetId: closetId, cameraContext: CameraPermissionContext.editCloset),
+          );
+        case editItem:
+          final itemId = settings.arguments as String;
+          logger.d("Navigating to editItem with itemId: $itemId");
+          return MaterialPageRoute(
+            builder: (_) => EditItemProvider(itemId: itemId),
+          );
+        case viewMultiCloset:
           final args = settings.arguments as Map<String, dynamic>? ?? {};
-          logger.i("Parsed arguments: $args");
-
-          final String closetId = args['closetId'] as String? ?? '';
-          final String closetName = args['closetName'] as String? ?? '';
-          final String closetType = args['closetType'] as String? ?? '';
-          final bool isPublic = args['isPublic'] as bool? ?? false;
-          final DateTime validDate = args['validDate'] as DateTime? ?? DateTime.now();
-          final List<String> selectedItemIds =
-          (args['selectedItemIds'] as List<dynamic>? ?? []).cast<String>();
-
-          logger.i("Final arguments:");
-          logger.i("closetId: $closetId");
-          logger.i("closetName: $closetName");
-          logger.i("closetType: $closetType");
-          logger.i("isPublic: $isPublic");
-          logger.i("validDate (DateTime): $validDate");
-          logger.i("selectedItemIds: $selectedItemIds");
+          logger.d("Arguments for viewMultiCloset: $args"); // Log arguments
+          final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
+          logger.d("Navigating to ViewMultiCloset with isFromMyCloset: $isFromMyCloset");
+          return MaterialPageRoute(
+            builder: (_) => MultiClosetScaffold(
+              body: ViewMultiClosetProvider(
+                isFromMyCloset: isFromMyCloset,
+              ),
+            ),
+          );
+        case createMultiCloset:
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
 
           return MaterialPageRoute(
             builder: (_) => MultiClosetScaffold(
-              body: SwapClosetProvider(
-                closetId: closetId,
-                closetName: closetName,
-                closetType: closetType,
-                isPublic: isPublic,
-                validDate: validDate, // Pass as DateTime
+              body: CreateMultiClosetProvider(
                 selectedItemIds: selectedItemIds,
               ),
             ),
           );
-        } catch (e, stackTrace) {
-          logger.e("Error processing swapCloset route: $e");
-          logger.e(stackTrace.toString());
-          Sentry.captureException(e, stackTrace: stackTrace);
-          // Optionally return an error page
-        }
+        case editMultiCloset:
+          logger.i('Navigating to $editMultiCloset with arguments: ${settings.arguments}');
 
-      case AppRoutes.reappearCloset:
-        logger.i('Navigating to $reappearCloset with arguments: ${settings.arguments}');
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
 
-        final args = settings.arguments as Map<String, dynamic>? ?? {};
+          logger.d('Parsed arguments -> selectedItemIds: $selectedItemIds');
 
-        final closetId = args['closetId'] as String? ?? '';
-        final closetName = args['closetName'] as String? ?? 'Unnamed Closet';
-        final closetImage = args['closetImage'] as String? ?? '';
+          return MaterialPageRoute(
+            builder: (_) {
+              logger.i('Building MultiClosetScaffold with EditMultiClosetProvider.');
+              return MultiClosetScaffold(
+                body: EditMultiClosetProvider(
+                  selectedItemIds: selectedItemIds,
+                ),
+              );
+            },
+          );
 
-        logger.d('Parsed arguments -> closetId: $closetId, closetName: $closetName, closetImage: $closetImage');
+        case swapCloset:
+          logger.i("Matched route: swapCloset");
 
-        return MaterialPageRoute(
-          builder: (_) => ReappearClosetProvider(
-            closetId: closetId,
-            closetName: closetName,
-            closetImage: closetImage,
-          ),
-        );
+          try {
+            final args = settings.arguments as Map<String, dynamic>? ?? {};
+            logger.i("Parsed arguments: $args");
 
-      case AppRoutes.monthlyCalendar:
-        return MaterialPageRoute(
-          settings: settings,  // <-- Add this line to pass the RouteSettings along.
-          builder: (context) {
-            final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+            final String closetId = args['closetId'] as String? ?? '';
+            final String closetName = args['closetName'] as String? ?? '';
+            final String closetType = args['closetType'] as String? ?? '';
+            final bool isPublic = args['isPublic'] as bool? ?? false;
+            final DateTime validDate = args['validDate'] as DateTime? ?? DateTime.now();
+            final List<String> selectedItemIds =
+            (args['selectedItemIds'] as List<dynamic>? ?? []).cast<String>();
 
-            // ✅ Extract selectedOutfitIds from arguments safely
-            final selectedOutfitIds = (args?['selectedOutfitIds'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [];
+            logger.i("Final arguments:");
+            logger.i("closetId: $closetId");
+            logger.i("closetName: $closetName");
+            logger.i("closetType: $closetType");
+            logger.i("isPublic: $isPublic");
+            logger.i("validDate (DateTime): $validDate");
+            logger.i("selectedItemIds: $selectedItemIds");
 
-            return CalendarScaffold(
+            return MaterialPageRoute(
+              builder: (_) => MultiClosetScaffold(
+                body: SwapClosetProvider(
+                  closetId: closetId,
+                  closetName: closetName,
+                  closetType: closetType,
+                  isPublic: isPublic,
+                  validDate: validDate, // Pass as DateTime
+                  selectedItemIds: selectedItemIds,
+                ),
+              ),
+            );
+          } catch (e, stackTrace) {
+            logger.e("Error processing swapCloset route: $e");
+            logger.e(stackTrace.toString());
+            Sentry.captureException(e, stackTrace: stackTrace);
+            // Optionally return an error page
+          }
+
+        case AppRoutes.reappearCloset:
+          logger.i('Navigating to $reappearCloset with arguments: ${settings.arguments}');
+
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+
+          final closetId = args['closetId'] as String? ?? '';
+          final closetName = args['closetName'] as String? ?? 'Unnamed Closet';
+          final closetImage = args['closetImage'] as String? ?? '';
+
+          logger.d('Parsed arguments -> closetId: $closetId, closetName: $closetName, closetImage: $closetImage');
+
+          return MaterialPageRoute(
+            builder: (_) => ReappearClosetProvider(
+              closetId: closetId,
+              closetName: closetName,
+              closetImage: closetImage,
+            ),
+          );
+
+        case AppRoutes.monthlyCalendar:
+
+          logger.i('Navigating to $monthlyCalendar with arguments: ${settings.arguments}');
+
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+
+          final List<String> selectedOutfitIds = List<String>.from(args['selectedOutfitIds'] ?? []);
+
+          // ✅ Extract selectedOutfitIds from arguments safely
+          return MaterialPageRoute(
+            builder: (_) => CalendarScaffold(
               body: MonthlyCalendarProvider(
                 isFromMyCloset: false,
                 selectedOutfitIds: selectedOutfitIds, // ✅ Forward to provider
               ),
               myOutfitTheme: myOutfitTheme,
-            );
-          },
-        );
-
-      case AppRoutes.dailyCalendar:
-        final args = settings.arguments as Map<String, dynamic>?; // ✅ Extract arguments
-        final outfitId = args?['outfitId'] as String?; // ✅ Get outfitId from arguments
-
-        return MaterialPageRoute(
-          builder: (_) => CalendarScaffold(
-            body: DailyCalendarProvider(
-              myOutfitTheme: myOutfitTheme,
-              outfitId: outfitId, // ✅ Pass outfitId
             ),
-            myOutfitTheme: myOutfitTheme,
-          ),
-        );
+          );
 
-      case AppRoutes.summaryItemsAnalytics:
+        case AppRoutes.dailyCalendar:
+          final args = settings.arguments as Map<String, dynamic>?; // ✅ Extract arguments
+          final outfitId = args?['outfitId'] as String?; // ✅ Get outfitId from arguments
 
-        logger.i('Navigating to $summaryItemsAnalytics with arguments: ${settings.arguments}');
+          return MaterialPageRoute(
+            builder: (_) => CalendarScaffold(
+              body: DailyCalendarProvider(
+                myOutfitTheme: myOutfitTheme,
+                outfitId: outfitId, // ✅ Pass outfitId
+              ),
+              myOutfitTheme: myOutfitTheme,
+            ),
+          );
 
-        final args = settings.arguments as Map<String, dynamic>? ?? {};
-        final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
+        case AppRoutes.summaryItemsAnalytics:
 
-        logger.d('Parsed arguments -> selectedItemIds: $selectedItemIds');
+          logger.i('Navigating to $summaryItemsAnalytics with arguments: ${settings.arguments}');
+
+          final args = settings.arguments as Map<String, dynamic>? ?? {};
+          final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
+
+          logger.d('Parsed arguments -> selectedItemIds: $selectedItemIds');
+
+          return MaterialPageRoute(
+            builder: (_) => UsageAnalyticsScaffold(
+              body: SummaryItemsProvider(
+                isFromMyCloset: true,
+                selectedItemIds: selectedItemIds,
+              ),
+              isFromMyCloset: true,
+            ),
+          );
+
+        case AppRoutes.summaryOutfitAnalytics:
+
+        logger.i('Navigating to $summaryOutfitAnalytics with arguments: ${settings.arguments}');
+        final args = settings.arguments as Map<String, dynamic>?; // ✅ Extract arguments
+
+        final List<String> selectedOutfitIds = (args?['selectedOutfitIds'] as List<String>?) ?? [];
 
         return MaterialPageRoute(
           builder: (_) => UsageAnalyticsScaffold(
-            body: SummaryItemsProvider(
-              isFromMyCloset: true,
-              selectedItemIds: selectedItemIds,
+            body: SummaryOutfitAnalyticsProvider(
+              isFromMyCloset: false,
+              selectedOutfitIds: selectedOutfitIds, // ✅ Forward to provider
             ),
-            isFromMyCloset: true,
+            isFromMyCloset: false,
           ),
         );
 

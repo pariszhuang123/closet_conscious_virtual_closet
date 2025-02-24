@@ -83,15 +83,6 @@ class MonthlyCalendarImagesError extends MonthlyCalendarImagesState {
   List<Object?> get props => [message];
 }
 
-class ActiveItemsFetched extends MonthlyCalendarImagesState {
-  final List<String> activeItemIds; // ✅ Use item IDs instead of outfit IDs
-
-  ActiveItemsFetched(this.activeItemIds);
-
-  @override
-  List<Object?> get props => [activeItemIds];
-}
-
 class FocusedDateUpdatedState extends MonthlyCalendarImagesState {
   final String outfitId;
 

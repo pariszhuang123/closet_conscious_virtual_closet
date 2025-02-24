@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/widgets/outfit_display_widget.dart';
-import '../../../../core/data/models/monthly_calendar_response.dart';
+import '../../../../core/data/models/outfit_data.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/core_enums.dart';
 

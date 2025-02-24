@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'outfit_image_widget.dart';
-import '../../../../outfit_management/core/data/models/monthly_calendar_response.dart';
+import '../../../core/data/models/outfit_data.dart';
 import '../../../../core/core_enums.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../generated/l10n.dart';

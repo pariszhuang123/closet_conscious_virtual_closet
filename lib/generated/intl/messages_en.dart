@@ -20,10 +20,13 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(closetName) =>
+  static String m0(totalReviews, daysTracked) =>
+      "You have created ${totalReviews} outfits in the last ${daysTracked} days.";
+
+  static String m1(closetName) =>
       "Your disappearing closet \'${closetName}\' is now permanent. You can access all its items!";
 
-  static String m1(error) => "Error: ${error}";
+  static String m2(error) => "Error: ${error}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -95,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Amount Spent field is not filled."),
         "amountSpentLabel":
             MessageLookupByLibrary.simpleMessage("Amount Spent"),
+        "analyticsSummary": m0,
         "and": MessageLookupByLibrary.simpleMessage(" and the "),
         "appInformationSection":
             MessageLookupByLibrary.simpleMessage("App Information"),
@@ -162,7 +166,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "closetName": MessageLookupByLibrary.simpleMessage("Closet Name"),
         "closetNameCannotBeEmpty":
             MessageLookupByLibrary.simpleMessage("Closet name cannot be empty"),
-        "closetReappearMessage": m0,
+        "closetReappearMessage": m1,
         "closetReappearTitle":
             MessageLookupByLibrary.simpleMessage("Closet Reappeared"),
         "closetType": MessageLookupByLibrary.simpleMessage("Closet Type"),
@@ -306,7 +310,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Oops! We couldn’t record your interest. Please try again!"),
         "errorSavingCloset":
             MessageLookupByLibrary.simpleMessage("Error saving closet"),
-        "error_creating_closet": m1,
+        "error_creating_closet": m2,
         "event": MessageLookupByLibrary.simpleMessage("Event"),
         "eventName": MessageLookupByLibrary.simpleMessage("Event Name"),
         "everyday": MessageLookupByLibrary.simpleMessage("Everyday"),

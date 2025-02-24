@@ -5,7 +5,9 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../../../generated/l10n.dart';
 import '../widgets/day_outfit_widget.dart'; // Import the DayOutfitWidget
 import '../../../../core/data/models/monthly_calendar_response.dart';
+import '../../../../core/data/models/outfit_data.dart';
 import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
+import '../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
 import '../../../../../core/utilities/logger.dart';
 
 class ImageCalendarWidget extends StatelessWidget {
@@ -15,6 +17,8 @@ class ImageCalendarWidget extends StatelessWidget {
   final List<CalendarData> calendarData;
   final bool isCalendarSelectable;
   final int crossAxisCount;
+  final List<String> selectedOutfitIds; // ✅ Add this
+  final Function(String) onToggleSelection; // ✅ Add this
 
   const ImageCalendarWidget({
     super.key,
@@ -24,6 +28,8 @@ class ImageCalendarWidget extends StatelessWidget {
     required this.calendarData,
     required this.isCalendarSelectable,
     required this.crossAxisCount,
+    required this.selectedOutfitIds, // ✅ Add this
+    required this.onToggleSelection, // ✅ Add this
   });
 
   @override
@@ -124,19 +130,9 @@ class ImageCalendarWidget extends StatelessWidget {
         outfit: calendarEntry.outfitData,
         isGridDisplay: isGridDisplay,
         isSelectable: isCalendarSelectable, // ✅ Pass the correct value
-        selectedOutfitIds: context.select((MonthlyCalendarImagesBloc bloc) =>
-        (bloc.state is MonthlyCalendarImagesLoaded)
-            ? (bloc.state as MonthlyCalendarImagesLoaded).selectedOutfitIds
-            : []), // ✅ Fetch selected outfit IDs from the Bloc
+        selectedOutfitIds: selectedOutfitIds, // ✅ Use from constructor
         crossAxisCount: crossAxisCount,
-        onOutfitSelected: (outfitId) {
-          logger.i('Outfit selected: $outfitId on date: $normalizedDate');
-          context.read<MonthlyCalendarImagesBloc>().add(
-            ToggleOutfitSelection(
-              outfitId: outfitId,
-            ),
-          );
-        },
+        onOutfitSelected: onToggleSelection, // ✅ Use from constructor
         onNavigate: () {
           final outfitId = calendarEntry.outfitData.outfitId;
           if (outfitId.isNotEmpty) {
@@ -200,8 +196,8 @@ class ImageCalendarWidget extends StatelessWidget {
     if (outfitId.isNotEmpty) {
       if (isCalendarSelectable) {
         logger.i('Toggling outfit selection for outfitId: $outfitId on date: $normalizedDay');
-        context.read<MonthlyCalendarImagesBloc>().add(
-          ToggleOutfitSelection(outfitId: outfitId),
+        context.read<OutfitSelectionBloc>().add(
+          ToggleOutfitSelectionEvent(outfitId),
         );
       } else {
         logger.i('Updating focused date using outfitId: $outfitId');

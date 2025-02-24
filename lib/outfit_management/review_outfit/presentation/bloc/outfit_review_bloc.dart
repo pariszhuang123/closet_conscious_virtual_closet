@@ -8,6 +8,7 @@ import '../../../../user_management/authentication/presentation/bloc/auth_bloc.d
 import '../../../core/data/services/outfits_fetch_services.dart';
 import '../../../core/data/services/outfits_save_services.dart';
 import '../../../../core/utilities/logger.dart';
+import '../../../../core/utilities/helper_functions/feedback_utilities.dart';
 
 part 'outfit_review_state.dart';
 part 'outfit_review_event.dart';
@@ -15,21 +16,6 @@ part 'outfit_review_event.dart';
 // Helper function to convert feedback enum to string
 String convertFeedbackToString(OutfitReviewFeedback feedback) {
   return feedback.toString().split('.').last;
-}
-
-// Helper function to map string to feedback enum
-OutfitReviewFeedback stringToFeedback(String feedback) {
-  final feedbackValue = feedback.split('.').last;
-  switch (feedbackValue) {
-    case 'like':
-      return OutfitReviewFeedback.like;
-    case 'dislike':
-      return OutfitReviewFeedback.dislike;
-    case 'alright':
-      return OutfitReviewFeedback.alright;
-    default:
-      throw Exception('Invalid feedback string: $feedback');
-  }
 }
 
 // Helper function to validate feedback and disliked items
@@ -41,7 +27,6 @@ bool validateFeedbackAndItems(String feedback, List<String> dislikedItemIds, Cus
   }
   return true; // Validation passed
 }
-
 
 class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
   final CustomLogger _logger = CustomLogger('OutfitReviewBlocLogger');
