@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'base/user_photo.dart';
 import '../../../core_enums.dart';
 import '../../../utilities/logger.dart';
-
+import '../../../widgets/container/selected_container.dart';
 
 class EnhancedUserPhoto extends StatelessWidget {
   final String imageUrl;
@@ -41,12 +41,10 @@ class EnhancedUserPhoto extends StatelessWidget {
         onPressed(); // Trigger the onPressed callback
       },
       child: Container(
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-          border: showBorder
-              ? Border.all(color: theme.colorScheme.primary, width: 3)
-              : null,
+        decoration: customBoxDecoration(
+          showBorder: showBorder,
+          borderColor: theme.colorScheme.primary,
+          imageSize: imageSize, // Pass the image size
         ),
         child: Column(
           children: [

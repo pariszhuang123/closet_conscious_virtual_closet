@@ -17,6 +17,7 @@ import '../../item_management/multi_closet/reappear_closet/presentation/pages/re
 import '../../outfit_management/outfit_calendar/core/presentation/pages/calendar_scaffold.dart';
 import '../../outfit_management/outfit_calendar/monthly_calendar/presentation/pages/monthly_calendar_provider.dart';
 import '../../outfit_management/outfit_calendar/daily_calendar/presentation/pages/daily_calendar_provider.dart';
+import '../../outfit_management/outfit_calendar/daily_detailed_calendar/presentation/pages/daily_detailed_calendar_provider.dart';
 import '../../outfit_management/review_outfit/presentation/pages/outfit_review_provider.dart';
 import '../../outfit_management/wear_outfit/presentation/pages/outfit_wear_provider.dart';
 import '../screens/webview_screen.dart';
@@ -59,6 +60,7 @@ class AppRoutes {
   static const String reappearCloset = '/reappear_closet';
   static const String monthlyCalendar = '/monthly_calendar';
   static const String dailyCalendar = '/daily_calendar';
+  static const String dailyDetailedCalendar = '/daily_detailed_calendar';
   static const String trialStarted = '/trial_started';
   static const String summaryItemsAnalytics = '/summary_items_analytics';
   static const String summaryOutfitAnalytics = '/summary_outfit_analytics';
@@ -306,6 +308,20 @@ class AppRoutes {
           return MaterialPageRoute(
             builder: (_) => CalendarScaffold(
               body: DailyCalendarProvider(
+                myOutfitTheme: myOutfitTheme,
+                outfitId: outfitId, // ✅ Pass outfitId
+              ),
+              myOutfitTheme: myOutfitTheme,
+            ),
+          );
+
+        case AppRoutes.dailyDetailedCalendar:
+          final args = settings.arguments as Map<String, dynamic>?; // ✅ Extract arguments
+          final outfitId = args?['outfitId'] as String?; // ✅ Get outfitId from arguments
+
+          return MaterialPageRoute(
+            builder: (_) => CalendarScaffold(
+              body: DailyDetailedCalendarProvider(
                 myOutfitTheme: myOutfitTheme,
                 outfitId: outfitId, // ✅ Pass outfitId
               ),

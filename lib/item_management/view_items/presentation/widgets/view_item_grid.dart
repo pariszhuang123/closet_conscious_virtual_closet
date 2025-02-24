@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/utilities/helper_functions/image_helper.dart';
 import '../../../../core/utilities/routes.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../core/data/models/closet_item_minimal.dart';
 import '../../../../core/widgets/layout/base_layout/base_grid.dart';
 import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
-import '../../../../core/core_enums.dart';
 import '../../../../generated/l10n.dart';
 
 class ViewItemGrid extends StatelessWidget {
@@ -23,24 +24,9 @@ class ViewItemGrid extends StatelessWidget {
     required this.crossAxisCount,
   });
 
-  ImageSize _getImageSize(int crossAxisCount) {
-    switch (crossAxisCount) {
-      case 2:
-        return ImageSize.itemGrid2;
-      case 3:
-        return ImageSize.itemGrid3;
-      case 5:
-        return ImageSize.itemGrid5;
-      case 7:
-        return ImageSize.itemGrid7;
-      default:
-        return ImageSize.itemGrid3; // Default to itemGrid3 if not matched
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final imageSize = _getImageSize(crossAxisCount);
+    final imageSize = ImageHelper.getImageSize(crossAxisCount);
     final showItemName = !(crossAxisCount == 5 || crossAxisCount == 7);
     final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
 

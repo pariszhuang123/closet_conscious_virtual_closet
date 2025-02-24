@@ -3,32 +3,35 @@ import 'package:flutter/material.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../core/data/models/daily_calendar_outfit.dart';
-import '../widgets/carousel_outfit.dart';
+import '../widgets/carousel_detailed_outfit.dart';
+import '../../../../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../../../../core/widgets/container/logo_text_container.dart';
 import '../../../../../core/core_enums.dart';
-import '../widgets/review_comment_row.dart';
 import '../../../../../core/widgets/layout/page_indicator.dart';
 
-class DailyCalendarCarousel extends StatefulWidget {
+class DailyDetailedCalendarCarousel extends StatefulWidget {
   final List<DailyCalendarOutfit> outfits;
   final ThemeData theme;
   final int crossAxisCount;
-  final Function(String outfitId) onTap; // Pass function from screen
+  final Function(String outfitId) onOutfitTap; // ✅ Add this
+  final VoidCallback onAction; // ✅ Now handles item taps via `onAction`
 
-  const DailyCalendarCarousel({
+  const DailyDetailedCalendarCarousel({
     super.key,
     required this.outfits,
     required this.theme,
     required this.crossAxisCount,
-    required this.onTap, // Add callback
+    required this.onOutfitTap, // ✅ Fix: Now defined
+    required this.onAction, // ✅ Pass this to trigger item tap navigation
+
   });
 
   @override
-  State<DailyCalendarCarousel> createState() => _DailyCalendarCarouselState();
+  State<DailyDetailedCalendarCarousel> createState() => _DailyDetailedCalendarCarouselState();
 }
 
-class _DailyCalendarCarouselState extends State<DailyCalendarCarousel> {
-  final CustomLogger _logger = CustomLogger('_DailyCalendarCarouselState');
+class _DailyDetailedCalendarCarouselState extends State<DailyDetailedCalendarCarousel> {
+  final CustomLogger _logger = CustomLogger('_DailyDetailedCalendarCarouselState');
 
   int currentIndex = 0;
 
@@ -74,27 +77,33 @@ class _DailyCalendarCarouselState extends State<DailyCalendarCarousel> {
                   const SizedBox(height: 8),
 
                   // Outfit Image (CarouselOutfit)
+                  CarouselDetailedOutfit(
+                    outfit: outfits[index],
+                    crossAxisCount: widget.crossAxisCount,
+                    isSelected: false,
+                    onOutfitTap: () {
+                      widget.onOutfitTap(outfits[index].outfitId); // Navigate on outfit tap
+                    },
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // Interactive Item Grid (Displays items for the selected outfit)
                   Expanded(
-                    child: CarouselOutfit(
-                      outfit: outfits[index],
+                    child: InteractiveItemGrid(
+                      scrollController: ScrollController(),
+                      items: outfits[index].items,
                       crossAxisCount: widget.crossAxisCount,
-                      isSelected: false,
-                      onTap: () {
-                        widget.onTap(outfits[index].outfitId);  // Call onTap function from parent
+                      selectedItemIds: const [],
+                      selectionMode: SelectionMode.action, // ✅ Set to action mode
+                      onAction: () {
+                        _logger.d("Item tapped in grid, triggering navigation");
                       },
                     ),
                   ),
 
                   const SizedBox(height: 8),
 
-                  // Review and Comment Row
-                  ReviewAndCommentRow(
-                    outfitId: outfits[index].outfitId,
-                    feedback: outfits[index].feedback,
-                    outfitComments: outfits[index].outfitComments,
-                    theme: widget.theme,
-                    isReadOnly: true,
-                  ),
                 ],
               );
             },

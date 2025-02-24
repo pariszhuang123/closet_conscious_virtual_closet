@@ -4,21 +4,22 @@ import 'package:intl/intl.dart';
 
 import '../../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
-import '../bloc/daily_calendar_bloc.dart';
+import '../../../../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
+import '../../../daily_calendar/presentation/bloc/daily_calendar_bloc.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
-import '../widgets/daily_calendar_carousel.dart';
+import '../widgets/daily_detailed_calendar_carousel.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/utilities/logger.dart';
-import '../widgets/daily_feature_container.dart';
+import '../../../daily_calendar/presentation/widgets/daily_feature_container.dart';
 import '../../../../../core/utilities/routes.dart';
 
-class DailyCalendarScreen extends StatelessWidget {
+class DailyDetailedCalendarScreen extends StatelessWidget {
   final ThemeData theme;
   final String? outfitId; // ✅ Accept outfitId
 
-  static final _logger = CustomLogger('DailyCalendarScreen');
+  static final _logger = CustomLogger('DailyDetailedCalendarScreen');
 
-  const DailyCalendarScreen({super.key, required this.theme, this.outfitId});
+  const DailyDetailedCalendarScreen({super.key, required this.theme, this.outfitId});
 
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
     final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
@@ -28,9 +29,25 @@ class DailyCalendarScreen extends StatelessWidget {
       arguments: {
         'isFromMyCloset': true,
         'selectedItemIds': selectedItemIds,
-        'returnRoute': AppRoutes.dailyCalendar,
+        'returnRoute': AppRoutes.dailyDetailedCalendar,
       },
     );
+  }
+
+  void _onItemSelected(BuildContext context) {
+    final selectedItemId = context.read<SingleSelectionItemCubit>().state.selectedItemId;
+
+    if (selectedItemId != null) {
+      _logger.i("Navigating to item details for itemId: $selectedItemId");
+
+      Navigator.pushNamed(
+        context,
+        AppRoutes.editItem, // ✅ Ensure this route exists
+        arguments: {'itemId': selectedItemId},
+      );
+    } else {
+      _logger.w("No item selected.");
+    }
   }
 
   @override
@@ -108,11 +125,11 @@ class DailyCalendarScreen extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: DailyCalendarCarousel(
+                      child: DailyDetailedCalendarCarousel(
                         outfits: outfits,
                         theme: Theme.of(context),
                         crossAxisCount: crossAxisCount,
-                        onTap: (outfitId) {
+                        onOutfitTap: (outfitId) {
                           _logger.i("Navigating to outfit details for outfitId: $outfitId");
                           Navigator.pushNamed(
                             context,
@@ -120,7 +137,9 @@ class DailyCalendarScreen extends StatelessWidget {
                             arguments: {'outfitId': outfitId},
                           );
                         },
-
+                        onAction: () {
+                          _onItemSelected(context); // ✅ Call when an item is tapped
+                        },
                       ),
                     ),
                   ],

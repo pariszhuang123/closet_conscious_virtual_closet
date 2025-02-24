@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../../../../data/services/core_fetch_services.dart';
 import '../../../../core_enums.dart';
 import '../../../../widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../../../utilities/helper_functions/image_helper.dart';
 
 class UserPhoto extends StatelessWidget {
   final String imageUrl;
@@ -15,31 +17,10 @@ class UserPhoto extends StatelessWidget {
     required this.imageSize,
   });
 
-  Map<String, int> getDimensions(ImageSize size) {
-    switch (size) {
-      case ImageSize.selfie:
-        return {'width': 450, 'height': 450}; // Dimensions for selfies
-      case ImageSize.monthlyCalendarImage:
-        return {'width': 75, 'height': 75}; // Dimensions for monthly calendar images
-      case ImageSize.itemInteraction:
-        return {'width': 275, 'height': 275}; // Dimensions for item interaction screen
-      case ImageSize.itemGrid2:
-        return {'width': 275, 'height': 275}; // Grid 2 dimensions
-      case ImageSize.itemGrid3:
-        return {'width': 175, 'height': 175}; // Dimensions for item grid (3 per row)
-      case ImageSize.itemGrid5:
-        return {'width': 110, 'height': 110}; // Dimensions for item grid (5 per row)
-      case ImageSize.itemGrid7:
-        return {'width': 75, 'height': 75}; // Grid 7 dimensions
-      default:
-        return {'width': 175, 'height': 175}; // Fallback dimensions
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
 
-    final dimensions = getDimensions(imageSize);
+    final dimensions = ImageHelper.getDimensions(imageSize);
 
     return FutureBuilder<String>(
       future: fetchService.getTransformedImageUrl(

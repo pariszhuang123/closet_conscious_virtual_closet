@@ -1,8 +1,8 @@
+import 'package:closet_conscious/core/utilities/helper_functions/image_helper.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/layout/base_layout/base_grid.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../../generated/l10n.dart';
-import '../../../../core/core_enums.dart';
 import '../../../../core/widgets/layout/grid_item/grid_item.dart';
 import '../../../../core/utilities/logger.dart';
 
@@ -20,19 +20,6 @@ class OutfitItemGrid extends StatelessWidget {
     required this.onOutfitSelected,
   });
 
-  ImageSize _getImageSize(int crossAxisCount) {
-    switch (crossAxisCount) {
-      case 3:
-        return ImageSize.calendarOutfitItemGrid3;
-      case 5:
-        return ImageSize.calendarOutfitItemGrid5;
-      case 7:
-        return ImageSize.calendarOutfitItemGrid7;
-      default:
-        return ImageSize.calendarOutfitItemGrid3;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final logger = CustomLogger('OutfitItemGrid');
@@ -40,7 +27,7 @@ class OutfitItemGrid extends StatelessWidget {
         'Building OutfitItemGrid with ${items.length} items, crossAxisCount: $crossAxisCount, and outfitId: $outfitId');
 
     final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
-    final imageSize = _getImageSize(crossAxisCount);
+    final imageSize = ImageHelper.getImageSize(crossAxisCount);
 
     if (items.isEmpty) {
       logger.w('No items available in the grid. Displaying "No Items" message.');

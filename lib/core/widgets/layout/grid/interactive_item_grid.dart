@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../utilities/helper_functions/image_helper.dart';
 import '../../../utilities/logger.dart';
 import '../base_layout/base_grid.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
@@ -34,20 +35,6 @@ class InteractiveItemGrid extends StatelessWidget {
 
   final CustomLogger _logger;
 
-  ImageSize _getImageSize(int crossAxisCount) {
-    switch (crossAxisCount) {
-      case 2:
-        return ImageSize.itemGrid2;
-      case 3:
-        return ImageSize.itemGrid3;
-      case 5:
-        return ImageSize.itemGrid5;
-      case 7:
-        return ImageSize.itemGrid7;
-      default:
-        return ImageSize.itemGrid3;
-    }
-  }
 
   void _handleTap(BuildContext context, String itemId) {
     if (selectionMode == SelectionMode.disabled) {
@@ -68,12 +55,16 @@ class InteractiveItemGrid extends StatelessWidget {
 
       case SelectionMode.action:
         _logger.d('Action mode activated for itemId: $itemId');
+
+        context.read<SingleSelectionItemCubit>().selectItem(itemId);
+
         if (onAction != null) {
           onAction!();
         } else {
           _logger.w('No action defined for action mode.');
         }
         break;
+
       case SelectionMode.disabled:
         _logger.d('Selection is disabled.');
         break;
@@ -84,7 +75,7 @@ class InteractiveItemGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final showItemName = !(crossAxisCount == 5 || crossAxisCount == 7);
     final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
-    final imageSize = _getImageSize(crossAxisCount);
+    final imageSize = ImageHelper.getImageSize(crossAxisCount);
 
     _logger.d('Building ItemGrid');
     _logger.d('Total items: ${items.length}');
