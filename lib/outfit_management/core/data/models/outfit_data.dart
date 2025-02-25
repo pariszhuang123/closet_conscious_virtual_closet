@@ -4,13 +4,13 @@ import '../../../../../core/utilities/logger.dart';
 class OutfitData {
   final String outfitId;
   final String? outfitImageUrl;
-  final ClosetItemMinimal? item;
+  final List<ClosetItemMinimal>? items;
   final bool? isActive;
 
   OutfitData({
     required this.outfitId,
     this.outfitImageUrl,
-    this.item,
+    this.items,
     this.isActive = true,
   });
 
@@ -31,16 +31,16 @@ class OutfitData {
             : _validateString(map['outfit_image_url'], 'outfit_image_url'),
 
         // ✅ Handle both single object and list case
-        item: (itemsData is List && itemsData.isNotEmpty)
-            ? ClosetItemMinimal.fromMap(itemsData.first as Map<String, dynamic>)
+        items: (itemsData is List && itemsData.isNotEmpty)
+            ? itemsData.map((item) => ClosetItemMinimal.fromMap(item as Map<String, dynamic>)).toList()
             : (itemsData is Map<String, dynamic>)
-            ? ClosetItemMinimal.fromMap(itemsData)
+            ? [ClosetItemMinimal.fromMap(itemsData)]
             : null,
 
         isActive: map['is_active'] as bool? ?? true,
       );
 
-      logger.i('✅ Successfully parsed OutfitData: ${outfitData.outfitId}, item: ${outfitData.item?.name}');
+      logger.i('✅ Successfully parsed OutfitData: ${outfitData.outfitId}}');
       return outfitData;
     } catch (e) {
       logger.e('❌ Failed to parse OutfitData: $e');
@@ -54,11 +54,11 @@ class OutfitData {
     return OutfitData(
       outfitId: '',
       outfitImageUrl: null,
-      item: null,
+      items: [],
     );
   }
 
-  bool get isEmpty => outfitId.isEmpty && (item == null);
+  bool get isEmpty => outfitId.isEmpty;
   bool get isNotEmpty => !isEmpty;
 
   static String _validateString(dynamic value, String fieldName) {

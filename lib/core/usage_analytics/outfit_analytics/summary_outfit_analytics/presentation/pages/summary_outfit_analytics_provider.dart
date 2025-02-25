@@ -8,6 +8,7 @@ import '../../../../../utilities/logger.dart';
 import '../../../../../data/services/core_fetch_services.dart';
 import '../../../../../data/services/core_save_services.dart';
 import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc.dart';
+import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 
 class SummaryOutfitAnalyticsProvider extends StatelessWidget {
   final bool isFromMyCloset;
@@ -45,6 +46,14 @@ class SummaryOutfitAnalyticsProvider extends StatelessWidget {
             bloc.add(FetchOutfitAnalytics());
             bloc.add(const FetchFilteredOutfits(0)); // Initial page load
             return bloc;
+          },
+        ),
+        BlocProvider(
+          create: (_) {
+            logger.i('Creating CrossAxisCountCubit...');
+            final cubit = CrossAxisCountCubit(coreFetchService: coreFetchService);
+            cubit.fetchCrossAxisCount(); // Fetch grid organization settings
+            return cubit;
           },
         ),
       ],

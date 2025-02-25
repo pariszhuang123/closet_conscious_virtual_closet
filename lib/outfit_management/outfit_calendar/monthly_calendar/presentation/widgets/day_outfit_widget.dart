@@ -4,6 +4,7 @@ import '../../../../core/presentation/widgets/outfit_display_widget.dart';
 import '../../../../core/data/models/outfit_data.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/core_enums.dart';
+import '../../../../../core/widgets/container/selected_container.dart';
 
 class DayOutfitWidget extends StatelessWidget {
   final DateTime date;
@@ -59,15 +60,14 @@ class DayOutfitWidget extends StatelessWidget {
           if (isSelected)
             Positioned.fill(
               child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 3,
-                  ),
-                  borderRadius: BorderRadius.circular(8), // Match OutfitDisplayWidget corners
+                decoration: customBoxDecoration(
+                  showBorder: true,
+                  borderColor: Theme.of(context).colorScheme.primary,
+                  imageSize: imageSize,
                 ),
               ),
             ),
+
         ],
       ),
     );

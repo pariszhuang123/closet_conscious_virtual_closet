@@ -101,6 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("您的衣橱已成功归档。所有物品已移回主衣橱。"),
         "archiveWarning":
             MessageLookupByLibrary.simpleMessage("您确定要归档此衣橱吗？所有物品将被移回您的主衣橱。"),
+        "areYouSure": MessageLookupByLibrary.simpleMessage("你确定吗？"),
         "arrange": MessageLookupByLibrary.simpleMessage("衣橱布局"),
         "arrangeFeatureDescription":
             MessageLookupByLibrary.simpleMessage("您想根据穿着成本或添加日期来组织衣橱吗？告诉我们吧！"),
@@ -164,6 +165,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "colourFieldNotFilled": MessageLookupByLibrary.simpleMessage("颜色未填写。"),
         "colourVariationFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("颜色变化未填写。"),
+        "confirm": MessageLookupByLibrary.simpleMessage("确认"),
         "confirmSwap": MessageLookupByLibrary.simpleMessage("确认交换"),
         "confirmUpload": MessageLookupByLibrary.simpleMessage("确认成就"),
         "congratulations": MessageLookupByLibrary.simpleMessage("恭喜！🎉"),
@@ -203,7 +205,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "declutterFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "通过移除不需要的物品，轻松组织并清理您的衣橱。简化您的衣橱，为新风格腾出空间。"),
         "declutterFeatureTitle": MessageLookupByLibrary.simpleMessage("整理您的衣橱"),
+        "declutterGenericWarning":
+            MessageLookupByLibrary.simpleMessage("一旦确认，该物品将从你的衣橱中永久消失。"),
         "declutterOptions": MessageLookupByLibrary.simpleMessage("您想做什么？"),
+        "declutterThrowWarning": MessageLookupByLibrary.simpleMessage(
+            "一旦确认，该物品将从你的衣橱中永久消失\n\n你是否考虑过捐赠或升级改造？"),
         "defaultAchievementMessage":
             MessageLookupByLibrary.simpleMessage("您已达成一个新里程碑！继续努力，迈向环保时尚的旅程。"),
         "defaultAchievementTitle":

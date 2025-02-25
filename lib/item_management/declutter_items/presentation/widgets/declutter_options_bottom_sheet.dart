@@ -88,6 +88,39 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
     );
   }
 
+  void _confirmAction(String rpcName) {
+    String title = S.of(context).areYouSure;
+    String message;
+
+    if (rpcName == 'increment_items_thrown') {
+      message = S.of(context).declutterThrowWarning; // Specific warning for throwing items
+    } else {
+      message = S.of(context).declutterGenericWarning; // Generic warning for the other actions
+    }
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+          title: title,
+          content: Text(message),
+          buttonText: S.of(context).confirm,
+          onPressed: () {
+            Navigator.of(context).pop();
+            _handleButtonPress(rpcName);
+          },
+          theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
+          iconButton: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          canPop: true,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Determine the theme and colors based on originating pages
@@ -137,7 +170,7 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
                   NavigationTypeButton(
                     label: declutterSellOptions.getName(context),
                     selectedLabel: '',
-                    onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_sold'),
+                    onPressed: _isButtonDisabled ? null : () => _confirmAction('increment_items_sold'),
                     assetPath: declutterSellOptions.assetPath, // Ensure non-nullable
                     isFromMyCloset: widget.isFromMyCloset,
                     buttonType: ButtonType.primary,
@@ -146,7 +179,7 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
                   NavigationTypeButton(
                     label: declutterSwapOptions.getName(context),
                     selectedLabel: '',
-                    onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_swapped'),
+                    onPressed: _isButtonDisabled ? null : () => _confirmAction('increment_items_swapped'),
                     assetPath: declutterSwapOptions.assetPath,
                     isFromMyCloset: widget.isFromMyCloset,
                     buttonType: ButtonType.primary,
@@ -155,7 +188,7 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
                   NavigationTypeButton(
                     label: declutterGiftOptions.getName(context),
                     selectedLabel: '',
-                    onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_gifted'),
+                    onPressed: _isButtonDisabled ? null : () => _confirmAction('increment_items_gifted'),
                     assetPath: declutterGiftOptions.assetPath,
                     isFromMyCloset: widget.isFromMyCloset,
                     buttonType: ButtonType.primary,
@@ -164,7 +197,7 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
                   NavigationTypeButton(
                     label: declutterThrowOptions.getName(context),
                     selectedLabel: '',
-                    onPressed: _isButtonDisabled ? null : () => _handleButtonPress('increment_items_thrown'),
+                    onPressed: _isButtonDisabled ? null : () => _confirmAction('increment_items_thrown'),
                     assetPath: declutterThrowOptions.assetPath,
                     isFromMyCloset: widget.isFromMyCloset,
                     buttonType: ButtonType.primary,

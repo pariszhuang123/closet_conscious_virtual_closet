@@ -113,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Your closet has been archived successfully.\nAll items have been moved back to the main closet."),
         "archiveWarning": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to archive this closet?\nAll items will be moved back to your main closet."),
+        "areYouSure": MessageLookupByLibrary.simpleMessage("Are you sure?"),
         "arrange": MessageLookupByLibrary.simpleMessage("Customize"),
         "arrangeFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "Would you like to organize your closet by cost per wear or date added? Let us know!"),
@@ -189,6 +190,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Colour field is not filled."),
         "colourVariationFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Colour Variation field is not filled."),
+        "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmSwap": MessageLookupByLibrary.simpleMessage("Confirm Swap"),
         "confirmUpload":
             MessageLookupByLibrary.simpleMessage("Confirm Achievement"),
@@ -236,8 +238,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Easily organize and clean up your closet by removing unwanted items. Simplify your wardrobe and make room for new styles."),
         "declutterFeatureTitle":
             MessageLookupByLibrary.simpleMessage("Declutter Your Closet"),
+        "declutterGenericWarning": MessageLookupByLibrary.simpleMessage(
+            "Once you confirm, this item will disappear from your closet view permanently."),
         "declutterOptions":
             MessageLookupByLibrary.simpleMessage("What would you like to do?"),
+        "declutterThrowWarning": MessageLookupByLibrary.simpleMessage(
+            "Once you confirm, this item will disappear from your closet view permanently.\n\nHave you considered donating or upcycling instead?"),
         "defaultAchievementMessage": MessageLookupByLibrary.simpleMessage(
             "You’ve reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion."),
         "defaultAchievementTitle":

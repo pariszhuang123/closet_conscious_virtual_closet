@@ -1330,6 +1330,46 @@ class S {
     );
   }
 
+  /// `Are you sure?`
+  String get areYouSure {
+    return Intl.message(
+      'Are you sure?',
+      name: 'areYouSure',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Once you confirm, this item will disappear from your closet view permanently.\n\nHave you considered donating or upcycling instead?`
+  String get declutterThrowWarning {
+    return Intl.message(
+      'Once you confirm, this item will disappear from your closet view permanently.\n\nHave you considered donating or upcycling instead?',
+      name: 'declutterThrowWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Once you confirm, this item will disappear from your closet view permanently.`
+  String get declutterGenericWarning {
+    return Intl.message(
+      'Once you confirm, this item will disappear from your closet view permanently.',
+      name: 'declutterGenericWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm`
+  String get confirm {
+    return Intl.message(
+      'Confirm',
+      name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Number of items you've uploaded to your conscious closet`
   String get itemsUploadedTooltip {
     return Intl.message(

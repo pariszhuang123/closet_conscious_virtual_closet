@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../core/data/models/daily_calendar_outfit.dart';
+import '../../../../core/data/models/outfit_data.dart';
 import '../../../../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../../../../core/core_enums.dart';
-import '../../../../core/presentation/widgets/outfit_image_widget.dart'; // Import OutfitImageWidget
+import '../../../../core/presentation/widgets/outfit_image_widget.dart';
 
-class CarouselOutfit extends StatelessWidget {
-  final DailyCalendarOutfit outfit;
+class CarouselOutfit<T> extends StatelessWidget {
+  final T outfit;
   final int crossAxisCount;
   final bool isSelected;
   final VoidCallback onTap;
-
 
   static final _logger = CustomLogger('CarouselOutfit');
 
@@ -24,41 +24,55 @@ class CarouselOutfit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ✅ Ensure type safety by using `outfit as T?` and providing default values
+    final outfitId = (outfit is DailyCalendarOutfit)
+        ? (outfit as DailyCalendarOutfit?)?.outfitId ?? ''
+        : (outfit as OutfitData?)?.outfitId ?? '';
 
-    _logger.d('Building CarouselOutfit for outfitId: ${outfit.outfitId}');
-    final isCcNone = (outfit.outfitImageUrl == 'cc_none');
+    final outfitImageUrl = (outfit is DailyCalendarOutfit)
+        ? (outfit as DailyCalendarOutfit?)?.outfitImageUrl
+        : (outfit as OutfitData?)?.outfitImageUrl;
 
-    return isCcNone || outfit.outfitImageUrl == null
+    final isActive = (outfit is DailyCalendarOutfit)
+        ? (outfit as DailyCalendarOutfit?)?.isActive ?? true
+        : (outfit as OutfitData?)?.isActive ?? true;
+
+    final items = (outfit is DailyCalendarOutfit)
+        ? (outfit as DailyCalendarOutfit?)?.items ?? []
+        : (outfit as OutfitData?)?.items ?? [];
+
+    _logger.d('Building CarouselOutfit for outfitId: $outfitId');
+
+    final isCcNone = (outfitImageUrl == 'cc_none');
+
+    return isCcNone || outfitImageUrl == null
         ? Stack(
       children: [
-        // ✅ IgnorePointer ensures InteractiveItemGrid does NOT capture touch events
         IgnorePointer(
           ignoring: true,
           child: InteractiveItemGrid(
             scrollController: ScrollController(),
-            items: outfit.items,
+            items: items,
             crossAxisCount: crossAxisCount,
             selectedItemIds: const [],
             selectionMode: SelectionMode.disabled,
           ),
         ),
-
-        // ✅ Transparent GestureDetector on top captures tap for outfitId
         Positioned.fill(
           child: GestureDetector(
-            onTap: onTap, // Trigger outfitId when tapping anywhere on the grid
-            behavior: HitTestBehavior.translucent, // Ensures taps pass through
+            onTap: onTap,
+            behavior: HitTestBehavior.translucent,
           ),
         ),
       ],
     )
         : GestureDetector(
-      onTap: onTap, // ✅ Capture taps when outfit image is displayed
-      behavior: HitTestBehavior.opaque, // Ensure entire area is tappable
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
       child: OutfitImageWidget(
-        imageUrl: outfit.outfitImageUrl!,
+        imageUrl: outfitImageUrl,
         imageSize: ImageSize.selfie,
-        isActive: outfit.isActive,
+        isActive: isActive,
       ),
     );
   }
