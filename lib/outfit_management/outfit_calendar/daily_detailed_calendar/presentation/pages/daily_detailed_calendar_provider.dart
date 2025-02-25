@@ -10,6 +10,7 @@ import 'daily_detailed_calendar_screen.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/core_service_locator.dart';
 import '../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
+import '../../../../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
 import '../../../../outfit_service_locator.dart';
 
 class DailyDetailedCalendarProvider extends StatelessWidget {
@@ -60,8 +61,15 @@ class DailyDetailedCalendarProvider extends StatelessWidget {
             return cubit;
           },
         ),
+        BlocProvider(
+          create: (_) {
+            _logger.i('Creating SingleItemCubit...');
+            final cubit = SingleSelectionItemCubit();
+            return cubit;
+          },
+        ),
       ],
-      // Wrap content in CalendarScaffold
+    // Wrap content in CalendarScaffold
       child: DailyDetailedCalendarScreen(
           theme: myOutfitTheme,
           outfitId: outfitId

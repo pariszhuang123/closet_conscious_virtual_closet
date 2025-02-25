@@ -24,11 +24,6 @@ class CarouselDetailedOutfit extends StatelessWidget {
   Widget build(BuildContext context) {
 
     _logger.d('Building CarouselOutfit for outfitId: ${outfit.outfitId}');
-    final isCcNone = outfit.outfitImageUrl == 'cc_none';
-
-    if (isCcNone || outfit.outfitImageUrl == null) {
-      return const SizedBox.shrink(); // Shrink if no outfit image
-    }
 
     return GestureDetector(
       onTap: onOutfitTap,

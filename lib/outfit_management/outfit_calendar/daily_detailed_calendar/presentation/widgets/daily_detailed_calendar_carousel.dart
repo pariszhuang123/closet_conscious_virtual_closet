@@ -74,19 +74,23 @@ class _DailyDetailedCalendarCarouselState extends State<DailyDetailedCalendarCar
                     usePredefinedColor: true,
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 2),
 
                   // Outfit Image (CarouselOutfit)
-                  CarouselDetailedOutfit(
-                    outfit: outfits[index],
-                    crossAxisCount: widget.crossAxisCount,
-                    isSelected: false,
-                    onOutfitTap: () {
-                      widget.onOutfitTap(outfits[index].outfitId); // Navigate on outfit tap
-                    },
-                  ),
+                  if (outfits[index].outfitImageUrl != 'cc_none' && outfits[index].outfitImageUrl != null)
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.25, // Adjust the factor as needed
+                      child: CarouselDetailedOutfit(
+                        outfit: outfits[index],
+                        crossAxisCount: widget.crossAxisCount,
+                        isSelected: false,
+                        onOutfitTap: () {
+                          widget.onOutfitTap(outfits[index].outfitId);
+                        },
+                      ),
+                    ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 2),
 
                   // Interactive Item Grid (Displays items for the selected outfit)
                   Expanded(
@@ -98,6 +102,7 @@ class _DailyDetailedCalendarCarouselState extends State<DailyDetailedCalendarCar
                       selectionMode: SelectionMode.action, // ✅ Set to action mode
                       onAction: () {
                         _logger.d("Item tapped in grid, triggering navigation");
+                        widget.onAction(); // ✅ Ensure the function is called
                       },
                     ),
                   ),

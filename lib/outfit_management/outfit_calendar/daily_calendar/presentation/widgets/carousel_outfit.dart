@@ -28,19 +28,34 @@ class CarouselOutfit extends StatelessWidget {
     _logger.d('Building CarouselOutfit for outfitId: ${outfit.outfitId}');
     final isCcNone = (outfit.outfitImageUrl == 'cc_none');
 
-    return GestureDetector(
-      onTap: onTap,
-      child: isCcNone || outfit.outfitImageUrl == null
-          ? IgnorePointer(
-        child: InteractiveItemGrid(
-          scrollController: ScrollController(),
-          items: outfit.items,
-          crossAxisCount: crossAxisCount,
-          selectedItemIds: const [],
-          selectionMode: SelectionMode.disabled,
+    return isCcNone || outfit.outfitImageUrl == null
+        ? Stack(
+      children: [
+        // ✅ IgnorePointer ensures InteractiveItemGrid does NOT capture touch events
+        IgnorePointer(
+          ignoring: true,
+          child: InteractiveItemGrid(
+            scrollController: ScrollController(),
+            items: outfit.items,
+            crossAxisCount: crossAxisCount,
+            selectedItemIds: const [],
+            selectionMode: SelectionMode.disabled,
+          ),
         ),
-      )
-          : OutfitImageWidget(
+
+        // ✅ Transparent GestureDetector on top captures tap for outfitId
+        Positioned.fill(
+          child: GestureDetector(
+            onTap: onTap, // Trigger outfitId when tapping anywhere on the grid
+            behavior: HitTestBehavior.translucent, // Ensures taps pass through
+          ),
+        ),
+      ],
+    )
+        : GestureDetector(
+      onTap: onTap, // ✅ Capture taps when outfit image is displayed
+      behavior: HitTestBehavior.opaque, // Ensure entire area is tappable
+      child: OutfitImageWidget(
         imageUrl: outfit.outfitImageUrl!,
         imageSize: ImageSize.selfie,
         isActive: outfit.isActive,

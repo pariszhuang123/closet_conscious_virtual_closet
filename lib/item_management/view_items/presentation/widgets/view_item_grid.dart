@@ -56,7 +56,7 @@ class ViewItemGrid extends StatelessWidget {
               Navigator.pushNamed(
                 context,
                 AppRoutes.editItem,
-                arguments: item.itemId,
+                arguments: {'itemId': item.itemId},
               );
             } else {
               logger.w('Context not mounted. Unable to navigate.');

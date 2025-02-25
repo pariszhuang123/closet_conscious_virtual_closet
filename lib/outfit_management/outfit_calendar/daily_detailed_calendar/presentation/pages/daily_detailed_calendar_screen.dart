@@ -46,7 +46,7 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
         arguments: {'itemId': selectedItemId},
       );
     } else {
-      _logger.w("No item selected.");
+      _logger.w("No item selected, navigation not triggered.");
     }
   }
 
@@ -59,7 +59,7 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
         // Listen for the navigation success state and navigate accordingly
         if (state is DailyCalendarNavigationSuccessState) {
           _logger.i('Navigation success state detected. Navigating to DailyCalendar.');
-          Navigator.pushReplacementNamed(context, AppRoutes.dailyCalendar);
+          Navigator.pushReplacementNamed(context, AppRoutes.dailyDetailedCalendar);
         }
         // You can also handle failure states here if needed
         else if (state is DailyCalendarSaveFailureState) {

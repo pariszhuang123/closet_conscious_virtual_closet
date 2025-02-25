@@ -59,6 +59,7 @@ class InteractiveItemGrid extends StatelessWidget {
         context.read<SingleSelectionItemCubit>().selectItem(itemId);
 
         if (onAction != null) {
+          _logger.i('Triggering onAction callback for itemId: $itemId');
           onAction!();
         } else {
           _logger.w('No action defined for action mode.');

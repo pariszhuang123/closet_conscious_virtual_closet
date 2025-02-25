@@ -173,12 +173,14 @@ class AppRoutes {
           return MaterialPageRoute(
             builder: (_) => PhotoProvider(closetId: closetId, cameraContext: CameraPermissionContext.editCloset),
           );
-        case editItem:
-          final itemId = settings.arguments as String;
-          logger.d("Navigating to editItem with itemId: $itemId");
-          return MaterialPageRoute(
-            builder: (_) => EditItemProvider(itemId: itemId),
-          );
+      case editItem:
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        final String itemId = args['itemId'] as String? ?? '';
+        logger.d("Navigating to editItem with itemId: $itemId");
+
+        return MaterialPageRoute(
+          builder: (_) => EditItemProvider(itemId: itemId),
+        );
         case viewMultiCloset:
           final args = settings.arguments as Map<String, dynamic>? ?? {};
           logger.d("Arguments for viewMultiCloset: $args"); // Log arguments
