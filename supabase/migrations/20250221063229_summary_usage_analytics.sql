@@ -427,8 +427,8 @@ BEGIN
     offset_val := p_current_page * items_per_page;
 
     -- Get user's closet filtering preferences
-    SELECT all_closet, closet_id, feedback
-           case when feedback = 'all' then 'like' else feedback end
+    SELECT all_closet, closet_id,
+           CASE WHEN feedback = 'all' THEN 'like' ELSE feedback END AS user_feedback
     INTO user_all_closet, user_closet_id, user_feedback
     FROM public.shared_preferences
     WHERE user_id = current_user_id;
