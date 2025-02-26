@@ -17,7 +17,7 @@ class ItemFetchService {
 
       // Call the fetch_items_with_preferences RPC function
       final response = await Supabase.instance.client
-          .rpc('fetch_items_with_preferences',
+          .rpc('fetch_item_with_preferences',
           params: {'p_current_page': currentPage});
 
       if (response == null) {
