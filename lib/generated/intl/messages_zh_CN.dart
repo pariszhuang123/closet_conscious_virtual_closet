@@ -109,7 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ascending": MessageLookupByLibrary.simpleMessage("升序"),
         "athletic": MessageLookupByLibrary.simpleMessage("运动"),
         "autumn": MessageLookupByLibrary.simpleMessage("秋季"),
-        "avgPricePerWear": MessageLookupByLibrary.simpleMessage("平均每次穿着成本"),
+        "avgPricePerWear": MessageLookupByLibrary.simpleMessage("平均每次\n穿着成本"),
         "bag": MessageLookupByLibrary.simpleMessage("包"),
         "base": MessageLookupByLibrary.simpleMessage("基础层"),
         "basicFilterDescription": MessageLookupByLibrary.simpleMessage(

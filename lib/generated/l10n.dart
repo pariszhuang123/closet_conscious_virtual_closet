@@ -4610,30 +4610,30 @@ class S {
     );
   }
 
-  /// `Total Items`
+  /// `Total\nItems`
   String get totalItems {
     return Intl.message(
-      'Total Items',
+      'Total\nItems',
       name: 'totalItems',
       desc: '',
       args: [],
     );
   }
 
-  /// `Total Cost`
+  /// `Total\nCost`
   String get totalCost {
     return Intl.message(
-      'Total Cost',
+      'Total\nCost',
       name: 'totalCost',
       desc: '',
       args: [],
     );
   }
 
-  /// `Avg Price Per Wear`
+  /// `Avg Price\nPer Wear`
   String get avgPricePerWear {
     return Intl.message(
-      'Avg Price Per Wear',
+      'Avg Price\nPer Wear',
       name: 'avgPricePerWear',
       desc: '',
       args: [],

@@ -458,7 +458,7 @@
   "tabOutfitAnalytics": "穿搭分析",
   "totalItems": "总单品数",
   "totalCost": "总花费",
-  "avgPricePerWear": "平均每次穿着成本",
+  "avgPricePerWear": "平均每次\n穿着成本",
   "viewSummaryItemAnalyticsDescription": "用数据掌控衣橱——总花费、物品数量、每次穿搭成本，一目了然。",
   "viewOutfitAnalyticsDescription": "发现你的穿搭风格——看看你喜欢、犹豫或想调整的比例。",
   "usageAnalyticsFeatureTitle": "你的衣橱洞察",

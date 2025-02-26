@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'base_container.dart';
+import '../../utilities/number_formatter.dart';
 
 class SummaryCard extends StatelessWidget {
   final String title;
-  final String value;
+  final num value;
 
   const SummaryCard({
     super.key,
@@ -14,22 +16,23 @@ class SummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final formattedValue = formatNumber(value); // Apply formatting inside widget
 
     return BaseContainer(
       theme: theme,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               title,
-              style: theme.textTheme.titleMedium,
+              style: theme.textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
-              value,
+              '${formattedValue.value}${formattedValue.suffix}', // Format applied here
               style: theme.textTheme.displayLarge,
               textAlign: TextAlign.center,
             ),

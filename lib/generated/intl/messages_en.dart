@@ -123,7 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "athletic": MessageLookupByLibrary.simpleMessage("Athletic"),
         "autumn": MessageLookupByLibrary.simpleMessage("Autumn"),
         "avgPricePerWear":
-            MessageLookupByLibrary.simpleMessage("Avg Price Per Wear"),
+            MessageLookupByLibrary.simpleMessage("Avg Price\nPer Wear"),
         "bag": MessageLookupByLibrary.simpleMessage("Bag"),
         "base": MessageLookupByLibrary.simpleMessage("Base"),
         "basicFilterDescription": MessageLookupByLibrary.simpleMessage(
@@ -708,8 +708,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "You need to accept the terms and conditions before signing in."),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "top": MessageLookupByLibrary.simpleMessage("Top"),
-        "totalCost": MessageLookupByLibrary.simpleMessage("Total Cost"),
-        "totalItems": MessageLookupByLibrary.simpleMessage("Total Items"),
+        "totalCost": MessageLookupByLibrary.simpleMessage("Total\nCost"),
+        "totalItems": MessageLookupByLibrary.simpleMessage("Total\nItems"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "Track your cost per wear and get personalized outfit insights. Would this be helpful?"),
         "trialEndedMessage": MessageLookupByLibrary.simpleMessage(

@@ -179,15 +179,16 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                 logger.d('BlocBuilder - Summary Section: Current state = ${state.runtimeType}');
 
                 if (state is SummaryItemsLoading) {
-                  return const CircularProgressIndicator();
+                  return const ClosetProgressIndicator();
                 } else if (state is SummaryItemsLoaded) {
+
                   logger.i('Summary data loaded: totalItems=${state.totalItems}, totalCost=${state.totalItemCost}, avgPricePerWear=${state.avgPricePerWear}');
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      SummaryCard(title: S.of(context).totalItems, value: state.totalItems.toString()),
-                      SummaryCard(title: S.of(context).totalCost, value: "\$${state.totalItemCost.toStringAsFixed(2)}"),
-                      SummaryCard(title: S.of(context).avgPricePerWear, value: "\$${state.avgPricePerWear.toStringAsFixed(2)}"),
+                      SummaryCard(title: S.of(context).totalItems, value: state.totalItems),
+                      SummaryCard(title: S.of(context).totalCost, value: state.totalItemCost),
+                      SummaryCard(title: S.of(context).avgPricePerWear, value: state.avgPricePerWear),
                     ],
                   );
                 } else if (state is SummaryItemsError) {
