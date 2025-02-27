@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../base_layout/base_grid.dart';
 import '../../../../../core/utilities/logger.dart';
-import '../../../../outfit_management/outfit_calendar/daily_calendar/presentation/widgets/carousel_outfit.dart';
 import '../../../../outfit_management/core/data/models/daily_calendar_outfit.dart';
 import '../../../../outfit_management/core/data/models/outfit_data.dart';
+import '../../../../core/core_enums.dart';
+import '../../../../outfit_management/core/presentation/widgets/outfit_display_widget.dart';
+import '../../../../../core/utilities/helper_functions/image_helper.dart'; // Import ImageHelper
 
-// ✅ Allow both `OutfitData` and `DailyCalendarOutfit`
 class InteractiveOutfitGrid<T> extends StatelessWidget {
   final List<T> outfits;
   final int crossAxisCount;
@@ -24,21 +25,29 @@ class InteractiveOutfitGrid<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.d('Building InteractiveOutfitGrid with ${outfits.length} outfits');
 
+    final ImageSize imageSize = ImageHelper.getImageSize(crossAxisCount); // Get size based on grid
+
     return BaseGrid<T>(
-      items: outfits, // ✅ Works with both models
+      items: outfits,
       crossAxisCount: crossAxisCount,
       itemBuilder: (context, outfit, index) {
-        return CarouselOutfit(
-          outfit: outfit,
-          crossAxisCount: crossAxisCount,
-          isSelected: false,
+        final outfitData = outfit is DailyCalendarOutfit
+            ? OutfitData(
+          outfitId: outfit.outfitId,
+          outfitImageUrl: outfit.outfitImageUrl,
+          items: outfit.items,
+        )
+            : outfit as OutfitData;
+
+        return GestureDetector(
           onTap: () {
-            final outfitId = (outfit is DailyCalendarOutfit)
-                ? outfit.outfitId
-                : (outfit as OutfitData).outfitId; // ✅ Handles both types
-            _logger.d('Tapped outfitId: $outfitId');
-            onOutfitTap(outfitId);
+            _logger.d('Tapped outfitId: ${outfitData.outfitId}');
+            onOutfitTap(outfitData.outfitId);
           },
+          child: OutfitDisplayWidget(
+            outfit: outfitData,
+            imageSize: imageSize, // ✅ Dynamically pass based on crossAxisCount
+          ),
         );
       },
     );

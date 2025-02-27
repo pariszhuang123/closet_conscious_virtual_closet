@@ -13,6 +13,7 @@ class FilterState extends Equatable {
   final List<String>? shoesType;
   final List<String>? accessoryType;
   final String selectedClosetId;
+  final bool onlyItemsUnworn;
   final bool allCloset;
   final String itemName;
   final SaveStatus saveStatus;
@@ -31,6 +32,7 @@ class FilterState extends Equatable {
     this.shoesType,
     this.accessoryType,
     this.selectedClosetId = '',
+    this.onlyItemsUnworn = true,
     this.allCloset = false,
     this.itemName ='',
     this.saveStatus = SaveStatus.initial,
@@ -50,6 +52,7 @@ class FilterState extends Equatable {
     List<String>? shoesType,
     List<String>? accessoryType,
     String? selectedClosetId,
+    bool? onlyItemsUnworn,
     bool? allCloset,
     String? itemName,
     SaveStatus? saveStatus,
@@ -68,6 +71,7 @@ class FilterState extends Equatable {
       shoesType: shoesType ?? this.shoesType,
       accessoryType: accessoryType ?? this.accessoryType,
       selectedClosetId: selectedClosetId ?? this.selectedClosetId,
+      onlyItemsUnworn: onlyItemsUnworn ?? this.onlyItemsUnworn,
       allCloset: allCloset ?? this.allCloset,
       itemName: itemName ?? this.itemName,
       saveStatus: saveStatus ?? this.saveStatus,
@@ -90,6 +94,7 @@ class FilterState extends Equatable {
     accessoryType,
     selectedClosetId,
     itemName,
+    onlyItemsUnworn,
     allCloset,
     saveStatus,
     accessStatus

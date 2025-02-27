@@ -4,12 +4,14 @@ import 'base/user_photo.dart';
 import '../../../core_enums.dart';
 import '../../../utilities/logger.dart';
 import '../../../widgets/container/selected_container.dart';
+import '../../../utilities/number_formatter.dart';
 
 class EnhancedUserPhoto extends StatelessWidget {
   final String imageUrl;
   final bool isSelected;
   final bool isDisliked;
   final VoidCallback onPressed;
+  final double? pricePerWear; // ✅ Added pricePerWear field
   final String? itemName;
   final String itemId;
   final ImageSize imageSize;
@@ -23,6 +25,7 @@ class EnhancedUserPhoto extends StatelessWidget {
     required this.isDisliked,
     required this.onPressed,
     this.itemName,
+    this.pricePerWear, // ✅ Make it optional
     required this.itemId,
     required this.imageSize,
   });
@@ -67,6 +70,19 @@ class EnhancedUserPhoto extends StatelessWidget {
                   maxLines: 2,
                 ),
             ),
+            if (pricePerWear != null) // ✅ Show price per wear if available
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Text(
+                      () {
+                    final formattedPrice = formatNumber(pricePerWear!);
+                    return "\$${formattedPrice.value}${formattedPrice.suffix} per wear";
+                  }(),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.secondary, // ✅ Use secondary color for contrast
+                  ),
+                ),
+              ),
           ],
         ),
       ),

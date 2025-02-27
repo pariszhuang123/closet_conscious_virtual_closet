@@ -23,6 +23,7 @@ class UpdateFilterEvent extends FilterEvent {
   final List<String>? clothingLayer;
   final List<String>? shoesType;
   final List<String>? accessoryType;
+  final bool? onlyItemsUnworn;
   final bool? allCloset;
 
   const UpdateFilterEvent({
@@ -37,6 +38,7 @@ class UpdateFilterEvent extends FilterEvent {
     this.clothingLayer,
     this.shoesType,
     this.accessoryType,
+    this.onlyItemsUnworn,
     this.allCloset
   });
 
@@ -53,6 +55,8 @@ class UpdateFilterEvent extends FilterEvent {
     clothingLayer,
     shoesType,
     accessoryType,
+    onlyItemsUnworn,
+    allCloset
   ];
 }
 

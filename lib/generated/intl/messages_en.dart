@@ -90,6 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "allClothesWornAchievementMessage": MessageLookupByLibrary.simpleMessage(
             "You\'ve worn every single item in your closet! You\'re mastering mindful fashion choices."),
         "allFeedback": MessageLookupByLibrary.simpleMessage("All"),
+        "allItems": MessageLookupByLibrary.simpleMessage("All Items"),
         "alright": MessageLookupByLibrary.simpleMessage("Not sure\n🤷‍♀️"),
         "alright_feedback_sentence": MessageLookupByLibrary.simpleMessage(
             "Tap the items you\'re unsure about."),
@@ -123,7 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "athletic": MessageLookupByLibrary.simpleMessage("Athletic"),
         "autumn": MessageLookupByLibrary.simpleMessage("Autumn"),
         "avgPricePerWear":
-            MessageLookupByLibrary.simpleMessage("Avg Price\nPer Wear"),
+            MessageLookupByLibrary.simpleMessage("Avg Cost Per Wear"),
         "bag": MessageLookupByLibrary.simpleMessage("Bag"),
         "base": MessageLookupByLibrary.simpleMessage("Base"),
         "basicFilterDescription": MessageLookupByLibrary.simpleMessage(
@@ -533,6 +534,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Occasion field is not filled."),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "onePiece": MessageLookupByLibrary.simpleMessage("One Piece"),
+        "onlyItemsUnworn":
+            MessageLookupByLibrary.simpleMessage("Only Unworn Items"),
         "open_settings": MessageLookupByLibrary.simpleMessage("Open Settings"),
         "other": MessageLookupByLibrary.simpleMessage("Misc"),
         "outer": MessageLookupByLibrary.simpleMessage("Outer"),
@@ -708,8 +711,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "You need to accept the terms and conditions before signing in."),
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "top": MessageLookupByLibrary.simpleMessage("Top"),
-        "totalCost": MessageLookupByLibrary.simpleMessage("Total\nCost"),
-        "totalItems": MessageLookupByLibrary.simpleMessage("Total\nItems"),
+        "totalCost": MessageLookupByLibrary.simpleMessage("Total Cost"),
+        "totalItems": MessageLookupByLibrary.simpleMessage("Total Items"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "Track your cost per wear and get personalized outfit insights. Would this be helpful?"),
         "trialEndedMessage": MessageLookupByLibrary.simpleMessage(

@@ -1,3 +1,4 @@
+import 'package:closet_conscious/core/filter/presentation/widgets/tab/single_selection_tab/only_items_unworn_toggle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,6 +37,14 @@ class SingleSelectionTab extends StatelessWidget {
                 logger.i('Dispatched UpdateFilterEvent with itemName: $value');
               },
               logger: logger,
+            ),
+            const SizedBox(height: 20),
+            OnlyItemsUnwornToggle(
+              onlyItemsUnworn: !state.onlyItemsUnworn, // Flip the value for UI
+              onChanged: (value) {
+                context.read<FilterBloc>().add(UpdateFilterEvent(onlyItemsUnworn: !value)); // Flip it back before sending to Bloc
+                logger.i('Dispatched UpdateFilterEvent with onlyItemsUnworn: ${!value}');
+              },
             ),
             const SizedBox(height: 20),
             if (state.hasMultiClosetFeature)

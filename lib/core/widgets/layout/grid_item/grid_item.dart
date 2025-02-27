@@ -42,6 +42,7 @@ class GridItem extends StatelessWidget {
       getItemId: (item) => item.itemId,
       getImageUrl: (item) => item.imageUrl,
       getIsActive: (item) => item.itemIsActive, // ✅ Pass isActive to BaseGridItem
+      getPricePerWear: (item) => item.pricePerWear, // ✅ Add this line
     );
   }
 }

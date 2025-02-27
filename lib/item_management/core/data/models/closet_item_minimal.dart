@@ -5,7 +5,7 @@ class ClosetItemMinimal extends Equatable {
   final String imageUrl;
   final String name;
   final String? itemType;
-  final String? sortValue;
+  final double? pricePerWear;
   final bool isDisliked;  // Keep nullable internally
   final bool itemIsActive;
 
@@ -14,7 +14,7 @@ class ClosetItemMinimal extends Equatable {
     required this.imageUrl,
     required this.name,
     this.itemType,
-    this.sortValue,
+    this.pricePerWear, // Renamed field
     this.isDisliked = false,
     this.itemIsActive = true
   });
@@ -25,7 +25,7 @@ class ClosetItemMinimal extends Equatable {
       imageUrl: map['image_url'] as String,
       name: map['name'] as String,
       itemType: map['item_type'] as String?, // Allow nullable casting
-      sortValue: map['sort_value'] as String?,
+      pricePerWear: (map['price_per_wear'] as num?)?.toDouble(), // ✅ Convert to double safely
       isDisliked: map['is_disliked'] as bool? ?? false,  // Corrected line
       itemIsActive: (map.containsKey('item_is_active') && map['item_is_active'] != null)
           ? map['item_is_active'] as bool
@@ -38,6 +38,7 @@ class ClosetItemMinimal extends Equatable {
     String? imageUrl,
     String? name,
     String? itemType,
+    double? pricePerWear, // Updated field
     bool? isDisliked,
     bool? itemIsActive
   }) {
@@ -46,12 +47,13 @@ class ClosetItemMinimal extends Equatable {
       imageUrl: imageUrl ?? this.imageUrl,
       name: name ?? this.name,
       itemType: itemType ?? this.itemType,
+      pricePerWear: pricePerWear ?? this.pricePerWear, // Updated field
       isDisliked: isDisliked ?? this.isDisliked,
       itemIsActive: itemIsActive ?? this.itemIsActive
     );
   }
 
   @override
-  List<Object?> get props => [itemId, imageUrl, name, itemType, isDisliked, itemIsActive, sortValue];
+  List<Object?> get props => [itemId, imageUrl, name, itemType, pricePerWear, isDisliked, itemIsActive];
 }
 

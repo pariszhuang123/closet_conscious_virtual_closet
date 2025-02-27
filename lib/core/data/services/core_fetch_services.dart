@@ -433,6 +433,7 @@ class CoreFetchService {
           'filters': filterSettings,
           'selectedClosetId': response['f_closet_id'] as String,
           'allCloset': response['f_all_closet'] as bool,
+          'onlyItemsUnworn': response['f_only_unworn'] as bool,
           'itemName': response['f_item_name'] as String,
         };
         _logger.i('Filter settings fetched successfully: $result');

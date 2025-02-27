@@ -3790,6 +3790,26 @@ class S {
     );
   }
 
+  /// `Only Unworn Items`
+  String get onlyItemsUnworn {
+    return Intl.message(
+      'Only Unworn Items',
+      name: 'onlyItemsUnworn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Items`
+  String get allItems {
+    return Intl.message(
+      'All Items',
+      name: 'allItems',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Save Filter`
   String get saveFilter {
     return Intl.message(
@@ -4610,30 +4630,30 @@ class S {
     );
   }
 
-  /// `Total\nItems`
+  /// `Total Items`
   String get totalItems {
     return Intl.message(
-      'Total\nItems',
+      'Total Items',
       name: 'totalItems',
       desc: '',
       args: [],
     );
   }
 
-  /// `Total\nCost`
+  /// `Total Cost`
   String get totalCost {
     return Intl.message(
-      'Total\nCost',
+      'Total Cost',
       name: 'totalCost',
       desc: '',
       args: [],
     );
   }
 
-  /// `Avg Price\nPer Wear`
+  /// `Avg Cost Per Wear`
   String get avgPricePerWear {
     return Intl.message(
-      'Avg Price\nPer Wear',
+      'Avg Cost Per Wear',
       name: 'avgPricePerWear',
       desc: '',
       args: [],

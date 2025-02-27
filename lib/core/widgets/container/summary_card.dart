@@ -21,7 +21,7 @@ class SummaryCard extends StatelessWidget {
     return BaseContainer(
       theme: theme,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

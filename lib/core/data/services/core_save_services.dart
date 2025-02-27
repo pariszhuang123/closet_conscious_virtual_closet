@@ -291,6 +291,7 @@ class CoreSaveService {
     required FilterSettings filterSettings,
     required String selectedClosetId,
     required bool allCloset,
+    required bool onlyItemsUnworn,
     required String itemName,
   }) async {
     logger.i('Saving filter settings for closet: $selectedClosetId');
@@ -301,6 +302,7 @@ class CoreSaveService {
         'new_filter': filterData,
         'new_closet_id': selectedClosetId,
         'new_all_closet': allCloset,
+        'new_only_unworn': onlyItemsUnworn,
         'new_item_name': itemName,
       });
 

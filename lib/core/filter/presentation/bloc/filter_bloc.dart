@@ -47,6 +47,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       final FilterSettings filterSettings = filterData['filters'];
       final selectedClosetId = filterData['selectedClosetId'] as String;
       final allCloset = filterData['allCloset'] as bool;
+      final onlyItemsUnworn = filterData['onlyItemsUnworn'] as bool;
       final itemName = filterData['itemName'] as String;
 
       emit(state.copyWith(
@@ -62,6 +63,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         shoesType: filterSettings.shoesType,
         accessoryType: filterSettings.accessoryType,
         selectedClosetId: selectedClosetId,
+        onlyItemsUnworn: !onlyItemsUnworn,
         allCloset: allCloset,
         itemName: itemName,
       ));
@@ -121,6 +123,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       clothingLayer: clothingDeselected ? [] : (event.clothingLayer ?? state.clothingLayer),
       shoesType: shoesDeselected ? [] : (event.shoesType ?? state.shoesType),
       accessoryType: accessoryDeselected ? [] : (event.accessoryType ?? state.accessoryType),
+      onlyItemsUnworn: event.onlyItemsUnworn ?? state.onlyItemsUnworn, // Invert the value
       allCloset: event.allCloset ?? state.allCloset,
       selectedClosetId: event.selectedClosetId ?? state.selectedClosetId,
     ));
@@ -148,6 +151,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       final isSuccess = await coreSaveService.saveFilterSettings(
         filterSettings: filterSettings,
         selectedClosetId: state.selectedClosetId,
+        onlyItemsUnworn: !state.onlyItemsUnworn,
         allCloset: state.allCloset,
         itemName: state.itemName,
       );
@@ -185,6 +189,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         shoesType: result['filters']['shoesType'],
         accessoryType: result['filters']['accessoryType'],
         selectedClosetId: result['selectedClosetId'],
+        onlyItemsUnworn: result['onlyItemsUnworn'],
         allCloset: result['allCloset'],
         itemName: result['itemName'] ?? '',
       ));

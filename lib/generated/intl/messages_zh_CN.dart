@@ -82,6 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "您已经穿过衣橱中的每一件物品！您正在掌控自己的时尚选择。"),
         "allFeedback": MessageLookupByLibrary.simpleMessage("所有"),
+        "allItems": MessageLookupByLibrary.simpleMessage("所有物品"),
         "alright": MessageLookupByLibrary.simpleMessage("不确定\n🤷‍♀️"),
         "alright_feedback_sentence":
             MessageLookupByLibrary.simpleMessage("点击你不确定的物品。"),
@@ -109,7 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ascending": MessageLookupByLibrary.simpleMessage("升序"),
         "athletic": MessageLookupByLibrary.simpleMessage("运动"),
         "autumn": MessageLookupByLibrary.simpleMessage("秋季"),
-        "avgPricePerWear": MessageLookupByLibrary.simpleMessage("平均每次\n穿着成本"),
+        "avgPricePerWear": MessageLookupByLibrary.simpleMessage("平均每次穿着成本"),
         "bag": MessageLookupByLibrary.simpleMessage("包"),
         "base": MessageLookupByLibrary.simpleMessage("基础层"),
         "basicFilterDescription": MessageLookupByLibrary.simpleMessage(
@@ -468,6 +469,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("场合未填写。"),
         "ok": MessageLookupByLibrary.simpleMessage("好的"),
         "onePiece": MessageLookupByLibrary.simpleMessage("连体衣"),
+        "onlyItemsUnworn": MessageLookupByLibrary.simpleMessage("仅未穿过的物品"),
         "open_settings": MessageLookupByLibrary.simpleMessage("打开设置"),
         "other": MessageLookupByLibrary.simpleMessage("其他"),
         "outer": MessageLookupByLibrary.simpleMessage("外层"),
