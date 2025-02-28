@@ -54,15 +54,6 @@ class SummaryOutfitAnalyticsSuccess extends SummaryOutfitAnalyticsState {
   ];
 }
 
-class FilteredOutfitsSuccess extends SummaryOutfitAnalyticsState {
-  final List<OutfitData> outfits;
-
-  const FilteredOutfitsSuccess({required this.outfits});
-
-  @override
-  List<Object?> get props => [outfits];
-}
-
 class UpdateOutfitReviewInitial extends SummaryOutfitAnalyticsState {}
 
 class UpdateOutfitReviewLoading extends SummaryOutfitAnalyticsState {}

@@ -11,7 +11,7 @@ import '../../../../../../user_management/user_service_locator.dart';
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../../../item_management/view_items/presentation/bloc/view_items_bloc.dart';
 import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
-import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc.dart';
+import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 
 class SummaryItemsProvider extends StatelessWidget {
   final bool isFromMyCloset; // Determines the theme

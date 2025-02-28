@@ -13,7 +13,7 @@ import '../../../../item_management/core/presentation/bloc/multi_selection_item_
 import '../../../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
 
 class InteractiveItemGrid extends StatelessWidget {
-  final ScrollController scrollController;
+  final ScrollController? scrollController; // ✅ Make this optional
   final List<ClosetItemMinimal> items;
   final int crossAxisCount;
   final List<String> selectedItemIds;
@@ -23,7 +23,7 @@ class InteractiveItemGrid extends StatelessWidget {
 
   InteractiveItemGrid({
     super.key,
-    required this.scrollController,
+    this.scrollController, // ✅ Now optional
     required this.items,
     required this.crossAxisCount,
     required this.selectedItemIds,
@@ -75,7 +75,8 @@ class InteractiveItemGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final showItemName = !(crossAxisCount == 5 || crossAxisCount == 7);
-    final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
+    final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 /
+        5 : 2 / 3;
     final imageSize = ImageHelper.getImageSize(crossAxisCount);
 
     _logger.d('Building ItemGrid');
@@ -86,19 +87,26 @@ class InteractiveItemGrid extends StatelessWidget {
 
     if (items.isEmpty) {
       _logger.d('No items.');
-      return Center(child: Text(S.of(context).noItemsInCloset));
+      return Center(child: Text(S
+          .of(context)
+          .noItemsInCloset));
     }
 
     return BaseGrid<ClosetItemMinimal>(
       items: items,
-      scrollController: scrollController, // Use the ScrollController passed from the parent
+      scrollController: selectionMode == SelectionMode.disabled ? null : scrollController, // ✅ Only disable scrolling when necessary
+      shrinkWrap: selectionMode == SelectionMode.disabled, // ✅ Allow it to take full space if not scrollable
+      isScrollable: selectionMode != SelectionMode.disabled, // ✅ Ensure scrolling when needed
+      // ✅ Corrected parameter (instead of physics)
       itemBuilder: (context, item, index) {
-        // Use BlocSelector to determine if this specific item is selected
         if (selectionMode == SelectionMode.singleSelection) {
-          return BlocSelector<SingleSelectionItemCubit, SingleSelectionItemState, bool>(
+          return BlocSelector<SingleSelectionItemCubit,
+              SingleSelectionItemState,
+              bool>(
             selector: (state) {
               final isSelected = state.selectedItemId == item.itemId;
-              _logger.d('Single Selection - Item ID: ${item.itemId}, isSelected: $isSelected');
+              _logger.d('Single Selection - Item ID: ${item
+                  .itemId}, isSelected: $isSelected');
               return isSelected;
             },
             builder: (context, isSelected) {
@@ -116,10 +124,13 @@ class InteractiveItemGrid extends StatelessWidget {
             },
           );
         } else {
-          return BlocSelector<MultiSelectionItemCubit, MultiSelectionItemState, bool>(
+          return BlocSelector<MultiSelectionItemCubit,
+              MultiSelectionItemState,
+              bool>(
             selector: (state) {
               final isSelected = state.selectedItemIds.contains(item.itemId);
-              _logger.d('Multi Selection - Item ID: ${item.itemId}, isSelected: $isSelected');
+              _logger.d('Multi Selection - Item ID: ${item
+                  .itemId}, isSelected: $isSelected');
               return isSelected;
             },
             builder: (context, isSelected) {

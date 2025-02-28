@@ -541,18 +541,13 @@ class CoreFetchService {
 
       final response = await Supabase.instance.client.rpc('get_outfit_usage_analytics');
 
-      if (response.error != null) {
-        _logger.e('Error fetching outfit usage analytics: ${response.error!.message}');
-        throw Exception(response.error!.message);
-      }
-
-      if (response.data == null || response.data.isEmpty) {
+      if (response.isEmpty) {
         _logger.e('No outfit usage analytics data returned.');
         throw Exception('No data returned from RPC.');
       }
 
-      // Extract first row (since the RPC returns a single row of data)
-      final Map<String, dynamic> analyticsData = response.data[0];
+      // Extract the first row from the list
+      final Map<String, dynamic> analyticsData = response.first as Map<String, dynamic>;
 
       _logger.i('Outfit usage analytics fetched successfully: $analyticsData');
       return analyticsData;
@@ -561,6 +556,7 @@ class CoreFetchService {
       rethrow;
     }
   }
+
 
   Future<Map<String, dynamic>> fetchFilteredOutfits({required int currentPage}) async {
     try {

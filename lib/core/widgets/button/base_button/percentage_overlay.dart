@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../usage_analytics/outfit_analytics/summary_outfit_analytics/presentation/bloc/summary_outfit_analytics_bloc.dart';
+import '../../../usage_analytics/outfit_analytics/summary_outfit_analytics/presentation/bloc/summary_outfit_analytics_bloc/summary_outfit_analytics_bloc.dart';
 
 class PercentageOverlay extends StatelessWidget {
   final String percentageType; // "like_percentage", "alright_percentage", "dislike_percentage"

@@ -65,6 +65,11 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
 
   }
 
+  void _handleUpdate() {
+    logger.i('Update button pressed. Dispatching SaveMetadataEvent.');
+    context.read<MonthlyCalendarMetadataBloc>().add(SaveMetadataEvent());
+  }
+
   void _handleCreateCloset() {
     final outfitSelectionState = context.read<OutfitSelectionBloc>().state;
 
@@ -353,13 +358,14 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: BlocBuilder<OutfitSelectionBloc, OutfitSelectionState>(
                     builder: (context, state) {
-                      if (state is OutfitSelectionUpdated && state.selectedOutfitIds.isNotEmpty) {
-                        return ThemedElevatedButton(
-                          onPressed: _handleCreateCloset,
-                          text: S.of(context).createCloset,
-                        );
-                      }
-                      return const SizedBox.shrink();
+                      return ThemedElevatedButton(
+                        onPressed: (state is OutfitSelectionUpdated && state.selectedOutfitIds.isNotEmpty)
+                            ? _handleCreateCloset
+                            : _handleUpdate,
+                        text: (state is OutfitSelectionUpdated && state.selectedOutfitIds.isNotEmpty)
+                            ? S.of(context).createCloset
+                            : S.of(context).update,
+                      );
                     },
                   ),
                 ),
@@ -368,8 +374,7 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
           );
         },
       ),
-    )
+      ),
     );
-
   }
 }

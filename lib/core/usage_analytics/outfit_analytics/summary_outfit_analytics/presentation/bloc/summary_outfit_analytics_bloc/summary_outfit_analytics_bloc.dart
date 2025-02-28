@@ -1,12 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../../data/services/core_fetch_services.dart';
-import '../../../../../data/services/core_save_services.dart';
-import '../../../../../../outfit_management/core/data/models/outfit_data.dart';
-import '../../../../../../outfit_management/core/outfit_enums.dart';
-import '../../../../../utilities/logger.dart';
-import '../../../../../utilities/helper_functions/feedback_utilities.dart';
+import '../../../../../../data/services/core_fetch_services.dart';
+import '../../../../../../data/services/core_save_services.dart';
+import '../../../../../../../outfit_management/core/outfit_enums.dart';
+import '../../../../../../utilities/logger.dart';
+import '../../../../../../utilities/helper_functions/feedback_utilities.dart';
 
 part 'summary_outfit_analytics_event.dart';
 part 'summary_outfit_analytics_state.dart';
@@ -20,7 +19,6 @@ class SummaryOutfitAnalyticsBloc
   SummaryOutfitAnalyticsBloc(this.coreFetchServices, this.coreSaveServices)
       : super(SummaryOutfitAnalyticsInitial()) {
     on<FetchOutfitAnalytics>(_onFetchOutfitAnalytics);
-    on<FetchFilteredOutfits>(_onFetchFilteredOutfits);
     on<SubmitOutfitReviewFeedback>(_onSubmitOutfitReviewFeedback);
   }
 
@@ -47,7 +45,7 @@ class SummaryOutfitAnalyticsBloc
         status: analytics["status"] ?? "unknown",
         daysTracked: analytics["days_tracked"] ?? 0,
         closetShown: analytics["closet_shown"] ?? "allClosetShown",
-        outfitReview: stringToFeedback(analytics["feedback"]),
+        outfitReview: stringToFeedback(analytics["user_feedback"]),
       ));
       _logger.i("✅ Outfit analytics fetched successfully.");
     } catch (e) {
@@ -56,31 +54,6 @@ class SummaryOutfitAnalyticsBloc
     }
   }
 
-  Future<void> _onFetchFilteredOutfits(
-      FetchFilteredOutfits event, Emitter<SummaryOutfitAnalyticsState> emit) async {
-    _logger.i("Fetching filtered outfits for page ${event.currentPage}...");
-    emit(SummaryOutfitAnalyticsLoading());
-
-    try {
-      final response = await coreFetchServices.fetchFilteredOutfits(currentPage: event.currentPage);
-      _logger.d("Raw RPC response: $response");
-
-      if (response.isEmpty || response["status"] != "success") {
-        _logger.w("No filtered outfits found.");
-        emit(const SummaryOutfitAnalyticsFailure("No filtered outfits found."));
-        return;
-      }
-
-      final outfitsJson = response["outfits"] as List<dynamic>;
-      final outfits = outfitsJson.map((json) => OutfitData.fromMap(json)).toList();
-
-      emit(FilteredOutfitsSuccess(outfits: outfits));
-      _logger.i("✅ Filtered outfits fetched successfully. Count: ${outfits.length}");
-    } catch (e) {
-      _logger.e("❌ Error fetching outfits: $e");
-      emit(SummaryOutfitAnalyticsFailure("Failed to fetch outfits: $e"));
-    }
-  }
   Future<void> _onSubmitOutfitReviewFeedback(
       SubmitOutfitReviewFeedback event, Emitter<SummaryOutfitAnalyticsState> emit) async {
     _logger.i("Updating outfit review feedback: ${event.feedback}");

@@ -9,15 +9,6 @@ abstract class SummaryOutfitAnalyticsEvent extends Equatable {
 
 class FetchOutfitAnalytics extends SummaryOutfitAnalyticsEvent {}
 
-class FetchFilteredOutfits extends SummaryOutfitAnalyticsEvent {
-  final int currentPage;
-
-  const FetchFilteredOutfits(this.currentPage);
-
-  @override
-  List<Object?> get props => [currentPage];
-}
-
 class SubmitOutfitReviewFeedback extends SummaryOutfitAnalyticsEvent {
   final OutfitReviewFeedback feedback;
 

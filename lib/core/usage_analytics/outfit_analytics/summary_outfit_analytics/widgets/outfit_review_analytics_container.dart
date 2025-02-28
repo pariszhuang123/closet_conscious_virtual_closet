@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../presentation/bloc/summary_outfit_analytics_bloc.dart';
+import '../presentation/bloc/summary_outfit_analytics_bloc/summary_outfit_analytics_bloc.dart';
 import '../../../../widgets/button/navigation_type_button_with_percentage.dart';
 import '../../../../core_enums.dart';
 import '../../../../data/type_data.dart';

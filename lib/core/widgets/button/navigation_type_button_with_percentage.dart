@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'base_button/button_utility.dart';
 import 'navigation_type_button.dart';
 import 'base_button/percentage_overlay.dart';
 
@@ -23,27 +21,20 @@ class NavigationTypeButtonWithPercentage extends NavigationTypeButton {
 
   @override
   Widget buildContent(BuildContext context) {
-    final theme = Theme.of(context);
-    final textColor = ButtonUtils.getTextColor(theme, buttonType, isSelected);
+    Theme.of(context);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ensure spacing between text/icon and percentage
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            buildImage(), // ThemedSVG Icon
-            const SizedBox(width: 4),
-            Text(
-              isSelected ? selectedLabel : label,
-              style: theme.textTheme.bodyMedium?.copyWith(color: textColor),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        const SizedBox(width: 8), // Space before extra widget
-        PercentageOverlay(percentageType: percentageType), // Extra Widget
+        // Display only the icon and avoid duplicating the label (handled in superclass)
+        buildImage(),
+
+        // Spacer for correct alignment
+        const SizedBox(width: 8),
+
+        // Display the percentage overlay
+        PercentageOverlay(percentageType: percentageType),
       ],
     );
   }

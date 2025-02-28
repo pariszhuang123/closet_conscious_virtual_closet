@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../../core/core_enums.dart';
-import '../../../../../../core/data/services/core_fetch_services.dart';
-import '../../../../../../core/utilities/logger.dart';
+import '../../../../../core_enums.dart';
+import '../../../../../../../core/data/services/core_fetch_services.dart';
+import '../../../../../../../core/utilities/logger.dart';
 
 part 'usage_analytics_navigation_event.dart';
 part 'usage_analytics_navigation_state.dart';

@@ -9,6 +9,8 @@ class BaseGrid<T> extends StatelessWidget {
   final ItemBuilder<T> itemBuilder;
   final int crossAxisCount;
   final double childAspectRatio;
+  final bool isScrollable; // ✅ New parameter
+  final bool shrinkWrap; // ✅ New parameter
 
   BaseGrid({
     super.key,
@@ -17,6 +19,8 @@ class BaseGrid<T> extends StatelessWidget {
     required this.itemBuilder,
     this.crossAxisCount = 3,
     this.childAspectRatio = 3 / 4,
+    this.isScrollable = true, // ✅ Defaults to scrollable
+    this.shrinkWrap = false, // ✅ Defaults to not shrinking
   }) : _logger = CustomLogger('BaseGrid');
 
   final CustomLogger _logger;
@@ -30,6 +34,8 @@ class BaseGrid<T> extends StatelessWidget {
 
     return GridView.builder(
       controller: scrollController,
+      shrinkWrap: shrinkWrap, // ✅ Allows it to work inside Column
+      physics: isScrollable ? const AlwaysScrollableScrollPhysics() : const NeverScrollableScrollPhysics(), // ✅ Ensure proper scroll physics
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
         childAspectRatio: childAspectRatio,

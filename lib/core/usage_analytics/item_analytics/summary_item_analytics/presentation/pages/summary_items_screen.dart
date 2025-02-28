@@ -17,7 +17,7 @@ import '../../../../../../item_management/view_items/presentation/bloc/view_item
 import '../../../../../widgets/feedback/custom_snack_bar.dart';
 import '../../../../../core_enums.dart';
 import '../../../../../widgets/button/themed_elevated_button.dart';
-import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc.dart';
+import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import '../../../../../paywall/data/feature_key.dart';
 
 class SummaryItemsScreen extends StatefulWidget {
