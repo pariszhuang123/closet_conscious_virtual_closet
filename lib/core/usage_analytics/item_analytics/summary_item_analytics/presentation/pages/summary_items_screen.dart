@@ -27,7 +27,7 @@ class SummaryItemsScreen extends StatefulWidget {
   const SummaryItemsScreen({
     super.key,
     required this.isFromMyCloset,
-    required this.selectedItemIds
+    required this.selectedItemIds,
   });
 
   @override
@@ -41,13 +41,15 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
   @override
   void initState() {
     super.initState();
-    logger.i('SummaryItemsScreen initialized with isFromMyCloset=${widget.isFromMyCloset}');
+    logger.i(
+        'SummaryItemsScreen initialized with isFromMyCloset=${widget.isFromMyCloset}'
+    );
 
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         final viewItemsBloc = context.read<ViewItemsBloc>();
         final currentState = viewItemsBloc.state;
-
         if (currentState is ItemsLoaded) {
           final currentPage = currentState.currentPage;
           context.read<ViewItemsBloc>().add(FetchItemsEvent(currentPage));
@@ -57,7 +59,8 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
   }
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
+    final selectedItemIds =
+        context.read<MultiSelectionItemCubit>().state.selectedItemIds;
     Navigator.pushNamed(
       context,
       AppRoutes.filter,
@@ -70,7 +73,8 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
   }
 
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
+    final selectedItemIds =
+        context.read<MultiSelectionItemCubit>().state.selectedItemIds;
     Navigator.pushNamed(
       context,
       AppRoutes.customize,
@@ -82,21 +86,14 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
     );
   }
 
-
   void _onResetButtonPressed(BuildContext context) {
-    // Trigger clearSelection in SelectionItemCubit
     context.read<MultiSelectionItemCubit>().clearSelection();
   }
 
   void _onSelectAllButtonPressed(BuildContext context) {
-    // Retrieve the list of all items from the ViewItemsBloc
     final viewItemsState = context.read<ViewItemsBloc>().state;
-
     if (viewItemsState is ItemsLoaded) {
-      // Extract all item IDs from the loaded items
       final allItemIds = viewItemsState.items.map((item) => item.itemId).toList();
-
-      // Trigger the "Select All" functionality
       context.read<MultiSelectionItemCubit>().selectAll(allItemIds);
     } else {
       logger.e('Unable to select all items. Items not loaded.');
@@ -108,7 +105,8 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
   }
 
   void _handleCreateCloset() {
-    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
+    final selectedItemIds =
+        context.read<MultiSelectionItemCubit>().state.selectedItemIds;
     if (selectedItemIds.isNotEmpty) {
       Navigator.pushNamed(
         context,
@@ -124,41 +122,38 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
     logger.d('Building SummaryItemsScreen UI');
 
     return MultiBlocListener(
-        listeners: [
-          // Usage Analytics Access Listener
-          BlocListener<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
-            listener: (context, state) {
-              if (state is UsageAnalyticsAccessState) {
-                if (state.accessStatus == AccessStatus.denied) {
-                  logger.w('Access denied: Navigating to payment page');
-                  Navigator.pushReplacementNamed(
-                    context,
-                    AppRoutes.payment,
-                    arguments: {
-                      'featureKey': FeatureKey.usageAnalytics,
-                      'isFromMyCloset': widget.isFromMyCloset,
-                      'previousRoute': AppRoutes.myCloset,
-                      'nextRoute': AppRoutes.summaryItemsAnalytics,
-                    },
-                  );
-                } else if (state.accessStatus == AccessStatus.trialPending) {
-                  logger.i('Trial pending, navigating to trialStarted screen');
-                  Navigator.pushReplacementNamed(
-                    context,
-                    AppRoutes.trialStarted,
-                    arguments: {
-                      'selectedFeatureRoute': AppRoutes.summaryItemsAnalytics,
-                      'isFromMyCloset': widget.isFromMyCloset,
-                    },
-                  );
-                }
+      listeners: [
+        // Usage Analytics Access Listener
+        BlocListener<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
+          listener: (context, state) {
+            if (state is UsageAnalyticsAccessState) {
+              if (state.accessStatus == AccessStatus.denied) {
+                logger.w('Access denied: Navigating to payment page');
+                Navigator.pushReplacementNamed(
+                  context,
+                  AppRoutes.payment,
+                  arguments: {
+                    'featureKey': FeatureKey.usageAnalytics,
+                    'isFromMyCloset': widget.isFromMyCloset,
+                    'previousRoute': AppRoutes.myCloset,
+                    'nextRoute': AppRoutes.summaryItemsAnalytics,
+                  },
+                );
+              } else if (state.accessStatus == AccessStatus.trialPending) {
+                logger.i('Trial pending, navigating to trialStarted screen');
+                Navigator.pushReplacementNamed(
+                  context,
+                  AppRoutes.trialStarted,
+                  arguments: {
+                    'selectedFeatureRoute': AppRoutes.summaryItemsAnalytics,
+                    'isFromMyCloset': widget.isFromMyCloset,
+                  },
+                );
               }
-            },
-          ),
-        ],
-
-        child:  BlocProvider(
-      create: (context) => MultiSelectionItemCubit()..initializeSelection(widget.selectedItemIds),
+            }
+          },
+        ),
+      ],
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -170,35 +165,53 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
               onResetButtonPressed: () => _onResetButtonPressed(context),
               onSelectAllButtonPressed: () => _onSelectAllButtonPressed(context),
             ),
-
             const SizedBox(height: 12),
 
             // Summary Section
             BlocBuilder<SummaryItemsBloc, SummaryItemsState>(
               builder: (context, state) {
-                logger.d('BlocBuilder - Summary Section: Current state = ${state.runtimeType}');
+                logger.d(
+                    'BlocBuilder - Summary Section: Current state = ${state.runtimeType}'
+                );
 
                 if (state is SummaryItemsLoading) {
                   return const ClosetProgressIndicator();
                 } else if (state is SummaryItemsLoaded) {
-
-                  logger.i('Summary data loaded: totalItems=${state.totalItems}, totalCost=${state.totalItemCost}, avgPricePerWear=${state.avgPricePerWear}');
+                  logger.i(
+                      'Summary data loaded: '
+                          'totalItems=${state.totalItems}, '
+                          'totalCost=${state.totalItemCost}, '
+                          'avgPricePerWear=${state.avgPricePerWear}'
+                  );
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      SummaryCard(title: S.of(context).totalItems, value: state.totalItems),
-                      SummaryCard(title: S.of(context).totalCost, value: state.totalItemCost),
-                      SummaryCard(title: S.of(context).avgPricePerWear, value: state.avgPricePerWear),
+                      SummaryCard(
+                        title: S.of(context).totalItems,
+                        value: state.totalItems,
+                      ),
+                      SummaryCard(
+                        title: S.of(context).totalCost,
+                        value: state.totalItemCost,
+                      ),
+                      SummaryCard(
+                        title: S.of(context).avgPricePerWear,
+                        value: state.avgPricePerWear,
+                      ),
                     ],
                   );
                 } else if (state is SummaryItemsError) {
                   logger.e('Error loading summary items: ${state.message}');
-                  return Center(child: Text(state.message, style: theme.textTheme.bodyMedium));
+                  return Center(
+                    child: Text(
+                      state.message,
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  );
                 }
                 return const SizedBox.shrink();
               },
             ),
-
             const SizedBox(height: 20),
 
             // Items Grid
@@ -210,7 +223,9 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                       if (viewState is ItemsLoading) {
                         return const Center(child: ClosetProgressIndicator());
                       } else if (viewState is ItemsError) {
-                        return Center(child: Text(S.of(context).failedToLoadItems));
+                        return Center(
+                          child: Text(S.of(context).failedToLoadItems),
+                        );
                       } else if (viewState is ItemsLoaded) {
                         return InteractiveItemGrid(
                           items: viewState.items,
@@ -218,43 +233,40 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                           crossAxisCount: crossAxisCount,
                           enablePricePerWear: true,
                           selectionMode: SelectionMode.multiSelection,
-                          selectedItemIds: context.watch<MultiSelectionItemCubit>().state.selectedItemIds,
+                          selectedItemIds: widget.selectedItemIds,
                         );
                       } else {
-                        return Center(child: Text(S.of(context).noItemsInCloset));
+                        return Center(
+                          child: Text(S.of(context).noItemsInCloset),
+                        );
                       }
                     },
                   );
                 },
               ),
             ),
-
             const SizedBox(height: 20),
 
-    SafeArea(
-    child: Padding(
-    padding: const EdgeInsets.all(16.0),
-
-    // Integrated Button (Now Below the Grid)
-            child: BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
-              builder: (context, state) {
-                if (state.selectedItemIds.isNotEmpty) {
-                  return ThemedElevatedButton(
-                    onPressed: _handleCreateCloset,
-                    text: S.of(context).createCloset,
-                  );
-                }
-                return const SizedBox.shrink(); // Hides the button when no outfits are selected
-              },
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                // Integrated Button (Below the Grid)
+                child: BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
+                  builder: (context, state) {
+                    if (state.selectedItemIds.isNotEmpty) {
+                      return ThemedElevatedButton(
+                        onPressed: _handleCreateCloset,
+                        text: S.of(context).createCloset,
+                      );
+                    }
+                    return const SizedBox.shrink(); // Hide if no items selected
+                  },
+                ),
+              ),
             ),
-    )
-    )
           ],
         ),
       ),
-        )
-
     );
   }
 }
-

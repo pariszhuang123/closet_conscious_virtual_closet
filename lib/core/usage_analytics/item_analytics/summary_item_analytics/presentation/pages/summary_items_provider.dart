@@ -28,41 +28,31 @@ class SummaryItemsProvider extends StatelessWidget {
     final itemFetchService = GetIt.instance<ItemFetchService>();
     final coreFetchService = GetIt.instance<CoreFetchService>();
 
-
     final logger = CustomLogger('SummaryItemsProvider');
-
     logger.i('Initializing SummaryItemsProvider with isFromMyCloset=$isFromMyCloset');
 
     return MultiBlocProvider(
       providers: [
         BlocProvider<ViewItemsBloc>(
-          create: (context) => ViewItemsBloc(
-            itemFetchService: itemFetchService,
-          )..add(FetchItemsEvent(0)), // Fetch items on initialization
+          create: (context) => ViewItemsBloc(itemFetchService: itemFetchService)
+            ..add(FetchItemsEvent(0)), // Fetch items on initialization
         ),
         BlocProvider<MultiSelectionItemCubit>(
           create: (context) => MultiSelectionItemCubit()..initializeSelection(selectedItemIds),
         ),
-        BlocProvider(
-          create: (_) {
+        BlocProvider<SummaryItemsBloc>(
+          create: (context) => SummaryItemsBloc(coreFetchService: coreFetchService)
+            ..add(FetchSummaryItemEvent()), // Fetch summary data on initialization
+        ),
+        BlocProvider<UsageAnalyticsNavigationBloc>(
+          create: (context) {
             logger.i('Creating UsageAnalyticsNavigationBloc...');
             final bloc = UsageAnalyticsNavigationBloc(coreFetchService: coreFetchService);
-            bloc.add(CheckUsageAnalyticsAccessEvent()); // Dispatch the event to check usage analytics access
-            logger.i('CheckUsageAnalyticsAccessEvent dispatched.');
+            bloc.add(CheckUsageAnalyticsAccessEvent());
             return bloc;
           },
         ),
-
-        BlocProvider(
-          create: (context) {
-            logger.d('Creating SummaryItemsBloc');
-            final bloc = SummaryItemsBloc(coreFetchService: coreFetchService);
-            bloc.add(FetchSummaryItemEvent()); // Dispatch the event to check usage analytics access
-            logger.i('CheckUsageAnalyticsAccessEvent dispatched.');
-            return bloc;
-          },
-        ),
-        BlocProvider(
+        BlocProvider<CrossAxisCountCubit>(
           create: (context) {
             logger.d('Creating CrossAxisCountCubit');
             final cubit = CrossAxisCountCubit(coreFetchService: locator<CoreFetchService>());
@@ -72,8 +62,8 @@ class SummaryItemsProvider extends StatelessWidget {
         ),
       ],
       child: SummaryItemsScreen(
-          isFromMyCloset: isFromMyCloset,
-          selectedItemIds: selectedItemIds,
+        isFromMyCloset: isFromMyCloset,
+        selectedItemIds: selectedItemIds, // Pass `selectedItemIds` once
       ),
     );
   }
