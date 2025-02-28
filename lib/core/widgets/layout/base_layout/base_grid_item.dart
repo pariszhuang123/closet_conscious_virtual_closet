@@ -11,6 +11,7 @@ class BaseGridItem<T> extends StatelessWidget {
   final VoidCallback onItemTapped;
   final ImageSize imageSize;
   final bool showItemName;
+  final bool showPricePerWear;
   final String Function(T item) getItemName;
   final String Function(T item) getItemId;
   final String Function(T item) getImageUrl;
@@ -27,6 +28,7 @@ class BaseGridItem<T> extends StatelessWidget {
     required this.onItemTapped,
     required this.imageSize,
     required this.showItemName,
+    required this.showPricePerWear,
     required this.getItemName,
     required this.getItemId,
     required this.getImageUrl,
@@ -38,6 +40,7 @@ class BaseGridItem<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final itemId = getItemId(item);
     final isActive = getIsActive != null ? getIsActive!(item) : true; // ✅ Default to active if missing
+    final pricePerWear = getPricePerWear != null ? getPricePerWear!(item) : null;
 
     // Log the rendering process
     _logger.d('Rendering BaseGridItem for itemId: $itemId, isSelected: $isSelected, isActive: $isActive');
@@ -55,7 +58,7 @@ class BaseGridItem<T> extends StatelessWidget {
             onItemTapped();
           },
           itemName: showItemName ? getItemName(item) : null,
-          pricePerWear: getPricePerWear != null ? getPricePerWear!(item) : null, // ✅ Pass pricePerWear
+          pricePerWear: (showPricePerWear && pricePerWear != null) ? pricePerWear : null, // ✅ Show price only when applicable
           itemId: itemId,
           imageSize: imageSize,
         ),

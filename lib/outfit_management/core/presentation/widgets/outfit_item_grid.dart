@@ -62,6 +62,7 @@ class OutfitItemGrid extends StatelessWidget {
                         isDisliked: false,
                         imageSize: imageSize,
                         showItemName: false,
+                        showPricePerWear: false,
                         onItemTapped: () {
                           logger.i('Item tapped: ${item.itemId} within outfitId: $outfitId');
                         },

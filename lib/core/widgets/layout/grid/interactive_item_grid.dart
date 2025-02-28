@@ -19,6 +19,7 @@ class InteractiveItemGrid extends StatelessWidget {
   final List<String> selectedItemIds;
   final SelectionMode selectionMode; // New parameter
   final VoidCallback? onAction; // Optional callback for action mode
+  final bool enablePricePerWear; // ✅ New parameter to control price-per-wear visibility
 
 
   InteractiveItemGrid({
@@ -29,6 +30,7 @@ class InteractiveItemGrid extends StatelessWidget {
     required this.selectedItemIds,
     required this.selectionMode,
     this.onAction, // Optional
+    this.enablePricePerWear = false, // ✅ Default to false so other screens don’t show price per wear
 
 
   }) : _logger = CustomLogger('ItemGrid');
@@ -75,6 +77,7 @@ class InteractiveItemGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final showItemName = !(crossAxisCount == 5 || crossAxisCount == 7);
+    final showPricePerWear = enablePricePerWear && !(crossAxisCount == 5 || crossAxisCount == 7);
     final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 /
         5 : 2 / 3;
     final imageSize = ImageHelper.getImageSize(crossAxisCount);
@@ -117,6 +120,7 @@ class InteractiveItemGrid extends StatelessWidget {
                 isDisliked: item.isDisliked,
                 imageSize: imageSize,
                 showItemName: showItemName,
+                showPricePerWear: showPricePerWear, // ✅ New parameter
                 onItemTapped: () {
                   _handleTap(context, item.itemId);
                 },
@@ -141,6 +145,7 @@ class InteractiveItemGrid extends StatelessWidget {
                 isDisliked: item.isDisliked,
                 imageSize: imageSize,
                 showItemName: showItemName,
+                showPricePerWear: showPricePerWear,
                 onItemTapped: () {
                   _handleTap(context, item.itemId);
                 },

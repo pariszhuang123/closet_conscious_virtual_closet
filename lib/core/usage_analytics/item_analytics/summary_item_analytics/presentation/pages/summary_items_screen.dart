@@ -216,6 +216,7 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                           items: viewState.items,
                           scrollController: _scrollController,
                           crossAxisCount: crossAxisCount,
+                          enablePricePerWear: true,
                           selectionMode: SelectionMode.multiSelection,
                           selectedItemIds: context.watch<MultiSelectionItemCubit>().state.selectedItemIds,
                         );

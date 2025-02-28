@@ -38,6 +38,7 @@ class GridClosetItem extends StatelessWidget {
       },
       imageSize: imageSize,
       showItemName: showItemName,
+      showPricePerWear: false,
       getItemName: (item) => item.closetName,
       getItemId: (item) => item.closetId,
       getImageUrl: (item) => item.closetImage,

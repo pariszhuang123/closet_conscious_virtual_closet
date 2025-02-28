@@ -11,6 +11,7 @@ class GridItem extends StatelessWidget {
   final VoidCallback onItemTapped;
   final ImageSize imageSize;
   final bool showItemName;
+  final bool showPricePerWear; // ✅ New parameter
 
   final CustomLogger _logger = CustomLogger('GridItem');
 
@@ -22,6 +23,7 @@ class GridItem extends StatelessWidget {
     required this.onItemTapped,
     required this.imageSize,
     required this.showItemName,
+    required this.showPricePerWear, // ✅ Accept the new parameter
   });
 
   @override
@@ -38,6 +40,7 @@ class GridItem extends StatelessWidget {
       },
       imageSize: imageSize,
       showItemName: showItemName,
+      showPricePerWear: showPricePerWear, // ✅ Pass to BaseGridItem
       getItemName: (item) => item.name,
       getItemId: (item) => item.itemId,
       getImageUrl: (item) => item.imageUrl,
