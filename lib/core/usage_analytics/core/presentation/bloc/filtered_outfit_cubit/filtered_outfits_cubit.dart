@@ -20,9 +20,29 @@ class FilteredOutfitsCubit extends Cubit<FilteredOutfitsState> {
       final response = await coreFetchServices.fetchFilteredOutfits(currentPage: currentPage);
       _logger.d("Raw RPC response for filtered outfits: $response");
 
-      if (response.isEmpty || response["status"] != "success") {
-        _logger.w("⚠️ No filtered outfits found.");
-        emit(FilteredOutfitsFailure("No filtered outfits found."));
+      if (response.isEmpty) {
+        _logger.w("⚠️ Unexpected empty response.");
+        emit(FilteredOutfitsFailure("Unexpected empty response."));
+        return;
+      }
+
+      final status = response["status"];
+
+      if (status == "no_user_outfits") {
+        _logger.w("⚠️ User has no outfits at all.");
+        emit(NoReviewedOutfitState());
+        return;
+      }
+
+      if (status == "no_filtered_outfits") {
+        _logger.w("⚠️ No outfits match the selected filters.");
+        emit(NoFilteredReviewedOutfitState());
+        return;
+      }
+
+      if (status != "success") {
+        _logger.w("⚠️ Unknown status received: $status");
+        emit(FilteredOutfitsFailure("Unknown status: $status"));
         return;
       }
 

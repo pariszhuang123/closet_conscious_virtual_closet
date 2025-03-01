@@ -12,3 +12,7 @@ class FilteredOutfitsFailure extends FilteredOutfitsState {
   FilteredOutfitsFailure(this.message);
 }
 
+class NoReviewedOutfitState extends FilteredOutfitsState {} // New state
+
+class NoFilteredReviewedOutfitState extends FilteredOutfitsState {} // New state
+

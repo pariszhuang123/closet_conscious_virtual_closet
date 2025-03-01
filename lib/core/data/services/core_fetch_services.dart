@@ -567,16 +567,28 @@ class CoreFetchService {
         params: {'p_current_page': currentPage},
       );
 
-      if (response is Map<String, dynamic> && response['status'] == 'success') {
-        _logger.i('Filtered outfits fetched successfully');
-        return response;
-      } else {
-        _logger.e('Unexpected response format: $response');
-        throw Exception('Failed to fetch filtered outfits');
+      _logger.d('RPC Response: $response');
+
+      if (response is Map<String, dynamic>) {
+        final status = response['status'];
+
+        if (status == 'success') {
+          _logger.i('✅ Filtered outfits fetched successfully');
+          return response;
+        }
+
+        if (status == 'no_user_outfits' || status == 'no_filtered_outfits') {
+          _logger.w('⚠️ No outfits found: $status');
+          return response; // Returning the response without throwing an exception
+        }
       }
+
+      _logger.e('Unexpected response format: $response');
+      return {'status': 'error', 'message': 'Unexpected response format'};
+
     } catch (e) {
-      _logger.e('Error fetching filtered outfits: $e');
-      rethrow;
+      _logger.e('❌ Error fetching filtered outfits: $e');
+      return {'status': 'error', 'message': e.toString()};
     }
   }
 
