@@ -24,7 +24,7 @@ BEGIN
 
     IF total_user_outfits = 0 THEN
         RETURN JSONB_BUILD_OBJECT(
-            'status', 'no_user_outfits',
+            'status', 'no_user_outfits'
         );
     END IF;
 
@@ -65,7 +65,7 @@ BEGIN
         -- No outfits match the user’s current filter preferences
         DROP TABLE IF EXISTS temp_filtered_outfits;
         RETURN JSONB_BUILD_OBJECT(
-            'status', 'no_filtered_outfits',
+            'status', 'no_filtered_outfits'
         );
     END IF;
 
