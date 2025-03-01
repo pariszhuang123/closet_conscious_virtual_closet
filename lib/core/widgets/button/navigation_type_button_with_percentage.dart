@@ -21,16 +21,15 @@ class NavigationTypeButtonWithPercentage extends NavigationTypeButton {
 
   @override
   Widget buildContent(BuildContext context) {
-    Theme.of(context);
+    final parentContent = super.buildContent(context);
 
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // Display only the icon and avoid duplicating the label (handled in superclass)
-        buildImage(),
+        parentContent,
 
-        // Spacer for correct alignment
+        // Some spacing if needed
         const SizedBox(width: 8),
 
         // Display the percentage overlay

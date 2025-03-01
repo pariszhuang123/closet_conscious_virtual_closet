@@ -338,6 +338,7 @@ class CoreSaveService {
           'colour': filters['colour'] ?? <String>[],
           'colourVariations': filters['colourVariations'] ?? <String>[],
           'clothingType': filters['clothingType'] ?? <String>[],
+          'clothingLayer': filters['clothingLayer'] ?? <String>[],
           'shoesType': filters['shoesType'] ?? <String>[],
           'accessoryType': filters['accessoryType'] ?? <String>[],
         },

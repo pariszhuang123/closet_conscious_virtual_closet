@@ -42,7 +42,7 @@ class PercentageOverlay extends StatelessWidget {
 
           return Text(
             '${percentage.toStringAsFixed(1)}%', // Keep 1 decimal place
-            style: theme.textTheme.bodyMedium?.copyWith(
+            style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: theme.colorScheme.primary,
             ),

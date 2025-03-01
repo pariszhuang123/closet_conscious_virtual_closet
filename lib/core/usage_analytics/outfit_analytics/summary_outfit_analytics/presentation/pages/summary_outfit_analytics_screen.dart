@@ -28,7 +28,22 @@ class SummaryOutfitAnalyticsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.i("Building SummaryOutfitAnalyticsScreen...");
 
-    return Column(
+    return MultiBlocListener(
+        listeners: [
+        BlocListener<SummaryOutfitAnalyticsBloc, SummaryOutfitAnalyticsState>(
+    listener: (context, state) {
+      if (state is UpdateOutfitReviewSuccess) {
+        _logger.i("✅ Outfit review updated successfully. Navigating...");
+        Navigator.pushReplacementNamed(
+          context,
+          AppRoutes.summaryOutfitAnalytics,
+        );
+      }
+    },
+    ),
+        ],
+
+    child: Column(
       children: [
         BlocBuilder<SummaryOutfitAnalyticsBloc, SummaryOutfitAnalyticsState>(
           builder: (context, state) {
@@ -92,6 +107,7 @@ class SummaryOutfitAnalyticsScreen extends StatelessWidget {
           ),
         ),
       ],
+    )
     );
   }
 }
