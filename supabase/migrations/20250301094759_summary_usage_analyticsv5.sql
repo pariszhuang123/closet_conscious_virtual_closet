@@ -124,7 +124,7 @@ begin
                          THEN 60
                     ELSE EXTRACT(DAY FROM NOW() - first_reviewed_outfit_date)::int
                   END
-            END as days_tracked
+            END as days_tracked,
             user_closet_name as closet_shown,  -- ✅ Showing closet name if filtering by a specific closet
             user_feedback
         from public.outfits o
