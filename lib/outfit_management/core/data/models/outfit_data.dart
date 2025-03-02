@@ -4,12 +4,14 @@ import '../../../../../core/utilities/logger.dart';
 class OutfitData {
   final String outfitId;
   final String? outfitImageUrl;
+  final String? eventName; // ✅ Changed to nullable
   final List<ClosetItemMinimal>? items;
   final bool? isActive;
 
   OutfitData({
     required this.outfitId,
     this.outfitImageUrl,
+    this.eventName, // ✅ Now optional
     this.items,
     this.isActive = true,
   });
@@ -21,7 +23,6 @@ class OutfitData {
 
       final dynamic itemsData = map['items'];
 
-      // ✅ Debug: Print raw Supabase response for items
       logger.i('Raw items data: $itemsData');
 
       final outfitData = OutfitData(
@@ -29,7 +30,9 @@ class OutfitData {
         outfitImageUrl: map['outfit_image_url'] == 'cc_none'
             ? null
             : _validateString(map['outfit_image_url'], 'outfit_image_url'),
-
+        eventName: (map.containsKey('event_name') && map['event_name'] != null && map['event_name'] is String)
+            ? map['event_name'] as String
+            : null, // ✅ Now checks if 'event_name' exists and is not null
         // ✅ Handle both single object and list case
         items: (itemsData is List && itemsData.isNotEmpty)
             ? itemsData.map((item) => ClosetItemMinimal.fromMap(item as Map<String, dynamic>)).toList()
@@ -54,6 +57,7 @@ class OutfitData {
     return OutfitData(
       outfitId: '',
       outfitImageUrl: null,
+      eventName: null, // ✅ Changed from 'cc_none' to null
       items: [],
     );
   }

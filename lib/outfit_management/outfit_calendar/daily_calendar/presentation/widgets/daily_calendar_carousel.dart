@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../generated/l10n.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../core/data/models/daily_calendar_outfit.dart';
 import '../widgets/carousel_outfit.dart';
-import '../../../../../core/widgets/container/logo_text_container.dart';
-import '../../../../../core/core_enums.dart';
 import '../widgets/review_comment_row.dart';
 import '../../../../../core/widgets/layout/page_indicator.dart';
 
@@ -60,19 +57,6 @@ class _DailyCalendarCarouselState extends State<DailyCalendarCarousel> {
               return Column(
                 children: [
                   // Title (LogoTextContainer)
-                  LogoTextContainer(
-                    themeData: widget.theme,
-                    text: (outfits[index].eventName == 'cc_none')
-                        ? S.of(context).outfitReviewTitle
-                        : outfits[index].eventName,
-                    isFromMyCloset: false,
-                    buttonType: ButtonType.primary,
-                    isSelected: false,
-                    usePredefinedColor: true,
-                  ),
-
-                  const SizedBox(height: 8),
-
                   // Outfit Image (CarouselOutfit)
                   Expanded(
                     child: CarouselOutfit(

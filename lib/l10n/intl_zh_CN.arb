@@ -467,5 +467,5 @@
   "outfitRelatedOutfitsDescription": "探索更多穿搭灵感——根据你的主穿搭找到相似造型。",
   "itemWithRelatedOutfitsDescription": "看看这件单品出现在哪些穿搭里——你的风格，由你定义。",
   "createClosetItemAnalyticsDescription": "用现有衣物打造你的理想胶囊衣橱。",
-  "analyticsSummary": "你在过去的 {daysTracked} 天里创建了 {totalReviews} 套穿搭。"
+  "analyticsSummary": "你在过去的 {daysTracked} 天里创建了 {totalReviews} 套穿搭在{closetShown}。"
 }

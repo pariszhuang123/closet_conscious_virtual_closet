@@ -4720,13 +4720,14 @@ class S {
     );
   }
 
-  /// `You have created {totalReviews} outfits in the last {daysTracked} days.`
-  String analyticsSummary(Object totalReviews, Object daysTracked) {
+  /// `You have created {totalReviews} outfits in the last {daysTracked} days in {closetShown}.`
+  String analyticsSummary(
+      Object totalReviews, Object daysTracked, Object closetShown) {
     return Intl.message(
-      'You have created $totalReviews outfits in the last $daysTracked days.',
+      'You have created $totalReviews outfits in the last $daysTracked days in $closetShown.',
       name: 'analyticsSummary',
       desc: '',
-      args: [totalReviews, daysTracked],
+      args: [totalReviews, daysTracked, closetShown],
     );
   }
 }

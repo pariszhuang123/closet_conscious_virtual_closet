@@ -54,7 +54,19 @@ class SummaryOutfitAnalyticsScreen extends StatelessWidget {
             } else if (state is SummaryOutfitAnalyticsSuccess) {
               return Column(
                 children: [
-                  Text(S.of(context).analyticsSummary(state.totalReviews, state.daysTracked)),
+                  Text(
+                    S.of(context).analyticsSummary(
+                        state.totalReviews,
+                        state.daysTracked,
+                        state.closetShown == "cc_closet"
+                            ? S.of(context).defaultClosetName
+                            : state.closetShown == "allClosetShown"
+                            ? S.of(context).allClosetShown
+                            : state.closetShown
+                    ),
+                    style: Theme.of(context).textTheme.titleMedium, // 🔹 Apply centralized text theme
+                    textAlign: TextAlign.center, // 🔹 Ensure text is centered
+                  ),
                   const SizedBox(height: 20),
                   OutfitReviewAnalyticsContainer(
                     theme: Theme.of(context),
@@ -71,6 +83,8 @@ class SummaryOutfitAnalyticsScreen extends StatelessWidget {
             return Container();
           },
         ),
+
+        const SizedBox(height: 16),
 
         Expanded(
           child: BlocBuilder<FilteredOutfitsCubit, FilteredOutfitsState>(

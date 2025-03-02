@@ -467,5 +467,5 @@
   "outfitRelatedOutfitsDescription": "Find new ways to wear what you own—similar outfit ideas based on your favorites.",
   "itemWithRelatedOutfitsDescription": "See the outfits this item has brought to life—your style, your way.",
   "createClosetItemAnalyticsDescription": "Build your dream capsule wardrobe with pieces you already love.",
-  "analyticsSummary": "You have created {totalReviews} outfits in the last {daysTracked} days."
+  "analyticsSummary": "You have created {totalReviews} outfits in the last {daysTracked} days in {closetShown}."
 }

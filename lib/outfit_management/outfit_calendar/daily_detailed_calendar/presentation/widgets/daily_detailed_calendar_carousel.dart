@@ -63,15 +63,18 @@ class _DailyDetailedCalendarCarouselState extends State<DailyDetailedCalendarCar
               return Column(
                 children: [
                   // Title (LogoTextContainer)
-                  LogoTextContainer(
-                    themeData: widget.theme,
-                    text: (outfits[index].eventName == 'cc_none')
-                        ? S.of(context).outfitReviewTitle
-                        : outfits[index].eventName,
-                    isFromMyCloset: false,
-                    buttonType: ButtonType.primary,
-                    isSelected: false,
-                    usePredefinedColor: true,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0), // ✅ Added padding
+                    child: LogoTextContainer(
+                      themeData: widget.theme,
+                      text: (outfits[index].eventName == 'cc_none')
+                          ? S.of(context).outfitReviewTitle
+                          : outfits[index].eventName,
+                      isFromMyCloset: false,
+                      buttonType: ButtonType.primary,
+                      isSelected: false,
+                      usePredefinedColor: true,
+                    ),
                   ),
 
                   const SizedBox(height: 2),
@@ -90,20 +93,23 @@ class _DailyDetailedCalendarCarouselState extends State<DailyDetailedCalendarCar
                       ),
                     ),
 
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 8),
 
                   // Interactive Item Grid (Displays items for the selected outfit)
                   Expanded(
-                    child: InteractiveItemGrid(
-                      scrollController: ScrollController(),
-                      items: outfits[index].items,
-                      crossAxisCount: widget.crossAxisCount,
-                      selectedItemIds: const [],
-                      selectionMode: SelectionMode.action, // ✅ Set to action mode
-                      onAction: () {
-                        _logger.d("Item tapped in grid, triggering navigation");
-                        widget.onAction(); // ✅ Ensure the function is called
-                      },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0), // ✅ Added padding
+                      child: InteractiveItemGrid(
+                        scrollController: ScrollController(),
+                        items: outfits[index].items,
+                        crossAxisCount: widget.crossAxisCount,
+                        selectedItemIds: const [],
+                        selectionMode: SelectionMode.action,
+                        onAction: () {
+                          _logger.d("Item tapped in grid, triggering navigation");
+                          widget.onAction();
+                        },
+                      ),
                     ),
                   ),
 

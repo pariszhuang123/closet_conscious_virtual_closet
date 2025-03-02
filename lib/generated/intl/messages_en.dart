@@ -20,8 +20,8 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(totalReviews, daysTracked) =>
-      "You have created ${totalReviews} outfits in the last ${daysTracked} days.";
+  static String m0(totalReviews, daysTracked, closetShown) =>
+      "You have created ${totalReviews} outfits in the last ${daysTracked} days in ${closetShown}.";
 
   static String m1(closetName) =>
       "Your disappearing closet \'${closetName}\' is now permanent. You can access all its items!";

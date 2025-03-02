@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../core_enums.dart';
 import '../../../utilities/logger.dart';
 import '../../../../outfit_management/core/data/models/daily_calendar_outfit.dart';
 import '../../../../outfit_management/core/data/models/outfit_data.dart';
-import '../../../widgets/layout/grid/interactive_item_grid.dart';
 import '../../../../outfit_management/outfit_calendar/daily_calendar/presentation/widgets/carousel_outfit.dart';
 
 class OutfitList<T> extends StatelessWidget {
@@ -33,7 +31,7 @@ class OutfitList<T> extends StatelessWidget {
     _logger.d("Building OutfitList with ${outfits.length} outfits.");
 
     return SizedBox(
-      height: 300, // ✅ Constrain height for horizontal scrolling
+      height: 350, // ✅ Constrain height for horizontal scrolling
       child: ListView.builder(
         scrollDirection: Axis.horizontal, // ✅ Enable horizontal scrolling
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -54,7 +52,7 @@ class OutfitList<T> extends StatelessWidget {
               children: [
                 // ✅ Outfit Image Carousel
                 SizedBox(
-                  width: 300, // ✅ Set a width for horizontal layout
+                  width: 350, // ✅ Set a width for horizontal layout
                   child: CarouselOutfit<T>(
                     outfit: outfit,
                     crossAxisCount: crossAxisCount,
@@ -67,27 +65,6 @@ class OutfitList<T> extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 8),
-
-                // ✅ Interactive Grid
-                SizedBox(
-                  height: 200, // ✅ Ensure consistent height
-                  width: 180,  // ✅ Ensure consistent width
-                  child: InteractiveItemGrid(
-                    scrollController: null, // ✅ Disable internal scrolling
-                    items: (outfit is DailyCalendarOutfit)
-                        ? outfit.items
-                        : (outfit as OutfitData?)?.items ?? [],
-                    crossAxisCount: crossAxisCount,
-                    selectedItemIds: const [],
-                    selectionMode: SelectionMode.action,
-                    onAction: () {
-                      _logger.i("onAction triggered in InteractiveItemGrid for outfitId: $outfitId");
-                      onAction();
-                    },
-                  ),
-                ),
-
-                const SizedBox(height: 16), // Spacing between items
               ],
             ),
           );
@@ -96,3 +73,4 @@ class OutfitList<T> extends StatelessWidget {
     );
   }
 }
+
