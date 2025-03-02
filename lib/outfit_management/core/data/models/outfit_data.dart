@@ -33,14 +33,15 @@ class OutfitData {
         eventName: (map.containsKey('event_name') && map['event_name'] != null && map['event_name'] is String)
             ? map['event_name'] as String
             : null, // ✅ Now checks if 'event_name' exists and is not null
+        isActive: map.containsKey('outfit_is_active')
+            ? map['outfit_is_active'] as bool? ?? true  // ✅ Ensure false remains false
+            : true,
         // ✅ Handle both single object and list case
         items: (itemsData is List && itemsData.isNotEmpty)
             ? itemsData.map((item) => ClosetItemMinimal.fromMap(item as Map<String, dynamic>)).toList()
             : (itemsData is Map<String, dynamic>)
             ? [ClosetItemMinimal.fromMap(itemsData)]
             : null,
-
-        isActive: map['is_active'] as bool? ?? true,
       );
 
       logger.i('✅ Successfully parsed OutfitData: ${outfitData.outfitId}}');
@@ -57,6 +58,7 @@ class OutfitData {
     return OutfitData(
       outfitId: '',
       outfitImageUrl: null,
+      isActive: true,
       eventName: null, // ✅ Changed from 'cc_none' to null
       items: [],
     );

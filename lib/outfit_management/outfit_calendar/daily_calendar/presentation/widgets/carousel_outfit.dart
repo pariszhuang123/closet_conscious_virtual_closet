@@ -26,7 +26,8 @@ class CarouselOutfit<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ✅ Ensure type safety by using `outfit as T?` and providing default values
+    _logger.d('Building CarouselOutfit widget');
+
     final outfitId = (outfit is DailyCalendarOutfit)
         ? (outfit as DailyCalendarOutfit?)?.outfitId ?? ''
         : (outfit as OutfitData?)?.outfitId ?? '';
@@ -43,34 +44,30 @@ class CarouselOutfit<T> extends StatelessWidget {
         ? (outfit as DailyCalendarOutfit?)?.items ?? []
         : (outfit as OutfitData?)?.items ?? [];
 
-
     final eventName = (outfit is DailyCalendarOutfit)
         ? (outfit as DailyCalendarOutfit?)?.eventName ?? 'cc_none'
         : (outfit as OutfitData?)?.eventName ?? 'cc_none';
 
-    _logger.d('Building CarouselOutfit for outfitId: $outfitId');
-
     final isCcNone = (outfitImageUrl == 'cc_none');
+    final isCcNoneEvent = (eventName == 'cc_none');
+
+    _logger.d('Outfit details: outfitId=$outfitId, imageUrl=$outfitImageUrl, isActive=$isActive, eventName=$eventName, itemCount=${items.length}');
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0), // Add spacing
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 1) Add your LogoTextContainer up top
           LogoTextContainer(
             themeData: Theme.of(context),
-            text: isCcNone ? S.of(context).outfitReviewTitle : eventName,
+            text: isCcNoneEvent ? S.of(context).outfitReviewTitle : eventName,
             isFromMyCloset: false,
             buttonType: ButtonType.primary,
             isSelected: false,
             usePredefinedColor: true,
           ),
-
           const SizedBox(height: 8),
-
-          // 2) Show either the grid fallback or an image:
           if (isCcNone || outfitImageUrl == null)
             Stack(
               children: [
@@ -86,7 +83,10 @@ class CarouselOutfit<T> extends StatelessWidget {
                 ),
                 Positioned.fill(
                   child: GestureDetector(
-                    onTap: onTap,
+                    onTap: () {
+                      _logger.d('CarouselOutfit tapped: outfitId=$outfitId');
+                      onTap();
+                    },
                     behavior: HitTestBehavior.translucent,
                   ),
                 ),
@@ -94,7 +94,10 @@ class CarouselOutfit<T> extends StatelessWidget {
             )
           else
             GestureDetector(
-              onTap: onTap,
+              onTap: () {
+                _logger.d('CarouselOutfit image tapped: outfitId=$outfitId');
+                onTap();
+              },
               behavior: HitTestBehavior.opaque,
               child: OutfitImageWidget(
                 imageUrl: outfitImageUrl,
