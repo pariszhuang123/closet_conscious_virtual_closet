@@ -71,14 +71,17 @@ class CarouselOutfit<T> extends StatelessWidget {
           if (isCcNone || outfitImageUrl == null)
             Stack(
               children: [
-                IgnorePointer(
-                  ignoring: true,
-                  child: InteractiveItemGrid(
-                    scrollController: ScrollController(),
-                    items: items,
-                    crossAxisCount: crossAxisCount,
-                    selectedItemIds: const [],
-                    selectionMode: SelectionMode.disabled,
+                SizedBox(
+                  height: 200, // Prevents the grid from growing indefinitely
+                  child: IgnorePointer(
+                    ignoring: true,
+                    child: InteractiveItemGrid(
+                      scrollController: ScrollController(),
+                      items: items,
+                      crossAxisCount: crossAxisCount,
+                      selectedItemIds: const [],
+                      selectionMode: SelectionMode.disabled,
+                    ),
                   ),
                 ),
                 Positioned.fill(
