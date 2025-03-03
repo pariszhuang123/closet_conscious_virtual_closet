@@ -244,7 +244,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "declutterOptions":
             MessageLookupByLibrary.simpleMessage("What would you like to do?"),
         "declutterThrowWarning": MessageLookupByLibrary.simpleMessage(
-            "Once you confirm, this item will disappear from your closet view permanently.\n\nHave you considered donating or upcycling instead?"),
+            "Once you confirm, this item will disappear from your closet view permanently.\n\nHave you considered donating or upcycling instead?\n\n You could put it in a public closet, where people can buy / barter / swap with you for the item."),
         "defaultAchievementMessage": MessageLookupByLibrary.simpleMessage(
             "You’ve reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion."),
         "defaultAchievementTitle":

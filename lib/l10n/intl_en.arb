@@ -129,7 +129,7 @@
   "Throw": "Throw",
   "declutterOptions": "What would you like to do?",
   "areYouSure": "Are you sure?",
-  "declutterThrowWarning": "Once you confirm, this item will disappear from your closet view permanently.\n\nHave you considered donating or upcycling instead?",
+  "declutterThrowWarning": "Once you confirm, this item will disappear from your closet view permanently.\n\nHave you considered donating or upcycling instead?\n\n You could put it in a public closet, where people can buy / barter / swap with you for the item.",
   "declutterGenericWarning": "Once you confirm, this item will disappear from your closet view permanently.",
   "confirm": "Confirm",
   "itemsUploadedTooltip": "Number of items you've uploaded to your conscious closet",

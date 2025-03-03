@@ -18,6 +18,7 @@ import '../../../../../widgets/feedback/custom_snack_bar.dart';
 import '../../../../../core_enums.dart';
 import '../../../../../widgets/button/themed_elevated_button.dart';
 import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
+import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 import '../../../../../paywall/data/feature_key.dart';
 
 class SummaryItemsScreen extends StatefulWidget {
@@ -104,11 +105,33 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
     }
   }
 
+  void _onFocusButtonPressed(BuildContext context) {
+    final state = context.read<FocusOrCreateClosetBloc>().state;
+    if (state is FocusOrCreateClosetLoaded) {
+      logger.i('Updating and saving state: isCalendarSelectable = false');
+
+      context.read<FocusOrCreateClosetBloc>().add(
+        UpdateFocusOrCreateCloset(false),
+      );
+    }
+  }
+
+  void _onCreateClosetButtonPressed(BuildContext context) {
+    final state = context.read<FocusOrCreateClosetBloc>().state;
+    if (state is FocusOrCreateClosetLoaded) {
+      logger.i('Updating and saving state: isCalendarSelectable = true');
+
+      context.read<FocusOrCreateClosetBloc>().add(
+        UpdateFocusOrCreateCloset(true),
+      );
+    }
+  }
+
   void _handleCreateCloset() {
     final selectedItemIds =
         context.read<MultiSelectionItemCubit>().state.selectedItemIds;
     if (selectedItemIds.isNotEmpty) {
-      Navigator.pushNamed(
+      Navigator.pushReplacementNamed(
         context,
         AppRoutes.createMultiCloset,
         arguments: {'selectedItemIds': selectedItemIds},
@@ -164,6 +187,8 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
               onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
               onResetButtonPressed: () => _onResetButtonPressed(context),
               onSelectAllButtonPressed: () => _onSelectAllButtonPressed(context),
+              onFocusButtonPressed: () => _onFocusButtonPressed(context),
+              onCreateClosetButtonPressed: () => _onCreateClosetButtonPressed(context),
             ),
             const SizedBox(height: 12),
 
@@ -247,22 +272,21 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
             ),
             const SizedBox(height: 20),
 
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                // Integrated Button (Below the Grid)
-                child: BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
-                  builder: (context, state) {
-                    if (state.selectedItemIds.isNotEmpty) {
-                      return ThemedElevatedButton(
+            BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
+              builder: (context, state) {
+                if (state.selectedItemIds.isNotEmpty) {
+                  return SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: ThemedElevatedButton(
                         onPressed: _handleCreateCloset,
                         text: S.of(context).createCloset,
-                      );
-                    }
-                    return const SizedBox.shrink(); // Hide if no items selected
-                  },
-                ),
-              ),
+                      ),
+                    ),
+                  );
+                }
+                return const SizedBox.shrink(); // Completely removes SafeArea if no items are selected
+              },
             ),
           ],
         ),

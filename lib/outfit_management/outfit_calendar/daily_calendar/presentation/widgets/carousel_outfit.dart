@@ -72,7 +72,7 @@ class CarouselOutfit<T> extends StatelessWidget {
             Stack(
               children: [
                 SizedBox(
-                  height: 200, // Prevents the grid from growing indefinitely
+                  height: 325, // Prevents the grid from growing indefinitely
                   child: IgnorePointer(
                     ignoring: true,
                     child: InteractiveItemGrid(

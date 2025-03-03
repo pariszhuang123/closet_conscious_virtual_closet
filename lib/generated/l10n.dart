@@ -1340,10 +1340,10 @@ class S {
     );
   }
 
-  /// `Once you confirm, this item will disappear from your closet view permanently.\n\nHave you considered donating or upcycling instead?`
+  /// `Once you confirm, this item will disappear from your closet view permanently.\n\nHave you considered donating or upcycling instead?\n\n You could put it in a public closet, where people can buy / barter / swap with you for the item.`
   String get declutterThrowWarning {
     return Intl.message(
-      'Once you confirm, this item will disappear from your closet view permanently.\n\nHave you considered donating or upcycling instead?',
+      'Once you confirm, this item will disappear from your closet view permanently.\n\nHave you considered donating or upcycling instead?\n\n You could put it in a public closet, where people can buy / barter / swap with you for the item.',
       name: 'declutterThrowWarning',
       desc: '',
       args: [],

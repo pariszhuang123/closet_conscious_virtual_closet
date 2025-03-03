@@ -57,7 +57,7 @@ class SummaryOutfitAnalyticsProvider extends StatelessWidget {
         BlocProvider(
           create: (_) {
             final cubit = FilteredOutfitsCubit(coreFetchService);
-            cubit.fetchFilteredOutfits(0);  // ✅ Handles outfit filtering separately
+            cubit.fetchFilteredOutfits();  // ✅ Handles outfit filtering separately
             return cubit;
           },
         ),

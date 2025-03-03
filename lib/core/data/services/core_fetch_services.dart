@@ -1,6 +1,9 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../../utilities/logger.dart';
 import '../../filter/data/models/filter_setting.dart';
+import '../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
+import '../../../user_management/user_service_locator.dart';
 
 class CoreFetchService {
   final CustomLogger _logger = CustomLogger('CoreFetchService');
@@ -613,4 +616,37 @@ class CoreFetchService {
       rethrow;
     }
   }
+
+  Future<bool> fetchCalendarSelection() async {
+    try {
+      final authBloc = locator<AuthBloc>();
+      final userId = authBloc.userId;
+
+      if (userId == null) {
+        _logger.e('User ID is null. Cannot fetch is_calendar_selectable.');
+        return false;
+      }
+
+      _logger.d('Fetching is_calendar_selectable for user: $userId');
+
+      final data = await Supabase.instance.client
+          .from('shared_preferences')
+          .select('is_calendar_selectable')
+          .eq('user_id', userId)
+          .single();
+
+      if (data.isNotEmpty) {
+        final isSelectable = data['is_calendar_selectable'] as bool? ?? false;
+        _logger.i('Fetched is_calendar_selectable: $isSelectable for user: $userId');
+        return isSelectable;
+      } else {
+        _logger.w('No data found for is_calendar_selectable, defaulting to false');
+        return false;
+      }
+    } catch (e) {
+      _logger.e('Error fetching is_calendar_selectable: $e');
+      return false;
+    }
+  }
+
 }

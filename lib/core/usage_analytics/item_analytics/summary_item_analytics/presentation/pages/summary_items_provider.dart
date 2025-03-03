@@ -6,12 +6,15 @@ import '../bloc/summary_items_bloc.dart';
 import 'summary_items_screen.dart';
 import '../../../../../utilities/logger.dart';
 import '../../../../../data/services/core_fetch_services.dart';
+import '../../../../../data/services/core_save_services.dart';
 import '../../../../../../item_management/core/data/services/item_fetch_service.dart';
 import '../../../../../../user_management/user_service_locator.dart';
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../../../item_management/view_items/presentation/bloc/view_items_bloc.dart';
 import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
+import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
+import '../../../../../../item_management/multi_closet/core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
 
 class SummaryItemsProvider extends StatelessWidget {
   final bool isFromMyCloset; // Determines the theme
@@ -27,6 +30,8 @@ class SummaryItemsProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     final itemFetchService = GetIt.instance<ItemFetchService>();
     final coreFetchService = GetIt.instance<CoreFetchService>();
+    final coreSaveService = GetIt.instance<CoreSaveService>();
+
 
     final logger = CustomLogger('SummaryItemsProvider');
     logger.i('Initializing SummaryItemsProvider with isFromMyCloset=$isFromMyCloset');
@@ -60,6 +65,19 @@ class SummaryItemsProvider extends StatelessWidget {
             return cubit;
           },
         ),
+        BlocProvider(
+          create: (context) => FocusOrCreateClosetBloc(
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
+          )..add(FetchFocusOrCreateCloset()),
+        ),
+        BlocProvider(
+          create: (context) => MultiClosetNavigationBloc(
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
+          )..add(CheckMultiClosetAccessEvent()), // Ensure it initializes with access check
+        ),
+
       ],
       child: SummaryItemsScreen(
         isFromMyCloset: isFromMyCloset,

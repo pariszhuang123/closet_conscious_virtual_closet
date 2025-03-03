@@ -210,7 +210,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("一旦确认，该物品将从你的衣橱中永久消失。"),
         "declutterOptions": MessageLookupByLibrary.simpleMessage("您想做什么？"),
         "declutterThrowWarning": MessageLookupByLibrary.simpleMessage(
-            "一旦确认，该物品将从你的衣橱中永久消失\n\n你是否考虑过捐赠或升级改造？"),
+            "一旦确认，该物品将从你的衣橱中永久消失\n\n你是否考虑过捐赠或升级改造？\n\n您可以将其放入公共衣橱，让其他人购买、以物换物或与您交换该物品。"),
         "defaultAchievementMessage":
             MessageLookupByLibrary.simpleMessage("您已达成一个新里程碑！继续努力，迈向环保时尚的旅程。"),
         "defaultAchievementTitle":

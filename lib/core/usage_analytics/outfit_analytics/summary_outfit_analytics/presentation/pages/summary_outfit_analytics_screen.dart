@@ -12,17 +12,52 @@ import '../../../../../utilities/routes.dart';
 import '../../../../../widgets/layout/list/outfit_list.dart'; // ✅ Import OutfitList
 import '../../../../core/presentation/bloc/filtered_outfit_cubit/filtered_outfits_cubit.dart';
 
-class SummaryOutfitAnalyticsScreen extends StatelessWidget {
+class SummaryOutfitAnalyticsScreen extends StatefulWidget {
   final bool isFromMyCloset;
   final List<String> selectedOutfitIds;
 
-  final CustomLogger _logger = CustomLogger('SummaryOutfitAnalyticsScreen');
-
-  SummaryOutfitAnalyticsScreen({
+  const SummaryOutfitAnalyticsScreen({
     super.key,
     required this.isFromMyCloset,
     this.selectedOutfitIds = const [],
   });
+
+  @override
+  State<SummaryOutfitAnalyticsScreen> createState() =>
+      _SummaryOutfitAnalyticsScreenState();
+}
+
+class _SummaryOutfitAnalyticsScreenState
+    extends State<SummaryOutfitAnalyticsScreen> {
+  final CustomLogger _logger = CustomLogger('SummaryOutfitAnalyticsScreen');
+
+  /// This controller listens to scroll position
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Immediately fetch the first page of outfits
+    context.read<FilteredOutfitsCubit>().fetchFilteredOutfits();
+
+    // Whenever user reaches bottom, fetch the next page
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _logger.i("Reached the bottom! Fetching next page...");
+        context.read<FilteredOutfitsCubit>().fetchFilteredOutfits();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // Always dispose your scroll controller
+    _scrollController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {

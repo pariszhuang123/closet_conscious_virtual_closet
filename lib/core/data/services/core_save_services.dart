@@ -403,6 +403,41 @@ class CoreSaveService {
     })
         .eq('user_id', userId);
   }
+
+  Future<bool> saveCalendarSelection(bool isSelectable) async {
+    logger.i('Saving is_calendar_selectable: $isSelectable');
+
+    try {
+      final authBloc = locator<AuthBloc>(); // Fetching AuthBloc from GetIt
+      final userId = authBloc.userId;
+
+      if (userId == null) {
+        logger.e('User ID is null. Cannot save is_calendar_selectable.');
+        return false;
+      }
+
+      final response = await Supabase.instance.client
+          .from('shared_preferences')
+          .update({
+        'is_calendar_selectable': isSelectable,
+        'updated_at': DateTime.now().toUtc().toIso8601String(),
+      })
+          .eq('user_id', userId)
+          .select(); // Fetch the updated row to confirm success
+
+      if (response.isEmpty) {
+        logger.e('No matching record found to update.');
+        return false;
+      }
+
+      logger.i('Calendar selection updated successfully for user: $userId');
+      return true;
+    } catch (e) {
+      logger.e('Error saving is_calendar_selectable for user: $e');
+      return false;
+    }
+  }
+
 }
 
 

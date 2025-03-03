@@ -129,7 +129,7 @@
   "Throw": "丢弃",
   "declutterOptions": "您想做什么？",
   "areYouSure": "你确定吗？",
-  "declutterThrowWarning": "一旦确认，该物品将从你的衣橱中永久消失\n\n你是否考虑过捐赠或升级改造？",
+  "declutterThrowWarning": "一旦确认，该物品将从你的衣橱中永久消失\n\n你是否考虑过捐赠或升级改造？\n\n您可以将其放入公共衣橱，让其他人购买、以物换物或与您交换该物品。",
   "declutterGenericWarning": "一旦确认，该物品将从你的衣橱中永久消失。",
   "confirm": "确认",
   "itemsUploadedTooltip": "您上传到环保衣橱的物品数量",
