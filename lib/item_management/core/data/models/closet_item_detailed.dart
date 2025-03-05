@@ -2,7 +2,6 @@ import '../../../../core/utilities/logger.dart';
 
 class ClosetItemDetailed {
   final String itemId;
-  final String imageUrl;
   final List<String> itemType;
   final String name;
   final double amountSpent;
@@ -20,7 +19,6 @@ class ClosetItemDetailed {
 
   ClosetItemDetailed({
     required this.itemId,
-    required this.imageUrl,
     required this.itemType,
     required this.name,
     required this.amountSpent,
@@ -38,7 +36,6 @@ class ClosetItemDetailed {
   factory ClosetItemDetailed.fromJson(Map<String, dynamic> json) {
     final item = ClosetItemDetailed(
       itemId: json['item_id'],
-      imageUrl: json['image_url'],
       itemType: List<String>.from(json['item_type'] ?? []),
       name: json['name'],
       amountSpent: json['amount_spent'],
@@ -71,7 +68,6 @@ class ClosetItemDetailed {
   void logMetadata() {
     _logger.d('Logging metadata for item: $itemId');
     _logger.i('Item ID: $itemId');
-    _logger.i('Image URL: $imageUrl');
     _logger.i('Item Type: ${itemType.join(", ")}');
     _logger.i('Name: $name');
     _logger.i('Amount Spent: $amountSpent');
@@ -89,7 +85,6 @@ class ClosetItemDetailed {
   // Optional: Add logging to other methods like copyWith as needed
   ClosetItemDetailed copyWith({
     String? itemId,
-    String? imageUrl,
     List<String>? itemType,
     String? name,
     double? amountSpent,
@@ -106,7 +101,6 @@ class ClosetItemDetailed {
     _logger.d('Copying ClosetItemDetailed');
     return ClosetItemDetailed(
       itemId: itemId ?? this.itemId,
-      imageUrl: imageUrl ?? this.imageUrl,
       itemType: itemType ?? this.itemType,
       name: name ?? this.name,
       amountSpent: amountSpent ?? this.amountSpent,

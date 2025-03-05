@@ -319,6 +319,38 @@ class ItemFetchService {
     }
   }
 
+  Future<List<String>> fetchItemImageUrl(itemId) async {
+    try {
+      final authBloc = locator<AuthBloc>();
+      final userId = authBloc.userId;
+
+      if (userId == null) {
+        logger.e('User not authenticated. userId is null.');
+        return [];
+      }
+
+      final List<dynamic> data = await Supabase.instance.client
+          .from('items')
+          .select('image_url')
+          .eq('current_owner_id', userId)
+          .eq('item_id', itemId); // Added filter for item_id
+
+      if (data.isNotEmpty) {
+        final List<String> imageUrls =
+        data.map((item) => item['image_url'] as String).toList();
+        logger.i('Retrieved ${imageUrls.length} item images.');
+        return imageUrls;
+      } else {
+        logger.i('No images found for user.');
+        return [];
+      }
+    } catch (e) {
+      logger.e('Error fetching item images: $e');
+      return [];
+    }
+  }
+
+
 }
 
 class ItemFetchException implements Exception {

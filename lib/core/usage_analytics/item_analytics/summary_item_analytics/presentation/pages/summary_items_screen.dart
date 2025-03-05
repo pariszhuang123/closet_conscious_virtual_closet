@@ -20,6 +20,7 @@ import '../../../../../widgets/button/themed_elevated_button.dart';
 import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 import '../../../../../paywall/data/feature_key.dart';
+import '../../../../../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
 
 class SummaryItemsScreen extends StatefulWidget {
   final bool isFromMyCloset; // Determines the theme
@@ -139,6 +140,22 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
     }
   }
 
+  void _onItemSelected(BuildContext context) {
+    final itemId = context.read<SingleSelectionItemCubit>().state.selectedItemId;
+
+    if (itemId != null) {
+      logger.i("Navigating to item details for itemId: $itemId");
+
+      Navigator.pushNamed(
+        context,
+        AppRoutes.focusedItemsAnalytics, // ✅ Ensure this route exists
+        arguments: itemId,
+      );
+    } else {
+      logger.w("No item selected, navigation not triggered.");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
@@ -245,26 +262,42 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                 builder: (context, crossAxisCount) {
                   return BlocBuilder<ViewItemsBloc, ViewItemsState>(
                     builder: (context, viewState) {
-                      if (viewState is ItemsLoading) {
-                        return const Center(child: ClosetProgressIndicator());
-                      } else if (viewState is ItemsError) {
-                        return Center(
-                          child: Text(S.of(context).failedToLoadItems),
-                        );
-                      } else if (viewState is ItemsLoaded) {
-                        return InteractiveItemGrid(
-                          items: viewState.items,
-                          scrollController: _scrollController,
-                          crossAxisCount: crossAxisCount,
-                          enablePricePerWear: true,
-                          selectionMode: SelectionMode.multiSelection,
-                          selectedItemIds: widget.selectedItemIds,
-                        );
-                      } else {
-                        return Center(
-                          child: Text(S.of(context).noItemsInCloset),
-                        );
-                      }
+                      return BlocBuilder<FocusOrCreateClosetBloc, FocusOrCreateClosetState>(
+                        builder: (context, focusState) {
+                          SelectionMode selectionMode = SelectionMode.action; // Default
+
+                          if (focusState is FocusOrCreateClosetLoaded) {
+                            selectionMode = focusState.isCalendarSelectable
+                                ? SelectionMode.multiSelection
+                                : SelectionMode.action;
+                          }
+
+                          if (viewState is ItemsLoading) {
+                            return const Center(child: ClosetProgressIndicator());
+                          } else if (viewState is ItemsError) {
+                            return Center(
+                              child: Text(S.of(context).failedToLoadItems),
+                            );
+                          } else if (viewState is ItemsLoaded) {
+                            return InteractiveItemGrid(
+                              items: viewState.items,
+                              scrollController: _scrollController,
+                              crossAxisCount: crossAxisCount,
+                              enablePricePerWear: true,
+                              selectionMode: selectionMode,
+                              selectedItemIds: widget.selectedItemIds,
+                              onAction: () {
+                                _onItemSelected(
+                                    context); // ✅ Call when an item is tapped
+                              }
+                                );
+                          } else {
+                            return Center(
+                              child: Text(S.of(context).noItemsInCloset),
+                            );
+                          }
+                        },
+                      );
                     },
                   );
                 },

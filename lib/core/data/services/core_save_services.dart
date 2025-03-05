@@ -438,6 +438,49 @@ class CoreSaveService {
     }
   }
 
+  Future<bool> navigateToItemAnalytics({required String itemId}) async {
+    logger.i('Navigating to item analytics for item: $itemId');
+    try {
+      final response = await Supabase.instance.client.rpc(
+        'navigate_to_item_analytics',
+        params: {'_item_id': itemId},
+      );
+
+      if (response != null && response == true) {
+        logger.i('Successfully updated item analytics.');
+        return true;
+      } else {
+        logger.e('Failed to update item analytics.');
+        return false;
+      }
+    } catch (e) {
+      logger.e('Exception while navigating to item analytics: $e');
+      return false;
+    }
+  }
+
+  Future<bool> navigateToOutfitAnalytics({required String outfitId}) async {
+    logger.i('Navigating to outfit analytics for outfit: $outfitId');
+    try {
+      final response = await Supabase.instance.client.rpc(
+        'navigate_to_outfit_analytics',
+        params: {'_outfit_id': outfitId},
+      );
+
+      if (response != null && response == true) {
+        logger.i('Successfully updated outfit analytics.');
+        return true;
+      } else {
+        logger.e('Failed to update outfit analytics.');
+        return false;
+      }
+    } catch (e) {
+      logger.e('Exception while navigating to outfit analytics: $e');
+      return false;
+    }
+  }
+
+
 }
 
 

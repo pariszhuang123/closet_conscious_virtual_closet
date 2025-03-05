@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 import '../bloc/summary_outfit_analytics_bloc/summary_outfit_analytics_bloc.dart';
 import 'summary_outfit_analytics_screen.dart';
@@ -11,6 +10,8 @@ import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../core/presentation/bloc/filtered_outfit_cubit/filtered_outfits_cubit.dart';
 import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
+import '../../../../../core_service_locator.dart';
+
 
 class SummaryOutfitAnalyticsProvider extends StatelessWidget {
   final bool isFromMyCloset;
@@ -27,8 +28,8 @@ class SummaryOutfitAnalyticsProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final coreFetchService = GetIt.instance<CoreFetchService>();
-    final coreSaveService = GetIt.instance<CoreSaveService>();
+    final coreFetchService = coreLocator<CoreFetchService>();
+    final coreSaveService = coreLocator<CoreSaveService>();
     final logger = CustomLogger('SummaryOutfitAnalyticsProvider');
 
     logger.i('Initializing SummaryOutfitAnalyticsProvider for ${isFromMyCloset ? "Closet" : "Outfit"}');

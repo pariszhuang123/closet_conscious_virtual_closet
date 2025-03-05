@@ -281,6 +281,14 @@ class TypeDataList {
     return TypeData('focus', (context) => S.of(context).focus, 'assets/icons/my_outfit/calendar/zoom_in.svg', false);
   }
 
+  static TypeData summaryItemAnalytics(BuildContext context) {
+    return TypeData('summaryItemAnalytics', (context) => S.of(context).summaryItemAnalytics, 'assets/icons/general/item_analytics.svg', false);
+  }
+
+  static TypeData summaryOutfitAnalytics(BuildContext context) {
+    return TypeData('summaryOutfitAnalytics', (context) => S.of(context).summaryOutfitAnalytics, 'assets/icons/general/outfit_analytics.svg', false);
+  }
+
   static TypeData previous(BuildContext context) {
     return TypeData('previous', (context) => S.of(context).previous, 'assets/icons/my_outfit/calendar/chevron_left.svg', false);
   }

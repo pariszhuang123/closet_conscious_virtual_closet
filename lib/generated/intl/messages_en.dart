@@ -682,6 +682,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Start Free Trial"),
         "styleOn": MessageLookupByLibrary.simpleMessage("Review Outfit"),
         "success": MessageLookupByLibrary.simpleMessage("Success"),
+        "summaryItemAnalytics":
+            MessageLookupByLibrary.simpleMessage("Item\nInsights"),
+        "summaryOutfitAnalytics":
+            MessageLookupByLibrary.simpleMessage("Outfit Insights"),
         "summer": MessageLookupByLibrary.simpleMessage("Summer"),
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("Support & Assistance"),

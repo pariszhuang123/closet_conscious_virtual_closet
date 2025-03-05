@@ -4730,6 +4730,26 @@ class S {
       args: [totalReviews, daysTracked, closetShown],
     );
   }
+
+  /// `Item\nInsights`
+  String get summaryItemAnalytics {
+    return Intl.message(
+      'Item\nInsights',
+      name: 'summaryItemAnalytics',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Outfit Insights`
+  String get summaryOutfitAnalytics {
+    return Intl.message(
+      'Outfit Insights',
+      name: 'summaryOutfitAnalytics',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

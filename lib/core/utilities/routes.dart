@@ -26,6 +26,7 @@ import '../data/models/arguments.dart';
 import '../presentation/pages/trial_started/trial_started_provider.dart';
 import '../usage_analytics/core/presentation/pages/usage_analytics_scaffold.dart';
 import '../usage_analytics/item_analytics/summary_item_analytics/presentation/pages/summary_items_provider.dart';
+import '../usage_analytics/item_analytics/focused_item_analytics/presentation/pages/focused_item_analytics_provider.dart';
 import '../usage_analytics/outfit_analytics/summary_outfit_analytics/presentation/pages/summary_outfit_analytics_provider.dart';
 import '../paywall/presentation/pages/payment_provider.dart';
 import '../user_photo/presentation/pages/photo_provider.dart';
@@ -64,7 +65,7 @@ class AppRoutes {
   static const String trialStarted = '/trial_started';
   static const String summaryItemsAnalytics = '/summary_items_analytics';
   static const String summaryOutfitAnalytics = '/summary_outfit_analytics';
-
+  static const String focusedItemsAnalytics = '/focused_items_analytics';
 
   static final CustomLogger logger = CustomLogger('AppRoutes');
 
@@ -364,6 +365,19 @@ class AppRoutes {
               selectedOutfitIds: selectedOutfitIds, // ✅ Forward to provider
             ),
             isFromMyCloset: false,
+          ),
+        );
+
+      case focusedItemsAnalytics:
+        final itemId = settings.arguments as String;
+        logger.d("Navigating to focusedItemsAnalytics with itemId: $itemId");
+        return MaterialPageRoute(
+          builder: (_) => UsageAnalyticsScaffold(
+            body: FocusedItemsAnalyticsProvider(
+              isFromMyCloset: true,
+              itemId: itemId, // ✅ Forward to provider
+            ),
+            isFromMyCloset: true,
           ),
         );
 

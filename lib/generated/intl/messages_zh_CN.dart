@@ -584,6 +584,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "startFreeTrial": MessageLookupByLibrary.simpleMessage("开始免费试用"),
         "styleOn": MessageLookupByLibrary.simpleMessage("评论造型"),
         "success": MessageLookupByLibrary.simpleMessage("成功"),
+        "summaryItemAnalytics": MessageLookupByLibrary.simpleMessage("物品洞察"),
+        "summaryOutfitAnalytics": MessageLookupByLibrary.simpleMessage("穿搭洞察"),
         "summer": MessageLookupByLibrary.simpleMessage("夏季"),
         "supportAssistanceSection":
             MessageLookupByLibrary.simpleMessage("支持与帮助"),

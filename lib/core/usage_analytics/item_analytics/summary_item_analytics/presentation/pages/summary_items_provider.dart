@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 import '../bloc/summary_items_bloc.dart';
 import 'summary_items_screen.dart';
@@ -15,6 +14,10 @@ import '../../../../../../item_management/core/presentation/bloc/multi_selection
 import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 import '../../../../../../item_management/multi_closet/core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
+import '../../../../../../item_management/item_service_locator.dart';
+import '../../../../../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
+import '../../../../../core_service_locator.dart';
+
 
 class SummaryItemsProvider extends StatelessWidget {
   final bool isFromMyCloset; // Determines the theme
@@ -28,9 +31,9 @@ class SummaryItemsProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final itemFetchService = GetIt.instance<ItemFetchService>();
-    final coreFetchService = GetIt.instance<CoreFetchService>();
-    final coreSaveService = GetIt.instance<CoreSaveService>();
+    final itemFetchService = itemLocator<ItemFetchService>();
+    final coreFetchService = coreLocator<CoreFetchService>();
+    final coreSaveService = coreLocator<CoreSaveService>();
 
 
     final logger = CustomLogger('SummaryItemsProvider');
@@ -44,6 +47,9 @@ class SummaryItemsProvider extends StatelessWidget {
         ),
         BlocProvider<MultiSelectionItemCubit>(
           create: (context) => MultiSelectionItemCubit()..initializeSelection(selectedItemIds),
+        ),
+        BlocProvider<SingleSelectionItemCubit>(
+          create: (context) => SingleSelectionItemCubit(),
         ),
         BlocProvider<SummaryItemsBloc>(
           create: (context) => SummaryItemsBloc(coreFetchService: coreFetchService)

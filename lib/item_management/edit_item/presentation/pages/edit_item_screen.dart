@@ -220,7 +220,28 @@ class _EditItemScreenState extends State<EditItemScreen> {
   Widget build(BuildContext context) {
     final ThemeData myClosetTheme = Theme.of(context);
 
-    return BlocConsumer<EditItemBloc, EditItemState>(
+    return MultiBlocListener(
+        listeners: [
+          // Listen for image fetching
+
+          // Listen for item update events
+          BlocListener<EditItemBloc, EditItemState>(
+            listener: (context, state) {
+              if (state is EditItemUpdateSuccess) {
+                _logger.i('Update success for itemId: ${widget.itemId}');
+                Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+              } else if (state is EditItemUpdateFailure) {
+                _logger.e('Update failure for itemId: ${widget.itemId}');
+                CustomSnackbar(
+                  message: state.errorMessage,
+                  theme: Theme.of(context),
+                ).show(context);
+              }
+            },
+          ),
+        ],
+
+    child: BlocConsumer<EditItemBloc, EditItemState>(
       listener: (context, state) {
 
         if (state is EditItemUpdateSuccess) {
@@ -246,11 +267,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
             _amountSpentController.text = currentItem.amountSpent.toString();
           }
 
-          if (_imageUrl != currentItem.imageUrl) {
-            setState(() {
-              _imageUrl = currentItem.imageUrl;
-            });
-          }
         } else if (state is EditItemMetadataChanged) {
           final updatedItem = state.updatedItem;
 
@@ -469,6 +485,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           return const Center(child: ClosetProgressIndicator());
         }
       },
+    ),
     );
   }
 }
