@@ -56,7 +56,7 @@ END;
 $$;
 
 
-CREATE OR REPLACE FUNCTION get_related_outfits(_outfit_id UUID,p_current_page INT)
+CREATE OR REPLACE FUNCTION get_related_outfits(_outfit_id UUID, p_current_page INT)
 RETURNS JSONB
 LANGUAGE plpgsql
 SET search_path = ''
@@ -65,8 +65,7 @@ DECLARE
     current_user_id UUID := auth.uid();
     total_related_count INT;
     outfits_per_page INT := 10;  -- Define how many items per page
-    offset_val INT := (p_current_page) * outfits_per_page;  -- Calculate offset based on page number
-
+    offset_val INT := (p_current_page) * outfits_per_page;  -- Calculate offset
 BEGIN
     -- Update user shared preferences
     UPDATE public.shared_preferences
@@ -97,31 +96,27 @@ BEGIN
         );
     END IF;
 
-    -- Determine the status based on the count
+    -- ✅ Use EXECUTE for pagination variables
     RETURN (
         WITH main_outfit_items AS (
-            -- Get all item_ids of the main outfit
             SELECT oi.item_id
             FROM public.outfit_items oi
             WHERE oi.outfit_id = _outfit_id
         ),
         ranked_outfits AS (
-            -- Find related outfits based on shared items
             SELECT
                 o.outfit_id,
                 COUNT(oi.item_id) AS matching_items
             FROM public.outfits o
             JOIN public.outfit_items oi ON o.outfit_id = oi.outfit_id
-            JOIN main_outfit_items moi ON oi.item_id = moi.item_id  -- Ensure matching items
+            JOIN main_outfit_items moi ON oi.item_id = moi.item_id
             WHERE o.is_active = TRUE
               AND o.outfit_id != _outfit_id
               AND o.user_id = current_user_id
             GROUP BY o.outfit_id
             ORDER BY matching_items DESC, o.created_at DESC
-            LIMIT outfits_per_page OFFSET offset_val  -- ✅ Apply Pagination
         ),
         final_outfits AS (
-            -- Fetch full metadata for ranked outfits
             SELECT
                 o.outfit_id,
                 o.outfit_image_url,
@@ -158,9 +153,9 @@ BEGIN
             FROM public.outfit_items oi
             JOIN public.items i ON oi.item_id = i.item_id
             WHERE oi.outfit_id = fo.outfit_id
-        ) AS fallback_items ON fo.outfit_image_url = 'cc_none';
+        ) AS fallback_items ON fo.outfit_image_url = 'cc_none'
+        LIMIT outfits_per_page OFFSET offset_val
     );
-
 END;
 $$;
 
