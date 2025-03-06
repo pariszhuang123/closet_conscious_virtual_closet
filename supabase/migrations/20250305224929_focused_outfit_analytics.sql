@@ -268,23 +268,23 @@ BEGIN
             OFFSET offset_val
         ) tfo
         LEFT JOIN LATERAL (
-            SELECT COALESCE(
-            -- ✅ Fetch items only for `cc_none` outfits
-            SELECT JSONB_AGG(
-                JSONB_BUILD_OBJECT(
-                    'item_id', i.item_id,
-                    'image_url', i.image_url,
-                    'name', i.name,
-                    'item_is_active', i.is_active,
-                    'is_disliked', oi.disliked
-                ),
-                 '[]'::JSONB  -- ✅ Ensures empty array instead of NULL
-            ) AS items
+            SELECT
+                COALESCE(
+                    JSONB_AGG(
+                        JSONB_BUILD_OBJECT(
+                            'item_id', i.item_id,
+                            'image_url', i.image_url,
+                            'name', i.name,
+                            'item_is_active', i.is_active,
+                            'is_disliked', oi.disliked
+                        )
+                    ), '[]'::JSONB  -- ✅ Ensures empty array instead of NULL
+                ) AS items
             FROM public.outfit_items oi
             JOIN public.items i ON oi.item_id = i.item_id
             WHERE oi.outfit_id = tfo.outfit_id
             ORDER BY i.is_active DESC, i.updated_at DESC
-        ) AS fallback_items ON tfo.outfit_image_url = 'cc_none'   -- ✅ Always joins, but applies only if `cc_none`
+        ) AS fallback_items ON tfo.outfit_image_url = 'cc_none'
     ) AS outfit_data;
 
     -- Drop temporary table
