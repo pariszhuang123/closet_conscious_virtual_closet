@@ -20,7 +20,7 @@ import '../../../core/widgets/button/themed_elevated_button.dart';
 class NpsDialog extends StatelessWidget {
   final int milestone;
   final CustomLogger logger = CustomLogger('NPSDialogLogger');
-  final OutfitSaveService outfitSaveService = getIt<OutfitSaveService>();
+  final outfitSaveService = outfitLocator<OutfitSaveService>();
   final AppStoreReview appStoreReview = AppStoreReview(); // Updated to use the new AppStoreReview class
 
   NpsDialog({super.key, required this.milestone});

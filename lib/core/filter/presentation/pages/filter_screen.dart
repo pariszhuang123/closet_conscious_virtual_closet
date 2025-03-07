@@ -13,11 +13,17 @@ import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../core_enums.dart';
 import '../../../utilities/routes.dart';
 import '../../../paywall/data/feature_key.dart';
+import '../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../widgets/tab/single_selection_tab/all_closet_toggle.dart';
+import '../widgets/tab/single_selection_tab/closet_grid_widget.dart';
 
 class FilterScreen extends StatelessWidget {
   final bool isFromMyCloset;
   final List<String> selectedItemIds;
+  final List<String> selectedOutfitIds;
   final String returnRoute;
+  final bool showOnlyClosetFilter; // New parameter
+
 
   // Initialize logger for FilterScreen
   final CustomLogger _logger = CustomLogger('FilterScreen');
@@ -26,9 +32,11 @@ class FilterScreen extends StatelessWidget {
     super.key,
     required this.isFromMyCloset,
     required this.selectedItemIds,
+    required this.selectedOutfitIds,
     required this.returnRoute,
+    required this.showOnlyClosetFilter, // Default to false
   }) {
-    _logger.i('FilterScreen initialized with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds');
+    _logger.i('FilterScreen initialized with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds, showOnlyClosetFilter: $showOnlyClosetFilter');
   }
 
   @override
@@ -70,7 +78,11 @@ class FilterScreen extends StatelessWidget {
                 _logger.i('SaveStatus: saveSuccess, navigating to returnRoute: $returnRoute');
                 Navigator.of(context).pushReplacementNamed(
                   returnRoute,
-                  arguments: {'selectedItemIds': selectedItemIds},
+                  arguments: {
+                    'selectedItemIds': selectedItemIds,
+                    'selectedOutfitIds': selectedOutfitIds
+                  },
+
                 );
               }
               if (state.accessStatus == AccessStatus.trialPending) {
@@ -112,15 +124,43 @@ class FilterScreen extends StatelessWidget {
                 return Column(
                   children: [
                     // TabBarView takes available space above the button
-                    Expanded(
-                      child: TabBarView(
-                        children: [
-                          SingleSelectionTab(state: state),
-                          MultiSelectionTab(state: state),
-                        ],
+                    if (showOnlyClosetFilter) ...[
+                      const SizedBox(height: 20),
+                      if (state.hasMultiClosetFeature)
+                        AllClosetToggle(
+                          isAllCloset: state.allCloset,
+                          onChanged: (value) {
+                            context.read<FilterBloc>().add(UpdateFilterEvent(allCloset: value));
+                            _logger.i('Dispatched UpdateFilterEvent with allCloset: $value');
+                          },
+                        ),
+                      const SizedBox(height: 20),
+                      if (state.hasMultiClosetFeature && !state.allCloset)
+                        Expanded(
+                          child: BlocBuilder<CrossAxisCountCubit, int>(
+                            builder: (context, crossAxisCount) {
+                              return ClosetGridWidget(
+                                closets: state.allClosetsDisplay,
+                                selectedClosetId: state.selectedClosetId,
+                                onSelectCloset: (closetId) {
+                                  context.read<FilterBloc>().add(UpdateFilterEvent(selectedClosetId: closetId));
+                                  _logger.i('Dispatched UpdateFilterEvent with selectedClosetId: $closetId');
+                                },
+                                crossAxisCount: crossAxisCount,
+                              );
+                            },
+                          ),
+                        ),
+                    ] else ...[
+                      Expanded(
+                        child: TabBarView(
+                          children: [
+                            SingleSelectionTab(state: state),
+                            MultiSelectionTab(state: state),
+                          ],
+                        ),
                       ),
-                    ),
-                    // Save Filter Button using ThemedElevatedButton
+                    ],
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: ThemedElevatedButton(

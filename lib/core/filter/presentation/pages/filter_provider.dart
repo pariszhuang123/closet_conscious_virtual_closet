@@ -12,7 +12,9 @@ import 'filter_screen.dart';
 class FilterProvider extends StatelessWidget {
   final bool isFromMyCloset;
   final List<String> selectedItemIds;
+  final List<String> selectedOutfitIds;
   final String returnRoute;
+  final bool showOnlyClosetFilter;
 
   final CustomLogger logger = CustomLogger('FilterProvider');
 
@@ -20,9 +22,11 @@ class FilterProvider extends StatelessWidget {
     super.key,
     required this.isFromMyCloset,
     required this.selectedItemIds,
+    required this.selectedOutfitIds,
     required this.returnRoute,
+    required this.showOnlyClosetFilter,
   }) {
-    logger.i('FilterProvider initialized with isFromMyCloset: $isFromMyCloset and selectedItemIds: $selectedItemIds');
+    logger.i('FilterProvider initialized with isFromMyCloset: $isFromMyCloset and selectedItemIds: $selectedItemIds and selectedOutfitIds: $selectedOutfitIds');
   }
 
   @override
@@ -61,7 +65,9 @@ class FilterProvider extends StatelessWidget {
       child: FilterScreen(
         isFromMyCloset: isFromMyCloset,
         selectedItemIds: selectedItemIds,
+        selectedOutfitIds: selectedOutfitIds,
         returnRoute: returnRoute,
+        showOnlyClosetFilter: showOnlyClosetFilter,
       ),
     );
   }

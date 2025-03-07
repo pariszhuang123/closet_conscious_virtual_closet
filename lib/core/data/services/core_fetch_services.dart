@@ -531,8 +531,8 @@ class CoreFetchService {
 
       _logger.i('Successfully fetched related outfits: $data');
       return data;
-    } catch (e) {
-      _logger.e('Error in getItemRelatedOutfits: $e');
+    } catch (error) {
+      _logger.e('Error in getItemRelatedOutfits: $error');
       rethrow;
     }
   }
@@ -595,21 +595,54 @@ class CoreFetchService {
     }
   }
 
-  Future<Map<String, dynamic>> fetchRelatedOutfits(String outfitId) async {
+  Future<Map<String, dynamic>> fetchOutfitById(String outfitId) async {
     try {
-      _logger.d('Fetching related outfits for outfitId: $outfitId');
+      _logger.d('Fetching outfit details for outfitId: $outfitId');
 
       final response = await Supabase.instance.client.rpc(
-        'get_related_outfits',
-        params: {'f_outfit_id': outfitId},
+        'get_outfit_by_id',
+        params: {'_outfit_id': outfitId},
       ) as Map<String, dynamic>;
 
-      if (response.isNotEmpty) {
-        _logger.i('Related outfits fetched successfully: $response');
+      if (response.isNotEmpty && response['status'] == 'success') {
+        _logger.i('Outfit details fetched successfully: $response');
         return response;
       } else {
         _logger.e('Unexpected response format or no data returned: $response');
         throw Exception('Unexpected response format or no data returned');
+      }
+    } catch (e) {
+      _logger.e('Error fetching outfit details: $e');
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchRelatedOutfits({
+    required String outfitId,
+    required int currentPage,
+  }) async {
+    try {
+      _logger.d('Fetching related outfits for outfitId: $outfitId, page: $currentPage');
+
+      final response = await Supabase.instance.client.rpc(
+        'get_related_outfits',
+        params: {'_outfit_id': outfitId, 'p_current_page': currentPage},
+      );
+
+      if (response is Map<String, dynamic>) {
+        if (response['status'] == 'no_similar_items') {
+          _logger.i('No related outfits found for outfitId: $outfitId');
+          return {'status': 'no_similar_items', 'related_outfits': []};
+        } else if (response['status'] == 'success' && response.containsKey('related_outfits')) {
+          _logger.i('Related outfits fetched successfully for outfitId: $outfitId');
+          return response;
+        } else {
+          _logger.e('Unexpected response format: $response');
+          throw Exception('Unexpected response format');
+        }
+      } else {
+        _logger.e('Unexpected response type: ${response.runtimeType}');
+        throw Exception('Unexpected response type');
       }
     } catch (e) {
       _logger.e('Error fetching related outfits: $e');

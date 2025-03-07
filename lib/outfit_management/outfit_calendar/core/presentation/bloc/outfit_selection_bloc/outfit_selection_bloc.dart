@@ -16,6 +16,8 @@ class OutfitSelectionBloc extends Bloc<OutfitSelectionEvent, OutfitSelectionStat
       : super(OutfitSelectionInitial()) {
     on<BulkToggleOutfitSelectionEvent>(_onBulkToggleOutfitSelection);
     on<ToggleOutfitSelectionEvent>(_onToggleOutfitSelection);
+    on<ClearOutfitSelectionEvent>(_onClearOutfitSelection);
+    on<SelectAllOutfitsEvent>(_onSelectAllOutfits);
     on<FetchActiveItemsEvent>(_onFetchActiveItems);
   }
 
@@ -41,6 +43,21 @@ class OutfitSelectionBloc extends Bloc<OutfitSelectionEvent, OutfitSelectionStat
       logger.d('Selected outfit ID: ${event.outfitId}');
     }
     emit(OutfitSelectionUpdated(List.from(selectedOutfitIds)));
+  }
+
+
+  void _onClearOutfitSelection(
+      ClearOutfitSelectionEvent event, Emitter<OutfitSelectionState> emit) {
+    selectedOutfitIds.clear();
+    logger.i('Cleared all selected outfits');
+    emit(const OutfitSelectionUpdated([])); // Emit empty selection state
+  }
+
+  void _onSelectAllOutfits(
+      SelectAllOutfitsEvent event, Emitter<OutfitSelectionState> emit) {
+    selectedOutfitIds = List.from(event.allOutfitIds);
+    logger.i('Selected all outfits: $selectedOutfitIds');
+    emit(OutfitSelectionUpdated(selectedOutfitIds));
   }
 
   Future<void> _onFetchActiveItems(

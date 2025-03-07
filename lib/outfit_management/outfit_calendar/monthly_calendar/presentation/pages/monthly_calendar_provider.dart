@@ -31,8 +31,8 @@ class MonthlyCalendarProvider extends StatelessWidget {
     final logger = CustomLogger('MonthlyCalendarProvider');
     logger.i('Initializing MonthlyCalendarProvider with selectedOutfitIds: $selectedOutfitIds');
 
-    final outfitFetchService = getIt<OutfitFetchService>();
-    final outfitSaveService = getIt<OutfitSaveService>();
+    final outfitFetchService = outfitLocator<OutfitFetchService>();
+    final outfitSaveService = outfitLocator<OutfitSaveService>();
     final coreFetchService = coreLocator<CoreFetchService>();
     final coreSaveService = coreLocator<CoreSaveService>();
 

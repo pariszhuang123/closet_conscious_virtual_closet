@@ -29,6 +29,8 @@ class DailyCalendarProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _logger.i('Building DailyCalendarProvider');
+    final outfitFetchService = outfitLocator<OutfitFetchService>();
+    final outfitSaveService = outfitLocator<OutfitSaveService>();
 
     return MultiBlocProvider(
       providers: [
@@ -37,8 +39,8 @@ class DailyCalendarProvider extends StatelessWidget {
           create: (context) {
             _logger.d('Creating DailyCalendarBloc');
             return DailyCalendarBloc(
-                outfitFetchService: getIt<OutfitFetchService>(),
-                outfitSaveService: getIt<OutfitSaveService>())
+                outfitFetchService: outfitFetchService,
+                outfitSaveService: outfitSaveService)
               ..add(const FetchDailyCalendarEvent()); // Fetch latest data from Supabase
           },
         ),

@@ -9,8 +9,12 @@ import '../../../../../data/services/core_save_services.dart';
 import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../core/presentation/bloc/filtered_outfit_cubit/filtered_outfits_cubit.dart';
-import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../../../core_service_locator.dart';
+import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
+import '../../../../../../item_management/multi_closet/core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
+import '../../../../../../outfit_management/outfit_calendar/core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
+import '../../../../../../outfit_management/core/data/services/outfits_fetch_services.dart';
+import '../../../../../../outfit_management/outfit_service_locator.dart';
 
 
 class SummaryOutfitAnalyticsProvider extends StatelessWidget {
@@ -30,15 +34,13 @@ class SummaryOutfitAnalyticsProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     final coreFetchService = coreLocator<CoreFetchService>();
     final coreSaveService = coreLocator<CoreSaveService>();
+    final outfitFetchService = outfitLocator<OutfitFetchService>();
     final logger = CustomLogger('SummaryOutfitAnalyticsProvider');
 
     logger.i('Initializing SummaryOutfitAnalyticsProvider for ${isFromMyCloset ? "Closet" : "Outfit"}');
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider<MultiSelectionItemCubit>(
-          create: (context) => MultiSelectionItemCubit()..initializeSelection(selectedItemIds),
-        ),
         BlocProvider(
           create: (_) {
             logger.i('Creating UsageAnalyticsNavigationBloc...');
@@ -70,6 +72,28 @@ class SummaryOutfitAnalyticsProvider extends StatelessWidget {
             return cubit;
           },
         ),
+        BlocProvider(
+          create: (context) => FocusOrCreateClosetBloc(
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
+          )..add(FetchFocusOrCreateCloset()),
+        ),
+        BlocProvider(
+          create: (context) => MultiClosetNavigationBloc(
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
+          )..add(CheckMultiClosetAccessEvent()), // Ensure it initializes with access check
+        ),
+        BlocProvider(
+          create: (context) {
+            logger.d('Creating OutfitSelectionBloc...');
+            return OutfitSelectionBloc(
+              outfitFetchService: outfitFetchService,
+              logger: CustomLogger('OutfitSelectionBloc'),
+            );
+          },
+        ),
+
       ],
       child: SummaryOutfitAnalyticsScreen(
           isFromMyCloset: isFromMyCloset,

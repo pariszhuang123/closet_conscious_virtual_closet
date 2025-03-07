@@ -22,6 +22,17 @@ class ToggleOutfitSelectionEvent extends OutfitSelectionEvent {
   List<Object> get props => [outfitId];
 }
 
+class ClearOutfitSelectionEvent extends OutfitSelectionEvent {} // Reset selection
+
+class SelectAllOutfitsEvent extends OutfitSelectionEvent {
+  final List<String> allOutfitIds;
+
+  const SelectAllOutfitsEvent(this.allOutfitIds);
+
+  @override
+  List<Object> get props => [allOutfitIds];
+}
+
 class FetchActiveItemsEvent extends OutfitSelectionEvent {
   final List<String> selectedOutfitIds;
   const FetchActiveItemsEvent(this.selectedOutfitIds);

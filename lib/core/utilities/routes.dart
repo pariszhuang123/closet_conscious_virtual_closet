@@ -28,6 +28,7 @@ import '../usage_analytics/core/presentation/pages/usage_analytics_scaffold.dart
 import '../usage_analytics/item_analytics/summary_item_analytics/presentation/pages/summary_items_provider.dart';
 import '../usage_analytics/item_analytics/focused_item_analytics/presentation/pages/focused_item_analytics_provider.dart';
 import '../usage_analytics/outfit_analytics/summary_outfit_analytics/presentation/pages/summary_outfit_analytics_provider.dart';
+import '../usage_analytics/outfit_analytics/related_outfit_analytics/presentation/pages/related_outfit_analytics_provider.dart';
 import '../paywall/presentation/pages/payment_provider.dart';
 import '../user_photo/presentation/pages/photo_provider.dart';
 import '../customize/presentation/pages/customize_provider.dart';
@@ -64,8 +65,9 @@ class AppRoutes {
   static const String dailyDetailedCalendar = '/daily_detailed_calendar';
   static const String trialStarted = '/trial_started';
   static const String summaryItemsAnalytics = '/summary_items_analytics';
-  static const String summaryOutfitAnalytics = '/summary_outfit_analytics';
   static const String focusedItemsAnalytics = '/focused_items_analytics';
+  static const String summaryOutfitAnalytics = '/summary_outfit_analytics';
+  static const String relatedOutfitAnalytics = '/related_outfit_analytics';
 
   static final CustomLogger logger = CustomLogger('AppRoutes');
 
@@ -111,14 +113,18 @@ class AppRoutes {
           final args = settings.arguments as Map<String, dynamic>? ?? {};
           final bool isFromMyCloset = args['isFromMyCloset'] as bool? ?? true;
           final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
+          final List<String> selectedOutfitIds = args['selectedOutfitIds'] as List<String>? ?? [];
           final String returnRoute = args['returnRoute'] as String? ?? AppRoutes.myCloset; // Extract returnRoute
-          logger.d("Navigating to filter with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds, returnRoute: $returnRoute");
+          final bool showOnlyClosetFilter = args['isFromMyCloset'] as bool? ?? false;
+          logger.d("Navigating to filter with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds, selectedOutfitIds: $selectedOutfitIds, returnRoute: $returnRoute");
 
           return MaterialPageRoute(
             builder: (_) => FilterProvider(
               isFromMyCloset: isFromMyCloset,
               selectedItemIds: selectedItemIds,
+              selectedOutfitIds: selectedOutfitIds,
               returnRoute: returnRoute,
+              showOnlyClosetFilter: showOnlyClosetFilter,
             ),
           );
         case myCloset:
@@ -351,7 +357,20 @@ class AppRoutes {
             ),
           );
 
-        case AppRoutes.summaryOutfitAnalytics:
+      case focusedItemsAnalytics:
+        final itemId = settings.arguments as String;
+        logger.d("Navigating to focusedItemsAnalytics with itemId: $itemId");
+        return MaterialPageRoute(
+          builder: (_) => UsageAnalyticsScaffold(
+            body: FocusedItemsAnalyticsProvider(
+              isFromMyCloset: true,
+              itemId: itemId, // ✅ Forward to provider
+            ),
+            isFromMyCloset: true,
+          ),
+        );
+
+      case AppRoutes.summaryOutfitAnalytics:
 
         logger.i('Navigating to $summaryOutfitAnalytics with arguments: ${settings.arguments}');
         final args = settings.arguments as Map<String, dynamic>?; // ✅ Extract arguments
@@ -368,16 +387,16 @@ class AppRoutes {
           ),
         );
 
-      case focusedItemsAnalytics:
-        final itemId = settings.arguments as String;
-        logger.d("Navigating to focusedItemsAnalytics with itemId: $itemId");
+      case relatedOutfitAnalytics:
+        final outfitId = settings.arguments as String;
+        logger.d("Navigating to relatedOutfitAnalytics with outfitId: $outfitId");
         return MaterialPageRoute(
           builder: (_) => UsageAnalyticsScaffold(
-            body: FocusedItemsAnalyticsProvider(
-              isFromMyCloset: true,
-              itemId: itemId, // ✅ Forward to provider
+            body: RelatedOutfitAnalyticsProvider(
+              isFromMyCloset: false,
+              outfitId: outfitId, // ✅ Forward to provider
             ),
-            isFromMyCloset: true,
+            isFromMyCloset: false,
           ),
         );
 

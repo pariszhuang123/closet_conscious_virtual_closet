@@ -9,7 +9,6 @@ class OutfitList<T> extends StatelessWidget {
   final List<T> outfits;
   final int crossAxisCount;
   final Function(String outfitId) onOutfitTap;
-  final VoidCallback onAction;
 
   static final CustomLogger _logger = CustomLogger('OutfitList');
 
@@ -18,7 +17,6 @@ class OutfitList<T> extends StatelessWidget {
     required this.outfits,
     required this.crossAxisCount,
     required this.onOutfitTap,
-    required this.onAction,
   });
 
   @override

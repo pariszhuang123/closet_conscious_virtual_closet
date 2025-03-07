@@ -42,8 +42,8 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
 
       Navigator.pushNamed(
         context,
-        AppRoutes.editItem, // ✅ Ensure this route exists
-        arguments: {'itemId': selectedItemId},
+        AppRoutes.focusedItemsAnalytics, // ✅ Ensure this route exists
+        arguments: selectedItemId,
       );
     } else {
       _logger.w("No item selected, navigation not triggered.");
@@ -133,8 +133,8 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
                           _logger.i("Navigating to outfit details for outfitId: $outfitId");
                           Navigator.pushNamed(
                             context,
-                            AppRoutes.dailyDetailedCalendar, // Ensure this route is defined
-                            arguments: {'outfitId': outfitId},
+                            AppRoutes.relatedOutfitAnalytics, // Ensure this route is defined
+                            arguments: outfitId,
                           );
                         },
                         onAction: () {
