@@ -630,8 +630,8 @@ class CoreFetchService {
       if (response is Map<String, dynamic>) {
         if (response['status'] == 'no_similar_items') {
           _logger.i('No related outfits found for outfitId: $outfitId');
-          return {'status': 'no_similar_items', 'related_outfits': []};
-        } else if (response['status'] == 'success' && response.containsKey('related_outfits')) {
+          return {'status': 'no_similar_items'};
+        } else if (response['status'] == 'success' && response.containsKey('outfits')) {
           _logger.i('Related outfits fetched successfully for outfitId: $outfitId');
           return response;
         } else {

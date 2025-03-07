@@ -73,20 +73,18 @@ class RelatedOutfitsCubit extends Cubit<RelatedOutfitsState> {
       }
 
       // Retrieve related outfits array
-      final outfitsJson = response["related_outfits"] as List<dynamic>;
+      final outfitsJson = response["outfits"] as List<dynamic>;
       final outfits = outfitsJson.map((json) => OutfitData.fromMap(json)).toList();
 
       // If no new outfits are returned, we've reached the end
       if (outfits.isEmpty) {
         _logger.i("No more outfits returned from server. Stopping pagination.");
         _hasMoreOutfits = false;
+      } else {
+        // Append new outfits and increment page
+        _allOutfits.addAll(outfits);
+        _currentPage++;
       }
-
-      // Append new outfits to local list
-      _allOutfits.addAll(outfits);
-
-      // Move to the next page
-      _currentPage++;
 
       // Finally, emit success with the entire list so far
       emit(RelatedOutfitsSuccess(_allOutfits));

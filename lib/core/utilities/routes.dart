@@ -115,7 +115,7 @@ class AppRoutes {
           final List<String> selectedItemIds = args['selectedItemIds'] as List<String>? ?? [];
           final List<String> selectedOutfitIds = args['selectedOutfitIds'] as List<String>? ?? [];
           final String returnRoute = args['returnRoute'] as String? ?? AppRoutes.myCloset; // Extract returnRoute
-          final bool showOnlyClosetFilter = args['isFromMyCloset'] as bool? ?? false;
+          final bool showOnlyClosetFilter = args['showOnlyClosetFilter'] as bool? ?? false;
           logger.d("Navigating to filter with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds, selectedOutfitIds: $selectedOutfitIds, returnRoute: $returnRoute");
 
           return MaterialPageRoute(

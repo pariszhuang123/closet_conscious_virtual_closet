@@ -54,7 +54,9 @@ class FilterScreen extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: Text(S.of(context).filterItemsTitle, style: theme.textTheme.titleMedium),
-            bottom: TabBar(
+            bottom: showOnlyClosetFilter
+                ? null
+                : TabBar(
               tabs: [
                 Tab(text: S.of(context).basicFiltersTab),
                 Tab(text: S.of(context).advancedFiltersTab),

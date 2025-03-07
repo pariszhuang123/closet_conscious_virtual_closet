@@ -18,7 +18,7 @@ import '../../../../../../outfit_management/outfit_calendar/core/presentation/bl
 import '../../../../../widgets/feedback/custom_snack_bar.dart';
 import '../../../../../theme/my_outfit_theme.dart';
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
-
+import '../../../../../../outfit_management/core/data/models/outfit_data.dart';
 
 class SummaryOutfitAnalyticsScreen extends StatefulWidget {
   final bool isFromMyCloset;
@@ -180,7 +180,7 @@ class _SummaryOutfitAnalyticsScreenState
               Navigator.pushReplacementNamed(
                 context,
                 AppRoutes.relatedOutfitAnalytics,
-                arguments: {'outfitId': state.outfitId},
+                arguments: state.outfitId,
               );
             } else if (state is OutfitFocusedDateFailure) {
               _logger.e("❌ Failed to set focused date: ${state.error}");
@@ -296,12 +296,11 @@ class _SummaryOutfitAnalyticsScreenState
                 }
                 // ✅ Success: Display the filtered outfits
                 else if (state is FilteredOutfitsSuccess) {
-                  _logger.d(
-                      "✅ Filtered outfits count: ${state.outfits.length}");
+                  _logger.d("✅ Filtered outfits count: ${state.outfits.length}");
 
                   return BlocBuilder<CrossAxisCountCubit, int>(
                     builder: (context, crossAxisCount) {
-                      return OutfitList(
+                      return OutfitList<OutfitData>( // 👈 Explicitly declare <OutfitData>
                         outfits: state.outfits,
                         crossAxisCount: crossAxisCount,
                         onOutfitTap: (outfitId) => _onOutfitTap(context, outfitId),

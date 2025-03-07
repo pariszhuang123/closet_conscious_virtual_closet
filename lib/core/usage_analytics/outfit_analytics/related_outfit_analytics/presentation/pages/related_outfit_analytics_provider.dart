@@ -9,6 +9,7 @@ import '../../presentation/bloc/single_outfit_cubit/single_outfit_cubit.dart';
 import '../../presentation/bloc/related_outfits_cubit/related_outfits_cubit.dart';
 import '../../../../../../core/core_service_locator.dart';
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
+import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import 'related_outfit_analytics_screen.dart';
 
 class RelatedOutfitAnalyticsProvider extends StatelessWidget {
@@ -65,6 +66,14 @@ class RelatedOutfitAnalyticsProvider extends StatelessWidget {
           create: (context) {
             _logger.i('Creating OutfitFocusedDateCubit...');
             return OutfitFocusedDateCubit(coreSaveService);
+          },
+        ),
+        BlocProvider(
+          create: (_) {
+            _logger.i('Creating MultiSelectionItemCubit...');
+            final cubit = MultiSelectionItemCubit();
+            cubit.initializeSelection;
+            return cubit;
           },
         ),
       ],

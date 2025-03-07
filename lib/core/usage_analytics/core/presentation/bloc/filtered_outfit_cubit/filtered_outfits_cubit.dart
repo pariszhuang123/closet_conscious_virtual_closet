@@ -16,7 +16,8 @@ class FilteredOutfitsCubit extends Cubit<FilteredOutfitsState> {
   int _currentPage = 0;
   final List<OutfitData> _allOutfits = [];
 
-  FilteredOutfitsCubit(this.coreFetchServices) : super(FilteredOutfitsInitial());
+  FilteredOutfitsCubit(this.coreFetchServices)
+      : super(FilteredOutfitsInitial());
 
   /// Public method to fetch the next page of outfits.
   /// If [refresh] is true, start from page 0 again.
@@ -45,7 +46,8 @@ class FilteredOutfitsCubit extends Cubit<FilteredOutfitsState> {
 
     try {
       _logger.i("🔄 Fetching filtered outfits for page $_currentPage");
-      final response = await coreFetchServices.fetchFilteredOutfits(currentPage: _currentPage);
+      final response = await coreFetchServices.fetchFilteredOutfits(
+          currentPage: _currentPage);
 
       _logger.d("Raw RPC response for filtered outfits: $response");
 
@@ -78,36 +80,27 @@ class FilteredOutfitsCubit extends Cubit<FilteredOutfitsState> {
       }
 
       if (status != "success") {
-        _logger.w("⚠️ Unknown status received: $status");
-        emit(FilteredOutfitsFailure("Unknown status: $status"));
+        _logger.w("⚠️ Status not success: $status");
+        emit(FilteredOutfitsFailure("Status not success: $status"));
         return;
       }
 
-      // Retrieve outfits array and total count
+      // Retrieve outfits list from the response
       final outfitsJson = response["outfits"] as List<dynamic>;
-      final outfits = outfitsJson.map((json) => OutfitData.fromMap(json)).toList();
+      final outfits = outfitsJson.map((json) => OutfitData.fromMap(json))
+          .toList();
 
-      final int totalFilteredOutfits = response["total_filtered_outfits"] ?? 0;
-
-      // If no new outfits are returned, we've reached the end
+      // If no new outfits are returned, end pagination
       if (outfits.isEmpty) {
         _logger.i("No more outfits returned from server. Stopping pagination.");
         _hasMoreOutfits = false;
+      } else {
+        // Append new outfits and increment page
+        _allOutfits.addAll(outfits);
+        _currentPage++;
       }
 
-      // Append new outfits to local list
-      _allOutfits.addAll(outfits);
-
-      // If our total so far is >= total from server, no more remain
-      if (_allOutfits.length >= totalFilteredOutfits) {
-        _logger.i("All outfits loaded.");
-        _hasMoreOutfits = false;
-      }
-
-      // Move to the next page
-      _currentPage++;
-
-      // Finally, emit success with the entire list so far
+      // Emit updated state with all loaded outfits
       emit(FilteredOutfitsSuccess(_allOutfits));
     } catch (e) {
       _logger.e("❌ Error fetching outfits: $e");

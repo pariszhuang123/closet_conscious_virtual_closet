@@ -13,6 +13,7 @@ import '../../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../item_analytics/focused_item_analytics/presentation/bloc/fetch_item_related_outfits_cubit.dart';
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
+import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 
 
 class FocusedItemsAnalyticsProvider extends StatelessWidget {
@@ -70,6 +71,14 @@ class FocusedItemsAnalyticsProvider extends StatelessWidget {
           create: (context) {
             logger.i('Creating OutfitFocusedDateCubit...');
             return OutfitFocusedDateCubit(coreSaveService);
+          },
+        ),
+        BlocProvider(
+          create: (_) {
+            logger.i('Creating MultiSelectionItemCubit...');
+            final cubit = MultiSelectionItemCubit();
+            cubit.initializeSelection;
+            return cubit;
           },
         ),
       ],

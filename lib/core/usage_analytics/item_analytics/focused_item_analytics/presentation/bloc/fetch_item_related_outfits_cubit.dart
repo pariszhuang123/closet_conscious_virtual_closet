@@ -67,7 +67,7 @@ class FetchItemRelatedOutfitsCubit extends Cubit<FetchItemRelatedOutfitsState> {
         return;
       }
 
-      final outfitsJson = response["related_outfits"] as List<dynamic>;
+      final outfitsJson = response["outfits"] as List<dynamic>;
       final outfits = outfitsJson.map((json) => OutfitData.fromMap(json)).toList();
 
       if (outfits.isEmpty) {

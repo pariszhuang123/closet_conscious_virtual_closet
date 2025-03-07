@@ -16,7 +16,7 @@ import '../../../../../../outfit_management/outfit_calendar/core/presentation/bl
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../../../../../outfit_management/outfit_service_locator.dart';
-
+import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 
 class SummaryOutfitAnalyticsProvider extends StatelessWidget {
   final bool isFromMyCloset;
@@ -98,6 +98,14 @@ class SummaryOutfitAnalyticsProvider extends StatelessWidget {
           create: (context) {
             logger.i('Creating OutfitFocusedDateCubit...');
             return OutfitFocusedDateCubit(coreSaveService);
+          },
+        ),
+        BlocProvider(
+          create: (_) {
+            logger.i('Creating MultiSelectionItemCubit...');
+            final cubit = MultiSelectionItemCubit();
+            cubit.initializeSelection(selectedItemIds);
+            return cubit;
           },
         ),
       ],
