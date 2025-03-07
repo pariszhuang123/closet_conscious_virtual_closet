@@ -480,6 +480,16 @@ class CoreSaveService {
     }
   }
 
+  Future<bool> setFocusedDateForOutfit(String outfitId) async {
+    final result = await Supabase.instance.client
+        .rpc('outfit_focused_date', params: {'_outfit_id': outfitId});
+
+    if (result is bool) {
+      return result;
+    } else {
+      throw Exception('Unexpected result from RPC: $result');
+    }
+  }
 
 }
 

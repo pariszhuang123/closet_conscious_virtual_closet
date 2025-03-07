@@ -11,6 +11,7 @@ import '../bloc/fetch_item_related_outfits_cubit.dart';
 import '../../../../../widgets/layout/list/outfit_list.dart';
 import '../../../../../../outfit_management/core/data/models/outfit_data.dart';
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 
 class FocusedItemsAnalyticsScreen extends StatelessWidget {
   final bool isFromMyCloset;
@@ -49,6 +50,23 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                 logger.e('Failed to navigate to item analytics: ${state.error}');
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to load item analytics: ${state.error}')),
+                );
+              }
+            },
+          ),
+          BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
+            listener: (context, state) {
+              if (state is OutfitFocusedDateSuccess) {
+                logger.i('✅ Focused date set successfully for outfitId: ${state.outfitId}');
+                Navigator.pushReplacementNamed(
+                  context,
+                  AppRoutes.dailyCalendar,
+                  arguments: {'outfitId': state.outfitId}, // ✅ Pass as a Map
+                );
+              } else if (state is OutfitFocusedDateFailure) {
+                logger.e('❌ Failed to set focused date: ${state.error}');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.error)),
                 );
               }
             },
@@ -94,9 +112,10 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                           return OutfitList<OutfitData>(
                             outfits: outfits,
                             crossAxisCount: crossAxisCount, // ✅ Uses dynamic cross-axis count
-                              onOutfitTap: (selectedOutfitId) {
-                                logger.d('Tapped related outfit: $selectedOutfitId');
-                              }
+                            onOutfitTap: (outfitId) {
+                              logger.d('Tapped related outfit: $outfitId');
+                              context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(outfitId);
+                            },
                           );
                         } else if (outfitState is NoItemRelatedOutfitsState) {
                           return const Center(child: Text("No related outfits found."));

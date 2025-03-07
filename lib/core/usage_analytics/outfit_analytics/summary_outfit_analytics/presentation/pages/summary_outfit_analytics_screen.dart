@@ -17,6 +17,7 @@ import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_
 import '../../../../../../outfit_management/outfit_calendar/core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
 import '../../../../../widgets/feedback/custom_snack_bar.dart';
 import '../../../../../theme/my_outfit_theme.dart';
+import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 
 
 class SummaryOutfitAnalyticsScreen extends StatefulWidget {
@@ -120,6 +121,12 @@ class _SummaryOutfitAnalyticsScreenState
     }
   }
 
+  void _onOutfitTap(BuildContext context, String outfitId) {
+    _logger.i("📌 Outfit tapped: $outfitId - Setting focused date");
+
+    context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(outfitId);
+  }
+
   void _onCreateClosetButtonPressed(BuildContext context) {
     final state = context
         .read<FocusOrCreateClosetBloc>()
@@ -163,6 +170,24 @@ class _SummaryOutfitAnalyticsScreenState
                 context,
                 AppRoutes.summaryOutfitAnalytics,
               );
+            }
+          },
+        ),
+        BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
+          listener: (context, state) {
+            if (state is OutfitFocusedDateSuccess) {
+              _logger.i("✅ Focused date set successfully for outfit: ${state.outfitId}");
+              Navigator.pushReplacementNamed(
+                context,
+                AppRoutes.relatedOutfitAnalytics,
+                arguments: {'outfitId': state.outfitId},
+              );
+            } else if (state is OutfitFocusedDateFailure) {
+              _logger.e("❌ Failed to set focused date: ${state.error}");
+              CustomSnackbar(
+                message: "Failed to set focused date: ${state.error}",
+                theme: Theme.of(context),
+              ).show(context);
             }
           },
         ),
@@ -279,15 +304,7 @@ class _SummaryOutfitAnalyticsScreenState
                       return OutfitList(
                         outfits: state.outfits,
                         crossAxisCount: crossAxisCount,
-                        onOutfitTap: (outfitId) {
-                          _logger.i(
-                              "📌 Navigating to outfit details for outfitId: $outfitId");
-                          Navigator.pushReplacementNamed(
-                            context,
-                            AppRoutes.relatedOutfitAnalytics,
-                            arguments: {'outfitId': outfitId},
-                          );
-                        },
+                        onOutfitTap: (outfitId) => _onOutfitTap(context, outfitId),
                       );
                     },
                   );

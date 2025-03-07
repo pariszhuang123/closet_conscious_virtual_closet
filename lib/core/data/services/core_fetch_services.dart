@@ -511,19 +511,16 @@ class CoreFetchService {
       _logger.d('Fetching related outfits for item ID: $itemId, page: $currentPage');
 
       final response = await Supabase.instance.client.rpc(
-        'get_item_related_outfits',
-        params: {
-          'f_item_id': itemId,
-          'p_current_page': currentPage,
-        },
+      'get_item_related_outfits',
+      params: {
+      'f_item_id': itemId,
+      'p_current_page': currentPage,
+      },
       );
 
-      if (response.error != null) {
-        _logger.e('Error fetching related outfits: ${response.error!.message}');
-        throw Exception('Error fetching related outfits: ${response.error!.message}');
-      }
+      // ✅ Directly use response as a map
+      final data = response as Map<String, dynamic>?;
 
-      final data = response.data as Map<String, dynamic>?;
       if (data == null) {
         _logger.e('Unexpected response format or no data returned');
         throw Exception('Unexpected response format or no data returned');
@@ -536,6 +533,7 @@ class CoreFetchService {
       rethrow;
     }
   }
+
 
   /// Fetches outfit usage analytics from Supabase RPC `get_outfit_usage_analytics`
   Future<Map<String, dynamic>> getOutfitUsageAnalytics() async {
@@ -681,5 +679,6 @@ class CoreFetchService {
       return false;
     }
   }
+
 
 }

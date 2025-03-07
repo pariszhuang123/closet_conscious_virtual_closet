@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../utilities/logger.dart';
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../bloc/single_outfit_cubit/single_outfit_cubit.dart';
 import '../bloc/related_outfits_cubit/related_outfits_cubit.dart';
 import '../../../../../../outfit_management/core/data/models/outfit_data.dart';
@@ -27,8 +28,24 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _logger.d('Building RelatedOutfitAnalyticsScreen for outfitId: $outfitId');
+    return BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
+        listener: (context, state) {
+          if (state is OutfitFocusedDateSuccess) {
+            _logger.i('✅ Focused date set successfully for outfitId: ${state.outfitId}');
+            Navigator.pushReplacementNamed(
+              context,
+              AppRoutes.dailyCalendar,
+              arguments: {'outfitId': state.outfitId}, // ✅ Pass as a Map
+            );
+          } else if (state is OutfitFocusedDateFailure) {
+            _logger.e('❌ Failed to set focused date: ${state.error}');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.error)),
+            );
+          }
+        },
 
-    return Column(
+    child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         // ✅ Fetch & Display Main Outfit
@@ -51,6 +68,7 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
                       isSelected: true,
                       onTap: () {
                         _logger.d('Tapped on main outfit: $outfitId');
+                        context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(outfitId);
                       },
                     ),
                   );
@@ -96,6 +114,7 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
           },
         ),
       ],
+    )
     );
   }
 }

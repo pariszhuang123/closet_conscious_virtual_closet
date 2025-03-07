@@ -13,6 +13,7 @@ import '../../../../../core_service_locator.dart';
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 import '../../../../../../item_management/multi_closet/core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
 import '../../../../../../outfit_management/outfit_calendar/core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
+import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../../../../../outfit_management/outfit_service_locator.dart';
 
@@ -93,7 +94,12 @@ class SummaryOutfitAnalyticsProvider extends StatelessWidget {
             );
           },
         ),
-
+        BlocProvider(
+          create: (context) {
+            logger.i('Creating OutfitFocusedDateCubit...');
+            return OutfitFocusedDateCubit(coreSaveService);
+          },
+        ),
       ],
       child: SummaryOutfitAnalyticsScreen(
           isFromMyCloset: isFromMyCloset,

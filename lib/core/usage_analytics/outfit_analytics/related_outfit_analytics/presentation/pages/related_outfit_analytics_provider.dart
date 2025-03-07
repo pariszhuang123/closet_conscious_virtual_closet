@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/utilities/logger.dart';
 import '../../../../../../core/data/services/core_fetch_services.dart';
+import '../../../../../../core/data/services/core_save_services.dart';
 import '../../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../presentation/bloc/single_outfit_cubit/single_outfit_cubit.dart';
 import '../../presentation/bloc/related_outfits_cubit/related_outfits_cubit.dart';
 import '../../../../../../core/core_service_locator.dart';
+import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import 'related_outfit_analytics_screen.dart';
 
 class RelatedOutfitAnalyticsProvider extends StatelessWidget {
@@ -26,6 +28,7 @@ class RelatedOutfitAnalyticsProvider extends StatelessWidget {
     _logger.i('Initializing RelatedOutfitAnalyticsProvider with outfitId: $outfitId');
 
     final coreFetchService = coreLocator<CoreFetchService>();
+    final coreSaveService = coreLocator<CoreSaveService>();
 
     return MultiBlocProvider(
       providers: [
@@ -56,6 +59,12 @@ class RelatedOutfitAnalyticsProvider extends StatelessWidget {
             final cubit = CrossAxisCountCubit(coreFetchService: coreFetchService);
             cubit.fetchCrossAxisCount();
             return cubit;
+          },
+        ),
+        BlocProvider(
+          create: (context) {
+            _logger.i('Creating OutfitFocusedDateCubit...');
+            return OutfitFocusedDateCubit(coreSaveService);
           },
         ),
       ],
