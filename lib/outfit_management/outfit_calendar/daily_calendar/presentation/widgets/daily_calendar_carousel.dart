@@ -63,6 +63,7 @@ class _DailyCalendarCarouselState extends State<DailyCalendarCarousel> {
                       outfit: outfits[index],
                       crossAxisCount: widget.crossAxisCount,
                       isSelected: false,
+                      useLargeHeight: true, // ✅ Pass dynamically
                       onTap: () {
                         widget.onTap(outfits[index].outfitId);  // Call onTap function from parent
                       },

@@ -520,6 +520,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "No outfits found in this month. You can create your first reviewed outfit or choose another date where you have reviewed your outfit."),
         "noReappearClosets": MessageLookupByLibrary.simpleMessage(
             "No reappeared closets found."),
+        "noRelatedOutfits": MessageLookupByLibrary.simpleMessage(
+            "No related outfits reviewed yet.\n\nTry styling any of the above outfit items to create another outfit!"),
+        "noRelatedOutfitsItem": MessageLookupByLibrary.simpleMessage(
+            "No related outfits reviewed yet.\n\nTry styling this outfit differently!"),
         "noReviewedOutfitMessage": MessageLookupByLibrary.simpleMessage(
             "You haven’t reviewed any outfits yet. Start by reviewing your first outfit!"),
         "npsExplanation": MessageLookupByLibrary.simpleMessage(
@@ -603,6 +607,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "recommendClosetConscious": MessageLookupByLibrary.simpleMessage(
             "How likely are you to recommend Closet Conscious to a friend?"),
         "red": MessageLookupByLibrary.simpleMessage("Red"),
+        "relatedOutfits":
+            MessageLookupByLibrary.simpleMessage("Related Outfits"),
         "reservedClosetNameError": MessageLookupByLibrary.simpleMessage(
             "\'cc_closet\' is a reserved name. Please choose another."),
         "reset": MessageLookupByLibrary.simpleMessage("reset"),

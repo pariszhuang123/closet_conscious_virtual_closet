@@ -12,6 +12,7 @@ import '../../../../../widgets/layout/list/outfit_list.dart';
 import '../../../../../../outfit_management/core/data/models/outfit_data.dart';
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
+import '../../../../../../generated/l10n.dart';
 
 class FocusedItemsAnalyticsScreen extends StatelessWidget {
   final bool isFromMyCloset;
@@ -93,6 +94,21 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                   onSummaryItemAnalyticsButtonPressed: () => _onSummaryItemAnalyticsButtonPressed(context),
                 ),
 
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 0.0), // ✅ Adjusted padding
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      S.of(context).relatedOutfits, // ✅ Localized text
+                      style: Theme.of(context).textTheme.titleSmall, // ✅ Use titleMedium directly
+                    ),
+                  ),
+                ),
+
+
+// Divider using theme's dividerColor
+                Divider(color: Theme.of(context).dividerColor, thickness: 2, height: 0),
+
                 const SizedBox(height: 16),
 
                 /// **Fetch and Display Related Outfits**
@@ -107,11 +123,18 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                         } else if (outfitState is FetchItemRelatedOutfitsSuccess) {
                           final outfits = outfitState.outfits;
                           if (outfits.isEmpty) {
-                            return const Center(child: Text("No related outfits found."));
+                            return Center(
+                              child: Text(
+                                S.of(context).noRelatedOutfitsItem, // ✅ Localized empty state text
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.titleLarge, // ✅ Consistent typography
+                              ),
+                            );
                           }
                           return OutfitList<OutfitData>(
                             outfits: outfits,
                             crossAxisCount: crossAxisCount, // ✅ Uses dynamic cross-axis count
+                            useLargeHeight: true, // ✅ Pass dynamically
                             onOutfitTap: (outfitId) {
                               logger.d('Tapped related outfit: $outfitId');
                               context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(outfitId);

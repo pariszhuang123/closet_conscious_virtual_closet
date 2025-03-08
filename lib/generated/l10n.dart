@@ -4750,6 +4750,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Related Outfits`
+  String get relatedOutfits {
+    return Intl.message(
+      'Related Outfits',
+      name: 'relatedOutfits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No related outfits reviewed yet.\n\nTry styling this outfit differently!`
+  String get noRelatedOutfitsItem {
+    return Intl.message(
+      'No related outfits reviewed yet.\n\nTry styling this outfit differently!',
+      name: 'noRelatedOutfitsItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No related outfits reviewed yet.\n\nTry styling any of the above outfit items to create another outfit!`
+  String get noRelatedOutfits {
+    return Intl.message(
+      'No related outfits reviewed yet.\n\nTry styling any of the above outfit items to create another outfit!',
+      name: 'noRelatedOutfits',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

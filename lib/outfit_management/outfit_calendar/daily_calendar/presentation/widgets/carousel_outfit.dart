@@ -13,6 +13,7 @@ class CarouselOutfit<T> extends StatelessWidget {
   final int crossAxisCount;
   final bool isSelected;
   final VoidCallback onTap;
+  final bool useLargeHeight; // ✅ New parameter to control layout
 
   static final _logger = CustomLogger('CarouselOutfit');
 
@@ -22,6 +23,7 @@ class CarouselOutfit<T> extends StatelessWidget {
     required this.crossAxisCount,
     required this.isSelected,
     required this.onTap,
+    required this.useLargeHeight, // ✅ Require boolean from parent
   });
 
   @override
@@ -53,8 +55,10 @@ class CarouselOutfit<T> extends StatelessWidget {
 
     _logger.d('Outfit details: outfitId=$outfitId, imageUrl=$outfitImageUrl, isActive=$isActive, eventName=$eventName, itemCount=${items.length}');
 
+    double heightFactor = useLargeHeight ? 0.36 : 0.22; // ✅ Set height dynamically
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +76,7 @@ class CarouselOutfit<T> extends StatelessWidget {
             Stack(
               children: [
                 SizedBox(
-                  height: 290, // Prevents the grid from growing indefinitely
+                  height: MediaQuery.of(context).size.height * heightFactor, // ✅ Use 15% for grid
                   child: IgnorePointer(
                     ignoring: true,
                     child: InteractiveItemGrid(
@@ -96,16 +100,21 @@ class CarouselOutfit<T> extends StatelessWidget {
               ],
             )
           else
-            GestureDetector(
-              onTap: () {
-                _logger.d('CarouselOutfit image tapped: outfitId=$outfitId');
-                onTap();
-              },
-              behavior: HitTestBehavior.opaque,
-              child: OutfitImageWidget(
-                imageUrl: outfitImageUrl,
-                imageSize: ImageSize.selfie,
-                isActive: isActive,
+            SizedBox(
+              height: MediaQuery.of(context).size.height * heightFactor, // ✅ Use 50% for image
+              child: GestureDetector(
+                onTap: () {
+                  _logger.d('CarouselOutfit image tapped: outfitId=$outfitId');
+                  onTap();
+                },
+                behavior: HitTestBehavior.opaque,
+                child: Center(
+                child: OutfitImageWidget(
+                  imageUrl: outfitImageUrl,
+                  imageSize: ImageSize.selfie,
+                  isActive: isActive,
+                ),
+                )
               ),
             ),
         ],

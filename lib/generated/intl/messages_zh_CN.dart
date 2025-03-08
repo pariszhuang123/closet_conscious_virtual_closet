@@ -455,6 +455,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "本月没有找到衣服。您可以创建第一个已评价的衣服，或者选择一个您已评价衣服的日期。"),
         "noReappearClosets":
             MessageLookupByLibrary.simpleMessage("未找到重新出现的衣橱。"),
+        "noRelatedOutfits": MessageLookupByLibrary.simpleMessage(
+            "暂无相关穿搭评价。\n\n尝试搭配上方的任何服饰，创造新的穿搭！"),
+        "noRelatedOutfitsItem":
+            MessageLookupByLibrary.simpleMessage("暂无相关穿搭评价。\n\n尝试不同的搭配风格吧！"),
         "noReviewedOutfitMessage":
             MessageLookupByLibrary.simpleMessage("您尚未评价任何穿搭。请从评价您的第一个穿搭开始！"),
         "npsExplanation":
@@ -528,6 +532,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "recommendClosetConscious":
             MessageLookupByLibrary.simpleMessage("您有多大可能向朋友推荐环保衣橱？"),
         "red": MessageLookupByLibrary.simpleMessage("红色"),
+        "relatedOutfits": MessageLookupByLibrary.simpleMessage("相关穿搭"),
         "reservedClosetNameError": MessageLookupByLibrary.simpleMessage(
             "\'cc_closet\' 是保留名称，请选择其他名称。"),
         "reset": MessageLookupByLibrary.simpleMessage("刷新"),

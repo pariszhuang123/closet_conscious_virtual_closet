@@ -469,5 +469,8 @@
   "createClosetItemAnalyticsDescription": "Build your dream capsule wardrobe with pieces you already love.",
   "analyticsSummary": "You have created {totalReviews} outfits in the last {daysTracked} days in {closetShown}.",
   "summaryItemAnalytics": "Item\nInsights",
-  "summaryOutfitAnalytics": "Outfit Insights"
+  "summaryOutfitAnalytics": "Outfit Insights",
+  "relatedOutfits": "Related Outfits",
+  "noRelatedOutfitsItem": "No related outfits reviewed yet.\n\nTry styling this outfit differently!",
+  "noRelatedOutfits": "No related outfits reviewed yet.\n\nTry styling any of the above outfit items to create another outfit!"
 }

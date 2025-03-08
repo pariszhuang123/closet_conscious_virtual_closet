@@ -9,6 +9,7 @@ class OutfitList<T> extends StatelessWidget {
   final List<T> outfits;
   final int crossAxisCount;
   final Function(String outfitId) onOutfitTap;
+  final bool useLargeHeight; // ✅ New parameter to control layout
 
   static final CustomLogger _logger = CustomLogger('OutfitList');
 
@@ -17,6 +18,7 @@ class OutfitList<T> extends StatelessWidget {
     required this.outfits,
     required this.crossAxisCount,
     required this.onOutfitTap,
+    required this.useLargeHeight, // ✅ Require boolean from parent
   });
 
   @override
@@ -50,8 +52,9 @@ class OutfitList<T> extends StatelessWidget {
               children: [
                 // ✅ Outfit Image Carousel
                 SizedBox(
-                  width: 350, // ✅ Set a width for horizontal layout
+                  width: 370, // ✅ Set a width for horizontal layout
                   child: CarouselOutfit<T>(
+                    useLargeHeight: useLargeHeight,
                     outfit: outfit,
                     crossAxisCount: crossAxisCount,
                     isSelected: false,

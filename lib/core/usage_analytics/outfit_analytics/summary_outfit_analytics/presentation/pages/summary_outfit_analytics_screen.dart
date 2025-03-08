@@ -303,6 +303,7 @@ class _SummaryOutfitAnalyticsScreenState
                       return OutfitList<OutfitData>( // 👈 Explicitly declare <OutfitData>
                         outfits: state.outfits,
                         crossAxisCount: crossAxisCount,
+                        useLargeHeight: true, // ✅ Pass dynamically
                         onOutfitTap: (outfitId) => _onOutfitTap(context, outfitId),
                       );
                     },

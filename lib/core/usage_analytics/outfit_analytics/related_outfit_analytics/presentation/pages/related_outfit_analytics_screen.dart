@@ -11,6 +11,7 @@ import '../../../../../../outfit_management/outfit_calendar/daily_calendar/prese
 import '../../../../../widgets/layout/list/outfit_list.dart';
 import '../../../../../widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../../utilities/routes.dart';
+import '../../../../../../generated/l10n.dart';
 
 
 class RelatedOutfitAnalyticsScreen extends StatelessWidget {
@@ -70,6 +71,7 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
                         _logger.d('Tapped on main outfit: $outfitId');
                         context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(outfitId);
                       },
+                      useLargeHeight: false, // ✅ Pass dynamically
                     ),
                   );
                 },
@@ -78,6 +80,22 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
             return const SizedBox.shrink();
           },
         ),
+
+
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0, bottom: 0.0), // ✅ Adjusted padding
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Text(
+              S.of(context).relatedOutfits, // ✅ Localized text
+              style: Theme.of(context).textTheme.titleSmall, // ✅ Use titleMedium directly
+            ),
+          ),
+        ),
+
+
+// Divider using theme's dividerColor
+        Divider(color: Theme.of(context).dividerColor, thickness: 2, height: 0),
 
         const SizedBox(height: 16),
 
@@ -89,7 +107,13 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
             } else if (relatedState is RelatedOutfitsFailure) {
               return Center(child: Text('Error: ${relatedState.error}'));
             } else if (relatedState is NoRelatedOutfitState) {
-              return const Center(child: Text('No related outfits found.'));
+              return Center(
+                child: Text(
+                  S.of(context).noRelatedOutfits, // ✅ Localized empty state text
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleLarge, // ✅ Consistent typography
+                ),
+              );
             } else if (relatedState is RelatedOutfitsSuccess) {
               final relatedOutfits = relatedState.relatedOutfits;
 
@@ -98,6 +122,7 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
                   return OutfitList<OutfitData>(
                     outfits: relatedOutfits,
                     crossAxisCount: crossAxisCount,
+                    useLargeHeight: true, // ✅ Pass dynamically
                     onOutfitTap: (selectedOutfitId) {
                       _logger.d('Tapped related outfit: $selectedOutfitId');
                       Navigator.pushReplacementNamed(

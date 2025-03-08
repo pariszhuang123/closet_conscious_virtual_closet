@@ -469,5 +469,9 @@
   "createClosetItemAnalyticsDescription": "用现有衣物打造你的理想胶囊衣橱。",
   "analyticsSummary": "你在过去的 {daysTracked} 天里创建了 {totalReviews} 套穿搭在{closetShown}。",
   "summaryItemAnalytics": "物品洞察",
-  "summaryOutfitAnalytics": "穿搭洞察"
+  "summaryOutfitAnalytics": "穿搭洞察",
+  "relatedOutfits": "相关穿搭",
+  "noRelatedOutfitsItem": "暂无相关穿搭评价。\n\n尝试不同的搭配风格吧！",
+  "noRelatedOutfits": "暂无相关穿搭评价。\n\n尝试搭配上方的任何服饰，创造新的穿搭！"
+
 }
