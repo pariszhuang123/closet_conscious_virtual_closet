@@ -78,7 +78,7 @@ class SummaryOutfitAnalyticsFeatureContainer extends StatelessWidget {
                 assetPath: TypeDataList
                     .filter(context)
                     .assetPath,
-                isFromMyCloset: true,
+                isFromMyCloset: false,
                 buttonType: ButtonType.secondary,
                 usePredefinedColor: false,
               ),
@@ -89,7 +89,7 @@ class SummaryOutfitAnalyticsFeatureContainer extends StatelessWidget {
               assetPath: TypeDataList
                   .reset(context)
                   .assetPath,
-              isFromMyCloset: true,
+              isFromMyCloset: false,
               buttonType: ButtonType.secondary,
               usePredefinedColor: false,
             ),
@@ -100,7 +100,7 @@ class SummaryOutfitAnalyticsFeatureContainer extends StatelessWidget {
               assetPath: TypeDataList
                   .selectAll(context)
                   .assetPath,
-              isFromMyCloset: true,
+              isFromMyCloset: false,
               buttonType: ButtonType.secondary,
               usePredefinedColor: false,
             ),
@@ -112,7 +112,7 @@ class SummaryOutfitAnalyticsFeatureContainer extends StatelessWidget {
                 assetPath: TypeDataList
                     .focus(context)
                     .assetPath,
-                isFromMyCloset: true,
+                isFromMyCloset: false,
                 buttonType: ButtonType.secondary,
                 usePredefinedColor: false,
               ),
@@ -124,7 +124,7 @@ class SummaryOutfitAnalyticsFeatureContainer extends StatelessWidget {
                 assetPath: TypeDataList
                     .createCloset(context)
                     .assetPath,
-                isFromMyCloset: true,
+                isFromMyCloset: false,
                 buttonType: ButtonType.secondary,
                 usePredefinedColor: false,
               ),

@@ -13,6 +13,9 @@ import '../../../../../../outfit_management/core/data/models/outfit_data.dart';
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../../../generated/l10n.dart';
+import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
+import '../../../../../paywall/data/feature_key.dart';
+import '../../../../../core_enums.dart';
 
 class FocusedItemsAnalyticsScreen extends StatelessWidget {
   final bool isFromMyCloset;
@@ -69,6 +72,35 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(state.error)),
                 );
+              }
+            },
+          ),
+          BlocListener<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
+            listener: (context, state) {
+              if (state is UsageAnalyticsAccessState) {
+                if (state.accessStatus == AccessStatus.denied) {
+                  logger.w('Access denied: Navigating to payment page');
+                  Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.payment,
+                    arguments: {
+                      'featureKey': FeatureKey.usageAnalytics,
+                      'isFromMyCloset': isFromMyCloset,
+                      'previousRoute': AppRoutes.myCloset,
+                      'nextRoute': AppRoutes.focusedItemsAnalytics,
+                    },
+                  );
+                } else if (state.accessStatus == AccessStatus.trialPending) {
+                  logger.i('Trial pending, navigating to trialStarted screen');
+                  Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.trialStarted,
+                    arguments: {
+                      'selectedFeatureRoute': AppRoutes.focusedItemsAnalytics,
+                      'isFromMyCloset': isFromMyCloset,
+                    },
+                  );
+                }
               }
             },
           ),
@@ -141,7 +173,13 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                             },
                           );
                         } else if (outfitState is NoItemRelatedOutfitsState) {
-                          return const Center(child: Text("No related outfits found."));
+                          return Center(
+                            child: Text(
+                              S.of(context).noRelatedOutfitsItem, // ✅ Localized empty state text
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.titleLarge, // ✅ Consistent typography
+                            ),
+                          );
                         }
                         return const SizedBox.shrink();
                       },

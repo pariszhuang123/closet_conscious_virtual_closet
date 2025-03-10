@@ -10,6 +10,7 @@ import '../../presentation/bloc/related_outfits_cubit/related_outfits_cubit.dart
 import '../../../../../../core/core_service_locator.dart';
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
+import '../../../../../usage_analytics/core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import 'related_outfit_analytics_screen.dart';
 
 class RelatedOutfitAnalyticsProvider extends StatelessWidget {
@@ -74,6 +75,14 @@ class RelatedOutfitAnalyticsProvider extends StatelessWidget {
             final cubit = MultiSelectionItemCubit();
             cubit.initializeSelection;
             return cubit;
+          },
+        ),
+        BlocProvider<UsageAnalyticsNavigationBloc>(
+          create: (context) {
+            _logger.i('Creating UsageAnalyticsNavigationBloc...');
+            final bloc = UsageAnalyticsNavigationBloc(coreFetchService: coreFetchService);
+            bloc.add(CheckUsageAnalyticsAccessEvent());
+            return bloc;
           },
         ),
       ],

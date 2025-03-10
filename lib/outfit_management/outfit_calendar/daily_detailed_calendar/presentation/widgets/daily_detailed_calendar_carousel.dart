@@ -8,6 +8,7 @@ import '../../../../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../../../../core/widgets/container/logo_text_container.dart';
 import '../../../../../core/core_enums.dart';
 import '../../../../../core/widgets/layout/page_indicator.dart';
+import '../../../../../core/widgets/feedback/custom_snack_bar.dart';
 
 class DailyDetailedCalendarCarousel extends StatefulWidget {
   final List<DailyCalendarOutfit> outfits;
@@ -15,6 +16,7 @@ class DailyDetailedCalendarCarousel extends StatefulWidget {
   final int crossAxisCount;
   final Function(String outfitId) onOutfitTap; // ✅ Add this
   final VoidCallback onAction; // ✅ Now handles item taps via `onAction`
+
 
   const DailyDetailedCalendarCarousel({
     super.key,
@@ -108,6 +110,13 @@ class _DailyDetailedCalendarCarouselState extends State<DailyDetailedCalendarCar
                         onAction: () {
                           _logger.d("Item tapped in grid, triggering navigation");
                           widget.onAction();
+                        },
+                        onInactiveTap: () {
+                          // Show the custom snackbar using localization
+                          CustomSnackbar(
+                            message: S.of(context).itemInactiveMessage,
+                            theme: Theme.of(context),
+                          ).show(context);
                         },
                       ),
                     ),

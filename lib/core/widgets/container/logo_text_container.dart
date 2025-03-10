@@ -43,8 +43,8 @@ class LogoTextContainer extends StatelessWidget {
                 text,
                 style: themeData.textTheme.titleMedium,
                 textAlign: TextAlign.center,
-                maxLines: 2, // Limit text to 2 lines
-                overflow: TextOverflow.ellipsis, // Show ellipsis if text exceeds 2 lines
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),

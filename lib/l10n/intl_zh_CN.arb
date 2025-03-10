@@ -472,6 +472,7 @@
   "summaryOutfitAnalytics": "穿搭洞察",
   "relatedOutfits": "相关穿搭",
   "noRelatedOutfitsItem": "暂无相关穿搭评价。\n\n尝试不同的搭配风格吧！",
-  "noRelatedOutfits": "暂无相关穿搭评价。\n\n尝试搭配上方的任何服饰，创造新的穿搭！"
-
+  "noRelatedOutfits": "暂无相关穿搭评价。\n\n尝试搭配上方的任何服饰，创造新的穿搭！",
+  "calendarNavigationFailed": "无法导航日历。",
+  "itemInactiveMessage": "这件单品已退役，不再属于你的衣橱，但仍保留在你之前的穿搭中。"
 }

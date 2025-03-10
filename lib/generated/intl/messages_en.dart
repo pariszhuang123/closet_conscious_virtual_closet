@@ -142,6 +142,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "calendarFeatureTitle":
             MessageLookupByLibrary.simpleMessage("Calendar"),
+        "calendarNavigationFailed": MessageLookupByLibrary.simpleMessage(
+            "Failed to navigate the calendar."),
         "calendarNotSelectable":
             MessageLookupByLibrary.simpleMessage("Outfit Details"),
         "calendarPremiumFeature":
@@ -409,6 +411,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Invalid months (enter a positive number)"),
         "invalidMonthsValue":
             MessageLookupByLibrary.simpleMessage("Invalid value for months."),
+        "itemInactiveMessage": MessageLookupByLibrary.simpleMessage(
+            "This item is retired and no longer part of your closet, but it stays in your past outfits."),
         "itemLastWorn": MessageLookupByLibrary.simpleMessage("Last Worn"),
         "itemNameFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Item Name field is not filled."),

@@ -12,6 +12,8 @@ import '../../../../../core/core_service_locator.dart';
 import '../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
 import '../../../../outfit_service_locator.dart';
+import '../../../../../core/usage_analytics/core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
+import '../../../../../core/data/services/core_save_services.dart';
 
 class DailyDetailedCalendarProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -32,6 +34,7 @@ class DailyDetailedCalendarProvider extends StatelessWidget {
     _logger.i('Building DailyDetailedCalendarProvider');
     final outfitFetchService = outfitLocator<OutfitFetchService>();
     final outfitSaveService = outfitLocator<OutfitSaveService>();
+    final coreSaveService = coreLocator<CoreSaveService>();
 
     return MultiBlocProvider(
       providers: [
@@ -68,6 +71,12 @@ class DailyDetailedCalendarProvider extends StatelessWidget {
             _logger.i('Creating SingleItemCubit...');
             final cubit = SingleSelectionItemCubit();
             return cubit;
+          },
+        ),
+        BlocProvider(
+          create: (context) {
+            _logger.i('Creating OutfitFocusedDateCubit...');
+            return OutfitFocusedDateCubit(coreSaveService);
           },
         ),
       ],

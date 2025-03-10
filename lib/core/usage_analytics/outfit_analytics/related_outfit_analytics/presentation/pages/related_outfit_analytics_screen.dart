@@ -7,12 +7,14 @@ import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outf
 import '../bloc/single_outfit_cubit/single_outfit_cubit.dart';
 import '../bloc/related_outfits_cubit/related_outfits_cubit.dart';
 import '../../../../../../outfit_management/core/data/models/outfit_data.dart';
-import '../../../../../../outfit_management/outfit_calendar/daily_calendar/presentation/widgets/carousel_outfit.dart';
+import '../../../../../widgets/layout/carousel/carousel_outfit.dart';
 import '../../../../../widgets/layout/list/outfit_list.dart';
 import '../../../../../widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../../utilities/routes.dart';
 import '../../../../../../generated/l10n.dart';
-
+import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
+import '../../../../../paywall/data/feature_key.dart';
+import '../../../../../core_enums.dart';
 
 class RelatedOutfitAnalyticsScreen extends StatelessWidget {
   final bool isFromMyCloset;
@@ -29,22 +31,55 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _logger.d('Building RelatedOutfitAnalyticsScreen for outfitId: $outfitId');
-    return BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
-        listener: (context, state) {
-          if (state is OutfitFocusedDateSuccess) {
-            _logger.i('✅ Focused date set successfully for outfitId: ${state.outfitId}');
-            Navigator.pushReplacementNamed(
-              context,
-              AppRoutes.dailyCalendar,
-              arguments: {'outfitId': state.outfitId}, // ✅ Pass as a Map
-            );
-          } else if (state is OutfitFocusedDateFailure) {
-            _logger.e('❌ Failed to set focused date: ${state.error}');
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error)),
-            );
-          }
-        },
+    return MultiBlocListener(
+        listeners: [
+          BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
+            listener: (context, state) {
+              if (state is OutfitFocusedDateSuccess) {
+                _logger.i('✅ Focused date set successfully for outfitId: ${state.outfitId}');
+                Navigator.pushReplacementNamed(
+                  context,
+                  AppRoutes.dailyCalendar,
+                  arguments: {'outfitId': state.outfitId},
+                );
+              } else if (state is OutfitFocusedDateFailure) {
+                _logger.e('❌ Failed to set focused date: ${state.error}');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.error)),
+                );
+              }
+            },
+          ),
+          BlocListener<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
+            listener: (context, state) {
+              if (state is UsageAnalyticsAccessState) {
+                if (state.accessStatus == AccessStatus.denied) {
+                  _logger.w('Access denied: Navigating to payment page');
+                  Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.payment,
+                    arguments: {
+                      'featureKey': FeatureKey.usageAnalytics,
+                      'isFromMyCloset': isFromMyCloset,
+                      'previousRoute': AppRoutes.myCloset,
+                      'nextRoute': AppRoutes.relatedOutfitAnalytics,
+                    },
+                  );
+                } else if (state.accessStatus == AccessStatus.trialPending) {
+                  _logger.i('Trial pending, navigating to trialStarted screen');
+                  Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.trialStarted,
+                    arguments: {
+                      'selectedFeatureRoute': AppRoutes.relatedOutfitAnalytics,
+                      'isFromMyCloset': isFromMyCloset,
+                    },
+                  );
+                }
+              }
+            },
+          ),
+        ],
 
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,7 +97,7 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
               return BlocBuilder<CrossAxisCountCubit, int>(
                 builder: (context, crossAxisCount) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: CarouselOutfit(
                       outfit: mainOutfit,
                       crossAxisCount: crossAxisCount,

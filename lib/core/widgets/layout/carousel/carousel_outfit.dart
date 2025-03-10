@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utilities/logger.dart';
-import '../../../../core/data/models/daily_calendar_outfit.dart';
-import '../../../../core/data/models/outfit_data.dart';
-import '../../../../../core/widgets/layout/grid/interactive_item_grid.dart';
-import '../../../../../core/core_enums.dart';
-import '../../../../core/presentation/widgets/outfit_image_widget.dart';
-import '../../../../../generated/l10n.dart';
-import '../../../../../core/widgets/container/logo_text_container.dart';
+import '../../../utilities/logger.dart';
+import '../../../../outfit_management/core/data/models/daily_calendar_outfit.dart';
+import '../../../../outfit_management/core/data/models/outfit_data.dart';
+import '../grid/interactive_item_grid.dart';
+import '../../../core_enums.dart';
+import '../../../../outfit_management/core/presentation/widgets/outfit_image_widget.dart';
+import '../../../../generated/l10n.dart';
+import '../../container/logo_text_container.dart';
 
 class CarouselOutfit<T> extends StatelessWidget {
   final T outfit;
@@ -71,7 +71,7 @@ class CarouselOutfit<T> extends StatelessWidget {
             isSelected: false,
             usePredefinedColor: true,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           if (isCcNone || outfitImageUrl == null)
             Stack(
               children: [

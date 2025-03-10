@@ -6,11 +6,14 @@ import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_c
 import '../../../../core/data/services/outfits_fetch_services.dart';
 import '../../../../core/data/services/outfits_save_services.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
+import '../../../../../core/data/services/core_save_services.dart';
 import 'daily_calendar_screen.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/core_service_locator.dart';
 import '../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../../outfit_service_locator.dart';
+import '../../../core/presentation/bloc/calendar_navigation_bloc/calendar_navigation_bloc.dart';
+import '../../../../../core/usage_analytics/core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 
 class DailyCalendarProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -31,6 +34,8 @@ class DailyCalendarProvider extends StatelessWidget {
     _logger.i('Building DailyCalendarProvider');
     final outfitFetchService = outfitLocator<OutfitFetchService>();
     final outfitSaveService = outfitLocator<OutfitSaveService>();
+    final coreFetchService = coreLocator<CoreFetchService>();
+    final coreSaveService = coreLocator<CoreSaveService>();
 
     return MultiBlocProvider(
       providers: [
@@ -60,6 +65,20 @@ class DailyCalendarProvider extends StatelessWidget {
             cubit.initializeSelection(selectedItemIds); // ✅ Initialize selection
             _logger.i('MultiSelectionItemCubit initialized with selected items.');
             return cubit;
+          },
+        ),
+        BlocProvider(
+          create: (_) {
+            _logger.i('Creating CalendarNavigationBloc...');
+            final bloc = CalendarNavigationBloc(coreFetchService: coreFetchService);
+            bloc.add(CheckCalendarAccessEvent());
+            return bloc;
+          },
+        ),
+        BlocProvider(
+          create: (context) {
+            _logger.i('Creating OutfitFocusedDateCubit...');
+            return OutfitFocusedDateCubit(coreSaveService);
           },
         ),
       ],

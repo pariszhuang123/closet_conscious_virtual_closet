@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/utilities/logger.dart';
 import '../../../../core/data/models/daily_calendar_outfit.dart';
-import '../widgets/carousel_outfit.dart';
+import '../../../../../core/widgets/layout/carousel/carousel_outfit.dart';
 import '../widgets/review_comment_row.dart';
 import '../../../../../core/widgets/layout/page_indicator.dart';
 
@@ -63,7 +63,7 @@ class _DailyCalendarCarouselState extends State<DailyCalendarCarousel> {
                       outfit: outfits[index],
                       crossAxisCount: widget.crossAxisCount,
                       isSelected: false,
-                      useLargeHeight: true, // ✅ Pass dynamically
+                      useLargeHeight: true,
                       onTap: () {
                         widget.onTap(outfits[index].outfitId);  // Call onTap function from parent
                       },

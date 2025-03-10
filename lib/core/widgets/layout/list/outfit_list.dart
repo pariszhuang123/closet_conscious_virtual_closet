@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../utilities/logger.dart';
 import '../../../../outfit_management/core/data/models/daily_calendar_outfit.dart';
 import '../../../../outfit_management/core/data/models/outfit_data.dart';
-import '../../../../outfit_management/outfit_calendar/daily_calendar/presentation/widgets/carousel_outfit.dart';
+import '../carousel/carousel_outfit.dart';
 
 class OutfitList<T> extends StatelessWidget {
   final List<T> outfits;

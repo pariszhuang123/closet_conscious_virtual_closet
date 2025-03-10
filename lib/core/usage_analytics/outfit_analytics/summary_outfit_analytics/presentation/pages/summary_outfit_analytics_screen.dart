@@ -76,7 +76,7 @@ class _SummaryOutfitAnalyticsScreenState
       context,
       AppRoutes.filter,
       arguments: {
-        'isFromMyCloset': true,
+        'isFromMyCloset': false,
         'selectedOutfitIds': selectedOutfitIds,
         'returnRoute': AppRoutes.summaryOutfitAnalytics,
         'showOnlyClosetFilter': true,
@@ -270,13 +270,9 @@ class _SummaryOutfitAnalyticsScreenState
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
                         S
-                            .of(context)
-                            .noReviewedOutfitMessage,
+                            .of(context).noReviewedOutfitMessage,
                         textAlign: TextAlign.center,
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .titleMedium,
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
                   );

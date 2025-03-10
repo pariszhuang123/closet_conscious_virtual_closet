@@ -11,6 +11,10 @@ import '../../../../../generated/l10n.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../widgets/daily_feature_container.dart';
 import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/core_enums.dart';
+import '../../../core/presentation/bloc/calendar_navigation_bloc/calendar_navigation_bloc.dart';
+import '../../../../../core/paywall/data/feature_key.dart';
+import '../../../../../core/usage_analytics/core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 
 class DailyCalendarScreen extends StatelessWidget {
   final ThemeData theme;
@@ -37,19 +41,69 @@ class DailyCalendarScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.i('Building DailyCalendarScreen');
 
-    return BlocListener<DailyCalendarBloc, DailyCalendarState>(
-      listener: (context, state) {
-        // Listen for the navigation success state and navigate accordingly
-        if (state is DailyCalendarNavigationSuccessState) {
-          _logger.i('Navigation success state detected. Navigating to DailyCalendar.');
-          Navigator.pushReplacementNamed(context, AppRoutes.dailyCalendar);
-        }
-        // You can also handle failure states here if needed
-        else if (state is DailyCalendarSaveFailureState) {
-          _logger.e('Navigation failed.');
-          // Optionally, show a snackbar or dialog for error feedback
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<DailyCalendarBloc, DailyCalendarState>(
+          listener: (context, state) {
+            if (state is DailyCalendarNavigationSuccessState) {
+              _logger.i('✅ Navigation success: Navigating to DailyCalendar.');
+              Navigator.pushReplacementNamed(context, AppRoutes.dailyCalendar);
+            } else if (state is DailyCalendarSaveFailureState) {
+              _logger.e('❌ Navigation failed.');
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(S.of(context).calendarNavigationFailed)),
+              );
+            }
+          },
+        ),
+        BlocListener<CalendarNavigationBloc, CalendarNavigationState>(
+          listener: (context, state) {
+            if (state is CalendarAccessState) {
+              if (state.accessStatus == AccessStatus.denied) {
+                _logger.w('🚫 Access denied: Navigating to payment page');
+                Navigator.pushReplacementNamed(
+                  context,
+                  AppRoutes.payment,
+                  arguments: {
+                    'featureKey': FeatureKey.calendar,
+                    'isFromMyCloset': false,
+                    'previousRoute': AppRoutes.createOutfit,
+                    'nextRoute': AppRoutes.dailyCalendar,
+                  },
+                );
+              } else if (state.accessStatus == AccessStatus.trialPending) {
+                _logger.i('⏳ Trial pending, navigating to trialStarted screen');
+                Navigator.pushReplacementNamed(
+                  context,
+                  AppRoutes.trialStarted,
+                  arguments: {
+                    'selectedFeatureRoute': AppRoutes.dailyCalendar,
+                    'isFromMyCloset': false,
+                  },
+                );
+              }
+            }
+          },
+        ),
+      BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
+          listener: (context, state) {
+            if (state is OutfitFocusedDateSuccess) {
+              _logger.i("✅ Focused date saved. Navigating to outfit details.");
+
+              Navigator.pushNamed(
+                context,
+                AppRoutes.dailyDetailedCalendar,
+                arguments: {'outfitId': state.outfitId},
+              );
+            } else if (state is OutfitFocusedDateFailure) {
+              _logger.e('❌ Failed to set focused date: ${state.error}');
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(S.of(context).calendarNavigationFailed)),
+              );
+            }
+          },
+      )
+      ],
       child: BlocBuilder<DailyCalendarBloc, DailyCalendarState>(
         builder: (context, dailyCalendarState) {
           _logger.d('DailyCalendarBloc State: ${dailyCalendarState.runtimeType}');
@@ -113,14 +167,12 @@ class DailyCalendarScreen extends StatelessWidget {
                         theme: Theme.of(context),
                         crossAxisCount: crossAxisCount,
                         onTap: (outfitId) {
-                          _logger.i("Navigating to outfit details for outfitId: $outfitId");
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutes.dailyDetailedCalendar, // Ensure this route is defined
-                            arguments: {'outfitId': outfitId},
-                          );
+                          _logger.i(
+                              "Saving focused date before navigating to outfit details for outfitId: $outfitId");
+                          context
+                              .read<OutfitFocusedDateCubit>()
+                              .setFocusedDateForOutfit(outfitId);
                         },
-
                       ),
                     ),
                   ],
@@ -128,7 +180,6 @@ class DailyCalendarScreen extends StatelessWidget {
               },
             );
           }
-
           _logger.w('No matching state found, rendering empty widget');
           return const SizedBox.shrink();
         },

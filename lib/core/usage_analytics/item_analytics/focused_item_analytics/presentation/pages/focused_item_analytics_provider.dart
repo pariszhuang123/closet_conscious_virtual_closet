@@ -14,7 +14,7 @@ import '../../../../item_analytics/focused_item_analytics/presentation/bloc/fetc
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
-
+import '../../../../../usage_analytics/core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 
 class FocusedItemsAnalyticsProvider extends StatelessWidget {
   final bool isFromMyCloset; // Determines the theme
@@ -79,6 +79,14 @@ class FocusedItemsAnalyticsProvider extends StatelessWidget {
             final cubit = MultiSelectionItemCubit();
             cubit.initializeSelection;
             return cubit;
+          },
+        ),
+        BlocProvider<UsageAnalyticsNavigationBloc>(
+          create: (context) {
+            logger.i('Creating UsageAnalyticsNavigationBloc...');
+            final bloc = UsageAnalyticsNavigationBloc(coreFetchService: coreFetchService);
+            bloc.add(CheckUsageAnalyticsAccessEvent());
+            return bloc;
           },
         ),
       ],

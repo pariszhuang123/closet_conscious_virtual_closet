@@ -125,6 +125,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "brown": MessageLookupByLibrary.simpleMessage("棕色"),
         "calendar": MessageLookupByLibrary.simpleMessage("日历"),
         "calendarFeatureTitle": MessageLookupByLibrary.simpleMessage("日历"),
+        "calendarNavigationFailed":
+            MessageLookupByLibrary.simpleMessage("无法导航日历。"),
         "calendarNotSelectable": MessageLookupByLibrary.simpleMessage("穿搭详情"),
         "calendarPremiumFeature": MessageLookupByLibrary.simpleMessage("日历视图？"),
         "calendarSelectable": MessageLookupByLibrary.simpleMessage("创建衣橱"),
@@ -352,6 +354,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "interested": MessageLookupByLibrary.simpleMessage("有兴趣"),
         "invalidMonths": MessageLookupByLibrary.simpleMessage("无效的月份（请输入正数）"),
         "invalidMonthsValue": MessageLookupByLibrary.simpleMessage("无效的月份值。"),
+        "itemInactiveMessage": MessageLookupByLibrary.simpleMessage(
+            "这件单品已退役，不再属于你的衣橱，但仍保留在你之前的穿搭中。"),
         "itemLastWorn": MessageLookupByLibrary.simpleMessage("最后穿着"),
         "itemNameFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("物品名称未填写。"),

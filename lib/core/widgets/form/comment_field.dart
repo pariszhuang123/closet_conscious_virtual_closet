@@ -26,6 +26,8 @@ class CommentField extends StatelessWidget {
         child: Text(
           initialText ?? S.of(context).noOutfitComments,
           style: theme.textTheme.bodyMedium,
+          maxLines: 5, // Limit read-only comments to 5 lines
+          overflow: TextOverflow.ellipsis, // Append "..." if text exceeds 5 lines
         ),
       )
           : TextField(

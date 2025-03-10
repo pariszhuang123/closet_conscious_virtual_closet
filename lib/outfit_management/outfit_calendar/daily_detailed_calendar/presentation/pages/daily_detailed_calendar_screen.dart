@@ -12,6 +12,7 @@ import '../../../../../generated/l10n.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../daily_calendar/presentation/widgets/daily_feature_container.dart';
 import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/usage_analytics/core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 
 class DailyDetailedCalendarScreen extends StatelessWidget {
   final ThemeData theme;
@@ -54,7 +55,9 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.i('Building DailyCalendarScreen');
 
-    return BlocListener<DailyCalendarBloc, DailyCalendarState>(
+    return MultiBlocListener(
+        listeners: [
+          BlocListener<DailyCalendarBloc, DailyCalendarState>(
       listener: (context, state) {
         // Listen for the navigation success state and navigate accordingly
         if (state is DailyCalendarNavigationSuccessState) {
@@ -67,6 +70,26 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
           // Optionally, show a snackbar or dialog for error feedback
         }
       },
+          ),
+          BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
+            listener: (context, state) {
+              if (state is OutfitFocusedDateSuccess) {
+                _logger.i("✅ Focused date saved. Navigating to outfit details.");
+
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.relatedOutfitAnalytics,
+                  arguments: outfitId,
+                );
+              } else if (state is OutfitFocusedDateFailure) {
+                _logger.e('❌ Failed to set focused date: ${state.error}');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(S.of(context).calendarNavigationFailed)),
+                );
+              }
+            },
+          )
+        ],
       child: BlocBuilder<DailyCalendarBloc, DailyCalendarState>(
         builder: (context, dailyCalendarState) {
           _logger.d('DailyCalendarBloc State: ${dailyCalendarState.runtimeType}');
@@ -130,12 +153,11 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
                         theme: Theme.of(context),
                         crossAxisCount: crossAxisCount,
                         onOutfitTap: (outfitId) {
-                          _logger.i("Navigating to outfit details for outfitId: $outfitId");
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutes.relatedOutfitAnalytics, // Ensure this route is defined
-                            arguments: outfitId,
-                          );
+                          _logger.i(
+                              "Saving focused date before navigating to outfit details for outfitId: $outfitId");
+                          context
+                              .read<OutfitFocusedDateCubit>()
+                              .setFocusedDateForOutfit(outfitId);
                         },
                         onAction: () {
                           _onItemSelected(context); // ✅ Call when an item is tapped

@@ -4780,6 +4780,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Failed to navigate the calendar.`
+  String get calendarNavigationFailed {
+    return Intl.message(
+      'Failed to navigate the calendar.',
+      name: 'calendarNavigationFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This item is retired and no longer part of your closet, but it stays in your past outfits.`
+  String get itemInactiveMessage {
+    return Intl.message(
+      'This item is retired and no longer part of your closet, but it stays in your past outfits.',
+      name: 'itemInactiveMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -11,6 +11,7 @@ import '../../../core_enums.dart';
 import '../grid_item/grid_item.dart';
 import '../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
+import '../../../utilities/helper_functions/selection_helper/item_selection_helper.dart';
 
 class InteractiveItemGrid extends StatelessWidget {
   final ScrollController? scrollController; // ✅ Make this optional
@@ -20,6 +21,7 @@ class InteractiveItemGrid extends StatelessWidget {
   final SelectionMode selectionMode; // New parameter
   final VoidCallback? onAction; // Optional callback for action mode
   final bool enablePricePerWear; // ✅ New parameter to control price-per-wear visibility
+  final VoidCallback? onInactiveTap; // New callback for inactive items
 
 
   InteractiveItemGrid({
@@ -31,6 +33,7 @@ class InteractiveItemGrid extends StatelessWidget {
     required this.selectionMode,
     this.onAction, // Optional
     this.enablePricePerWear = false, // ✅ Default to false so other screens don’t show price per wear
+    this.onInactiveTap, // Accept the callback
 
 
   }) : _logger = CustomLogger('ItemGrid');
@@ -39,40 +42,33 @@ class InteractiveItemGrid extends StatelessWidget {
 
 
   void _handleTap(BuildContext context, String itemId) {
-    if (selectionMode == SelectionMode.disabled) {
-      _logger.d('Selection disabled. Ignoring tap.');
+    final item = items.firstWhere((element) => element.itemId == itemId);
+
+    if (!item.itemIsActive) {
+      _logger.d('Item $itemId is inactive.');
+      // Instead of showing the snackbar here, call the parent callback if provided
+      if (onInactiveTap != null) {
+        onInactiveTap!();
+      }
+      return;
+    }
+    if (itemId.isEmpty) {
+      _logger.e('Error: itemId is empty. Cannot proceed.');
       return;
     }
 
-    switch (selectionMode) {
-      case SelectionMode.singleSelection:
-        _logger.d('Single selection mode activated for itemId: $itemId');
-        context.read<SingleSelectionItemCubit>().selectItem(itemId);
-        break;
+      final singleSelectionCubit = context.read<SingleSelectionItemCubit>();
+      final multiSelectionCubit = context.read<MultiSelectionItemCubit>();
 
-      case SelectionMode.multiSelection:
-        _logger.d('Multi-selection mode toggled for itemId: $itemId');
-        context.read<MultiSelectionItemCubit>().toggleSelection(itemId);
-        break;
-
-      case SelectionMode.action:
-        _logger.d('Action mode activated for itemId: $itemId');
-
-        context.read<SingleSelectionItemCubit>().selectItem(itemId);
-
-        if (onAction != null) {
-          _logger.i('Triggering onAction callback for itemId: $itemId');
-          onAction!();
-        } else {
-          _logger.w('No action defined for action mode.');
-        }
-        break;
-
-      case SelectionMode.disabled:
-        _logger.d('Selection is disabled.');
-        break;
+      ItemSelectionHelper.handleTap(
+        context: context,
+        itemId: itemId,
+        selectionMode: selectionMode,
+        singleSelectionCubit: singleSelectionCubit,
+        multiSelectionCubit: multiSelectionCubit,
+        onAction: onAction,
+      );
     }
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -129,28 +129,34 @@ class FilterScreen extends StatelessWidget {
                     if (showOnlyClosetFilter) ...[
                       const SizedBox(height: 20),
                       if (state.hasMultiClosetFeature)
-                        AllClosetToggle(
-                          isAllCloset: state.allCloset,
-                          onChanged: (value) {
-                            context.read<FilterBloc>().add(UpdateFilterEvent(allCloset: value));
-                            _logger.i('Dispatched UpdateFilterEvent with allCloset: $value');
-                          },
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0), // Apply horizontal padding
+                          child: AllClosetToggle(
+                            isAllCloset: state.allCloset,
+                            onChanged: (value) {
+                              context.read<FilterBloc>().add(UpdateFilterEvent(allCloset: value));
+                              _logger.i('Dispatched UpdateFilterEvent with allCloset: $value');
+                            },
+                          ),
                         ),
                       const SizedBox(height: 20),
                       if (state.hasMultiClosetFeature && !state.allCloset)
                         Expanded(
-                          child: BlocBuilder<CrossAxisCountCubit, int>(
-                            builder: (context, crossAxisCount) {
-                              return ClosetGridWidget(
-                                closets: state.allClosetsDisplay,
-                                selectedClosetId: state.selectedClosetId,
-                                onSelectCloset: (closetId) {
-                                  context.read<FilterBloc>().add(UpdateFilterEvent(selectedClosetId: closetId));
-                                  _logger.i('Dispatched UpdateFilterEvent with selectedClosetId: $closetId');
-                                },
-                                crossAxisCount: crossAxisCount,
-                              );
-                            },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0), // Apply padding around ClosetGridWidget
+                            child: BlocBuilder<CrossAxisCountCubit, int>(
+                              builder: (context, crossAxisCount) {
+                                return ClosetGridWidget(
+                                  closets: state.allClosetsDisplay,
+                                  selectedClosetId: state.selectedClosetId,
+                                  onSelectCloset: (closetId) {
+                                    context.read<FilterBloc>().add(UpdateFilterEvent(selectedClosetId: closetId));
+                                    _logger.i('Dispatched UpdateFilterEvent with selectedClosetId: $closetId');
+                                  },
+                                  crossAxisCount: crossAxisCount,
+                                );
+                              },
+                            ),
                           ),
                         ),
                     ] else ...[

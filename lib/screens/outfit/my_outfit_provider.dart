@@ -12,6 +12,7 @@ import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubi
 import 'my_outfit_screen.dart';
 import '../../core/utilities/logger.dart';
 import '../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
+import '../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
 import '../../core/data/services/core_fetch_services.dart';
 
 class MyOutfitProvider extends StatelessWidget {
@@ -51,6 +52,10 @@ class MyOutfitProvider extends StatelessWidget {
         ),
         BlocProvider<MultiSelectionItemCubit>(
           create: (context) => MultiSelectionItemCubit()..initializeSelection(selectedItemIds),
+        ),
+
+        BlocProvider<SingleSelectionItemCubit>(
+          create: (context) => SingleSelectionItemCubit(),
         ),
 
         BlocProvider(
