@@ -12,10 +12,14 @@ import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outf
 import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../../../usage_analytics/core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import 'related_outfit_analytics_screen.dart';
+import '../../../../../../outfit_management/core/presentation/bloc/multi_selection_outfit_cubit/multi_selection_outfit_cubit.dart';
+import '../../../../../../outfit_management/core/presentation/bloc/single_selection_outfit_cubit/single_selection_outfit_cubit.dart';
+import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 
 class RelatedOutfitAnalyticsProvider extends StatelessWidget {
   final bool isFromMyCloset;
   final String outfitId;
+  final List<String> selectedOutfitIds; // ✅ Pass selected outfits
 
   static final _logger = CustomLogger('RelatedOutfitAnalyticsProvider');
 
@@ -23,6 +27,7 @@ class RelatedOutfitAnalyticsProvider extends StatelessWidget {
     super.key,
     required this.isFromMyCloset,
     required this.outfitId,
+    this.selectedOutfitIds = const [],
   });
 
   @override
@@ -85,10 +90,31 @@ class RelatedOutfitAnalyticsProvider extends StatelessWidget {
             return bloc;
           },
         ),
+        BlocProvider(
+          create: (context) => FocusOrCreateClosetBloc(
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
+          )..add(FetchFocusOrCreateCloset()),
+        ),
+        BlocProvider<MultiSelectionOutfitCubit>(
+          create: (_) {
+            _logger.i('Creating MultiSelectionOutfitCubit with selectedOutfitIds: $selectedOutfitIds');
+            final cubit = MultiSelectionOutfitCubit();
+            cubit.initializeSelection(selectedOutfitIds); // ✅ Pass correct data
+            return cubit;
+          },
+        ),
+        BlocProvider<SingleSelectionOutfitCubit>(
+          create: (_) {
+            _logger.i('Creating SingleSelectionOutfitCubit...');
+            return SingleSelectionOutfitCubit();
+          },
+        ),
       ],
       child: RelatedOutfitAnalyticsScreen(
         isFromMyCloset: isFromMyCloset,
         outfitId: outfitId,
+        selectedOutfitIds: selectedOutfitIds,
       ),
     );
   }

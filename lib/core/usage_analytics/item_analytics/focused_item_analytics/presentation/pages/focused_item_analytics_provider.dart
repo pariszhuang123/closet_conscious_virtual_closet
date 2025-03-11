@@ -15,15 +15,20 @@ import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../../../usage_analytics/core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
+import '../../../../../../outfit_management/core/presentation/bloc/multi_selection_outfit_cubit/multi_selection_outfit_cubit.dart';
+import '../../../../../../outfit_management/core/presentation/bloc/single_selection_outfit_cubit/single_selection_outfit_cubit.dart';
+import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 
 class FocusedItemsAnalyticsProvider extends StatelessWidget {
   final bool isFromMyCloset; // Determines the theme
   final String itemId;
+  final List<String> selectedOutfitIds; // ✅ Pass selected outfits
 
   const FocusedItemsAnalyticsProvider({
     super.key,
     required this.isFromMyCloset,
     required this.itemId,
+    this.selectedOutfitIds = const [],
   });
 
   @override
@@ -89,10 +94,32 @@ class FocusedItemsAnalyticsProvider extends StatelessWidget {
             return bloc;
           },
         ),
+        BlocProvider(
+          create: (context) => FocusOrCreateClosetBloc(
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
+          )..add(FetchFocusOrCreateCloset()),
+        ),
+        BlocProvider<MultiSelectionOutfitCubit>(
+          create: (_) {
+            logger.i('Creating MultiSelectionOutfitCubit with selectedOutfitIds: $selectedOutfitIds');
+            final cubit = MultiSelectionOutfitCubit();
+            cubit.initializeSelection(selectedOutfitIds); // ✅ Pass correct data
+            return cubit;
+          },
+        ),
+        BlocProvider<SingleSelectionOutfitCubit>(
+          create: (_) {
+            logger.i('Creating SingleSelectionOutfitCubit...');
+            return SingleSelectionOutfitCubit();
+          },
+        ),
       ],
       child: FocusedItemsAnalyticsScreen(
           isFromMyCloset: isFromMyCloset,
-          itemId: itemId),
+          itemId: itemId,
+          selectedOutfitIds: selectedOutfitIds,
+      ),
     );
   }
 }

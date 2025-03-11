@@ -16,15 +16,20 @@ import '../../../../../../generated/l10n.dart';
 import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import '../../../../../paywall/data/feature_key.dart';
 import '../../../../../core_enums.dart';
+import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 
 class FocusedItemsAnalyticsScreen extends StatelessWidget {
   final bool isFromMyCloset;
   final String itemId;
+  final List<String> selectedOutfitIds;
+
   final CustomLogger logger = CustomLogger('FocusedItemsAnalyticsScreen');
 
   FocusedItemsAnalyticsScreen({super.key,
     required this.isFromMyCloset,
-    required this.itemId});
+    required this.itemId,
+    this.selectedOutfitIds = const [],
+  });
 
   void _onImageTap(BuildContext context) {
     logger.i('Image tapped, navigating to EditItem');
@@ -144,47 +149,59 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                 const SizedBox(height: 16),
 
                 /// **Fetch and Display Related Outfits**
-                BlocBuilder<CrossAxisCountCubit, int>(
-                  builder: (context, crossAxisCount) {
-                    return BlocBuilder<FetchItemRelatedOutfitsCubit, FetchItemRelatedOutfitsState>(
-                      builder: (context, outfitState) {
-                        if (outfitState is FetchItemRelatedOutfitsLoading) {
-                          return const Center(child: ClosetProgressIndicator());
-                        } else if (outfitState is FetchItemRelatedOutfitsFailure) {
-                          return Center(child: Text(outfitState.message));
-                        } else if (outfitState is FetchItemRelatedOutfitsSuccess) {
-                          final outfits = outfitState.outfits;
-                          if (outfits.isEmpty) {
+            BlocBuilder<CrossAxisCountCubit, int>(
+                builder: (context, crossAxisCount) {
+                  return BlocBuilder<FocusOrCreateClosetBloc, FocusOrCreateClosetState>(
+                    builder: (context, focusState) {
+                      /// Determine outfit selection mode
+                      final outfitSelectionMode = (focusState is FocusOrCreateClosetLoaded && focusState.isCalendarSelectable)
+                          ? OutfitSelectionMode.multiSelection
+                          : OutfitSelectionMode.action;
+
+                      return BlocBuilder<FetchItemRelatedOutfitsCubit, FetchItemRelatedOutfitsState>(
+                        builder: (context, outfitState) {
+                          if (outfitState is FetchItemRelatedOutfitsLoading) {
+                            return const Center(child: ClosetProgressIndicator());
+                          } else if (outfitState is FetchItemRelatedOutfitsFailure) {
+                            return Center(child: Text(outfitState.message));
+                          } else if (outfitState is FetchItemRelatedOutfitsSuccess) {
+                            final outfits = outfitState.outfits;
+                            if (outfits.isEmpty) {
+                              return Center(
+                                child: Text(
+                                  S.of(context).noRelatedOutfitsItem,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                              );
+                            }
+
+                            return OutfitList<OutfitData>(
+                              outfits: outfits,
+                              crossAxisCount: crossAxisCount,
+                              useLargeHeight: true,
+                              outfitSelectionMode: outfitSelectionMode, // Pass mode here
+                              selectedOutfitIds: selectedOutfitIds,
+                              onAction: (outfitId) {
+                                logger.d('Tapped related outfit: $outfitId');
+                                context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(outfitId);
+                              },
+                            );
+                          } else if (outfitState is NoItemRelatedOutfitsState) {
                             return Center(
                               child: Text(
-                                S.of(context).noRelatedOutfitsItem, // ✅ Localized empty state text
+                                S.of(context).noRelatedOutfitsItem,
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.titleLarge, // ✅ Consistent typography
+                                style: Theme.of(context).textTheme.titleLarge,
                               ),
                             );
                           }
-                          return OutfitList<OutfitData>(
-                            outfits: outfits,
-                            crossAxisCount: crossAxisCount, // ✅ Uses dynamic cross-axis count
-                            useLargeHeight: true, // ✅ Pass dynamically
-                            onOutfitTap: (outfitId) {
-                              logger.d('Tapped related outfit: $outfitId');
-                              context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(outfitId);
-                            },
-                          );
-                        } else if (outfitState is NoItemRelatedOutfitsState) {
-                          return Center(
-                            child: Text(
-                              S.of(context).noRelatedOutfitsItem, // ✅ Localized empty state text
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.titleLarge, // ✅ Consistent typography
-                            ),
-                          );
-                        }
-                        return const SizedBox.shrink();
+                          return const SizedBox.shrink();
                       },
                     );
                   },
+                  )
+                  ;}
                 ),
               ],
             ),

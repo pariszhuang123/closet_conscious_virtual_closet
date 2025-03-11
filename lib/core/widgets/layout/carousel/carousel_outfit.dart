@@ -55,10 +55,10 @@ class CarouselOutfit<T> extends StatelessWidget {
 
     _logger.d('Outfit details: outfitId=$outfitId, imageUrl=$outfitImageUrl, isActive=$isActive, eventName=$eventName, itemCount=${items.length}');
 
-    double heightFactor = useLargeHeight ? 0.36 : 0.22; // ✅ Set height dynamically
+    double heightFactor = useLargeHeight ? 0.30 : 0.22; // ✅ Set height dynamically
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 0.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

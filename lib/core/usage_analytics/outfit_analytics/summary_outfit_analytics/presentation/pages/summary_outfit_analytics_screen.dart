@@ -19,6 +19,8 @@ import '../../../../../widgets/feedback/custom_snack_bar.dart';
 import '../../../../../theme/my_outfit_theme.dart';
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../../../outfit_management/core/data/models/outfit_data.dart';
+import '../../../../../../outfit_management/core/presentation/bloc/multi_selection_outfit_cubit/multi_selection_outfit_cubit.dart';
+import '../../../../../core_enums.dart';
 
 class SummaryOutfitAnalyticsScreen extends StatefulWidget {
   final bool isFromMyCloset;
@@ -70,8 +72,8 @@ class _SummaryOutfitAnalyticsScreenState
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
     final selectedOutfitIds = context
-        .read<OutfitSelectionBloc>()
-        .selectedOutfitIds;
+        .read<MultiSelectionOutfitCubit>()
+        .state.selectedOutfitIds;
     Navigator.pushNamed(
       context,
       AppRoutes.filter,
@@ -85,7 +87,7 @@ class _SummaryOutfitAnalyticsScreenState
   }
 
   void _onResetButtonPressed(BuildContext context) {
-    context.read<OutfitSelectionBloc>().add(ClearOutfitSelectionEvent());
+    context.read<MultiSelectionOutfitCubit>().clearSelection();
   }
 
   void _onSelectAllButtonPressed(BuildContext context) {
@@ -95,8 +97,7 @@ class _SummaryOutfitAnalyticsScreenState
     if (state is FilteredOutfitsSuccess) {
       final allOutfitIds = state.outfits.map((outfit) => outfit.outfitId)
           .toList();
-      context.read<OutfitSelectionBloc>().add(
-          SelectAllOutfitsEvent(allOutfitIds));
+      context.read<MultiSelectionOutfitCubit>().selectAll(allOutfitIds);
     } else {
       _logger.e('Unable to select all outfits. Outfits not loaded.');
       CustomSnackbar(
@@ -141,17 +142,14 @@ class _SummaryOutfitAnalyticsScreenState
   }
 
   void _handleCreateCloset() {
-    final outfitSelectionState = context
-        .read<OutfitSelectionBloc>()
-        .state;
+    final selectedOutfitIds = context.read<MultiSelectionOutfitCubit>().state.selectedOutfitIds;
 
-    if (outfitSelectionState is OutfitSelectionUpdated &&
-        outfitSelectionState.selectedOutfitIds.isNotEmpty) {
-      _logger.i(
-          'Fetching active items for selected outfits: ${outfitSelectionState
-              .selectedOutfitIds}');
-      context.read<OutfitSelectionBloc>().add(
-          FetchActiveItemsEvent(outfitSelectionState.selectedOutfitIds));
+    if (selectedOutfitIds.isNotEmpty) {
+      _logger.i('Fetching active items for selected outfits: $selectedOutfitIds');
+
+      context.read<OutfitSelectionBloc>().add(FetchActiveItemsEvent(selectedOutfitIds));
+    } else {
+      _logger.w('No outfits selected. Cannot create closet.');
     }
   }
 
@@ -191,6 +189,18 @@ class _SummaryOutfitAnalyticsScreenState
             }
           },
         ),
+        BlocListener<OutfitSelectionBloc, OutfitSelectionState>(
+          listener: (context, state) {
+            if (state is ActiveItemsFetched) {
+              _logger.i('Active items fetched. Navigating to create multi-closet.');
+              Navigator.pushReplacementNamed(
+                context,
+                AppRoutes.createMultiCloset,
+                arguments: {'selectedItemIds': state.activeItemIds},
+              );
+            }
+          },
+        ),
       ],
 
       child: Column(
@@ -206,7 +216,7 @@ class _SummaryOutfitAnalyticsScreenState
                 _onCreateClosetButtonPressed(context),
           ),
 
-          const SizedBox(height: 12), // Add spacing
+          const SizedBox(height: 6), // Add spacing
 
           BlocBuilder<SummaryOutfitAnalyticsBloc, SummaryOutfitAnalyticsState>(
             builder: (context, state) {
@@ -236,7 +246,7 @@ class _SummaryOutfitAnalyticsScreenState
                           .titleMedium, // 🔹 Apply centralized text theme
                       textAlign: TextAlign.center, // 🔹 Ensure text is centered
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 5),
                     OutfitReviewAnalyticsContainer(
                       theme: Theme.of(context),
                       outfitReviewLike: TypeDataList.outfitReviewLike(context),
@@ -255,69 +265,70 @@ class _SummaryOutfitAnalyticsScreenState
             },
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
 
           Expanded(
-            child: BlocBuilder<FilteredOutfitsCubit, FilteredOutfitsState>(
-              builder: (context, state) {
-                if (state is FilteredOutfitsLoading) {
-                  return const Center(child: OutfitProgressIndicator());
-                }
-                // 🛑 Handle cases where there are no reviewed outfits
-                else if (state is NoReviewedOutfitState) {
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        S
-                            .of(context).noReviewedOutfitMessage,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ),
-                  );
-                }
-                // 🛑 Handle cases where filtering removes all outfits
-                else if (state is NoFilteredReviewedOutfitState) {
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        S.of(context).noFilteredOutfitMessage,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ),
-                  );
-                }
-                // ✅ Success: Display the filtered outfits
-                else if (state is FilteredOutfitsSuccess) {
-                  _logger.d("✅ Filtered outfits count: ${state.outfits.length}");
+            child: BlocBuilder<FocusOrCreateClosetBloc, FocusOrCreateClosetState>(
+              builder: (context, focusState) {
+                // Determine the outfit selection mode based on FocusOrCreateClosetBloc state.
+                // For example, if isCalendarSelectable is true, use multi-selection.
+                final outfitSelectionMode = (focusState is FocusOrCreateClosetLoaded && focusState.isCalendarSelectable)
+                    ? OutfitSelectionMode.multiSelection
+                    : OutfitSelectionMode.action; // or OutfitSelectionMode.singleSelection based on your needs
 
-                  return BlocBuilder<CrossAxisCountCubit, int>(
-                    builder: (context, crossAxisCount) {
-                      return OutfitList<OutfitData>( // 👈 Explicitly declare <OutfitData>
-                        outfits: state.outfits,
-                        crossAxisCount: crossAxisCount,
-                        useLargeHeight: true, // ✅ Pass dynamically
-                        onOutfitTap: (outfitId) => _onOutfitTap(context, outfitId),
+                return BlocBuilder<FilteredOutfitsCubit, FilteredOutfitsState>(
+                  builder: (context, state) {
+                    if (state is FilteredOutfitsLoading) {
+                      return const Center(child: OutfitProgressIndicator());
+                    } else if (state is NoReviewedOutfitState) {
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            S.of(context).noReviewedOutfitMessage,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ),
                       );
-                    },
-                  );
-                }
-                // 🚨 Handle general failure cases
-                else if (state is FilteredOutfitsFailure) {
-                  return Center(child: Text(state.message));
-                }
-
-                return const SizedBox();
+                    } else if (state is NoFilteredReviewedOutfitState) {
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            S.of(context).noFilteredOutfitMessage,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ),
+                      );
+                    } else if (state is FilteredOutfitsSuccess) {
+                      _logger.d("✅ Filtered outfits count: ${state.outfits.length}");
+                      return BlocBuilder<CrossAxisCountCubit, int>(
+                        builder: (context, crossAxisCount) {
+                          return OutfitList<OutfitData>(
+                            outfits: state.outfits,
+                            crossAxisCount: crossAxisCount,
+                            outfitSelectionMode: outfitSelectionMode, // Pass the mode here
+                            selectedOutfitIds: widget.selectedOutfitIds,
+                            useLargeHeight: true,
+                            onAction: (outfitId) => _onOutfitTap(context, outfitId),
+                          );
+                        },
+                      );
+                    } else if (state is FilteredOutfitsFailure) {
+                      return Center(child: Text(state.message));
+                    }
+                    return const SizedBox();
+                  },
+                );
               },
             ),
           ),
-          BlocBuilder<OutfitSelectionBloc, OutfitSelectionState>(
+
+          BlocBuilder<MultiSelectionOutfitCubit, MultiSelectionOutfitState>(
             builder: (context, state) {
-              if (state is OutfitSelectionUpdated &&
-                  state.selectedOutfitIds.isNotEmpty) {
+              if (state.selectedOutfitIds.isNotEmpty) {
                 return SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),

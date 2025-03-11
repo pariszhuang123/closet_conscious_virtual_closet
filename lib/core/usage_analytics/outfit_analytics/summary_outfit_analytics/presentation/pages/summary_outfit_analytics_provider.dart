@@ -17,6 +17,8 @@ import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outf
 import '../../../../../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../../../../../outfit_management/outfit_service_locator.dart';
 import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
+import '../../../../../../outfit_management/core/presentation/bloc/multi_selection_outfit_cubit/multi_selection_outfit_cubit.dart';
+import '../../../../../../outfit_management/core/presentation/bloc/single_selection_outfit_cubit/single_selection_outfit_cubit.dart';
 
 class SummaryOutfitAnalyticsProvider extends StatelessWidget {
   final bool isFromMyCloset;
@@ -106,6 +108,20 @@ class SummaryOutfitAnalyticsProvider extends StatelessWidget {
             final cubit = MultiSelectionItemCubit();
             cubit.initializeSelection(selectedItemIds);
             return cubit;
+          },
+        ),
+        BlocProvider<MultiSelectionOutfitCubit>(
+          create: (_) {
+            logger.i('Creating MultiSelectionOutfitCubit with selectedOutfitIds: $selectedOutfitIds');
+            final cubit = MultiSelectionOutfitCubit();
+            cubit.initializeSelection(selectedOutfitIds); // ✅ Pass correct data
+            return cubit;
+          },
+        ),
+        BlocProvider<SingleSelectionOutfitCubit>(
+          create: (_) {
+            logger.i('Creating SingleSelectionOutfitCubit...');
+            return SingleSelectionOutfitCubit();
           },
         ),
       ],

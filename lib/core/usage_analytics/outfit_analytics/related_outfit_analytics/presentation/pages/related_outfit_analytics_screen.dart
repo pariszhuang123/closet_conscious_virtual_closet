@@ -15,10 +15,12 @@ import '../../../../../../generated/l10n.dart';
 import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import '../../../../../paywall/data/feature_key.dart';
 import '../../../../../core_enums.dart';
+import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 
 class RelatedOutfitAnalyticsScreen extends StatelessWidget {
   final bool isFromMyCloset;
   final String outfitId;
+  final List<String> selectedOutfitIds;
 
   static final _logger = CustomLogger('RelatedOutfitAnalyticsScreen');
 
@@ -26,6 +28,7 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
     super.key,
     required this.isFromMyCloset,
     required this.outfitId,
+    this.selectedOutfitIds = const [],
   });
 
   @override
@@ -153,21 +156,35 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
               final relatedOutfits = relatedState.relatedOutfits;
 
               return BlocBuilder<CrossAxisCountCubit, int>(
-                builder: (context, crossAxisCount) {
-                  return OutfitList<OutfitData>(
-                    outfits: relatedOutfits,
-                    crossAxisCount: crossAxisCount,
-                    useLargeHeight: true, // ✅ Pass dynamically
-                    onOutfitTap: (selectedOutfitId) {
-                      _logger.d('Tapped related outfit: $selectedOutfitId');
-                      Navigator.pushReplacementNamed(
-                        context,
-                        AppRoutes.relatedOutfitAnalytics,
-                        arguments: selectedOutfitId,
-                      );
-                    },
-                  );
-                },
+                  builder: (context, crossAxisCount) {
+                    return BlocBuilder<
+                        FocusOrCreateClosetBloc,
+                        FocusOrCreateClosetState>(
+                      builder: (context, focusState) {
+                        final outfitSelectionMode = (focusState is FocusOrCreateClosetLoaded &&
+                            focusState.isCalendarSelectable)
+                            ? OutfitSelectionMode.multiSelection
+                            : OutfitSelectionMode.action;
+
+                        return OutfitList<OutfitData>(
+                          outfits: relatedOutfits,
+                          crossAxisCount: crossAxisCount,
+                          useLargeHeight: true,
+                          outfitSelectionMode: outfitSelectionMode,
+                          selectedOutfitIds: selectedOutfitIds,
+                          onAction: (selectedOutfitId) {
+                            _logger.d(
+                                'Tapped related outfit: $selectedOutfitId');
+                            Navigator.pushReplacementNamed(
+                              context,
+                              AppRoutes.relatedOutfitAnalytics,
+                              arguments: selectedOutfitId,
+                            );
+                          },
+                        );
+                      },
+                    );
+                  }
               );
             }
             return const SizedBox.shrink();
