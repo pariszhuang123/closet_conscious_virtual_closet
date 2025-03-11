@@ -7,30 +7,30 @@ import '../base_layout/base_grid.dart';
 import '../../../../item_management/multi_closet/core/data/models/multi_closet_minimal.dart';
 import '../../../../generated/l10n.dart';
 import '../../../core_enums.dart';
-
+import '../../../utilities/helper_functions/selection_helper/closet_selection_helper.dart';
 import '../../../../item_management/multi_closet/core/presentation/bloc/single_selection_closet_cubit/single_selection_closet_cubit.dart';
 import '../../../../item_management/multi_closet/core/presentation/bloc/multi_selection_closet_cubit/multi_selection_closet_cubit.dart';
 import '../grid_item/grid_closet_item.dart';
 
 
-class InteractiveItemGrid extends StatelessWidget {
+class InteractiveClosetGrid extends StatelessWidget {
   final ScrollController scrollController;
   final List<MultiClosetMinimal> items;
   final int crossAxisCount;
   final List<String> selectedItemIds;
   final bool isDisliked;
-  final SelectionMode selectionMode; // New parameter
+  final ClosetSelectionMode closetSelectionMode; // New parameter
   final VoidCallback? onAction; // Optional callback for action mode
 
 
-  InteractiveItemGrid({
+  InteractiveClosetGrid({
     super.key,
     required this.scrollController,
     required this.items,
     required this.crossAxisCount,
     required this.selectedItemIds,
     required this.isDisliked,
-    required this.selectionMode,
+    required this.closetSelectionMode,
     this.onAction, // Optional
 
 
@@ -40,35 +40,17 @@ class InteractiveItemGrid extends StatelessWidget {
 
 
   void _handleTap(BuildContext context, String closetId) {
-    if (selectionMode == SelectionMode.disabled) {
-      _logger.d('Selection disabled. Ignoring tap.');
-      return;
-    }
+    final singleSelectionClosetCubit = context.read<SingleSelectionClosetCubit>();
+    final multiSelectionClosetCubit = context.read<MultiSelectionClosetCubit>();
 
-    switch (selectionMode) {
-      case SelectionMode.singleSelection:
-        _logger.d('Single selection mode activated for closetId: $closetId');
-        context.read<SingleSelectionClosetCubit>().selectCloset(closetId);
-        break;
-
-      case SelectionMode.multiSelection:
-        _logger.d('Multi-selection mode toggled for closetId: $closetId');
-        context.read<MultiSelectionClosetCubit>().toggleSelection(closetId);
-        break;
-
-      case SelectionMode.action:
-        _logger.d('Action mode activated for closetId: $closetId');
-        if (onAction != null) {
-          onAction!();
-        } else {
-          _logger.w('No action defined for action mode.');
-        }
-        break;
-
-      case SelectionMode.disabled:
-        _logger.d('Selection is disabled.');
-        break;
-    }
+    ClosetSelectionHelper.handleTap(
+      context: context,
+      closetId: closetId,
+      closetSelectionMode: closetSelectionMode,
+      singleSelectionClosetCubit: singleSelectionClosetCubit,
+      multiSelectionClosetCubit: multiSelectionClosetCubit,
+      onAction: onAction,
+    );
   }
 
   @override
@@ -93,7 +75,7 @@ class InteractiveItemGrid extends StatelessWidget {
       scrollController: scrollController, // Use the ScrollController passed from the parent
       itemBuilder: (context, closet, index) {
         // Use BlocSelector to determine if this specific item is selected
-        if (selectionMode == SelectionMode.singleSelection) {
+        if (closetSelectionMode == ClosetSelectionMode.singleSelection) {
           return BlocSelector<SingleSelectionClosetCubit, SingleSelectionClosetState, bool>(
             selector: (state) {
               final isSelected = state.selectedClosetId == closet.closetId;

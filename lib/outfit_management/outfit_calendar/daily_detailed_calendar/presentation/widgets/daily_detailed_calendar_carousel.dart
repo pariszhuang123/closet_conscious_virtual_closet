@@ -106,7 +106,7 @@ class _DailyDetailedCalendarCarouselState extends State<DailyDetailedCalendarCar
                         items: outfits[index].items,
                         crossAxisCount: widget.crossAxisCount,
                         selectedItemIds: const [],
-                        selectionMode: SelectionMode.action,
+                        itemSelectionMode: ItemSelectionMode.action,
                         onAction: () {
                           _logger.d("Item tapped in grid, triggering navigation");
                           widget.onAction();

@@ -7,7 +7,7 @@ import '../../outfit_management/save_outfit_items/presentation/bloc/save_outfit_
 import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../outfit_management/core/data/services/outfits_save_services.dart';
 import '../../outfit_management/core/outfit_enums.dart';
-import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc.dart';
+import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc/navigate_outfit_bloc.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import 'my_outfit_screen.dart';
 import '../../core/utilities/logger.dart';

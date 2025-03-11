@@ -17,7 +17,7 @@ import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
 import '../../core/utilities/routes.dart';
 import '../../outfit_management/fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
-import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc.dart';
+import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc/navigate_outfit_bloc.dart';
 import '../../outfit_management/fetch_outfit_items/presentation/widgets/outfit_type_container.dart';
 import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
@@ -509,7 +509,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                               return InteractiveItemGrid(
                                 scrollController: _scrollController,
                                 items: currentItems,
-                                selectionMode: SelectionMode.multiSelection,
+                                itemSelectionMode: ItemSelectionMode.multiSelection,
                                 crossAxisCount: crossAxisCount,
                                 selectedItemIds: widget.selectedItemIds,
                               );

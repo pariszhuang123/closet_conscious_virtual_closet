@@ -18,7 +18,7 @@ class InteractiveItemGrid extends StatelessWidget {
   final List<ClosetItemMinimal> items;
   final int crossAxisCount;
   final List<String> selectedItemIds;
-  final SelectionMode selectionMode; // New parameter
+  final ItemSelectionMode itemSelectionMode; // New parameter
   final VoidCallback? onAction; // Optional callback for action mode
   final bool enablePricePerWear; // ✅ New parameter to control price-per-wear visibility
   final VoidCallback? onInactiveTap; // New callback for inactive items
@@ -30,7 +30,7 @@ class InteractiveItemGrid extends StatelessWidget {
     required this.items,
     required this.crossAxisCount,
     required this.selectedItemIds,
-    required this.selectionMode,
+    required this.itemSelectionMode,
     this.onAction, // Optional
     this.enablePricePerWear = false, // ✅ Default to false so other screens don’t show price per wear
     this.onInactiveTap, // Accept the callback
@@ -63,7 +63,7 @@ class InteractiveItemGrid extends StatelessWidget {
       ItemSelectionHelper.handleTap(
         context: context,
         itemId: itemId,
-        selectionMode: selectionMode,
+        itemSelectionMode: itemSelectionMode,
         singleSelectionCubit: singleSelectionCubit,
         multiSelectionCubit: multiSelectionCubit,
         onAction: onAction,
@@ -93,12 +93,12 @@ class InteractiveItemGrid extends StatelessWidget {
 
     return BaseGrid<ClosetItemMinimal>(
       items: items,
-      scrollController: selectionMode == SelectionMode.disabled ? null : scrollController, // ✅ Only disable scrolling when necessary
-      shrinkWrap: selectionMode == SelectionMode.disabled, // ✅ Allow it to take full space if not scrollable
-      isScrollable: selectionMode != SelectionMode.disabled, // ✅ Ensure scrolling when needed
+      scrollController: itemSelectionMode == ItemSelectionMode.disabled ? null : scrollController, // ✅ Only disable scrolling when necessary
+      shrinkWrap: itemSelectionMode == ItemSelectionMode.disabled, // ✅ Allow it to take full space if not scrollable
+      isScrollable: itemSelectionMode != ItemSelectionMode.disabled, // ✅ Ensure scrolling when needed
       // ✅ Corrected parameter (instead of physics)
       itemBuilder: (context, item, index) {
-        if (selectionMode == SelectionMode.singleSelection) {
+        if (itemSelectionMode == ItemSelectionMode.singleSelection) {
           return BlocSelector<SingleSelectionItemCubit,
               SingleSelectionItemState,
               bool>(

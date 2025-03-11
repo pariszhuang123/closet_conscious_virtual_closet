@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/core_enums.dart';
-import '../../../../core/utilities/logger.dart';
-import '../../../core/data/services/outfits_fetch_services.dart';
-import '../../../core/data/services/outfits_save_services.dart';
-import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
-import '../../../../user_management/user_service_locator.dart';
-import '../../../../core/data/services/core_fetch_services.dart';
+import '../../../../../core/core_enums.dart';
+import '../../../../../core/utilities/logger.dart';
+import '../../../data/services/outfits_fetch_services.dart';
+import '../../../data/services/outfits_save_services.dart';
+import '../../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
+import '../../../../../user_management/user_service_locator.dart';
+import '../../../../../core/data/services/core_fetch_services.dart';
 
 part 'navigate_outfit_event.dart';
 part 'navigate_outfit_state.dart';

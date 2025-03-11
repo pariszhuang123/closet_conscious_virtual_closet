@@ -264,12 +264,12 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                     builder: (context, viewState) {
                       return BlocBuilder<FocusOrCreateClosetBloc, FocusOrCreateClosetState>(
                         builder: (context, focusState) {
-                          SelectionMode selectionMode = SelectionMode.action; // Default
+                          ItemSelectionMode itemSelectionMode = ItemSelectionMode.action; // Default
 
                           if (focusState is FocusOrCreateClosetLoaded) {
-                            selectionMode = focusState.isCalendarSelectable
-                                ? SelectionMode.multiSelection
-                                : SelectionMode.action;
+                            itemSelectionMode = focusState.isCalendarSelectable
+                                ? ItemSelectionMode.multiSelection
+                                : ItemSelectionMode.action;
                           }
 
                           if (viewState is ItemsLoading) {
@@ -284,7 +284,7 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                               scrollController: _scrollController,
                               crossAxisCount: crossAxisCount,
                               enablePricePerWear: true,
-                              selectionMode: selectionMode,
+                              itemSelectionMode: itemSelectionMode,
                               selectedItemIds: widget.selectedItemIds,
                               onAction: () {
                                 _onItemSelected(

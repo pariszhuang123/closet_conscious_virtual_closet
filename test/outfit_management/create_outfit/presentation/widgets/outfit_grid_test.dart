@@ -97,7 +97,7 @@ void main() {
             child: InteractiveItemGrid(
               scrollController: scrollController,
               selectedItemIds: const [],
-              selectionMode: SelectionMode.multiSelection,
+              itemSelectionMode: ItemSelectionMode.multiSelection,
               items: items,
               crossAxisCount: 3,
             ),

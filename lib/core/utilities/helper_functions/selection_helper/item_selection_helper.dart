@@ -8,30 +8,30 @@ class ItemSelectionHelper {
   static void handleTap({
     required BuildContext context,
     required String itemId,
-    required SelectionMode selectionMode,
+    required ItemSelectionMode itemSelectionMode,
     required SingleSelectionItemCubit singleSelectionCubit,
     required MultiSelectionItemCubit multiSelectionCubit,
     required VoidCallback? onAction,
   }) {
     final logger = CustomLogger('ItemSelectionHelper');
 
-    if (selectionMode == SelectionMode.disabled) {
+    if (itemSelectionMode == ItemSelectionMode.disabled) {
       logger.d('Selection disabled. Ignoring tap.');
       return;
     }
 
-    switch (selectionMode) {
-      case SelectionMode.singleSelection:
+    switch (itemSelectionMode) {
+      case ItemSelectionMode.singleSelection:
         logger.d('Single selection mode activated for itemId: $itemId');
         singleSelectionCubit.selectItem(itemId);
         break;
 
-      case SelectionMode.multiSelection:
+      case ItemSelectionMode.multiSelection:
         logger.d('Multi-selection mode toggled for itemId: $itemId');
         multiSelectionCubit.toggleSelection(itemId);
         break;
 
-      case SelectionMode.action:
+      case ItemSelectionMode.action:
         logger.d('Action mode activated for itemId: $itemId');
         singleSelectionCubit.selectItem(itemId);
         if (onAction != null) {
@@ -42,12 +42,12 @@ class ItemSelectionHelper {
         }
         break;
 
-      case SelectionMode.disabled:
+      case ItemSelectionMode.disabled:
         logger.d('Selection is disabled.');
         break;
 
       default:
-        logger.e('Unsupported selection mode: $selectionMode');
+        logger.e('Unsupported selection mode: $itemSelectionMode');
     }
   }
 }

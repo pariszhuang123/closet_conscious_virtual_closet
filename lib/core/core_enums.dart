@@ -34,7 +34,21 @@ enum SaveStatus {
 
 enum AccessStatus { pending, granted, denied, error, trialPending }
 
-enum SelectionMode {
+enum ItemSelectionMode {
+  singleSelection,
+  multiSelection,
+  action,
+  disabled,
+}
+
+enum OutfitSelectionMode {
+  singleSelection,
+  multiSelection,
+  action,
+  disabled,
+}
+
+enum ClosetSelectionMode {
   singleSelection,
   multiSelection,
   action,

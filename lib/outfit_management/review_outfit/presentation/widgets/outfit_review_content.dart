@@ -102,9 +102,9 @@ class OutfitReviewContent extends StatelessWidget {
                         items: loadedState.items,
                         crossAxisCount: crossAxisCount,
                         selectedItemIds: context.watch<MultiSelectionItemCubit>().state.selectedItemIds,
-                        selectionMode: loadedState.canSelectItems
-                            ? SelectionMode.multiSelection
-                            : SelectionMode.disabled,
+                        itemSelectionMode: loadedState.canSelectItems
+                            ? ItemSelectionMode.multiSelection
+                            : ItemSelectionMode.disabled,
                       );
                     },
                   );
