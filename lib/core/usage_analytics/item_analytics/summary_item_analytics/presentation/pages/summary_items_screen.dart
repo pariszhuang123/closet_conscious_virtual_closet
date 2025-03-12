@@ -293,7 +293,11 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                                 );
                           } else {
                             return Center(
-                              child: Text(S.of(context).noItemsInCloset),
+                              child: Text(
+                                  S.of(context).noItemsInCloset,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context).textTheme.titleMedium,
+                              ),
                             );
                           }
                         },

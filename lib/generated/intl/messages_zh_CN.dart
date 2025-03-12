@@ -632,6 +632,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("创建和管理多个衣橱（永久衣橱和隐藏衣橱）"),
         "trialIncludedCustomize":
             MessageLookupByLibrary.simpleMessage("自定义网格大小，并按每次穿着成本、更新日期等排序物品。"),
+        "trialIncludedDrawerInsights":
+            MessageLookupByLibrary.simpleMessage("允许你分析物品的每次穿搭成本，并提供个性化的穿搭建议"),
         "trialIncludedFilter":
             MessageLookupByLibrary.simpleMessage("更轻松筛选物品的过滤器"),
         "trialIncludedOutfits":

@@ -128,7 +128,7 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Text(
               S.of(context).relatedOutfits, // ✅ Localized text
-              style: Theme.of(context).textTheme.titleSmall, // ✅ Use titleMedium directly
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
         ),
@@ -153,7 +153,7 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
                 child: Text(
                   S.of(context).noRelatedOutfits, // ✅ Localized empty state text
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleLarge, // ✅ Consistent typography
+                  style: Theme.of(context).textTheme.titleMedium, // ✅ Consistent typography
                 ),
               );
             } else if (relatedState is RelatedOutfitsSuccess) {

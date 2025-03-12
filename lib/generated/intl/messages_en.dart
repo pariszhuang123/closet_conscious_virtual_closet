@@ -741,6 +741,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Create and manage multiple closets (permanent and disappearing closets)"),
         "trialIncludedCustomize": MessageLookupByLibrary.simpleMessage(
             "Customize grid size and sort items by cost per wear, updated date, and more."),
+        "trialIncludedDrawerInsights": MessageLookupByLibrary.simpleMessage(
+            "Allow you to analyze your items’ cost per wear and provide personalized outfit insights."),
         "trialIncludedFilter": MessageLookupByLibrary.simpleMessage(
             "Filters to filter your items more easily"),
         "trialIncludedOutfits": MessageLookupByLibrary.simpleMessage(

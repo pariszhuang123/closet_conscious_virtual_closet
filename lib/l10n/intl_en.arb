@@ -432,6 +432,7 @@
   "trialIncludedClosets": "Create and manage multiple closets (permanent and disappearing closets)",
   "trialIncludedOutfits": "Create multiple outfits a day",
   "trialIncludedCalendar": "Allow you to view previous outfits in a calendar format and integrate with multi-closet feature.",
+  "trialIncludedDrawerInsights": "Allow you to analyze your items’ cost per wear and provide personalized outfit insights.",
   "eventName": "Event Name",
   "allFeedback": "All",
   "calendarFeatureTitle": "Calendar",

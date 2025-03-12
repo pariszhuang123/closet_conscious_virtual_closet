@@ -138,7 +138,7 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       S.of(context).relatedOutfits, // ✅ Localized text
-                      style: Theme.of(context).textTheme.titleSmall, // ✅ Use titleMedium directly
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
                 ),
@@ -174,7 +174,7 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                                 child: Text(
                                   S.of(context).noRelatedOutfitsItem,
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.titleLarge,
+                                  style: Theme.of(context).textTheme.titleMedium,
                                 ),
                               );
                             }
@@ -196,7 +196,7 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                               child: Text(
                                 S.of(context).noRelatedOutfitsItem,
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.titleLarge,
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
                             );
                           }

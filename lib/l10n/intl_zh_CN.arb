@@ -432,6 +432,7 @@
   "trialIncludedClosets": "创建和管理多个衣橱（永久衣橱和隐藏衣橱）",
   "trialIncludedOutfits": "每天创建多个穿搭",
   "trialIncludedCalendar": "允许你以日历格式查看以前的穿搭，并与多重衣橱功能集成",
+  "trialIncludedDrawerInsights": "允许你分析物品的每次穿搭成本，并提供个性化的穿搭建议",
   "eventName": "活动名称",
   "allFeedback": "所有",
   "calendarFeatureTitle": "日历",

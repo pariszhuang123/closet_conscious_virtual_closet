@@ -33,6 +33,9 @@ class TrialList extends StatelessWidget {
         if (state is AccessOutfitCreationFeatureDenied) {
           deniedFeatures.add(TypeDataList.outfitsUpload(context));
         }
+        if (state is AccessUsageAnalyticsFeatureDenied) {
+          deniedFeatures.add(TypeDataList.drawerInsights(context));
+        }
         if (state is TrialAccessDenied) {
           deniedFeatures.addAll(state.deniedStates.map((deniedState) {
             return _mapDeniedStateToTypeData(deniedState, context);
@@ -105,6 +108,8 @@ class TrialList extends StatelessWidget {
         return localization.trialIncludedOutfits;
       case 'calendar':
         return localization.trialIncludedCalendar;
+      case 'UsageInsights':
+        return localization.trialIncludedDrawerInsights;
       default:
         return '';
     }
@@ -117,6 +122,7 @@ class TrialList extends StatelessWidget {
     if (state is AccessCustomizeFeatureDenied) return TypeDataList.arrange(context);
     if (state is AccessCalendarFeatureDenied) return TypeDataList.calendar(context);
     if (state is AccessOutfitCreationFeatureDenied) return TypeDataList.outfitsUpload(context);
+    if (state is AccessUsageAnalyticsFeatureDenied) return TypeDataList.drawerInsights(context);
     throw Exception('Unhandled denied state: $state');
   }
 }

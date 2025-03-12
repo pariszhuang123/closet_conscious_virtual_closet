@@ -4370,6 +4370,16 @@ class S {
     );
   }
 
+  /// `Allow you to analyze your items’ cost per wear and provide personalized outfit insights.`
+  String get trialIncludedDrawerInsights {
+    return Intl.message(
+      'Allow you to analyze your items’ cost per wear and provide personalized outfit insights.',
+      name: 'trialIncludedDrawerInsights',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Event Name`
   String get eventName {
     return Intl.message(
