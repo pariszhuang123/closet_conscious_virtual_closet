@@ -5,6 +5,8 @@ import '../../../../core/data/models/daily_calendar_outfit.dart';
 import '../../../../../core/widgets/layout/carousel/carousel_outfit.dart';
 import '../widgets/review_comment_row.dart';
 import '../../../../../core/widgets/layout/page_indicator.dart';
+import '../../../../../core/utilities/helper_functions/image_helper.dart';
+import '../../../../../core/core_enums.dart';
 
 class DailyCalendarCarousel extends StatefulWidget {
   final List<DailyCalendarOutfit> outfits;
@@ -63,7 +65,8 @@ class _DailyCalendarCarouselState extends State<DailyCalendarCarousel> {
                       outfit: outfits[index],
                       crossAxisCount: widget.crossAxisCount,
                       isSelected: false,
-                      useLargeHeight: true,
+                      outfitSize: OutfitSize.dailyCalendarOutfitImage,
+                      getHeightForOutfitSize: ImageHelper.getHeightForOutfitSize, // ✅ Pass function dynamically
                       onTap: () {
                         widget.onTap(outfits[index].outfitId);  // Call onTap function from parent
                       },

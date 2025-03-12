@@ -47,6 +47,21 @@ class ImageHelper {
     }
   }
 
+  static double getHeightForOutfitSize(OutfitSize outfitSize) {
+    switch (outfitSize) {
+      case OutfitSize.dailyCalendarOutfitImage:
+        return 0.45;
+
+      case OutfitSize.relatedOutfitImage:
+        return 0.3;
+
+      case OutfitSize.smallOutfitImage:
+        return 0.2;
+
+      default:
+        return 0.3; // Fallback height
+    }
+  }
 
   static ImageSize getImageSize(int crossAxisCount) {
     switch (crossAxisCount) {

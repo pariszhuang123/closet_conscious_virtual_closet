@@ -41,7 +41,7 @@ class LogoTextContainer extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 text,
-                style: themeData.textTheme.titleMedium,
+                style: themeData.textTheme.bodyMedium,
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

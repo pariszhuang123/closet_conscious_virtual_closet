@@ -13,7 +13,8 @@ class CarouselOutfit<T> extends StatelessWidget {
   final int crossAxisCount;
   final bool isSelected;
   final VoidCallback onTap;
-  final bool useLargeHeight; // ✅ New parameter to control layout
+  final double Function(OutfitSize) getHeightForOutfitSize; // ✅ Accepts function
+  final OutfitSize outfitSize; // ✅ Accept from screen
 
   static final _logger = CustomLogger('CarouselOutfit');
 
@@ -23,7 +24,8 @@ class CarouselOutfit<T> extends StatelessWidget {
     required this.crossAxisCount,
     required this.isSelected,
     required this.onTap,
-    required this.useLargeHeight, // ✅ Require boolean from parent
+    required this.getHeightForOutfitSize, // ✅ Added function parameter
+    required this.outfitSize, // ✅ Accept dynamically
   });
 
   @override
@@ -55,7 +57,7 @@ class CarouselOutfit<T> extends StatelessWidget {
 
     _logger.d('Outfit details: outfitId=$outfitId, imageUrl=$outfitImageUrl, isActive=$isActive, eventName=$eventName, itemCount=${items.length}');
 
-    double heightFactor = useLargeHeight ? 0.30 : 0.22; // ✅ Set height dynamically
+    double heightFactor = getHeightForOutfitSize(outfitSize);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 0.0),

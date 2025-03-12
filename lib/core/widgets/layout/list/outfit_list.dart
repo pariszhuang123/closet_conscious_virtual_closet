@@ -15,9 +15,11 @@ class OutfitList<T> extends StatelessWidget {
   final List<T> outfits;
   final int crossAxisCount;
   final Function(String outfitId) onAction;
-  final bool useLargeHeight; // ✅ New parameter to control layout
-  final OutfitSelectionMode outfitSelectionMode; // NEW
+  final OutfitSelectionMode outfitSelectionMode;
   final List<String> selectedOutfitIds; // ✅ Ensure this exists
+  final double Function(OutfitSize) getHeightForOutfitSize; // ✅ Accepts function
+  final OutfitSize outfitSize; // ✅ Accept from screen
+
 
   static final CustomLogger _logger = CustomLogger('OutfitList');
 
@@ -26,9 +28,10 @@ class OutfitList<T> extends StatelessWidget {
     required this.outfits,
     required this.crossAxisCount,
     required this.onAction,
-    required this.useLargeHeight, // ✅ Require boolean from parent
-    required this.outfitSelectionMode, // NEW
-    required this.selectedOutfitIds, // ✅ Add this
+    required this.outfitSelectionMode,
+    required this.selectedOutfitIds,
+    required this.getHeightForOutfitSize, // ✅ Added function parameter
+    required this.outfitSize, // ✅ Accept dynamically
   });
 
   @override
@@ -41,9 +44,8 @@ class OutfitList<T> extends StatelessWidget {
     _logger.d("Building OutfitList with ${outfits.length} outfits.");
 
     return SizedBox(
-      height: 200, // ✅ Constrain height for horizontal scrolling
       child: ListView.builder(
-        scrollDirection: Axis.horizontal, // ✅ Enable horizontal scrolling
+        scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         itemCount: outfits.length,
         itemBuilder: (context, index) {
@@ -53,50 +55,57 @@ class OutfitList<T> extends StatelessWidget {
               ? outfit.outfitId
               : (outfit as OutfitData?)?.outfitId ?? '';
 
-          _logger.d("Rendering OutfitList item at index $index with outfitId: $outfitId");
-
-          if (outfitSelectionMode == OutfitSelectionMode.multiSelection) {
-          } else if (outfitSelectionMode == OutfitSelectionMode.singleSelection) {
-          }
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  decoration: customBoxDecoration(
-                    showBorder: selectedOutfitIds.contains(outfitId),
-                    borderColor: Colors.teal, // Use your theme color or customize
-                    imageSize: ImageSize.itemGrid3, // Adjust according to your use case
-                  ),
-                  child: SizedBox(
-                    width: 300, // ✅ Set a width for horizontal layout
-                    child: CarouselOutfit<T>(
-                      useLargeHeight: useLargeHeight,
-                      outfit: outfit,
-                      crossAxisCount: crossAxisCount,
-                      isSelected: selectedOutfitIds.contains(outfitId),
-                      onTap: () {
-                        OutfitSelectionHelper.handleTap(
-                          context: context,
-                          outfitId: outfitId,
-                          outfitSelectionMode: outfitSelectionMode,
-                          singleSelectionOutfitCubit: context.read<SingleSelectionOutfitCubit>(),
-                          multiSelectionOutfitCubit: context.read<MultiSelectionOutfitCubit>(),
-                          onAction: () {
-                            onAction(outfitId);
+          return BlocSelector<MultiSelectionOutfitCubit, MultiSelectionOutfitState, bool>(
+            selector: (state) {
+              final isSelected = state.selectedOutfitIds.contains(outfitId);
+              _logger.d("Multi Selection - Outfit ID: $outfitId, isSelected: $isSelected");
+              return isSelected;
+            },
+            builder: (context, isSelected) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      key: ValueKey('${outfitId}_$isSelected'),
+                      decoration: customBoxDecoration(
+                        showBorder: isSelected,
+                        borderColor: Theme.of(context).colorScheme.primary, // ✅ Uses theme's primary color
+                        imageSize: ImageSize.itemGrid3, // ✅ Adjust based on your layout
+                      ),
+                      child: SizedBox(
+                        width: 300, // ✅ Dynamically adjust width
+                        child: CarouselOutfit<T>(
+                          outfitSize: outfitSize,
+                          getHeightForOutfitSize: getHeightForOutfitSize,
+                          outfit: outfit,
+                          crossAxisCount: crossAxisCount,
+                          isSelected: isSelected,
+                          onTap: () {
+                            _logger.i("Outfit tapped: $outfitId");
+                            OutfitSelectionHelper.handleTap(
+                              context: context,
+                              outfitId: outfitId,
+                              outfitSelectionMode: outfitSelectionMode,
+                              singleSelectionOutfitCubit: context.read<SingleSelectionOutfitCubit>(),
+                              multiSelectionOutfitCubit: context.read<MultiSelectionOutfitCubit>(),
+                              onAction: () {
+                                _logger.d("Outfit action triggered: $outfitId");
+                                onAction(outfitId);
+                              },
+                            );
                           },
-                        );
-                      },
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           );
         },
       ),
     );
   }
 }
-

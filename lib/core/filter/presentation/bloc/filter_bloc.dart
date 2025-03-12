@@ -49,6 +49,8 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       final allCloset = filterData['allCloset'] as bool;
       final onlyItemsUnworn = filterData['onlyItemsUnworn'] as bool;
       final itemName = filterData['itemName'] as String;
+      final ignoreItemName = filterData['ignoreItemName'] as bool;
+      final adjustedItemName = ignoreItemName ? '' : itemName;
 
       emit(state.copyWith(
         saveStatus: SaveStatus.loadSuccess,
@@ -65,7 +67,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         selectedClosetId: selectedClosetId,
         onlyItemsUnworn: !onlyItemsUnworn,
         allCloset: allCloset,
-        itemName: itemName,
+        itemName: adjustedItemName,
       ));
       logger.i('Filter settings state updated successfully');
     } catch (error) {

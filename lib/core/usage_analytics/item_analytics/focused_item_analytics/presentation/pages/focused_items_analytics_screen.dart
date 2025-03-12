@@ -17,6 +17,7 @@ import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage
 import '../../../../../paywall/data/feature_key.dart';
 import '../../../../../core_enums.dart';
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
+import '../../../../../utilities/helper_functions/image_helper.dart';
 
 class FocusedItemsAnalyticsScreen extends StatelessWidget {
   final bool isFromMyCloset;
@@ -149,7 +150,9 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                 const SizedBox(height: 16),
 
                 /// **Fetch and Display Related Outfits**
-            BlocBuilder<CrossAxisCountCubit, int>(
+            Expanded(
+
+            child: BlocBuilder<CrossAxisCountCubit, int>(
                 builder: (context, crossAxisCount) {
                   return BlocBuilder<FocusOrCreateClosetBloc, FocusOrCreateClosetState>(
                     builder: (context, focusState) {
@@ -179,9 +182,10 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                             return OutfitList<OutfitData>(
                               outfits: outfits,
                               crossAxisCount: crossAxisCount,
-                              useLargeHeight: true,
                               outfitSelectionMode: outfitSelectionMode, // Pass mode here
                               selectedOutfitIds: selectedOutfitIds,
+                              outfitSize: OutfitSize.relatedOutfitImage,
+                              getHeightForOutfitSize: ImageHelper.getHeightForOutfitSize, // ✅ Pass function dynamically
                               onAction: (outfitId) {
                                 logger.d('Tapped related outfit: $outfitId');
                                 context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(outfitId);
@@ -203,7 +207,7 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                   )
                   ;}
                 ),
-              ],
+            )],
             ),
           );
         }

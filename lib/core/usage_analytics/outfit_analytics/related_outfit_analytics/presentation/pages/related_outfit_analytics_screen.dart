@@ -16,6 +16,7 @@ import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage
 import '../../../../../paywall/data/feature_key.dart';
 import '../../../../../core_enums.dart';
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
+import '../../../../../utilities/helper_functions/image_helper.dart';
 
 class RelatedOutfitAnalyticsScreen extends StatelessWidget {
   final bool isFromMyCloset;
@@ -100,16 +101,17 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
               return BlocBuilder<CrossAxisCountCubit, int>(
                 builder: (context, crossAxisCount) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 80),
                     child: CarouselOutfit(
                       outfit: mainOutfit,
                       crossAxisCount: crossAxisCount,
+                      outfitSize: OutfitSize.smallOutfitImage,
+                      getHeightForOutfitSize: ImageHelper.getHeightForOutfitSize, // ✅ Pass function dynamically
                       isSelected: true,
                       onTap: () {
                         _logger.d('Tapped on main outfit: $outfitId');
                         context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(outfitId);
                       },
-                      useLargeHeight: false, // ✅ Pass dynamically
                     ),
                   );
                 },
@@ -138,7 +140,9 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
         const SizedBox(height: 16),
 
         // ✅ Fetch & Display Related Outfits
-        BlocBuilder<RelatedOutfitsCubit, RelatedOutfitsState>(
+        Expanded(
+
+        child: BlocBuilder<RelatedOutfitsCubit, RelatedOutfitsState>(
           builder: (context, relatedState) {
             if (relatedState is RelatedOutfitsLoading) {
               return const Center(child: OutfitProgressIndicator());
@@ -169,9 +173,10 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
                         return OutfitList<OutfitData>(
                           outfits: relatedOutfits,
                           crossAxisCount: crossAxisCount,
-                          useLargeHeight: true,
                           outfitSelectionMode: outfitSelectionMode,
                           selectedOutfitIds: selectedOutfitIds,
+                          outfitSize: OutfitSize.relatedOutfitImage,
+                          getHeightForOutfitSize: ImageHelper.getHeightForOutfitSize, // ✅ Pass function dynamically
                           onAction: (selectedOutfitId) {
                             _logger.d(
                                 'Tapped related outfit: $selectedOutfitId');
@@ -190,6 +195,7 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
             return const SizedBox.shrink();
           },
         ),
+        )
       ],
     )
     );

@@ -16,6 +16,7 @@ class FilterState extends Equatable {
   final bool onlyItemsUnworn;
   final bool allCloset;
   final String itemName;
+  final bool ignoreItemName;
   final SaveStatus saveStatus;
   final AccessStatus accessStatus;
 
@@ -35,6 +36,7 @@ class FilterState extends Equatable {
     this.onlyItemsUnworn = true,
     this.allCloset = false,
     this.itemName ='',
+    this.ignoreItemName = true,
     this.saveStatus = SaveStatus.initial,
     this.accessStatus = AccessStatus.pending, // Default to unknown
   });
@@ -55,6 +57,7 @@ class FilterState extends Equatable {
     bool? onlyItemsUnworn,
     bool? allCloset,
     String? itemName,
+    bool? ignoreItemName,
     SaveStatus? saveStatus,
     AccessStatus? accessStatus,
   }) {
@@ -74,6 +77,7 @@ class FilterState extends Equatable {
       onlyItemsUnworn: onlyItemsUnworn ?? this.onlyItemsUnworn,
       allCloset: allCloset ?? this.allCloset,
       itemName: itemName ?? this.itemName,
+      ignoreItemName: ignoreItemName ?? this.ignoreItemName,
       saveStatus: saveStatus ?? this.saveStatus,
       accessStatus: accessStatus ?? this.accessStatus,
     );
@@ -93,8 +97,9 @@ class FilterState extends Equatable {
     shoesType,
     accessoryType,
     selectedClosetId,
-    itemName,
     onlyItemsUnworn,
+    itemName,
+    ignoreItemName,
     allCloset,
     saveStatus,
     accessStatus

@@ -13,6 +13,12 @@ enum ImageSize {
   calendarOutfitItemGrid7
 }
 
+enum OutfitSize {
+  dailyCalendarOutfitImage,
+  smallOutfitImage,
+  relatedOutfitImage
+}
+
 enum CameraPermissionContext {
   uploadItem,
   editItem,
