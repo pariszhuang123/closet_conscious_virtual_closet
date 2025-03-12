@@ -263,23 +263,23 @@ class FeatureDataList {
         isUsageFeature: false,
         parts: [
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/monthly_calendar.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/summary_item_analytics.jpg',
             getDescription: (context) => S.of(context).viewSummaryItemAnalyticsDescription,
           ),
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/monthly_calendar.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/item_analytics_create_closet.jpg',
             getDescription: (context) => S.of(context).createClosetItemAnalyticsDescription,
           ),
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/monthly_calendar_create_closet.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/item_analytics_related_outfits.jpg',
             getDescription: (context) => S.of(context).itemWithRelatedOutfitsDescription,
           ),
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/daily_calendar.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/summary_outfit_analytics.jpg',
             getDescription: (context) => S.of(context).viewOutfitAnalyticsDescription,
           ),
           FeaturePart(
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/daily_calendar.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/related_outfit_analytics.jpg',
             getDescription: (context) => S.of(context).outfitRelatedOutfitsDescription,
           ),
         ],
