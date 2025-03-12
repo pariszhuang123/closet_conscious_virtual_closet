@@ -25,6 +25,7 @@ class UpdateFilterEvent extends FilterEvent {
   final List<String>? accessoryType;
   final bool? onlyItemsUnworn;
   final bool? allCloset;
+  final bool? ignoreItemName;
 
   const UpdateFilterEvent({
     this.itemName,
@@ -39,7 +40,8 @@ class UpdateFilterEvent extends FilterEvent {
     this.shoesType,
     this.accessoryType,
     this.onlyItemsUnworn,
-    this.allCloset
+    this.allCloset,
+    this.ignoreItemName
   });
 
   @override
@@ -56,7 +58,8 @@ class UpdateFilterEvent extends FilterEvent {
     shoesType,
     accessoryType,
     onlyItemsUnworn,
-    allCloset
+    allCloset,
+    ignoreItemName
   ];
 }
 
