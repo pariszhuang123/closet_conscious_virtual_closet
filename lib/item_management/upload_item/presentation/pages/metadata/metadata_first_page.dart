@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/data/type_data.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../../core/widgets/layout/icon_row_builder.dart';
+import '../../../../../core/widgets/layout/icon_selection/icon_row_builder.dart';
 import '../../../../../core/widgets/form/custom_text_form.dart';
 
 class MetadataFirstPage extends StatelessWidget {

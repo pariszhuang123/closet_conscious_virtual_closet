@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../widgets/layout/icon_row_builder.dart';
+import '../../../../widgets/layout/icon_selection/icon_row_builder.dart';
 import '../../../../data/type_data.dart';
 import '../../bloc/filter_bloc.dart';
 import '../../../../../generated/l10n.dart';

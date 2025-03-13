@@ -17,6 +17,17 @@ class MetadataChangedEvent extends EditItemEvent {
   });
 }
 
+class ValidateFormEvent extends EditItemEvent {
+  final ClosetItemDetailed updatedItem;
+  final String name;
+  final double amountSpent;
+  ValidateFormEvent({
+    required this.updatedItem,
+    required this.name,
+    required this.amountSpent,
+  });
+}
+
 // Event for submitting the form
 class SubmitFormEvent extends EditItemEvent {
   final String itemId;

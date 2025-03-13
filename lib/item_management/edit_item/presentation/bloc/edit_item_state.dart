@@ -21,7 +21,21 @@ class EditItemMetadataChanged extends EditItemState {
   });
 }
 
-class EditItemNoChanges extends EditItemState {}
+/// This state is emitted when the validation passes.
+class EditItemValidationSuccess extends EditItemState {
+  final ClosetItemDetailed validatedItem;
+  EditItemValidationSuccess({required this.validatedItem});
+}
+
+/// This state is emitted when validation fails; inline errors are passed.
+class EditItemValidationFailure extends EditItemState {
+  final ClosetItemDetailed updatedItem;
+  final Map<String, String> validationErrors;
+  EditItemValidationFailure({
+    required this.updatedItem,
+    required this.validationErrors,
+  });
+}
 
 class EditItemSubmitting extends EditItemState {
   final String itemId;

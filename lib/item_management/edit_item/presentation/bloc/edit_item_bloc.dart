@@ -18,13 +18,15 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     ItemSaveService? itemSaveService,
     ItemFetchService? itemFetchService,
     CustomLogger? logger,
-  })  : _itemSaveService = itemSaveService ?? ItemSaveService(),
+  })
+      : _itemSaveService = itemSaveService ?? ItemSaveService(),
         _itemFetchService = itemFetchService ?? ItemFetchService(),
         _logger = logger ?? CustomLogger('ItemEditBloc'),
         super(EditItemInitial()) {
     // Register event handlers
     on<LoadItemEvent>(_onLoadItem);
     on<MetadataChangedEvent>(_onMetadataChanged);
+    on<ValidateFormEvent>(_onValidateForm); // New validation-only event.
     on<SubmitFormEvent>(_onSubmitForm);
   }
 
@@ -35,7 +37,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     _logger.i("Loading item with ID: ${event.itemId}");
 
     try {
-      // Fetch item details using the ItemFetchService
       final itemData = await _itemFetchService.fetchItemDetails(event.itemId);
       _logger.d("Item loaded successfully: $itemData");
       emit(EditItemLoaded(itemId: itemData.itemId, item: itemData));
@@ -46,13 +47,15 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   }
 
   // Handler for metadata changes
-  void _onMetadataChanged(MetadataChangedEvent event, Emitter<EditItemState> emit) {
+  void _onMetadataChanged(MetadataChangedEvent event,
+      Emitter<EditItemState> emit) {
     if (_isValidStateForMetadataChange()) {
-      final currentItemState = state is EditItemLoaded
-          ? (state as EditItemLoaded).item
-          : (state as EditItemMetadataChanged).updatedItem;
+      final currentItemState = state is EditItemValidationFailure
+          ? (state as EditItemValidationFailure).updatedItem
+          : state is EditItemLoaded
+            ? (state as EditItemLoaded).item
+            : (state as EditItemMetadataChanged).updatedItem;
 
-      // Reset fields based on the new itemType
       final updatedItem = currentItemState.copyWith(
         itemType: event.updatedItem.itemType,
         name: event.updatedItem.name,
@@ -60,9 +63,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
         occasion: event.updatedItem.occasion,
         season: event.updatedItem.season,
         colour: event.updatedItem.colour,
-        colourVariations: event.updatedItem.colourVariations ?? currentItemState.colourVariations,
-
-        // Reset irrelevant fields based on itemType
+        colourVariations: event.updatedItem.colourVariations ??
+            currentItemState.colourVariations,
         clothingType: event.updatedItem.itemType.contains('clothing')
             ? event.updatedItem.clothingType ?? []
             : [],
@@ -78,8 +80,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       );
 
       _logger.d("Item metadata changed: $updatedItem");
-
-      // Emit the updated state with the new metadata
       emit(EditItemMetadataChanged(updatedItem: updatedItem));
     } else {
       _logger.w("Attempted to change metadata in invalid state.");
@@ -87,18 +87,57 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     }
   }
 
-  // Handler for submitting the form
-  Future<void> _onSubmitForm(SubmitFormEvent event, Emitter<EditItemState> emit) async {
-    if (state is EditItemMetadataChanged) {
-      final metadataChangedState = state as EditItemMetadataChanged;
-      final updatedItem = metadataChangedState.updatedItem;
+  // New handler: Validate interdependent fields then submit
+  Future<void> _onValidateForm(ValidateFormEvent event, Emitter<EditItemState> emit) async {
+    final item = event.updatedItem;
+    Map<String, String> tempErrors = {};
 
+    // Interdependent validation rules:
+    if (item.itemType.contains('clothing')) {
+      if (item.clothingType == null || item.clothingType!.isEmpty) {
+        tempErrors['clothing_type'] = "Clothing type is required.";
+      }
+      if (item.clothingLayer == null || item.clothingLayer!.isEmpty) {
+        tempErrors['clothing_layer'] = "Clothing layer is required.";
+      }
+    } else if (item.itemType.contains('accessory')) {
+      if (item.accessoryType == null || item.accessoryType!.isEmpty) {
+        tempErrors['accessory_type'] = "Accessory type is required.";
+      }
+    } else if (item.itemType.contains('shoes')) {
+      if (item.shoesType == null || item.shoesType!.isEmpty) {
+        tempErrors['shoes_type'] = "Shoes type is required.";
+      }
+    }
+
+    if (!item.colour.contains('black') && !item.colour.contains('white')) {
+      if (item.colourVariations == null || item.colourVariations!.isEmpty) {
+        tempErrors['colour_variations'] = "Colour variation is required.";
+      }
+    }
+
+    if (tempErrors.isNotEmpty) {
+      _logger.w('Interdependent validation failed: $tempErrors');
+      emit(EditItemValidationFailure(updatedItem: item, validationErrors: tempErrors));
+      return;
+    }
+
+    _logger.i("Validation succeeded for item ID: ${item.itemId}");
+    emit(EditItemValidationSuccess(validatedItem: item));
+  }
+
+
+
+// Handler for submitting the form (legacy handler, if needed)
+  Future<void> _onSubmitForm(SubmitFormEvent event,
+      Emitter<EditItemState> emit) async {
+    if (state is EditItemValidationSuccess) {
+      final metadataChangedState = state as EditItemValidationSuccess;
+      final updatedItem = metadataChangedState.validatedItem;
       emit(EditItemSubmitting(itemId: updatedItem.itemId));
       _logger.i("Submitting form for item ID: ${updatedItem.itemId}");
 
-
       try {
-        // Call the ItemSaveService to save the edited metadata
         final success = await _itemSaveService.editItemMetadata(
           itemId: updatedItem.itemId,
           itemType: updatedItem.itemType.join(", "),
@@ -108,10 +147,11 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           season: updatedItem.season.join(", "),
           colour: updatedItem.colour.join(", "),
           clothingType: updatedItem.clothingType?.join(", "),
-          clothingLayer: updatedItem.clothingLayer?.join((", ")),
+          clothingLayer: updatedItem.clothingLayer?.join(", "),
           shoesType: updatedItem.shoesType?.join(", "),
           accessoryType: updatedItem.accessoryType?.join(", "),
-          colourVariations: updatedItem.colourVariations?.join(", ") ?? 'cc_none',
+          colourVariations: updatedItem.colourVariations?.join(", ") ??
+              'cc_none',
         );
 
         if (success) {
@@ -119,7 +159,8 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
           emit(EditItemUpdateSuccess());
         } else {
           _logger.e("Item metadata update failed.");
-          emit(EditItemUpdateFailure("Metadata update failed due to an unknown error."));
+          emit(EditItemUpdateFailure(
+              "Metadata update failed due to an unknown error."));
         }
       } catch (e) {
         _logger.e("Error during item update: $e");
@@ -133,6 +174,6 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
 
   // Helper method to validate state before metadata change
   bool _isValidStateForMetadataChange() {
-    return state is EditItemLoaded || state is EditItemMetadataChanged;
+    return state is EditItemLoaded || state is EditItemMetadataChanged || state is EditItemValidationFailure;
   }
 }

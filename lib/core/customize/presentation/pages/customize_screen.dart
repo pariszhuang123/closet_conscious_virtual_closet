@@ -5,7 +5,7 @@ import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../presentation/bloc/customize_bloc.dart';
 import '../../../core_enums.dart';
 import '../../../data/type_data.dart';
-import '../../../widgets/layout/icon_row_builder.dart';
+import '../../../widgets/layout/icon_selection/icon_row_builder.dart';
 import '../../../../generated/l10n.dart';
 import '../../../theme/my_closet_theme.dart';
 import '../../../theme/my_outfit_theme.dart';

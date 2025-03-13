@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../core_enums.dart';
-import '../button/text_type_button.dart';
-import '../../data/type_data.dart';
+import '../../../core_enums.dart';
+import '../../button/text_type_button.dart';
+import '../../../data/type_data.dart';
 
 List<Widget> buildIconRows(
     List<TypeData> typeDataList,

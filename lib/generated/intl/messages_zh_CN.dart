@@ -269,7 +269,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterMonths": MessageLookupByLibrary.simpleMessage("请输入月份数"),
         "error": MessageLookupByLibrary.simpleMessage("哎呀，出了点问题。"),
         "errorDeclutter": MessageLookupByLibrary.simpleMessage(
-            "我们暂时无法整理您的衣橱，但别担心——我们会尽快再试！🌿"),
+            "我们暂时无法整理您的衣橱，但别担心—我们会尽快再试！🌿"),
         "errorFetchingClosets": MessageLookupByLibrary.simpleMessage("获取衣橱时出错"),
         "errorIncrement":
             MessageLookupByLibrary.simpleMessage("哎呀！我们无法记录您的兴趣。请再试一次！"),
@@ -350,7 +350,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "infoHubUrl": MessageLookupByLibrary.simpleMessage(
             "https://inky-twill-3ab.notion.site/dc4dd32378b0478daf36fca24e00d0c8"),
         "interestAcknowledged":
-            MessageLookupByLibrary.simpleMessage("已记录您的兴趣——敬请期待更新！🎉"),
+            MessageLookupByLibrary.simpleMessage("已记录您的兴趣—敬请期待更新！🎉"),
         "interested": MessageLookupByLibrary.simpleMessage("有兴趣"),
         "invalidMonths": MessageLookupByLibrary.simpleMessage("无效的月份（请输入正数）"),
         "invalidMonthsValue": MessageLookupByLibrary.simpleMessage("无效的月份值。"),
@@ -365,7 +365,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "itemUploaded_itemUploaded":
             MessageLookupByLibrary.simpleMessage("物品已上传"),
         "itemWithRelatedOutfitsDescription":
-            MessageLookupByLibrary.simpleMessage("看看这件单品出现在哪些穿搭里——你的风格，由你定义。"),
+            MessageLookupByLibrary.simpleMessage("看看这件单品出现在哪些穿搭里—你的风格，由你定义。"),
         "item_name": MessageLookupByLibrary.simpleMessage("物品名称"),
         "itemsUploadedTooltip":
             MessageLookupByLibrary.simpleMessage("您上传到环保衣橱的物品数量"),
@@ -387,7 +387,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("不能超过十二个月"),
         "multi": MessageLookupByLibrary.simpleMessage("多季"),
         "multiClosetFeatureDescription":
-            MessageLookupByLibrary.simpleMessage("我们正在探索添加多个衣橱（永久、消失）——您会使用吗？"),
+            MessageLookupByLibrary.simpleMessage("我们正在探索添加多个衣橱（永久、消失）—您会使用吗？"),
         "multiClosetFeatureTitle":
             MessageLookupByLibrary.simpleMessage("多个衣橱？"),
         "multiClosetManagement": MessageLookupByLibrary.simpleMessage("多衣柜管理"),
@@ -401,7 +401,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "next": MessageLookupByLibrary.simpleMessage("下一步"),
         "niche": MessageLookupByLibrary.simpleMessage("小众"),
         "noAchievementFound":
-            MessageLookupByLibrary.simpleMessage("尚无成就——今天就开始解锁吧！"),
+            MessageLookupByLibrary.simpleMessage("尚无成就—今天就开始解锁吧！"),
         "noClosetsAvailable": MessageLookupByLibrary.simpleMessage("没有可用的衣柜"),
         "noClosetsFound": MessageLookupByLibrary.simpleMessage("未找到衣橱"),
         "noFilteredOutfitMessage": MessageLookupByLibrary.simpleMessage(
@@ -442,7 +442,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noNewClothes630Achievement":
             MessageLookupByLibrary.simpleMessage("可持续发展的领袖！"),
         "noNewClothes630AchievementMessage":
-            MessageLookupByLibrary.simpleMessage("630天不买新衣——您正在引领潮流！继续加油！"),
+            MessageLookupByLibrary.simpleMessage("630天不买新衣—您正在引领潮流！继续加油！"),
         "noNewClothes900Achievement":
             MessageLookupByLibrary.simpleMessage("改变的先驱者！"),
         "noNewClothes900AchievementMessage":
@@ -489,7 +489,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "outfitInactive": MessageLookupByLibrary.simpleMessage("非活跃穿搭"),
         "outfitLabel": MessageLookupByLibrary.simpleMessage("造型"),
         "outfitRelatedOutfitsDescription":
-            MessageLookupByLibrary.simpleMessage("探索更多穿搭灵感——根据你的主穿搭找到相似造型。"),
+            MessageLookupByLibrary.simpleMessage("探索更多穿搭灵感—根据你的主穿搭找到相似造型。"),
         "outfitReviewContent":
             MessageLookupByLibrary.simpleMessage("您的造型评论已成功提交！"),
         "outfitReviewTitle": MessageLookupByLibrary.simpleMessage("造型评论已提交"),
@@ -602,7 +602,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "supportEmailSubject": MessageLookupByLibrary.simpleMessage("支持请求"),
         "swap": MessageLookupByLibrary.simpleMessage("交换"),
         "swapFeatureDescription": MessageLookupByLibrary.simpleMessage(
-            "有兴趣交换物品或收到附近交换活动的通知吗？我们正在考虑这个功能——您怎么看？"),
+            "有兴趣交换物品或收到附近交换活动的通知吗？我们正在考虑这个功能—您怎么看？"),
         "swapFeatureTitle": MessageLookupByLibrary.simpleMessage("交换物品？"),
         "swap_item": MessageLookupByLibrary.simpleMessage("交换二维码"),
         "tabItemAnalytics": MessageLookupByLibrary.simpleMessage("单品分析"),
@@ -712,10 +712,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "viewMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "探索您的多衣橱选项。您可以创建一个新的多衣橱，\n从所有多衣橱中编辑物品，或对单个多衣橱进行修改。"),
         "viewOutfitAnalyticsDescription":
-            MessageLookupByLibrary.simpleMessage("发现你的穿搭风格——看看你喜欢、犹豫或想调整的比例。"),
+            MessageLookupByLibrary.simpleMessage("发现你的穿搭风格—看看你喜欢、犹豫或想调整的比例。"),
         "viewSummaryItemAnalyticsDescription":
             MessageLookupByLibrary.simpleMessage(
-                "用数据掌控衣橱——总花费、物品数量、每次穿搭成本，一目了然。"),
+                "用数据掌控衣橱—总花费、物品数量、每次穿搭成本，一目了然。"),
         "warning": MessageLookupByLibrary.simpleMessage("警告"),
         "white": MessageLookupByLibrary.simpleMessage("白色"),
         "winter": MessageLookupByLibrary.simpleMessage("冬季"),

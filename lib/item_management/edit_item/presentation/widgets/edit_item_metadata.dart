@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/data/type_data.dart';
 import '../../../../generated/l10n.dart';
 import '../../../core/data/models/closet_item_detailed.dart';
-import '../../../../core/widgets/layout/icon_row_builder.dart';
 import '../../../../core/widgets/form/custom_text_form.dart';
+import '../../../../core/widgets/layout/icon_selection/icon_selection_field.dart';
 
 class EditItemMetadata extends StatelessWidget {
   final ClosetItemDetailed currentItem;
@@ -92,168 +92,99 @@ class EditItemMetadata extends StatelessWidget {
 
 
         // Item Type Selection
-        Text(S.of(context).selectItemType, style: theme.textTheme.bodyMedium),
-        ...buildIconRows(
-          TypeDataList.itemGeneralTypes(context),
-          currentItem.itemType, // Pass first item if available
-              (selectedKeys) => onItemTypeChanged(selectedKeys.first),
-          context,
-          true,
-          false,
+        IconSelectionField(
+          label: S.of(context).selectItemType,
+          options: TypeDataList.itemGeneralTypes(context),
+          selected: currentItem.itemType,
+          onChanged: onItemTypeChanged,
+          // Optionally, you could pass errorText: validationErrors['item_type']
         ),
-        // If interdependent fields require validation, consider handling them via Bloc
-        // or pass validation errors as props
-        const SizedBox(height: 12),
 
         // Occasion Selection
-        Text(S.of(context).selectOccasion, style: theme.textTheme.bodyMedium),
-        ...buildIconRows(
-          TypeDataList.occasions(context),
-          currentItem.occasion, // Pass first item if available
-              (selectedKeys) => onOccasionChanged(selectedKeys.first),
-          context,
-          true,
-          false,
+        IconSelectionField(
+          label: S.of(context).selectOccasion,
+          options: TypeDataList.occasions(context),
+          selected: currentItem.occasion,
+          onChanged: onOccasionChanged,
         ),
-        const SizedBox(height: 12),
 
         // Season Selection
-        Text(S.of(context).selectSeason, style: theme.textTheme.bodyMedium),
-        ...buildIconRows(
-          TypeDataList.seasons(context),
-          currentItem.season, // Pass first item if available
-              (selectedKeys) => onSeasonChanged(selectedKeys.first),
-          context,
-          true,
-          false,
+        IconSelectionField(
+          label: S.of(context).selectSeason,
+          options: TypeDataList.seasons(context),
+          selected: currentItem.season,
+          onChanged: onSeasonChanged,
         ),
-        const SizedBox(height: 12),
 
         // Shoe Type Selection (for shoes)
-        if (currentItem.itemType.contains ('shoes')) ...[
-          Text(S.of(context).selectShoeType, style: theme.textTheme.bodyMedium),
-          ...buildIconRows(
-            TypeDataList.shoeTypes(context),
-            currentItem.shoesType ?? [], // Pass the first item if available
-                (selectedKeys) => onShoeTypeChanged(selectedKeys.first),
-            context,
-            true,
-            false,
+        if (currentItem.itemType.contains('shoes'))
+          IconSelectionField(
+            label: S.of(context).selectShoeType,
+            options: TypeDataList.shoeTypes(context),
+            selected: currentItem.shoesType ?? [],
+            onChanged: onShoeTypeChanged,
+            errorText: validationErrors['shoes_type'],
           ),
-          // Display validation error if any
-          if (validationErrors['shoes_type'] != null)
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                validationErrors['shoes_type']!,
-                style: const TextStyle(color: Colors.red, fontSize: 12),
-              ),
-            ),
-        ],
-        const SizedBox(height: 12),
 
         // Accessory Type Selection (for accessories)
-        if (currentItem.itemType.contains ('accessory')) ...[
-          Text(S.of(context).selectAccessoryType, style: theme.textTheme.bodyMedium),
-          ...buildIconRows(
-            TypeDataList.accessoryTypes(context),
-            currentItem.accessoryType != null && currentItem.accessoryType!.isNotEmpty ? [currentItem.accessoryType!.first] : [], // Pass the first item if available
-                (selectedKeys) => onAccessoryTypeChanged(selectedKeys.first),
-            context,
-            true,
-            false,
+        if (currentItem.itemType.contains('accessory'))
+          IconSelectionField(
+            label: S.of(context).selectAccessoryType,
+            options: TypeDataList.accessoryTypes(context),
+            selected: currentItem.accessoryType != null &&
+                currentItem.accessoryType!.isNotEmpty
+                ? [currentItem.accessoryType!.first]
+                : [],
+            onChanged: onAccessoryTypeChanged,
+            errorText: validationErrors['accessory_type'],
           ),
-          // Display validation error if any
-          if (validationErrors['accessory_type'] != null)
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                validationErrors['accessory_type']!,
-                style: const TextStyle(color: Colors.red, fontSize: 12),
-              ),
-            ),
-        ],
-        const SizedBox(height: 12),
+        // Clothing Type Selection (for clothing)
+        if (currentItem.itemType.contains('clothing'))
+          IconSelectionField(
+            label: S.of(context).selectClothingType,
+            options: TypeDataList.clothingTypes(context),
+            selected: currentItem.clothingType != null &&
+                currentItem.clothingType!.isNotEmpty
+                ? [currentItem.clothingType!.first]
+                : [],
+            onChanged: onClothingTypeChanged,
+            errorText: validationErrors['clothing_type'],
+          ),
 
-        // Clothing Type and Layer Selection (for clothing)
-        if (currentItem.itemType.contains ('clothing')) ...[
-          // Clothing Type Selection
-          Text(S.of(context).selectClothingType, style: theme.textTheme.bodyMedium),
-          ...buildIconRows(
-            TypeDataList.clothingTypes(context),
-            currentItem.clothingType != null && currentItem.clothingType!.isNotEmpty ? [currentItem.clothingType!.first] : [], // Pass the first item if available
-                (selectedKeys) => onClothingTypeChanged(selectedKeys.first),
-            context,
-            true,
-            false,
+        // Clothing Layer Selection (for clothing)
+        if (currentItem.itemType.contains('clothing'))
+          IconSelectionField(
+            label: S.of(context).selectClothingLayer,
+            options: TypeDataList.clothingLayers(context),
+            selected: currentItem.clothingLayer != null &&
+                currentItem.clothingLayer!.isNotEmpty
+                ? [currentItem.clothingLayer!.first]
+                : [],
+            onChanged: onClothingLayerChanged,
+            errorText: validationErrors['clothing_layer'],
           ),
-          // Display validation error if any
-          if (validationErrors['clothing_type'] != null)
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                validationErrors['clothing_type']!,
-                style: const TextStyle(color: Colors.red, fontSize: 12),
-              ),
-            ),
-          const SizedBox(height: 12),
-
-          // Clothing Layer Selection
-          Text(S.of(context).selectClothingLayer, style: theme.textTheme.bodyMedium),
-          ...buildIconRows(
-            TypeDataList.clothingLayers(context),
-            currentItem.clothingLayer != null && currentItem.clothingLayer!.isNotEmpty ? [currentItem.clothingLayer!.first] : [], // Pass the first item if available
-                (selectedKeys) => onClothingLayerChanged(selectedKeys.first),
-            context,
-            true,
-            false,
-          ),
-          // Display validation error if any
-          if (validationErrors['clothing_layer'] != null)
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                validationErrors['clothing_layer']!,
-                style: const TextStyle(color: Colors.red, fontSize: 12),
-              ),
-            ),
-        ],
-        const SizedBox(height: 12),
 
         // Colour Selection
-        Text(S.of(context).selectColour, style: theme.textTheme.bodyMedium),
-        ...buildIconRows(
-          TypeDataList.colour(context),
-          currentItem.colour.isNotEmpty ? [currentItem.colour.first] : [], // Pass first item if available
-              (selectedKeys) => onColourChanged(selectedKeys.first),
-          context,
-          true,
-          false,
+        IconSelectionField(
+          label: S.of(context).selectColour,
+          options: TypeDataList.colour(context),
+          selected: currentItem.colour.isNotEmpty ? [currentItem.colour.first] : [],
+          onChanged: onColourChanged,
         ),
-        const SizedBox(height: 12),
 
         // Colour Variation Selection (if colour is not black or white)
-        if (!currentItem.colour.contains ('black') && !currentItem.colour.contains('white')) ...[
-          Text(S.of(context).selectColourVariation, style: theme.textTheme.bodyMedium),
-          ...buildIconRows(
-            TypeDataList.colourVariations(context),
-            currentItem.colourVariations != null && currentItem.colourVariations!.isNotEmpty ? [currentItem.colourVariations!.first] : [], // Pass the first item if available
-                (selectedKeys) => onColourVariationChanged(selectedKeys.first),
-            context,
-            true,
-            false,
+        if (!currentItem.colour.contains('black') &&
+            !currentItem.colour.contains('white'))
+          IconSelectionField(
+            label: S.of(context).selectColourVariation,
+            options: TypeDataList.colourVariations(context),
+            selected: currentItem.colourVariations != null &&
+                currentItem.colourVariations!.isNotEmpty
+                ? [currentItem.colourVariations!.first]
+                : [],
+            onChanged: onColourVariationChanged,
+            errorText: validationErrors['colour_variations'],
           ),
-          // Display validation error if any
-          if (validationErrors['colour_variations'] != null)
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                validationErrors['colour_variations']!,
-                style: const TextStyle(color: Colors.red, fontSize: 12),
-              ),
-            ),
-        ],
-        const SizedBox(height: 12),
       ],
     );
   }
