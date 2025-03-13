@@ -26,6 +26,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     // Register event handlers
     on<LoadItemEvent>(_onLoadItem);
     on<MetadataChangedEvent>(_onMetadataChanged);
+    on<AmountSpentChangedEvent>(_onAmountSpentChanged);
     on<ValidateFormEvent>(_onValidateForm); // New validation-only event.
     on<SubmitFormEvent>(_onSubmitForm);
   }
@@ -87,12 +88,48 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     }
   }
 
+  void _onAmountSpentChanged(AmountSpentChangedEvent event, Emitter<EditItemState> emit) {
+    final currentItem = state is EditItemMetadataChanged
+        ? (state as EditItemMetadataChanged).updatedItem
+        : state is EditItemLoaded
+        ? (state as EditItemLoaded).item
+        : null;
+
+    if (currentItem == null) return;
+
+    // Attempt to parse amount
+    double? parsedAmount = double.tryParse(event.amountSpent);
+    Map<String, String> validationErrors = {};
+
+    if (parsedAmount == null || parsedAmount < 0) {
+      validationErrors['amount_spent'] = "Please enter a valid amount.";
+    }
+
+    final updatedItem = currentItem.copyWith(amountSpent: parsedAmount ?? currentItem.amountSpent);
+
+    if (validationErrors.isNotEmpty) {
+      _logger.w("Amount validation failed: $validationErrors");
+      emit(EditItemValidationFailure(updatedItem: updatedItem, validationErrors: validationErrors));
+    } else {
+      _logger.d("Amount updated: $parsedAmount");
+      emit(EditItemMetadataChanged(updatedItem: updatedItem));
+    }
+  }
   // New handler: Validate interdependent fields then submit
   Future<void> _onValidateForm(ValidateFormEvent event, Emitter<EditItemState> emit) async {
     final item = event.updatedItem;
     Map<String, String> tempErrors = {};
 
-    // Interdependent validation rules:
+    if (event.name.trim().isEmpty) {
+      tempErrors['item_name'] = "Please enter item name.";
+    }
+
+    // Validate amount spent.
+    final parsedAmount = item.amountSpent;
+    if (parsedAmount < 0) {
+      tempErrors['amount_spent'] = "Please enter a valid amount.";
+    }
+
     if (item.itemType.contains('clothing')) {
       if (item.clothingType == null || item.clothingType!.isEmpty) {
         tempErrors['clothing_type'] = "Clothing type is required.";

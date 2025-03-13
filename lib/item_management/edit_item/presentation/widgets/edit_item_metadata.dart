@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/data/type_data.dart';
 import '../../../../generated/l10n.dart';
 import '../../../core/data/models/closet_item_detailed.dart';
 import '../../../../core/widgets/form/custom_text_form.dart';
 import '../../../../core/widgets/layout/icon_selection/icon_selection_field.dart';
+import '../bloc/edit_item_bloc.dart';
 
 class EditItemMetadata extends StatelessWidget {
   final ClosetItemDetailed currentItem;
@@ -69,24 +72,16 @@ class EditItemMetadata extends StatelessWidget {
 
         // Amount Spent Field
         CustomTextFormField(
-          controller: amountSpentController,
+          controller: amountSpentController, // Use a BLoC-managed controller
           labelText: S.of(context).amountSpentLabel,
           hintText: S.of(context).enterAmountSpentHint,
           labelStyle: theme.textTheme.bodyMedium,
           focusedBorderColor: theme.colorScheme.primary,
           errorText: validationErrors['amount_spent'],
           keyboardType: TextInputType.number,
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return S.of(context).enterAmountSpentHint;
-            }
-            final parsedValue = double.tryParse(value);
-            if (parsedValue == null || parsedValue < 0) {
-              return S.of(context).please_enter_valid_amount;
-            }
-            return null; // No error if validation passes
+          onChanged: (value) {
+            context.read<EditItemBloc>().add(AmountSpentChangedEvent(amountSpent: value));
           },
-          onChanged: onAmountSpentChanged,
         ),
         const SizedBox(height: 12),
 

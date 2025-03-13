@@ -17,6 +17,11 @@ class MetadataChangedEvent extends EditItemEvent {
   });
 }
 
+class AmountSpentChangedEvent extends EditItemEvent {
+  final String amountSpent;
+  AmountSpentChangedEvent({required this.amountSpent});
+}
+
 class ValidateFormEvent extends EditItemEvent {
   final ClosetItemDetailed updatedItem;
   final String name;

@@ -31,33 +31,31 @@ class _EditItemScreenState extends State<EditItemScreen> {
   String? _imageUrl;
   bool _isChanged = false;
 
-  final _formKey = GlobalKey<FormState>();
   final _logger = CustomLogger('EditItemScreen');
-
   Map<String, String> _validationErrors = {};
 
   @override
   void initState() {
     super.initState();
     _itemNameController = TextEditingController();
-    _amountSpentController = TextEditingController();
+    _amountSpentController = TextEditingController(); // ADD THIS
     _logger.i('Initialized EditItemScreen with itemId: ${widget.itemId}');
   }
 
   @override
   void dispose() {
     _itemNameController.dispose();
-    _amountSpentController.dispose();
+    _amountSpentController.dispose(); // ADD THIS
     _logger.i('Disposed controllers');
     super.dispose();
   }
 
-  // Dismiss the keyboard when tapping outside the input fields
+  // Dismiss keyboard when tapping outside inputs.
   void _dismissKeyboard() {
     FocusScope.of(context).unfocus();
   }
 
-  // Route the user to PhotoProvider for image editing
+  // Navigate to PhotoProvider for image editing.
   void _navigateToPhotoProvider() {
     _logger.d('Navigating to PhotoProvider for itemId: ${widget.itemId}');
     Navigator.pushNamed(
@@ -67,7 +65,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     );
   }
 
-  // Open the declutter bottom sheet
+  // Open declutter bottom sheet.
   void _openDeclutterSheet() {
     _logger.d('Opening declutter sheet for itemId: ${widget.itemId}');
     showModalBottomSheet(
@@ -79,7 +77,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     );
   }
 
-  // Open the swap bottom sheet
+  // Open swap bottom sheet.
   void _openSwapSheet() {
     _logger.d('Opening swap sheet for itemId: ${widget.itemId}');
     showModalBottomSheet(
@@ -93,7 +91,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     });
   }
 
-  // Open the metadata bottom sheet
+  // Open metadata bottom sheet.
   void _openMetadataSheet() {
     _logger.d('Opening metadata sheet for itemId: ${widget.itemId}');
     showModalBottomSheet(
@@ -107,41 +105,46 @@ class _EditItemScreenState extends State<EditItemScreen> {
     });
   }
 
-  // Dispatch metadata change event
+  // Dispatch metadata change event.
   void _dispatchMetadataChanged(EditItemState state, ClosetItemDetailed updatedItem) {
     _logger.d('Dispatching metadata change for itemId: ${widget.itemId}');
-    context.read<EditItemBloc>().add(
-      MetadataChangedEvent(updatedItem: updatedItem),
-    );
+    context.read<EditItemBloc>().add(MetadataChangedEvent(updatedItem: updatedItem));
   }
 
-  // New handler: Dispatch event to validate and submit
+  // Handler: Dispatch validation event to the bloc.
   void _handleUpdate() {
     final currentItem = getCurrentItem(context.read<EditItemBloc>().state);
+    final parsedAmount = double.tryParse(_amountSpentController.text);
+
+    if (parsedAmount == null || parsedAmount < 0) {
+      setState(() {
+        _validationErrors['amount_spent'] = "Please enter a valid amount.";
+        _isChanged = true;
+      });
+      return; // Stop further submission
+    }
+
     context.read<EditItemBloc>().add(
       ValidateFormEvent(
         updatedItem: currentItem.copyWith(
           name: _itemNameController.text,
-          amountSpent: double.tryParse(_amountSpentController.text) ?? currentItem.amountSpent,
+          amountSpent: parsedAmount,
         ),
         name: _itemNameController.text,
-        amountSpent: double.tryParse(_amountSpentController.text) ?? currentItem.amountSpent,
+        amountSpent: parsedAmount,
       ),
     );
   }
 
-  // Keep the logic for getting the current item state
+  // Helper to extract the current item from state.
   ClosetItemDetailed getCurrentItem(EditItemState state) {
     if (state is EditItemLoaded) {
-      _logger.i('Loaded item: ${state.item.itemId}');
       return state.item;
     } else if (state is EditItemMetadataChanged) {
-      _logger.i('Updated item: ${state.updatedItem.itemId}');
       return state.updatedItem;
     } else if (state is EditItemValidationFailure) {
       return state.updatedItem;
     } else if (state is EditItemValidationSuccess) {
-      _logger.i('Validated item: ${state.validatedItem.itemId}');
       return state.validatedItem;
     }
     _logger.e('Invalid state encountered');
@@ -151,17 +154,17 @@ class _EditItemScreenState extends State<EditItemScreen> {
   @override
   Widget build(BuildContext context) {
     final ThemeData myClosetTheme = Theme.of(context);
-
     return MultiBlocListener(
       listeners: [
-        // Listen for update events and validation failures
         BlocListener<EditItemBloc, EditItemState>(
           listener: (context, state) {
             if (state is EditItemValidationFailure) {
               setState(() {
                 _validationErrors = state.validationErrors;
+                _isChanged = true;
               });
             } else if (state is EditItemValidationSuccess) {
+              // When validation passes, automatically dispatch submission.
               final currentItem = getCurrentItem(state);
               context.read<EditItemBloc>().add(
                 SubmitFormEvent(
@@ -179,7 +182,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   accessoryType: currentItem.accessoryType,
                 ),
               );
-              // Optionally, you may show a message like "Validation succeeded".
             } else if (state is EditItemUpdateSuccess) {
               Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
             } else if (state is EditItemUpdateFailure) {
@@ -193,7 +195,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
       ],
       child: BlocConsumer<EditItemBloc, EditItemState>(
         listener: (context, state) {
-          // Update image URL or text fields based on state changes
+          // Update text controllers when state changes.
           if (state is EditItemLoaded) {
             final currentItem = state.item;
             if (_itemNameController.text != currentItem.name) {
@@ -207,25 +209,21 @@ class _EditItemScreenState extends State<EditItemScreen> {
             if (_itemNameController.text != updatedItem.name) {
               _itemNameController.text = updatedItem.name;
             }
-            // Do not update _amountSpentController.text here if not needed
           }
         },
         builder: (context, state) {
           if (state is EditItemInitial || state is EditItemLoading) {
-            _logger.i('Loading state for itemId: ${widget.itemId}');
             return const Center(child: ClosetProgressIndicator());
           }
           if (state is EditItemLoadFailure) {
-            _logger.e('Failed to load itemId: ${widget.itemId}');
             return const Center(child: Text('Failed to load item'));
           }
+          // When update is successful, we already navigate away, so return an empty container.
           if (state is EditItemUpdateSuccess) {
             return Container();
           }
-
           try {
-            ClosetItemDetailed currentItem = getCurrentItem(state);
-
+            final currentItem = getCurrentItem(state);
             return GestureDetector(
               onTap: _dismissKeyboard,
               behavior: HitTestBehavior.translucent,
@@ -238,7 +236,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                 ),
                 body: Column(
                   children: [
-                    // Top section: Image and Swap button
+                    // Top section: Image and Swap button.
                     EditItemImageWithAdditionalFeatures(
                       imageUrl: _imageUrl,
                       isChanged: _isChanged,
@@ -255,154 +253,144 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       onSwapPressed: _openSwapSheet,
                       onMetadataPressed: _openMetadataSheet,
                     ),
-                    // Middle section: Scrollable metadata form
+                    // Middle section: Scrollable metadata form.
                     Expanded(
                       child: SingleChildScrollView(
                         padding: const EdgeInsets.all(16.0),
-                        child: Form(
-                          key: _formKey,
-                          child: EditItemMetadata(
-                            currentItem: currentItem,
-                            itemNameController: _itemNameController,
-                            amountSpentController: _amountSpentController,
-                            isChanged: _isChanged,
-                            validationErrors: _validationErrors,
-                            onNameChanged: (value) {
-                              setState(() {
-                                _isChanged = true;
-                                _validationErrors = {};
-                              });
-                              final currentItemState = getCurrentItem(context.read<EditItemBloc>().state);
-                              _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItemState.copyWith(name: value));
-                            },
-                            onAmountSpentChanged: (value) {
-                              setState(() {
-                                _isChanged = true;
-                                _validationErrors = {};
-                              });
-                              double? parsedAmount = double.tryParse(value);
-                              if (parsedAmount != null) {
-                                _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(amountSpent: parsedAmount));
-                              } else {
-                                _validationErrors['amount_spent'] = S.of(context).please_enter_valid_amount;
+                        // Notice: No Form widget here.
+                        child: EditItemMetadata(
+                          currentItem: currentItem,
+                          itemNameController: _itemNameController,
+                          amountSpentController: _amountSpentController,
+                          isChanged: _isChanged,
+                          validationErrors: _validationErrors,
+                          onNameChanged: (value) {
+                            setState(() {
+                              _isChanged = true;
+                              _validationErrors = {};
+                            });
+                            final currentState = getCurrentItem(context.read<EditItemBloc>().state);
+                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentState.copyWith(name: value));
+                          },
+                          onAmountSpentChanged: (value) {
+                            setState(() {
+                              _isChanged = true;
+                              _validationErrors = {};
+                            });
+                            double? parsed = double.tryParse(value);
+                            if (parsed != null) {
+                              _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(amountSpent: parsed));
+                            } else {
+                              _validationErrors['amount_spent'] = S.of(context).please_enter_valid_amount;
+                            }
+                          },
+                          onItemTypeChanged: (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                              _validationErrors = {};
+                              if (dataKey == 'clothing') {
+                                _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(
+                                  itemType: [dataKey],
+                                  accessoryType: null,
+                                  shoesType: null,
+                                ));
+                                _validationErrors.remove('accessory_type');
+                                _validationErrors.remove('shoes_type');
+                                _validationErrors.remove('clothing_type');
+                                _validationErrors.remove('clothing_layer');
+                              } else if (dataKey == 'accessory') {
+                                _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(
+                                  itemType: [dataKey],
+                                  clothingLayer: null,
+                                  clothingType: null,
+                                  shoesType: null,
+                                ));
+                                _validationErrors.remove('clothing_type');
+                                _validationErrors.remove('clothing_layer');
+                                _validationErrors.remove('shoes_type');
+                                _validationErrors.remove('accessory_type');
+                              } else if (dataKey == 'shoes') {
+                                _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(
+                                  itemType: [dataKey],
+                                  clothingLayer: null,
+                                  clothingType: null,
+                                  accessoryType: null,
+                                ));
+                                _validationErrors.remove('clothing_type');
+                                _validationErrors.remove('clothing_layer');
+                                _validationErrors.remove('accessory_type');
+                                _validationErrors.remove('shoes_type');
                               }
-                            },
-                            onItemTypeChanged: (dataKey) {
-                              setState(() {
-                                _isChanged = true;
-                                _validationErrors = {};
-                                if (dataKey == 'clothing') {
-                                  _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(
-                                    itemType: [dataKey],
-                                    accessoryType: null,
-                                    shoesType: null,
-                                  ));
-                                  _validationErrors.remove('accessory_type');
-                                  _validationErrors.remove('shoes_type');
-                                  _validationErrors.remove('clothing_type');
-                                  _validationErrors.remove('clothing_layer');
-                                } else if (dataKey == 'accessory') {
-                                  _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(
-                                    itemType: [dataKey],
-                                    clothingLayer: null,
-                                    clothingType: null,
-                                    shoesType: null,
-                                  ));
-                                  _validationErrors.remove('clothing_type');
-                                  _validationErrors.remove('clothing_layer');
-                                  _validationErrors.remove('shoes_type');
-                                  _validationErrors.remove('accessory_type');
-                                } else if (dataKey == 'shoes') {
-                                  _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(
-                                    itemType: [dataKey],
-                                    clothingLayer: null,
-                                    clothingType: null,
-                                    accessoryType: null,
-                                  ));
-                                  _validationErrors.remove('clothing_type');
-                                  _validationErrors.remove('clothing_layer');
-                                  _validationErrors.remove('accessory_type');
-                                  _validationErrors.remove('shoes_type');
-                                }
-                              });
-                            },
-                            onOccasionChanged: (dataKey) {
-                              setState(() {
-                                _isChanged = true;
-                                _validationErrors = {};
-                              });
-                              _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(occasion: [dataKey]));
-                            },
-                            onSeasonChanged: (dataKey) {
-                              setState(() {
-                                _isChanged = true;
-                                _validationErrors = {};
-                              });
-                              _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(season: [dataKey]));
-                            },
-                            onAccessoryTypeChanged: (dataKey) {
-                              setState(() {
-                                _isChanged = true;
-                                _validationErrors = {};
-                              });
-                              _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(accessoryType: [dataKey]));
-                            },
-                            onClothingLayerChanged: (dataKey) {
-                              setState(() {
-                                _isChanged = true;
-                                _validationErrors = {};
-                              });
-                              _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(clothingLayer: [dataKey]));
-                            },
-                            onClothingTypeChanged: (dataKey) {
-                              setState(() {
-                                _isChanged = true;
-                                _validationErrors = {};
-                              });
-                              _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(clothingType: [dataKey]));
-                            },
-                            onShoeTypeChanged: (dataKey) {
-                              setState(() {
-                                _isChanged = true;
-                                _validationErrors = {};
-                              });
-                              _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(shoesType: [dataKey]));
-                            },
-                            onColourChanged: (dataKey) {
-                              setState(() {
-                                _isChanged = true;
-                                _validationErrors = {};
-                              });
-                              _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(colour: [dataKey]));
-                            },
-                            onColourVariationChanged: (dataKey) {
-                              setState(() {
-                                _isChanged = true;
-                                _validationErrors = {};
-                              });
-                              _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(colourVariations: [dataKey]));
-                            },
-                            theme: myClosetTheme,
-                          ),
+                            });
+                          },
+                          onOccasionChanged: (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                              _validationErrors = {};
+                            });
+                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(occasion: [dataKey]));
+                          },
+                          onSeasonChanged: (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                              _validationErrors = {};
+                            });
+                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(season: [dataKey]));
+                          },
+                          onAccessoryTypeChanged: (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                              _validationErrors = {};
+                            });
+                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(accessoryType: [dataKey]));
+                          },
+                          onClothingLayerChanged: (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                              _validationErrors = {};
+                            });
+                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(clothingLayer: [dataKey]));
+                          },
+                          onClothingTypeChanged: (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                              _validationErrors = {};
+                            });
+                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(clothingType: [dataKey]));
+                          },
+                          onShoeTypeChanged: (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                              _validationErrors = {};
+                            });
+                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(shoesType: [dataKey]));
+                          },
+                          onColourChanged: (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                              _validationErrors = {};
+                            });
+                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(colour: [dataKey]));
+                          },
+                          onColourVariationChanged: (dataKey) {
+                            setState(() {
+                              _isChanged = true;
+                              _validationErrors = {};
+                            });
+                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(colourVariations: [dataKey]));
+                          },
+                          theme: myClosetTheme,
                         ),
                       ),
                     ),
-                    // Bottom section: Update / Declutter button
+                    // Bottom section: Update button.
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: ElevatedButton(
-                        onPressed: _isChanged
-                            ? (_validationErrors.isEmpty
-                            ? () {
-                          if (_formKey.currentState?.validate() ?? false) {
-                            _handleUpdate();
-                          }
-                        }
-                            : null)
+                        onPressed: (_isChanged || _validationErrors.isNotEmpty)
+                            ? _handleUpdate
                             : _openDeclutterSheet,
-                        child: _isChanged
-                            ? Text(S.of(context).update)
-                            : Text(S.of(context).declutter),
+                        child: Text(S.of(context).update),
                       ),
                     ),
                   ],
