@@ -26,10 +26,25 @@ class ValidateFormEvent extends EditItemEvent {
   final ClosetItemDetailed updatedItem;
   final String name;
   final double amountSpent;
+  final String itemNameError;
+  final String amountSpentError;
+  final String clothingTypeError;
+  final String clothingLayerError;
+  final String accessoryTypeError;
+  final String shoesTypeError;
+  final String colourVariationError;
+
   ValidateFormEvent({
     required this.updatedItem,
     required this.name,
     required this.amountSpent,
+    required this.itemNameError,
+    required this.amountSpentError,
+    required this.clothingTypeError,
+    required this.clothingLayerError,
+    required this.accessoryTypeError,
+    required this.shoesTypeError,
+    required this.colourVariationError,
   });
 }
 

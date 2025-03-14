@@ -121,35 +121,36 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     Map<String, String> tempErrors = {};
 
     if (event.name.trim().isEmpty) {
-      tempErrors['item_name'] = "Please enter item name.";
+      tempErrors['item_name'] = event.itemNameError; // Use localized text
     }
 
     // Validate amount spent.
     final parsedAmount = item.amountSpent;
     if (parsedAmount < 0) {
-      tempErrors['amount_spent'] = "Please enter a valid amount.";
+      tempErrors['amount_spent'] = event.amountSpentError; // Use localized text
     }
+
 
     if (item.itemType.contains('clothing')) {
       if (item.clothingType == null || item.clothingType!.isEmpty) {
-        tempErrors['clothing_type'] = "Clothing type is required.";
+        tempErrors['clothing_type'] = event.clothingTypeError;
       }
       if (item.clothingLayer == null || item.clothingLayer!.isEmpty) {
-        tempErrors['clothing_layer'] = "Clothing layer is required.";
+        tempErrors['clothing_layer'] = event.clothingLayerError;
       }
     } else if (item.itemType.contains('accessory')) {
       if (item.accessoryType == null || item.accessoryType!.isEmpty) {
-        tempErrors['accessory_type'] = "Accessory type is required.";
+        tempErrors['accessory_type'] = event.accessoryTypeError;
       }
     } else if (item.itemType.contains('shoes')) {
       if (item.shoesType == null || item.shoesType!.isEmpty) {
-        tempErrors['shoes_type'] = "Shoes type is required.";
+        tempErrors['shoes_type'] = event.shoesTypeError;
       }
     }
 
     if (!item.colour.contains('black') && !item.colour.contains('white')) {
       if (item.colourVariations == null || item.colourVariations!.isEmpty) {
-        tempErrors['colour_variations'] = "Colour variation is required.";
+        tempErrors['colour_variations'] = event.colourVariationError;
       }
     }
 

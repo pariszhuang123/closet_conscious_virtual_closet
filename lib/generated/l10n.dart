@@ -1130,100 +1130,100 @@ class S {
     );
   }
 
-  /// `Item Type field is not filled.`
+  /// `Item Type field is not selected.`
   String get itemTypeFieldNotFilled {
     return Intl.message(
-      'Item Type field is not filled.',
+      'Item Type field is not selected.',
       name: 'itemTypeFieldNotFilled',
       desc: '',
       args: [],
     );
   }
 
-  /// `Occasion field is not filled.`
+  /// `Occasion field is not selected.`
   String get occasionFieldNotFilled {
     return Intl.message(
-      'Occasion field is not filled.',
+      'Occasion field is not selected.',
       name: 'occasionFieldNotFilled',
       desc: '',
       args: [],
     );
   }
 
-  /// `Season field is not filled.`
+  /// `Season field is not selected.`
   String get seasonFieldNotFilled {
     return Intl.message(
-      'Season field is not filled.',
+      'Season field is not selected.',
       name: 'seasonFieldNotFilled',
       desc: '',
       args: [],
     );
   }
 
-  /// `Specific Type field is not filled.`
+  /// `Specific Type field is not selected.`
   String get specificTypeFieldNotFilled {
     return Intl.message(
-      'Specific Type field is not filled.',
+      'Specific Type field is not selected.',
       name: 'specificTypeFieldNotFilled',
       desc: '',
       args: [],
     );
   }
 
-  /// `Clothing Layer field is not filled.`
+  /// `Clothing Layer field is not selected.`
   String get clothingLayerFieldNotFilled {
     return Intl.message(
-      'Clothing Layer field is not filled.',
+      'Clothing Layer field is not selected.',
       name: 'clothingLayerFieldNotFilled',
       desc: '',
       args: [],
     );
   }
 
-  /// `Colour field is not filled.`
+  /// `Colour field is not selected.`
   String get colourFieldNotFilled {
     return Intl.message(
-      'Colour field is not filled.',
+      'Colour field is not selected.',
       name: 'colourFieldNotFilled',
       desc: '',
       args: [],
     );
   }
 
-  /// `Colour Variation field is not filled.`
+  /// `Colour Variation field is not selected.`
   String get colourVariationFieldNotFilled {
     return Intl.message(
-      'Colour Variation field is not filled.',
+      'Colour Variation field is not selected.',
       name: 'colourVariationFieldNotFilled',
       desc: '',
       args: [],
     );
   }
 
-  /// `Clothing type is required.`
+  /// `Clothing type is not selected.`
   String get clothingTypeRequired {
     return Intl.message(
-      'Clothing type is required.',
+      'Clothing type is not selected.',
       name: 'clothingTypeRequired',
       desc: '',
       args: [],
     );
   }
 
-  /// `Accessory type is required.`
+  /// `Accessory type is not selected.`
   String get accessoryTypeRequired {
     return Intl.message(
-      'Accessory type is required.',
+      'Accessory type is not selected.',
       name: 'accessoryTypeRequired',
       desc: '',
       args: [],
     );
   }
 
-  /// `Shoes type is required.`
+  /// `Shoes type is not selected.`
   String get shoesTypeRequired {
     return Intl.message(
-      'Shoes type is required.',
+      'Shoes type is not selected.',
       name: 'shoesTypeRequired',
       desc: '',
       args: [],

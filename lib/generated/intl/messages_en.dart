@@ -56,8 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "OutfitReview": MessageLookupByLibrary.simpleMessage("Outfit Review"),
         "Throw": MessageLookupByLibrary.simpleMessage("Throw"),
         "accessory": MessageLookupByLibrary.simpleMessage("Accessory"),
-        "accessoryTypeRequired":
-            MessageLookupByLibrary.simpleMessage("Accessory type is required."),
+        "accessoryTypeRequired": MessageLookupByLibrary.simpleMessage(
+            "Accessory type is not selected."),
         "accountDeletedSuccess": MessageLookupByLibrary.simpleMessage(
             "Your request has been received. We’ll delete your account within 48 hours."),
         "achievementMessage": MessageLookupByLibrary.simpleMessage(
@@ -186,13 +186,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Closet edited successfully!"),
         "clothing": MessageLookupByLibrary.simpleMessage("Clothing"),
         "clothingLayerFieldNotFilled": MessageLookupByLibrary.simpleMessage(
-            "Clothing Layer field is not filled."),
-        "clothingTypeRequired":
-            MessageLookupByLibrary.simpleMessage("Clothing type is required."),
-        "colourFieldNotFilled":
-            MessageLookupByLibrary.simpleMessage("Colour field is not filled."),
+            "Clothing Layer field is not selected."),
+        "clothingTypeRequired": MessageLookupByLibrary.simpleMessage(
+            "Clothing type is not selected."),
+        "colourFieldNotFilled": MessageLookupByLibrary.simpleMessage(
+            "Colour field is not selected."),
         "colourVariationFieldNotFilled": MessageLookupByLibrary.simpleMessage(
-            "Colour Variation field is not filled."),
+            "Colour Variation field is not selected."),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmSwap": MessageLookupByLibrary.simpleMessage("Confirm Swap"),
         "confirmUpload":
@@ -418,7 +418,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Item Name field is not filled."),
         "itemNameLabel": MessageLookupByLibrary.simpleMessage("Item Name"),
         "itemTypeFieldNotFilled": MessageLookupByLibrary.simpleMessage(
-            "Item Type field is not filled."),
+            "Item Type field is not selected."),
         "itemUploaded_itemUploaded":
             MessageLookupByLibrary.simpleMessage("Item Uploaded"),
         "itemWithRelatedOutfitsDescription": MessageLookupByLibrary.simpleMessage(
@@ -539,7 +539,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "numberOfNewItems": MessageLookupByLibrary.simpleMessage(
             "Number of new items in your closet"),
         "occasionFieldNotFilled": MessageLookupByLibrary.simpleMessage(
-            "Occasion field is not filled."),
+            "Occasion field is not selected."),
         "ok": MessageLookupByLibrary.simpleMessage("OK"),
         "onePiece": MessageLookupByLibrary.simpleMessage("One Piece"),
         "onlyItemsUnworn":
@@ -626,8 +626,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Save Customization"),
         "saveFilter": MessageLookupByLibrary.simpleMessage("Save Filter"),
         "scarf": MessageLookupByLibrary.simpleMessage("Scarf"),
-        "seasonFieldNotFilled":
-            MessageLookupByLibrary.simpleMessage("Season field is not filled."),
+        "seasonFieldNotFilled": MessageLookupByLibrary.simpleMessage(
+            "Season field is not selected."),
         "selectAccessoryType":
             MessageLookupByLibrary.simpleMessage("Select Accessory Type"),
         "selectAll": MessageLookupByLibrary.simpleMessage("Select All"),
@@ -671,7 +671,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Effortless Outfit Sharing"),
         "shoes": MessageLookupByLibrary.simpleMessage("Shoes"),
         "shoesTypeRequired":
-            MessageLookupByLibrary.simpleMessage("Shoes type is required."),
+            MessageLookupByLibrary.simpleMessage("Shoes type is not selected."),
         "shortTagline":
             MessageLookupByLibrary.simpleMessage("Shop Your Closet"),
         "singleClosetShown":
@@ -684,7 +684,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "sortOrderPickerTitle":
             MessageLookupByLibrary.simpleMessage("Sort Order Picker"),
         "specificTypeFieldNotFilled": MessageLookupByLibrary.simpleMessage(
-            "Specific Type field is not filled."),
+            "Specific Type field is not selected."),
         "spendingTooltip": MessageLookupByLibrary.simpleMessage(
             "How much you’ve spent on new items so far"),
         "spring": MessageLookupByLibrary.simpleMessage("Spring"),

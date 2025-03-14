@@ -51,7 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Throw": MessageLookupByLibrary.simpleMessage("丢弃"),
         "accessory": MessageLookupByLibrary.simpleMessage("配饰"),
         "accessoryTypeRequired":
-            MessageLookupByLibrary.simpleMessage("配饰类型是必需的。"),
+            MessageLookupByLibrary.simpleMessage("配饰类型未选择。"),
         "accountDeletedSuccess":
             MessageLookupByLibrary.simpleMessage("您的请求已收到。我们将在48小时内删除您的账号。"),
         "achievementMessage":
@@ -162,12 +162,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("衣橱编辑成功!"),
         "clothing": MessageLookupByLibrary.simpleMessage("服装"),
         "clothingLayerFieldNotFilled":
-            MessageLookupByLibrary.simpleMessage("服装层次未填写。"),
+            MessageLookupByLibrary.simpleMessage("服装层次未选择。"),
         "clothingTypeRequired":
-            MessageLookupByLibrary.simpleMessage("服装类型是必需的。"),
-        "colourFieldNotFilled": MessageLookupByLibrary.simpleMessage("颜色未填写。"),
+            MessageLookupByLibrary.simpleMessage("服装类型未选择。"),
+        "colourFieldNotFilled": MessageLookupByLibrary.simpleMessage("颜色未选择。"),
         "colourVariationFieldNotFilled":
-            MessageLookupByLibrary.simpleMessage("颜色变化未填写。"),
+            MessageLookupByLibrary.simpleMessage("颜色变化未选择。"),
         "confirm": MessageLookupByLibrary.simpleMessage("确认"),
         "confirmSwap": MessageLookupByLibrary.simpleMessage("确认交换"),
         "confirmUpload": MessageLookupByLibrary.simpleMessage("确认成就"),
@@ -361,7 +361,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("物品名称未填写。"),
         "itemNameLabel": MessageLookupByLibrary.simpleMessage("物品名称"),
         "itemTypeFieldNotFilled":
-            MessageLookupByLibrary.simpleMessage("物品类型未填写。"),
+            MessageLookupByLibrary.simpleMessage("物品类型未选择。"),
         "itemUploaded_itemUploaded":
             MessageLookupByLibrary.simpleMessage("物品已上传"),
         "itemWithRelatedOutfitsDescription":
@@ -474,7 +474,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "numberOfNewItems":
             MessageLookupByLibrary.simpleMessage("您衣橱中新添加的物品数量"),
         "occasionFieldNotFilled":
-            MessageLookupByLibrary.simpleMessage("场合未填写。"),
+            MessageLookupByLibrary.simpleMessage("场合未选择。"),
         "ok": MessageLookupByLibrary.simpleMessage("好的"),
         "onePiece": MessageLookupByLibrary.simpleMessage("连体衣"),
         "onlyItemsUnworn": MessageLookupByLibrary.simpleMessage("仅未穿过的物品"),
@@ -547,7 +547,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "saveCustomization": MessageLookupByLibrary.simpleMessage("保存自定义设置"),
         "saveFilter": MessageLookupByLibrary.simpleMessage("保存筛选"),
         "scarf": MessageLookupByLibrary.simpleMessage("围巾"),
-        "seasonFieldNotFilled": MessageLookupByLibrary.simpleMessage("季节未填写。"),
+        "seasonFieldNotFilled": MessageLookupByLibrary.simpleMessage("季节未选择。"),
         "selectAccessoryType": MessageLookupByLibrary.simpleMessage("选择配饰类型"),
         "selectAll": MessageLookupByLibrary.simpleMessage("全选"),
         "selectClosetLabel": MessageLookupByLibrary.simpleMessage("选择衣橱"),
@@ -578,7 +578,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "一键分享您的今日造型至所有社交媒体。提升您的风格，轻松激励他人。"),
         "shareFeatureTitle": MessageLookupByLibrary.simpleMessage("轻松分享造型"),
         "shoes": MessageLookupByLibrary.simpleMessage("鞋子"),
-        "shoesTypeRequired": MessageLookupByLibrary.simpleMessage("鞋类类型是必需的。"),
+        "shoesTypeRequired": MessageLookupByLibrary.simpleMessage("鞋类类型未选择。"),
         "shortTagline": MessageLookupByLibrary.simpleMessage("在衣橱里购物"),
         "singleClosetShown": MessageLookupByLibrary.simpleMessage("单一衣橱"),
         "social": MessageLookupByLibrary.simpleMessage("社交"),
@@ -587,7 +587,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("分类选择器"),
         "sortOrderPickerTitle": MessageLookupByLibrary.simpleMessage("排序方式选择器"),
         "specificTypeFieldNotFilled":
-            MessageLookupByLibrary.simpleMessage("具体类型未填写。"),
+            MessageLookupByLibrary.simpleMessage("具体类型未选择。"),
         "spendingTooltip": MessageLookupByLibrary.simpleMessage("您购买新物品的花费金额"),
         "spring": MessageLookupByLibrary.simpleMessage("春季"),
         "startFreeTrial": MessageLookupByLibrary.simpleMessage("开始免费试用"),

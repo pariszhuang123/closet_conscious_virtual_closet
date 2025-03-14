@@ -116,7 +116,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
     if (parsedAmount == null || parsedAmount < 0) {
       setState(() {
-        _validationErrors['amount_spent'] = "Please enter a valid amount.";
+        _validationErrors['amount_spent'] = S.of(context).amountSpentFieldNotFilled;
         _isChanged = true;
       });
       return; // Stop further submission
@@ -130,6 +130,13 @@ class _EditItemScreenState extends State<EditItemScreen> {
         ),
         name: _itemNameController.text,
         amountSpent: parsedAmount,
+        itemNameError: S.of(context).itemNameFieldNotFilled,
+        amountSpentError: S.of(context).amountSpentFieldNotFilled,
+        clothingTypeError: S.of(context).clothingTypeRequired,
+        clothingLayerError: S.of(context).clothingLayerFieldNotFilled,
+        accessoryTypeError: S.of(context).accessoryTypeRequired,
+        shoesTypeError: S.of(context).shoesTypeRequired,
+        colourVariationError: S.of(context).colourVariationFieldNotFilled,
       ),
     );
   }
