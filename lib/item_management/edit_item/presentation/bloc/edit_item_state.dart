@@ -31,6 +31,7 @@ class EditItemValidationSuccess extends EditItemState {
 class EditItemValidationFailure extends EditItemState {
   final ClosetItemDetailed updatedItem;
   final Map<String, String> validationErrors;
+
   EditItemValidationFailure({
     required this.updatedItem,
     required this.validationErrors,

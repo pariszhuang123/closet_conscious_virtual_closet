@@ -28,6 +28,7 @@ class EditItemScreen extends StatefulWidget {
 class _EditItemScreenState extends State<EditItemScreen> {
   late TextEditingController _itemNameController;
   late TextEditingController _amountSpentController;
+  late FocusNode _amountSpentFocusNode;  // <-- Add this line
   String? _imageUrl;
   bool _isChanged = false;
 
@@ -39,6 +40,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     super.initState();
     _itemNameController = TextEditingController();
     _amountSpentController = TextEditingController(); // ADD THIS
+    _amountSpentFocusNode = FocusNode(); // <-- Initialize FocusNode here
     _logger.i('Initialized EditItemScreen with itemId: ${widget.itemId}');
   }
 
@@ -46,6 +48,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
   void dispose() {
     _itemNameController.dispose();
     _amountSpentController.dispose(); // ADD THIS
+    _amountSpentFocusNode.dispose(); // <-- Dispose FocusNode here
     _logger.i('Disposed controllers');
     super.dispose();
   }
@@ -105,11 +108,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
     });
   }
 
-  // Dispatch metadata change event.
-  void _dispatchMetadataChanged(EditItemState state, ClosetItemDetailed updatedItem) {
-    _logger.d('Dispatching metadata change for itemId: ${widget.itemId}');
-    context.read<EditItemBloc>().add(MetadataChangedEvent(updatedItem: updatedItem));
-  }
 
   // Handler: Dispatch validation event to the bloc.
   void _handleUpdate() {
@@ -146,6 +144,12 @@ class _EditItemScreenState extends State<EditItemScreen> {
       return state.updatedItem;
     } else if (state is EditItemValidationSuccess) {
       return state.validatedItem;
+    } else if (state is EditItemSubmitting) {
+      _logger.i("EditItemUpdateSubmitting encountered. Returning an empty item.");
+      return ClosetItemDetailed.empty(); // Return a default empty object to prevent crashes
+    } else if (state is EditItemUpdateSuccess) {
+      _logger.i("EditItemUpdateSuccess encountered. Returning an empty item.");
+      return ClosetItemDetailed.empty(); // Return a default empty object to prevent crashes
     }
     _logger.e('Invalid state encountered');
     throw StateError("Invalid state");
@@ -164,7 +168,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
                 _isChanged = true;
               });
             } else if (state is EditItemValidationSuccess) {
-              // When validation passes, automatically dispatch submission.
               final currentItem = getCurrentItem(state);
               context.read<EditItemBloc>().add(
                 SubmitFormEvent(
@@ -183,6 +186,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                 ),
               );
             } else if (state is EditItemUpdateSuccess) {
+              _logger.i("EditItemUpdateSuccess State. Navigate to myCloset");
               Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
             } else if (state is EditItemUpdateFailure) {
               CustomSnackbar(
@@ -193,215 +197,82 @@ class _EditItemScreenState extends State<EditItemScreen> {
           },
         ),
       ],
-      child: BlocConsumer<EditItemBloc, EditItemState>(
-        listener: (context, state) {
-          // Update text controllers when state changes.
-          if (state is EditItemLoaded) {
-            final currentItem = state.item;
-            if (_itemNameController.text != currentItem.name) {
-              _itemNameController.text = currentItem.name;
-            }
-            if (_amountSpentController.text != currentItem.amountSpent.toString()) {
-              _amountSpentController.text = currentItem.amountSpent.toString();
-            }
-          } else if (state is EditItemMetadataChanged) {
-            final updatedItem = state.updatedItem;
-            if (_itemNameController.text != updatedItem.name) {
-              _itemNameController.text = updatedItem.name;
-            }
-          }
-        },
-        builder: (context, state) {
-          if (state is EditItemInitial || state is EditItemLoading) {
-            return const Center(child: ClosetProgressIndicator());
-          }
-          if (state is EditItemLoadFailure) {
-            return const Center(child: Text('Failed to load item'));
-          }
-          // When update is successful, we already navigate away, so return an empty container.
-          if (state is EditItemUpdateSuccess) {
-            return Container();
-          }
-          try {
-            final currentItem = getCurrentItem(state);
-            return GestureDetector(
-              onTap: _dismissKeyboard,
-              behavior: HitTestBehavior.translucent,
-              child: Scaffold(
-                appBar: AppBar(
-                  title: Text(
-                    S.of(context).editPageTitle,
-                    style: myClosetTheme.textTheme.titleMedium,
-                  ),
-                ),
-                body: Column(
-                  children: [
-                    // Top section: Image and Swap button.
-                    EditItemImageWithAdditionalFeatures(
-                      imageUrl: _imageUrl,
-                      isChanged: _isChanged,
-                      onImageTap: () {
-                        if (!_isChanged) {
-                          _navigateToPhotoProvider();
-                        } else {
-                          CustomSnackbar(
-                            message: S.of(context).unsavedChangesMessage,
-                            theme: Theme.of(context),
-                          ).show(context);
-                        }
-                      },
-                      onSwapPressed: _openSwapSheet,
-                      onMetadataPressed: _openMetadataSheet,
-                    ),
-                    // Middle section: Scrollable metadata form.
-                    Expanded(
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(16.0),
-                        // Notice: No Form widget here.
-                        child: EditItemMetadata(
-                          currentItem: currentItem,
-                          itemNameController: _itemNameController,
-                          amountSpentController: _amountSpentController,
-                          isChanged: _isChanged,
-                          validationErrors: _validationErrors,
-                          onNameChanged: (value) {
-                            setState(() {
-                              _isChanged = true;
-                              _validationErrors = {};
-                            });
-                            final currentState = getCurrentItem(context.read<EditItemBloc>().state);
-                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentState.copyWith(name: value));
-                          },
-                          onAmountSpentChanged: (value) {
-                            setState(() {
-                              _isChanged = true;
-                              _validationErrors = {};
-                            });
-                            double? parsed = double.tryParse(value);
-                            if (parsed != null) {
-                              _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(amountSpent: parsed));
-                            } else {
-                              _validationErrors['amount_spent'] = S.of(context).please_enter_valid_amount;
-                            }
-                          },
-                          onItemTypeChanged: (dataKey) {
-                            setState(() {
-                              _isChanged = true;
-                              _validationErrors = {};
-                              if (dataKey == 'clothing') {
-                                _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(
-                                  itemType: [dataKey],
-                                  accessoryType: null,
-                                  shoesType: null,
-                                ));
-                                _validationErrors.remove('accessory_type');
-                                _validationErrors.remove('shoes_type');
-                                _validationErrors.remove('clothing_type');
-                                _validationErrors.remove('clothing_layer');
-                              } else if (dataKey == 'accessory') {
-                                _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(
-                                  itemType: [dataKey],
-                                  clothingLayer: null,
-                                  clothingType: null,
-                                  shoesType: null,
-                                ));
-                                _validationErrors.remove('clothing_type');
-                                _validationErrors.remove('clothing_layer');
-                                _validationErrors.remove('shoes_type');
-                                _validationErrors.remove('accessory_type');
-                              } else if (dataKey == 'shoes') {
-                                _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(
-                                  itemType: [dataKey],
-                                  clothingLayer: null,
-                                  clothingType: null,
-                                  accessoryType: null,
-                                ));
-                                _validationErrors.remove('clothing_type');
-                                _validationErrors.remove('clothing_layer');
-                                _validationErrors.remove('accessory_type');
-                                _validationErrors.remove('shoes_type');
-                              }
-                            });
-                          },
-                          onOccasionChanged: (dataKey) {
-                            setState(() {
-                              _isChanged = true;
-                              _validationErrors = {};
-                            });
-                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(occasion: [dataKey]));
-                          },
-                          onSeasonChanged: (dataKey) {
-                            setState(() {
-                              _isChanged = true;
-                              _validationErrors = {};
-                            });
-                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(season: [dataKey]));
-                          },
-                          onAccessoryTypeChanged: (dataKey) {
-                            setState(() {
-                              _isChanged = true;
-                              _validationErrors = {};
-                            });
-                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(accessoryType: [dataKey]));
-                          },
-                          onClothingLayerChanged: (dataKey) {
-                            setState(() {
-                              _isChanged = true;
-                              _validationErrors = {};
-                            });
-                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(clothingLayer: [dataKey]));
-                          },
-                          onClothingTypeChanged: (dataKey) {
-                            setState(() {
-                              _isChanged = true;
-                              _validationErrors = {};
-                            });
-                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(clothingType: [dataKey]));
-                          },
-                          onShoeTypeChanged: (dataKey) {
-                            setState(() {
-                              _isChanged = true;
-                              _validationErrors = {};
-                            });
-                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(shoesType: [dataKey]));
-                          },
-                          onColourChanged: (dataKey) {
-                            setState(() {
-                              _isChanged = true;
-                              _validationErrors = {};
-                            });
-                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(colour: [dataKey]));
-                          },
-                          onColourVariationChanged: (dataKey) {
-                            setState(() {
-                              _isChanged = true;
-                              _validationErrors = {};
-                            });
-                            _dispatchMetadataChanged(context.read<EditItemBloc>().state, currentItem.copyWith(colourVariations: [dataKey]));
-                          },
-                          theme: myClosetTheme,
-                        ),
-                      ),
-                    ),
-                    // Bottom section: Update button.
-                    Padding(
+      child: GestureDetector(
+        onTap: _dismissKeyboard,
+        behavior: HitTestBehavior.translucent,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              S.of(context).editPageTitle,
+              style: myClosetTheme.textTheme.titleMedium,
+            ),
+          ),
+          body: Column(
+            children: [
+              // Image section remains outside BlocBuilder to avoid unnecessary refreshes.
+              EditItemImageWithAdditionalFeatures(
+                imageUrl: _imageUrl,
+                isChanged: _isChanged,
+                onImageTap: _navigateToPhotoProvider,
+                onSwapPressed: _openSwapSheet,
+                onMetadataPressed: _openMetadataSheet,
+              ),
+
+              // Metadata section is inside BlocBuilder to update when necessary.
+              Expanded(
+                child: BlocBuilder<EditItemBloc, EditItemState>(
+                  builder: (context, state) {
+                    if (state is EditItemInitial || state is EditItemLoading) {
+                      return const Center(child: ClosetProgressIndicator());
+                    }
+                    if (state is EditItemLoadFailure) {
+                      return const Center(child: Text('Failed to load item'));
+                    }
+
+                    final currentItem = getCurrentItem(state);
+                    _itemNameController.text = currentItem.name;
+                    if (!_amountSpentController.text.endsWith(".") &&
+                        !_amountSpentFocusNode.hasFocus &&
+                        _amountSpentController.text != currentItem.amountSpent.toString()) {
+                      _amountSpentController.text = currentItem.amountSpent.toString();
+                      _amountSpentController.selection = TextSelection.fromPosition(
+                        TextPosition(offset: _amountSpentController.text.length),
+                      );
+                    }
+
+                    return SingleChildScrollView(
                       padding: const EdgeInsets.all(16.0),
-                      child: ElevatedButton(
-                        onPressed: (_isChanged || _validationErrors.isNotEmpty)
-                            ? _handleUpdate
-                            : _openDeclutterSheet,
-                        child: Text(S.of(context).update),
+                      child: EditItemMetadata(
+                        currentItem: currentItem, // ✅ ADD THIS LINE
+                        itemNameController: _itemNameController,
+                        amountSpentController: _amountSpentController,
+                        theme: myClosetTheme,
+                        validationErrors: _validationErrors,
+                        onMetadataChanged: () {
+                          setState(() {
+                            _isChanged = true;
+                          });
+                        },
+                        amountSpentFocusNode: _amountSpentFocusNode,
                       ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
-            );
-          } catch (e) {
-            _logger.e('Error retrieving item details: $e');
-            return const Center(child: ClosetProgressIndicator());
-          }
-        },
+
+              // Update Button
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ElevatedButton(
+                  onPressed: (_isChanged || _validationErrors.isNotEmpty)
+                      ? _handleUpdate
+                      : _openDeclutterSheet,
+                  child: Text(S.of(context).update),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

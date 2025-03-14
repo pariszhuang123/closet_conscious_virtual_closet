@@ -12,47 +12,27 @@ class EditItemMetadata extends StatelessWidget {
   final ClosetItemDetailed currentItem;
   final TextEditingController itemNameController;
   final TextEditingController amountSpentController;
-  final bool isChanged;
-  final Function(String) onNameChanged;
-  final Function(String) onAmountSpentChanged;
-  final Function(String) onItemTypeChanged;
-  final Function(String) onOccasionChanged;
-  final Function(String) onSeasonChanged;
-  final Function(String) onShoeTypeChanged;
-  final Function(String) onAccessoryTypeChanged;
-  final Function(String) onClothingTypeChanged;
-  final Function(String) onClothingLayerChanged;
-  final Function(String) onColourChanged;
-  final Function(String) onColourVariationChanged;
   final ThemeData theme;
   final Map<String, String> validationErrors; // New prop for validation errors
+  final VoidCallback onMetadataChanged; // ✅ Callback to set _isChanged = true
+  final FocusNode amountSpentFocusNode;
 
   const EditItemMetadata({
     super.key,
     required this.currentItem,
     required this.itemNameController,
     required this.amountSpentController,
-    required this.isChanged,
-    required this.onNameChanged,
-    required this.onAmountSpentChanged,
-    required this.onItemTypeChanged,
-    required this.onOccasionChanged,
-    required this.onSeasonChanged,
-    required this.onShoeTypeChanged,
-    required this.onAccessoryTypeChanged,
-    required this.onClothingTypeChanged,
-    required this.onClothingLayerChanged,
-    required this.onColourChanged,
-    required this.onColourVariationChanged,
+    required this.amountSpentFocusNode,  // <-- Add this
     required this.theme,
     required this.validationErrors, // Initialize in constructor
+    required this.onMetadataChanged, // ✅ Ensure _isChanged is updated in parent
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Item Name Field
+        // ─── ITEM NAME FIELD ───
         CustomTextFormField(
           controller: itemNameController,
           labelText: S.of(context).item_name,
@@ -60,19 +40,19 @@ class EditItemMetadata extends StatelessWidget {
           labelStyle: theme.textTheme.bodyMedium,
           focusedBorderColor: theme.colorScheme.primary,
           errorText: validationErrors['item_name'],
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return S.of(context).pleaseEnterItemName;
-            }
-            return null; // No error if validation passes
+          onChanged: (value) {
+            onMetadataChanged(); // ✅ Update _isChanged in parent
+            context.read<EditItemBloc>().add(
+              MetadataChangedEvent(updatedItem: currentItem.copyWith(name: value)),
+            );
           },
-          onChanged: onNameChanged,
         ),
         const SizedBox(height: 12),
 
-        // Amount Spent Field
+        // ─── AMOUNT SPENT FIELD ───
         CustomTextFormField(
-          controller: amountSpentController, // Use a BLoC-managed controller
+          controller: amountSpentController,
+          focusNode: amountSpentFocusNode, // pass the FocusNode here
           labelText: S.of(context).amountSpentLabel,
           hintText: S.of(context).enterAmountSpentHint,
           labelStyle: theme.textTheme.bodyMedium,
@@ -80,104 +60,146 @@ class EditItemMetadata extends StatelessWidget {
           errorText: validationErrors['amount_spent'],
           keyboardType: TextInputType.number,
           onChanged: (value) {
-            context.read<EditItemBloc>().add(AmountSpentChangedEvent(amountSpent: value));
+            onMetadataChanged(); // ✅ Update _isChanged in parent
+            // ✅ Allow backspacing by handling empty input
+            if (value.isEmpty) {
+              return; // Let the field stay empty
+            }
+
+            double? parsedAmount = double.tryParse(value);
+            if (parsedAmount != null) {
+              context.read<EditItemBloc>().add(
+                MetadataChangedEvent(updatedItem: currentItem.copyWith(amountSpent: parsedAmount)),
+              );
+            }
           },
         ),
         const SizedBox(height: 12),
 
-
-        // Item Type Selection
+        // ─── ITEM TYPE SELECTION ───
         IconSelectionField(
           label: S.of(context).selectItemType,
           options: TypeDataList.itemGeneralTypes(context),
           selected: currentItem.itemType,
-          onChanged: onItemTypeChanged,
-          // Optionally, you could pass errorText: validationErrors['item_type']
+          onChanged: (value) {
+            onMetadataChanged();
+            context.read<EditItemBloc>().add(
+              MetadataChangedEvent(updatedItem: currentItem.copyWith(itemType: [value])),
+            );
+          },
         ),
 
-        // Occasion Selection
+        // ─── OCCASION SELECTION ───
         IconSelectionField(
           label: S.of(context).selectOccasion,
           options: TypeDataList.occasions(context),
           selected: currentItem.occasion,
-          onChanged: onOccasionChanged,
+          onChanged: (value) {
+            onMetadataChanged();
+            context.read<EditItemBloc>().add(
+              MetadataChangedEvent(updatedItem: currentItem.copyWith(occasion: [value])),
+            );
+          },
         ),
 
-        // Season Selection
+        // ─── SEASON SELECTION ───
         IconSelectionField(
           label: S.of(context).selectSeason,
           options: TypeDataList.seasons(context),
           selected: currentItem.season,
-          onChanged: onSeasonChanged,
+          onChanged: (value) {
+            onMetadataChanged();
+            context.read<EditItemBloc>().add(
+              MetadataChangedEvent(updatedItem: currentItem.copyWith(season: [value])),
+            );
+          },
         ),
 
-        // Shoe Type Selection (for shoes)
+        // ─── SHOE TYPE (IF APPLICABLE) ───
         if (currentItem.itemType.contains('shoes'))
           IconSelectionField(
             label: S.of(context).selectShoeType,
             options: TypeDataList.shoeTypes(context),
             selected: currentItem.shoesType ?? [],
-            onChanged: onShoeTypeChanged,
+            onChanged: (value) {
+              onMetadataChanged();
+              context.read<EditItemBloc>().add(
+                MetadataChangedEvent(updatedItem: currentItem.copyWith(shoesType: [value])),
+              );
+            },
             errorText: validationErrors['shoes_type'],
           ),
 
-        // Accessory Type Selection (for accessories)
+        // ─── ACCESSORY TYPE (IF APPLICABLE) ───
         if (currentItem.itemType.contains('accessory'))
           IconSelectionField(
             label: S.of(context).selectAccessoryType,
             options: TypeDataList.accessoryTypes(context),
-            selected: currentItem.accessoryType != null &&
-                currentItem.accessoryType!.isNotEmpty
-                ? [currentItem.accessoryType!.first]
-                : [],
-            onChanged: onAccessoryTypeChanged,
+            selected: currentItem.accessoryType ?? [],
+            onChanged: (value) {
+              onMetadataChanged();
+              context.read<EditItemBloc>().add(
+                MetadataChangedEvent(updatedItem: currentItem.copyWith(accessoryType: [value])),
+              );
+            },
             errorText: validationErrors['accessory_type'],
           ),
-        // Clothing Type Selection (for clothing)
+
+        // ─── CLOTHING TYPE (IF APPLICABLE) ───
         if (currentItem.itemType.contains('clothing'))
           IconSelectionField(
             label: S.of(context).selectClothingType,
             options: TypeDataList.clothingTypes(context),
-            selected: currentItem.clothingType != null &&
-                currentItem.clothingType!.isNotEmpty
-                ? [currentItem.clothingType!.first]
-                : [],
-            onChanged: onClothingTypeChanged,
+            selected: currentItem.clothingType ?? [],
+            onChanged: (value) {
+              onMetadataChanged();
+              context.read<EditItemBloc>().add(
+                MetadataChangedEvent(updatedItem: currentItem.copyWith(clothingType: [value])),
+              );
+            },
             errorText: validationErrors['clothing_type'],
           ),
 
-        // Clothing Layer Selection (for clothing)
+        // ─── CLOTHING LAYER (IF APPLICABLE) ───
         if (currentItem.itemType.contains('clothing'))
           IconSelectionField(
             label: S.of(context).selectClothingLayer,
             options: TypeDataList.clothingLayers(context),
-            selected: currentItem.clothingLayer != null &&
-                currentItem.clothingLayer!.isNotEmpty
-                ? [currentItem.clothingLayer!.first]
-                : [],
-            onChanged: onClothingLayerChanged,
+            selected: currentItem.clothingLayer ?? [],
+            onChanged: (value) {
+              onMetadataChanged();
+              context.read<EditItemBloc>().add(
+                MetadataChangedEvent(updatedItem: currentItem.copyWith(clothingLayer: [value])),
+              );
+            },
             errorText: validationErrors['clothing_layer'],
           ),
 
-        // Colour Selection
+        // ─── COLOUR SELECTION ───
         IconSelectionField(
           label: S.of(context).selectColour,
           options: TypeDataList.colour(context),
           selected: currentItem.colour.isNotEmpty ? [currentItem.colour.first] : [],
-          onChanged: onColourChanged,
+          onChanged: (value) {
+            onMetadataChanged();
+            context.read<EditItemBloc>().add(
+              MetadataChangedEvent(updatedItem: currentItem.copyWith(colour: [value])),
+            );
+          },
         ),
 
-        // Colour Variation Selection (if colour is not black or white)
-        if (!currentItem.colour.contains('black') &&
-            !currentItem.colour.contains('white'))
+        // ─── COLOUR VARIATION (IF NOT BLACK OR WHITE) ───
+        if (!currentItem.colour.contains('black') && !currentItem.colour.contains('white'))
           IconSelectionField(
             label: S.of(context).selectColourVariation,
             options: TypeDataList.colourVariations(context),
-            selected: currentItem.colourVariations != null &&
-                currentItem.colourVariations!.isNotEmpty
-                ? [currentItem.colourVariations!.first]
-                : [],
-            onChanged: onColourVariationChanged,
+            selected: currentItem.colourVariations ?? [],
+            onChanged: (value) {
+              onMetadataChanged();
+              context.read<EditItemBloc>().add(
+                MetadataChangedEvent(updatedItem: currentItem.copyWith(colourVariations: [value])),
+              );
+            },
             errorText: validationErrors['colour_variations'],
           ),
       ],

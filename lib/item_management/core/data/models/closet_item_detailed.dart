@@ -33,6 +33,24 @@ class ClosetItemDetailed {
     this.accessoryType,
   });
 
+  factory ClosetItemDetailed.empty() {
+    return ClosetItemDetailed(
+      itemId: '',
+      itemType: [],
+      name: '',
+      amountSpent: 0.0,
+      occasion: [],
+      season: [],
+      colour: [],
+      colourVariations: [],
+      clothingType: [],
+      clothingLayer: [],
+      shoesType: [],
+      accessoryType: [],
+      updatedAt: DateTime.now(),
+    );
+  }
+
   factory ClosetItemDetailed.fromJson(Map<String, dynamic> json) {
     final item = ClosetItemDetailed(
       itemId: json['item_id'],
