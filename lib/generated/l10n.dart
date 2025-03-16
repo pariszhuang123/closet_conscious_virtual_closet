@@ -4810,6 +4810,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Bulk Upload`
+  String get bulkUploadTitle {
+    return Intl.message(
+      'Bulk Upload',
+      name: 'bulkUploadTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload`
+  String get bulkUpload {
+    return Intl.message(
+      'Upload',
+      name: 'bulkUpload',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

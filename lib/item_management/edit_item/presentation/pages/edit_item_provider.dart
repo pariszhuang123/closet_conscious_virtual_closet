@@ -20,7 +20,7 @@ class EditItemProvider extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => EditItemBloc(itemId: itemId)..add(LoadItemEvent(itemId)),
+          create: (context) => EditItemBloc(itemId: itemId)..add(LoadItemEvent(itemId: itemId, isPending: false)),
         ),
         BlocProvider(
           create: (context) => FetchItemImageCubit(itemFetchService)..fetchItemImage(itemId),

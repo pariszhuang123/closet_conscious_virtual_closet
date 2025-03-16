@@ -21,6 +21,7 @@ class InteractiveItemGrid extends StatelessWidget {
   final ItemSelectionMode itemSelectionMode; // New parameter
   final VoidCallback? onAction; // Optional callback for action mode
   final bool enablePricePerWear; // ✅ New parameter to control price-per-wear visibility
+  final bool enableItemName; // ✅ New parameter to control item name visibility
   final VoidCallback? onInactiveTap; // New callback for inactive items
 
 
@@ -33,6 +34,7 @@ class InteractiveItemGrid extends StatelessWidget {
     required this.itemSelectionMode,
     this.onAction, // Optional
     this.enablePricePerWear = false, // ✅ Default to false so other screens don’t show price per wear
+    this.enableItemName = true, // ✅ Default to true to show item Name unless explicitly enabled
     this.onInactiveTap, // Accept the callback
 
 
@@ -72,7 +74,7 @@ class InteractiveItemGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final showItemName = !(crossAxisCount == 5 || crossAxisCount == 7);
+    final showItemName = enableItemName && !(crossAxisCount == 5 || crossAxisCount == 7); // ✅ Use enableItemName
     final showPricePerWear = enablePricePerWear && !(crossAxisCount == 5 || crossAxisCount == 7);
     final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 /
         5 : 2 / 3;

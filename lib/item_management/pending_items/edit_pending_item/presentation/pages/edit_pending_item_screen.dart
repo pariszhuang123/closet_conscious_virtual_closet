@@ -1,38 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../presentation/bloc/edit_item_bloc.dart';
-import '../../../declutter_items/presentation/widgets/declutter_options_bottom_sheet.dart';
-import '../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
-import '../../../../generated/l10n.dart';
-import '../../../../core/widgets/bottom_sheet/premium_bottom_sheet/swap_premium_bottom_sheet.dart';
-import '../../../../core/widgets/bottom_sheet/premium_bottom_sheet/metadata_premium_bottom_sheet.dart';
-import '../../../../core/utilities/routes.dart';
-import '../../../core/data/models/closet_item_detailed.dart';
-import '../../../../core/utilities/logger.dart';
-import '../../../../core/widgets/feedback/custom_snack_bar.dart';
-import '../../presentation/widgets/edit_item_metadata.dart';
-import '../../presentation/widgets/edit_item_image_with_additional_features.dart';
 
-class EditItemScreen extends StatefulWidget {
+import '../../../../edit_item/presentation/bloc/edit_item_bloc.dart';
+import '../../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../../../../generated/l10n.dart';
+import '../../../../../core/widgets/bottom_sheet/premium_bottom_sheet/swap_premium_bottom_sheet.dart';
+import '../../../../../core/widgets/bottom_sheet/premium_bottom_sheet/metadata_premium_bottom_sheet.dart';
+import '../../../../../core/utilities/routes.dart';
+import '../../../../core/data/models/closet_item_detailed.dart';
+import '../../../../../core/utilities/logger.dart';
+import '../../../../../core/widgets/feedback/custom_snack_bar.dart';
+import '../../../../edit_item/presentation/widgets/edit_item_metadata.dart';
+import '../../../../edit_item/presentation/widgets/edit_item_image_with_additional_features.dart';
+
+class EditPendingItemScreen extends StatefulWidget {
   final String itemId;
 
-  const EditItemScreen({
+  const EditPendingItemScreen({
     super.key,
     required this.itemId,
   });
 
   @override
-  State<EditItemScreen> createState() => _EditItemScreenState();
+  State<EditPendingItemScreen> createState() => _EditPendingItemScreenState();
 }
 
-class _EditItemScreenState extends State<EditItemScreen> {
+class _EditPendingItemScreenState extends State<EditPendingItemScreen> {
   late TextEditingController _itemNameController;
   late TextEditingController _amountSpentController;
   late FocusNode _amountSpentFocusNode;  // <-- Add this line
   String? _imageUrl;
   bool _isChanged = false;
 
-  final _logger = CustomLogger('EditItemScreen');
+  final _logger = CustomLogger('EditPendingItemScreen');
   Map<String, String> _validationErrors = {};
 
   @override
@@ -41,7 +41,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     _itemNameController = TextEditingController();
     _amountSpentController = TextEditingController(); // ADD THIS
     _amountSpentFocusNode = FocusNode(); // <-- Initialize FocusNode here
-    _logger.i('Initialized EditItemScreen with itemId: ${widget.itemId}');
+    _logger.i('Initialized EditPendingItemScreen with itemId: ${widget.itemId}');
   }
 
   @override
@@ -65,18 +65,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
       context,
       AppRoutes.editPhoto,
       arguments: widget.itemId,
-    );
-  }
-
-  // Open declutter bottom sheet.
-  void _openDeclutterSheet() {
-    _logger.d('Opening declutter sheet for itemId: ${widget.itemId}');
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => DeclutterBottomSheet(
-        currentItemId: widget.itemId,
-        isFromMyCloset: true,
-      ),
     );
   }
 
@@ -211,14 +199,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
       child: GestureDetector(
         onTap: _dismissKeyboard,
         behavior: HitTestBehavior.translucent,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              S.of(context).editPageTitle,
-              style: myClosetTheme.textTheme.titleMedium,
-            ),
-          ),
-          body: Column(
+          child: Column(
             children: [
               // Image section remains outside BlocBuilder to avoid unnecessary refreshes.
               EditItemImageWithAdditionalFeatures(
@@ -275,16 +256,13 @@ class _EditItemScreenState extends State<EditItemScreen> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: ElevatedButton(
-                  onPressed: (_isChanged || _validationErrors.isNotEmpty)
-                      ? _handleUpdate
-                      : _openDeclutterSheet,
+                  onPressed:  _handleUpdate,
                   child: Text(S.of(context).update),
                 ),
               ),
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }

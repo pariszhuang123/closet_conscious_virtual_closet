@@ -15,7 +15,7 @@ class ItemFetchService {
       logger.d(
           'Fetching items for pages: $currentPage using fetch_items_analytics_with_preferences RPC');
 
-      // Call the fetch_items_with_preferences RPC function
+      // Call the fetch_items_analytics_with_preferences RPC function
       final response = await Supabase.instance.client
           .rpc('fetch_items_analytics_with_preferences',
           params: {'p_current_page': currentPage});
@@ -42,6 +42,40 @@ class ItemFetchService {
       rethrow;
     }
   }
+
+  Future<List<ClosetItemMinimal>> fetchPendingItems(int currentPage) async {
+    try {
+      logger.d(
+          'Fetching pending items for pages: $currentPage using fetch_pending_items RPC');
+
+      // Call the fetch_items_analytics_with_preferences RPC function
+      final response = await Supabase.instance.client
+          .rpc('fetch_pending_items',
+          params: {'p_current_page': currentPage});
+
+      if (response == null) {
+        logger.w('No data returned from fetch_pending_items');
+        return [];
+      }
+
+      // Log each item in the response
+      for (var item in response as List<dynamic>) {
+        logger.d('Item data: $item');
+      }
+
+      // Map the response to ClosetItemMinimal objects
+      final items = (response)
+          .map<ClosetItemMinimal>((item) => ClosetItemMinimal.fromMap(item))
+          .toList();
+
+      logger.i('Fetched ${items.length} items');
+      return items;
+    } catch (error) {
+      logger.e('Error fetching items: $error');
+      rethrow;
+    }
+  }
+
 
   Future<ClosetItemDetailed> fetchItemDetails(String itemId) async {
     try {

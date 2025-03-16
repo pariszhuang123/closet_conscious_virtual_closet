@@ -39,7 +39,7 @@ class CreateMultiClosetProvider extends StatelessWidget {
         BlocProvider<ViewItemsBloc>(
           create: (context) => ViewItemsBloc(
             itemFetchService: itemFetchService,
-          )..add(FetchItemsEvent(0)), // Fetch items on initialization
+          )..add(FetchItemsEvent(0, isPending: false)), // Fetch items on initialization
         ),
         BlocProvider<MultiSelectionItemCubit>(
           create: (context) => MultiSelectionItemCubit()..initializeSelection(selectedItemIds),

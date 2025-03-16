@@ -35,7 +35,14 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
   Future<void> _onLoadItem(LoadItemEvent event,
       Emitter<EditItemState> emit) async {
     emit(EditItemLoading());
-    _logger.i("Loading item with ID: ${event.itemId}");
+    _logger.i("Loading item with ID: ${event.itemId}, isPending: ${event.isPending}");
+
+    if (event.isPending) {
+      // If pending, return an empty item
+      _logger.i("Item is pending, returning empty item.");
+      emit(EditItemLoaded(itemId: event.itemId, item: ClosetItemDetailed.empty()));
+      return;
+    }
 
     try {
       final itemData = await _itemFetchService.fetchItemDetails(event.itemId);
@@ -130,6 +137,25 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       tempErrors['amount_spent'] = event.amountSpentError; // Use localized text
     }
 
+    // Validate item type
+    if (item.itemType.isEmpty) {
+      tempErrors['item_type'] = event.itemTypeError;
+    }
+
+    // Validate occasion
+    if (item.occasion.isEmpty) {
+      tempErrors['occasion'] = event.occasionError;
+    }
+
+    // Validate season
+    if (item.season.isEmpty) {
+      tempErrors['season'] = event.seasonError;
+    }
+
+    // Validate colour
+    if (item.colour.isEmpty) {
+      tempErrors['colour'] = event.colourError;
+    }
 
     if (item.itemType.contains('clothing')) {
       if (item.clothingType == null || item.clothingType!.isEmpty) {

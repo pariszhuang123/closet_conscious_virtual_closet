@@ -26,7 +26,7 @@ class ViewItemsBloc extends Bloc<ViewItemsEvent, ViewItemsState> {
 
   // Handler for FetchItemsEvent
   Future<void> _onFetchItems(FetchItemsEvent event, Emitter<ViewItemsState> emit) async {
-    _logger.i('Received FetchItemsEvent for pages: ${event.page}');
+    _logger.i('Received FetchItemsEvent for page: ${event.page}, isPending: ${event.isPending}');
     _logger.i('Current state: $state');
     _logger.i('Flags - _isFetching: $_isFetching, _hasMoreItems: $_hasMoreItems');
 
@@ -47,8 +47,10 @@ class ViewItemsBloc extends Bloc<ViewItemsEvent, ViewItemsState> {
     }
 
     try {
-      // Fetch items with the current pages
-      final items = await _itemFetchService.fetchItems(event.page);
+      // Determine which method to call based on isPending
+      final items = event.isPending
+          ? await _itemFetchService.fetchPendingItems(event.page)
+          : await _itemFetchService.fetchItems(event.page);
 
       // Update _hasMoreItems based on the result
       if (items.isEmpty) {

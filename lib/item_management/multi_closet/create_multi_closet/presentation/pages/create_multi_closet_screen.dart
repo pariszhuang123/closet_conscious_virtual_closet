@@ -96,7 +96,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
     super.initState();
     logger.i('CreateMultiClosetScreen initialized');
     context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
-    context.read<ViewItemsBloc>().add(FetchItemsEvent(0));
+    context.read<ViewItemsBloc>().add(FetchItemsEvent(0, isPending: false));
     context.read<MultiClosetNavigationBloc>().add(CheckMultiClosetAccessEvent());
 
     // Add scroll listener for infinite scrolling
@@ -107,7 +107,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
 
         if (currentState is ItemsLoaded) {
           final currentPage = currentState.currentPage;
-          context.read<ViewItemsBloc>().add(FetchItemsEvent(currentPage));
+          context.read<ViewItemsBloc>().add(FetchItemsEvent(currentPage, isPending: false));
         }
       }
     });

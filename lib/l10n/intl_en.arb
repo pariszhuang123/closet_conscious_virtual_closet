@@ -475,5 +475,7 @@
   "noRelatedOutfitsItem": "No related outfits reviewed yet.\n\nTry styling this outfit differently!",
   "noRelatedOutfits": "No related outfits reviewed yet.\n\nTry styling any of the above outfit items to create another outfit!",
   "calendarNavigationFailed": "Failed to navigate the calendar.",
-  "itemInactiveMessage": "This item is retired and no longer part of your closet, but it stays in your past outfits."
+  "itemInactiveMessage": "This item is retired and no longer part of your closet, but it stays in your past outfits.",
+  "bulkUploadTitle": "Bulk Upload",
+  "bulkUpload": "Upload"
 }

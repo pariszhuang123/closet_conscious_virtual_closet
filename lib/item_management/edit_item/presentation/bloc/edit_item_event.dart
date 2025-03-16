@@ -5,7 +5,9 @@ abstract class EditItemEvent {}
 
 class LoadItemEvent extends EditItemEvent {
   final String itemId;
-  LoadItemEvent(this.itemId);
+  final bool isPending; // New flag
+
+  LoadItemEvent({required this.itemId, required this.isPending});
 }
 
 // Event triggered when metadata is changed
@@ -28,6 +30,10 @@ class ValidateFormEvent extends EditItemEvent {
   final double amountSpent;
   final String itemNameError;
   final String amountSpentError;
+  final String itemTypeError;
+  final String occasionError;
+  final String seasonError;
+  final String colourError;
   final String clothingTypeError;
   final String clothingLayerError;
   final String accessoryTypeError;
@@ -40,6 +46,10 @@ class ValidateFormEvent extends EditItemEvent {
     required this.amountSpent,
     required this.itemNameError,
     required this.amountSpentError,
+    required this.itemTypeError,
+    required this.occasionError,
+    required this.seasonError,
+    required this.colourError,
     required this.clothingTypeError,
     required this.clothingLayerError,
     required this.accessoryTypeError,

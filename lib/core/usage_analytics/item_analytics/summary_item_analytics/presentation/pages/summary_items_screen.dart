@@ -54,7 +54,7 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
         final currentState = viewItemsBloc.state;
         if (currentState is ItemsLoaded) {
           final currentPage = currentState.currentPage;
-          context.read<ViewItemsBloc>().add(FetchItemsEvent(currentPage));
+          context.read<ViewItemsBloc>().add(FetchItemsEvent(currentPage, isPending: false));
         }
       }
     });

@@ -123,6 +123,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "boots": MessageLookupByLibrary.simpleMessage("靴子"),
         "bottom": MessageLookupByLibrary.simpleMessage("下装"),
         "brown": MessageLookupByLibrary.simpleMessage("棕色"),
+        "bulkUpload": MessageLookupByLibrary.simpleMessage("批量上传"),
+        "bulkUploadTitle": MessageLookupByLibrary.simpleMessage("批量上传"),
         "calendar": MessageLookupByLibrary.simpleMessage("日历"),
         "calendarFeatureTitle": MessageLookupByLibrary.simpleMessage("日历"),
         "calendarNavigationFailed":

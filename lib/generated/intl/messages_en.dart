@@ -139,6 +139,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "boots": MessageLookupByLibrary.simpleMessage("Boots"),
         "bottom": MessageLookupByLibrary.simpleMessage("Bottom"),
         "brown": MessageLookupByLibrary.simpleMessage("Brown"),
+        "bulkUpload": MessageLookupByLibrary.simpleMessage("Upload"),
+        "bulkUploadTitle": MessageLookupByLibrary.simpleMessage("Bulk Upload"),
         "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "calendarFeatureTitle":
             MessageLookupByLibrary.simpleMessage("Calendar"),

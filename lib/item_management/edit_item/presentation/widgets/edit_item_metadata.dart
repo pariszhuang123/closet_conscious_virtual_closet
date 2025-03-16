@@ -87,6 +87,7 @@ class EditItemMetadata extends StatelessWidget {
               MetadataChangedEvent(updatedItem: currentItem.copyWith(itemType: [value])),
             );
           },
+          errorText: validationErrors['item_type'], // Pass the error message here
         ),
 
         // ─── OCCASION SELECTION ───
@@ -100,6 +101,7 @@ class EditItemMetadata extends StatelessWidget {
               MetadataChangedEvent(updatedItem: currentItem.copyWith(occasion: [value])),
             );
           },
+          errorText: validationErrors['occasion'], // Pass the error message here
         ),
 
         // ─── SEASON SELECTION ───
@@ -113,6 +115,7 @@ class EditItemMetadata extends StatelessWidget {
               MetadataChangedEvent(updatedItem: currentItem.copyWith(season: [value])),
             );
           },
+          errorText: validationErrors['season'], // Pass the error message here
         ),
 
         // ─── SHOE TYPE (IF APPLICABLE) ───
@@ -186,6 +189,7 @@ class EditItemMetadata extends StatelessWidget {
               MetadataChangedEvent(updatedItem: currentItem.copyWith(colour: [value])),
             );
           },
+          errorText: validationErrors['colour'], // Pass the error message here
         ),
 
         // ─── COLOUR VARIATION (IF NOT BLACK OR WHITE) ───

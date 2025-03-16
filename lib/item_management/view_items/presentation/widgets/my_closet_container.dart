@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/container/base_container.dart';
 import '../../../../core/widgets/container/base_container_no_format.dart';
-import '../../../../core/widgets/button/navigation_type_button.dart';
-import '../../../../core/widgets/button/number_type_button.dart';
-import '../../../../core/core_enums.dart';
-import '../../../../core/widgets/feedback/custom_tooltip.dart';
-
+import 'upload_incomplete_row.dart';
+import 'navigation_button_row.dart';
+import 'upload_completed_container.dart';
 
 class MyClosetContainer extends StatelessWidget {
   final ThemeData theme;
@@ -30,6 +28,7 @@ class MyClosetContainer extends StatelessWidget {
   final VoidCallback onArrangeButtonPressed;
   final VoidCallback onMultiClosetButtonPressed;
   final VoidCallback onPublicClosetButtonPressed;
+  final VoidCallback onUploadCompletedButtonPressed;
 
   const MyClosetContainer({
     super.key,
@@ -55,6 +54,7 @@ class MyClosetContainer extends StatelessWidget {
     required this.onArrangeButtonPressed,
     required this.onMultiClosetButtonPressed,
     required this.onPublicClosetButtonPressed,
+    required this.onUploadCompletedButtonPressed,
   });
 
   @override
@@ -63,59 +63,17 @@ class MyClosetContainer extends StatelessWidget {
       children: [
         BaseContainer(
           theme: theme,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  NavigationTypeButton(
-                    label: uploadData.getName(context),
-                    selectedLabel: '',
-                    onPressed: onUploadButtonPressed,
-                    assetPath: uploadData.assetPath!,
-                    isFromMyCloset: true,
-                    buttonType: ButtonType.primary,
-                    usePredefinedColor: false,
-                  ),
-                  NavigationTypeButton(
-                    label: filterData.getName(context),
-                    selectedLabel: '',
-                    onPressed: onFilterButtonPressed,
-                    assetPath: filterData.assetPath ?? '',
-                    isFromMyCloset: true,
-                    buttonType: ButtonType.secondary,
-                    usePredefinedColor: false,
-                  ),
-                  NavigationTypeButton(
-                    label: arrangeData.getName(context),
-                    selectedLabel: '',
-                    onPressed: onArrangeButtonPressed,
-                    assetPath: arrangeData.assetPath ?? '',
-                    isFromMyCloset: true,
-                    buttonType: ButtonType.secondary,
-                    usePredefinedColor: false,
-                  ),
-                  NavigationTypeButton(
-                    label: addClosetData.getName(context),
-                    selectedLabel: '',
-                    onPressed: onMultiClosetButtonPressed,
-                    assetPath: addClosetData.assetPath ?? '',
-                    isFromMyCloset: true,
-                    buttonType: ButtonType.secondary,
-                    usePredefinedColor: false,
-                  ),
-                  NavigationTypeButton(
-                    label: publicClosetData.getName(context),
-                    selectedLabel: '',
-                    onPressed: onPublicClosetButtonPressed,
-                    assetPath: publicClosetData.assetPath ?? '',
-                    isFromMyCloset: true,
-                    buttonType: ButtonType.secondary,
-                    usePredefinedColor: false,
-                  ),
-                ],
-              ),
-            ],
+          child: MyClosetNavigationRow(
+            uploadData: uploadData,
+            filterData: filterData,
+            arrangeData: arrangeData,
+            addClosetData: addClosetData,
+            publicClosetData: publicClosetData,
+            onUploadButtonPressed: onUploadButtonPressed,
+            onFilterButtonPressed: onFilterButtonPressed,
+            onArrangeButtonPressed: onArrangeButtonPressed,
+            onMultiClosetButtonPressed: onMultiClosetButtonPressed,
+            onPublicClosetButtonPressed: onPublicClosetButtonPressed,
           ),
         ),
         const SizedBox(height: 10.0),
@@ -125,85 +83,26 @@ class MyClosetContainer extends StatelessWidget {
             theme: theme,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomTooltip(
-                    message: itemUploadData.getName(context),
-                    child: NumberTypeButton(
-                      count: apparelCount,
-                      assetPath: itemUploadData.assetPath ?? '',
-                      isFromMyCloset: true,
-                      isHorizontal: true,
-                      buttonType: ButtonType.secondary,
-                      usePredefinedColor: false,
-                    ),
-                  ),
-                ],
+              child: UploadIncompleteRow(
+                theme: theme,
+                apparelCount: apparelCount,
+                itemUploadData: itemUploadData,
+                onUploadCompletedButtonPressed: onUploadCompletedButtonPressed,
               ),
             ),
           ),
 
-        // Show streak data, new items cost, and new items count only when upload is completed
         if (isUploadCompleted)
-          BaseContainerNoFormat(
+          UploadCompletedContainer(
             theme: theme,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  if (currentStreakData != null)
-                    CustomTooltip(
-                      message: currentStreakData.getName(context),
-                      child: NumberTypeButton(
-                        count: currentStreakCount,
-                        assetPath: currentStreakData.assetPath ?? '',
-                        isFromMyCloset: true,
-                        isHorizontal: true,
-                        buttonType: ButtonType.secondary,
-                        usePredefinedColor: false,
-                      ),
-                    ),
-                  if (highestStreakData != null)
-                    CustomTooltip(
-                      message: highestStreakData.getName(context),
-                      child: NumberTypeButton(
-                        count: highestStreakCount,
-                        assetPath: highestStreakData.assetPath ?? '',
-                        isFromMyCloset: true,
-                        isHorizontal: true,
-                        buttonType: ButtonType.secondary,
-                        usePredefinedColor: false,
-                      ),
-                    ),
-                  if (costOfNewItemsData != null)
-                    CustomTooltip(
-                      message: costOfNewItemsData.getName(context),
-                      child: NumberTypeButton(
-                        count: newItemsCost,
-                        assetPath: costOfNewItemsData.assetPath ?? '',
-                        isFromMyCloset: true,
-                        isHorizontal: true,
-                        buttonType: ButtonType.secondary,
-                        usePredefinedColor: false,
-                      ),
-                    ),
-                  if (numberOfNewItemsData != null)
-                    CustomTooltip(
-                      message: numberOfNewItemsData.getName(context),
-                      child: NumberTypeButton(
-                        count: newItemsCount,
-                        assetPath: numberOfNewItemsData.assetPath ?? '',
-                        isFromMyCloset: true,
-                        isHorizontal: true,
-                        buttonType: ButtonType.secondary,
-                        usePredefinedColor: false,
-                      ),
-                    ),
-                ],
-              ),
-            ),
+            currentStreakData: currentStreakData,
+            highestStreakData: highestStreakData,
+            costOfNewItemsData: costOfNewItemsData,
+            numberOfNewItemsData: numberOfNewItemsData,
+            currentStreakCount: currentStreakCount,
+            highestStreakCount: highestStreakCount,
+            newItemsCost: newItemsCost,
+            newItemsCount: newItemsCount,
           ),
       ],
     );

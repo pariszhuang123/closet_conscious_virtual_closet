@@ -114,6 +114,10 @@ class TypeDataList {
     return TypeData('upload_upload', (context) => S.of(context).upload_upload, 'assets/icons/my_closet/upload/upload_item.svg', false);
   }
 
+  static TypeData bulkUpload(BuildContext context) {
+    return TypeData('bulkUpload', (context) => S.of(context).bulkUpload, 'assets/icons/my_closet/upload/bulk_upload_items.svg', false);
+  }
+
   static TypeData filter(BuildContext context) {
     return
       TypeData('filter_filter', (context) => S.of(context).filter_filter, 'assets/icons/general/filter_search.svg', false);
