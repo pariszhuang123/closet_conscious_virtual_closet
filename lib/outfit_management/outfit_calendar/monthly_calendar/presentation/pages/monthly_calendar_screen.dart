@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/monthly_calendar_metadata_bloc/monthly_calendar_metadata_bloc.dart';
 import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
 import '../../../core/presentation/bloc/calendar_navigation_bloc/calendar_navigation_bloc.dart';
-import '../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
+import '../../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
 import '../widgets/monthly_calendar_metadata.dart';
 import '../widgets/image_calendar_widget.dart';
 import '../widgets/monthly_feature_container.dart';

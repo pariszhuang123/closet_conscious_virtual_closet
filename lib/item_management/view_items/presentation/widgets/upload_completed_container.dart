@@ -40,6 +40,8 @@ class UploadCompletedContainer extends StatelessWidget {
             if (currentStreakData != null)
               CustomTooltip(
                 message: currentStreakData.getName(context),
+                position: TooltipPosition.left,
+                theme: theme,
                 child: NumberTypeButton(
                   count: currentStreakCount,
                   assetPath: currentStreakData.assetPath ?? '',
@@ -52,6 +54,8 @@ class UploadCompletedContainer extends StatelessWidget {
             if (highestStreakData != null)
               CustomTooltip(
                 message: highestStreakData.getName(context),
+                position: TooltipPosition.center,
+                theme: theme,
                 child: NumberTypeButton(
                   count: highestStreakCount,
                   assetPath: highestStreakData.assetPath ?? '',
@@ -64,6 +68,8 @@ class UploadCompletedContainer extends StatelessWidget {
             if (costOfNewItemsData != null)
               CustomTooltip(
                 message: costOfNewItemsData.getName(context),
+                position: TooltipPosition.center,
+                theme: theme,
                 child: NumberTypeButton(
                   count: newItemsCost,
                   assetPath: costOfNewItemsData.assetPath ?? '',
@@ -76,6 +82,8 @@ class UploadCompletedContainer extends StatelessWidget {
             if (numberOfNewItemsData != null)
               CustomTooltip(
                 message: numberOfNewItemsData.getName(context),
+                position: TooltipPosition.right,
+                theme: theme,
                 child: NumberTypeButton(
                   count: newItemsCount,
                   assetPath: numberOfNewItemsData.assetPath ?? '',

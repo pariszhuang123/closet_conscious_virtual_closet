@@ -7,7 +7,7 @@ import '../widgets/day_outfit_widget.dart'; // Import the DayOutfitWidget
 import '../../../../core/data/models/monthly_calendar_response.dart';
 import '../../../../core/data/models/outfit_data.dart';
 import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
-import '../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
+import '../../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
 import '../../../../../core/utilities/logger.dart';
 
 class ImageCalendarWidget extends StatelessWidget {

@@ -101,6 +101,10 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     Navigator.pushNamed(context, AppRoutes.viewPendingItem);
   }
 
+  void _onPhotoButtonPressed() {
+    Navigator.pushReplacementNamed(context, AppRoutes.uploadItemPhoto);
+  }
+
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
     Navigator.of(context).pushNamed(
       AppRoutes.filter,
@@ -373,6 +377,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                                   itemSelectionMode: itemSelectionMode,
                                   enablePricePerWear: false, // Set to true if price per wear should be visible
                                   enableItemName: true, // Set to false if you don't want item names displayed
+                                  isOutfit: false,
                                     onAction: () {
                                       _onItemSelected(
                                           context); // ✅ Call when an item is tapped
@@ -383,7 +388,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                           ),
                         ),
                         floatingActionButton: FloatingActionButton(
-                          onPressed: _onUploadButtonPressed,
+                          onPressed: _onPhotoButtonPressed,
                           backgroundColor: widget.myClosetTheme.colorScheme.primary,
                           child: const Icon(Icons.camera_alt, size: 30),
                         ),

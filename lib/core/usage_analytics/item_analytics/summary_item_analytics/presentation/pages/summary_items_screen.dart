@@ -21,6 +21,7 @@ import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 import '../../../../../paywall/data/feature_key.dart';
 import '../../../../../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
+import '../../../../../widgets/feedback/custom_tooltip.dart';
 
 class SummaryItemsScreen extends StatefulWidget {
   final bool isFromMyCloset; // Determines the theme
@@ -228,17 +229,32 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      SummaryCard(
-                        title: S.of(context).totalItems,
-                        value: state.totalItems,
+                      CustomTooltip(
+                        message: S.of(context).totalItemsTooltip, // Localized tooltip message
+                        position: TooltipPosition.left,
+                        theme: theme,
+                        child: SummaryCard(
+                          title: S.of(context).totalItems,
+                          value: state.totalItems,
+                        ),
                       ),
-                      SummaryCard(
-                        title: S.of(context).totalCost,
-                        value: state.totalItemCost,
+                      CustomTooltip(
+                        message: S.of(context).totalCostTooltip,
+                        position: TooltipPosition.center,
+                        theme: theme,
+                        child: SummaryCard(
+                          title: S.of(context).totalCost,
+                          value: state.totalItemCost,
+                        ),
                       ),
-                      SummaryCard(
-                        title: S.of(context).avgPricePerWear,
-                        value: state.avgPricePerWear,
+                      CustomTooltip(
+                        message: S.of(context).costPerWearTooltip,
+                        position: TooltipPosition.right,
+                        theme: theme,
+                        child: SummaryCard(
+                          title: S.of(context).avgPricePerWear,
+                          value: state.avgPricePerWear,
+                        ),
                       ),
                     ],
                   );
@@ -286,6 +302,7 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                               enablePricePerWear: true,
                               itemSelectionMode: itemSelectionMode,
                               selectedItemIds: widget.selectedItemIds,
+                              isOutfit: false,
                               onAction: () {
                                 _onItemSelected(
                                     context); // ✅ Call when an item is tapped

@@ -40,15 +40,12 @@ class UserPhoto extends StatelessWidget {
             padding: const EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
-              child: AspectRatio(
-                aspectRatio: 1.0, // Adjust aspect ratio as needed
                 child: Image.network(
                   transformedImageUrl,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
                 ),
               ),
-            ),
           );
         } else {
           return const Icon(Icons.error);

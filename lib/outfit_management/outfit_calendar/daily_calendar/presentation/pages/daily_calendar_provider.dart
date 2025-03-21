@@ -14,6 +14,7 @@ import '../../../../../item_management/core/presentation/bloc/multi_selection_it
 import '../../../../outfit_service_locator.dart';
 import '../../../core/presentation/bloc/calendar_navigation_bloc/calendar_navigation_bloc.dart';
 import '../../../../../core/usage_analytics/core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
+import '../../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
 
 class DailyCalendarProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -79,6 +80,15 @@ class DailyCalendarProvider extends StatelessWidget {
           create: (context) {
             _logger.i('Creating OutfitFocusedDateCubit...');
             return OutfitFocusedDateCubit(coreSaveService);
+          },
+        ),
+        BlocProvider(
+          create: (context) {
+            _logger.d('Creating OutfitSelectionBloc...');
+            return OutfitSelectionBloc(
+              outfitFetchService: outfitFetchService,
+              logger: CustomLogger('OutfitSelectionBloc'),
+            );
           },
         ),
       ],

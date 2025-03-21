@@ -23,6 +23,7 @@ class InteractiveItemGrid extends StatelessWidget {
   final bool enablePricePerWear; // ✅ New parameter to control price-per-wear visibility
   final bool enableItemName; // ✅ New parameter to control item name visibility
   final VoidCallback? onInactiveTap; // New callback for inactive items
+  final bool isOutfit;
 
 
   InteractiveItemGrid({
@@ -36,6 +37,7 @@ class InteractiveItemGrid extends StatelessWidget {
     this.enablePricePerWear = false, // ✅ Default to false so other screens don’t show price per wear
     this.enableItemName = true, // ✅ Default to true to show item Name unless explicitly enabled
     this.onInactiveTap, // Accept the callback
+    required this.isOutfit
 
 
   }) : _logger = CustomLogger('ItemGrid');
@@ -76,8 +78,8 @@ class InteractiveItemGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final showItemName = enableItemName && !(crossAxisCount == 5 || crossAxisCount == 7); // ✅ Use enableItemName
     final showPricePerWear = enablePricePerWear && !(crossAxisCount == 5 || crossAxisCount == 7);
-    final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 /
-        5 : 2 / 3;
+    final childAspectRatio =  (!enableItemName || crossAxisCount == 5 || crossAxisCount == 7) ? 1 /
+        1 : 2.15 / 3;
     final imageSize = ImageHelper.getImageSize(crossAxisCount);
 
     _logger.d('Building ItemGrid');
@@ -119,6 +121,7 @@ class InteractiveItemGrid extends StatelessWidget {
                 imageSize: imageSize,
                 showItemName: showItemName,
                 showPricePerWear: showPricePerWear, // ✅ New parameter
+                isOutfit: isOutfit,
                 onItemTapped: () {
                   _handleTap(context, item.itemId);
                 },
@@ -144,6 +147,7 @@ class InteractiveItemGrid extends StatelessWidget {
                 imageSize: imageSize,
                 showItemName: showItemName,
                 showPricePerWear: showPricePerWear,
+                isOutfit: isOutfit,
                 onItemTapped: () {
                   _handleTap(context, item.itemId);
                 },

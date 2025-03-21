@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../../../core/utilities/logger.dart';
-import '../../../../../core/data/services/outfits_fetch_services.dart';
+import '../../../../core/data/services/outfits_fetch_services.dart';
 
 part 'outfit_selection_event.dart';
 part 'outfit_selection_state.dart';

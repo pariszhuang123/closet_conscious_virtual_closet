@@ -204,6 +204,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
         "costOfNewItems": MessageLookupByLibrary.simpleMessage(
             "Cost of new items you\'ve added"),
+        "costPerWearTooltip": MessageLookupByLibrary.simpleMessage(
+            "A lower cost per wear means you\'re getting great value! (Total cost ÷ times worn)"),
         "createCloset": MessageLookupByLibrary.simpleMessage("Create Closet"),
         "createClosetCalendarDescription": MessageLookupByLibrary.simpleMessage(
             "Select the outfits you want and see all related items to create a Closet."),
@@ -212,6 +214,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Build your dream capsule wardrobe with pieces you already love."),
         "createMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "Create a new multi-closet, organize items,\nand add metadata to keep your closets structured"),
+        "createOutfit": MessageLookupByLibrary.simpleMessage("Create Outfit"),
         "create_closet": MessageLookupByLibrary.simpleMessage("Create Closet"),
         "createdAt": MessageLookupByLibrary.simpleMessage("Created At"),
         "currentStreak":
@@ -728,7 +731,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "thankYou": MessageLookupByLibrary.simpleMessage("Thank You!"),
         "top": MessageLookupByLibrary.simpleMessage("Top"),
         "totalCost": MessageLookupByLibrary.simpleMessage("Total Cost"),
+        "totalCostTooltip": MessageLookupByLibrary.simpleMessage(
+            "Every piece is an investment—here’s what you\'ve spent! (This selection: total cost)"),
         "totalItems": MessageLookupByLibrary.simpleMessage("Total Items"),
+        "totalItemsTooltip": MessageLookupByLibrary.simpleMessage(
+            "Here’s the total count of what you’ve selected! (This selection: total items)"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "Track your cost per wear and get personalized outfit insights. Would this be helpful?"),
         "trialEndedMessage": MessageLookupByLibrary.simpleMessage(

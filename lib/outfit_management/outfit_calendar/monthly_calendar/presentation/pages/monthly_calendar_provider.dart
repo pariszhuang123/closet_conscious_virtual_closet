@@ -8,7 +8,7 @@ import '../../../../../item_management/multi_closet/core/presentation/bloc/multi
 import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../core/presentation/bloc/calendar_navigation_bloc/calendar_navigation_bloc.dart';
-import '../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
+import '../../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
 import '../../../../core/data/services/outfits_fetch_services.dart';
 import '../../../../core/data/services/outfits_save_services.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';

@@ -15,6 +15,8 @@ class EnhancedUserPhoto extends StatelessWidget {
   final String? itemName;
   final String itemId;
   final ImageSize imageSize;
+  final bool isOutfit; // ✅ Added isOutfit flag
+
 
   final CustomLogger _logger = CustomLogger('EnhancedUserPhoto');
 
@@ -28,6 +30,7 @@ class EnhancedUserPhoto extends StatelessWidget {
     this.pricePerWear, // ✅ Make it optional
     required this.itemId,
     required this.imageSize,
+    required this.isOutfit, // ✅ Default to false
   });
 
   @override
@@ -53,36 +56,39 @@ class EnhancedUserPhoto extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(2.0),
-              child: AspectRatio(
-                aspectRatio: 1.0, // Ensures the image is square
                 child: UserPhoto(
                   imageUrl: imageUrl,
                   imageSize: imageSize,),
               ),
-            ),
-            const SizedBox(height: 8.0),
-            if (itemName != null) // Only show if itemName is not null
+            if (itemName != null || pricePerWear != null) ...[
+              const SizedBox(height: 6.0),
               Flexible(
-                child: Text(
-                  itemName!,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                ),
-            ),
-            if (pricePerWear != null) // ✅ Show price per wear if available
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Text(
-                      () {
-                    final formattedPrice = formatNumber(pricePerWear!);
-                    return "\$${formattedPrice.value}${formattedPrice.suffix} per wear";
-                  }(),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.secondary, // ✅ Use secondary color for contrast
-                  ),
+                child: Column(
+                  children: [
+                    if (itemName != null)
+                      Text(
+                        itemName!,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: (isOutfit || pricePerWear != null) ? 1 : 2, // ✅ Restrict to 1 line for outfits
+                      ),
+                    if (pricePerWear != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2.0),
+                        child: Text(
+                              () {
+                            final formattedPrice = formatNumber(pricePerWear!);
+                            return "\$${formattedPrice.value}${formattedPrice.suffix} per wear";
+                          }(),
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.secondary,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
+            ],
           ],
         ),
       ),

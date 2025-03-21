@@ -166,6 +166,11 @@ class TypeDataList {
       TypeData('createCloset', (context) => S.of(context).createCloset, 'assets/icons/general/add_closet.svg', false);
   }
 
+  static TypeData createOutfit(BuildContext context) {
+    return
+      TypeData('createOutfit', (context) => S.of(context).createOutfit, 'assets/icons/general/create_outfit.svg', false);
+  }
+
   static TypeData allClosets(BuildContext context) {
     return
       TypeData('allClosets', (context) => S.of(context).allClosets, 'assets/icons/general/all_closets.svg', false);

@@ -168,6 +168,7 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
                                         crossAxisCount: crossAxisCount,
                                         selectedItemIds: const [], // No selection
                                         itemSelectionMode: ItemSelectionMode.disabled, // No selection
+                                        isOutfit: false,
                                       );
                                     },
                                   );

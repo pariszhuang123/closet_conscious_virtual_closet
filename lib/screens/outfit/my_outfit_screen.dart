@@ -512,6 +512,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                                 itemSelectionMode: ItemSelectionMode.multiSelection,
                                 crossAxisCount: crossAxisCount,
                                 selectedItemIds: widget.selectedItemIds,
+                                isOutfit: false,
                               );
                             }
                           },

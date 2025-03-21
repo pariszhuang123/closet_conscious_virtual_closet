@@ -15,6 +15,8 @@ import '../../../../../core/core_enums.dart';
 import '../../../core/presentation/bloc/calendar_navigation_bloc/calendar_navigation_bloc.dart';
 import '../../../../../core/paywall/data/feature_key.dart';
 import '../../../../../core/usage_analytics/core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
+import '../../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
+import '../../../../../core/widgets/feedback/custom_snack_bar.dart';
 
 class DailyCalendarScreen extends StatelessWidget {
   final ThemeData theme;
@@ -35,6 +37,24 @@ class DailyCalendarScreen extends StatelessWidget {
         'returnRoute': AppRoutes.dailyCalendar,
       },
     );
+  }
+
+  void _onCreateOutfitButtonPressed(BuildContext context, bool isFromMyCloset) {
+    final dailyCalendarBloc = context.read<DailyCalendarBloc>();
+    final outfitSelectionBloc = context.read<OutfitSelectionBloc>();
+
+    final state = dailyCalendarBloc.state;
+    if (state is DailyCalendarLoaded) {
+      final allOutfitIds = state.dailyOutfits.map((outfit) => outfit.outfitId)
+          .toList();
+
+      // Select all outfits
+      outfitSelectionBloc.add(SelectAllOutfitsEvent(allOutfitIds));
+
+      // Fetch item IDs from Supabase using the selected outfit IDs
+      outfitSelectionBloc.add(
+          FetchActiveItemsEvent(allOutfitIds));
+    }
   }
 
   @override
@@ -85,6 +105,25 @@ class DailyCalendarScreen extends StatelessWidget {
             }
           },
         ),
+        BlocListener<OutfitSelectionBloc, OutfitSelectionState>(
+          listener: (context, state) {
+            if (state is ActiveItemsFetched) {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.createOutfit,
+                arguments: {
+                  'selectedItemIds': state.activeItemIds,
+                },
+              );
+              } else if (state is OutfitSelectionError) {
+              _logger.e('Error fetching active items: ${state.message}');
+              CustomSnackbar(
+                message: S.of(context).failedToLoadItems,
+                theme: Theme.of(context),
+              ).show(context);
+            }
+          },
+         ),
       BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
           listener: (context, state) {
             if (state is OutfitFocusedDateSuccess) {
@@ -153,6 +192,7 @@ class DailyCalendarScreen extends StatelessWidget {
                           const NavigateCalendarEvent(direction: 'forward'),
                         );
                       },
+                      onCreateOutfitButtonPressed: () => _onCreateOutfitButtonPressed(context, false),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10.0),

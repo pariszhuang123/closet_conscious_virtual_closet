@@ -75,6 +75,8 @@ class OutfitFeatureContainer extends StatelessWidget {
           ),
           CustomTooltip(
             message: TypeDataList.outfitsUpload(context).getName(context),
+            position: TooltipPosition.right,
+            theme: theme,
             child: NumberTypeButton(
               count: outfitCount,
               assetPath: TypeDataList.outfitsUpload(context).assetPath,

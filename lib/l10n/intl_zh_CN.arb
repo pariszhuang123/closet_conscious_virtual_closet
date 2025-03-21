@@ -474,8 +474,12 @@
   "relatedOutfits": "相关穿搭",
   "noRelatedOutfitsItem": "暂无相关穿搭评价。\n\n尝试不同的搭配风格吧！",
   "noRelatedOutfits": "暂无相关穿搭评价。\n\n尝试搭配上方的任何服饰，创造新的穿搭！",
+  "createOutfit": "创建搭配",
   "calendarNavigationFailed": "无法导航日历。",
   "itemInactiveMessage": "这件单品已退役，不再属于你的衣橱，但仍保留在你之前的穿搭中。",
   "bulkUploadTitle":"批量上传",
-  "bulkUpload": "批量上传"
+  "bulkUpload": "批量上传",
+  "totalItemsTooltip": "这是您选择的所有物品总数！(当前选择：总数量)",
+  "totalCostTooltip": "每件衣物都是一种投资——这是您的总支出！(当前选择：总花费)",
+  "costPerWearTooltip": "穿得越多，越划算！(总花费 ÷ 穿着次数)"
 }

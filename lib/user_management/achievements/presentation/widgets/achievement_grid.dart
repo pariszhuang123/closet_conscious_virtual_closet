@@ -24,7 +24,7 @@ class AchievementGrid extends StatelessWidget {
       items: achievements,
       scrollController: scrollController,
       crossAxisCount: 3,
-      childAspectRatio: 3 / 4,
+      childAspectRatio: 4 / 5,
       itemBuilder: (context, achievement, index) {
         logger.d('AchievementGrid: Rendering achievement ${achievement.achievementName}');
         return Container(

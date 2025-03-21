@@ -176,6 +176,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "congratulations": MessageLookupByLibrary.simpleMessage("恭喜！🎉"),
         "contactUs": MessageLookupByLibrary.simpleMessage("联系我们"),
         "costOfNewItems": MessageLookupByLibrary.simpleMessage("您添加的新物品的费用"),
+        "costPerWearTooltip":
+            MessageLookupByLibrary.simpleMessage("穿得越多，越划算！(总花费 ÷ 穿着次数)"),
         "createCloset": MessageLookupByLibrary.simpleMessage("创建衣柜"),
         "createClosetCalendarDescription":
             MessageLookupByLibrary.simpleMessage("选择您感兴趣的穿搭，并查看所有相关物品以创建衣橱。"),
@@ -183,6 +185,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("用现有衣物打造你的理想胶囊衣橱。"),
         "createMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "创建一个新的多衣橱，整理物品并添加元数据以保持衣橱有序。"),
+        "createOutfit": MessageLookupByLibrary.simpleMessage("创建搭配"),
         "create_closet": MessageLookupByLibrary.simpleMessage("创建衣橱"),
         "createdAt": MessageLookupByLibrary.simpleMessage("创建时间"),
         "currentStreak": MessageLookupByLibrary.simpleMessage("您的当前无购买记录。"),
@@ -620,7 +623,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "thankYou": MessageLookupByLibrary.simpleMessage("谢谢！"),
         "top": MessageLookupByLibrary.simpleMessage("上衣"),
         "totalCost": MessageLookupByLibrary.simpleMessage("总花费"),
+        "totalCostTooltip": MessageLookupByLibrary.simpleMessage(
+            "每件衣物都是一种投资——这是您的总支出！(当前选择：总花费)"),
         "totalItems": MessageLookupByLibrary.simpleMessage("总单品数"),
+        "totalItemsTooltip":
+            MessageLookupByLibrary.simpleMessage("这是您选择的所有物品总数！(当前选择：总数量)"),
         "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "我们正在探索如何帮助您跟踪物品的穿着成本，并提供个性化的穿搭洞察。这个功能对您有帮助吗？"),
         "trialEndedMessage":

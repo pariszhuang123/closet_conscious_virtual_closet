@@ -40,7 +40,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     if (event.isPending) {
       // If pending, return an empty item
       _logger.i("Item is pending, returning empty item.");
-      emit(EditItemLoaded(itemId: event.itemId, item: ClosetItemDetailed.empty()));
+      emit(EditItemLoaded(itemId: event.itemId, item: ClosetItemDetailed.pending(itemId: event.itemId)));
       return;
     }
 

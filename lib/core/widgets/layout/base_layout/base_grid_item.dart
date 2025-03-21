@@ -17,6 +17,7 @@ class BaseGridItem<T> extends StatelessWidget {
   final String Function(T item) getImageUrl;
   final bool Function(T item)? getIsActive; // ✅ Optional function to check if active
   final double? Function(T item)? getPricePerWear; // ✅ Optional function
+  final bool isOutfit; // ✅ Added isOutfit flag
 
   final CustomLogger _logger;
 
@@ -34,6 +35,8 @@ class BaseGridItem<T> extends StatelessWidget {
     required this.getImageUrl,
     this.getIsActive, // ✅ Allow checking if item is active
     this.getPricePerWear, // ✅ Optional
+    required this.isOutfit, // ✅ Default to false
+
   }) : _logger = CustomLogger('BaseGridItem');
 
   @override
@@ -53,6 +56,7 @@ class BaseGridItem<T> extends StatelessWidget {
           imageUrl: getImageUrl(item),
           isSelected: isSelected,
           isDisliked: isDisliked,
+          isOutfit: isOutfit,
           onPressed: () {
             _logger.i('Item tapped - itemId: $itemId');
             onItemTapped();

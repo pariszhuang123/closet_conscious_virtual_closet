@@ -474,8 +474,12 @@
   "relatedOutfits": "Related Outfits",
   "noRelatedOutfitsItem": "No related outfits reviewed yet.\n\nTry styling this outfit differently!",
   "noRelatedOutfits": "No related outfits reviewed yet.\n\nTry styling any of the above outfit items to create another outfit!",
+  "createOutfit": "Create Outfit",
   "calendarNavigationFailed": "Failed to navigate the calendar.",
   "itemInactiveMessage": "This item is retired and no longer part of your closet, but it stays in your past outfits.",
   "bulkUploadTitle": "Bulk Upload",
-  "bulkUpload": "Upload"
+  "bulkUpload": "Upload",
+  "totalItemsTooltip": "Here’s the total count of what you’ve selected! (This selection: total items)",
+  "totalCostTooltip": "Every piece is an investment—here’s what you've spent! (This selection: total cost)",
+  "costPerWearTooltip": "A lower cost per wear means you're getting great value! (Total cost ÷ times worn)"
 }

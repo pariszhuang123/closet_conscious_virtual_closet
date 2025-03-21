@@ -98,6 +98,7 @@ void main() {
               scrollController: scrollController,
               selectedItemIds: const [],
               itemSelectionMode: ItemSelectionMode.multiSelection,
+              isOutfit: false,
               items: items,
               crossAxisCount: 3,
             ),

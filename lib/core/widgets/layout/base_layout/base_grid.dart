@@ -18,7 +18,7 @@ class BaseGrid<T> extends StatelessWidget {
     this.scrollController,
     required this.itemBuilder,
     this.crossAxisCount = 3,
-    this.childAspectRatio = 3 / 4,
+    required this.childAspectRatio,
     this.isScrollable = true, // ✅ Defaults to scrollable
     this.shrinkWrap = false, // ✅ Defaults to not shrinking
   }) : _logger = CustomLogger('BaseGrid');

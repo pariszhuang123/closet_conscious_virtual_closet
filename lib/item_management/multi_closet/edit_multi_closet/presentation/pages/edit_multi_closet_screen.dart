@@ -400,6 +400,7 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                             crossAxisCount: crossAxisCount,
                             itemSelectionMode: ItemSelectionMode.multiSelection,
                             selectedItemIds: widget.selectedItemIds,
+                            isOutfit: false,
                           );
                         } else {
                           return Center(child: Text(S.of(context).noItemsInCloset));

@@ -4791,6 +4791,16 @@ class S {
     );
   }
 
+  /// `Create Outfit`
+  String get createOutfit {
+    return Intl.message(
+      'Create Outfit',
+      name: 'createOutfit',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Failed to navigate the calendar.`
   String get calendarNavigationFailed {
     return Intl.message(
@@ -4826,6 +4836,36 @@ class S {
     return Intl.message(
       'Upload',
       name: 'bulkUpload',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Here’s the total count of what you’ve selected! (This selection: total items)`
+  String get totalItemsTooltip {
+    return Intl.message(
+      'Here’s the total count of what you’ve selected! (This selection: total items)',
+      name: 'totalItemsTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Every piece is an investment—here’s what you've spent! (This selection: total cost)`
+  String get totalCostTooltip {
+    return Intl.message(
+      'Every piece is an investment—here’s what you\'ve spent! (This selection: total cost)',
+      name: 'totalCostTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A lower cost per wear means you're getting great value! (Total cost ÷ times worn)`
+  String get costPerWearTooltip {
+    return Intl.message(
+      'A lower cost per wear means you\'re getting great value! (Total cost ÷ times worn)',
+      name: 'costPerWearTooltip',
       desc: '',
       args: [],
     );

@@ -87,6 +87,7 @@ class CarouselOutfit<T> extends StatelessWidget {
                       crossAxisCount: crossAxisCount,
                       selectedItemIds: const [],
                       itemSelectionMode: ItemSelectionMode.disabled,
+                      isOutfit: true,
                     ),
                   ),
                 ),

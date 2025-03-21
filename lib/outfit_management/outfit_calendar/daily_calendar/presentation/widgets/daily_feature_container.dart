@@ -13,6 +13,7 @@ class DailyFeatureContainer extends StatelessWidget {
   final VoidCallback onArrangeButtonPressed;
   final VoidCallback onPreviousButtonPressed;
   final VoidCallback onNextButtonPressed;
+  final VoidCallback onCreateOutfitButtonPressed;
 
   const DailyFeatureContainer({
     super.key,
@@ -21,6 +22,7 @@ class DailyFeatureContainer extends StatelessWidget {
     required this.onArrangeButtonPressed,
     required this.onPreviousButtonPressed,
     required this.onNextButtonPressed,
+    required this.onCreateOutfitButtonPressed,
   });
 
   @override
@@ -41,56 +43,59 @@ class DailyFeatureContainer extends StatelessWidget {
 
     return BaseContainer(
       theme: theme,
-      child: Wrap(
-        spacing: 8, // Adjust spacing between buttons
-        runSpacing: 8, // Adjust vertical spacing if buttons wrap
-        alignment: WrapAlignment.start, // Start buttons dynamically
-        children: [
-          NavigationTypeButton(
-            label: TypeDataList.calendar(context).getName(context),
-            selectedLabel: '',
-            onPressed: onCalendarButtonPressed,
-            assetPath: TypeDataList
-                .calendar(context)
-                .assetPath,
-            isFromMyCloset: false,
-            buttonType: ButtonType.secondary,
-            usePredefinedColor: false,
-          ),
-          NavigationTypeButton(
-            label: TypeDataList.arrange(context).getName(context),
-            selectedLabel: '',
-            onPressed: onArrangeButtonPressed,
-            assetPath: TypeDataList.arrange(context).assetPath,
-            isFromMyCloset: false,
-            buttonType: ButtonType.secondary,
-            usePredefinedColor: false,
-          ),
-          if (showPrevious)
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal, // Enables horizontal scrolling
+        child: Row(
+          children: [
             NavigationTypeButton(
-              label: TypeDataList.previous(context).getName(context),
+              label: TypeDataList.calendar(context).getName(context),
               selectedLabel: '',
-              onPressed: onPreviousButtonPressed,
-              assetPath: TypeDataList
-                  .previous(context)
-                  .assetPath,
+              onPressed: onCalendarButtonPressed,
+              assetPath: TypeDataList.calendar(context).assetPath,
               isFromMyCloset: false,
               buttonType: ButtonType.secondary,
               usePredefinedColor: false,
             ),
-          if (showNext)
             NavigationTypeButton(
-              label: TypeDataList.next(context).getName(context),
+              label: TypeDataList.arrange(context).getName(context),
               selectedLabel: '',
-              onPressed: onNextButtonPressed,
-              assetPath: TypeDataList
-                  .next(context)
-                  .assetPath,
+              onPressed: onArrangeButtonPressed,
+              assetPath: TypeDataList.arrange(context).assetPath,
               isFromMyCloset: false,
               buttonType: ButtonType.secondary,
               usePredefinedColor: false,
             ),
-        ],
+            if (showPrevious)
+              NavigationTypeButton(
+                label: TypeDataList.previous(context).getName(context),
+                selectedLabel: '',
+                onPressed: onPreviousButtonPressed,
+                assetPath: TypeDataList.previous(context).assetPath,
+                isFromMyCloset: false,
+                buttonType: ButtonType.secondary,
+                usePredefinedColor: false,
+              ),
+            if (showNext)
+              NavigationTypeButton(
+                label: TypeDataList.next(context).getName(context),
+                selectedLabel: '',
+                onPressed: onNextButtonPressed,
+                assetPath: TypeDataList.next(context).assetPath,
+                isFromMyCloset: false,
+                buttonType: ButtonType.secondary,
+                usePredefinedColor: false,
+              ),
+            NavigationTypeButton(
+              label: TypeDataList.createOutfit(context).getName(context),
+              selectedLabel: '',
+              onPressed: onCreateOutfitButtonPressed,
+              assetPath: TypeDataList.createOutfit(context).assetPath,
+              isFromMyCloset: false,
+              buttonType: ButtonType.secondary,
+              usePredefinedColor: false,
+            ),
+          ],
+        ),
       ),
     );
   }

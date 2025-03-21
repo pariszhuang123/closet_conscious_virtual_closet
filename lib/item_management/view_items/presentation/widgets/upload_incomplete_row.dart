@@ -28,6 +28,8 @@ class UploadIncompleteRow extends StatelessWidget {
         // Apparel count button with tooltip
         CustomTooltip(
           message: itemUploadData.getName(context),
+          position: TooltipPosition.left,
+          theme: theme,
           child: NumberTypeButton(
             count: apparelCount,
             assetPath: itemUploadData.assetPath ?? '',

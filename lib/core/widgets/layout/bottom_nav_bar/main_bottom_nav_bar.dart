@@ -39,7 +39,7 @@ class MainBottomNavBar extends StatelessWidget {
     return BottomNavigationBar(
       items: [
         BottomNavigationBarItem(
-          icon: const Icon(Icons.dry_cleaning_outlined),
+          icon: const Icon(Icons.dry_cleaning),
           label: S.of(context).myClosetTitle,
         ),
         BottomNavigationBarItem(

@@ -60,3 +60,5 @@ enum ClosetSelectionMode {
   action,
   disabled,
 }
+
+enum TooltipPosition { left, center, right }

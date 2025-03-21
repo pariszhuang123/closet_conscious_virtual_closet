@@ -8,7 +8,7 @@ final ThemeData myClosetTheme = ThemeData(
   ).copyWith(
     primary: Colors.teal.shade900, // Closest to #366D59
     onPrimary: Colors.lime.shade50,
-    primaryContainer: Colors.teal.shade100, // Closest to #255743
+    primaryContainer: Colors.teal.shade900, // Closest to #255743
     secondary: Colors.teal.shade500, // Closest to #A0D6B4
     onSecondary: Colors.blueGrey.shade900,
     secondaryContainer: Colors.teal.shade100,

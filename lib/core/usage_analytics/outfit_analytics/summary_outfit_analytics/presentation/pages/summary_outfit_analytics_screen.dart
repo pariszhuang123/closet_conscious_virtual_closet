@@ -14,7 +14,7 @@ import '../../../../core/presentation/bloc/filtered_outfit_cubit/filtered_outfit
 import '../../widgets/summary_outfit_analytics_feature_container.dart';
 import '../../../../../../core/widgets/button/themed_elevated_button.dart';
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
-import '../../../../../../outfit_management/outfit_calendar/core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
+import '../../../../../../outfit_management/core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
 import '../../../../../widgets/feedback/custom_snack_bar.dart';
 import '../../../../../theme/my_outfit_theme.dart';
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';

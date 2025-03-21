@@ -24,6 +24,7 @@ class ClosetGrid extends StatelessWidget {
     required this.selectedClosetId,
     required this.onSelectCloset,
     required this.crossAxisCount, // Add crossAxisCount as a required parameter
+
   }) : _logger = CustomLogger('ClosetGrid');
 
   final CustomLogger _logger;
@@ -32,8 +33,8 @@ class ClosetGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageSize = ImageHelper.getImageSize(crossAxisCount);
     final showItemName = !(crossAxisCount == 5 || crossAxisCount == 7);
-    final childAspectRatio = (crossAxisCount == 5 || crossAxisCount == 7) ? 4 / 5 : 2 / 3;
-
+    final childAspectRatio =  (crossAxisCount == 5 || crossAxisCount == 7) ? 1 /
+        1 : 2.15 / 3;
     if (closets.isEmpty) {
       return Center(child: Text(S.of(context).noClosetsAvailable));
     }
@@ -52,6 +53,7 @@ class ClosetGrid extends StatelessWidget {
           itemId: closet.closetId,
           imageSize: imageSize,
           isSelected: isSelected,
+          isOutfit: false,
           isDisliked: false,
           onPressed: () {
             _logger.i('Closet selected: ${closet.closetName}');
