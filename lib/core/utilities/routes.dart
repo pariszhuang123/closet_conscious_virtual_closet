@@ -11,6 +11,7 @@ import '../../item_management/edit_item/presentation/pages/edit_item_provider.da
 import '../../item_management/pending_items/edit_pending_item/presentation/pages/edit_pending_item_provider.dart';
 import '../../item_management/pending_items/core/presentation/pages/pending_items_scaffold.dart';
 import '../../item_management/pending_items/view_pending_items/presentation/pages/view_pending_item_provider.dart';
+import '../../core/photo_library/presentation/pages/pending_photo_library_provider.dart';
 import '../../item_management/multi_closet/core/presentation/pages/multi_closet_scaffold.dart';
 import '../../item_management/multi_closet/view_multi_closet/presentation/pages/view_multi_closet_provider.dart';
 import '../../item_management/multi_closet/create_multi_closet/presentation/pages/create_multi_closet_provider.dart';
@@ -53,8 +54,9 @@ class AppRoutes {
   static const String selfiePhoto = '/selfie_photo';
   static const String editPhoto = '/edit_photo';
   static const String editClosetPhoto = '/edit_closet_photo';
-  static const String editPendingItem = '/edit_pending_item';
+  static const String pendingPhotoLibrary = '/pending_photo_library';
   static const String viewPendingItem = '/view_pending_item';
+  static const String editPendingItem = '/edit_pending_item';
   static const String infoHub = '/info_hub';
   static const String achievementPage = '/achievements';
   static const String payment = '/payment';
@@ -194,14 +196,12 @@ class AppRoutes {
           builder: (_) => EditItemProvider(itemId: itemId),
         );
 
-      case editPendingItem:
-        final args = settings.arguments as Map<String, dynamic>? ?? {};
-        final String itemId = args['itemId'] as String? ?? '';
-        logger.d("Navigating to editPendingItem with itemId: $itemId");
+      case pendingPhotoLibrary:
 
         return MaterialPageRoute(
           builder: (_) => PendingItemsScaffold(
-            body: EditPendingItemProvider(itemId: itemId),
+            body: const PendingPhotoLibraryProvider(
+            ),
           ),
         );
 
@@ -214,6 +214,18 @@ class AppRoutes {
             ),
           ),
         );
+
+      case editPendingItem:
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        final String itemId = args['itemId'] as String? ?? '';
+        logger.d("Navigating to editPendingItem with itemId: $itemId");
+
+        return MaterialPageRoute(
+          builder: (_) => PendingItemsScaffold(
+            body: EditPendingItemProvider(itemId: itemId),
+          ),
+        );
+
 
       case viewMultiCloset:
           final args = settings.arguments as Map<String, dynamic>? ?? {};

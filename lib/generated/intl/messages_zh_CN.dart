@@ -505,6 +505,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "permanentCloset": MessageLookupByLibrary.simpleMessage("永久衣橱"),
         "permission_needed":
             MessageLookupByLibrary.simpleMessage("此权限是应用正常运行所必需的。"),
+        "photo_library_permission_explanation":
+            MessageLookupByLibrary.simpleMessage("我们需要访问您的相册，以便您可以选择并上传喜爱的穿搭。"),
         "pleaseCorrectTheErrors":
             MessageLookupByLibrary.simpleMessage("请更正表单中的错误。"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),

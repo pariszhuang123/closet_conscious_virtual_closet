@@ -254,6 +254,7 @@
   "camera_edit_item_permission_explanation": "允许我们使用您的相机来更新物品照片。",
   "camera_selfie_permission_explanation": "允许访问您的相机，以便与您的服装拍摄自拍。",
   "camera_permission_explanation": "相机权限是拍摄照片所必需的。",
+  "photo_library_permission_explanation": "我们需要访问您的相册，以便您可以选择并上传喜爱的穿搭。",
   "general_permission_explanation": "我们需要此权限以使应用正常工作。",
   "open_settings": "打开设置",
   "noImage": "没有图片",

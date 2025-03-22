@@ -98,7 +98,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   }
 
   void _onUploadButtonPressed() {
-    Navigator.pushNamed(context, AppRoutes.viewPendingItem);
+    Navigator.pushNamed(context, AppRoutes.pendingPhotoLibrary);
   }
 
   void _onPhotoButtonPressed() {

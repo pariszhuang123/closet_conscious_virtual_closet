@@ -575,6 +575,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Permanent Closet"),
         "permission_needed": MessageLookupByLibrary.simpleMessage(
             "This permission is\nrequired for the app\nto function properly."),
+        "photo_library_permission_explanation":
+            MessageLookupByLibrary.simpleMessage(
+                "We need access to your photo library so you can select and upload your favorite outfits."),
         "pleaseCorrectTheErrors": MessageLookupByLibrary.simpleMessage(
             "Please correct the errors in the form."),
         "pleaseEnterItemName":

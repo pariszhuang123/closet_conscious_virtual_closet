@@ -8,7 +8,7 @@ import '../../../data/services/core_save_services.dart';
 import '../../../utilities/logger.dart';
 import '../../../core_enums.dart';
 import '../../usecase/photo_capture_service.dart';
-import '../../presentation/widgets/camera_permission_helper.dart';
+import '../../../utilities/helper_functions/permission_helper/camera_permission_helper.dart';
 
 part 'photo_event.dart';
 part 'photo_state.dart';

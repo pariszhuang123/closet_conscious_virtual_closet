@@ -2590,6 +2590,16 @@ class S {
     );
   }
 
+  /// `We need access to your photo library so you can select and upload your favorite outfits.`
+  String get photo_library_permission_explanation {
+    return Intl.message(
+      'We need access to your photo library so you can select and upload your favorite outfits.',
+      name: 'photo_library_permission_explanation',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `We need this permission to make the app work properly.`
   String get general_permission_explanation {
     return Intl.message(

@@ -77,6 +77,36 @@ class ItemSaveService {
     }
   }
 
+  Future<bool> uploadPendingItemsMetadata(List<String> imageUrls) async {
+    logger.i('Attempting to upload pending items with ${imageUrls.length} image(s)');
+
+    if (imageUrls.isEmpty) {
+      logger.w('Image URL list is empty. Skipping upload.');
+      return false;
+    }
+
+    try {
+      final response = await SupabaseConfig.client.rpc(
+        'upload_pending_items_metadata',
+        params: {
+          '_image_urls': imageUrls,
+        },
+      );
+
+      logger.i('RPC upload_pending_items_metadata response: $response');
+
+      if (response is bool) {
+        return response;
+      } else {
+        logger.e('Unexpected RPC return type: ${response.runtimeType}');
+        return false;
+      }
+    } catch (e, stack) {
+      logger.e('Error during RPC call to upload_pending_items_metadata: $e\n$stack');
+      return false;
+    }
+  }
+
   Future<bool> editItemMetadata({
     required String itemId,
     required String itemType,

@@ -3,34 +3,31 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../utilities/permission_service.dart';
 import '../../../widgets/dialog/settings_dialog.dart';
 import '../../../utilities/logger.dart'; // Import CustomLogger
-import '../../../core_enums.dart';
 
-class CameraPermissionHelper {
+class LibraryPermissionHelper {
   final PermissionService _permissionService = PermissionService();
-  final CustomLogger _logger = CustomLogger('CameraPermissionHelper'); // Initialize CustomLogger
+  final CustomLogger _logger = CustomLogger('LibraryPermissionHelper'); // Initialize CustomLogger
 
   Future<bool> checkAndRequestPermission({
-    required BuildContext context, // Named parameter for context
-    ThemeData? theme, // Make theme nullable
-    required CameraPermissionContext cameraContext, // Named parameter for camera context
-    required VoidCallback onClose, // Named parameter for the onClose callback
+    required BuildContext context, // Required context
+    ThemeData? theme, // Optional theme
+    required VoidCallback onClose, // Callback for when settings dialog is closed
   }) async {
-    _logger.i('Checking camera permission...');
+    _logger.i('Checking photo library permission...');
 
-    // Capture necessary data from the context before the async operation
+    // Capture explanation before async operation
     String explanation = _permissionService.getPermissionExplanation(
       context,
-      Permission.camera,
-      cameraContext: cameraContext,
+      Permission.photos,
     );
     _logger.d('Permission explanation: $explanation');
 
-    // Check camera permission
-    PermissionStatus status = await _permissionService.checkPermission(Permission.camera);
-    _logger.i('Camera permission status: $status');
+    // Check permission status
+    PermissionStatus status = await _permissionService.checkPermission(Permission.photos);
+    _logger.i('Photo library permission status: $status');
 
     if (status.isGranted) {
-      _logger.i('Camera permission granted.');
+      _logger.i('Photo library permission granted.');
       return true;
     }
 
@@ -39,7 +36,7 @@ class CameraPermissionHelper {
       if (context.mounted) {
         SettingsDialog.show(
           context: context,
-          permission: Permission.camera,
+          permission: Permission.photos,
           theme: theme,
           explanation: explanation,
           onClose: onClose,
@@ -49,7 +46,6 @@ class CameraPermissionHelper {
       return false;
     }
 
-    // Return false if permission is restricted, limited, or any other status
     return false;
   }
 }

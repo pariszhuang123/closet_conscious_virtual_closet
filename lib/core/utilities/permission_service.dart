@@ -16,7 +16,7 @@ class PermissionService {
     return status;
   }
 
-  // Request a single permission
+  // Request permission for Camera or Photo Library
   Future<PermissionStatus> requestPermission(Permission permission) async {
     _logger.i('Requesting permission: ${permission.toString()}');
     PermissionStatus status = await permission.request();
@@ -54,6 +54,8 @@ class PermissionService {
               .of(context)
               .camera_permission_explanation; // General explanation if no context is provided
       }
+    } else if (permission == Permission.photos) {
+      explanation = S.of(context).photo_library_permission_explanation;
     } else {
       explanation = S
           .of(context)
