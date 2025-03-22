@@ -16,13 +16,13 @@ class PendingPhotoLibraryScreen extends StatefulWidget {
   const PendingPhotoLibraryScreen({super.key});
 
   @override
-  State<PendingPhotoLibraryScreen> createState() => _PendingPhotoLibraryScreen();
+  State<PendingPhotoLibraryScreen> createState() =>
+      _PendingPhotoLibraryScreen();
 }
 
 class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
   final _logger = CustomLogger('PendingItemGridScreen');
   final ScrollController _scrollController = ScrollController();
-
   late MultiSelectionItemCubit _multiSelectionCubit;
 
   @override
@@ -32,12 +32,15 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
     context.read<PhotoLibraryBloc>().add(RequestLibraryPermission());
   }
 
-  void _uploadSelectedImages(List<String> selectedIds,
-      List<AssetEntity> allAssets) {
-    final selectedAssets = allAssets.where((asset) =>
-        selectedIds.contains(asset.id)).toList();
-    context.read<PhotoLibraryBloc>().add(
-        UploadSelectedLibraryImages(assets: selectedAssets));
+  void _uploadSelectedImages(
+      List<String> selectedIds,
+      List<AssetEntity> allAssets,
+      ) {
+    final selectedAssets =
+    allAssets.where((asset) => selectedIds.contains(asset.id)).toList();
+    context
+        .read<PhotoLibraryBloc>()
+        .add(UploadSelectedLibraryImages(assets: selectedAssets));
   }
 
   Future<List<ClosetItemMinimal>> _convertAssetsToItems(
@@ -63,8 +66,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
 
         if (state is PhotoLibraryLoadingImages ||
             state is PhotoLibraryUploading) {
-          _logger.d(
-              'Showing ClosetProgressIndicator due to loading/uploading state');
+          _logger.d('Showing ClosetProgressIndicator due to loading/uploading state');
           return const ClosetProgressIndicator();
         }
 
@@ -81,62 +83,59 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
               }
 
               final items = snapshot.data!;
-              _logger.i('Converted assets to ClosetItemMinimal: ${items
-                  .length} items');
+              _logger.i('Converted ${items.length} assets to ClosetItemMinimal');
 
               _multiSelectionCubit.initializeSelection([]);
 
               return Column(
-                  children: [
-                    Expanded(
-                      child: BlocBuilder<
-                          MultiSelectionItemCubit,
-                          MultiSelectionItemState>(
-                        builder: (context, selectionState) {
-                          _logger.d('Building grid with ${selectionState
-                              .selectedItemIds.length} selected');
-                          return InteractiveItemGrid(
-                            scrollController: _scrollController,
-                            items: items,
-                            crossAxisCount: 3,
-                            selectedItemIds: selectionState.selectedItemIds,
-                            itemSelectionMode: ItemSelectionMode.multiSelection,
-                            onAction: () {},
-                            enablePricePerWear: false,
-                            enableItemName: false,
-                            isOutfit: false,
-                          );
-                        },
-                      ),
+                children: [
+                  const SizedBox(height: 12),
+                  Expanded(
+                    child: BlocBuilder<MultiSelectionItemCubit,
+                        MultiSelectionItemState>(
+                      builder: (context, selectionState) {
+                        _logger.d('Building grid with ${selectionState.selectedItemIds.length} selected');
+
+                        return InteractiveItemGrid(
+                          scrollController: _scrollController,
+                          items: items,
+                          crossAxisCount: 3,
+                          selectedItemIds: selectionState.selectedItemIds,
+                          itemSelectionMode: ItemSelectionMode.multiSelection,
+                          onAction: () {}, // Add if needed
+                          enablePricePerWear: false,
+                          enableItemName: false,
+                          isOutfit: false,
+                          isLocalImage: true,
+                        );
+                      },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: BlocBuilder<
-                          MultiSelectionItemCubit,
-                          MultiSelectionItemState>(
-                        builder: (context, selectionState) {
-                          _logger.d(
-                              'Upload button ${selectionState.hasSelectedItems
-                                  ? "enabled"
-                                  : "disabled"}');
-                          return ThemedElevatedButton(
-                            onPressed: selectionState.hasSelectedItems
-                                ? () {
-                              _logger.i(
-                                  'Uploading ${selectionState.selectedItemIds
-                                      .length} selected items');
-                              _uploadSelectedImages(
-                                  selectionState.selectedItemIds, assets);
-                            }
-                                : null,
-                            text: S
-                                .of(context).upload,
-                          );
-                        },
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: BlocBuilder<MultiSelectionItemCubit,
+                        MultiSelectionItemState>(
+                      builder: (context, selectionState) {
+                        _logger.d(
+                            'Upload button ${selectionState.hasSelectedItems ? "enabled" : "disabled"}');
+
+                        return ThemedElevatedButton(
+                          onPressed: selectionState.hasSelectedItems
+                              ? () {
+                            _logger.i('Uploading ${selectionState.selectedItemIds.length} selected items');
+                            _uploadSelectedImages(
+                              selectionState.selectedItemIds,
+                              assets,
+                            );
+                          }
+                              : null,
+                          text: S.of(context).upload,
+                        );
+                      },
                     ),
-                  ],
-                );
+                  ),
+                ],
+              );
             },
           );
         }

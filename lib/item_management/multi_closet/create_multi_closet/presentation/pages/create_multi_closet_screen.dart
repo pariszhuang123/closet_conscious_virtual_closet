@@ -247,6 +247,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
                           itemSelectionMode: ItemSelectionMode.multiSelection,
                           selectedItemIds: widget.selectedItemIds,
                           isOutfit: false,
+                          isLocalImage: false,
                         );
                       } else {
                         return Center(child: Text(S

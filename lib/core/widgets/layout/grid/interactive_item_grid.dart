@@ -24,7 +24,7 @@ class InteractiveItemGrid extends StatelessWidget {
   final bool enableItemName; // ✅ New parameter to control item name visibility
   final VoidCallback? onInactiveTap; // New callback for inactive items
   final bool isOutfit;
-
+  final bool isLocalImage;
 
   InteractiveItemGrid({
     super.key,
@@ -37,7 +37,8 @@ class InteractiveItemGrid extends StatelessWidget {
     this.enablePricePerWear = false, // ✅ Default to false so other screens don’t show price per wear
     this.enableItemName = true, // ✅ Default to true to show item Name unless explicitly enabled
     this.onInactiveTap, // Accept the callback
-    required this.isOutfit
+    required this.isOutfit,
+    required this.isLocalImage
 
 
   }) : _logger = CustomLogger('ItemGrid');
@@ -119,6 +120,7 @@ class InteractiveItemGrid extends StatelessWidget {
                 isSelected: isSelected,
                 isDisliked: item.isDisliked,
                 imageSize: imageSize,
+                isLocalImage: isLocalImage, // 👈 Use it here
                 showItemName: showItemName,
                 showPricePerWear: showPricePerWear, // ✅ New parameter
                 isOutfit: isOutfit,
@@ -145,6 +147,7 @@ class InteractiveItemGrid extends StatelessWidget {
                 isSelected: isSelected,
                 isDisliked: item.isDisliked,
                 imageSize: imageSize,
+                isLocalImage: isLocalImage, // 👈 Use it here
                 showItemName: showItemName,
                 showPricePerWear: showPricePerWear,
                 isOutfit: isOutfit,

@@ -81,6 +81,7 @@ class ViewPendingItemScreenState extends State<ViewPendingItemScreen> {
                                         enablePricePerWear: false, // Set to true if price per wear should be visible
                                         enableItemName: false, // Set to false if you don't want item names displayed
                                         isOutfit: false,
+                                          isLocalImage: false,
                                           onAction: () {
                                           _onItemSelected(
                                               context); // ✅ Call when an item is tapped

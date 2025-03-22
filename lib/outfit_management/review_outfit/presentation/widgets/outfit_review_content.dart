@@ -103,6 +103,7 @@ class OutfitReviewContent extends StatelessWidget {
                         crossAxisCount: crossAxisCount,
                         selectedItemIds: context.watch<MultiSelectionItemCubit>().state.selectedItemIds,
                         isOutfit: false,
+                        isLocalImage: false,
                         itemSelectionMode: loadedState.canSelectItems
                             ? ItemSelectionMode.multiSelection
                             : ItemSelectionMode.disabled,

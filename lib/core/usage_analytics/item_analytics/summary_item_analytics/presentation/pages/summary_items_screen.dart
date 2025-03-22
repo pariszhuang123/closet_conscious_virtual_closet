@@ -303,6 +303,7 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                               itemSelectionMode: itemSelectionMode,
                               selectedItemIds: widget.selectedItemIds,
                               isOutfit: false,
+                              isLocalImage: false,
                               onAction: () {
                                 _onItemSelected(
                                     context); // ✅ Call when an item is tapped

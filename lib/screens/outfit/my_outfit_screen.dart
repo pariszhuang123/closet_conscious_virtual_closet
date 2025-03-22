@@ -513,6 +513,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                                 crossAxisCount: crossAxisCount,
                                 selectedItemIds: widget.selectedItemIds,
                                 isOutfit: false,
+                                isLocalImage: false,
                               );
                             }
                           },

@@ -99,6 +99,7 @@ void main() {
               selectedItemIds: const [],
               itemSelectionMode: ItemSelectionMode.multiSelection,
               isOutfit: false,
+              isLocalImage: false,
               items: items,
               crossAxisCount: 3,
             ),

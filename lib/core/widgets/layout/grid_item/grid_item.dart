@@ -13,6 +13,7 @@ class GridItem extends StatelessWidget {
   final bool showItemName;
   final bool showPricePerWear; // ✅ New parameter
   final bool isOutfit;
+  final bool isLocalImage; // 👈 Add this
 
   final CustomLogger _logger = CustomLogger('GridItem');
 
@@ -25,7 +26,8 @@ class GridItem extends StatelessWidget {
     required this.imageSize,
     required this.showItemName,
     required this.showPricePerWear, // ✅ Accept the new parameter
-    required this.isOutfit
+    required this.isOutfit,
+    required this.isLocalImage, // 👈 Pass it down from the screen
   });
 
   @override
@@ -46,7 +48,8 @@ class GridItem extends StatelessWidget {
       isOutfit: isOutfit,
       getItemName: (item) => item.name,
       getItemId: (item) => item.itemId,
-      getImageUrl: (item) => item.imageUrl,
+      getImagePath: (item) => item.imageUrl, // ✅ Updated
+      isLocalImage: isLocalImage, // 👈 Use it here
       getIsActive: (item) => item.itemIsActive, // ✅ Pass isActive to BaseGridItem
       getPricePerWear: (item) => item.pricePerWear, // ✅ Add this line
     );

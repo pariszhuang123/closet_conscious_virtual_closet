@@ -7,7 +7,8 @@ import '../../../widgets/container/selected_container.dart';
 import '../../../utilities/number_formatter.dart';
 
 class EnhancedUserPhoto extends StatelessWidget {
-  final String imageUrl;
+  final String imagePath;
+  final bool isLocalImage;
   final bool isSelected;
   final bool isDisliked;
   final VoidCallback onPressed;
@@ -22,7 +23,8 @@ class EnhancedUserPhoto extends StatelessWidget {
 
   EnhancedUserPhoto({
     super.key,
-    required this.imageUrl,
+    required this.imagePath,
+    required this.isLocalImage,
     required this.isSelected,
     required this.isDisliked,
     required this.onPressed,
@@ -57,7 +59,8 @@ class EnhancedUserPhoto extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(2.0),
                 child: UserPhoto(
-                  imageUrl: imageUrl,
+                  imageUrl: isLocalImage ? null : imagePath,
+                  localImagePath: isLocalImage ? imagePath : null,
                   imageSize: imageSize,),
               ),
             if (itemName != null || pricePerWear != null) ...[

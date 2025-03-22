@@ -169,6 +169,7 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
                                         selectedItemIds: const [], // No selection
                                         itemSelectionMode: ItemSelectionMode.disabled, // No selection
                                         isOutfit: false,
+                                        isLocalImage: false,
                                       );
                                     },
                                   );

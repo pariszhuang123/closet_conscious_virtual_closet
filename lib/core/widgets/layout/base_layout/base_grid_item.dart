@@ -14,7 +14,8 @@ class BaseGridItem<T> extends StatelessWidget {
   final bool showPricePerWear;
   final String Function(T item) getItemName;
   final String Function(T item) getItemId;
-  final String Function(T item) getImageUrl;
+  final String Function(T item) getImagePath;
+  final bool isLocalImage;
   final bool Function(T item)? getIsActive; // ✅ Optional function to check if active
   final double? Function(T item)? getPricePerWear; // ✅ Optional function
   final bool isOutfit; // ✅ Added isOutfit flag
@@ -32,7 +33,8 @@ class BaseGridItem<T> extends StatelessWidget {
     required this.showPricePerWear,
     required this.getItemName,
     required this.getItemId,
-    required this.getImageUrl,
+    required this.getImagePath, // ✅ renamed
+    required this.isLocalImage, // ✅ new
     this.getIsActive, // ✅ Allow checking if item is active
     this.getPricePerWear, // ✅ Optional
     required this.isOutfit, // ✅ Default to false
@@ -53,7 +55,8 @@ class BaseGridItem<T> extends StatelessWidget {
       child: GrayscaleWrapper(
         applyGrayscale: !isActive, // ✅ Apply grayscale when item is inactive
         child: EnhancedUserPhoto(
-          imageUrl: getImageUrl(item),
+          imagePath: getImagePath(item),
+          isLocalImage: isLocalImage, // ✅ screen determines this
           isSelected: isSelected,
           isDisliked: isDisliked,
           isOutfit: isOutfit,

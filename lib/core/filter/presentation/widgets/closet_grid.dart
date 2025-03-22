@@ -48,7 +48,8 @@ class ClosetGrid extends StatelessWidget {
         final isSelected = closet.closetId == selectedClosetId;
 
         return EnhancedUserPhoto(
-          imageUrl: closet.closetImage,
+          imagePath: closet.closetImage,     // ✅ Supabase image path
+          isLocalImage: false,               // ✅ Since it's from Supabase
           itemName: showItemName ? closet.closetName : null,
           itemId: closet.closetId,
           imageSize: imageSize,

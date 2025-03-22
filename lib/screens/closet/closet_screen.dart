@@ -378,6 +378,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                                   enablePricePerWear: false, // Set to true if price per wear should be visible
                                   enableItemName: true, // Set to false if you don't want item names displayed
                                   isOutfit: false,
+                                    isLocalImage: false,
                                     onAction: () {
                                       _onItemSelected(
                                           context); // ✅ Call when an item is tapped

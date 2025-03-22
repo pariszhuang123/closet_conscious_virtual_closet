@@ -42,7 +42,8 @@ class GridClosetItem extends StatelessWidget {
       isOutfit: false,
       getItemName: (item) => item.closetName,
       getItemId: (item) => item.closetId,
-      getImageUrl: (item) => item.closetImage,
+      getImagePath: (item) => item.closetImage, // ✅ correct param name
+      isLocalImage: false, // ✅ since we know these images come from Supabase
     );
   }
 }

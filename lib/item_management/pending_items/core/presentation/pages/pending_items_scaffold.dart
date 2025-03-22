@@ -38,7 +38,9 @@ class PendingItemsScaffold extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium, // Apply theme styling
           ),
         ),
-        body: body, // Render the dynamic body
+        body: SafeArea( // ✅ This ensures the child screen respects the system UI
+          child: body,
+        ),
       ),
     );
   }
