@@ -11,6 +11,7 @@ import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../../widgets/layout/grid/interactive_item_grid.dart';
 import '../../../widgets/button/themed_elevated_button.dart';
 import '../../../../generated/l10n.dart';
+import '../../../data/models/image_source.dart';
 
 class PendingPhotoLibraryScreen extends StatefulWidget {
   const PendingPhotoLibraryScreen({super.key});
@@ -43,13 +44,17 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
         .add(UploadSelectedLibraryImages(assets: selectedAssets));
   }
 
-  Future<List<ClosetItemMinimal>> _convertAssetsToItems(
-      List<AssetEntity> assets) async {
+  Future<List<ClosetItemMinimal>> _convertAssetsToItems(List<AssetEntity> assets) async {
     return Future.wait(assets.map((asset) async {
       final file = await asset.file;
+
+      final imageSource = file != null
+          ? ImageSource.localFile(file.path) // ✅ use local path for limited access
+          : ImageSource.assetEntity(asset);  // ✅ fallback to AssetEntity for full access or no file
+
       return ClosetItemMinimal(
         itemId: asset.id,
-        imageUrl: file?.path ?? '',
+        imageSource: imageSource,
         name: "cc_none",
         itemIsActive: true,
       );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:photo_manager/photo_manager.dart';
 
 import '../../../../data/services/core_fetch_services.dart';
 import '../../../../core_enums.dart';
@@ -9,6 +10,7 @@ import '../../../../utilities/helper_functions/image_helper.dart';
 class UserPhoto extends StatelessWidget {
   final String? imageUrl;       // for remote
   final String? localImagePath; // for local
+  final AssetEntity? asset;     // for photo library
   final ImageSize imageSize;
 
   final CoreFetchService fetchService = CoreFetchService();
@@ -17,13 +19,41 @@ class UserPhoto extends StatelessWidget {
     super.key,
     this.imageUrl,
     this.localImagePath,
+    this.asset,
     required this.imageSize,
-  }) : assert(imageUrl != null || localImagePath != null, 'Provide at least one image source');
+  }) : assert(imageUrl != null || localImagePath != null || asset != null, 'Provide at least one image source');
 
   @override
   Widget build(BuildContext context) {
 
     final dimensions = ImageHelper.getDimensions(imageSize);
+
+    if (asset != null) {
+      return FutureBuilder<File?>(
+        future: asset!.file,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const ClosetProgressIndicator();
+          } else if (snapshot.hasData) {
+            final file = snapshot.data!;
+            return Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Image.file(
+                  file,
+                  fit: BoxFit.cover,
+                  width: 114,
+                  height: 114,
+                ),
+              ),
+            );
+          } else {
+            return const Icon(Icons.broken_image);
+          }
+        },
+      );
+    }
 
     if (localImagePath != null) {
       final file = File(localImagePath!);

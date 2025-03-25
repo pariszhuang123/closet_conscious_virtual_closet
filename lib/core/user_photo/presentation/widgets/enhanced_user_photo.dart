@@ -5,10 +5,10 @@ import '../../../core_enums.dart';
 import '../../../utilities/logger.dart';
 import '../../../widgets/container/selected_container.dart';
 import '../../../utilities/number_formatter.dart';
+import '../../../data/models/image_source.dart';
 
 class EnhancedUserPhoto extends StatelessWidget {
-  final String imagePath;
-  final bool isLocalImage;
+  final ImageSource imageSource;
   final bool isSelected;
   final bool isDisliked;
   final VoidCallback onPressed;
@@ -23,8 +23,7 @@ class EnhancedUserPhoto extends StatelessWidget {
 
   EnhancedUserPhoto({
     super.key,
-    required this.imagePath,
-    required this.isLocalImage,
+    required this.imageSource,
     required this.isSelected,
     required this.isDisliked,
     required this.onPressed,
@@ -59,8 +58,9 @@ class EnhancedUserPhoto extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(2.0),
                 child: UserPhoto(
-                  imageUrl: isLocalImage ? null : imagePath,
-                  localImagePath: isLocalImage ? imagePath : null,
+                  imageUrl: imageSource.isRemote ? imageSource.path : null,
+                  localImagePath: imageSource.isLocalFile ? imageSource.path : null,
+                  asset: imageSource.isAsset ? imageSource.asset : null,
                   imageSize: imageSize,),
               ),
             if (itemName != null || pricePerWear != null) ...[

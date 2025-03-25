@@ -1,8 +1,9 @@
 import 'package:equatable/equatable.dart';
+import '../../../../core/data/models/image_source.dart';
 
 class ClosetItemMinimal extends Equatable {
   final String itemId;
-  final String imageUrl;
+  final ImageSource imageSource; // ✅ use wrapper instead of imageUrl
   final String name;
   final String? itemType;
   final double? pricePerWear;
@@ -11,7 +12,7 @@ class ClosetItemMinimal extends Equatable {
 
   const ClosetItemMinimal({
     required this.itemId,
-    required this.imageUrl,
+    required this.imageSource, // ✅ wrapped image source
     required this.name,
     this.itemType,
     this.pricePerWear, // Renamed field
@@ -22,7 +23,7 @@ class ClosetItemMinimal extends Equatable {
   factory ClosetItemMinimal.fromMap(Map<String, dynamic> map) {
     return ClosetItemMinimal(
       itemId: map['item_id'] as String,
-      imageUrl: map['image_url'] as String,
+      imageSource: ImageSource.remote(map['image_url'] as String), // ✅ wrap remote URL
       name: map['name'] as String,
       itemType: map['item_type'] as String?, // Allow nullable casting
       pricePerWear: (map['price_per_wear'] as num?)?.toDouble(), // ✅ Convert to double safely
@@ -35,7 +36,7 @@ class ClosetItemMinimal extends Equatable {
 
   ClosetItemMinimal copyWith({
     String? itemId,
-    String? imageUrl,
+    ImageSource? imageSource,
     String? name,
     String? itemType,
     double? pricePerWear, // Updated field
@@ -44,7 +45,7 @@ class ClosetItemMinimal extends Equatable {
   }) {
     return ClosetItemMinimal(
       itemId: itemId ?? this.itemId,
-      imageUrl: imageUrl ?? this.imageUrl,
+        imageSource: imageSource ?? this.imageSource,
       name: name ?? this.name,
       itemType: itemType ?? this.itemType,
       pricePerWear: pricePerWear ?? this.pricePerWear, // Updated field
@@ -54,6 +55,6 @@ class ClosetItemMinimal extends Equatable {
   }
 
   @override
-  List<Object?> get props => [itemId, imageUrl, name, itemType, pricePerWear, isDisliked, itemIsActive];
+  List<Object?> get props => [itemId, imageSource, name, itemType, pricePerWear, isDisliked, itemIsActive];
 }
 

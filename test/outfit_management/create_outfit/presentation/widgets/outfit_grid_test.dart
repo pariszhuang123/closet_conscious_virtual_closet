@@ -12,6 +12,7 @@ import 'package:closet_conscious/core/user_photo/presentation/widgets/enhanced_u
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:closet_conscious/generated/l10n.dart';
 import 'package:closet_conscious/core/widgets/layout/grid/interactive_item_grid.dart';
+import 'package:closet_conscious/core/data/models/image_source.dart';
 
 // 1. Define Fake Classes for Events and States
 class FakeCreateOutfitItemEvent extends Fake implements FetchOutfitItemEvent {}
@@ -215,13 +216,13 @@ void main() {
         final items = [
           const ClosetItemMinimal(
             itemId: '1',
-            imageUrl: 'url1',
+            imageSource: ImageSource.remote('url1'),
             name: 'Item 1',
             itemType: 'clothing',
           ),
           const ClosetItemMinimal(
             itemId: '2',
-            imageUrl: 'url2',
+            imageSource: ImageSource.remote('url1'),
             name: 'Item 2',
             itemType: 'clothing',
           ),
@@ -276,7 +277,7 @@ void main() {
               (index) =>
               ClosetItemMinimal(
                 itemId: index.toString(),
-                imageUrl: 'url$index',
+                imageSource: ImageSource.remote('url$index'), // ✅ updated
                 name: 'Item $index',
                 itemType: 'clothing',
               ),
@@ -333,7 +334,7 @@ void main() {
         final items = [
           const ClosetItemMinimal(
             itemId: '1',
-            imageUrl: 'url1',
+            imageSource: ImageSource.remote('url1'),
             name: 'Item 1',
             itemType: 'clothing',
           ),

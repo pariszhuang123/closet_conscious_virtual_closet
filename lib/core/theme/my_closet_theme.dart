@@ -14,7 +14,7 @@ final ThemeData myClosetTheme = ThemeData(
     secondaryContainer: Colors.teal.shade100,
     surface: Colors.lime.shade50,
     onSurface: Colors.teal.shade900,
-    error: Colors.red.shade200,
+    error: Colors.red.shade700 ,
     onError: Colors.lime.shade50,
   ),
   dividerColor: Colors.teal.shade900,

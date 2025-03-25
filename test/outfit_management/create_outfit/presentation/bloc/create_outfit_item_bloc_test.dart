@@ -9,6 +9,7 @@ import 'package:closet_conscious/outfit_management/fetch_outfit_items/presentati
 import 'package:closet_conscious/outfit_management/core/data/services/outfits_fetch_services.dart';
 import 'package:closet_conscious/outfit_management/core/data/services/outfits_save_services.dart';
 import 'package:closet_conscious/outfit_management/core/outfit_enums.dart';
+import 'package:closet_conscious/core/data/models/image_source.dart';
 
 
 class MockOutfitFetchService extends Mock implements OutfitFetchService {}
@@ -43,47 +44,42 @@ void main() {
       expect(bloc.state, FetchOutfitItemState.initial());
     });
 
+    // ✅ Helper function
+    List<ClosetItemMinimal> mockNineClothingItems() {
+      return List.generate(9, (index) {
+        final id = '${index + 1}';
+        return ClosetItemMinimal(
+          itemId: id,
+          imageSource: ImageSource.remote('url$id'),
+          name: 'item$id',
+          itemType: 'clothing',
+        );
+      });
+    }
+
+    final items = mockNineClothingItems();
+
     blocTest<FetchOutfitItemBloc, FetchOutfitItemState>(
       'emits states [inProgress, success] when FetchMoreItemsEvent is successful and a full batch of 9 items is fetched',
       build: () {
         // Mock the service to return exactly 9 items
         when(() => mockOutfitFetchService.fetchCreateOutfitItemsRPC(any(), any()))
-            .thenAnswer((_) async => [
-          const ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', itemType: 'clothing'),
-          const ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', itemType: 'clothing'),
-          const ClosetItemMinimal(itemId: '3', imageUrl: 'url3', name: 'item3', itemType: 'clothing'),
-          const ClosetItemMinimal(itemId: '4', imageUrl: 'url4', name: 'item4', itemType: 'clothing'),
-          const ClosetItemMinimal(itemId: '5', imageUrl: 'url5', name: 'item5', itemType: 'clothing'),
-          const ClosetItemMinimal(itemId: '6', imageUrl: 'url6', name: 'item6', itemType: 'clothing'),
-          const ClosetItemMinimal(itemId: '7', imageUrl: 'url7', name: 'item7', itemType: 'clothing'),
-          const ClosetItemMinimal(itemId: '8', imageUrl: 'url8', name: 'item8', itemType: 'clothing'),
-          const ClosetItemMinimal(itemId: '9', imageUrl: 'url9', name: 'item9', itemType: 'clothing'),
-        ]);
+            .thenAnswer((_) async => items);
         return bloc;
       },
       act: (bloc) => bloc.add(FetchMoreItemsEvent()),
       expect: () => [
-        // Expect the state to have 9 items for the given category and hasReachedMax = false
         bloc.state.copyWith(
           categoryItems: {
-            OutfitItemCategory.clothing: [
-              const ClosetItemMinimal(itemId: '1', imageUrl: 'url1', name: 'item1', itemType: 'clothing'),
-              const ClosetItemMinimal(itemId: '2', imageUrl: 'url2', name: 'item2', itemType: 'clothing'),
-              const ClosetItemMinimal(itemId: '3', imageUrl: 'url3', name: 'item3', itemType: 'clothing'),
-              const ClosetItemMinimal(itemId: '4', imageUrl: 'url4', name: 'item4', itemType: 'clothing'),
-              const ClosetItemMinimal(itemId: '5', imageUrl: 'url5', name: 'item5', itemType: 'clothing'),
-              const ClosetItemMinimal(itemId: '6', imageUrl: 'url6', name: 'item6', itemType: 'clothing'),
-              const ClosetItemMinimal(itemId: '7', imageUrl: 'url7', name: 'item7', itemType: 'clothing'),
-              const ClosetItemMinimal(itemId: '8', imageUrl: 'url8', name: 'item8', itemType: 'clothing'),
-              const ClosetItemMinimal(itemId: '9', imageUrl: 'url9', name: 'item9', itemType: 'clothing'),
-            ]
+            OutfitItemCategory.clothing: items
           },
-          categoryPages: {OutfitItemCategory.clothing: 1}, // Increment page count for the category
-          categoryHasReachedMax: {OutfitItemCategory.clothing: false}, // False because we fetched a full batch
+          categoryPages: {OutfitItemCategory.clothing: 1},
+          categoryHasReachedMax: {OutfitItemCategory.clothing: false},
           saveStatus: SaveStatus.success,
         ),
       ],
     );
+
 
 
     blocTest<FetchOutfitItemBloc, FetchOutfitItemState>(
@@ -110,7 +106,7 @@ void main() {
         )).thenAnswer((_) async => [
           const ClosetItemMinimal(
             itemId: '1',
-            imageUrl: 'url1',
+            imageSource: ImageSource.remote('url1'),
             name: 'item1',
             itemType: 'clothing',
           ),
@@ -147,7 +143,7 @@ void main() {
             OutfitItemCategory.clothing: [
               ClosetItemMinimal(
                 itemId: '1',
-                imageUrl: 'url1',
+                imageSource: ImageSource.remote('url1'),
                 name: 'item1',
                 itemType: 'clothing',
               ),

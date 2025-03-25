@@ -15,7 +15,7 @@ final ThemeData myOutfitTheme = ThemeData(
     secondaryContainer: Colors.blueAccent.shade100,
     surface: Colors.lime.shade50,
     onSurface: Colors.purple.shade700,
-    error: Colors.red.shade200,
+    error: Colors.red.shade700,
     onError: Colors.lime.shade50,
   ),
   dividerColor: Colors.purple.shade700,

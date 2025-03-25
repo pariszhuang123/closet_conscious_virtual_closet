@@ -5,6 +5,7 @@ import '../../../core/data/models/outfit_data.dart';
 import '../../../../core/core_enums.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../core/utilities/helper_functions/image_helper.dart';
 
 class OutfitDisplayWidget extends StatelessWidget {
   final OutfitData outfit;
@@ -21,21 +22,22 @@ class OutfitDisplayWidget extends StatelessWidget {
     final logger = CustomLogger('OutfitDisplayWidget');
     logger.i('Building OutfitDisplayWidget for outfitId: ${outfit.outfitId}.');
 
-    // ✅ Ignore "cc_none" and treat as no outfit image
     final bool hasValidOutfitImage =
         outfit.outfitImageUrl != null && outfit.outfitImageUrl != "cc_none";
 
-    if (outfit.items == null) {
+    final firstItem = outfit.items?.isNotEmpty == true ? outfit.items!.first : null;
+    final String? itemImagePath = firstItem != null
+        ? getImagePathFromSource(firstItem.imageSource)
+        : null;
+
+    final bool hasValidItemImage = itemImagePath != null && itemImagePath.isNotEmpty;
+
+    if (firstItem == null) {
       logger.e('❌ No item found in OutfitData for outfitId: ${outfit.outfitId}');
     } else {
-      logger.i('✅ Found item: ${outfit.items!.first.name}, imageUrl: ${outfit.items!.first.imageUrl}');
+      logger.i('✅ Found item: ${firstItem.name}, imagePath: $itemImagePath');
     }
 
-    // ✅ If `outfit.item` exists, use it (Calendar case)
-    final bool hasValidItemImage =
-        outfit.items != null && outfit.items!.first.imageUrl.isNotEmpty;
-
-    // ✅ Log when no valid image is found
     if (!hasValidOutfitImage && !hasValidItemImage) {
       logger.w('Outfit ${outfit.outfitId} has no outfit image and no valid item image.');
     }
@@ -45,14 +47,14 @@ class OutfitDisplayWidget extends StatelessWidget {
       key: ValueKey('outfit-image-${outfit.outfitId}'),
       imageUrl: outfit.outfitImageUrl!,
       imageSize: imageSize,
-      isActive: outfit.isActive ?? true, // ✅ Default true
+      isActive: outfit.isActive ?? true,
     )
         : hasValidItemImage
         ? OutfitImageWidget(
       key: ValueKey('outfit-item-image-${outfit.outfitId}'),
-      imageUrl: outfit.items!.first.imageUrl,
+      imageUrl: itemImagePath,
       imageSize: imageSize,
-      isActive: outfit.items!.first.itemIsActive, // ✅ Ensure default value
+      isActive: firstItem!.itemIsActive,
     )
         : Center(
       child: Text(

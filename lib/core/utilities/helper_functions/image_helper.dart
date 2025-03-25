@@ -1,4 +1,5 @@
 import '../../core_enums.dart';
+import '../../data/models/image_source.dart';
 
 class ImageHelper {
   /// Returns the width and height for a given [ImageSize].
@@ -75,4 +76,14 @@ class ImageHelper {
         return ImageSize.itemGrid3;
     }
   }
+}
+
+String? getImagePathFromSource(ImageSource source) {
+  if (source.isRemote || source.isLocalFile) {
+    return source.path;
+  } else if (source.isAsset) {
+    // AssetEntity doesn't have a direct path; this is for display logic
+    return 'asset:${source.asset?.id ?? ''}';
+  }
+  return null;
 }

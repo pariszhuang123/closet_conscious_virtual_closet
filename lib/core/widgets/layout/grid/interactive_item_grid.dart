@@ -120,7 +120,6 @@ class InteractiveItemGrid extends StatelessWidget {
                 isSelected: isSelected,
                 isDisliked: item.isDisliked,
                 imageSize: imageSize,
-                isLocalImage: isLocalImage, // 👈 Use it here
                 showItemName: showItemName,
                 showPricePerWear: showPricePerWear, // ✅ New parameter
                 isOutfit: isOutfit,
@@ -147,7 +146,6 @@ class InteractiveItemGrid extends StatelessWidget {
                 isSelected: isSelected,
                 isDisliked: item.isDisliked,
                 imageSize: imageSize,
-                isLocalImage: isLocalImage, // 👈 Use it here
                 showItemName: showItemName,
                 showPricePerWear: showPricePerWear,
                 isOutfit: isOutfit,

@@ -6,6 +6,7 @@ import '../../../core/data/models/calendar_metadata.dart';
 import '../../../core/data/models/monthly_calendar_response.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../core/outfit_enums.dart';
+import '../../../../core/data/models/image_source.dart';
 
 class OutfitFetchService {
   final SupabaseClient client;
@@ -65,7 +66,7 @@ class OutfitFetchService {
       return response.map((item) =>
           ClosetItemMinimal(
             itemId: item['item_id'],
-            imageUrl: item['image_url'],
+            imageSource: ImageSource.remote(item['image_url']), // ✅ Correct usage
             name: item['name'],
           )).toList();
     } else {

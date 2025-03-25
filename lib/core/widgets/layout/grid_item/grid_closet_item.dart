@@ -3,6 +3,7 @@ import '../base_layout/base_grid_item.dart';
 import '../../../../item_management/multi_closet/core/data/models/multi_closet_minimal.dart';
 import '../../../../core/core_enums.dart';
 import '../../../utilities/logger.dart';
+import '../../../data/models/image_source.dart';
 
 class GridClosetItem extends StatelessWidget {
   final MultiClosetMinimal item;
@@ -42,8 +43,7 @@ class GridClosetItem extends StatelessWidget {
       isOutfit: false,
       getItemName: (item) => item.closetName,
       getItemId: (item) => item.closetId,
-      getImagePath: (item) => item.closetImage, // ✅ correct param name
-      isLocalImage: false, // ✅ since we know these images come from Supabase
+      getImageSource: (item) => ImageSource.remote(item.closetImage),
     );
   }
 }

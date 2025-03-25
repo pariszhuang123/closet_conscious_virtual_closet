@@ -9,6 +9,7 @@ import '../../../core/data/services/outfits_fetch_services.dart';
 import '../../../core/data/services/outfits_save_services.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/utilities/helper_functions/feedback_utilities.dart';
+import '../../../../core/utilities/helper_functions/image_helper.dart';
 
 part 'outfit_review_state.dart';
 part 'outfit_review_event.dart';
@@ -149,7 +150,7 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       final outfitItems = await _outfitFetchService.fetchOutfitItems(outfitId);
       _logger.i('Fetched outfit items:');
       for (var item in outfitItems) {
-        _logger.i('Item: ${item.name}, ID: ${item.itemId}, Image URL: ${item.imageUrl}');
+        _logger.i('Item: ${item.name}, ID: ${item.itemId}, Image URL: ${getImagePathFromSource(item.imageSource)}');
       }
 
       if (!emit.isDone) {

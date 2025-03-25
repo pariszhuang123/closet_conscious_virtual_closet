@@ -6,6 +6,7 @@ import '../../../../core/utilities/logger.dart';
 import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';
 import '../../../../item_management/multi_closet/core/data/models/multi_closet_minimal.dart';
 import '../../../../generated/l10n.dart';
+import '../../../data/models/image_source.dart';
 
 class ClosetGrid extends StatelessWidget {
   final List<MultiClosetMinimal> closets; // List of closets as MultiCloset objects
@@ -48,8 +49,7 @@ class ClosetGrid extends StatelessWidget {
         final isSelected = closet.closetId == selectedClosetId;
 
         return EnhancedUserPhoto(
-          imagePath: closet.closetImage,     // ✅ Supabase image path
-          isLocalImage: false,               // ✅ Since it's from Supabase
+          imageSource: ImageSource.remote(closet.closetImage), // ✅ fixed
           itemName: showItemName ? closet.closetName : null,
           itemId: closet.closetId,
           imageSize: imageSize,
