@@ -12,13 +12,13 @@ import '../../../widgets/layout/grid/interactive_item_grid.dart';
 import '../../../widgets/button/themed_elevated_button.dart';
 import '../../../../generated/l10n.dart';
 import '../../../data/models/image_source.dart';
+import '../../../user_photo/presentation/widgets/base/user_photo.dart';
 
 class PendingPhotoLibraryScreen extends StatefulWidget {
   const PendingPhotoLibraryScreen({super.key});
 
   @override
-  State<PendingPhotoLibraryScreen> createState() =>
-      _PendingPhotoLibraryScreen();
+  State<PendingPhotoLibraryScreen> createState() => _PendingPhotoLibraryScreen();
 }
 
 class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
@@ -29,28 +29,41 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
   @override
   void initState() {
     super.initState();
+    _logger.i('initState - initializing PendingPhotoLibraryScreen');
     _multiSelectionCubit = context.read<MultiSelectionItemCubit>();
     context.read<PhotoLibraryBloc>().add(RequestLibraryPermission());
   }
 
-  void _uploadSelectedImages(
-      List<String> selectedIds,
-      List<AssetEntity> allAssets,
-      ) {
-    final selectedAssets =
-    allAssets.where((asset) => selectedIds.contains(asset.id)).toList();
-    context
-        .read<PhotoLibraryBloc>()
-        .add(UploadSelectedLibraryImages(assets: selectedAssets));
+  void _uploadSelectedImages(List<String> selectedIds, List<AssetEntity> allAssets) {
+    _logger.i('Preparing to upload. Selected IDs: $selectedIds');
+
+    final selectedAssets = allAssets.where((asset) {
+      final selected = selectedIds.contains(asset.id);
+      if (selected) {
+        _logger.d('Selected asset for upload: ${asset.id}');
+      }
+      return selected;
+    }).toList();
+
+    _logger.i('Total assets selected for upload: ${selectedAssets.length}');
+    context.read<PhotoLibraryBloc>().add(UploadSelectedLibraryImages(assets: selectedAssets));
   }
 
   Future<List<ClosetItemMinimal>> _convertAssetsToItems(List<AssetEntity> assets) async {
+    _logger.i('Converting ${assets.length} assets to ClosetItemMinimal');
+
     return Future.wait(assets.map((asset) async {
       final file = await asset.file;
 
+      if (file != null) {
+        _logger.d('Asset ${asset.id} resolved to file: ${file.path}');
+      } else {
+        _logger.w('Asset ${asset.id} had no accessible file, falling back to assetEntity');
+      }
+
       final imageSource = file != null
-          ? ImageSource.localFile(file.path) // ✅ use local path for limited access
-          : ImageSource.assetEntity(asset);  // ✅ fallback to AssetEntity for full access or no file
+          ? ImageSource.localFile(file.path)
+          : ImageSource.assetEntity(asset);
 
       return ClosetItemMinimal(
         itemId: asset.id,
@@ -62,6 +75,13 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
   }
 
   @override
+  void dispose() {
+    _logger.i('Disposing PendingPhotoLibraryScreen - clearing UserPhoto cache');
+    UserPhoto.clearCache(); // 👈 clear the static in-memory image cache
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _logger.d('Building PendingPhotoLibraryScreen');
 
@@ -69,8 +89,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
       builder: (context, state) {
         _logger.i('PhotoLibraryBloc state: ${state.runtimeType}');
 
-        if (state is PhotoLibraryLoadingImages ||
-            state is PhotoLibraryUploading) {
+        if (state is PhotoLibraryLoadingImages || state is PhotoLibraryUploading) {
           _logger.d('Showing ClosetProgressIndicator due to loading/uploading state');
           return const ClosetProgressIndicator();
         }
@@ -78,6 +97,10 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
         if (state is PhotoLibraryImagesLoaded) {
           final assets = state.images;
           _logger.i('Loaded ${assets.length} assets');
+
+          for (final asset in assets) {
+            _logger.d('Loaded assetId: ${asset.id}');
+          }
 
           return FutureBuilder<List<ClosetItemMinimal>>(
             future: _convertAssetsToItems(assets),
@@ -96,38 +119,42 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
                 children: [
                   const SizedBox(height: 12),
                   Expanded(
-                    child: BlocBuilder<MultiSelectionItemCubit,
-                        MultiSelectionItemState>(
+                    child: BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
                       builder: (context, selectionState) {
                         _logger.d('Building grid with ${selectionState.selectedItemIds.length} selected');
+                        _logger.d('Selected item IDs: ${selectionState.selectedItemIds}');
 
-                        return InteractiveItemGrid(
-                          scrollController: _scrollController,
-                          items: items,
-                          crossAxisCount: 3,
-                          selectedItemIds: selectionState.selectedItemIds,
-                          itemSelectionMode: ItemSelectionMode.multiSelection,
-                          onAction: () {}, // Add if needed
-                          enablePricePerWear: false,
-                          enableItemName: false,
-                          isOutfit: false,
-                          isLocalImage: true,
+                        return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+
+                            child: InteractiveItemGrid(
+                              scrollController: _scrollController,
+                              items: items,
+                              crossAxisCount: 3,
+                              selectedItemIds: selectionState.selectedItemIds,
+                              itemSelectionMode: ItemSelectionMode.multiSelection,
+                              onAction: () {}, // Optional: Add action if needed
+                              enablePricePerWear: false,
+                              enableItemName: false,
+                              isOutfit: false,
+                              isLocalImage: true,
+                            )
                         );
                       },
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: BlocBuilder<MultiSelectionItemCubit,
-                        MultiSelectionItemState>(
+                    child: BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
                       builder: (context, selectionState) {
-                        _logger.d(
-                            'Upload button ${selectionState.hasSelectedItems ? "enabled" : "disabled"}');
+                        final hasItems = selectionState.hasSelectedItems;
+                        _logger.d('Upload button is ${hasItems ? "enabled" : "disabled"}');
 
                         return ThemedElevatedButton(
-                          onPressed: selectionState.hasSelectedItems
+                          onPressed: hasItems
                               ? () {
-                            _logger.i('Uploading ${selectionState.selectedItemIds.length} selected items');
+                            _logger.i('Upload button clicked');
+                            _logger.i('Selected item IDs to upload: ${selectionState.selectedItemIds}');
                             _uploadSelectedImages(
                               selectionState.selectedItemIds,
                               assets,
@@ -145,7 +172,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
           );
         }
 
-        _logger.w('Unhandled state: $state');
+        _logger.w('Unhandled state in PhotoLibraryBloc: $state');
         return const ClosetProgressIndicator();
       },
     );

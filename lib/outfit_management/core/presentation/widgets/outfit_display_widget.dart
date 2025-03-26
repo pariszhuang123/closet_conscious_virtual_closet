@@ -5,7 +5,7 @@ import '../../../core/data/models/outfit_data.dart';
 import '../../../../core/core_enums.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../generated/l10n.dart';
-import '../../../../core/utilities/helper_functions/image_helper.dart';
+import '../../../../core/utilities/helper_functions/image_helper/image_helper.dart';
 
 class OutfitDisplayWidget extends StatelessWidget {
   final OutfitData outfit;

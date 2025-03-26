@@ -21,7 +21,7 @@ import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outf
 import '../../../../../../outfit_management/core/data/models/outfit_data.dart';
 import '../../../../../../outfit_management/core/presentation/bloc/multi_selection_outfit_cubit/multi_selection_outfit_cubit.dart';
 import '../../../../../core_enums.dart';
-import '../../../../../utilities/helper_functions/image_helper.dart';
+import '../../../../../utilities/helper_functions/image_helper/image_helper.dart';
 
 class SummaryOutfitAnalyticsScreen extends StatefulWidget {
   final bool isFromMyCloset;

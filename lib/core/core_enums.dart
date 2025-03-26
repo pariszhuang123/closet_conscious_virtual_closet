@@ -68,3 +68,8 @@ enum ImageSourceType {
   localFile,
   assetEntity,
 }
+
+enum ImagePurpose {
+  preview,
+  upload,
+}

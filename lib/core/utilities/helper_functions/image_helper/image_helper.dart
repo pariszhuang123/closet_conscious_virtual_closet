@@ -1,5 +1,5 @@
-import '../../core_enums.dart';
-import '../../data/models/image_source.dart';
+import '../../../core_enums.dart';
+import '../../../data/models/image_source.dart';
 
 class ImageHelper {
   /// Returns the width and height for a given [ImageSize].

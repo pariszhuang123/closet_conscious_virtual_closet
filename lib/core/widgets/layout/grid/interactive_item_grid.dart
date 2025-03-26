@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../utilities/helper_functions/image_helper.dart';
+import '../../../utilities/helper_functions/image_helper/image_helper.dart';
 import '../../../utilities/logger.dart';
 import '../base_layout/base_grid.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';

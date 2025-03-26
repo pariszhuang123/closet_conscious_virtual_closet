@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utilities/helper_functions/image_helper.dart';
+import '../../utilities/helper_functions/image_helper/image_helper.dart';
 import '../../core_enums.dart';
 
 BoxDecoration customBoxDecoration({

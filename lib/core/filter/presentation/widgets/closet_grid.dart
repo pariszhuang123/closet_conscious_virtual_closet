@@ -1,6 +1,6 @@
-import 'package:closet_conscious/core/utilities/helper_functions/image_helper.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/utilities/helper_functions/image_helper/image_helper.dart';
 import '../../../../core/widgets/layout/base_layout/base_grid.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/user_photo/presentation/widgets/enhanced_user_photo.dart';

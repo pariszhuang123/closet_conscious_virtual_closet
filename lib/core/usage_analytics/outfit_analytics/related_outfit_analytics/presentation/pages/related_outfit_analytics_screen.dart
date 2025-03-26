@@ -16,7 +16,7 @@ import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage
 import '../../../../../paywall/data/feature_key.dart';
 import '../../../../../core_enums.dart';
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
-import '../../../../../utilities/helper_functions/image_helper.dart';
+import '../../../../../utilities/helper_functions/image_helper/image_helper.dart';
 
 class RelatedOutfitAnalyticsScreen extends StatelessWidget {
   final bool isFromMyCloset;

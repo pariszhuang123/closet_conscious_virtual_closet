@@ -9,7 +9,7 @@ import '../../../core/data/services/outfits_fetch_services.dart';
 import '../../../core/data/services/outfits_save_services.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/utilities/helper_functions/feedback_utilities.dart';
-import '../../../../core/utilities/helper_functions/image_helper.dart';
+import '../../../../core/utilities/helper_functions/image_helper/image_helper.dart';
 
 part 'outfit_review_state.dart';
 part 'outfit_review_event.dart';
