@@ -6,8 +6,12 @@ class RequestLibraryPermission extends PhotoLibraryEvent {}
 
 class InitializePhotoLibrary extends PhotoLibraryEvent {}
 
-class LoadLibraryImages extends PhotoLibraryEvent {}
+class LoadNextLibraryImagePage extends PhotoLibraryEvent {
+  final int page;
+  final int size;
 
+  LoadNextLibraryImagePage({required this.page, required this.size});
+}
 class ToggleLibraryImageSelection extends PhotoLibraryEvent {
   final AssetEntity image;
   ToggleLibraryImageSelection({required this.image});

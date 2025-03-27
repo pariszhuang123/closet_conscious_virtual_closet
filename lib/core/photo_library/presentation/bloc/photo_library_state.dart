@@ -8,17 +8,22 @@ class PhotoLibraryPermissionDenied extends PhotoLibraryState {}
 
 class PhotoLibraryLoadingImages extends PhotoLibraryState {}
 
-class PhotoLibraryImagesLoaded extends PhotoLibraryState {
-  final List<AssetEntity> images;
+
+class PhotoLibraryPageLoaded extends PhotoLibraryState {
+  final List<AssetEntity> allLoadedImages;
+  final List<AssetEntity> newImages;
   final List<AssetEntity> selectedImages;
   final int apparelCount;
   final int maxAllowed;
+  final bool hasReachedEnd;
 
-  PhotoLibraryImagesLoaded({
-    required this.images,
+  PhotoLibraryPageLoaded({
+    required this.allLoadedImages,
+    required this.newImages,
     required this.selectedImages,
     required this.apparelCount,
     required this.maxAllowed,
+    required this.hasReachedEnd,
   });
 }
 
