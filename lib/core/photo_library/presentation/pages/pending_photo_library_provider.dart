@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/photo_library_bloc.dart';
 import '../../usecase/photo_library_service.dart';
 import '../../../data/services/core_save_services.dart';
-import '../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
-import '../../../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
+import '../../../data/services/core_fetch_services.dart';
 import 'pending_photo_library_screen.dart';
+import '../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
 
 import 'package:get_it/get_it.dart';
 
@@ -19,6 +19,12 @@ class PendingPhotoLibraryProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<NavigateCoreBloc>(
+          create: (context) => NavigateCoreBloc(
+            coreFetchService: coreLocator<CoreFetchService>(),  // Access CoreFetchService via GetIt
+            coreSaveService: coreLocator<CoreSaveService>(),    // Access CoreSaveService via GetIt
+          ),
+        ),
         BlocProvider<PhotoLibraryBloc>(
           create: (context) => PhotoLibraryBloc(
             photoLibraryService: PhotoLibraryService(
@@ -26,15 +32,6 @@ class PendingPhotoLibraryProvider extends StatelessWidget {
             ),
           ),
         ),
-        BlocProvider<MultiSelectionItemCubit>(
-          create: (_) => MultiSelectionItemCubit(),
-        ),
-        BlocProvider<SingleSelectionItemCubit>(
-          create: (_) {
-            return SingleSelectionItemCubit();
-          },
-        ),
-
       ],
       child: const PendingPhotoLibraryScreen(),
     );

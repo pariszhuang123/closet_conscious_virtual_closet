@@ -28,6 +28,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m2(error) => "Error: ${error}";
 
+  static String m3(maxAllowed) =>
+      "You can only select up to ${maxAllowed} images.";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "AmountHint": MessageLookupByLibrary.simpleMessage(
@@ -437,6 +440,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loading_text": MessageLookupByLibrary.simpleMessage(
             "Loading... Fashion magic in progress 🧙‍♂️✨"),
         "logOut": MessageLookupByLibrary.simpleMessage("Log Out"),
+        "maxPendingItemsSnackbar": m3,
         "medium": MessageLookupByLibrary.simpleMessage("Medium"),
         "metadata": MessageLookupByLibrary.simpleMessage("More"),
         "metadataFeatureDescription": MessageLookupByLibrary.simpleMessage(

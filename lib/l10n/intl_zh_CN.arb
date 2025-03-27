@@ -1,6 +1,6 @@
 {
   "@@locale": "zh_CN",
-  "AppName": "环保衣橱 🌱",
+  "AppName": "衣格思觉 🌱",
   "tagline": "在衣橱里购物\n爱上你的风格！",
   "shortTagline": "在衣橱里购物",
   "noInternetTitle": "哎呀，您已离线！",
@@ -245,7 +245,7 @@
   "termsAndConditionsUrl": "https://www.notion.so/4d657b804aed4a30a9e5fa71ba0afc78",
   "unableToRetrieveUserId": "无法获取用户ID。请重新登录。",
   "failedToSubmitScore": "提交评分失败。",
-  "recommendClosetConscious": "您有多大可能向朋友推荐环保衣橱？",
+  "recommendClosetConscious": "您有多大可能向朋友推荐衣格思觉？",
   "npsExplanation": "0-10评分:\n0: 不太可能\n10: 非常可能",
   "termsNotAcceptedMessage": "您需要接受条款和条件才能登录。",
   "unknownError": "哎呀，出了点问题。请稍后再试！",
@@ -482,5 +482,6 @@
   "bulkUpload": "批量上传",
   "totalItemsTooltip": "这是您选择的所有物品总数！(当前选择：总数量)",
   "totalCostTooltip": "每件衣物都是一种投资——这是您的总支出！(当前选择：总花费)",
-  "costPerWearTooltip": "穿得越多，越划算！(总花费 ÷ 穿着次数)"
+  "costPerWearTooltip": "穿得越多，越划算！(总花费 ÷ 穿着次数)",
+  "maxPendingItemsSnackbar": "你最多只能选择 {maxAllowed} 张图片。"
 }

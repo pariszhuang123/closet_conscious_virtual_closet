@@ -4,46 +4,86 @@ import 'package:photo_manager/photo_manager.dart';
 import '../../../utilities/logger.dart';
 import '../../usecase/photo_library_service.dart';
 import '../../../../item_management/core/data/services/item_save_service.dart';
+import '../../../utilities/helper_functions/image_helper/image_helper.dart';
+import '../../../../item_management/core/data/services/item_fetch_service.dart';
 
 part 'photo_library_event.dart';
 part 'photo_library_state.dart';
 
 class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
   final PhotoLibraryService _photoLibraryService;
+  final ItemFetchService _itemFetchService;
+
   final CustomLogger _logger = CustomLogger('PhotoLibraryBloc');
 
-  static const int maxSelectableImages = 5;
   final List<AssetEntity> _selectedImages = [];
+  List<AssetEntity> get selectedImages => _selectedImages;
 
-  PhotoLibraryBloc({required PhotoLibraryService photoLibraryService})
+  int _apparelCount = 0;
+  int _maxAllowed = 5;
+
+  PhotoLibraryBloc({
+    required PhotoLibraryService photoLibraryService,
+    ItemFetchService? itemFetchService,
+  })
       : _photoLibraryService = photoLibraryService,
+        _itemFetchService = itemFetchService ?? ItemFetchService(),
         super(PhotoLibraryInitial()) {
     on<RequestLibraryPermission>(_onRequestPermission);
+    on<InitializePhotoLibrary>(_onInitialize);
     on<LoadLibraryImages>(_onLoadImages);
     on<ToggleLibraryImageSelection>(_onToggleSelection);
     on<UploadSelectedLibraryImages>(_onUploadSelectedImages);
   }
 
   Future<void> _onRequestPermission(RequestLibraryPermission event,
-      Emitter<PhotoLibraryState> emit) async {
+      Emitter<PhotoLibraryState> emit,) async {
     _logger.i("Requesting photo library permission...");
     final granted = await _photoLibraryService.requestPhotoPermission();
 
     if (granted) {
-      add(LoadLibraryImages());
+      add(InitializePhotoLibrary());
     } else {
       emit(PhotoLibraryPermissionDenied());
     }
   }
 
+  Future<void> _onInitialize(InitializePhotoLibrary event,
+      Emitter<PhotoLibraryState> emit,) async {
+    _logger.i('Initializing PhotoLibraryBloc and fetching apparel count...');
+
+    try {
+      _apparelCount = await _itemFetchService.fetchApparelCount();
+      _logger.i('Fetched apparel count: $_apparelCount');
+
+      final images = await _photoLibraryService.fetchUserSelectedImages();
+
+      _maxAllowed = calculateDynamicMax(_apparelCount);
+
+      emit(PhotoLibraryImagesLoaded(
+        images: images,
+        selectedImages: _selectedImages,
+        apparelCount: _apparelCount,
+        maxAllowed: _maxAllowed,
+      ));
+    } catch (e) {
+      _logger.e('Failed to initialize PhotoLibraryBloc: $e');
+      emit(PhotoLibraryFailure("Initialization failed."));
+    }
+  }
+
   Future<void> _onLoadImages(LoadLibraryImages event,
-      Emitter<PhotoLibraryState> emit) async {
+      Emitter<PhotoLibraryState> emit,) async {
     emit(PhotoLibraryLoadingImages());
 
     try {
       final images = await _photoLibraryService.fetchUserSelectedImages();
       emit(PhotoLibraryImagesLoaded(
-          images: images, selectedImages: _selectedImages));
+        images: images,
+        selectedImages: _selectedImages,
+        apparelCount: _apparelCount,
+        maxAllowed: _maxAllowed,
+      ));
     } catch (e) {
       _logger.e("Failed to load images: $e");
       emit(PhotoLibraryFailure("Unable to load gallery images."));
@@ -51,17 +91,20 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
   }
 
   void _onToggleSelection(ToggleLibraryImageSelection event,
-      Emitter<PhotoLibraryState> emit) {
+      Emitter<PhotoLibraryState> emit,) {
     final isSelected = _selectedImages.contains(event.image);
+    final List<AssetEntity> images = state is PhotoLibraryImagesLoaded
+        ? (state as PhotoLibraryImagesLoaded).images
+        : <AssetEntity>[]; // Fix: typed empty list
 
-    if (!isSelected && _selectedImages.length >= maxSelectableImages) {
-      _logger.w("Maximum of $maxSelectableImages images can be selected.");
+    if (!isSelected && _selectedImages.length >= _maxAllowed) {
+      _logger.w(
+          "Cannot select more than $_maxAllowed images based on apparel count.");
       emit(PhotoLibraryMaxSelectionReached(
-        images: (state is PhotoLibraryImagesLoaded)
-            ? (state as PhotoLibraryImagesLoaded).images
-            : [],
+        images: images,
         selectedImages: _selectedImages,
-        maxAllowed: maxSelectableImages,
+        maxAllowed: _maxAllowed,
+        apparelCount: _apparelCount,
       ));
       return;
     }
@@ -73,20 +116,34 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     }
 
     emit(PhotoLibraryImagesLoaded(
-      images: (state is PhotoLibraryImagesLoaded)
-          ? (state as PhotoLibraryImagesLoaded).images
-          : [],
+      images: images,
       selectedImages: _selectedImages,
+      apparelCount: _apparelCount,
+      maxAllowed: _maxAllowed,
     ));
   }
 
-  Future<void> _onUploadSelectedImages(UploadSelectedLibraryImages event,
-      Emitter<PhotoLibraryState> emit) async {
+  Future<void> _onUploadSelectedImages(
+      UploadSelectedLibraryImages event,
+      Emitter<PhotoLibraryState> emit,
+      ) async {
+    final totalAfterUpload = _apparelCount + _selectedImages.length;
+
+    // Check for threshold hit
+    if (totalAfterUpload == 100 || totalAfterUpload == 300 || totalAfterUpload == 1000) {
+      _logger.i("Triggering paywall before upload. New total: $totalAfterUpload");
+      emit(PhotoLibraryPaywallTriggered(
+        newTotalItemCount: totalAfterUpload,
+        limit: totalAfterUpload,
+      ));
+      return;
+    }
+
     emit(PhotoLibraryUploading());
 
     try {
-      final imageUrls = await _photoLibraryService.uploadImages(_selectedImages);
-
+      final imageUrls = await _photoLibraryService.uploadImages(
+          _selectedImages);
       final itemSaveService = ItemSaveService();
       final success = await itemSaveService.uploadPendingItemsMetadata(
           imageUrls);

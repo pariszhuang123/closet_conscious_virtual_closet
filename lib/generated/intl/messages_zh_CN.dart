@@ -27,13 +27,15 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m2(error) => "错误：${error}";
 
+  static String m3(maxAllowed) => "你最多只能选择 ${maxAllowed} 张图片。";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "AmountHint": MessageLookupByLibrary.simpleMessage("这件美丽的单品花了多少钱？"),
         "AmountLabel": MessageLookupByLibrary.simpleMessage("金额"),
         "AnalyticsSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("对使用分析感到好奇吗？"),
-        "AppName": MessageLookupByLibrary.simpleMessage("环保衣橱 🌱"),
+        "AppName": MessageLookupByLibrary.simpleMessage("衣格思觉 🌱"),
         "ItemClothingLayerLabel": MessageLookupByLibrary.simpleMessage("服装层次"),
         "ItemClothingTypeLabel": MessageLookupByLibrary.simpleMessage("服装类型"),
         "ItemColourLabel": MessageLookupByLibrary.simpleMessage("颜色"),
@@ -380,6 +382,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loading_text":
             MessageLookupByLibrary.simpleMessage("加载中... 时尚魔法正在进行中 🧙‍♂️✨"),
         "logOut": MessageLookupByLibrary.simpleMessage("登出"),
+        "maxPendingItemsSnackbar": m3,
         "medium": MessageLookupByLibrary.simpleMessage("中色"),
         "metadata": MessageLookupByLibrary.simpleMessage("更多"),
         "metadataFeatureDescription":
@@ -541,7 +544,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "我们考虑添加高级筛选功能，以帮助您更快找到物品。这个功能好吗？"),
         "rainbow": MessageLookupByLibrary.simpleMessage("彩虹色"),
         "recommendClosetConscious":
-            MessageLookupByLibrary.simpleMessage("您有多大可能向朋友推荐环保衣橱？"),
+            MessageLookupByLibrary.simpleMessage("您有多大可能向朋友推荐衣格思觉？"),
         "red": MessageLookupByLibrary.simpleMessage("红色"),
         "relatedOutfits": MessageLookupByLibrary.simpleMessage("相关穿搭"),
         "reservedClosetNameError": MessageLookupByLibrary.simpleMessage(

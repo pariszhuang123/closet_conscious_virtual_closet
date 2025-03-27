@@ -87,3 +87,10 @@ String? getImagePathFromSource(ImageSource source) {
   }
   return null;
 }
+
+int calculateDynamicMax(int apparelCount) {
+  if (apparelCount >= 1000) return 1; // allow 1 to trigger paywall
+  if (apparelCount >= 300) return (1000 - apparelCount).clamp(1, 5);
+  if (apparelCount >= 100) return (300 - apparelCount).clamp(1, 5);
+  return (100 - apparelCount).clamp(1, 5);
+}

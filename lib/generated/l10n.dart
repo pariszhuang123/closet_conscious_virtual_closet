@@ -4880,6 +4880,16 @@ class S {
       args: [],
     );
   }
+
+  /// `You can only select up to {maxAllowed} images.`
+  String maxPendingItemsSnackbar(Object maxAllowed) {
+    return Intl.message(
+      'You can only select up to $maxAllowed images.',
+      name: 'maxPendingItemsSnackbar',
+      desc: '',
+      args: [maxAllowed],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
