@@ -12,6 +12,10 @@ class LoadNextLibraryImagePage extends PhotoLibraryEvent {
 
   LoadNextLibraryImagePage({required this.page, required this.size});
 }
+
+// 👇 Internal event to mark bloc ready after first page load
+class _MarkReadyAfterFirstPage extends PhotoLibraryEvent {}
+
 class ToggleLibraryImageSelection extends PhotoLibraryEvent {
   final AssetEntity image;
   ToggleLibraryImageSelection({required this.image});

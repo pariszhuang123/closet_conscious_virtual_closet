@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-
 import '../../../utilities/logger.dart';
 import '../../usecase/photo_library_service.dart';
 import '../../../../item_management/core/data/services/item_save_service.dart';
@@ -38,22 +37,21 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     _logger.i("PhotoLibraryBloc initialized");
 
     pagingController = PagingController<int, ClosetItemMinimal>(
-      getNextPageKey: (PagingState<int, ClosetItemMinimal> state) {
+      getNextPageKey: (state) {
         final pages = state.pages ?? [];
         _logger.d("Determining next page key, current page count: ${pages.length}");
-
         if (pages.isEmpty) {
           _logger.d("First page requested.");
           return 0;
-        } else {
-          final lastPageItems = pages.last;
-          if (lastPageItems.length < _pageSize) {
-            _logger.i("End of list reached. No more pages.");
-            return null;
-          }
-          _logger.d("Next page index: ${pages.length}");
-          return pages.length;
         }
+        final lastPageItems = pages.last;
+        if (lastPageItems.length < _pageSize) {
+          _logger.i("End of list reached.");
+          return null;
+        }
+        final nextPageKey = pages.length;
+        _logger.d("Next page index: $nextPageKey");
+        return nextPageKey;
       },
       fetchPage: (pageKey) async {
         _logger.i("Fetching page $pageKey...");
@@ -77,20 +75,41 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
           }));
 
           _logger.d("Converted ${items.length} assets to ClosetItemMinimal");
-
           _allAssets.addAll(newAssets);
+
+          // Log details of the returned items
+          _logger.d("Returning ${items.length} items from fetchPage callback for page $pageKey");
+
+          // Emit ready state after first page is fetched (only once)
+          if (state is PhotoLibraryLoadingImages && pageKey == 0) {
+            _logger.i("First page loaded, marking state as ready.");
+            add(_MarkReadyAfterFirstPage());
+          }
           return items;
         } catch (error, stack) {
-          _logger.e("Failed to load images: $error\n$stack");
+          _logger.e("Failed to load images on page $pageKey: $error\n$stack");
           rethrow;
         }
       },
     );
 
+    // Detailed listener to log PagingController state updates
+    pagingController.addListener(() {
+      final pages = pagingController.value.pages ?? [];
+      final keys = pagingController.value.keys;
+      _logger.d('PagingController updated: ${pages.length} page(s) in memory. Pages detail: ${pages.map((page) => page.length).toList()}, Keys: $keys');
+    });
+
     on<RequestLibraryPermission>(_onRequestPermission);
     on<InitializePhotoLibrary>(_onInitialize);
     on<ToggleLibraryImageSelection>(_onToggleSelection);
     on<UploadSelectedLibraryImages>(_onUploadSelectedImages);
+
+    // Internal event to transition away from loading state
+    on<_MarkReadyAfterFirstPage>((_, emit) {
+      _logger.i("Emitting PhotoLibraryReady state.");
+      emit(PhotoLibraryReady());
+    });
   }
 
   Future<void> _onRequestPermission(
@@ -110,7 +129,6 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
       InitializePhotoLibrary event, Emitter<PhotoLibraryState> emit) async {
     _logger.i("Initializing photo library...");
     emit(PhotoLibraryLoadingImages());
-
     try {
       _apparelCount = await _itemFetchService.fetchApparelCount();
       _maxAllowed = calculateDynamicMax(_apparelCount);
@@ -119,7 +137,7 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
       _allAssets.clear();
       _selectedImages.clear();
 
-      pagingController.refresh();
+      pagingController.refresh(); // Triggers fetchPage
       _logger.d("PagingController refresh triggered.");
     } catch (e, stack) {
       _logger.e("Initialization failed: $e\n$stack");
@@ -131,7 +149,6 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
       ToggleLibraryImageSelection event, Emitter<PhotoLibraryState> emit) {
     final isSelected = _selectedImages.contains(event.image);
     _logger.d("Toggling image selection: ${event.image.id}, Currently selected: $isSelected");
-
     if (!isSelected && _selectedImages.length >= _maxAllowed) {
       _logger.w("Max selection reached ($_maxAllowed). Showing warning state.");
       emit(PhotoLibraryMaxSelectionReached(
@@ -142,11 +159,9 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
       ));
       return;
     }
-
     isSelected
         ? _selectedImages.remove(event.image)
         : _selectedImages.add(event.image);
-
     _logger.d("Updated selected images count: ${_selectedImages.length}");
   }
 
@@ -155,7 +170,6 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     _logger.i("Uploading selected images...");
     final totalAfterUpload = _apparelCount + _selectedImages.length;
     _logger.d("Total after upload would be: $totalAfterUpload");
-
     if ([100, 300, 1000].contains(totalAfterUpload)) {
       _logger.i("Paywall triggered at item count: $totalAfterUpload");
       emit(PhotoLibraryPaywallTriggered(
@@ -164,18 +178,13 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
       ));
       return;
     }
-
     emit(PhotoLibraryUploading());
-
     try {
       _logger.d("Starting image upload to Supabase...");
       final imageUrls = await _photoLibraryService.uploadImages(_selectedImages);
       _logger.d("Upload complete. Image URLs: ${imageUrls.length}");
-
       final itemSaveService = ItemSaveService();
-      final success =
-      await itemSaveService.uploadPendingItemsMetadata(imageUrls);
-
+      final success = await itemSaveService.uploadPendingItemsMetadata(imageUrls);
       if (success) {
         _logger.i("Upload success. Metadata saved.");
         emit(PhotoLibraryUploadSuccess());

@@ -49,6 +49,8 @@ class PhotoLibraryPaywallTriggered extends PhotoLibraryState {
 }
 class PhotoLibraryUploading extends PhotoLibraryState {}
 
+class PhotoLibraryReady extends PhotoLibraryState {}
+
 class PhotoLibraryUploadSuccess extends PhotoLibraryState {}
 
 class PhotoLibraryFailure extends PhotoLibraryState {

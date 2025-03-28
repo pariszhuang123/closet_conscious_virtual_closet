@@ -46,77 +46,79 @@ class PendingInteractiveItemGrid extends StatelessWidget {
     final showPricePerWear = enablePricePerWear && !(crossAxisCount == 5 || crossAxisCount == 7);
 
     final bloc = context.read<PhotoLibraryBloc>();
-    final pagingController = bloc.pagingController;
 
-    return PagedGridView<int, ClosetItemMinimal>(
-      state: pagingController.value,
-      fetchNextPage: () {
-        logger.i("Fetching next image page...");
-        pagingController.fetchNextPage();
-      },
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
-        childAspectRatio: childAspectRatio,
-      ),
-      builderDelegate: PagedChildBuilderDelegate<ClosetItemMinimal>(
-        itemBuilder: (context, item, index) {
-          logger.d("Rendering item: index=$index, itemId=${item.itemId}");
+    return ValueListenableBuilder<PagingState<int, ClosetItemMinimal>>(
+      valueListenable: bloc.pagingController,
+      builder: (context, state, child) {
+        logger.d("PagedGridView rebuilding with ${state.pages?.length ?? 0} page(s) loaded");
+        return PagedGridView<int, ClosetItemMinimal>(
+          state: state,
+          fetchNextPage: bloc.pagingController.fetchNextPage,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            childAspectRatio: childAspectRatio,
+          ),
+          builderDelegate: PagedChildBuilderDelegate<ClosetItemMinimal>(
+            itemBuilder: (context, item, index) {
+              logger.d("Rendering item: index=$index, itemId=${item.itemId}");
 
-          final asset = bloc.findAssetById(item.itemId);
-          final isSelected = asset != null &&
-              bloc.selectedImages.any((selected) => selected.id == asset.id);
+              final asset = bloc.findAssetById(item.itemId);
+              final isSelected = asset != null &&
+                  bloc.selectedImages.any((selected) => selected.id == asset.id);
 
-          if (asset == null) {
-            logger.w("Asset not found for itemId: ${item.itemId}");
-          } else {
-            logger.d("Asset found for itemId: ${item.itemId}, isSelected: $isSelected");
-          }
-
-          return GridItem(
-            key: ValueKey('${item.itemId}_$isSelected'),
-            item: item,
-            isSelected: isSelected,
-            isDisliked: item.isDisliked,
-            imageSize: imageSize,
-            showItemName: showItemName,
-            showPricePerWear: showPricePerWear,
-            isOutfit: isOutfit,
-            onItemTapped: () {
-              logger.i("Tapped on itemId: ${item.itemId}");
-              if (asset != null) {
-                logger.d("Dispatching ToggleLibraryImageSelection for itemId: ${item.itemId}");
-                bloc.add(ToggleLibraryImageSelection(image: asset));
+              if (asset == null) {
+                logger.w("Asset not found for itemId: ${item.itemId}");
               } else {
-                logger.w("Could not dispatch ToggleLibraryImageSelection - asset null for itemId: ${item.itemId}");
+                logger.d("Asset found for itemId: ${item.itemId}, isSelected: $isSelected");
               }
+
+              return GridItem(
+                key: ValueKey('${item.itemId}_$isSelected'),
+                item: item,
+                isSelected: isSelected,
+                isDisliked: item.isDisliked,
+                imageSize: imageSize,
+                showItemName: showItemName,
+                showPricePerWear: showPricePerWear,
+                isOutfit: isOutfit,
+                onItemTapped: () {
+                  logger.i("Tapped on itemId: ${item.itemId}");
+                  if (asset != null) {
+                    logger.d("Dispatching ToggleLibraryImageSelection for itemId: ${item.itemId}");
+                    bloc.add(ToggleLibraryImageSelection(image: asset));
+                  } else {
+                    logger.w("Could not dispatch ToggleLibraryImageSelection - asset null for itemId: ${item.itemId}");
+                  }
+                },
+              );
             },
-          );
-        },
-        noItemsFoundIndicatorBuilder: (_) {
-          logger.i("No items found in image grid.");
-          return const Center(child: Text("No photos found"));
-        },
-        firstPageProgressIndicatorBuilder: (_) {
-          logger.i("Loading first page of images...");
-          return const Center(child: CircularProgressIndicator());
-        },
-        newPageProgressIndicatorBuilder: (_) {
-          logger.i("Loading next page of images...");
-          return const Center(child: CircularProgressIndicator());
-        },
-        noMoreItemsIndicatorBuilder: (_) {
-          logger.i("No more pages to load.");
-          return const SizedBox.shrink();
-        },
-        firstPageErrorIndicatorBuilder: (_) {
-          logger.e("Error loading first page of images.");
-          return const Center(child: Text("Failed to load images"));
-        },
-        newPageErrorIndicatorBuilder: (_) {
-          logger.e("Error loading new page of images.");
-          return const Center(child: Text("Failed to load more images"));
-        },
-      ),
+            noItemsFoundIndicatorBuilder: (_) {
+              logger.i("No items found in image grid.");
+              return const Center(child: Text("No photos found"));
+            },
+            firstPageProgressIndicatorBuilder: (_) {
+              logger.i("Loading first page of images...");
+              return const Center(child: CircularProgressIndicator());
+            },
+            newPageProgressIndicatorBuilder: (_) {
+              logger.i("Loading next page of images...");
+              return const Center(child: CircularProgressIndicator());
+            },
+            noMoreItemsIndicatorBuilder: (_) {
+              logger.i("No more pages to load.");
+              return const SizedBox.shrink();
+            },
+            firstPageErrorIndicatorBuilder: (_) {
+              logger.e("Error loading first page of images.");
+              return const Center(child: Text("Failed to load images"));
+            },
+            newPageErrorIndicatorBuilder: (_) {
+              logger.e("Error loading new page of images.");
+              return const Center(child: Text("Failed to load more images"));
+            },
+          ),
+        );
+      },
     );
   }
 }
