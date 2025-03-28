@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -94,6 +95,46 @@ class CoreSaveService {
       }
     } catch (e) {
       logger.e('Error uploading image: $e');
+      return null;
+    }
+  }
+
+  /// Function to upload from local environment to Supabase storage
+  Future<String?> uploadImageFromBytes(Uint8List imageBytes) async {
+    logger.i('Uploading resized image bytes to Supabase storage');
+    try {
+      final authBloc = locator<AuthBloc>();
+      final userId = authBloc.userId;
+
+      if (userId != null) {
+        final uuid = const Uuid().v4();
+        final imagePath = '/$userId/$uuid.jpg';
+
+        await SupabaseConfig.client.storage.from('item_pics').uploadBinary(
+          imagePath,
+          imageBytes,
+          fileOptions: const FileOptions(
+            upsert: true,
+            contentType: 'image/jpeg',
+          ),
+        );
+
+        String imageUrl = SupabaseConfig.client.storage
+            .from('item_pics')
+            .getPublicUrl(imagePath);
+
+        imageUrl = Uri.parse(imageUrl).replace(queryParameters: {
+          't': DateTime.now().millisecondsSinceEpoch.toString()
+        }).toString();
+
+        logger.i('Image uploaded successfully. URL: $imageUrl');
+        return imageUrl;
+      } else {
+        logger.e('User not authenticated, cannot upload image');
+        return null;
+      }
+    } catch (e) {
+      logger.e('Error uploading image from bytes: $e');
       return null;
     }
   }

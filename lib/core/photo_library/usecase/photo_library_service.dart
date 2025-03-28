@@ -1,5 +1,7 @@
-import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:photo_manager/photo_manager.dart';
+import '../../core_enums.dart';
+import '../../utilities/helper_functions/image_helper/image_resize_helper.dart';
 import '../../utilities/logger.dart';
 import '../../data/services/core_save_services.dart';
 
@@ -57,16 +59,20 @@ class PhotoLibraryService {
     }
 
     for (final asset in selectedImages) {
-      final File? file = await asset.file;
-      if (file != null) {
-        final url = await _coreSaveService.uploadImage(file);
+      final Uint8List? resizedBytes = await ImageResizeHelper.getBytesFromAsset(
+        asset: asset,
+        purpose: ImagePurpose.upload,
+      );
+
+      if (resizedBytes != null) {
+        final url = await _coreSaveService.uploadImageFromBytes(resizedBytes);
         if (url != null) {
           uploadedUrls.add(url);
         } else {
           _logger.e("Upload returned null URL for asset: ${asset.id}");
         }
       } else {
-        _logger.e("Failed to get file from asset: ${asset.id}");
+        _logger.e("Failed to get resized bytes from asset: ${asset.id}");
       }
     }
 
