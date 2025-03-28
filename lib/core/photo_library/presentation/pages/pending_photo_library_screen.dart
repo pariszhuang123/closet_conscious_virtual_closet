@@ -93,9 +93,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
 
           if (state is PhotoLibraryFailure) {
             _logger.e('Failure: ${state.error}');
-            return Center(
-              child: Text('Failed to load or upload images: ${state.error}'),
-            );
+            return Center(child: Text(S.of(context).failedToLoadImages));
           }
 
           if (state is PhotoLibraryPermissionDenied) {
@@ -111,7 +109,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
                       _logger.i('Permission button clicked — re-requesting permission');
                       context.read<PhotoLibraryBloc>().add(RequestLibraryPermission());
                     },
-                    child: const Text('Request Permission Again'),
+                      child: Text(S.of(context).photo_library_permission_explanation)
                   ),
                 ],
               ),

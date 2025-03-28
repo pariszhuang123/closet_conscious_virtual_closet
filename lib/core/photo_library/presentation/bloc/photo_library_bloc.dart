@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../utilities/logger.dart';
 import '../../usecase/photo_library_service.dart';
@@ -20,6 +21,7 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
 
   final List<AssetEntity> _allAssets = [];
   final List<AssetEntity> _selectedImages = [];
+  final ValueNotifier<Set<String>> selectedImageIdsNotifier = ValueNotifier({});
   List<AssetEntity> get selectedImages => _selectedImages;
 
   int _apparelCount = 0;
@@ -159,23 +161,30 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
       ));
       return;
     }
-    isSelected
-        ? _selectedImages.remove(event.image)
-        : _selectedImages.add(event.image);
+    if (isSelected) {
+      _selectedImages.remove(event.image);
+      selectedImageIdsNotifier.value = {
+        ...selectedImageIdsNotifier.value,
+      }..remove(event.image.id);
+    } else {
+      _selectedImages.add(event.image);
+      selectedImageIdsNotifier.value = {
+        ...selectedImageIdsNotifier.value,
+        event.image.id,
+      };
+    }
+
     _logger.d("Updated selected images count: ${_selectedImages.length}");
   }
 
   Future<void> _onUploadSelectedImages(
       UploadSelectedLibraryImages event, Emitter<PhotoLibraryState> emit) async {
     _logger.i("Uploading selected images...");
-    final totalAfterUpload = _apparelCount + _selectedImages.length;
-    _logger.d("Total after upload would be: $totalAfterUpload");
-    if ([100, 300, 1000].contains(totalAfterUpload)) {
-      _logger.i("Paywall triggered at item count: $totalAfterUpload");
-      emit(PhotoLibraryPaywallTriggered(
-        newTotalItemCount: totalAfterUpload,
-        limit: totalAfterUpload,
-      ));
+    final apparelCount = _apparelCount;
+    _logger.d("Total current apparel count would be: $apparelCount");
+    if ([100, 300, 1000].contains(apparelCount)) {
+      _logger.i("Paywall triggered at current item count: $apparelCount");
+      emit(PhotoLibraryPaywallTriggered());
       return;
     }
     emit(PhotoLibraryUploading());

@@ -41,12 +41,8 @@ class PhotoLibraryMaxSelectionReached extends PhotoLibraryState {
   });
 }
 
-class PhotoLibraryPaywallTriggered extends PhotoLibraryState {
-  final int newTotalItemCount;
-  final int limit;
+class PhotoLibraryPaywallTriggered extends PhotoLibraryState {}
 
-  PhotoLibraryPaywallTriggered({required this.newTotalItemCount, required this.limit});
-}
 class PhotoLibraryUploading extends PhotoLibraryState {}
 
 class PhotoLibraryReady extends PhotoLibraryState {}

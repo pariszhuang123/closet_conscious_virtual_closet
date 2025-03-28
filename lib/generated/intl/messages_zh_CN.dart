@@ -286,10 +286,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "eventName": MessageLookupByLibrary.simpleMessage("活动名称"),
         "everyday": MessageLookupByLibrary.simpleMessage("日常"),
         "eyewear": MessageLookupByLibrary.simpleMessage("眼镜"),
+        "failedToLoadImages": MessageLookupByLibrary.simpleMessage("加载图片失败"),
         "failedToLoadItems":
             MessageLookupByLibrary.simpleMessage("加载物品失败。请再试一次！"),
         "failedToLoadMetadata":
             MessageLookupByLibrary.simpleMessage("无法加载衣橱元数据，请重试。"),
+        "failedToLoadMoreImages":
+            MessageLookupByLibrary.simpleMessage("加载更多图片失败"),
         "failedToSaveOutfit":
             MessageLookupByLibrary.simpleMessage("保存搭配失败，请重试。"),
         "failedToSubmitScore": MessageLookupByLibrary.simpleMessage("提交评分失败。"),
@@ -465,6 +468,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("没有可用的服装或物品"),
         "noOutfitsInMonth": MessageLookupByLibrary.simpleMessage(
             "本月没有找到衣服。您可以创建第一个已评价的衣服，或者选择一个您已评价衣服的日期。"),
+        "noPhotosFound": MessageLookupByLibrary.simpleMessage("未找到照片"),
         "noReappearClosets":
             MessageLookupByLibrary.simpleMessage("未找到重新出现的衣橱。"),
         "noRelatedOutfits": MessageLookupByLibrary.simpleMessage(

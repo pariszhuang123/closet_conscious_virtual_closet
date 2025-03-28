@@ -332,10 +332,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "eventName": MessageLookupByLibrary.simpleMessage("Event Name"),
         "everyday": MessageLookupByLibrary.simpleMessage("Everyday"),
         "eyewear": MessageLookupByLibrary.simpleMessage("Eyewear"),
+        "failedToLoadImages":
+            MessageLookupByLibrary.simpleMessage("Failed to load images"),
         "failedToLoadItems": MessageLookupByLibrary.simpleMessage(
             "Failed to load items. Please try again!"),
         "failedToLoadMetadata": MessageLookupByLibrary.simpleMessage(
             "Failed to load closet metadata.\nPlease try again."),
+        "failedToLoadMoreImages":
+            MessageLookupByLibrary.simpleMessage("Failed to load more images"),
         "failedToSaveOutfit": MessageLookupByLibrary.simpleMessage(
             "Failed to save outfit. Please try again."),
         "failedToSubmitScore":
@@ -531,6 +535,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No outfit or item available"),
         "noOutfitsInMonth": MessageLookupByLibrary.simpleMessage(
             "No outfits found in this month. You can create your first reviewed outfit or choose another date where you have reviewed your outfit."),
+        "noPhotosFound":
+            MessageLookupByLibrary.simpleMessage("No photos found"),
         "noReappearClosets": MessageLookupByLibrary.simpleMessage(
             "No reappeared closets found."),
         "noRelatedOutfits": MessageLookupByLibrary.simpleMessage(

@@ -4890,6 +4890,36 @@ class S {
       args: [maxAllowed],
     );
   }
+
+  /// `No photos found`
+  String get noPhotosFound {
+    return Intl.message(
+      'No photos found',
+      name: 'noPhotosFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load images`
+  String get failedToLoadImages {
+    return Intl.message(
+      'Failed to load images',
+      name: 'failedToLoadImages',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load more images`
+  String get failedToLoadMoreImages {
+    return Intl.message(
+      'Failed to load more images',
+      name: 'failedToLoadMoreImages',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
