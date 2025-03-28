@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 import '../../../utilities/logger.dart';
 import '../bloc/photo_library_bloc.dart';
-import '../../../widgets/button/themed_elevated_button.dart';
 import '../../../../generated/l10n.dart';
 import '../../../user_photo/presentation/widgets/base/user_photo.dart';
 import '../widgets/pending_interactive_item_grid.dart';
@@ -11,7 +11,8 @@ import '../../../widgets/feedback/custom_snack_bar.dart';
 import '../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
 import '../../../paywall/data/feature_key.dart';
 import '../../../utilities/routes.dart';
-
+import '../../../widgets/button/upload_button_with_progress.dart';
+import '../../../widgets/feedback/custom_alert_dialog.dart';
 
 class PendingPhotoLibraryScreen extends StatefulWidget {
   const PendingPhotoLibraryScreen({super.key});
@@ -59,6 +60,31 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
                 theme: Theme.of(context),
               ).show(context);
             }
+            if (state is PhotoLibraryUploadSuccess) {
+              _logger.i('Listener: Upload success — showing continue upload dialog');
+
+              CustomAlertDialog.showCustomDialog(
+                context: context,
+                title: S.of(context).uploadSuccessTitle,
+                content: Text(S.of(context).uploadSuccessContent),
+                buttonText: S.of(context).yes,
+                onPressed: () {
+                  Navigator.pop(context); // Close the dialog first
+                  Navigator.pushReplacementNamed(context, AppRoutes.pendingPhotoLibrary);
+                },
+                theme: Theme.of(context),
+                iconButton: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.pop(context); // Close the dialog
+                    Navigator.pushReplacementNamed(context, AppRoutes.viewPendingItem);
+                  },
+                ),
+                canPop: false,
+                barrierDismissible: false,
+              );
+            }
+
           },
         ),
         BlocListener<NavigateCoreBloc, NavigateCoreState>(
@@ -116,8 +142,9 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
             );
           }
 
-          final bloc = context.read<PhotoLibraryBloc>();
-          final selectedAssets = bloc.selectedImages;
+          final selectedAssets = context.select<PhotoLibraryBloc, List<AssetEntity>>(
+                (bloc) => bloc.selectedImages,
+          );
           _logger.d('Rendering item grid with ${selectedAssets.length} selected images');
 
           return Column(
@@ -137,19 +164,25 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ThemedElevatedButton(
-                  onPressed: selectedAssets.isNotEmpty
-                      ? () {
-                    _logger.i('Upload button clicked — assets selected: ${selectedAssets.length}');
-                    context.read<PhotoLibraryBloc>().add(
-                      UploadSelectedLibraryImages(assets: selectedAssets),
-                    );
-                  }
-                      : null,
-                  text: S.of(context).upload,
-                ),
+              ValueListenableBuilder<List<AssetEntity>>(
+                valueListenable: context.read<PhotoLibraryBloc>().selectedImagesNotifier,
+                builder: (context, selectedAssets, _) {
+                  if (selectedAssets.isEmpty) return const SizedBox.shrink();
+
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: UploadButtonWithProgress(
+                      isLoading: state is PhotoLibraryUploading,
+                      onPressed: () {
+                        context.read<PhotoLibraryBloc>().add(
+                          UploadSelectedLibraryImages(assets: selectedAssets),
+                        );
+                      },
+                      text: S.of(context).upload,
+                      isFromMyCloset: true,
+                    ),
+                  );
+                },
               ),
             ],
           );

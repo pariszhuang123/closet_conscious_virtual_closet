@@ -132,6 +132,24 @@ class ItemFetchService {
     }
   }
 
+  Future<bool> hasPendingItems() async {
+    try {
+      final data = await Supabase.instance.client
+          .from('items')
+          .select('id')
+          .eq('is_pending', true)
+          .limit(1)
+          .maybeSingle(); // returns null if no rows found
+
+      final result = data != null;
+      logger.i('Pending item exists: $result');
+      return result;
+    } catch (error) {
+      logger.e('Error checking pending items: $error');
+      return false;
+    }
+  }
+
   Future<int> fetchApparelCount() async {
     try {
       final data = await Supabase.instance.client

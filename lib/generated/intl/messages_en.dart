@@ -828,6 +828,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Amazing! 700 More Items to Express Your Style"),
         "uploadItemSilverTitle":
             MessageLookupByLibrary.simpleMessage("Silver Plan - Upload Items"),
+        "uploadSuccessContent": MessageLookupByLibrary.simpleMessage(
+            "Would you like to upload more items from your photo library?"),
+        "uploadSuccessTitle":
+            MessageLookupByLibrary.simpleMessage("Upload Successful"),
         "upload_failed": MessageLookupByLibrary.simpleMessage(
             "Oops! Looks like something went off the rails. Try again? 🚂"),
         "upload_successful": MessageLookupByLibrary.simpleMessage(
@@ -858,6 +862,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "winter": MessageLookupByLibrary.simpleMessage("Winter"),
         "workplace": MessageLookupByLibrary.simpleMessage("Workplace"),
         "wornInOutfit": MessageLookupByLibrary.simpleMessage("Worn in Outfit"),
-        "yellow": MessageLookupByLibrary.simpleMessage("Yellow")
+        "yellow": MessageLookupByLibrary.simpleMessage("Yellow"),
+        "yes": MessageLookupByLibrary.simpleMessage("Yes")
       };
 }

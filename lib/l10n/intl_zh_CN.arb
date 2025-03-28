@@ -486,6 +486,8 @@
   "maxPendingItemsSnackbar": "你最多只能选择 {maxAllowed} 张图片。",
   "noPhotosFound": "未找到照片",
   "failedToLoadImages": "加载图片失败",
-  "failedToLoadMoreImages": "加载更多图片失败"
-
+  "failedToLoadMoreImages": "加载更多图片失败",
+  "uploadSuccessTitle": "上传成功",
+  "uploadSuccessContent": "你想继续从相册上传更多的物品吗？",
+  "yes": "是的"
 }

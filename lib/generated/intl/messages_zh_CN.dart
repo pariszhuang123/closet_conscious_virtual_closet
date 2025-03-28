@@ -711,6 +711,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("太棒了！700件新物品展示您的风格"),
         "uploadItemSilverTitle":
             MessageLookupByLibrary.simpleMessage("银计划 - 上传物品"),
+        "uploadSuccessContent":
+            MessageLookupByLibrary.simpleMessage("你想继续从相册上传更多的物品吗？"),
+        "uploadSuccessTitle": MessageLookupByLibrary.simpleMessage("上传成功"),
         "upload_failed":
             MessageLookupByLibrary.simpleMessage("哎呀！看起来出了点问题。再试一次？🚂"),
         "upload_successful":
@@ -739,6 +742,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "winter": MessageLookupByLibrary.simpleMessage("冬季"),
         "workplace": MessageLookupByLibrary.simpleMessage("工作场所"),
         "wornInOutfit": MessageLookupByLibrary.simpleMessage("穿着次数"),
-        "yellow": MessageLookupByLibrary.simpleMessage("黄色")
+        "yellow": MessageLookupByLibrary.simpleMessage("黄色"),
+        "yes": MessageLookupByLibrary.simpleMessage("是的")
       };
 }

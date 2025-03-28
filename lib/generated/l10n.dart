@@ -4920,6 +4920,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Upload Successful`
+  String get uploadSuccessTitle {
+    return Intl.message(
+      'Upload Successful',
+      name: 'uploadSuccessTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Would you like to upload more items from your photo library?`
+  String get uploadSuccessContent {
+    return Intl.message(
+      'Would you like to upload more items from your photo library?',
+      name: 'uploadSuccessContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yes {
+    return Intl.message(
+      'Yes',
+      name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

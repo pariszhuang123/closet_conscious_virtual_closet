@@ -486,5 +486,8 @@
   "maxPendingItemsSnackbar": "You can only select up to {maxAllowed} images.",
   "noPhotosFound": "No photos found",
   "failedToLoadImages": "Failed to load images",
-  "failedToLoadMoreImages": "Failed to load more images"
+  "failedToLoadMoreImages": "Failed to load more images",
+  "uploadSuccessTitle": "Upload Successful",
+  "uploadSuccessContent": "Would you like to upload more items from your photo library?",
+  "yes": "Yes"
 }
