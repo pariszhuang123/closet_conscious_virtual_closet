@@ -138,9 +138,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Become an Ambassador"),
         "belt": MessageLookupByLibrary.simpleMessage("Belt"),
         "black": MessageLookupByLibrary.simpleMessage("Black"),
+        "blend": MessageLookupByLibrary.simpleMessage("Blend"),
         "blue": MessageLookupByLibrary.simpleMessage("Blue"),
         "boots": MessageLookupByLibrary.simpleMessage("Boots"),
         "bottom": MessageLookupByLibrary.simpleMessage("Bottom"),
+        "brandNewWithTag":
+            MessageLookupByLibrary.simpleMessage("Brand New\nwith Tag"),
+        "brandNewWithoutTag":
+            MessageLookupByLibrary.simpleMessage("Brand New\nwithout Tag"),
         "brown": MessageLookupByLibrary.simpleMessage("Brown"),
         "bulkUpload": MessageLookupByLibrary.simpleMessage("Upload"),
         "bulkUploadTitle": MessageLookupByLibrary.simpleMessage("Bulk Upload"),
@@ -278,6 +283,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Not quite\nmy vibe 🤔"),
         "dislike_feedback_sentence": MessageLookupByLibrary.simpleMessage(
             "Tap the items that didn’t work in this outfit."),
+        "doNotWash": MessageLookupByLibrary.simpleMessage("Do Not Wash"),
+        "dryClean": MessageLookupByLibrary.simpleMessage("Dry Clean"),
         "editAllMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "Edit all multi-closets at once.\nTransfer items to a single closet and streamline your wardrobe."),
         "editClosetBronzeDescription": MessageLookupByLibrary.simpleMessage(
@@ -397,6 +404,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "formal": MessageLookupByLibrary.simpleMessage("Formal"),
         "general_permission_explanation": MessageLookupByLibrary.simpleMessage(
             "We need this permission to make the app work properly."),
+        "gentlyUsed": MessageLookupByLibrary.simpleMessage("Gently\nUsed"),
         "gift": MessageLookupByLibrary.simpleMessage("Gift"),
         "gloves": MessageLookupByLibrary.simpleMessage("Gloves"),
         "green": MessageLookupByLibrary.simpleMessage("Green"),
@@ -406,6 +414,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "gridSize7": MessageLookupByLibrary.simpleMessage("7 items per row"),
         "gridSizePickerTitle":
             MessageLookupByLibrary.simpleMessage("Grid Size Picker"),
+        "handWash": MessageLookupByLibrary.simpleMessage("Hand Wash"),
         "hat": MessageLookupByLibrary.simpleMessage("Hat"),
         "highestStreak": MessageLookupByLibrary.simpleMessage(
             "Your all-time record of no new clothes!"),
@@ -441,9 +450,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "jewellery": MessageLookupByLibrary.simpleMessage("Jewellery"),
         "light": MessageLookupByLibrary.simpleMessage("Light"),
         "like": MessageLookupByLibrary.simpleMessage("Love it!\n😍"),
+        "likeNew": MessageLookupByLibrary.simpleMessage("Like\nNew"),
         "loading_text": MessageLookupByLibrary.simpleMessage(
             "Loading... Fashion magic in progress 🧙‍♂️✨"),
         "logOut": MessageLookupByLibrary.simpleMessage("Log Out"),
+        "machine": MessageLookupByLibrary.simpleMessage("Machine"),
         "maxPendingItemsSnackbar": m3,
         "medium": MessageLookupByLibrary.simpleMessage("Medium"),
         "metadata": MessageLookupByLibrary.simpleMessage("More"),
@@ -473,6 +484,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("My Outfit of the Day"),
         "myOutfitTitle":
             MessageLookupByLibrary.simpleMessage("Create My Outfit"),
+        "natural": MessageLookupByLibrary.simpleMessage("Natural"),
         "newItemsTooltip": MessageLookupByLibrary.simpleMessage(
             "Number of new items you have purchased"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
@@ -580,11 +592,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "outfitsAll": MessageLookupByLibrary.simpleMessage("All Outfits"),
         "outfits_upload":
             MessageLookupByLibrary.simpleMessage("Number of outfits uploaded"),
+        "overFlowingCloset":
+            MessageLookupByLibrary.simpleMessage("Overflowing Closet"),
+        "parentMemories":
+            MessageLookupByLibrary.simpleMessage("Parent Memories"),
         "perfume": MessageLookupByLibrary.simpleMessage("Cosmetic"),
         "permanentCloset":
             MessageLookupByLibrary.simpleMessage("Permanent Closet"),
         "permission_needed": MessageLookupByLibrary.simpleMessage(
             "This permission is\nrequired for the app\nto function properly."),
+        "personalStyle": MessageLookupByLibrary.simpleMessage("Personal Style"),
         "photo_library_permission_explanation":
             MessageLookupByLibrary.simpleMessage(
                 "We need access to your photo library so you can select and upload your favorite outfits."),
@@ -682,6 +699,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "selfieSilverTitle":
             MessageLookupByLibrary.simpleMessage("Silver Plan - Selfie"),
         "sell": MessageLookupByLibrary.simpleMessage("Sell"),
+        "semiSynthetic": MessageLookupByLibrary.simpleMessage("Semi-Synthetic"),
         "share": MessageLookupByLibrary.simpleMessage("Share"),
         "shareFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "Share your Outfit of the Day with one tap across all your social media. Elevate your style and inspire others effortlessly."),
@@ -726,6 +744,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Interested in swapping items or getting notified about swap events nearby? We’re thinking about this feature—what do you think?"),
         "swapFeatureTitle": MessageLookupByLibrary.simpleMessage("Swap Items?"),
         "swap_item": MessageLookupByLibrary.simpleMessage("Swap QR"),
+        "synthetic": MessageLookupByLibrary.simpleMessage("Synthetic"),
         "tabItemAnalytics":
             MessageLookupByLibrary.simpleMessage("Item Analytics"),
         "tabOutfitAnalytics":
@@ -855,9 +874,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Explore options for your multi-closets.\nYou can create a new multi-closet,\nedit items from all multi-closets,\nor make changes to a single multi-closet."),
         "viewOutfitAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "Discover your style story—track how often you love, feel unsure about, or rethink your outfits."),
+        "viewPendingUpload":
+            MessageLookupByLibrary.simpleMessage("View Pending Upload"),
         "viewSummaryItemAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
             "See your closet in numbers—total cost, item count, and cost per wear, all at a glance."),
         "warning": MessageLookupByLibrary.simpleMessage("Warning"),
+        "wellLoved": MessageLookupByLibrary.simpleMessage("Well\nLoved"),
         "white": MessageLookupByLibrary.simpleMessage("White"),
         "winter": MessageLookupByLibrary.simpleMessage("Winter"),
         "workplace": MessageLookupByLibrary.simpleMessage("Workplace"),

@@ -13,6 +13,7 @@ import '../../../paywall/data/feature_key.dart';
 import '../../../utilities/routes.dart';
 import '../../../widgets/button/upload_button_with_progress.dart';
 import '../../../widgets/feedback/custom_alert_dialog.dart';
+import '../widgets/photo_library_container.dart';
 
 class PendingPhotoLibraryScreen extends StatefulWidget {
   const PendingPhotoLibraryScreen({super.key});
@@ -29,6 +30,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
     super.initState();
     _logger.i('initState: Requesting photo library permission');
     context.read<PhotoLibraryBloc>().add(RequestLibraryPermission());
+    context.read<PhotoLibraryBloc>().add(CheckForPendingItems());
   }
 
   @override
@@ -113,6 +115,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
           },
         ),
       ],
+
       child: BlocBuilder<PhotoLibraryBloc, PhotoLibraryState>(
         builder: (context, state) {
           _logger.i('Builder: Current PhotoLibraryBloc state: ${state.runtimeType}');
@@ -149,6 +152,13 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
 
           return Column(
             children: [
+              if (state is PhotoLibraryPendingItem)
+                PhotoLibraryContainer(
+                  theme: Theme.of(context),
+                  onViewPendingUploadButtonPressed: () {
+                    Navigator.pushReplacementNamed(context, AppRoutes.viewPendingItem);
+                  },
+                ),
               const Expanded(
                 child: Padding(
                   padding: EdgeInsets.symmetric(

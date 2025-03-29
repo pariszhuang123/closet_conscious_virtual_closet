@@ -125,6 +125,8 @@ flutter:
     - assets/images/
     - assets/lottie/
 
+    - assets/icons/onboarding/
+
     - assets/icons/drawer/
     - assets/icons/drawer/analytics/
 
@@ -144,6 +146,9 @@ flutter:
     - assets/icons/my_closet/upload/occasion/
     - assets/icons/my_closet/upload/seasonal/
     - assets/icons/my_closet/upload/shoes_type/
+    - assets/icons/my_closet/upload/cleaning/
+    - assets/icons/my_closet/upload/material/
+    - assets/icons/my_closet/upload/condition/
 
     - assets/icons/my_outfit/additional_features/
     - assets/icons/my_outfit/outfit_review/

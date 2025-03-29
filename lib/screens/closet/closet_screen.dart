@@ -23,6 +23,7 @@ import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubi
 import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
 import '../../core/core_enums.dart';
 import '../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
+import '../../core/photo_library/presentation/bloc/photo_library_bloc.dart';
 
 class MyClosetScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -98,7 +99,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   }
 
   void _onUploadButtonPressed() {
-    Navigator.pushNamed(context, AppRoutes.pendingPhotoLibrary);
+    context.read<PhotoLibraryBloc>().add(CheckForPendingItems());
   }
 
   void _onPhotoButtonPressed() {
@@ -182,6 +183,15 @@ class MyClosetScreenState extends State<MyClosetScreen> {
       builder: (context, crossAxisCount) {
         return MultiBlocListener(
       listeners: [
+        BlocListener<PhotoLibraryBloc, PhotoLibraryState>(
+          listener: (context, state) {
+            if (state is PhotoLibraryPendingItem) {
+              Navigator.pushNamed(context, AppRoutes.viewPendingItem);
+            } else if (state is PhotoLibraryNoPendingItem) {
+              Navigator.pushNamed(context, AppRoutes.pendingPhotoLibrary);
+            }
+          },
+        ),
 
         BlocListener<NavigateItemBloc, NavigateItemState>(
           listener: (context, state) {

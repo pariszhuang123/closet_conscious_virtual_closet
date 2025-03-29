@@ -4950,6 +4950,176 @@ class S {
       args: [],
     );
   }
+
+  /// `Machine`
+  String get machine {
+    return Intl.message(
+      'Machine',
+      name: 'machine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dry Clean`
+  String get dryClean {
+    return Intl.message(
+      'Dry Clean',
+      name: 'dryClean',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hand Wash`
+  String get handWash {
+    return Intl.message(
+      'Hand Wash',
+      name: 'handWash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do Not Wash`
+  String get doNotWash {
+    return Intl.message(
+      'Do Not Wash',
+      name: 'doNotWash',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Natural`
+  String get natural {
+    return Intl.message(
+      'Natural',
+      name: 'natural',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blend`
+  String get blend {
+    return Intl.message(
+      'Blend',
+      name: 'blend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Semi-Synthetic`
+  String get semiSynthetic {
+    return Intl.message(
+      'Semi-Synthetic',
+      name: 'semiSynthetic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Synthetic`
+  String get synthetic {
+    return Intl.message(
+      'Synthetic',
+      name: 'synthetic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Brand New\nwith Tag`
+  String get brandNewWithTag {
+    return Intl.message(
+      'Brand New\nwith Tag',
+      name: 'brandNewWithTag',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Brand New\nwithout Tag`
+  String get brandNewWithoutTag {
+    return Intl.message(
+      'Brand New\nwithout Tag',
+      name: 'brandNewWithoutTag',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Like\nNew`
+  String get likeNew {
+    return Intl.message(
+      'Like\nNew',
+      name: 'likeNew',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gently\nUsed`
+  String get gentlyUsed {
+    return Intl.message(
+      'Gently\nUsed',
+      name: 'gentlyUsed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Well\nLoved`
+  String get wellLoved {
+    return Intl.message(
+      'Well\nLoved',
+      name: 'wellLoved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View Pending Upload`
+  String get viewPendingUpload {
+    return Intl.message(
+      'View Pending Upload',
+      name: 'viewPendingUpload',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Personal Style`
+  String get personalStyle {
+    return Intl.message(
+      'Personal Style',
+      name: 'personalStyle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overflowing Closet`
+  String get overFlowingCloset {
+    return Intl.message(
+      'Overflowing Closet',
+      name: 'overFlowingCloset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Parent Memories`
+  String get parentMemories {
+    return Intl.message(
+      'Parent Memories',
+      name: 'parentMemories',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -169,6 +169,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
   @override
   Widget build(BuildContext context) {
     final ThemeData myClosetTheme = Theme.of(context);
+    final bool isUpdate = (_isChanged || _validationErrors.isNotEmpty);
+
     return MultiBlocListener(
       listeners: [
         BlocListener<EditItemBloc, EditItemState>(
@@ -272,13 +274,13 @@ class _EditItemScreenState extends State<EditItemScreen> {
               ),
 
               // Update Button
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton(
-                  onPressed: (_isChanged || _validationErrors.isNotEmpty)
-                      ? _handleUpdate
-                      : _openDeclutterSheet,
-                  child: Text(S.of(context).update),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              onPressed: isUpdate ? _handleUpdate : _openDeclutterSheet,
+              child: Text(
+                isUpdate ? S.of(context).update : S.of(context).declutter,
+                  )
                 ),
               ),
             ],

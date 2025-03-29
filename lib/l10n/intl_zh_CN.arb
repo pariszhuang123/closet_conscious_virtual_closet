@@ -489,5 +489,22 @@
   "failedToLoadMoreImages": "加载更多图片失败",
   "uploadSuccessTitle": "上传成功",
   "uploadSuccessContent": "你想继续从相册上传更多的物品吗？",
-  "yes": "是的"
+  "yes": "是的",
+  "machine": "机洗",
+  "dryClean": "干洗",
+  "handWash": "手洗",
+  "doNotWash": "不可水洗",
+  "natural": "天然材质",
+  "blend": "混合材质",
+  "semiSynthetic": "半合成材质",
+  "synthetic": "合成材质",
+  "brandNewWithTag": "全新\n带标签）",
+  "brandNewWithoutTag": "全新\n（无标签）",
+  "likeNew": "几乎\n全新",
+  "gentlyUsed": "轻微\n使用",
+  "wellLoved": "使用\n痕迹明显",
+  "viewPendingUpload": "查看待上传",
+  "personalStyle": "个人风格",
+  "overFlowingCloset": "爆满衣橱",
+  "parentMemories": "父母回忆"
 }

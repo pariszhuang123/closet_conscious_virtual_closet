@@ -98,6 +98,7 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
 
     on<RequestLibraryPermission>(_onRequestPermission);
     on<InitializePhotoLibrary>(_onInitialize);
+    on<CheckForPendingItems>(_onCheckForPendingItems);
     on<ToggleLibraryImageSelection>(_onToggleSelection);
     on<UploadSelectedLibraryImages>(_onUploadSelectedImages);
     on<_MarkReadyAfterFirstPage>((_, emit) {
@@ -135,6 +136,27 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     } catch (e, stack) {
       _logger.e("Initialization failed: $e\n$stack");
       emit(PhotoLibraryFailure("Initialization failed."));
+    }
+  }
+
+  Future<void> _onCheckForPendingItems(
+      CheckForPendingItems event,
+      Emitter<PhotoLibraryState> emit,
+      ) async {
+    _logger.i("Checking if user has pending items...");
+    try {
+      final hasPending = await _itemFetchService.hasPendingItems();
+      _logger.d("Result: $hasPending");
+
+      if (hasPending) {
+        emit(PhotoLibraryPendingItem());
+      } else {
+        emit(PhotoLibraryNoPendingItem());
+        _logger.i("No pending items found. No state emitted.");
+      }
+    } catch (e, stack) {
+      _logger.e("Error checking pending items: $e\n$stack");
+      emit(PhotoLibraryFailure("Failed to check pending items"));
     }
   }
 

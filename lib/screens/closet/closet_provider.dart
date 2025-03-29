@@ -11,6 +11,8 @@ import '../../item_management/core/presentation/bloc/multi_selection_item_cubit/
 import 'closet_screen.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../core/data/services/core_fetch_services.dart';
+import '../../core/photo_library/presentation/bloc/photo_library_bloc.dart';
+import '../../core/photo_library/usecase/photo_library_service.dart';
 
 class MyClosetProvider extends StatelessWidget {
   final ThemeData myClosetTheme;
@@ -24,6 +26,7 @@ class MyClosetProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     final itemFetchService = GetIt.instance<ItemFetchService>();
     final coreFetchService = GetIt.instance<CoreFetchService>();
+    final photoLibraryService = GetIt.instance<PhotoLibraryService>();
 
     return MultiBlocProvider(
       providers: [
@@ -54,7 +57,12 @@ class MyClosetProvider extends StatelessWidget {
         BlocProvider<MultiSelectionItemCubit>(
           create: (context) => MultiSelectionItemCubit(),
         ),
-
+        BlocProvider<PhotoLibraryBloc>( // ✅ register PhotoLibraryBloc here
+          create: (_) => PhotoLibraryBloc(
+            photoLibraryService: photoLibraryService,
+            itemFetchService: itemFetchService,
+          ),
+        ),
       ],
       child: MyClosetScreen(
         myClosetTheme: myClosetTheme,

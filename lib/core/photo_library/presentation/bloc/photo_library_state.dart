@@ -8,6 +8,9 @@ class PhotoLibraryPermissionDenied extends PhotoLibraryState {}
 
 class PhotoLibraryLoadingImages extends PhotoLibraryState {}
 
+class PhotoLibraryPendingItem extends PhotoLibraryState {}
+
+class PhotoLibraryNoPendingItem extends PhotoLibraryState {}
 
 class PhotoLibraryPageLoaded extends PhotoLibraryState {
   final List<AssetEntity> allLoadedImages;

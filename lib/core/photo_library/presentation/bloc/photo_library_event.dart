@@ -6,6 +6,8 @@ class RequestLibraryPermission extends PhotoLibraryEvent {}
 
 class InitializePhotoLibrary extends PhotoLibraryEvent {}
 
+class CheckForPendingItems extends PhotoLibraryEvent {}
+
 class LoadNextLibraryImagePage extends PhotoLibraryEvent {
   final int page;
   final int size;

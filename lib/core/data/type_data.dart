@@ -110,12 +110,44 @@ class TypeDataList {
     ];
   }
 
+  static List<TypeData> cleaning(BuildContext context) {
+    return [
+      TypeData('machine', (context) => S.of(context).machine, 'assets/icons/my_closet/upload/cleaning/washing_machine.svg', false),
+      TypeData('dryClean', (context) => S.of(context).dryClean, 'assets/icons/my_closet/upload/cleaning/dry_clean.svg', false),
+      TypeData('handWash', (context) => S.of(context).handWash, 'assets/icons/my_closet/upload/cleaning/hand_wash.svg', false),
+      TypeData('doNotWash', (context) => S.of(context).doNotWash, 'assets/icons/my_closet/upload/cleaning/do_not_wash.svg', false),
+    ];
+  }
+
+  static List<TypeData> material(BuildContext context) {
+    return [
+      TypeData('natural', (context) => S.of(context).natural, 'assets/icons/my_closet/upload/material/natural_fibre.svg', false),
+      TypeData('blend', (context) => S.of(context).blend, 'assets/icons/my_closet/upload/material/blend_material.svg', false),
+      TypeData('semiSynthetic', (context) => S.of(context).semiSynthetic, 'assets/icons/my_closet/upload/material/semi_synthetic.svg', false),
+      TypeData('synthetic', (context) => S.of(context).synthetic, 'assets/icons/my_closet/upload/material/synthetic_material.svg', false),
+    ];
+  }
+
+  static List<TypeData> condition(BuildContext context) {
+    return [
+      TypeData('brandNewWithTag', (context) => S.of(context).brandNewWithTag, 'assets/icons/my_closet/upload/condition/brand_new_with_tag.svg', false),
+      TypeData('brandNewWithoutTag', (context) => S.of(context).brandNewWithoutTag, 'assets/icons/my_closet/upload/condition/brand_new_without_tag.svg', false),
+      TypeData('likeNew', (context) => S.of(context).likeNew, 'assets/icons/my_closet/upload/condition/like_new.svg', false),
+      TypeData('gentlyUsed', (context) => S.of(context).gentlyUsed, 'assets/icons/my_closet/upload/condition/gently_used.svg', false),
+      TypeData('wellLoved', (context) => S.of(context).wellLoved, 'assets/icons/my_closet/upload/condition/well_loved.svg', false),
+    ];
+  }
+
   static TypeData upload(BuildContext context) {
     return TypeData('upload_upload', (context) => S.of(context).upload_upload, 'assets/icons/my_closet/upload/upload_item.svg', false);
   }
 
   static TypeData bulkUpload(BuildContext context) {
     return TypeData('bulkUpload', (context) => S.of(context).bulkUpload, 'assets/icons/my_closet/upload/bulk_upload_items.svg', false);
+  }
+
+  static TypeData viewPendingUpload(BuildContext context) {
+    return TypeData('viewPendingUpload', (context) => S.of(context).viewPendingUpload, 'assets/icons/my_closet/upload/pending_items.svg', false);
   }
 
   static TypeData filter(BuildContext context) {
@@ -304,6 +336,18 @@ class TypeDataList {
 
   static TypeData next(BuildContext context) {
     return TypeData('next', (context) => S.of(context).next, 'assets/icons/my_outfit/calendar/chevron_right.svg', false);
+  }
+
+  static TypeData personalStyle(BuildContext context) {
+    return TypeData('personalStyle', (context) => S.of(context).personalStyle, 'assets/icons/onboarding/personal_style.svg', false);
+  }
+
+  static TypeData overFlowingCloset(BuildContext context) {
+    return TypeData('overFlowingCloset', (context) => S.of(context).overFlowingCloset, 'assets/icons/onboarding/overflowing_closet.svg', false);
+  }
+
+  static TypeData parentMemories(BuildContext context) {
+    return TypeData('parentMemories', (context) => S.of(context).parentMemories, 'assets/icons/onboarding/parentMemories.svg', false);
   }
 
   static List<TypeData> gridSizes(BuildContext context) {

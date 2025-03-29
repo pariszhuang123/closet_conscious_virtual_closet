@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'utilities/logger.dart';
 import 'data/services/core_fetch_services.dart';
 import 'data/services/core_save_services.dart';
+import 'photo_library/usecase/photo_library_service.dart';
 
 final GetIt coreLocator = GetIt.instance;
 
@@ -13,5 +14,8 @@ void setupCoreLocator() {
 
   coreLocator.registerLazySingleton(() => CoreFetchService());  // Register CoreFetchService
   coreLocator.registerLazySingleton(() => CoreSaveService());  // Register CoreSaveService
+  coreLocator.registerLazySingleton<PhotoLibraryService>(
+        () => PhotoLibraryService(coreLocator<CoreSaveService>()),
+  );
 
 }

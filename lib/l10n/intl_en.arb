@@ -489,5 +489,23 @@
   "failedToLoadMoreImages": "Failed to load more images",
   "uploadSuccessTitle": "Upload Successful",
   "uploadSuccessContent": "Would you like to upload more items from your photo library?",
-  "yes": "Yes"
+  "yes": "Yes",
+  "machine": "Machine",
+  "dryClean": "Dry Clean",
+  "handWash": "Hand Wash",
+  "doNotWash": "Do Not Wash",
+  "natural": "Natural",
+  "blend": "Blend",
+  "semiSynthetic": "Semi-Synthetic",
+  "synthetic": "Synthetic",
+  "brandNewWithTag": "Brand New\nwith Tag",
+  "brandNewWithoutTag": "Brand New\nwithout Tag",
+  "likeNew": "Like\nNew",
+  "gentlyUsed": "Gently\nUsed",
+  "wellLoved": "Well\nLoved",
+  "viewPendingUpload": "View Pending Upload",
+  "personalStyle": "Personal Style",
+  "overFlowingCloset": "Overflowing Closet",
+  "parentMemories": "Parent Memories"
+
 }

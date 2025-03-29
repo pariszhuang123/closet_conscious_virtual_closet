@@ -136,7 +136,7 @@ class ItemFetchService {
     try {
       final data = await Supabase.instance.client
           .from('items')
-          .select('id')
+          .select('current_owner_id')
           .eq('is_pending', true)
           .limit(1)
           .maybeSingle(); // returns null if no rows found
