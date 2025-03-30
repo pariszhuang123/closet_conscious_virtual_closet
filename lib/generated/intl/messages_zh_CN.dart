@@ -270,6 +270,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "editItemSilverTitle":
             MessageLookupByLibrary.simpleMessage("银计划 - 编辑物品图片"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("编辑物品"),
+        "editPendingSuccessContent": MessageLookupByLibrary.simpleMessage(
+            "您想继续从相册中更新更多待处理的物品吗？更新后这些物品就可以用于搭配衣服了。"),
+        "editPendingSuccessTitle": MessageLookupByLibrary.simpleMessage("更新成功"),
         "editSingleMultiClosetDescription":
             MessageLookupByLibrary.simpleMessage(
                 "编辑单个多衣橱。将物品转移到另一个衣橱，\n更新元数据，更改多衣橱图片，或归档该衣橱。"),

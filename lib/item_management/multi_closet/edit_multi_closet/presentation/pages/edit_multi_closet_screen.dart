@@ -39,13 +39,12 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
   final ScrollController _scrollController = ScrollController();
   final CustomLogger logger = CustomLogger('EditMultiClosetScreen');
 
-  final bool _isChanged = false; // Track whether changes have been made
   Map<String, String> validationErrors = {}; // Add validation errors map
 
   @override
   void initState() {
     super.initState();
-    logger.i('CreateMultiClosetScreen initialized');
+    logger.i('EditMultiClosetScreen initialized');
     context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
     context.read<ViewItemsBloc>().add(FetchItemsEvent(0, isPending: false));
     context.read<EditClosetMetadataBloc>().add(FetchMetadataEvent());
@@ -170,13 +169,13 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
     closetNameController.dispose();
     monthsController.dispose();
     _scrollController.dispose();
-    logger.i('CreateMultiClosetScreen disposed');
+    logger.i('EditMultiClosetScreen disposed');
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    logger.i('CreateMultiClosetScreen initialized with selectedItemIds: ${widget.selectedItemIds}');
+    logger.i('EditMultiClosetScreen initialized with selectedItemIds: ${widget.selectedItemIds}');
 
     final theme = Theme.of(context);
     logger.d('Building EditMultiClosetScreen UI');
@@ -345,16 +344,8 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                             // Profile Photo on the Left
                             EditClosetImage(
                               closetImage: metadataState.metadata.closetImage,
-                              isChanged: _isChanged,
                               onImageTap: () {
-                                if (!_isChanged) {
                                   _navigateToPhotoProvider();
-                                } else {
-                                  CustomSnackbar(
-                                    message: S.of(context).unsavedChangesMessage,
-                                    theme: Theme.of(context),
-                                  ).show(context);
-                                }
                               },
                             ),
                             const SizedBox(width: 5),

@@ -58,6 +58,12 @@ class ViewPendingItemScreenState extends State<ViewPendingItemScreen> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose(); // ✅ Clean up controller
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     return BlocBuilder<CrossAxisCountCubit, int>(

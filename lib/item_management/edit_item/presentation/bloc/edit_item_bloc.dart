@@ -29,6 +29,7 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
     on<AmountSpentChangedEvent>(_onAmountSpentChanged);
     on<ValidateFormEvent>(_onValidateForm); // New validation-only event.
     on<SubmitFormEvent>(_onSubmitForm);
+    on<FetchMostRecentPendingItemIdEvent>(_onFetchMostRecentPendingItemId);
   }
 
   // Handler for loading item from Supabase
@@ -232,6 +233,26 @@ class EditItemBloc extends Bloc<EditItemEvent, EditItemState> {
       }
     } else {
       _logger.w("Form submission attempted in invalid state.");
+      emit(EditItemLoadFailure());
+    }
+  }
+
+  Future<void> _onFetchMostRecentPendingItemId(
+      FetchMostRecentPendingItemIdEvent event,
+      Emitter<EditItemState> emit,
+      ) async {
+    emit(EditItemLoading()); // Optional loading UI
+    try {
+      final itemId = await _itemFetchService.getMostRecentPendingItemId();
+      if (itemId != null) {
+        _logger.i('Fetched most recent pending item ID: $itemId');
+        emit(EditItemPendingItemIdFetched(itemId: itemId));
+      } else {
+        _logger.w('No pending item found.');
+        emit(EditItemLoadFailure());
+      }
+    } catch (e) {
+      _logger.e('Error fetching pending item ID: $e');
       emit(EditItemLoadFailure());
     }
   }

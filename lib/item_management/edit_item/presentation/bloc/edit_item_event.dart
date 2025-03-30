@@ -106,3 +106,5 @@ class SubmitFormEvent extends EditItemEvent {
             ? accessoryType.first
             : null;
 }
+
+class FetchMostRecentPendingItemIdEvent extends EditItemEvent {}

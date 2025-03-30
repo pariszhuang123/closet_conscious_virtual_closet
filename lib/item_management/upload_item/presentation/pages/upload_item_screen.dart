@@ -28,7 +28,7 @@ class UploadItemScreen extends StatefulWidget {
   State<UploadItemScreen> createState() => _UploadItemScreenState();
 }
 
-class _UploadItemScreenState extends State<UploadItemScreen> with WidgetsBindingObserver {
+class _UploadItemScreenState extends State<UploadItemScreen> {
   final _itemNameController = TextEditingController();
   final _amountSpentController = TextEditingController();
   String? _imageUrl;

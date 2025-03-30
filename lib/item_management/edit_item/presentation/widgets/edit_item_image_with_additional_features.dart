@@ -7,7 +7,6 @@ import '../../../core/presentation/bloc/fetch_item_image_cubit/fetch_item_image_
 
 class EditItemImageWithAdditionalFeatures extends StatelessWidget {
   final String? imageUrl;  // ✅ Add this parameter
-  final bool isChanged;
   final VoidCallback onImageTap;
   final VoidCallback onSwapPressed;
   final VoidCallback onMetadataPressed;
@@ -15,7 +14,6 @@ class EditItemImageWithAdditionalFeatures extends StatelessWidget {
   const EditItemImageWithAdditionalFeatures({
     super.key,
     required this.imageUrl,  // ✅ Ensure this is included
-    required this.isChanged,
     required this.onImageTap,
     required this.onSwapPressed,
     required this.onMetadataPressed,

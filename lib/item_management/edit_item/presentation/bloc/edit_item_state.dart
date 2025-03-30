@@ -49,6 +49,12 @@ class EditItemUpdateSuccess extends EditItemState {
   EditItemUpdateSuccess();
 }
 
+class EditItemPendingItemIdFetched extends EditItemState { // ✅ NEW STATE
+  final String itemId;
+
+  EditItemPendingItemIdFetched({required this.itemId});
+}
+
 class EditItemUpdateFailure extends EditItemState {
   final String errorMessage;
 

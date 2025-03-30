@@ -489,6 +489,8 @@
   "failedToLoadMoreImages": "Failed to load more images",
   "uploadSuccessTitle": "Upload Successful",
   "uploadSuccessContent": "Would you like to upload more items from your photo library?",
+  "editPendingSuccessTitle": "Update Successful",
+  "editPendingSuccessContent": "Would you like to update more pending items from your photo library, so they can be used to create outfits in your closet?",
   "yes": "Yes",
   "machine": "Machine",
   "dryClean": "Dry Clean",

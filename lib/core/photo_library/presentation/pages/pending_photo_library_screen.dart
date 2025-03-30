@@ -12,7 +12,7 @@ import '../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
 import '../../../paywall/data/feature_key.dart';
 import '../../../utilities/routes.dart';
 import '../../../widgets/button/upload_button_with_progress.dart';
-import '../../../widgets/feedback/custom_alert_dialog.dart';
+import '../widgets/show_upload_success_dialog.dart';
 import '../widgets/photo_library_container.dart';
 
 class PendingPhotoLibraryScreen extends StatefulWidget {
@@ -63,30 +63,11 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
               ).show(context);
             }
             if (state is PhotoLibraryUploadSuccess) {
-              _logger.i('Listener: Upload success — showing continue upload dialog');
+              _logger.i(
+                  'Listener: Upload success — showing continue upload dialog');
 
-              CustomAlertDialog.showCustomDialog(
-                context: context,
-                title: S.of(context).uploadSuccessTitle,
-                content: Text(S.of(context).uploadSuccessContent),
-                buttonText: S.of(context).yes,
-                onPressed: () {
-                  Navigator.pop(context); // Close the dialog first
-                  Navigator.pushReplacementNamed(context, AppRoutes.pendingPhotoLibrary);
-                },
-                theme: Theme.of(context),
-                iconButton: IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    Navigator.pop(context); // Close the dialog
-                    Navigator.pushReplacementNamed(context, AppRoutes.viewPendingItem);
-                  },
-                ),
-                canPop: false,
-                barrierDismissible: false,
-              );
+              showUploadSuccessDialog(context, Theme.of(context));
             }
-
           },
         ),
         BlocListener<NavigateCoreBloc, NavigateCoreState>(

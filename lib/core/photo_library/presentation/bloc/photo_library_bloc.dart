@@ -229,4 +229,15 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     _logger.d("Searching for asset ID: $id");
     return _allAssets.firstWhereOrNull((a) => a.id == id);
   }
+
+  @override
+  Future<void> close() {
+    _logger.i("Closing PhotoLibraryBloc — disposing resources");
+
+    selectedImagesNotifier.dispose();
+    selectedImageIdsNotifier.dispose();
+    pagingController.dispose();
+
+    return super.close();
+  }
 }

@@ -312,6 +312,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "editItemSilverTitle": MessageLookupByLibrary.simpleMessage(
             "Silver Plan - Edit Item Images"),
         "editPageTitle": MessageLookupByLibrary.simpleMessage("Edit Item"),
+        "editPendingSuccessContent": MessageLookupByLibrary.simpleMessage(
+            "Would you like to update more pending items from your photo library, so they can be used to create outfits in your closet?"),
+        "editPendingSuccessTitle":
+            MessageLookupByLibrary.simpleMessage("Update Successful"),
         "editSingleMultiClosetDescription": MessageLookupByLibrary.simpleMessage(
             "Edit a single multi-closet.\nTransfer items to another closet,\nupdate metadata,\nchange the multi-closet image,\nor archive the closet."),
         "encourageComment": MessageLookupByLibrary.simpleMessage(

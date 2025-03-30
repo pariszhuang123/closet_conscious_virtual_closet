@@ -26,18 +26,21 @@ class UploadButtonWithProgress extends StatelessWidget {
       textStyle: theme.textTheme.bodyMedium,
     );
 
-    return ElevatedButton(
-      onPressed: isLoading ? null : onPressed,
-      style: buttonStyle,
-      child: isLoading
-          ? SizedBox(
-        width: 36,
-        height: 36,
-        child: isFromMyCloset
-            ? const ClosetProgressIndicator(size: 24, usePrimary: false)
-            : const OutfitProgressIndicator(size: 24, usePrimary: false),
-      )
-          : Text(text),
+    return SizedBox(
+      width: 180,
+      child: ElevatedButton(
+        onPressed: isLoading ? null : onPressed,
+        style: buttonStyle,
+        child: isLoading
+            ? SizedBox(
+          width: 36,
+          height: 36,
+          child: isFromMyCloset
+              ? const ClosetProgressIndicator(size: 24, usePrimary: false)
+              : const OutfitProgressIndicator(size: 24, usePrimary: false),
+        )
+            : Text(text),
+      ),
     );
   }
 }

@@ -27,6 +27,39 @@ class LoginScreenState extends State<LoginScreen> {
   final CustomLogger _logger = CustomLogger(
       'LoginScreen'); // Logger for debugging
 
+  late TapGestureRecognizer _privacyTermsRecognizer;
+  late TapGestureRecognizer _termsConditionsRecognizer;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _privacyTermsRecognizer = TapGestureRecognizer()
+      ..onTap = () {
+        _logger.i("Privacy Terms link clicked.");
+        _navigateToWebView(
+          S.of(context).privacyTermsUrl,
+          S.of(context).privacyTerms,
+        );
+      };
+
+    _termsConditionsRecognizer = TapGestureRecognizer()
+      ..onTap = () {
+        _logger.i("Terms and Conditions link clicked.");
+        _navigateToWebView(
+          S.of(context).termsAndConditionsUrl,
+          S.of(context).termsAndConditions,
+        );
+      };
+  }
+
+  @override
+  void dispose() {
+    _privacyTermsRecognizer.dispose();
+    _termsConditionsRecognizer.dispose();
+    super.dispose();
+  }
+
   void _signIn(BuildContext context) {
     _logger.i("Dispatching SignInEvent.");
     context.read<AuthBloc>().add(SignInEvent());

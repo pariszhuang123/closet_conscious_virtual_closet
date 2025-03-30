@@ -167,6 +167,12 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final itemUploadData = TypeDataList.itemUploaded(context);
     final uploadData = TypeDataList.bulkUpload(context);

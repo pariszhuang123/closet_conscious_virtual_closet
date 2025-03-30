@@ -5,13 +5,11 @@ import '../../../../../core/core_enums.dart';
 
 class EditClosetImage extends StatelessWidget {
   final String closetImage;
-  final bool isChanged;
   final VoidCallback onImageTap;
 
   const EditClosetImage({
     super.key,
     required this.closetImage,
-    required this.isChanged,
     required this.onImageTap,
   });
 
@@ -32,9 +30,7 @@ class EditClosetImage extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 4.0), // Add consistent inner padding
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: isChanged
-                          ? theme.colorScheme.primary
-                          : theme.colorScheme.secondary,
+                      color:  theme.colorScheme.primary,
                       width: 2.0, // Border width
                     ),
                     borderRadius: BorderRadius.circular(10.0), // Match with image rounding

@@ -38,6 +38,12 @@ class AchievementsPageState extends State<AchievementsPage> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
     _logger.d('Building AchievementsGrid');

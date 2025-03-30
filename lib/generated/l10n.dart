@@ -4941,6 +4941,26 @@ class S {
     );
   }
 
+  /// `Update Successful`
+  String get editPendingSuccessTitle {
+    return Intl.message(
+      'Update Successful',
+      name: 'editPendingSuccessTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Would you like to update more pending items from your photo library, so they can be used to create outfits in your closet?`
+  String get editPendingSuccessContent {
+    return Intl.message(
+      'Would you like to update more pending items from your photo library, so they can be used to create outfits in your closet?',
+      name: 'editPendingSuccessContent',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Yes`
   String get yes {
     return Intl.message(

@@ -36,12 +36,14 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
   late CustomLogger logger;
   late String formattedDate;
   final TextEditingController _eventNameController = TextEditingController();
+  late final ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     logger = CustomLogger('OutfitWearViewLogger');
     logger.i('Initializing OutfitWearView with outfitId: ${widget.outfitId}');
+    _scrollController = ScrollController(); // 👈 Add this line
 
     formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
     logger.i('Formatted date: $formattedDate');
@@ -72,6 +74,7 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
   @override
   void dispose() {
     _eventNameController.dispose();
+    _scrollController.dispose(); // 👈 Dispose the scroll controller
     super.dispose();
   }
 

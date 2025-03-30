@@ -150,6 +150,25 @@ class ItemFetchService {
     }
   }
 
+  Future<String?> getMostRecentPendingItemId() async {
+    try {
+      final data = await Supabase.instance.client
+          .from('items')
+          .select('item_id')
+          .eq('is_pending', true)
+          .order('created_at', ascending: false)
+          .limit(1)
+          .maybeSingle(); // returns null if no rows found
+
+      final itemId = data?['item_id'] as String?;
+      logger.i('Most recent pending item ID: $itemId');
+      return itemId;
+    } catch (error) {
+      logger.e('Error fetching most recent pending item ID: $error');
+      return null;
+    }
+  }
+
   Future<int> fetchApparelCount() async {
     try {
       final data = await Supabase.instance.client

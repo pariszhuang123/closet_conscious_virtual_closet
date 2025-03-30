@@ -489,6 +489,8 @@
   "failedToLoadMoreImages": "加载更多图片失败",
   "uploadSuccessTitle": "上传成功",
   "uploadSuccessContent": "你想继续从相册上传更多的物品吗？",
+  "editPendingSuccessTitle": "更新成功",
+  "editPendingSuccessContent": "您想继续从相册中更新更多待处理的物品吗？更新后这些物品就可以用于搭配衣服了。",
   "yes": "是的",
   "machine": "机洗",
   "dryClean": "干洗",

@@ -158,6 +158,12 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose(); // ✅ Dispose the controller
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
     logger.d('Building SummaryItemsScreen UI');
