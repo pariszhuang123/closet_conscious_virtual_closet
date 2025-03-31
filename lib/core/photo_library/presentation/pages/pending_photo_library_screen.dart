@@ -169,9 +169,6 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
             } else if (state is ItemAccessGrantedState) {
               _libraryAccessGranted = true;
               _logger.i('Library access granted');
-              final selectedAssets = context.read<PhotoLibraryBloc>().selectedImages;
-              _logger.i('Listener: Access granted — dispatching upload for ${selectedAssets.length} assets');
-              context.read<PhotoLibraryBloc>().add(UploadSelectedLibraryImages(assets: selectedAssets));
             }
           },
         ),
