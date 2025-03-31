@@ -14,6 +14,8 @@ import '../../../utilities/routes.dart';
 import '../../../widgets/button/upload_button_with_progress.dart';
 import '../widgets/show_upload_success_dialog.dart';
 import '../widgets/photo_library_container.dart';
+import '../widgets/show_photo_permission_dialog.dart';
+import '../../../utilities/helper_functions/permission_helper/library_permission_helper.dart';
 
 class PendingPhotoLibraryScreen extends StatefulWidget {
   const PendingPhotoLibraryScreen({super.key});
@@ -22,8 +24,11 @@ class PendingPhotoLibraryScreen extends StatefulWidget {
   State<PendingPhotoLibraryScreen> createState() => _PendingPhotoLibraryScreen();
 }
 
-class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
+class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with WidgetsBindingObserver {
   final _logger = CustomLogger('PendingPhotoLibraryScreen');
+  final LibraryPermissionHelper _libraryPermissionHelper = LibraryPermissionHelper();
+  bool _libraryInitialized = false;
+  bool _libraryAccessGranted = false;
 
   @override
   void initState() {
@@ -31,12 +36,33 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
     _logger.i('initState: Requesting photo library permission');
     context.read<PhotoLibraryBloc>().add(RequestLibraryPermission());
     context.read<PhotoLibraryBloc>().add(CheckForPendingItems());
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_libraryInitialized && _libraryAccessGranted) {
+      _logger.d('Dependencies changed: checking camera permission');
+      _handleLibraryPermission(context); // Safe to call here
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed && !_libraryInitialized && _libraryAccessGranted) {
+      _logger.d('App resumed, checking camera permission again');
+      _handleLibraryPermission(context);
+    }
   }
 
   @override
   void dispose() {
     _logger.i('dispose: Clearing UserPhoto cache');
     UserPhoto.clearCache();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -45,6 +71,35 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
     if (state is SilverUploadItemDeniedState) return FeatureKey.uploadItemSilver;
     if (state is GoldUploadItemDeniedState) return FeatureKey.uploadItemGold;
     return FeatureKey.uploadItemBronze;
+  }
+
+  void _handleLibraryPermission(BuildContext context) {
+    _logger.d('Handling library permission');
+
+    _libraryPermissionHelper.checkAndRequestPermission(
+      context: context,
+      theme: Theme.of(context),
+      onClose: () {
+        _logger.i('Permission handling closed. Navigate to myCloset.');
+        _navigateToMyCloset();
+      },
+    );
+  }
+
+  void _navigateSafely(String routeName, {Object? arguments}) {
+    if (mounted) {
+      _logger.d('Navigating to $routeName with arguments: $arguments');
+      Navigator.pushReplacementNamed(context, routeName, arguments: arguments);
+    } else {
+      _logger.e("Cannot navigate to $routeName, widget is not mounted");
+    }
+  }
+
+  void _navigateToMyCloset() {
+    _logger.d('Navigating to MyCloset');
+    _navigateSafely (
+        AppRoutes.myCloset
+    );
   }
 
   @override
@@ -62,7 +117,25 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
                 theme: Theme.of(context),
               ).show(context);
             }
-            if (state is PhotoLibraryUploadSuccess) {
+            if (state is PhotoLibraryNoAvailableImages) {
+              _logger.w(
+                  'No accessible images available under current permissions.');
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                showPhotoPermissionDialog(context);
+              });
+            }
+            if (state is PhotoLibraryPermissionDenied) {
+              _logger.w('Photo library permission denied. Triggering permission helper.');
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                _handleLibraryPermission(context);
+              });
+            }
+            if (state is PhotoLibraryPermissionGranted && !_libraryInitialized) {
+              _logger.i('Library permission granted');
+              _libraryInitialized = true;
+            }
+
+              if (state is PhotoLibraryUploadSuccess) {
               _logger.i(
                   'Listener: Upload success — showing continue upload dialog');
 
@@ -89,6 +162,8 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> {
                 },
               );
             } else if (state is ItemAccessGrantedState) {
+              _libraryAccessGranted = true;
+              _logger.i('Library access granted');
               final selectedAssets = context.read<PhotoLibraryBloc>().selectedImages;
               _logger.i('Listener: Access granted — dispatching upload for ${selectedAssets.length} assets');
               context.read<PhotoLibraryBloc>().add(UploadSelectedLibraryImages(assets: selectedAssets));

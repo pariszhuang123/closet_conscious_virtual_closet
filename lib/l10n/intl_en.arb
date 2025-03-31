@@ -508,6 +508,7 @@
   "viewPendingUpload": "View Pending Upload",
   "personalStyle": "Personal Style",
   "overFlowingCloset": "Overflowing Closet",
-  "parentMemories": "Parent Memories"
-
+  "parentMemories": "Parent Memories",
+  "photoAccessDialogTitle": "Give Full Access?",
+  "photoAccessDialogContent": "To see your entire photo library and avoid being asked again, grant full access in Settings."
 }

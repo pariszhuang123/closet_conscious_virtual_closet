@@ -113,6 +113,7 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     final granted = await _photoLibraryService.requestPhotoPermission();
     _logger.d("Permission granted: $granted");
     if (granted) {
+      emit(PhotoLibraryPermissionGranted()); // <-- ✅ Emit it here
       add(InitializePhotoLibrary());
     } else {
       _logger.w("Permission denied.");
@@ -131,6 +132,19 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
 
       _allAssets.clear();
       selectedImagesNotifier.value = [];
+
+      final initialAssets = await _photoLibraryService.fetchPaginatedAssets(
+        page: 0,
+        size: _pageSize,
+      );
+
+      if (initialAssets.isEmpty) {
+        _logger.w("No accessible images found. Limited access with empty album.");
+        emit(PhotoLibraryNoAvailableImages());
+        return;
+      }
+
+      _allAssets.addAll(initialAssets);
 
       pagingController.refresh();
     } catch (e, stack) {

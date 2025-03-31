@@ -5140,6 +5140,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Give Full Access?`
+  String get photoAccessDialogTitle {
+    return Intl.message(
+      'Give Full Access?',
+      name: 'photoAccessDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To see your entire photo library and avoid being asked again, grant full access in Settings.`
+  String get photoAccessDialogContent {
+    return Intl.message(
+      'To see your entire photo library and avoid being asked again, grant full access in Settings.',
+      name: 'photoAccessDialogContent',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

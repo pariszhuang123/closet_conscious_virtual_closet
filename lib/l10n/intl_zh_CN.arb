@@ -508,5 +508,7 @@
   "viewPendingUpload": "查看待上传",
   "personalStyle": "个人风格",
   "overFlowingCloset": "爆满衣橱",
-  "parentMemories": "父母回忆"
+  "parentMemories": "父母回忆",
+  "photoAccessDialogTitle": "允许完整访问？",
+  "photoAccessDialogContent": "如需查看整个相册并避免再次提示，请在设置中启用完整访问。"
 }

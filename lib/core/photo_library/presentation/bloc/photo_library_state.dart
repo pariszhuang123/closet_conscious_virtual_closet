@@ -6,6 +6,10 @@ class PhotoLibraryInitial extends PhotoLibraryState {}
 
 class PhotoLibraryPermissionDenied extends PhotoLibraryState {}
 
+class PhotoLibraryPermissionGranted extends PhotoLibraryState {}
+
+class PhotoLibraryNoAvailableImages extends PhotoLibraryState {}
+
 class PhotoLibraryLoadingImages extends PhotoLibraryState {}
 
 class PhotoLibraryPendingItem extends PhotoLibraryState {}

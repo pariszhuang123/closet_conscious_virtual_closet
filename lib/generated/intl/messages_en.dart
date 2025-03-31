@@ -606,6 +606,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "permission_needed": MessageLookupByLibrary.simpleMessage(
             "This permission is\nrequired for the app\nto function properly."),
         "personalStyle": MessageLookupByLibrary.simpleMessage("Personal Style"),
+        "photoAccessDialogContent": MessageLookupByLibrary.simpleMessage(
+            "To see your entire photo library and avoid being asked again, grant full access in Settings."),
+        "photoAccessDialogTitle":
+            MessageLookupByLibrary.simpleMessage("Give Full Access?"),
         "photo_library_permission_explanation":
             MessageLookupByLibrary.simpleMessage(
                 "We need access to your photo library so you can select and upload your favorite outfits."),

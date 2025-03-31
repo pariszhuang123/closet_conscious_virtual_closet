@@ -528,6 +528,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "permission_needed":
             MessageLookupByLibrary.simpleMessage("此权限是应用正常运行所必需的。"),
         "personalStyle": MessageLookupByLibrary.simpleMessage("个人风格"),
+        "photoAccessDialogContent": MessageLookupByLibrary.simpleMessage(
+            "如需查看整个相册并避免再次提示，请在设置中启用完整访问。"),
+        "photoAccessDialogTitle":
+            MessageLookupByLibrary.simpleMessage("允许完整访问？"),
         "photo_library_permission_explanation":
             MessageLookupByLibrary.simpleMessage("我们需要访问您的相册，以便您可以选择并上传喜爱的穿搭。"),
         "pleaseCorrectTheErrors":
