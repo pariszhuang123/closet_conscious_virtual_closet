@@ -123,7 +123,9 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
               _logger.w(
                   'No accessible images available under current permissions.');
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                showPhotoPermissionDialog(context);
+                showPhotoPermissionDialog(
+                  context: context,
+                );
               });
             }
             if (state is PhotoLibraryPermissionDenied) {
@@ -182,26 +184,6 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
           if (state is PhotoLibraryFailure) {
             _logger.e('Failure: ${state.error}');
             return Center(child: Text(S.of(context).failedToLoadImages));
-          }
-
-          if (state is PhotoLibraryPermissionDenied) {
-            _logger.w('Permission denied. Showing permission prompt UI.');
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Permission denied. Please grant photo library access.'),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      _logger.i('Permission button clicked — re-requesting permission');
-                      context.read<PhotoLibraryBloc>().add(RequestLibraryPermission());
-                    },
-                      child: Text(S.of(context).photo_library_permission_explanation)
-                  ),
-                ],
-              ),
-            );
           }
 
           final selectedAssets = context.select<PhotoLibraryBloc, List<AssetEntity>>(

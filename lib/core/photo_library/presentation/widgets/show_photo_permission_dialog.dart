@@ -3,9 +3,15 @@ import 'package:photo_manager/photo_manager.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../widgets/feedback/custom_alert_dialog.dart';
+import '../../../utilities/logger.dart'; // adjust path if needed
 
-void showPhotoPermissionDialog(BuildContext context) {
+void showPhotoPermissionDialog({
+  required BuildContext context,
+}) {
   final theme = Theme.of(context);
+  final logger = CustomLogger('PhotoPermissionDialog');
+
+  logger.i('Showing photo permission dialog');
 
   CustomAlertDialog.showCustomDialog(
     context: context,
@@ -18,13 +24,17 @@ void showPhotoPermissionDialog(BuildContext context) {
     ),
     buttonText: S.of(context).yes,
     onPressed: () {
+      logger.i('User tapped YES to open settings');
       PhotoManager.openSetting();
       Navigator.pop(context);
     },
     iconButton: IconButton(
       icon: const Icon(Icons.close),
-      onPressed: () {
-        Navigator.pop(context); // Allow user to proceed with limited access
+      onPressed: () async {
+        logger.i('User tapped CLOSE icon');
+        Navigator.pop(context);
+        final result = await PhotoManager.requestPermissionExtend();
+        logger.i('Requested permission again: ${result.isAuth}');
       },
     ),
     barrierDismissible: false,
