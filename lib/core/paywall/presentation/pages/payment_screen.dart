@@ -14,7 +14,7 @@ import '../../../utilities/routes.dart';
 import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../presentation/widgets/feature_carousel.dart';
-
+import '../../../core_enums.dart';
 
 class PaymentScreen extends StatefulWidget {
   final FeatureKey featureKey;
@@ -23,6 +23,7 @@ class PaymentScreen extends StatefulWidget {
   final String nextRoute;
   final String? outfitId; // Optional outfitId parameter
   final String? itemId;   // Optional itemId parameter
+  final UploadSource? uploadSource;
 
   const PaymentScreen({
     super.key,
@@ -32,6 +33,7 @@ class PaymentScreen extends StatefulWidget {
     required this.nextRoute,
     this.outfitId,  // Optional, can be null
     this.itemId,    // Optional, can be null
+    this.uploadSource,
   });
 
   @override
@@ -128,6 +130,11 @@ class PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) {
     final ThemeData appliedTheme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
 
+    final filteredParts = featureData.parts.where((part) {
+      return part.source == null || part.source == widget.uploadSource;
+    }).toList();
+
+
     return BlocConsumer<PaymentBloc, PaymentState>(
       listener: (context, state) {
         if (state is PaymentInProgress) {
@@ -185,8 +192,8 @@ class PaymentScreenState extends State<PaymentScreen> {
                           const SizedBox(height: 16),
 
                           FeatureCarousel(
-                            imageUrls: featureData.parts.map((part) => part.imageUrl).toList(),
-                            descriptions: featureData.parts.map((part) => part.getDescription(context)).toList(),
+                            imageUrls: filteredParts.map((part) => part.imageUrl).toList(),
+                            descriptions: filteredParts.map((part) => part.getDescription(context)).toList(),
                             theme: appliedTheme,
                           ),
 

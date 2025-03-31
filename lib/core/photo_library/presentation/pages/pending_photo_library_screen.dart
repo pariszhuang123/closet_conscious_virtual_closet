@@ -16,6 +16,7 @@ import '../widgets/show_upload_success_dialog.dart';
 import '../widgets/photo_library_container.dart';
 import '../widgets/show_photo_permission_dialog.dart';
 import '../../../utilities/helper_functions/permission_helper/library_permission_helper.dart';
+import '../../../core_enums.dart';
 
 class PendingPhotoLibraryScreen extends StatefulWidget {
   const PendingPhotoLibraryScreen({super.key});
@@ -36,6 +37,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
     _logger.i('initState: Requesting photo library permission');
     context.read<PhotoLibraryBloc>().add(RequestLibraryPermission());
     context.read<PhotoLibraryBloc>().add(CheckForPendingItems());
+    context.read<NavigateCoreBloc>().add(const CheckUploadItemCreationAccessEvent());
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -159,6 +161,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
                   'isFromMyCloset': true,
                   'previousRoute': AppRoutes.myCloset,
                   'nextRoute': AppRoutes.pendingPhotoLibrary,
+                  'uploadSource': UploadSource.photoLibrary,
                 },
               );
             } else if (state is ItemAccessGrantedState) {

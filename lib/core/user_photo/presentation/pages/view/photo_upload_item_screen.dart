@@ -145,6 +145,8 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
                   'isFromMyCloset': true,
                   'previousRoute': AppRoutes.myCloset,
                   'nextRoute': AppRoutes.uploadItemPhoto,
+                  'uploadSource': UploadSource.camera,
+
                 });
               } else if (state is SilverUploadItemDeniedState) {
                 _navigateSafely(AppRoutes.payment, arguments: {
@@ -152,6 +154,8 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
                   'isFromMyCloset': true,
                   'previousRoute': AppRoutes.myCloset,
                   'nextRoute': AppRoutes.uploadItemPhoto,
+                  'uploadSource': UploadSource.camera,
+
                 });
               } else if (state is GoldUploadItemDeniedState) {
                 _navigateSafely(AppRoutes.payment, arguments: {
@@ -159,6 +163,7 @@ class PhotoUploadItemScreenState extends State<PhotoUploadItemScreen> with Widge
                   'isFromMyCloset': true,
                   'previousRoute': AppRoutes.myCloset,
                   'nextRoute': AppRoutes.uploadItemPhoto,
+                  'uploadSource': UploadSource.camera,
                 });
               } else if (state is ItemAccessGrantedState) {
                 _uploadAccessGranted = true;

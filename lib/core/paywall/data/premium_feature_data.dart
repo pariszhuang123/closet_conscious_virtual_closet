@@ -1,6 +1,7 @@
 import '../../../generated/l10n.dart';
 import 'package:flutter/material.dart';
 import '../data/feature_key.dart';
+import '../../core_enums.dart';
 
 class FeatureData {
   final String Function(BuildContext) getTitle;
@@ -19,10 +20,12 @@ class FeatureData {
 class FeaturePart {
   final String imageUrl;
   final String Function(BuildContext) getDescription;
+  final UploadSource? source;
 
   FeaturePart({
     required this.imageUrl,
     required this.getDescription,
+    this.source,
   });
 }
 
@@ -36,7 +39,13 @@ class FeatureDataList {
         isUsageFeature: true,
         parts: [
           FeaturePart(
+            source: UploadSource.camera,
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/upload_item.jpg',
+            getDescription: (context) => S.of(context).uploadItemBronzeDescription,
+          ),
+          FeaturePart(
+            source: UploadSource.photoLibrary,
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
             getDescription: (context) => S.of(context).uploadItemBronzeDescription,
           ),
         ],
@@ -47,7 +56,13 @@ class FeatureDataList {
         isUsageFeature: true,
         parts: [
           FeaturePart(
+            source: UploadSource.camera,
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/upload_item.jpg',
+            getDescription: (context) => S.of(context).uploadItemSilverDescription,
+          ),
+          FeaturePart(
+            source: UploadSource.photoLibrary,
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
             getDescription: (context) => S.of(context).uploadItemSilverDescription,
           ),
         ],
@@ -58,7 +73,13 @@ class FeatureDataList {
         isUsageFeature: true,
         parts: [
           FeaturePart(
+            source: UploadSource.camera,
             imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/upload_item.jpg',
+            getDescription: (context) => S.of(context).uploadItemGoldDescription,
+          ),
+          FeaturePart(
+            source: UploadSource.photoLibrary,
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
             getDescription: (context) => S.of(context).uploadItemGoldDescription,
           ),
         ],

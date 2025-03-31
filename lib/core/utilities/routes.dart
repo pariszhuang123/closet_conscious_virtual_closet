@@ -485,6 +485,7 @@ class AppRoutes {
             nextRoute: args['nextRoute'],
             itemId: args['itemId'],
             outfitId: args['outfitId'],
+            uploadSource: args['uploadSource'],
           ),
         );
       default:

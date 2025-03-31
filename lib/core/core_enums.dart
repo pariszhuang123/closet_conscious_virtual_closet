@@ -73,3 +73,8 @@ enum ImagePurpose {
   preview,
   upload,
 }
+
+enum UploadSource {
+  camera,
+  photoLibrary
+}
