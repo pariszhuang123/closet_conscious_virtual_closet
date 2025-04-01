@@ -103,7 +103,7 @@ class PaymentScreenState extends State<PaymentScreen> {
 
     if (widget.previousRoute == AppRoutes.editItem && widget.itemId != null) {
       _logger.i('Navigating back to EditItem with itemId: ${widget.itemId}');
-      Navigator.pop(context, widget.itemId);
+      Navigator.pop(context,  {'itemId': widget.itemId});
     } else if (widget.previousRoute == AppRoutes.wearOutfit && widget.outfitId != null) {
       _logger.i('Navigating back to WearOutfit with outfitId: ${widget.outfitId}');
       Navigator.pop(context, widget.outfitId);
