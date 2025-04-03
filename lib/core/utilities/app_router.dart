@@ -1,13 +1,12 @@
-import 'dart:async';
-
 import 'package:closet_conscious/core/theme/my_closet_theme.dart';
 import 'package:closet_conscious/user_management/user_update/presentation/pages/update_required_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../user_management/user_service_locator.dart' as user_locator;
+import '../utilities/go_router_refresh_stream.dart';
 import '../../screens/closet/closet_provider.dart';
 import '../../screens/outfit/my_outfit_provider.dart';
+import '../../user_management/user_service_locator.dart';
 import '../theme/my_outfit_theme.dart';
 
 import '../../user_management/authentication/presentation/pages/homepage/home_page_provider.dart';
@@ -48,8 +47,6 @@ import '../core_enums.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import 'helper_functions/transition_helper.dart';
 
-final authBloc = user_locator.locator<AuthBloc>();
-
 abstract class AppRoutesName {
   static const String login = 'login';
   static const String home = 'home';
@@ -88,40 +85,25 @@ abstract class AppRoutesName {
   static const String payment = 'payment';
 }
 
-  class GoRouterRefreshStream extends ChangeNotifier {
-  GoRouterRefreshStream(Stream<dynamic> stream) {
-    _subscription = stream.asBroadcastStream().listen((_) {
-      notifyListeners();
-    });
-  }
-
-  late final StreamSubscription<dynamic> _subscription;
-
-  @override
-  void dispose() {
-    _subscription.cancel();
-    super.dispose();
-  }
-}
-
 final GoRouter appRouter = GoRouter(
   initialLocation: '/login',
-  refreshListenable: GoRouterRefreshStream(authBloc.stream),
+  refreshListenable: GoRouterRefreshStream(locator<AuthBloc>().stream), // 👈 Refresh on auth state
   redirect: (context, state) {
-    final authState = authBloc.state;
+    final authState = locator<AuthBloc>().state;
 
     final isLoggedIn = authState is Authenticated;
     final isLoggingIn = state.matchedLocation == '/login';
     final isWebView = state.matchedLocation == '/web_view';
 
-    // If the user is not logged in, allow them to access the login page and the web view.
+    // 👇 If not logged in and not on login or web_view, go to login
     if (!isLoggedIn && !isLoggingIn && !isWebView) return '/login';
 
-    if (isLoggedIn && isLoggingIn & !isWebView) return '/my_closet';
+    // 👇 If logged in but trying to access login (and not web_view), redirect home
+    if (isLoggedIn && isLoggingIn && !isWebView) return '/my_closet';
 
-    // ✅ Otherwise, stay on the current route
-    return null;
+    return null; // ✅ No redirect needed
   },
+
   routes: [
     GoRoute(
       path: '/login',
