@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../utilities/logger.dart';
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
@@ -10,7 +11,7 @@ import '../../../../../../outfit_management/core/data/models/outfit_data.dart';
 import '../../../../../widgets/layout/carousel/carousel_outfit.dart';
 import '../../../../../widgets/layout/list/outfit_list.dart';
 import '../../../../../widgets/progress_indicator/outfit_progress_indicator.dart';
-import '../../../../../utilities/routes.dart';
+import '../../../../../utilities/app_router.dart';
 import '../../../../../../generated/l10n.dart';
 import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import '../../../../../paywall/data/feature_key.dart';
@@ -41,10 +42,9 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
             listener: (context, state) {
               if (state is OutfitFocusedDateSuccess) {
                 _logger.i('✅ Focused date set successfully for outfitId: ${state.outfitId}');
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.dailyCalendar,
-                  arguments: {'outfitId': state.outfitId},
+                context.goNamed(
+                  AppRoutesName.dailyCalendar,
+                  extra: {'outfitId': state.outfitId},
                 );
               } else if (state is OutfitFocusedDateFailure) {
                 _logger.e('❌ Failed to set focused date: ${state.error}');
@@ -59,23 +59,21 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
               if (state is UsageAnalyticsAccessState) {
                 if (state.accessStatus == AccessStatus.denied) {
                   _logger.w('Access denied: Navigating to payment page');
-                  Navigator.pushReplacementNamed(
-                    context,
-                    AppRoutes.payment,
-                    arguments: {
+                  context.goNamed(
+                    AppRoutesName.payment,
+                    extra: {
                       'featureKey': FeatureKey.usageAnalytics,
                       'isFromMyCloset': isFromMyCloset,
-                      'previousRoute': AppRoutes.myCloset,
-                      'nextRoute': AppRoutes.relatedOutfitAnalytics,
+                      'previousRoute': AppRoutesName.myCloset,
+                      'nextRoute': AppRoutesName.relatedOutfitAnalytics,
                     },
                   );
                 } else if (state.accessStatus == AccessStatus.trialPending) {
                   _logger.i('Trial pending, navigating to trialStarted screen');
-                  Navigator.pushReplacementNamed(
-                    context,
-                    AppRoutes.trialStarted,
-                    arguments: {
-                      'selectedFeatureRoute': AppRoutes.relatedOutfitAnalytics,
+                  context.goNamed(
+                    AppRoutesName.trialStarted,
+                    extra: {
+                      'selectedFeatureRoute': AppRoutesName.relatedOutfitAnalytics,
                       'isFromMyCloset': isFromMyCloset,
                     },
                   );
@@ -180,10 +178,9 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
                           onAction: (selectedOutfitId) {
                             _logger.d(
                                 'Tapped related outfit: $selectedOutfitId');
-                            Navigator.pushReplacementNamed(
-                              context,
-                              AppRoutes.relatedOutfitAnalytics,
-                              arguments: selectedOutfitId,
+                            context.goNamed(
+                              AppRoutesName.relatedOutfitAnalytics,
+                              extra: selectedOutfitId,
                             );
                           },
                         );

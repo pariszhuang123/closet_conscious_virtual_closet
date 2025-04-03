@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:go_router/go_router.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../../core/theme/my_closet_theme.dart';
@@ -8,7 +9,7 @@ import '../../../../core/core_enums.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/widgets/feedback/custom_alert_dialog.dart';
-import '../../../../core/utilities/routes.dart';
+import '../../../../core/utilities/app_router.dart';
 import '../../../../core/data/type_data.dart';
 import '../../../core/data/services/item_save_service.dart';
 
@@ -80,7 +81,7 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
           buttonText: S.of(context).ok,
           onPressed: () {
             Navigator.of(context).pop();
-            Navigator.pushNamed(context, AppRoutes.myCloset);
+            context.pushNamed(AppRoutesName.myCloset);
           },
           theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
         );

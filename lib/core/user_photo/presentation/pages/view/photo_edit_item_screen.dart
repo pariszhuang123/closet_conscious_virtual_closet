@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../bloc/photo_bloc.dart';
 import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
-import '../../../../utilities/routes.dart';
+import '../../../../utilities/app_router.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../../paywall/data/feature_key.dart';
@@ -32,7 +33,7 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
   @override
   void onPermissionClose() {
     widget.logger.i('Camera permission check failed, navigating to EditItem');
-    navigateSafely(AppRoutes.editItem, arguments: widget.itemId);
+    navigateSafely(AppRoutesName.editItem, extra: widget.itemId);
   }
 
   @override
@@ -65,11 +66,11 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
 
                 widget.logger.i('${featureKey.name} access denied, navigating to payment screen');
 
-                navigateSafely(AppRoutes.payment, arguments: {
+                navigateSafely(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
-                  'previousRoute': AppRoutes.editItem,
-                  'nextRoute': AppRoutes.myCloset,
+                  'previousRoute': AppRoutesName.editItem,
+                  'nextRoute': AppRoutesName.myCloset,
                   'itemId': widget.itemId,
                 });
               } else if (state is ItemAccessGrantedState) {
@@ -91,14 +92,14 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
                   photoBloc.add(CaptureEditItemPhoto(widget.itemId!));
                 } else {
                   widget.logger.e('Item ID is null. Cannot capture EditItem.');
-                  navigateSafely(AppRoutes.editItem, arguments: {'itemId': widget.itemId});
+                  navigateSafely(AppRoutesName.editItem, extra: {'itemId': widget.itemId});
                 }
               } else if (state is PhotoCaptureFailure) {
                 widget.logger.e('Photo capture failed');
-                navigateSafely(AppRoutes.editItem, arguments: widget.itemId);
+                navigateSafely(AppRoutesName.editItem, extra: widget.itemId);
               } else if (state is EditItemCaptureSuccess) {
                 widget.logger.i('Photo upload succeeded with itemId: ${state.itemId}');
-                navigateSafely(AppRoutes.myCloset);
+                navigateSafely(AppRoutesName.myCloset);
               }
             },
           ),

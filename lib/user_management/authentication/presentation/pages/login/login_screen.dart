@@ -4,11 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../widgets/sign_in_button_google.dart';
 import '../../widgets/sign_in_button_apple.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../../core/screens/webview_screen.dart';
+import '../../../../../core/utilities/app_router.dart';
+import '../../../../../core/utilities/helper_functions/argument_helper.dart';
 import '../../../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../authentication/presentation/bloc/auth_bloc.dart';
@@ -88,14 +90,12 @@ class LoginScreenState extends State<LoginScreen> {
   void _navigateToWebView(String url, String title) {
     _logger.d("Navigating to WebViewScreen with URL: $url, Title: $title");
     try {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) =>
-              WebViewScreen(
-                url: url,
-                isFromMyCloset: true,
-                title: title,
-              ),
+      context.pushNamed(
+        AppRoutesName.webView,
+        extra: WebViewArguments(
+          url: url,
+          title: title,
+          isFromMyCloset: true,
         ),
       );
       _logger.i("Navigation to WebViewScreen successful.");

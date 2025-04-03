@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../../generated/l10n.dart';
-import '../../../../core/utilities/routes.dart';
+import '../../../../core/utilities/app_router.dart';
 import '../../../../core/theme/my_closet_theme.dart';
 import '../../../../core/theme/my_outfit_theme.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/widgets/feedback/custom_alert_dialog.dart';
-import '../../../../core/screens/achievement_completed_screen.dart';
 import '../../../../core/data/services/core_save_services.dart';
 import '../../../../core/widgets/button/themed_elevated_button.dart';
+import '../../../../core/achievement_celebration/helper/achievement_navigator.dart';
 
 class UploadConfirmationBottomSheet extends StatefulWidget {
   final bool isFromMyCloset;
@@ -47,7 +47,13 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
         final achievementUrl = response['badge_url'];
 
         if (achievementUrl != null) {
-          _showAchievementScreen(context, achievementUrl);
+          handleAchievementNavigationWithTheme(
+            context: context,
+            achievementKey: 'closet_uploaded',
+            badgeUrl: achievementUrl,
+            nextRoute: AppRoutesName.myCloset,
+            isFromMyCloset: widget.isFromMyCloset,
+          );
         } else {
           _showCustomDialog(S.of(context).error,
               Text(S.of(context).unexpectedResponseFormat));
@@ -87,24 +93,6 @@ class UploadConfirmationBottomSheetState extends State<UploadConfirmationBottomS
           theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
         );
       },
-    );
-  }
-
-  void _showAchievementScreen(BuildContext context, String achievementUrl) {
-    logger.i('Navigating to AchievementScreen with URL: $achievementUrl');
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Theme(
-          data: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
-          child: AchievementScreen(
-            achievementKey: "closet_uploaded",
-            achievementUrl: achievementUrl,
-            nextRoute: AppRoutes.myCloset,
-          ),
-        ),
-      ),
     );
   }
 

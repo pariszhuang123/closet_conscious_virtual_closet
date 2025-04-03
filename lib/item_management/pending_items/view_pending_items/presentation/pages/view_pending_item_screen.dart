@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../../../../item_management/view_items/presentation/bloc/view_items_bloc.dart'; // Import ViewItemsBloc
@@ -47,10 +48,9 @@ class ViewPendingItemScreenState extends State<ViewPendingItemScreen> {
     if (itemId != null) {
       logger.i("Navigating to edit Item for itemId: $itemId");
 
-      Navigator.pushNamed(
-        context,
-        AppRoutes.editPendingItem, // ✅ Ensure this route exists
-        arguments: {'itemId': itemId},
+      context.pushNamed(
+        AppRoutesName.editPendingItem, // ✅ Ensure this route exists
+        extra: itemId,
       );
     } else {
       logger.w("No item selected, navigation not triggered.");

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/user_photo/presentation/widgets/base/user_photo.dart';
 import '../../../../../core/core_enums.dart';
 import '../bloc/reappear_closet_bloc.dart';
-import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/widgets/button/themed_elevated_button.dart';
 import '../../../../../core/utilities/logger.dart';
 
@@ -87,9 +88,8 @@ class ReappearClosetScreen extends StatelessWidget {
                     _logger.i('Dispatched UpdateReappearClosetSharedPreferenceEvent for closetId: $closetId');
 
                     // Navigate to myCloset
-                    Navigator.pushReplacementNamed(
-                      context,
-                      AppRoutes.myCloset,
+                    context.goNamed(
+                      AppRoutesName.myCloset,
                     );
 
                     _logger.i('Navigated to MyCloset screen.');

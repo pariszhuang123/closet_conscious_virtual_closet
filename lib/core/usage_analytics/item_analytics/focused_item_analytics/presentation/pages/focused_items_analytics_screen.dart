@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../utilities/logger.dart';
 import '../../../../../../item_management/core/presentation/bloc/fetch_item_image_cubit/fetch_item_image_cubit.dart';
 import '../../../../core/presentation/bloc/navigate_to_item_cubit/navigate_to_item_cubit.dart';
 import '../widgets/focused_item_analytics_image_with_additional_features.dart';
 import '../../../../../widgets/progress_indicator/closet_progress_indicator.dart';
-import '../../../../../utilities/routes.dart';
+import '../../../../../utilities/app_router.dart';
 import '../bloc/fetch_item_related_outfits_cubit.dart';
 import '../../../../../widgets/layout/list/outfit_list.dart';
 import '../../../../../../outfit_management/core/data/models/outfit_data.dart';
@@ -34,10 +35,9 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
 
   void _onImageTap(BuildContext context) {
     logger.i('Image tapped, navigating to EditItem');
-    Navigator.pushNamed(
-      context,
-      AppRoutes.editItem, // Ensure this is correctly defined in your routes
-      arguments: {'itemId': itemId}, // Pass itemId if needed
+    context.pushNamed(
+      AppRoutesName.editItem, // Ensure this is correctly defined in your routes
+      extra: itemId, // Pass itemId if needed
     );
   }
 
@@ -55,7 +55,7 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
             listener: (context, state) {
               if (state is NavigateToItemSuccess) {
                 logger.i('NavigateToItemSuccess - Navigating to SummaryItemAnalytics');
-                Navigator.pushReplacementNamed(context, AppRoutes.summaryItemsAnalytics);
+                context.goNamed(AppRoutesName.summaryItemsAnalytics);
               } else if (state is NavigateToItemFailure) {
                 logger.e('Failed to navigate to item analytics: ${state.error}');
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -68,10 +68,9 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
             listener: (context, state) {
               if (state is OutfitFocusedDateSuccess) {
                 logger.i('✅ Focused date set successfully for outfitId: ${state.outfitId}');
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.dailyCalendar,
-                  arguments: {'outfitId': state.outfitId}, // ✅ Pass as a Map
+                context.goNamed(
+                  AppRoutesName.dailyCalendar,
+                  extra: {'outfitId': state.outfitId}, // ✅ Pass as a Map
                 );
               } else if (state is OutfitFocusedDateFailure) {
                 logger.e('❌ Failed to set focused date: ${state.error}');
@@ -86,23 +85,21 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
               if (state is UsageAnalyticsAccessState) {
                 if (state.accessStatus == AccessStatus.denied) {
                   logger.w('Access denied: Navigating to payment page');
-                  Navigator.pushReplacementNamed(
-                    context,
-                    AppRoutes.payment,
-                    arguments: {
+                  context.goNamed(
+                    AppRoutesName.payment,
+                    extra: {
                       'featureKey': FeatureKey.usageAnalytics,
                       'isFromMyCloset': isFromMyCloset,
-                      'previousRoute': AppRoutes.myCloset,
-                      'nextRoute': AppRoutes.focusedItemsAnalytics,
+                      'previousRoute': AppRoutesName.myCloset,
+                      'nextRoute': AppRoutesName.focusedItemsAnalytics,
                     },
                   );
                 } else if (state.accessStatus == AccessStatus.trialPending) {
                   logger.i('Trial pending, navigating to trialStarted screen');
-                  Navigator.pushReplacementNamed(
-                    context,
-                    AppRoutes.trialStarted,
-                    arguments: {
-                      'selectedFeatureRoute': AppRoutes.focusedItemsAnalytics,
+                  context.goNamed(
+                    AppRoutesName.trialStarted,
+                    extra: {
+                      'selectedFeatureRoute': AppRoutesName.focusedItemsAnalytics,
                       'isFromMyCloset': isFromMyCloset,
                     },
                   );

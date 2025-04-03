@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../generated/l10n.dart'; // Import localization if needed
 import '../../../theme/my_closet_theme.dart';
 import '../../../theme/my_outfit_theme.dart';
-import '../../../utilities/routes.dart';
+import '../../../utilities/app_router.dart';
 
 class MainBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -18,16 +19,14 @@ class MainBottomNavBar extends StatelessWidget {
   void _onItemTapped(BuildContext context, int index) {
     if (index == 0 && currentIndex != 0) {
       // Navigate only if not already on this tab
-      Navigator.pushReplacementNamed(
-        context,
-        AppRoutes.myCloset,
-        arguments: {'isFromMyCloset': true},
+      context.goNamed(
+        AppRoutesName.myCloset,
+        extra: {'isFromMyCloset': true},
       );
     } else if (index == 1 && currentIndex != 1) {
-      Navigator.pushReplacementNamed(
-        context,
-        AppRoutes.createOutfit,
-        arguments: {'isFromMyCloset': false},
+      context.goNamed(
+        AppRoutesName.createOutfit,
+        extra: {'isFromMyCloset': false},
       );
     }
   }

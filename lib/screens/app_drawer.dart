@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../core/widgets/button/navigation_type_button.dart';
@@ -9,15 +10,11 @@ import '../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../generated/l10n.dart';
 import '../core/utilities/logger.dart';
 import '../core/theme/ui_constant.dart';
-import '../core/utilities/routes.dart';
-import '../user_management/achievements/data/models/achievements_page_argument.dart';
+import '../core/utilities/helper_functions/argument_helper.dart';
 import '../core/utilities/launch_email.dart';
-import '../core/data/models/arguments.dart';
 import '../user_management/core/data/services/user_save_service.dart';
 import '../core/widgets/dialog/delete_account_dialog.dart';
-import '../user_management/authentication/presentation/pages/auth_wrapper.dart';
-import '../core/theme/my_closet_theme.dart';
-import '../app.dart';
+import '../core/utilities/app_router.dart';
 
 class AppDrawer extends StatelessWidget {
   final bool isFromMyCloset;
@@ -133,7 +130,7 @@ class AppDrawer extends StatelessWidget {
                 const Duration(milliseconds: 300)); // Allow drawer to close
             if (route != null) {
               logger.d('Navigating to route: $route');
-              navigator.pushNamed(route);
+              context.pushNamed(route);
             } else if (customAction != null) {
               logger.d('Executing custom action for ${item.getName(context)}');
               customAction(context);
@@ -158,10 +155,9 @@ class AppDrawer extends StatelessWidget {
     if (authState is Authenticated) {
       final String userId = authState.user.id;
       logger.d('Navigating to achievements pages with userId: $userId');
-      Navigator.pushNamed(
-        context,
-        AppRoutes.achievementPage,
-        arguments: AchievementsPageArguments(
+      context.pushNamed(
+        AppRoutesName.achievementPage,
+        extra: AchievementsPageArguments(
           isFromMyCloset: isFromMyCloset,
           userId: userId,
         ),
@@ -179,17 +175,20 @@ class AppDrawer extends StatelessWidget {
         .of(context)
         .infoHub;
     logger.d('Navigating to Info Hub: $infoHubUrl');
-    Navigator.pushNamed(
-      context,
-      AppRoutes.infoHub,
-      arguments: InfoHubArguments(infoHubUrl, isFromMyCloset, infoHubTitle),
+    context.pushNamed(
+      AppRoutesName.webView,
+      extra: WebViewArguments(
+        url: infoHubUrl,
+        isFromMyCloset: isFromMyCloset,
+        title: infoHubTitle,
+      ),
     );
   }
 
   void _showUsageInsightsBottomSheet(BuildContext context,
       bool isFromMyCloset) {
-    Navigator.of(context).pushNamed(
-      AppRoutes.summaryItemsAnalytics,
+    context.pushNamed(
+      AppRoutesName.summaryItemsAnalytics,
     );
   }
 
@@ -216,13 +215,7 @@ class AppDrawer extends StatelessWidget {
             authBloc.add(SignOutEvent());
             Navigator.of(dialogContext).pop(); // Close the dialog
 
-            // Step 3: Navigate to AuthWrapper
-            navigatorKey.currentState?.pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (_) => AuthWrapper(theme: myClosetTheme),
-              ),
-                  (route) => false,
-            );
+            context.goNamed(AppRoutesName.login);
           },
           onClose: () {
             Navigator.of(dialogContext).pop(); // Close using dialogContext
@@ -249,11 +242,7 @@ class AppDrawer extends StatelessWidget {
     final authBloc = context.read<AuthBloc>();
     logger.d('Current AuthState before logging out: ${authBloc.state}');
     authBloc.add(SignOutEvent());
-    navigatorKey.currentState?.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => AuthWrapper(theme: myClosetTheme)),
-          (route) => false, // Clear all previous routes
-    );
-
+    context.goNamed(AppRoutesName.login);
     logger.i('Navigation to AuthWrapper completed.');
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/utilities/logger.dart';
 import '../../../user_management/user_service_locator.dart';
@@ -13,9 +14,8 @@ import 'app_store_review.dart';
 import '../../../core/widgets/feedback/custom_alert_dialog.dart';
 import '../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../generated/l10n.dart';
-import '../../../core/utilities/routes.dart';
+import '../../../core/utilities/app_router.dart';
 import '../../../core/widgets/button/themed_elevated_button.dart';
-
 
 class NpsDialog extends StatelessWidget {
   final int milestone;
@@ -67,7 +67,7 @@ class NpsDialog extends StatelessWidget {
         }
       }
       if (context.mounted) {
-        Navigator.of(context).pushReplacementNamed(AppRoutes.createOutfit);
+        context.goNamed(AppRoutesName.createOutfit);
       }
 
     } else {

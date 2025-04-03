@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/utilities/logger.dart';
-import '../../../../core/utilities/routes.dart';
+import '../../../../core/utilities/app_router.dart';
 import '../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../core/user_photo/presentation/widgets/base/user_photo.dart';
 import '../../../../core/widgets/bottom_sheet/premium_bottom_sheet/share_premium_bottom_sheet.dart';
@@ -53,10 +54,9 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
 
   void _onSelfieButtonPressed() {
     logger.i('Selfie button pressed for outfitId: ${widget.outfitId}');
-    Navigator.pushNamed(
-      context,
-      AppRoutes.selfiePhoto,
-      arguments: widget.outfitId,
+    context.pushNamed(
+      AppRoutesName.selfiePhoto,
+      extra: widget.outfitId,
     );
   }
 

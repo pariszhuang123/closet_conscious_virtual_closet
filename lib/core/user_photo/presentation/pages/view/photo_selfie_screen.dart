@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../bloc/photo_bloc.dart';
 import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
-import '../../../../utilities/routes.dart';
+import '../../../../utilities/app_router.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../theme/my_outfit_theme.dart';
@@ -34,7 +35,7 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
   @override
   void onPermissionClose() {
     widget.logger.i('Camera permission check failed, navigating to WearOutfit');
-    navigateSafely(AppRoutes.wearOutfit, arguments: widget.outfitId);
+    navigateSafely(AppRoutesName.wearOutfit, extra: widget.outfitId);
   }
 
   @override
@@ -61,11 +62,11 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
                       ? FeatureKey.selfieSilver
                       : FeatureKey.selfieGold;
 
-                  navigateSafely(AppRoutes.payment, arguments: {
+                  navigateSafely(AppRoutesName.payment, extra: {
                     'featureKey': featureKey,
                     'isFromMyCloset': true,
-                    'previousRoute': AppRoutes.wearOutfit,
-                    'nextRoute': AppRoutes.createOutfit,
+                    'previousRoute': AppRoutesName.wearOutfit,
+                    'nextRoute': AppRoutesName.createOutfit,
                     'outfitId': widget.outfitId,
                   });
                 } else if (state is ItemAccessGrantedState) {
@@ -86,14 +87,14 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
                     photoBloc.add(CaptureSelfiePhoto(widget.outfitId!));
                   } else {
                     widget.logger.e('Outfit ID is null. Cannot capture selfie.');
-                    navigateSafely(AppRoutes.wearOutfit, arguments: widget.outfitId);
+                    navigateSafely(AppRoutesName.wearOutfit, extra: widget.outfitId);
                   }
                 } else if (state is PhotoCaptureFailure) {
                   widget.logger.e('Photo capture failed');
-                  navigateSafely(AppRoutes.wearOutfit, arguments: widget.outfitId);
+                  navigateSafely(AppRoutesName.wearOutfit, extra: widget.outfitId);
                 } else if (state is SelfieCaptureSuccess) {
                   widget.logger.i('Selfie upload succeeded with outfitId: ${state.outfitId}');
-                  navigateSafely(AppRoutes.wearOutfit, arguments: widget.outfitId);
+                  navigateSafely(AppRoutesName.wearOutfit, extra: widget.outfitId);
                 }
               },
             ),

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../../generated/l10n.dart';
 import '../../bloc/trial_bloc/trial_started_bloc.dart';
 import '../../widgets/trial_started/trial_list.dart';
 import '../../../widgets/dialog/trial_started_dialog.dart';
-import '../../../utilities/routes.dart';
+import '../../../utilities/app_router.dart';
 import '../../../utilities/logger.dart';
 import '../../../theme/my_closet_theme.dart';
 import '../../../theme/my_outfit_theme.dart';
@@ -46,9 +47,9 @@ class TrialStartedScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.close, color: Theme.of(context).colorScheme.onSurface),
                 onPressed: () {
-                  const route = AppRoutes.myCloset;
+                  const route = AppRoutesName.myCloset;
                   _logger.i("Close button tapped. Navigating to: $route");
-                  Navigator.pushReplacementNamed(context, route);
+                  context.goNamed(route);
                 },
               ),
             ],
@@ -124,12 +125,12 @@ class TrialStartedScreen extends StatelessWidget {
     _logger.i("Navigating to feature...");
     _logger.d("Initial selectedFeatureRoute: $selectedFeatureRoute");
 
-    final safeRoute = selectedFeatureRoute.isNotEmpty ? selectedFeatureRoute : AppRoutes.myCloset;
+    final safeRoute = selectedFeatureRoute.isNotEmpty ? selectedFeatureRoute : AppRoutesName.myCloset;
     _logger.i("🚀 Final Navigation Route: $safeRoute");
 
-    Navigator.of(context).pushReplacementNamed(
+    context.goNamed(
       safeRoute,
-      arguments: {
+      extra: {
         'isFromMyCloset': isFromMyCloset,
         'selectedFeatureRoute': safeRoute,
       },

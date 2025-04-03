@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../../../generated/l10n.dart';
-import '../../../utilities/routes.dart';
+import '../../../utilities/app_router.dart';
 import '../../../widgets/feedback/custom_alert_dialog.dart';
 
 void showUploadSuccessDialog(BuildContext context, ThemeData theme) {
@@ -11,14 +13,14 @@ void showUploadSuccessDialog(BuildContext context, ThemeData theme) {
     buttonText: S.of(context).yes,
     onPressed: () {
       Navigator.pop(context); // Close the dialog first
-      Navigator.pushReplacementNamed(context, AppRoutes.pendingPhotoLibrary);
+      context.goNamed(AppRoutesName.pendingPhotoLibrary);
     },
     theme: theme,
     iconButton: IconButton(
       icon: const Icon(Icons.close),
       onPressed: () {
         Navigator.pop(context); // Close the dialog
-        Navigator.pushReplacementNamed(context, AppRoutes.viewPendingItem);
+        context.goNamed(AppRoutesName.viewPendingItem);
       },
     ),
     canPop: false,

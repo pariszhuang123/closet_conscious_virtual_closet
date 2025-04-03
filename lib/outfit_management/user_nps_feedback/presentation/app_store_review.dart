@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
+import 'package:go_router/go_router.dart';
 
 import '../../../core/utilities/logger.dart';
-import '../../../core/utilities/routes.dart'; // Import your app routes
+import '../../../core/utilities/app_router.dart'; // Import your app routes
 
 class AppStoreReview {
   final CustomLogger logger = CustomLogger('AppStoreReviewLogger');
@@ -53,7 +54,7 @@ class AppStoreReview {
   void _navigateToMyOutfit(BuildContext context) {
     if (context.mounted) {
       logger.i('Navigating to my_outfit.dart...');
-      Navigator.of(context).pushReplacementNamed(AppRoutes.createOutfit);
+      context.goNamed(AppRoutesName.createOutfit);
     } else {
       logger.w('Context is no longer mounted, cannot navigate.');
     }

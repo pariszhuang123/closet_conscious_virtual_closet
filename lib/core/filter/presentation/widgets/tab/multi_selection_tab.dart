@@ -9,10 +9,15 @@ import '../../../../utilities/logger.dart';
 
 class MultiSelectionTab extends StatelessWidget {
   final FilterState state;
+  final bool isFromMyCloset;
   final CustomLogger _logger = CustomLogger('MultiSelectionTab');
 
-  MultiSelectionTab({super.key, required this.state}) {
-    _logger.i('MultiSelectionTab initialized with state: $state');
+  MultiSelectionTab({
+    super.key,
+    required this.state,
+    required this.isFromMyCloset,
+  }) {
+    _logger.i('MultiSelectionTab initialized with state: $state and isFromMyCloset: $isFromMyCloset');
   }
 
   @override
@@ -57,7 +62,7 @@ class MultiSelectionTab extends StatelessWidget {
               _logger.i('Dispatched UpdateFilterEvent with itemType: $selectedKeys, clothing reset: $resetClothingFields, shoes reset: $resetShoeFields, accessory reset: $resetAccessoryFields');
             },
             context,
-            true,
+            isFromMyCloset,
             true,
           ),
           const SizedBox(height: 12),
@@ -73,7 +78,7 @@ class MultiSelectionTab extends StatelessWidget {
               _logger.i('Dispatched UpdateFilterEvent with occasion: $selectedKeys');
             },
             context,
-            true,
+            isFromMyCloset,
             true,
           ),
           const SizedBox(height: 12),
@@ -89,7 +94,7 @@ class MultiSelectionTab extends StatelessWidget {
               _logger.i('Dispatched UpdateFilterEvent with season: $selectedKeys');
             },
             context,
-            true,
+            isFromMyCloset,
             true,
           ),
           const SizedBox(height: 12),
@@ -106,7 +111,7 @@ class MultiSelectionTab extends StatelessWidget {
                 _logger.i('Dispatched UpdateFilterEvent with clothingType: $selectedKeys');
               },
               context,
-              true,
+              isFromMyCloset,
               true,
             ),
             const SizedBox(height: 12),
@@ -121,7 +126,7 @@ class MultiSelectionTab extends StatelessWidget {
                 _logger.i('Dispatched UpdateFilterEvent with clothingLayer: $selectedKeys');
               },
               context,
-              true,
+              isFromMyCloset,
               true,
             ),
             const SizedBox(height: 12),
@@ -139,7 +144,7 @@ class MultiSelectionTab extends StatelessWidget {
                 _logger.i('Dispatched UpdateFilterEvent with shoesType: $selectedKeys');
               },
               context,
-              true,
+              isFromMyCloset,
               true,
             ),
             const SizedBox(height: 12),
@@ -157,7 +162,7 @@ class MultiSelectionTab extends StatelessWidget {
                 _logger.i('Dispatched UpdateFilterEvent with accessoryType: $selectedKeys');
               },
               context,
-              true,
+              isFromMyCloset,
               true,
             ),
             const SizedBox(height: 12),
@@ -181,7 +186,7 @@ class MultiSelectionTab extends StatelessWidget {
               _logger.i('Dispatched UpdateFilterEvent with colour: $selectedKeys and colourVariations reset: $shouldResetColourVariations');
             },
             context,
-            true,
+            isFromMyCloset,
             true,
           ),
           const SizedBox(height: 12),
@@ -198,7 +203,7 @@ class MultiSelectionTab extends StatelessWidget {
                 _logger.i('Dispatched UpdateFilterEvent with colourVariations: $selectedKeys');
               },
               context,
-              true,
+              isFromMyCloset,
               true,
             ),
             const SizedBox(height: 12),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
@@ -10,7 +11,7 @@ import '../../../../core/core_enums.dart';
 import '../bloc/outfit_review_bloc.dart';
 import '../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
-import '../../../../core/utilities/routes.dart';
+import '../../../../core/utilities/app_router.dart';
 
 class OutfitReviewContent extends StatelessWidget {
   final OutfitReviewState state;
@@ -37,7 +38,7 @@ class OutfitReviewContent extends StatelessWidget {
     } else if (state is NavigateToMyOutfit) {
       // Handle navigation
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacementNamed(context, AppRoutes.createOutfit);
+        context.goNamed(AppRoutesName.createOutfit);
       });
 
       return Container();

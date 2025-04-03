@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../generated/l10n.dart';
-import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/widgets/feedback/custom_alert_dialog.dart';
 
 void showEditPendingSuccessDialog(
@@ -23,7 +24,7 @@ void showEditPendingSuccessDialog(
       icon: const Icon(Icons.close),
       onPressed: () {
         Navigator.pop(context); // Close the dialog
-        Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+        context.goNamed(AppRoutesName.myCloset);
       },
     ),
     canPop: false,

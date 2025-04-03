@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../generated/l10n.dart';
-import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/utilities/logger.dart';
 
 class CalendarScaffold extends StatelessWidget {
@@ -18,21 +19,20 @@ class CalendarScaffold extends StatelessWidget {
     return Theme(
       data: myOutfitTheme, // Apply myOutfitTheme
       child: PopScope<Object?>(
-        canPop: true, // Allow pop actions to be intercepted
+        canPop: false, // Allow pop actions to be intercepted
         onPopInvokedWithResult: (bool didPop, Object? result) {
           logger.i('Pop invoked: didPop = $didPop, result = $result'); // Log pop action
 
-          if (didPop) {
-            logger.i('Navigating to calendar view screen');
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.of(context).pushReplacementNamed(AppRoutes.createOutfit);
+              context.goNamed(AppRoutesName.createOutfit);
             });
-          } else {
-            logger.w('Pop action not allowed');
-          }
         },
         child: Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: true, // already defaults to true
+            leading: Navigator.of(context).canPop()
+                ? const BackButton()
+                : const BackButton(), // force showing only when stack can pop
             title: Text(
               S.of(context).calendarFeatureTitle, // Localized title for calendar feature
               style: Theme.of(context).textTheme.titleMedium, // Apply theme styling

@@ -78,3 +78,15 @@ enum UploadSource {
   camera,
   photoLibrary
 }
+
+enum TransitionType {
+  slideFromTop,
+  slideFadeFromTop,
+  slideFromBottom,
+  slideFadeFromBottom,
+  slideFromLeft,
+  slideFromRight,
+  zoomFadeFromCenter,
+  fadeScale,
+  fade
+}

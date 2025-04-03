@@ -4891,6 +4891,16 @@ class S {
     );
   }
 
+  /// `You can upload {maxAllowed} more. After that, you’ll reach your current limit.`
+  String approachingLimitSnackbar(Object maxAllowed) {
+    return Intl.message(
+      'You can upload $maxAllowed more. After that, you’ll reach your current limit.',
+      name: 'approachingLimitSnackbar',
+      desc: '',
+      args: [maxAllowed],
+    );
+  }
+
   /// `No photos found`
   String get noPhotosFound {
     return Intl.message(

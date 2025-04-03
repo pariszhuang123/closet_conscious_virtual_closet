@@ -1,6 +1,6 @@
-// base_photo_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../bloc/photo_bloc.dart';
 import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
@@ -82,10 +82,10 @@ abstract class BasePhotoScreenState<T extends BasePhotoScreen>
     );
   }
 
-  void navigateSafely(String routeName, {Object? arguments}) {
+  void navigateSafely(String routeName, {Object? extra}) {
     if (mounted) {
-      widget.logger.d('Navigating to $routeName with arguments: $arguments');
-      Navigator.pushReplacementNamed(context, routeName, arguments: arguments);
+      widget.logger.d('Navigating to $routeName with extra: $extra');
+      context.pushNamed(routeName, extra: extra);
     } else {
       widget.logger.e("Cannot navigate to $routeName, widget is not mounted");
     }

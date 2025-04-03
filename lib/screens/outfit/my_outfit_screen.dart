@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../core/widgets/layout/grid/interactive_item_grid.dart';
@@ -15,16 +16,16 @@ import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../core/core_enums.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
-import '../../core/utilities/routes.dart';
+import '../../core/utilities/app_router.dart';
 import '../../outfit_management/fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
 import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc/navigate_outfit_bloc.dart';
 import '../../outfit_management/fetch_outfit_items/presentation/widgets/outfit_type_container.dart';
 import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
-import '../../core/screens/achievement_completed_screen.dart';
 import '../../core/paywall/data/feature_key.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
+import '../../core/achievement_celebration/helper/achievement_navigator.dart';
 
 class MyOutfitScreen extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -148,12 +149,12 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
         .read<MultiSelectionItemCubit>()
         .state
         .selectedItemIds;
-    Navigator.of(context).pushNamed(
-      AppRoutes.filter,
-      arguments: {
+    context.pushNamed(
+      AppRoutesName.filter,
+      extra: {
         'isFromMyCloset': isFromMyCloset,
         'selectedItemIds': selectedItemIds,
-        'returnRoute': AppRoutes.createOutfit,
+        'returnRoute': AppRoutesName.createOutfit,
       },
     );
   }
@@ -163,19 +164,19 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
         .read<MultiSelectionItemCubit>()
         .state
         .selectedItemIds;
-    Navigator.of(context).pushNamed(
-      AppRoutes.customize,
-      arguments: {
+    context.pushNamed(
+      AppRoutesName.customize,
+      extra: {
         'isFromMyCloset': isFromMyCloset,
         'selectedItemIds': selectedItemIds,
-        'returnRoute': AppRoutes.createOutfit,
+        'returnRoute': AppRoutesName.createOutfit,
       },
     );
   }
 
   void _onCalendarButtonPressed() {
-    Navigator.of(context).pushNamed(
-      AppRoutes.monthlyCalendar,
+    context.pushNamed(
+      AppRoutesName.monthlyCalendar,
     );
   }
 
@@ -243,137 +244,47 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                         .outfitId}');
                 _isNavigating =
                 true; // Set navigating to true when navigating to review page
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.reviewOutfit,
-                ).then((_) {
-                  _isNavigating = false; // Reset navigating after returning
-                });
+                context.goNamed(
+                  AppRoutesName.reviewOutfit,
+                  extra: DateTime.now().millisecondsSinceEpoch.toString(), // Just for uniqueness
+                );
               }
-              if (state is FetchAndSaveClothingAchievementMilestoneSuccessState) {
-                logger.i(
-                    'Navigating to achievement pages for achievement: ${state
-                        .badgeUrl}');
-                _isNavigating =
-                true; // Set navigating to true when navigating to review page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        Theme(
-                          data: widget.myOutfitTheme,
-                          // Apply the relevant theme
-                          child: AchievementScreen(
-                            achievementKey: state.achievementName,
-                            achievementUrl: state.badgeUrl,
-                            // Pass the badge URL
-                            nextRoute: AppRoutes
-                                .createOutfit, // Define the next route if needed
-                          ),
-                        ),
-                  ),
-                ).then((_) {
-                  _isNavigating = false; // Reset navigating after returning
-                });
-              }
-              if (state is FetchAndSaveNoBuyMilestoneSuccessState) {
-                logger.i(
-                    'Navigating to achievement pages for achievement: ${state
-                        .badgeUrl}');
-                _isNavigating =
-                true; // Set navigating to true when navigating to review page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        Theme(
-                          data: widget.myOutfitTheme,
-                          // Apply the relevant theme
-                          child: AchievementScreen(
-                            achievementKey: state.achievementName,
-                            achievementUrl: state.badgeUrl,
-                            // Pass the badge URL
-                            nextRoute: AppRoutes
-                                .createOutfit, // Define the next route if needed
-                          ),
-                        ),
-                  ),
-                ).then((_) {
-                  _isNavigating = false; // Reset navigating after returning
-                });
-              }
-              if (state is FetchFirstOutfitMilestoneSuccessState) {
-                logger.i(
-                    'Navigating to achievement pages for achievement: ${state
-                        .badgeUrl}');
-                _isNavigating =
-                true; // Set navigating to true when navigating to review page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        Theme(
-                          data: widget.myOutfitTheme,
-                          // Apply the relevant theme
-                          child: AchievementScreen(
-                            achievementKey: state.achievementName,
-                            achievementUrl: state.badgeUrl,
-                            // Pass the badge URL
-                            nextRoute: AppRoutes
-                                .createOutfit, // Define the next route if needed
-                          ),
-                        ),
-                  ),
-                ).then((_) {
-                  _isNavigating = false; // Reset navigating after returning
-                });
-              }
-              if (state is FetchFirstSelfieTakenMilestoneSuccessState) {
-                logger.i(
-                    'Navigating to achievement pages for achievement: ${state
-                        .badgeUrl}');
-                _isNavigating =
-                true; // Set navigating to true when navigating to review page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        Theme(
-                          data: widget.myOutfitTheme,
-                          // Apply the relevant theme
-                          child: AchievementScreen(
-                            achievementKey: state.achievementName,
-                            achievementUrl: state.badgeUrl,
-                            // Pass the badge URL
-                            nextRoute: AppRoutes
-                                .createOutfit, // Define the next route if needed
-                          ),
-                        ),
-                  ),
-                ).then((_) {
-                  _isNavigating = false; // Reset navigating after returning
-                });
+              if (state is FetchAndSaveClothingAchievementMilestoneSuccessState ||
+                  state is FetchAndSaveNoBuyMilestoneSuccessState ||
+                  state is FetchFirstOutfitMilestoneSuccessState ||
+                  state is FetchFirstSelfieTakenMilestoneSuccessState) {
+                final dynamic s = state;
+                logger.i('Navigating to achievement pages for achievement: ${s.badgeUrl}');
+                _isNavigating = true;
+
+                handleAchievementNavigationWithTheme(
+                  context: context,
+                  achievementKey: s.achievementName,
+                  badgeUrl: s.badgeUrl,
+                  nextRoute: AppRoutesName.createOutfit,
+                  isFromMyCloset: false,
+                );
+
+                _isNavigating = false;
               }
               if (state is MultiOutfitAccessState) {
                 if (state.accessStatus == AccessStatus.denied) {
                   logger.w('Access denied: Navigating to payment page');
-                  Navigator.pushReplacementNamed(
-                    context,
-                    AppRoutes.payment,
-                    arguments: {
+                  context.goNamed(
+                    AppRoutesName.payment,
+                    extra: {
                       'featureKey': FeatureKey.multiOutfit,
                       'isFromMyCloset': false,
-                      'previousRoute': AppRoutes.myCloset,
-                      'nextRoute': AppRoutes.createOutfit,
+                      'previousRoute': AppRoutesName.myCloset,
+                      'nextRoute': AppRoutesName.createOutfit,
                     },
                   );
                 } else if (state.accessStatus == AccessStatus.trialPending) {
                   logger.i('Trial pending, navigating to trialStarted screen');
-                  Navigator.pushReplacementNamed(
-                    context,
-                    AppRoutes.trialStarted,
-                    arguments: {
-                      'selectedFeatureRoute': AppRoutes.myCloset,
+                  context.goNamed(
+                    AppRoutesName.trialStarted,
+                    extra: {
+                      'selectedFeatureRoute': AppRoutesName.myCloset,
                       // ✅ Correct AppRoutes value
                       'isFromMyCloset': false,
                     },
@@ -388,8 +299,8 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   state.outfitId != null) {
                 logger.i('Navigating to OutfitWearProvider for outfitId: ${state
                     .outfitId}');
-                Navigator.pushNamed(
-                    context, AppRoutes.wearOutfit, arguments: state.outfitId);
+                context.goNamed(
+                    AppRoutesName.wearOutfit, extra: state.outfitId);
               }
               if (state.saveStatus == SaveStatus.failure) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -404,20 +315,6 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
             listener: (context, state) {
               logger.i(
                   'CreateOutfitItemBloc listener triggered with state: $state');
-
-              if (state.saveStatus == SaveStatus.success &&
-                  state.outfitId != null) {
-                logger.i('Navigating to OutfitWearProvider for outfitId: ${state
-                    .outfitId}');
-                _isNavigating =
-                true; // Set navigating to true when navigating to wear outfit page
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.wearOutfit,
-                  arguments: state.outfitId,
-                ).then((_) =>
-                _isNavigating = false); // Reset navigating after returning
-              }
 
               // Show SnackBar if no items are selected
               if (!state.hasSelectedItems && !_snackBarShown &&

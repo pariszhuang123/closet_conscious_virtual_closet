@@ -484,6 +484,7 @@
   "totalCostTooltip": "Every piece is an investment—here’s what you've spent! (This selection: total cost)",
   "costPerWearTooltip": "A lower cost per wear means you're getting great value! (Total cost ÷ times worn)",
   "maxPendingItemsSnackbar": "You can only select up to {maxAllowed} images.",
+  "approachingLimitSnackbar": "You can upload {maxAllowed} more. After that, you’ll reach your current limit.",
   "noPhotosFound": "No photos found",
   "failedToLoadImages": "Failed to load images",
   "failedToLoadMoreImages": "Failed to load more images",

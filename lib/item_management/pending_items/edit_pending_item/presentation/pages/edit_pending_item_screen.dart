@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../edit_item/presentation/bloc/edit_item_bloc.dart';
 import '../../../../../core/widgets/bottom_sheet/premium_bottom_sheet/swap_premium_bottom_sheet.dart';
 import '../../../../../core/widgets/bottom_sheet/premium_bottom_sheet/metadata_premium_bottom_sheet.dart';
-import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../edit_item/presentation/widgets/edit_item_image_with_additional_features.dart';
 import '../../../../../core/photo_library/presentation/bloc/photo_library_bloc.dart';
@@ -52,10 +53,9 @@ class _EditPendingItemScreenState extends State<EditPendingItemScreen> {
   // Navigate to PhotoProvider for image editing.
   void _navigateToPhotoProvider() {
     _logger.d('Navigating to PhotoProvider for itemId: ${widget.itemId}');
-    Navigator.pushNamed(
-      context,
-      AppRoutes.editPhoto,
-      arguments: widget.itemId,
+    context.pushNamed(
+      AppRoutesName.editPhoto,
+      extra: widget.itemId,
     );
   }
 
@@ -99,17 +99,16 @@ class _EditPendingItemScreenState extends State<EditPendingItemScreen> {
                 },
               );
             } else if (state is PhotoLibraryNoPendingItem) {
-              Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+              context.goNamed(AppRoutesName.myCloset);
             }
           },
         ),
         BlocListener<EditItemBloc, EditItemState>(
           listener: (context, state) {
             if (state is EditItemPendingItemIdFetched) {
-              Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.editPendingItem,
-                  arguments: {
+              context.goNamed(
+                  AppRoutesName.editPendingItem,
+                  extra: {
                     'itemId': state.itemId,
                   }
               );

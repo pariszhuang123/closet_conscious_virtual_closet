@@ -23,11 +23,13 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(totalReviews, daysTracked, closetShown) =>
       "你在过去的 ${daysTracked} 天里创建了 ${totalReviews} 套穿搭在${closetShown}。";
 
-  static String m1(closetName) => "您的消失衣橱\'${closetName}\'现已永久可用，您可以访问其所有物品！";
+  static String m1(maxAllowed) => "您还可以上传 ${maxAllowed} 张。之后将达到当前上限。";
 
-  static String m2(error) => "错误：${error}";
+  static String m2(closetName) => "您的消失衣橱\'${closetName}\'现已永久可用，您可以访问其所有物品！";
 
-  static String m3(maxAllowed) => "你最多只能选择 ${maxAllowed} 张图片。";
+  static String m3(error) => "错误：${error}";
+
+  static String m4(maxAllowed) => "你最多只能选择 ${maxAllowed} 张图片。";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -95,6 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "analyticsSummary": m0,
         "and": MessageLookupByLibrary.simpleMessage(" 和 "),
         "appInformationSection": MessageLookupByLibrary.simpleMessage("应用信息"),
+        "approachingLimitSnackbar": m1,
         "archive": MessageLookupByLibrary.simpleMessage("归档"),
         "archiveCloset": MessageLookupByLibrary.simpleMessage("归档衣橱"),
         "archiveClosetDescription": MessageLookupByLibrary.simpleMessage(
@@ -154,7 +157,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "closetName": MessageLookupByLibrary.simpleMessage("衣橱名称"),
         "closetNameCannotBeEmpty":
             MessageLookupByLibrary.simpleMessage("衣橱名称不能为空"),
-        "closetReappearMessage": m1,
+        "closetReappearMessage": m2,
         "closetReappearTitle": MessageLookupByLibrary.simpleMessage("衣橱重新出现"),
         "closetType": MessageLookupByLibrary.simpleMessage("衣橱类型"),
         "closetUploadAchievement":
@@ -289,7 +292,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorIncrement":
             MessageLookupByLibrary.simpleMessage("哎呀！我们无法记录您的兴趣。请再试一次！"),
         "errorSavingCloset": MessageLookupByLibrary.simpleMessage("保存衣橱时出错"),
-        "error_creating_closet": m2,
+        "error_creating_closet": m3,
         "event": MessageLookupByLibrary.simpleMessage("活动"),
         "eventName": MessageLookupByLibrary.simpleMessage("活动名称"),
         "everyday": MessageLookupByLibrary.simpleMessage("日常"),
@@ -397,7 +400,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("加载中... 时尚魔法正在进行中 🧙‍♂️✨"),
         "logOut": MessageLookupByLibrary.simpleMessage("登出"),
         "machine": MessageLookupByLibrary.simpleMessage("机洗"),
-        "maxPendingItemsSnackbar": m3,
+        "maxPendingItemsSnackbar": m4,
         "medium": MessageLookupByLibrary.simpleMessage("中色"),
         "metadata": MessageLookupByLibrary.simpleMessage("更多"),
         "metadataFeatureDescription":

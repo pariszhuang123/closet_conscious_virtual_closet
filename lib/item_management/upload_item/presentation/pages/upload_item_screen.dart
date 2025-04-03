@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/user_photo/presentation/widgets/image_display_widget.dart';
-import '../../../../core/utilities/routes.dart';
+import '../../../../core/utilities/app_router.dart';
 import '../../../../generated/l10n.dart';
 import '../../presentation/bloc/upload_item_bloc.dart';
 import '../../../../core/widgets/feedback/custom_snack_bar.dart';
@@ -67,7 +68,7 @@ class _UploadItemScreenState extends State<UploadItemScreen> {
   void _navigateToMyCloset(BuildContext context) {
     if (mounted) {
       _logger.i('Navigating back to MyCloset');
-      Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+      context.goNamed(AppRoutesName.myCloset);
     }
   }
 

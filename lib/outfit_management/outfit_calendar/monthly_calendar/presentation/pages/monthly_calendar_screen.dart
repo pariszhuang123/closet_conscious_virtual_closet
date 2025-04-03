@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/monthly_calendar_metadata_bloc/monthly_calendar_metadata_bloc.dart';
 import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
@@ -10,7 +11,7 @@ import '../widgets/image_calendar_widget.dart';
 import '../widgets/monthly_feature_container.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../../core/utilities/logger.dart';
-import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/core_enums.dart';
 import '../../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../../generated/l10n.dart';
@@ -95,23 +96,21 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
             if (state is CalendarAccessState) {
               if (state.accessStatus == AccessStatus.denied) {
                 logger.w('Access denied: Navigating to payment page');
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.payment,
-                  arguments: {
+                 context.goNamed(
+                  AppRoutesName.payment,
+                  extra: {
                     'featureKey': FeatureKey.calendar,
                     'isFromMyCloset': widget.isFromMyCloset,
-                    'previousRoute': AppRoutes.createOutfit,
-                    'nextRoute': AppRoutes.monthlyCalendar,
+                    'previousRoute': AppRoutesName.createOutfit,
+                    'nextRoute': AppRoutesName.monthlyCalendar,
                   },
                 );
               } else if (state.accessStatus == AccessStatus.trialPending) {
                 logger.i('Trial pending, navigating to trialStarted screen');
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.trialStarted,
-                  arguments: {
-                    'selectedFeatureRoute': AppRoutes.monthlyCalendar, // ✅ Correct AppRoutes value
+                context.goNamed(
+                  AppRoutesName.trialStarted,
+                  extra: {
+                    'selectedFeatureRoute': AppRoutesName.monthlyCalendar, // ✅ Correct AppRoutes value
                     'isFromMyCloset': widget.isFromMyCloset,
                   },
                 );
@@ -126,7 +125,7 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
             logger.d('MetadataBloc emitted state: $state');
             if (state is MonthlyCalendarSaveSuccessState || state is MonthlyCalendarResetSuccessState) {
               logger.i('Save or Reset succeeded. Navigating to monthlyCalendar...');
-              Navigator.pushReplacementNamed(context, AppRoutes.monthlyCalendar);
+              context.goNamed(AppRoutesName.monthlyCalendar);
             }
           },
         ),
@@ -136,20 +135,18 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
             if (state is MonthlyCalendarNavigationSuccessState) {
               logger.i('Navigation successful. Navigating to monthly calendar with selected outfits: ${state.selectedOutfitIds}');
 
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.monthlyCalendar,
-                arguments: {
+              context.goNamed(
+                AppRoutesName.monthlyCalendar,
+                extra: {
                   'selectedOutfitIds': state.selectedOutfitIds, // Will always be a list
                 },
               );
             }
             if (state is FocusedDateUpdatedState) {
               logger.i('Focused Date updated successfully. Navigating to daily calendar with outfitId: ${state.outfitId}');
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.dailyCalendar,
-                arguments: {
+              context.goNamed(
+                AppRoutesName.dailyCalendar,
+                extra: {
                   'outfitId': state.outfitId, // ✅ Pass outfitId in navigation arguments
                 },
               );
@@ -160,10 +157,9 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
           listener: (context, state) {
             if (state is ActiveItemsFetched) {
               logger.i('Active items fetched. Navigating to create multi-closet.');
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.createMultiCloset,
-                arguments: {'selectedItemIds': state.activeItemIds},
+              context.goNamed(
+                AppRoutesName.createMultiCloset,
+                extra: {'selectedItemIds': state.activeItemIds},
               );
             }
           },

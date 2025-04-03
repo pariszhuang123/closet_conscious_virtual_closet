@@ -1,6 +1,7 @@
 import 'package:closet_conscious/core/core_enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/theme/my_closet_theme.dart';
 import '../bloc/create_multi_closet_bloc.dart';
@@ -10,7 +11,7 @@ import '../widgets/create_multi_closet_metadata.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../core/data/items_enums.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../../../core/widgets/button/themed_elevated_button.dart';
@@ -43,26 +44,24 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
     final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
-    Navigator.pushNamed(
-      context,
-      AppRoutes.filter,
-      arguments: {
+    context.pushNamed(
+      AppRoutesName.filter,
+      extra: {
         'isFromMyCloset': true,
         'selectedItemIds': selectedItemIds,
-        'returnRoute': AppRoutes.createMultiCloset,
+        'returnRoute': AppRoutesName.createMultiCloset,
       },
     );
   }
 
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
     final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
-    Navigator.pushNamed(
-      context,
-      AppRoutes.customize,
-      arguments: {
+    context.pushNamed(
+      AppRoutesName.customize,
+      extra: {
         'isFromMyCloset': true,
         'selectedItemIds': selectedItemIds,
-        'returnRoute': AppRoutes.createMultiCloset,
+        'returnRoute': AppRoutesName.createMultiCloset,
       },
     );
   }
@@ -116,7 +115,7 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
   void _navigateToMyCloset(BuildContext context) {
     if (mounted) {
       logger.i('Navigating back to MyCloset');
-      Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+      context.goNamed(AppRoutesName.myCloset);
     }
   }
 
@@ -141,14 +140,13 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
           listener: (context, state) {
             if (state is MultiClosetAccessState && state.accessStatus == AccessStatus.denied) {
               logger.w('Access denied: Navigating to payment page');
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.payment,
-                arguments: {
+              context.goNamed(
+                AppRoutesName.payment,
+                extra: {
                   'featureKey': FeatureKey.multicloset,
                   'isFromMyCloset': true,
-                  'previousRoute': AppRoutes.monthlyCalendar,
-                  'nextRoute': AppRoutes.createMultiCloset,
+                  'previousRoute': AppRoutesName.monthlyCalendar,
+                  'nextRoute': AppRoutesName.createMultiCloset,
                 },
               );
             }

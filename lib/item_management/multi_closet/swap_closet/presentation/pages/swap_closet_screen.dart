@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/swap_closet_bloc.dart';
 import '../../../../../core/filter/presentation/widgets/tab/single_selection_tab/closet_grid_widget.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../../generated/l10n.dart';
-import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../core/data/items_enums.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
@@ -74,10 +75,8 @@ class SwapClosetScreen extends StatelessWidget {
       body: BlocListener<SwapClosetBloc, SwapClosetState>(
         listener: (context, state) {
           if (state is SwapClosetNavigateToMyClosetState) {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              AppRoutes.myCloset,
-                  (route) => false,
+            context.goNamed(
+              AppRoutesName.myCloset,
             );
           } else if (state.status == ClosetSwapStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(

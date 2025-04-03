@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/widgets/container/base_container.dart';
-import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/widgets/button/themed_elevated_button.dart';
 import '../../../../core/data/services/item_save_service.dart';
@@ -102,7 +103,7 @@ class ArchiveBottomSheetState extends State<ArchiveBottomSheet> {
     // Close the bottom sheet and navigate to MyCloset
     Navigator.pop(context); // Close dialog
     Navigator.pop(context); // Close the bottom sheet
-    Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+    context.goNamed(AppRoutesName.myCloset);
   }
   @override
   Widget build(BuildContext context) {

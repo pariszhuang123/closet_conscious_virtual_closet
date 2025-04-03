@@ -23,12 +23,15 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(totalReviews, daysTracked, closetShown) =>
       "You have created ${totalReviews} outfits in the last ${daysTracked} days in ${closetShown}.";
 
-  static String m1(closetName) =>
+  static String m1(maxAllowed) =>
+      "You can upload ${maxAllowed} more. After that, you’ll reach your current limit.";
+
+  static String m2(closetName) =>
       "Your disappearing closet \'${closetName}\' is now permanent. You can access all its items!";
 
-  static String m2(error) => "Error: ${error}";
+  static String m3(error) => "Error: ${error}";
 
-  static String m3(maxAllowed) =>
+  static String m4(maxAllowed) =>
       "You can only select up to ${maxAllowed} images.";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -106,6 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "and": MessageLookupByLibrary.simpleMessage(" and the "),
         "appInformationSection":
             MessageLookupByLibrary.simpleMessage("App Information"),
+        "approachingLimitSnackbar": m1,
         "archive": MessageLookupByLibrary.simpleMessage("Archive"),
         "archiveCloset":
             MessageLookupByLibrary.simpleMessage("Archive\nCloset"),
@@ -180,7 +184,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "closetName": MessageLookupByLibrary.simpleMessage("Closet Name"),
         "closetNameCannotBeEmpty":
             MessageLookupByLibrary.simpleMessage("Closet name cannot be empty"),
-        "closetReappearMessage": m1,
+        "closetReappearMessage": m2,
         "closetReappearTitle":
             MessageLookupByLibrary.simpleMessage("Closet Reappeared"),
         "closetType": MessageLookupByLibrary.simpleMessage("Closet Type"),
@@ -338,7 +342,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Oops! We couldn’t record your interest. Please try again!"),
         "errorSavingCloset":
             MessageLookupByLibrary.simpleMessage("Error saving closet"),
-        "error_creating_closet": m2,
+        "error_creating_closet": m3,
         "event": MessageLookupByLibrary.simpleMessage("Event"),
         "eventName": MessageLookupByLibrary.simpleMessage("Event Name"),
         "everyday": MessageLookupByLibrary.simpleMessage("Everyday"),
@@ -459,7 +463,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Loading... Fashion magic in progress 🧙‍♂️✨"),
         "logOut": MessageLookupByLibrary.simpleMessage("Log Out"),
         "machine": MessageLookupByLibrary.simpleMessage("Machine"),
-        "maxPendingItemsSnackbar": m3,
+        "maxPendingItemsSnackbar": m4,
         "medium": MessageLookupByLibrary.simpleMessage("Medium"),
         "metadata": MessageLookupByLibrary.simpleMessage("More"),
         "metadataFeatureDescription": MessageLookupByLibrary.simpleMessage(

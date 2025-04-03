@@ -42,6 +42,7 @@ dependencies:
   confetti: ^0.7.0
   google_sign_in: ^6.2.1
   sign_in_with_apple: ^6.1.3
+  go_router: ^14.8.1
   crypto: ^3.0.6
   google_fonts: ^6.2.1
   supabase_flutter: ^2.8.0

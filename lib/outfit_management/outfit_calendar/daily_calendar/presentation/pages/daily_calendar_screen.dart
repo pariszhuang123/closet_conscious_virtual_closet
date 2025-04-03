@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
@@ -10,7 +11,7 @@ import '../widgets/daily_calendar_carousel.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../widgets/daily_feature_container.dart';
-import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/core_enums.dart';
 import '../../../core/presentation/bloc/calendar_navigation_bloc/calendar_navigation_bloc.dart';
 import '../../../../../core/paywall/data/feature_key.dart';
@@ -28,13 +29,12 @@ class DailyCalendarScreen extends StatelessWidget {
 
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
     final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
-    Navigator.pushNamed(
-      context,
-      AppRoutes.customize,
-      arguments: {
+    context.pushNamed(
+      AppRoutesName.customize,
+      extra: {
         'isFromMyCloset': true,
         'selectedItemIds': selectedItemIds,
-        'returnRoute': AppRoutes.dailyCalendar,
+        'returnRoute': AppRoutesName.dailyCalendar,
       },
     );
   }
@@ -67,7 +67,7 @@ class DailyCalendarScreen extends StatelessWidget {
           listener: (context, state) {
             if (state is DailyCalendarNavigationSuccessState) {
               _logger.i('✅ Navigation success: Navigating to DailyCalendar.');
-              Navigator.pushReplacementNamed(context, AppRoutes.dailyCalendar);
+              context.goNamed(AppRoutesName.dailyCalendar);
             } else if (state is DailyCalendarSaveFailureState) {
               _logger.e('❌ Navigation failed.');
               ScaffoldMessenger.of(context).showSnackBar(
@@ -81,23 +81,21 @@ class DailyCalendarScreen extends StatelessWidget {
             if (state is CalendarAccessState) {
               if (state.accessStatus == AccessStatus.denied) {
                 _logger.w('🚫 Access denied: Navigating to payment page');
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.payment,
-                  arguments: {
+                context.goNamed(
+                  AppRoutesName.payment,
+                  extra: {
                     'featureKey': FeatureKey.calendar,
                     'isFromMyCloset': false,
-                    'previousRoute': AppRoutes.createOutfit,
-                    'nextRoute': AppRoutes.dailyCalendar,
+                    'previousRoute': AppRoutesName.createOutfit,
+                    'nextRoute': AppRoutesName.dailyCalendar,
                   },
                 );
               } else if (state.accessStatus == AccessStatus.trialPending) {
                 _logger.i('⏳ Trial pending, navigating to trialStarted screen');
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.trialStarted,
-                  arguments: {
-                    'selectedFeatureRoute': AppRoutes.dailyCalendar,
+                context.goNamed(
+                  AppRoutesName.trialStarted,
+                  extra: {
+                    'selectedFeatureRoute': AppRoutesName.dailyCalendar,
                     'isFromMyCloset': false,
                   },
                 );
@@ -108,10 +106,9 @@ class DailyCalendarScreen extends StatelessWidget {
         BlocListener<OutfitSelectionBloc, OutfitSelectionState>(
           listener: (context, state) {
             if (state is ActiveItemsFetched) {
-              Navigator.pushNamed(
-                context,
-                AppRoutes.createOutfit,
-                arguments: {
+              context.pushNamed(
+                AppRoutesName.createOutfit,
+                extra: {
                   'selectedItemIds': state.activeItemIds,
                 },
               );
@@ -129,10 +126,9 @@ class DailyCalendarScreen extends StatelessWidget {
             if (state is OutfitFocusedDateSuccess) {
               _logger.i("✅ Focused date saved. Navigating to outfit details.");
 
-              Navigator.pushNamed(
-                context,
-                AppRoutes.dailyDetailedCalendar,
-                arguments: {'outfitId': state.outfitId},
+              context.pushNamed(
+                AppRoutesName.dailyDetailedCalendar,
+                extra: {'outfitId': state.outfitId},
               );
             } else if (state is OutfitFocusedDateFailure) {
               _logger.e('❌ Failed to set focused date: ${state.error}');
@@ -176,8 +172,8 @@ class DailyCalendarScreen extends StatelessWidget {
                       theme: Theme.of(context),
                       onCalendarButtonPressed: () {
                         _logger.i("Calendar button pressed");
-                        Navigator.pushReplacementNamed(
-                            context, AppRoutes.monthlyCalendar);
+                        context.goNamed(
+                            AppRoutesName.monthlyCalendar);
                       },
                       onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
                       onPreviousButtonPressed: () {

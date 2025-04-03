@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/theme/my_closet_theme.dart';
 import '../../../../../core/theme/my_outfit_theme.dart';
-import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../widgets/layout/bottom_nav_bar/analytics_bottom_nav_bar.dart';
 
 class UsageAnalyticsScaffold extends StatefulWidget {
@@ -34,23 +35,24 @@ class _UsageAnalyticsScaffoldState extends State<UsageAnalyticsScaffold> {
     return Theme(
       data: theme,
       child: PopScope<Object?>(
-        canPop: true,
+        canPop: false,
         onPopInvokedWithResult: (bool didPop, Object? result) {
           logger.i('Pop invoked: didPop = $didPop, result = $result');
 
-          if (didPop) {
-            final destination = widget.isFromMyCloset ? AppRoutes.myCloset : AppRoutes.createOutfit;
-            logger.i('Navigating to ${widget.isFromMyCloset ? "My Closet" : "Create Outfit"} screen');
+          final destination = widget.isFromMyCloset
+              ? AppRoutesName.myCloset
+              : AppRoutesName.createOutfit;
 
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.of(context).pushReplacementNamed(destination);
-            });
-          } else {
-            logger.w('Pop action not allowed');
-          }
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.goNamed(destination); // 👈 Clean redirect
+          });
         },
         child: Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: true, // already defaults to true
+            leading: Navigator.of(context).canPop()
+                ? const BackButton()
+                : const BackButton(), // force showing only when stack can pop
             title: Text(
               title,
               style: theme.textTheme.titleMedium,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../presentation/bloc/filter_bloc.dart';
@@ -11,7 +12,7 @@ import '../../../widgets/button/themed_elevated_button.dart';
 import '../../../utilities/logger.dart';
 import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../core_enums.dart';
-import '../../../utilities/routes.dart';
+import '../../../utilities/app_router.dart';
 import '../../../paywall/data/feature_key.dart';
 import '../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../widgets/tab/single_selection_tab/all_closet_toggle.dart';
@@ -78,9 +79,9 @@ class FilterScreen extends StatelessWidget {
             listener: (context, state) {
               if (state.saveStatus == SaveStatus.saveSuccess) {
                 _logger.i('SaveStatus: saveSuccess, navigating to returnRoute: $returnRoute');
-                Navigator.of(context).pushReplacementNamed(
+                context.goNamed(
                   returnRoute,
-                  arguments: {
+                  extra: {
                     'selectedItemIds': selectedItemIds,
                     'selectedOutfitIds': selectedOutfitIds
                   },
@@ -90,11 +91,10 @@ class FilterScreen extends StatelessWidget {
               if (state.accessStatus == AccessStatus.trialPending) {
                 _logger.i('Trial pending, navigating to trialStarted screen');
 
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.trialStarted,
-                  arguments: {
-                    'selectedFeatureRoute': AppRoutes.filter, // ✅ Pass actual AppRoutes value
+                context.goNamed(
+                  AppRoutesName.trialStarted,
+                  extra: {
+                    'selectedFeatureRoute': AppRoutesName.filter, // ✅ Pass actual AppRoutes value
                     'isFromMyCloset': isFromMyCloset,
                   },
                 );
@@ -103,14 +103,13 @@ class FilterScreen extends StatelessWidget {
               // Handle denied access state
               if (state.accessStatus == AccessStatus.denied) {
                 _logger.i('AccessStatus: denied, navigating to payment screen');
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.payment,
-                  arguments: {
+                context.goNamed(
+                  AppRoutesName.payment,
+                  extra: {
                     'featureKey': FeatureKey.filter, // Use a relevant feature key
                     'isFromMyCloset': isFromMyCloset,
-                    'previousRoute': isFromMyCloset ? AppRoutes.myCloset : AppRoutes.createOutfit,
-                    'nextRoute': AppRoutes.filter,
+                    'previousRoute': isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
+                    'nextRoute': AppRoutesName.filter,
                   },
                 );
               }
@@ -164,7 +163,9 @@ class FilterScreen extends StatelessWidget {
                         child: TabBarView(
                           children: [
                             SingleSelectionTab(state: state),
-                            MultiSelectionTab(state: state),
+                            MultiSelectionTab(
+                                state: state,
+                              isFromMyCloset: isFromMyCloset),
                           ],
                         ),
                       ),

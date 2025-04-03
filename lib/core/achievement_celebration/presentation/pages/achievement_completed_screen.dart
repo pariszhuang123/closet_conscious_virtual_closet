@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:lottie/lottie.dart';
 import 'package:confetti/confetti.dart'; // Confetti package
-import '../../generated/l10n.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../generated/l10n.dart';
 
 class AchievementScreen extends StatefulWidget {
   final String achievementKey;  // Used for localized achievement name
@@ -31,7 +33,7 @@ class AchievementScreenState extends State<AchievementScreen> {
 
     // Set a timer to navigate to the next route after 5 seconds
     Timer(const Duration(seconds: 5), () {
-      Navigator.pushReplacementNamed(context, widget.nextRoute);
+      context.goNamed(widget.nextRoute);
     });
   }
 

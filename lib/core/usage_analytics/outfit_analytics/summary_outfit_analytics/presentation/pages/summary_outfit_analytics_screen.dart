@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/summary_outfit_analytics_bloc/summary_outfit_analytics_bloc.dart';
 import '../../../../../utilities/logger.dart';
@@ -8,7 +9,7 @@ import '../../../../../widgets/progress_indicator/outfit_progress_indicator.dart
 import '../../../../../data/type_data.dart';
 import '../../widgets/outfit_review_feedback_container.dart';
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
-import '../../../../../utilities/routes.dart';
+import '../../../../../utilities/app_router.dart';
 import '../../../../../widgets/layout/list/outfit_list.dart'; // ✅ Import OutfitList
 import '../../../../core/presentation/bloc/filtered_outfit_cubit/filtered_outfits_cubit.dart';
 import '../../widgets/summary_outfit_analytics_feature_container.dart';
@@ -75,13 +76,12 @@ class _SummaryOutfitAnalyticsScreenState
     final selectedOutfitIds = context
         .read<MultiSelectionOutfitCubit>()
         .state.selectedOutfitIds;
-    Navigator.pushNamed(
-      context,
-      AppRoutes.filter,
-      arguments: {
+    context.goNamed(
+      AppRoutesName.filter,
+      extra: {
         'isFromMyCloset': false,
         'selectedOutfitIds': selectedOutfitIds,
-        'returnRoute': AppRoutes.summaryOutfitAnalytics,
+        'returnRoute': AppRoutesName.summaryOutfitAnalytics,
         'showOnlyClosetFilter': true,
       },
     );
@@ -165,9 +165,8 @@ class _SummaryOutfitAnalyticsScreenState
           listener: (context, state) {
             if (state is UpdateOutfitReviewSuccess) {
               _logger.i("✅ Outfit review updated successfully. Navigating...");
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.summaryOutfitAnalytics,
+              context.goNamed(
+                AppRoutesName.summaryOutfitAnalytics,
               );
             }
           },
@@ -176,10 +175,9 @@ class _SummaryOutfitAnalyticsScreenState
           listener: (context, state) {
             if (state is OutfitFocusedDateSuccess) {
               _logger.i("✅ Focused date set successfully for outfit: ${state.outfitId}");
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.relatedOutfitAnalytics,
-                arguments: state.outfitId,
+              context.goNamed(
+                AppRoutesName.relatedOutfitAnalytics,
+                extra: state.outfitId,
               );
             } else if (state is OutfitFocusedDateFailure) {
               _logger.e("❌ Failed to set focused date: ${state.error}");
@@ -194,10 +192,9 @@ class _SummaryOutfitAnalyticsScreenState
           listener: (context, state) {
             if (state is ActiveItemsFetched) {
               _logger.i('Active items fetched. Navigating to create multi-closet.');
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.createMultiCloset,
-                arguments: {'selectedItemIds': state.activeItemIds},
+              context.goNamed(
+                AppRoutesName.createMultiCloset,
+                extra: {'selectedItemIds': state.activeItemIds},
               );
             }
           },

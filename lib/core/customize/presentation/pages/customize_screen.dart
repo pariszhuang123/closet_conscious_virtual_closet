@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../presentation/bloc/customize_bloc.dart';
@@ -10,7 +11,7 @@ import '../../../../generated/l10n.dart';
 import '../../../theme/my_closet_theme.dart';
 import '../../../theme/my_outfit_theme.dart';
 import '../../../widgets/button/themed_elevated_button.dart';
-import '../../../utilities/routes.dart';
+import '../../../utilities/app_router.dart';
 import '../../../utilities/logger.dart';
 import '../../../paywall/data/feature_key.dart';
 
@@ -59,19 +60,18 @@ class CustomizeScreen extends StatelessWidget {
           listener: (context, state) {
             if (state.saveStatus == SaveStatus.saveSuccess) {
               _logger.i('SaveStatus: saveSuccess, navigating to returnRoute: $returnRoute');
-              Navigator.of(context).pushReplacementNamed(
+              context.goNamed(
                 returnRoute,
-                arguments: {'selectedItemIds': selectedItemIds},
+                extra: {'selectedItemIds': selectedItemIds},
               );
             }
             if (state.accessStatus == AccessStatus.trialPending) {
               _logger.i('Trial pending, navigating to trialStarted screen');
 
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.trialStarted,
-                arguments: {
-                  'selectedFeatureRoute': AppRoutes.customize, // ✅ Pass actual AppRoutes value
+              context.goNamed(
+                AppRoutesName.trialStarted,
+                extra: {
+                  'selectedFeatureRoute': AppRoutesName.customize, // ✅ Pass actual AppRoutes value
                   'isFromMyCloset': isFromMyCloset,
                 },
               );
@@ -79,14 +79,13 @@ class CustomizeScreen extends StatelessWidget {
 
             if (state.accessStatus == AccessStatus.denied) {
               _logger.i('AccessStatus: denied, navigating to payment screen');
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.payment,
-                arguments: {
+              context.goNamed(
+                AppRoutesName.payment,
+                extra: {
                   'featureKey': FeatureKey.customize, // Pass necessary data
                   'isFromMyCloset': isFromMyCloset,
-                  'previousRoute': isFromMyCloset ? AppRoutes.myCloset : AppRoutes.createOutfit,
-                  'nextRoute': AppRoutes.customize,
+                  'previousRoute': isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
+                  'nextRoute': AppRoutesName.customize,
                 },
               );
             }

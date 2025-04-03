@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utilities/routes.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/utilities/app_router.dart';
 import '../../../../core/widgets/feedback/custom_alert_dialog.dart';
 import '../../../../generated/l10n.dart';
 
@@ -23,7 +25,7 @@ class OutfitCreationSuccessDialogState extends State<OutfitCreationSuccessDialog
     // Schedule the navigation after a short delay
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {  // Check if the widgets is still mounted
-        Navigator.of(context).pushReplacementNamed(AppRoutes.createOutfit);
+        context.goNamed(AppRoutesName.createOutfit);
       }
     });
   }

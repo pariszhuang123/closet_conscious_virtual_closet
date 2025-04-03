@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../presentation/bloc/payment_bloc.dart';
 import '../../../widgets/button/themed_elevated_button.dart';
 import '../../data/premium_feature_data.dart';
@@ -10,7 +12,7 @@ import '../../../../generated/l10n.dart';
 import '../../../theme/my_closet_theme.dart';
 import '../../../theme/my_outfit_theme.dart';
 import '../../../utilities/logger.dart';
-import '../../../utilities/routes.dart';
+import '../../../utilities/app_router.dart';
 import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../presentation/widgets/feature_carousel.dart';
@@ -101,27 +103,29 @@ class PaymentScreenState extends State<PaymentScreen> {
   void _onCancel() {
     _logger.i('User cancelled payment, navigating back to ${widget.previousRoute} with itemId: ${widget.itemId}, outfitId: ${widget.outfitId}');
 
-    if (widget.previousRoute == AppRoutes.editItem && widget.itemId != null) {
+    if (widget.previousRoute == AppRoutesName.editItem && widget.itemId != null) {
       _logger.i('Navigating back to EditItem with itemId: ${widget.itemId}');
-      Navigator.pop(context,  {'itemId': widget.itemId});
-    } else if (widget.previousRoute == AppRoutes.wearOutfit && widget.outfitId != null) {
-      _logger.i('Navigating back to WearOutfit with outfitId: ${widget.outfitId}');
-      Navigator.pop(context, widget.outfitId);
-    } else if (widget.previousRoute == AppRoutes.myCloset) {
-      _logger.i('Navigating back to MyCloset without specific arguments.');
-      Navigator.pushReplacementNamed(
-        context,
-        AppRoutes.myCloset, // Default fallback if no previous route matches
-      );
-    } else if (widget.previousRoute == AppRoutes.createOutfit) {
-      _logger.i('Navigating back to CreateOutfit without specific arguments.');
       Navigator.pop(context);
+      Navigator.pop(context,  widget.itemId);
+    } else if (widget.previousRoute == AppRoutesName.wearOutfit && widget.outfitId != null) {
+      _logger.i('Navigating back to WearOutfit with outfitId: ${widget.outfitId}');
+      Navigator.pop(context);
+      Navigator.pop(context, widget.outfitId);
+    } else if (widget.previousRoute == AppRoutesName.myCloset) {
+      _logger.i('Navigating back to MyCloset without specific arguments.');
+      context.goNamed(
+        AppRoutesName.myCloset, // Default fallback if no previous route matches
+      );
+    } else if (widget.previousRoute == AppRoutesName.createOutfit) {
+      _logger.i('Navigating back to CreateOutfit without specific arguments.');
+      context.goNamed(
+        AppRoutesName.createOutfit, // Default fallback if no previous route matches
+      );
     } else {
       // If the previous route is not explicitly handled, use a generic fallback
       _logger.w('Unknown previous route: ${widget.previousRoute}. Navigating to MyCloset as a fallback.');
-      Navigator.pushReplacementNamed(
-        context,
-        AppRoutes.myCloset, // Default fallback if no previous route matches
+      context.goNamed(
+        AppRoutesName.myCloset, // Default fallback if no previous route matches
       );
     }
   }
@@ -143,7 +147,7 @@ class PaymentScreenState extends State<PaymentScreen> {
         } else if (state is PaymentSuccess) {
           _logger.i('Payment successful');
           // Navigate to the next screen or unlock the feature
-          Navigator.pushReplacementNamed(context, widget.nextRoute);
+          context.goNamed(widget.nextRoute);
         } else if (state is PaymentFailure) {
           _logger.e('Payment failed: ${state.errorMessage}');
           // Show an error message to the user

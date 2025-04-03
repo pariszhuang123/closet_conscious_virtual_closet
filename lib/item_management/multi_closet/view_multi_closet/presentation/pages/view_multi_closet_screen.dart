@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
 import '../bloc/view_multi_closet_bloc.dart';
 import '../../../../../core/filter/presentation/widgets/tab/single_selection_tab/closet_grid_widget.dart';
-import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/data/type_data.dart';
 import '../../../../../core/widgets/button/navigation_type_button.dart';
@@ -40,11 +41,10 @@ class ViewMultiClosetScreen extends StatelessWidget {
           if (state.accessStatus == AccessStatus.trialPending) {
             logger.i('Trial pending, navigating to trialStarted screen');
 
-            Navigator.pushReplacementNamed(
-              context,
-              AppRoutes.trialStarted,
-              arguments: {
-                'selectedFeatureRoute': AppRoutes.viewMultiCloset,
+            context.goNamed(
+              AppRoutesName.trialStarted,
+              extra: {
+                'selectedFeatureRoute': AppRoutesName.viewMultiCloset,
                 'isFromMyCloset': isFromMyCloset,
               },
             );
@@ -53,26 +53,25 @@ class ViewMultiClosetScreen extends StatelessWidget {
           if (state.accessStatus == AccessStatus.denied) {
             logger.w('Access denied: Navigating to payment page');
 
-            Navigator.pushReplacementNamed(
-              context,
-              AppRoutes.payment,
-              arguments: {
+            context.goNamed(
+              AppRoutesName.payment,
+              extra: {
                 'featureKey': FeatureKey.multicloset,
                 'isFromMyCloset': isFromMyCloset,
-                'previousRoute': AppRoutes.myCloset,
-                'nextRoute': AppRoutes.viewMultiCloset,
+                'previousRoute': AppRoutesName.myCloset,
+                'nextRoute': AppRoutesName.viewMultiCloset,
               },
             );
           }
         } else if (state is CreateMultiClosetNavigationState) {
           logger.i('Navigating to Create Multi Closet screen.');
-          Navigator.pushNamed(context, AppRoutes.createMultiCloset);
+          context.pushNamed(AppRoutesName.createMultiCloset);
         } else if (state is EditSingleMultiClosetNavigationState) {
           logger.i('Navigating to Edit Single Multi Closet screen');
-          Navigator.pushNamed(context, AppRoutes.editMultiCloset);
+          context.pushNamed(AppRoutesName.editMultiCloset);
         } else if (state is EditAllMultiClosetNavigationState) {
           logger.i('Navigating to Edit All Multi Closet screen');
-          Navigator.pushNamed(context, AppRoutes.editMultiCloset);
+          context.pushNamed(AppRoutesName.editMultiCloset);
         } else {
           logger.d('Unhandled state in MultiClosetNavigationBloc: ${state.runtimeType}');
         }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/summary_items_bloc.dart';
 import '../../../../../theme/my_closet_theme.dart';
@@ -11,7 +12,7 @@ import '../../../../../widgets/container/summary_card.dart';
 import '../../../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../../../../generated/l10n.dart';
 import '../widgets/summary_item_analytics_feature_container.dart';
-import '../../../../../utilities/routes.dart';
+import '../../../../../utilities/app_router.dart';
 import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../../../../item_management/view_items/presentation/bloc/view_items_bloc.dart';
 import '../../../../../widgets/feedback/custom_snack_bar.dart';
@@ -64,13 +65,12 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
     final selectedItemIds =
         context.read<MultiSelectionItemCubit>().state.selectedItemIds;
-    Navigator.pushNamed(
-      context,
-      AppRoutes.filter,
-      arguments: {
+    context.pushNamed(
+      AppRoutesName.filter,
+      extra: {
         'isFromMyCloset': true,
         'selectedItemIds': selectedItemIds,
-        'returnRoute': AppRoutes.summaryItemsAnalytics,
+        'returnRoute': AppRoutesName.summaryItemsAnalytics,
       },
     );
   }
@@ -78,13 +78,12 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
     final selectedItemIds =
         context.read<MultiSelectionItemCubit>().state.selectedItemIds;
-    Navigator.pushNamed(
-      context,
-      AppRoutes.customize,
-      arguments: {
+    context.pushNamed(
+      AppRoutesName.customize,
+      extra: {
         'isFromMyCloset': true,
         'selectedItemIds': selectedItemIds,
-        'returnRoute': AppRoutes.summaryItemsAnalytics,
+        'returnRoute': AppRoutesName.summaryItemsAnalytics,
       },
     );
   }
@@ -133,10 +132,9 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
     final selectedItemIds =
         context.read<MultiSelectionItemCubit>().state.selectedItemIds;
     if (selectedItemIds.isNotEmpty) {
-      Navigator.pushReplacementNamed(
-        context,
-        AppRoutes.createMultiCloset,
-        arguments: {'selectedItemIds': selectedItemIds},
+      context.goNamed(
+        AppRoutesName.createMultiCloset,
+        extra: {'selectedItemIds': selectedItemIds},
       );
     }
   }
@@ -147,10 +145,9 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
     if (itemId != null) {
       logger.i("Navigating to item details for itemId: $itemId");
 
-      Navigator.pushNamed(
-        context,
-        AppRoutes.focusedItemsAnalytics, // ✅ Ensure this route exists
-        arguments: itemId,
+      context.pushNamed(
+        AppRoutesName.focusedItemsAnalytics, // ✅ Ensure this route exists
+        extra: itemId,
       );
     } else {
       logger.w("No item selected, navigation not triggered.");
@@ -176,23 +173,21 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
             if (state is UsageAnalyticsAccessState) {
               if (state.accessStatus == AccessStatus.denied) {
                 logger.w('Access denied: Navigating to payment page');
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.payment,
-                  arguments: {
+                context.goNamed(
+                  AppRoutesName.payment,
+                  extra: {
                     'featureKey': FeatureKey.usageAnalytics,
                     'isFromMyCloset': widget.isFromMyCloset,
-                    'previousRoute': AppRoutes.myCloset,
-                    'nextRoute': AppRoutes.summaryItemsAnalytics,
+                    'previousRoute': AppRoutesName.myCloset,
+                    'nextRoute': AppRoutesName.summaryItemsAnalytics,
                   },
                 );
               } else if (state.accessStatus == AccessStatus.trialPending) {
                 logger.i('Trial pending, navigating to trialStarted screen');
-                Navigator.pushReplacementNamed(
-                  context,
-                  AppRoutes.trialStarted,
-                  arguments: {
-                    'selectedFeatureRoute': AppRoutes.summaryItemsAnalytics,
+                context.goNamed(
+                  AppRoutesName.trialStarted,
+                  extra: {
+                    'selectedFeatureRoute': AppRoutesName.summaryItemsAnalytics,
                     'isFromMyCloset': widget.isFromMyCloset,
                   },
                 );

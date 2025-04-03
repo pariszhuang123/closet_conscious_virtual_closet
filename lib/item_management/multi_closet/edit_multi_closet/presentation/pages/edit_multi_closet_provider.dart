@@ -8,6 +8,7 @@ import '../../../../../core/utilities/logger.dart';
 import '../bloc/edit_multi_closet_bloc/edit_multi_closet_bloc.dart';
 import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
 import '../../../../core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
+import '../../../../core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
 import 'edit_multi_closet_screen.dart';
 import '../bloc/edit_closet_metadata_bloc/edit_closet_metadata_bloc.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
@@ -42,7 +43,9 @@ class EditMultiClosetProvider extends StatelessWidget {
         BlocProvider<MultiSelectionItemCubit>(
           create: (context) => MultiSelectionItemCubit()..initializeSelection(selectedItemIds),
         ),
-
+        BlocProvider<SingleSelectionItemCubit>(
+          create: (context) => SingleSelectionItemCubit(),
+        ),
         // Cubit for metadata update
         BlocProvider<EditClosetMetadataBloc>(
           create: (context) => EditClosetMetadataBloc(itemFetchService: itemFetchService),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../../../generated/l10n.dart';
 import '../../../core/data/models/closet_item_detailed.dart';
 import '../../presentation/bloc/edit_item_bloc.dart';
@@ -7,7 +9,7 @@ import '../../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../../core/widgets/button/upload_button_with_progress.dart';
 import '../../presentation/widgets/edit_item_metadata.dart';
-import '../../../../core/utilities/routes.dart';
+import '../../../../core/utilities/app_router.dart';
 import '../../../declutter_items/presentation/widgets/declutter_options_bottom_sheet.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/photo_library/presentation/bloc/photo_library_bloc.dart';
@@ -149,7 +151,7 @@ class _EditItemMetadataWithButtonState extends State<EditItemMetadataWithButton>
             context.read<PhotoLibraryBloc>().add(CheckForPendingItems());
             widget.onPostUpdate?.call(); // trigger post-update callback if present
           } else {
-            Navigator.pushReplacementNamed(context, AppRoutes.myCloset);
+            context.goNamed(AppRoutesName.myCloset);
           }
         } else if (state is EditItemUpdateFailure) {
           setState(() => _isSubmitting = false);
@@ -176,44 +178,40 @@ class _EditItemMetadataWithButtonState extends State<EditItemMetadataWithButton>
 
           final shouldShowUpdate = _metadataChanged || _validationErrors.isNotEmpty;
 
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                EditItemMetadata(
-                  currentItem: currentItem,
-                  itemNameController: _itemNameController,
-                  amountSpentController: _amountSpentController,
-                  theme: theme,
-                  validationErrors: _validationErrors,
-                  onMetadataChanged: () => setState(() => _metadataChanged = true),
-                  amountSpentFocusNode: _amountSpentFocusNode,
+          return Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: EditItemMetadata(
+                    currentItem: currentItem,
+                    itemNameController: _itemNameController,
+                    amountSpentController: _amountSpentController,
+                    theme: theme,
+                    validationErrors: _validationErrors,
+                    onMetadataChanged: () => setState(() => _metadataChanged = true),
+                    amountSpentFocusNode: _amountSpentFocusNode,
+                  ),
                 ),
-                const SizedBox(height: 24),
-                if (widget.isPendingFlow) ...[
-                  Align(
-                    alignment: Alignment.center,
-                    child: UploadButtonWithProgress(
-                      isLoading: _isSubmitting,
-                      onPressed: _handleUpdate,
-                      text: S.of(context).update,
-                      isFromMyCloset: true,
-                    ),
-                  )
-                ] else ...[
-                  Align(
-                    alignment: Alignment.center,
-                    child: UploadButtonWithProgress(
-                      isLoading: _isSubmitting,
-                      onPressed: shouldShowUpdate ? _handleUpdate : _openDeclutterSheet,
-                      text: shouldShowUpdate ? S.of(context).update : S.of(context).declutter,
-                      isFromMyCloset: true,
-                    ),
-                  )
-                ]
-              ],
-            ),
+              ),
+              const SizedBox(height: 24),
+              SafeArea(
+                minimum: const EdgeInsets.only(bottom: 16.0), // adds extra space above system navbar
+                child: Align(
+                  alignment: Alignment.center,
+                  child: UploadButtonWithProgress(
+                    isLoading: _isSubmitting,
+                    onPressed: widget.isPendingFlow
+                        ? _handleUpdate
+                        : (shouldShowUpdate ? _handleUpdate : _openDeclutterSheet),
+                    text: widget.isPendingFlow
+                        ? S.of(context).update
+                        : (shouldShowUpdate ? S.of(context).update : S.of(context).declutter),
+                    isFromMyCloset: true,
+                  ),
+                ),
+              ),
+            ],
           );
         },
       ),

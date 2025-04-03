@@ -10,18 +10,15 @@ import 'user_management/authentication/presentation/bloc/auth_bloc.dart';
 import 'core/connectivity/presentation/blocs/connectivity_bloc.dart';
 import 'core/connectivity/presentation/pages/connectivity_provider.dart';
 import 'core/connectivity/presentation/pages/connectivity_screen.dart';
-import 'user_management/authentication/presentation/pages/auth_wrapper.dart';
 
 import 'core/theme/my_closet_theme.dart';
-import 'core/theme/my_outfit_theme.dart';
-import 'core/utilities/routes.dart';
+import 'core/utilities/app_router.dart';
 
 void main() {
   user_management_locator.setupUserManagementLocator();
   runApp(const MainApp());
 }
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -46,8 +43,8 @@ class MainApp extends StatelessWidget {
       ],
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          return MaterialApp(
-            navigatorKey: navigatorKey,
+          return MaterialApp.router(
+            routerConfig: appRouter,
             debugShowCheckedModeBanner: false,
             localizationsDelegates: const [
               S.delegate,
@@ -57,9 +54,6 @@ class MainApp extends StatelessWidget {
             ],
             supportedLocales: S.delegate.supportedLocales,
             theme: myClosetTheme,
-            onGenerateRoute: (settings) =>
-                AppRoutes.generateRoute(settings, myClosetTheme, myOutfitTheme),
-            home: AuthWrapper(theme: myClosetTheme),
             builder: (context, child) {
               return ConnectivityProvider(
                 child: Stack(

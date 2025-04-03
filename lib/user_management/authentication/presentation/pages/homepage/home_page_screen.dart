@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../user_management/user_update/presentation/bloc/version_bloc.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../screens/closet/closet_provider.dart';
-import '../../../../../user_management/user_update/presentation/widgets/update_required_page.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -42,12 +43,7 @@ class HomePageScreenState extends State<HomePageScreen> {
         listener: (context, versionState) {
           if (versionState is VersionUpdateRequired) {
             logger.i('Version update required, showing UpdateRequiredPage');
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const UpdateRequiredPage(),
-              ),
-            );
+            context.pushNamed(AppRoutesName.updateRequiredPage);
           } else if (versionState is VersionError) {
             logger.e('Error during version check: ${versionState.error}');
             Sentry.captureMessage('Version error: ${versionState.error}');

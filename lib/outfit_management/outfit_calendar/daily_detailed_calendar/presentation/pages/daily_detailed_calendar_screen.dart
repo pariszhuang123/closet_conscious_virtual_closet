@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
@@ -11,7 +12,7 @@ import '../widgets/daily_detailed_calendar_carousel.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../daily_calendar/presentation/widgets/daily_feature_container.dart';
-import '../../../../../core/utilities/routes.dart';
+import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/usage_analytics/core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
 import '../../../../../core/widgets/feedback/custom_snack_bar.dart';
@@ -27,13 +28,12 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
 
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
     final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
-    Navigator.pushNamed(
-      context,
-      AppRoutes.customize,
-      arguments: {
+    context.pushNamed(
+      AppRoutesName.customize,
+      extra: {
         'isFromMyCloset': true,
         'selectedItemIds': selectedItemIds,
-        'returnRoute': AppRoutes.dailyDetailedCalendar,
+        'returnRoute': AppRoutesName.dailyDetailedCalendar,
       },
     );
   }
@@ -44,10 +44,9 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
     if (selectedItemId != null) {
       _logger.i("Navigating to item details for itemId: $selectedItemId");
 
-      Navigator.pushNamed(
-        context,
-        AppRoutes.focusedItemsAnalytics, // ✅ Ensure this route exists
-        arguments: selectedItemId,
+      context.pushNamed(
+        AppRoutesName.focusedItemsAnalytics, // ✅ Ensure this route exists
+        extra: selectedItemId,
       );
     } else {
       _logger.w("No item selected, navigation not triggered.");
@@ -83,7 +82,7 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
         // Listen for the navigation success state and navigate accordingly
         if (state is DailyCalendarNavigationSuccessState) {
           _logger.i('Navigation success state detected. Navigating to DailyCalendar.');
-          Navigator.pushReplacementNamed(context, AppRoutes.dailyDetailedCalendar);
+          context.goNamed(AppRoutesName.dailyDetailedCalendar);
         }
         // You can also handle failure states here if needed
         else if (state is DailyCalendarSaveFailureState) {
@@ -95,10 +94,9 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
           BlocListener<OutfitSelectionBloc, OutfitSelectionState>(
             listener: (context, state) {
               if (state is ActiveItemsFetched) {
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.createOutfit,
-                  arguments: {
+                context.pushNamed(
+                  AppRoutesName.createOutfit,
+                  extra: {
                     'selectedItemIds': state.activeItemIds,
                   },
                 );
@@ -116,10 +114,9 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
               if (state is OutfitFocusedDateSuccess) {
                 _logger.i("✅ Focused date saved. Navigating to outfit details.");
 
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.relatedOutfitAnalytics,
-                  arguments: outfitId,
+                context.pushNamed(
+                  AppRoutesName.relatedOutfitAnalytics,
+                  extra: outfitId,
                 );
               } else if (state is OutfitFocusedDateFailure) {
                 _logger.e('❌ Failed to set focused date: ${state.error}');
@@ -163,8 +160,8 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
                       theme: Theme.of(context),
                       onCalendarButtonPressed: () {
                         _logger.i("Calendar button pressed");
-                        Navigator.pushReplacementNamed(
-                            context, AppRoutes.monthlyCalendar);
+                        context.pushReplacementNamed(
+                            AppRoutesName.monthlyCalendar);
                       },
                       onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
                       onPreviousButtonPressed: () {

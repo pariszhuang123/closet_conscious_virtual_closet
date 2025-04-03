@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart'; // To open URLs
 import 'dart:io' show Platform;
+
 import '../../../../generated/l10n.dart';  // Localization import
 import '../../../../core/utilities/logger.dart';  // Import CustomLogger
 

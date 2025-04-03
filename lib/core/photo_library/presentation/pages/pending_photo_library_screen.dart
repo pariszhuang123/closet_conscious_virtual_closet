@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../utilities/logger.dart';
 import '../bloc/photo_library_bloc.dart';
@@ -10,7 +11,7 @@ import '../widgets/pending_interactive_item_grid.dart';
 import '../../../widgets/feedback/custom_snack_bar.dart';
 import '../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
 import '../../../paywall/data/feature_key.dart';
-import '../../../utilities/routes.dart';
+import '../../../utilities/app_router.dart';
 import '../../../widgets/button/upload_button_with_progress.dart';
 import '../widgets/show_upload_success_dialog.dart';
 import '../widgets/photo_library_container.dart';
@@ -91,7 +92,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
   void _navigateSafely(String routeName, {Object? arguments}) {
     if (mounted) {
       _logger.d('Navigating to $routeName with arguments: $arguments');
-      Navigator.pushReplacementNamed(context, routeName, arguments: arguments);
+      context.pushNamed(routeName, extra: arguments);
     } else {
       _logger.e("Cannot navigate to $routeName, widget is not mounted");
     }
@@ -100,7 +101,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
   void _navigateToMyCloset() {
     _logger.d('Navigating to MyCloset');
     _navigateSafely (
-        AppRoutes.myCloset
+        AppRoutesName.myCloset
     );
   }
 
@@ -114,8 +115,14 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
           listener: (context, state) {
             if (state is PhotoLibraryMaxSelectionReached) {
               _logger.w('Listener: Max image selection reached (${state.maxAllowed})');
+              final isApproachingLimit = state.maxAllowed < 5;
+
+              final message = isApproachingLimit
+                  ? S.of(context).approachingLimitSnackbar(state.maxAllowed)
+                  : S.of(context).maxPendingItemsSnackbar(state.maxAllowed);
+
               CustomSnackbar(
-                message: S.of(context).maxPendingItemsSnackbar(state.maxAllowed),
+                message: message,
                 theme: Theme.of(context),
               ).show(context);
             }
@@ -155,14 +162,13 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
               final featureKey = _getFeatureKeyForState(state);
               _logger.i('Listener: Access denied — navigating to payment with featureKey: $featureKey');
 
-              Navigator.pushReplacementNamed(
-                context,
-                AppRoutes.payment,
-                arguments: {
+              context.goNamed(
+                AppRoutesName.payment,
+                extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
-                  'previousRoute': AppRoutes.myCloset,
-                  'nextRoute': AppRoutes.pendingPhotoLibrary,
+                  'previousRoute': AppRoutesName.myCloset,
+                  'nextRoute': AppRoutesName.pendingPhotoLibrary,
                   'uploadSource': UploadSource.photoLibrary,
                 },
               );
@@ -194,7 +200,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
                 PhotoLibraryContainer(
                   theme: Theme.of(context),
                   onViewPendingUploadButtonPressed: () {
-                    Navigator.pushReplacementNamed(context, AppRoutes.viewPendingItem);
+                    context.goNamed(AppRoutesName.viewPendingItem);
                   },
                 ),
               const Expanded(

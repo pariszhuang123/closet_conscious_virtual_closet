@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../bloc/photo_bloc.dart';
 import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
-import '../../../../utilities/routes.dart';
+import '../../../../utilities/app_router.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../../paywall/data/feature_key.dart';
@@ -32,7 +33,7 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
   @override
   void onPermissionClose() {
     widget.logger.i('Camera permission check failed, navigating to EditCloset');
-    navigateSafely(AppRoutes.editMultiCloset);
+    navigateSafely(AppRoutesName.editMultiCloset);
   }
 
   @override
@@ -64,11 +65,11 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
                     ? FeatureKey.editClosetSilver
                     : FeatureKey.editClosetGold;
 
-                navigateSafely(AppRoutes.payment, arguments: {
+                navigateSafely(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
-                  'previousRoute': AppRoutes.editMultiCloset,
-                  'nextRoute': AppRoutes.myCloset,
+                  'previousRoute': AppRoutesName.editMultiCloset,
+                  'nextRoute': AppRoutesName.myCloset,
                   'closetId': widget.closetId,
                 });
               } else if (state is ClosetAccessGrantedState) {
@@ -89,14 +90,14 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
                   photoBloc.add(CaptureEditClosetPhoto(widget.closetId!));
                 } else {
                   widget.logger.e('Closet ID is null. Cannot capture Edit Closet.');
-                  navigateSafely(AppRoutes.editMultiCloset);
+                  navigateSafely(AppRoutesName.editMultiCloset);
                 }
               } else if (state is PhotoCaptureFailure) {
                 widget.logger.e('Photo capture failed');
-                navigateSafely(AppRoutes.editMultiCloset);
+                navigateSafely(AppRoutesName.editMultiCloset);
               } else if (state is EditClosetCaptureSuccess) {
                 widget.logger.i('Photo upload succeeded with closetId: ${state.closetId}');
-                navigateSafely(AppRoutes.editMultiCloset);
+                navigateSafely(AppRoutesName.editMultiCloset);
               }
             },
           ),

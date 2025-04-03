@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/photo_bloc.dart';
+
 import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
 import '../../../../core_enums.dart';
-import '../../../../utilities/routes.dart';
+import '../../../../utilities/app_router.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../../paywall/data/feature_key.dart';
@@ -31,7 +32,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
   @override
   void onPermissionClose() {
     widget.logger.i('Camera permission denied. Navigating to MyCloset.');
-    navigateSafely(AppRoutes.myCloset);
+    navigateSafely(AppRoutesName.myCloset);
   }
 
   @override
@@ -42,7 +43,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
 
   void _navigateToUploadItem(String imageUrl) {
     widget.logger.d('Navigating to UploadItem with imageUrl: $imageUrl');
-    navigateSafely(AppRoutes.uploadItem, arguments: imageUrl);
+    navigateSafely(AppRoutesName.uploadItem, extra: imageUrl);
   }
 
   @override
@@ -63,11 +64,11 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
                     ? FeatureKey.uploadItemSilver
                     : FeatureKey.uploadItemGold;
 
-                navigateSafely(AppRoutes.payment, arguments: {
+                navigateSafely(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
-                  'previousRoute': AppRoutes.myCloset,
-                  'nextRoute': AppRoutes.uploadItemPhoto,
+                  'previousRoute': AppRoutesName.myCloset,
+                  'nextRoute': AppRoutesName.uploadItemPhoto,
                   'uploadSource': UploadSource.camera,
                 });
               } else if (state is ItemAccessGrantedState) {
@@ -89,7 +90,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
                 photoBloc.add(CapturePhoto());
               } else if (state is PhotoCaptureFailure) {
                 widget.logger.e('Photo capture failed');
-                navigateSafely(AppRoutes.myCloset);
+                navigateSafely(AppRoutesName.myCloset);
               } else if (state is PhotoCaptureSuccess) {
                 widget.logger.i('Photo uploaded with imageUrl: ${state.imageUrl}');
                 _navigateToUploadItem(state.imageUrl);
