@@ -1,3 +1,4 @@
+import 'package:closet_conscious/core/widgets/progress_indicator/closet_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -37,7 +38,6 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
     super.initState();
     _logger.i('initState: Requesting photo library permission');
     context.read<PhotoLibraryBloc>().add(RequestLibraryPermission());
-    context.read<PhotoLibraryBloc>().add(CheckForPendingItems());
     context.read<NavigateCoreBloc>().add(const CheckUploadItemCreationAccessEvent());
     WidgetsBinding.instance.addObserver(this);
   }
@@ -144,6 +144,10 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
             if (state is PhotoLibraryPermissionGranted && !_libraryInitialized) {
               _logger.i('Library permission granted');
               _libraryInitialized = true;
+
+              // ✅ now dispatch initialization after user has interacted
+              context.read<PhotoLibraryBloc>().add(InitializePhotoLibrary());
+              context.read<PhotoLibraryBloc>().add(CheckForPendingItems());
             }
 
               if (state is PhotoLibraryUploadSuccess) {
@@ -184,15 +188,20 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
         builder: (context, state) {
           _logger.i('Builder: Current PhotoLibraryBloc state: ${state.runtimeType}');
 
+          if (state is PhotoLibraryInitial) {
+            return const Center(child: ClosetProgressIndicator());
+          }
+
           if (state is PhotoLibraryFailure) {
             _logger.e('Failure: ${state.error}');
             return Center(child: Text(S.of(context).failedToLoadImages));
           }
 
-          final selectedAssets = context.select<PhotoLibraryBloc, List<AssetEntity>>(
-                (bloc) => bloc.selectedImages,
-          );
-          _logger.d('Rendering item grid with ${selectedAssets.length} selected images');
+            final selectedAssets = context.select<PhotoLibraryBloc, List<AssetEntity>>(
+                  (bloc) => bloc.selectedImages,
+            );
+
+            _logger.d('Rendering item grid with ${selectedAssets.length} selected images');
 
           return Column(
             children: [
@@ -240,7 +249,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
               ),
             ],
           );
-        },
+          }
       ),
     );
   }

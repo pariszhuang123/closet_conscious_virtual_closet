@@ -107,14 +107,18 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     });
   }
 
-  Future<void> _onRequestPermission(RequestLibraryPermission event,
-      Emitter<PhotoLibraryState> emit,) async {
+  Future<void> _onRequestPermission(
+      RequestLibraryPermission event,
+      Emitter<PhotoLibraryState> emit,
+      ) async {
     _logger.i("Requesting permission...");
     final granted = await _photoLibraryService.requestPhotoPermission();
     _logger.d("Permission granted: $granted");
+
     if (granted) {
-      emit(PhotoLibraryPermissionGranted()); // <-- ✅ Emit it here
-      add(InitializePhotoLibrary());
+      emit(PhotoLibraryPermissionGranted());
+      // DO NOT immediately call InitializePhotoLibrary here
+      // Let the screen respond and call it when ready
     } else {
       _logger.w("Permission denied.");
       emit(PhotoLibraryPermissionDenied());
@@ -126,6 +130,15 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     _logger.i("Initializing photo library...");
     emit(PhotoLibraryLoadingImages());
     try {
+      final permission = await PhotoManager.requestPermissionExtend();
+      final hasAccess = permission.hasAccess;
+
+      if (!hasAccess) {
+        _logger.w("Permission check failed in initialize.");
+        emit(PhotoLibraryPermissionDenied());
+        return;
+      }
+
       _apparelCount = await _itemFetchService.fetchApparelCount();
       _maxAllowed = calculateDynamicMax(_apparelCount);
       _logger.d("Apparel count: $_apparelCount, Max allowed: $_maxAllowed");

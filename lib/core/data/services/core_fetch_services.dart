@@ -681,5 +681,36 @@ class CoreFetchService {
     }
   }
 
+  Future<bool> isFirstTimeTutorial({required String tutorialInput}) async {
+    _logger.i('Checking if this is the first interaction for tutorial: $tutorialInput');
+
+    try {
+      final authBloc = locator<AuthBloc>();
+      final userId = authBloc.userId;
+
+      if (userId == null) {
+        _logger.e('AuthBloc.userId is null — user might not be authenticated.');
+        return false;
+      }
+
+      final data = await Supabase.instance.client
+          .from('tutorial_progress')
+          .select('user_id')
+          .eq('user_id', userId)
+          .eq('tutorial_name', tutorialInput)
+          .maybeSingle();
+
+      if (data == null) {
+        _logger.i('No matching tutorial entry — first-time interaction.');
+        return true;
+      } else {
+        _logger.i('Tutorial already interacted with — not first-time.');
+        return false;
+      }
+    } catch (e) {
+      _logger.e('Error checking tutorial interaction: $e');
+      return false;
+    }
+  }
 
 }

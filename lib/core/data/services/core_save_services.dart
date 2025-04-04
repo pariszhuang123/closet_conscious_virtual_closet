@@ -532,6 +532,28 @@ class CoreSaveService {
     }
   }
 
+  Future<bool> trackTutorialInteraction({required String tutorialInput}) async {
+    logger.i('Tracking tutorial interaction for: $tutorialInput');
+
+    try {
+      final result = await Supabase.instance.client.rpc(
+        'track_tutorial_interaction',
+        params: {'tutorial_input': tutorialInput},
+      );
+
+      if (result != null) {
+        logger.i('Tutorial interaction tracked: $result');
+        return result == true;
+      } else {
+        logger.w('RPC call returned null');
+        return false;
+      }
+    } catch (e, stackTrace) {
+      logger.e('Error calling track_tutorial_interaction RPC: $e');
+      await Sentry.captureException(e, stackTrace: stackTrace);
+      return false;
+    }
+  }
 }
 
 
