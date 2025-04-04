@@ -64,6 +64,7 @@ FOR UPDATE
 TO authenticated
 USING (
   (( SELECT auth.uid() AS uid) = user_id)
+)
 WITH CHECK (
   (( SELECT auth.uid() AS uid) = user_id)
 );
