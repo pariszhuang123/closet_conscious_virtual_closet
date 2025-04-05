@@ -17,7 +17,6 @@ import '../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.
 import '../widgets/tab/single_selection_tab/all_closet_toggle.dart';
 import '../widgets/tab/single_selection_tab/closet_grid_widget.dart';
 import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
-import '../../../utilities/helper_functions/tutorial_helper.dart';
 
 class FilterScreen extends StatelessWidget {
   final bool isFromMyCloset;
@@ -115,21 +114,6 @@ class FilterScreen extends StatelessWidget {
           }
         },
         ),
-            BlocListener<TutorialBloc, TutorialState>(
-              listener: (context, tutorialState) {
-                if (tutorialState is ShowTutorial) {
-                  _logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
-                  context.goNamed(
-                    AppRoutesName.tutorialVideoPopUp,
-                    extra: {
-                      'nextRoute': AppRoutesName.filter,
-                      'tutorialInputKey': TutorialType.paidFilter.value,
-                      'isFromMyCloset': isFromMyCloset
-                    },
-                  );
-                }
-              },
-            ),
             ],
 
         child: BlocBuilder<FilterBloc, FilterState>(

@@ -33,7 +33,6 @@ class AppDrawer extends StatelessWidget {
     logger.d(
         'Building AppDrawer for ${isFromMyCloset ? 'My Closet' : 'My Outfit'}');
 
-    final tutorialItem = TypeDataList.drawerTutorial(context);
     final achievementsItem = TypeDataList.drawerAchievements(context);
     final insightsItem = TypeDataList.drawerInsights(context);
     final infoHubItem = TypeDataList.drawerInfoHub(context);
@@ -82,9 +81,6 @@ class AppDrawer extends StatelessWidget {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: <Widget>[
-                  _buildNavigationButton(context, tutorialItem, null,
-                      _navigateToTutorialPage),
-                  _buildVerticalSpacing(),
                   _buildNavigationButton(context, achievementsItem, null,
                       _navigateToAchievementsPage),
                   _buildVerticalSpacing(),
@@ -152,20 +148,6 @@ class AppDrawer extends StatelessWidget {
     return const SizedBox(height: 16.0);
   }
 
-  void _navigateToTutorialPage(BuildContext context) {
-    final authState = context
-        .read<AuthBloc>()
-        .state;
-    if (authState is Authenticated) {
-      final String userId = authState.user.id;
-      logger.d('Navigating to tutorial hub with userId: $userId');
-      context.pushNamed(
-        AppRoutesName.tutorialHub,
-      );
-    } else {
-      logger.e('No user ID found. User might not be authenticated.');
-    }
-  }
 
   void _navigateToAchievementsPage(BuildContext context) {
     final authState = context

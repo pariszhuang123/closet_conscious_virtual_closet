@@ -5,6 +5,7 @@ import '../../../../widgets/button/navigation_type_button.dart';
 import '../../../../core_enums.dart';
 import '../../../../utilities/app_router.dart';
 import '../../../../data/type_data.dart';
+import '../../../../utilities/helper_functions/tutorial_helper.dart';
 
 
 class TutorialFeatureNavigation extends StatelessWidget {
@@ -19,7 +20,7 @@ class TutorialFeatureNavigation extends StatelessWidget {
     context.pushNamed(
       AppRoutesName.tutorialVideoPopUp,
       extra: {
-        'tutorialInputKey': tutorialType, // using the extension
+        'tutorialInputKey': tutorialType.value, // using the extension
         'nextRoute': nextRoute,
         'isFromMyCloset': isFromMyCloset,
       },
