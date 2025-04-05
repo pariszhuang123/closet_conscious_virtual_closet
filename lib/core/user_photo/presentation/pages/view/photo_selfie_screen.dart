@@ -7,8 +7,8 @@ import '../../../../utilities/app_router.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../theme/my_outfit_theme.dart';
-import '../../../../paywall/data/feature_key.dart';
 import '../../widgets/base/base_photo_screen.dart';
+import '../../../../core_enums.dart';
 
 class PhotoSelfieScreen extends BasePhotoScreen {
   final String? outfitId;

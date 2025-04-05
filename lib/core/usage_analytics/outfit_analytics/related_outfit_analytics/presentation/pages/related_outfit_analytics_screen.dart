@@ -14,7 +14,6 @@ import '../../../../../widgets/progress_indicator/outfit_progress_indicator.dart
 import '../../../../../utilities/app_router.dart';
 import '../../../../../../generated/l10n.dart';
 import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
-import '../../../../../paywall/data/feature_key.dart';
 import '../../../../../core_enums.dart';
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 import '../../../../../utilities/helper_functions/image_helper/image_helper.dart';

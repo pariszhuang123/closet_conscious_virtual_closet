@@ -13,10 +13,11 @@ import '../../../utilities/logger.dart';
 import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../core_enums.dart';
 import '../../../utilities/app_router.dart';
-import '../../../paywall/data/feature_key.dart';
 import '../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../widgets/tab/single_selection_tab/all_closet_toggle.dart';
 import '../widgets/tab/single_selection_tab/closet_grid_widget.dart';
+import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../../utilities/helper_functions/tutorial_helper.dart';
 
 class FilterScreen extends StatelessWidget {
   final bool isFromMyCloset;
@@ -44,6 +45,7 @@ class FilterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<FilterBloc>().add(CheckFilterAccessEvent());
     context.read<FilterBloc>().add(CheckMultiClosetFeatureEvent());
+    context.read<TutorialBloc>().add(const CheckTutorialStatus(TutorialType.paidFilter));
     // Select theme based on isFromMyCloset
     ThemeData theme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
     _logger.d('Theme selected: ${isFromMyCloset ? "myClosetTheme" : "myOutfitTheme"}');
@@ -75,46 +77,62 @@ class FilterScreen extends StatelessWidget {
               ),
             ],
           ),
-          body: BlocListener<FilterBloc, FilterState>(
-            listener: (context, state) {
-              if (state.saveStatus == SaveStatus.saveSuccess) {
-                _logger.i('SaveStatus: saveSuccess, navigating to returnRoute: $returnRoute');
-                context.goNamed(
-                  returnRoute,
-                  extra: {
-                    'selectedItemIds': selectedItemIds,
-                    'selectedOutfitIds': selectedOutfitIds
-                  },
+          body: MultiBlocListener(
+            listeners: [
+            BlocListener<FilterBloc, FilterState>(
+        listener: (context, state) {
+          if (state.saveStatus == SaveStatus.saveSuccess) {
+            _logger.i('SaveStatus: saveSuccess, navigating to returnRoute: $returnRoute');
+            context.goNamed(
+              returnRoute,
+              extra: {
+                'selectedItemIds': selectedItemIds,
+                'selectedOutfitIds': selectedOutfitIds,
+              },
+            );
+          }
+          if (state.accessStatus == AccessStatus.trialPending) {
+            _logger.i('Trial pending, navigating to trialStarted screen');
+            context.goNamed(
+              AppRoutesName.trialStarted,
+              extra: {
+                'selectedFeatureRoute': AppRoutesName.filter,
+                'isFromMyCloset': isFromMyCloset,
+              },
+            );
+          }
+          if (state.accessStatus == AccessStatus.denied) {
+            _logger.i('AccessStatus: denied, navigating to payment screen');
+            context.goNamed(
+              AppRoutesName.payment,
+              extra: {
+                'featureKey': FeatureKey.filter,
+                'isFromMyCloset': isFromMyCloset,
+                'previousRoute': isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
+                'nextRoute': AppRoutesName.filter,
+              },
+            );
+          }
+        },
+        ),
+            BlocListener<TutorialBloc, TutorialState>(
+              listener: (context, tutorialState) {
+                if (tutorialState is ShowTutorial) {
+                  _logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+                  context.goNamed(
+                    AppRoutesName.tutorialVideoPopUp,
+                    extra: {
+                      'nextRoute': AppRoutesName.filter,
+                      'tutorialInputKey': TutorialType.paidFilter.value,
+                      'isFromMyCloset': isFromMyCloset
+                    },
+                  );
+                }
+              },
+            ),
+            ],
 
-                );
-              }
-              if (state.accessStatus == AccessStatus.trialPending) {
-                _logger.i('Trial pending, navigating to trialStarted screen');
-
-                context.goNamed(
-                  AppRoutesName.trialStarted,
-                  extra: {
-                    'selectedFeatureRoute': AppRoutesName.filter, // ✅ Pass actual AppRoutes value
-                    'isFromMyCloset': isFromMyCloset,
-                  },
-                );
-              }
-
-              // Handle denied access state
-              if (state.accessStatus == AccessStatus.denied) {
-                _logger.i('AccessStatus: denied, navigating to payment screen');
-                context.goNamed(
-                  AppRoutesName.payment,
-                  extra: {
-                    'featureKey': FeatureKey.filter, // Use a relevant feature key
-                    'isFromMyCloset': isFromMyCloset,
-                    'previousRoute': isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
-                    'nextRoute': AppRoutesName.filter,
-                  },
-                );
-              }
-            },
-            child: BlocBuilder<FilterBloc, FilterState>(
+        child: BlocBuilder<FilterBloc, FilterState>(
               builder: (context, state) {
                 if (state.saveStatus == SaveStatus.inProgress) {
                   return const ClosetProgressIndicator(); // Use custom ClosetProgressIndicator

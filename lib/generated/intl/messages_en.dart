@@ -303,6 +303,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Edit up to 700 closet photos and enhance your capsule closet management!"),
         "editClosetSilverTitle": MessageLookupByLibrary.simpleMessage(
             "Silver Plan - Edit Closet Images"),
+        "editItem": MessageLookupByLibrary.simpleMessage("Edit Item"),
         "editItemBronzeDescription": MessageLookupByLibrary.simpleMessage(
             "Edit 200 more item images to keep your closet fresh."),
         "editItemBronzeTitle": MessageLookupByLibrary.simpleMessage(
@@ -342,6 +343,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Oops! We couldn’t record your interest. Please try again!"),
         "errorSavingCloset":
             MessageLookupByLibrary.simpleMessage("Error saving closet"),
+        "errorSavingTutorialProgress": MessageLookupByLibrary.simpleMessage(
+            "Something went wrong while saving your tutorial progress."),
         "error_creating_closet": m3,
         "event": MessageLookupByLibrary.simpleMessage("Event"),
         "eventName": MessageLookupByLibrary.simpleMessage("Event Name"),
@@ -430,6 +433,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Your highest no-purchase streak ever!"),
         "hintEventName": MessageLookupByLibrary.simpleMessage(
             "Enter the event or special moment."),
+        "iAmReady": MessageLookupByLibrary.simpleMessage("I\'m ready"),
         "infoHub": MessageLookupByLibrary.simpleMessage("Info Hub"),
         "infoHubUrl": MessageLookupByLibrary.simpleMessage(
             "https://inky-twill-3ab.notion.site/8bca4fd6945f4f808a32cbb5ad28400c"),
@@ -789,17 +793,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "trialEndedTitle":
             MessageLookupByLibrary.simpleMessage("Your Trial Has Ended"),
         "trialIncludedCalendar": MessageLookupByLibrary.simpleMessage(
-            "Allow you to view previous outfits in a calendar format and integrate with multi-closet feature."),
+            "Look back at your outfits on a calendar and link them across your closets."),
         "trialIncludedClosets": MessageLookupByLibrary.simpleMessage(
-            "Create and manage multiple closets (permanent and disappearing closets)"),
+            "Create multiple closets – from permanent staples to seasonal disappearing wardrobes."),
         "trialIncludedCustomize": MessageLookupByLibrary.simpleMessage(
-            "Customize grid size and sort items by cost per wear, updated date, and more."),
+            "Customize your closet view – adjust grid size and sort by cost per wear, last worn, and more."),
         "trialIncludedDrawerInsights": MessageLookupByLibrary.simpleMessage(
-            "Allow you to analyze your items’ cost per wear and provide personalized outfit insights."),
+            "Get smart insights into your wardrobe – track cost per wear and discover outfit ideas tailored to you."),
         "trialIncludedFilter": MessageLookupByLibrary.simpleMessage(
-            "Filters to filter your items more easily"),
+            "Easily find what you need with advanced filters."),
         "trialIncludedOutfits": MessageLookupByLibrary.simpleMessage(
-            "Create multiple outfits a day"),
+            "Style and save as many outfits as you like, every day."),
         "trialIncludedTitle": MessageLookupByLibrary.simpleMessage(
             "What’s included in your trial"),
         "trialStartedMessage": MessageLookupByLibrary.simpleMessage(
@@ -810,6 +814,73 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Trial Activated!"),
         "trialStartedTitle":
             MessageLookupByLibrary.simpleMessage("Explore Premium Benefits"),
+        "tutorialFreeCreateOutfitCreateOutfitProcess":
+            MessageLookupByLibrary.simpleMessage("Process of creating outfits"),
+        "tutorialFreeCreateOutfitOutfitSuggestion":
+            MessageLookupByLibrary.simpleMessage(
+                "Not sure what to wear today?"),
+        "tutorialFreeCreateOutfitReviewOutfit":
+            MessageLookupByLibrary.simpleMessage("Review your daily outfit"),
+        "tutorialFreeCreateOutfitTitle":
+            MessageLookupByLibrary.simpleMessage("Mix and Match Outfits"),
+        "tutorialFreeEditCameraDeclutterItems":
+            MessageLookupByLibrary.simpleMessage("Declutter your items"),
+        "tutorialFreeEditCameraTitle":
+            MessageLookupByLibrary.simpleMessage("Edit Items You’ve Captured"),
+        "tutorialFreeUploadCameraTitle": MessageLookupByLibrary.simpleMessage(
+            "Upload Clothes with Your Camera"),
+        "tutorialFreeUploadCameraUploadClothing":
+            MessageLookupByLibrary.simpleMessage(
+                "Upload your clothing into the closet"),
+        "tutorialHubTitle":
+            MessageLookupByLibrary.simpleMessage("Explore Features"),
+        "tutorialPaidCalendarPlanTrips": MessageLookupByLibrary.simpleMessage(
+            "Easily create outfits for trip planning"),
+        "tutorialPaidCalendarTitle": MessageLookupByLibrary.simpleMessage(
+            "Plan Your Outfits with a Calendar"),
+        "tutorialPaidCalendarTrackFirstExperiences":
+            MessageLookupByLibrary.simpleMessage("Track first experiences"),
+        "tutorialPaidCustomizeCustomizeOrder":
+            MessageLookupByLibrary.simpleMessage("Customize your ordering"),
+        "tutorialPaidCustomizeTitle":
+            MessageLookupByLibrary.simpleMessage("Customize Your Experience"),
+        "tutorialPaidCustomizeViewAllItems":
+            MessageLookupByLibrary.simpleMessage("See all items in one glance"),
+        "tutorialPaidFilterFindInCloset": MessageLookupByLibrary.simpleMessage(
+            "Find clothing in a huge closet"),
+        "tutorialPaidFilterSellUnworn":
+            MessageLookupByLibrary.simpleMessage("Sell unworn clothing"),
+        "tutorialPaidFilterTitle":
+            MessageLookupByLibrary.simpleMessage("Unlock Advanced Filters"),
+        "tutorialPaidFilterTrackFiltering":
+            MessageLookupByLibrary.simpleMessage(
+                "Don\'t lose track of filtering"),
+        "tutorialPaidMultiClosetCreateCapsule":
+            MessageLookupByLibrary.simpleMessage("Create capsule closets"),
+        "tutorialPaidMultiClosetCreatePublicClosets":
+            MessageLookupByLibrary.simpleMessage(
+                "Create public closets for future sales"),
+        "tutorialPaidMultiClosetDeleteClosets":
+            MessageLookupByLibrary.simpleMessage("Delete excess closets"),
+        "tutorialPaidMultiClosetSwapClosets":
+            MessageLookupByLibrary.simpleMessage(
+                "Swap items to another closet"),
+        "tutorialPaidMultiClosetTitle": MessageLookupByLibrary.simpleMessage(
+            "Switch Between Multiple Closets"),
+        "tutorialPaidMultiClosetViewUsableItems":
+            MessageLookupByLibrary.simpleMessage("View items usable today"),
+        "tutorialPaidUsageAnalyticsCostPerWear":
+            MessageLookupByLibrary.simpleMessage("Know clothing cost per wear"),
+        "tutorialPaidUsageAnalyticsInspirationForTrips":
+            MessageLookupByLibrary.simpleMessage(
+                "Get outfit inspiration for trips"),
+        "tutorialPaidUsageAnalyticsOutfitSuggestions":
+            MessageLookupByLibrary.simpleMessage(
+                "Figure out what to wear today"),
+        "tutorialPaidUsageAnalyticsSellUnworn":
+            MessageLookupByLibrary.simpleMessage("Sell unworn clothing"),
+        "tutorialPaidUsageAnalyticsTitle": MessageLookupByLibrary.simpleMessage(
+            "Track Your Usage and Progress"),
         "unableToProcessAccountDeletion": MessageLookupByLibrary.simpleMessage(
             "We’re unable to process your account deletion right now. Could you kindly email us at support@example.com for assistance?"),
         "unableToRetrieveUserId": MessageLookupByLibrary.simpleMessage(

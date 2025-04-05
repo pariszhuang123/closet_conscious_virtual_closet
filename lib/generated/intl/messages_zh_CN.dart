@@ -260,6 +260,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "编辑最多 700 张衣橱照片，提升您的胶囊衣橱管理能力！"),
         "editClosetSilverTitle":
             MessageLookupByLibrary.simpleMessage("银计划 - 编辑衣橱照片"),
+        "editItem": MessageLookupByLibrary.simpleMessage("修改衣物"),
         "editItemBronzeDescription":
             MessageLookupByLibrary.simpleMessage("再编辑200件物品图片，让您的衣橱保持新鲜。"),
         "editItemBronzeTitle":
@@ -292,6 +293,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorIncrement":
             MessageLookupByLibrary.simpleMessage("哎呀！我们无法记录您的兴趣。请再试一次！"),
         "errorSavingCloset": MessageLookupByLibrary.simpleMessage("保存衣橱时出错"),
+        "errorSavingTutorialProgress":
+            MessageLookupByLibrary.simpleMessage("保存教程进度时出错"),
         "error_creating_closet": m3,
         "event": MessageLookupByLibrary.simpleMessage("活动"),
         "eventName": MessageLookupByLibrary.simpleMessage("活动名称"),
@@ -369,6 +372,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "highestStreakTooltip":
             MessageLookupByLibrary.simpleMessage("您历史最长的无购买记录！"),
         "hintEventName": MessageLookupByLibrary.simpleMessage("输入这个场合或特别时刻。"),
+        "iAmReady": MessageLookupByLibrary.simpleMessage("我准备好了"),
         "infoHub": MessageLookupByLibrary.simpleMessage("信息中心"),
         "infoHubUrl": MessageLookupByLibrary.simpleMessage(
             "https://inky-twill-3ab.notion.site/dc4dd32378b0478daf36fca24e00d0c8"),
@@ -670,17 +674,17 @@ class MessageLookup extends MessageLookupByLibrary {
             "高级功能现已锁定。您可以随时通过一次性购买来解锁这些功能。"),
         "trialEndedTitle": MessageLookupByLibrary.simpleMessage("您的试用期已结束"),
         "trialIncludedCalendar":
-            MessageLookupByLibrary.simpleMessage("允许你以日历格式查看以前的穿搭，并与多重衣橱功能集成"),
+            MessageLookupByLibrary.simpleMessage("通过日历查看过往穿搭，并支持多衣柜联动展示。"),
         "trialIncludedClosets":
-            MessageLookupByLibrary.simpleMessage("创建和管理多个衣橱（永久衣橱和隐藏衣橱）"),
+            MessageLookupByLibrary.simpleMessage("创建多个衣柜——包括常用衣柜和季节性消失衣柜。"),
         "trialIncludedCustomize":
-            MessageLookupByLibrary.simpleMessage("自定义网格大小，并按每次穿着成本、更新日期等排序物品。"),
-        "trialIncludedDrawerInsights":
-            MessageLookupByLibrary.simpleMessage("允许你分析物品的每次穿搭成本，并提供个性化的穿搭建议"),
+            MessageLookupByLibrary.simpleMessage("自定义衣柜视图，可按穿搭成本、最近穿着时间等排序。"),
+        "trialIncludedDrawerInsights": MessageLookupByLibrary.simpleMessage(
+            "深入了解你的衣物使用情况，分析穿搭成本，获取专属搭配建议。"),
         "trialIncludedFilter":
-            MessageLookupByLibrary.simpleMessage("更轻松筛选物品的过滤器"),
+            MessageLookupByLibrary.simpleMessage("通过高级筛选，轻松找到你想要的衣物。"),
         "trialIncludedOutfits":
-            MessageLookupByLibrary.simpleMessage("每天创建多个穿搭"),
+            MessageLookupByLibrary.simpleMessage("每天都可以搭配并保存多套穿搭。"),
         "trialIncludedTitle": MessageLookupByLibrary.simpleMessage("试用包含的功能"),
         "trialStartedMessage": MessageLookupByLibrary.simpleMessage(
             "这些是您可以探索的所有高级功能。您想立即开始您的 30 天免费试用吗？"),
@@ -689,6 +693,65 @@ class MessageLookup extends MessageLookupByLibrary {
         "trialStartedNextStepsTitle":
             MessageLookupByLibrary.simpleMessage("试用已激活！"),
         "trialStartedTitle": MessageLookupByLibrary.simpleMessage("探索高级权益"),
+        "tutorialFreeCreateOutfitCreateOutfitProcess":
+            MessageLookupByLibrary.simpleMessage("创建穿搭的流程"),
+        "tutorialFreeCreateOutfitOutfitSuggestion":
+            MessageLookupByLibrary.simpleMessage("不知道今天穿什么？"),
+        "tutorialFreeCreateOutfitReviewOutfit":
+            MessageLookupByLibrary.simpleMessage("回顾你的每日穿搭"),
+        "tutorialFreeCreateOutfitTitle":
+            MessageLookupByLibrary.simpleMessage("搭配你的穿搭"),
+        "tutorialFreeEditCameraDeclutterItems":
+            MessageLookupByLibrary.simpleMessage("清理你的衣物"),
+        "tutorialFreeEditCameraTitle":
+            MessageLookupByLibrary.simpleMessage("编辑你拍摄的物品"),
+        "tutorialFreeUploadCameraTitle":
+            MessageLookupByLibrary.simpleMessage("使用相机上传衣物"),
+        "tutorialFreeUploadCameraUploadClothing":
+            MessageLookupByLibrary.simpleMessage("将你的衣物上传至衣柜"),
+        "tutorialHubTitle": MessageLookupByLibrary.simpleMessage("探索功能"),
+        "tutorialPaidCalendarPlanTrips":
+            MessageLookupByLibrary.simpleMessage("为旅行计划穿搭"),
+        "tutorialPaidCalendarTitle":
+            MessageLookupByLibrary.simpleMessage("使用日历规划穿搭"),
+        "tutorialPaidCalendarTrackFirstExperiences":
+            MessageLookupByLibrary.simpleMessage("追踪首次穿搭体验"),
+        "tutorialPaidCustomizeCustomizeOrder":
+            MessageLookupByLibrary.simpleMessage("自定义排列顺序"),
+        "tutorialPaidCustomizeTitle":
+            MessageLookupByLibrary.simpleMessage("自定义你的体验"),
+        "tutorialPaidCustomizeViewAllItems":
+            MessageLookupByLibrary.simpleMessage("一目了然地查看所有衣物"),
+        "tutorialPaidFilterFindInCloset":
+            MessageLookupByLibrary.simpleMessage("在大量衣物中查找"),
+        "tutorialPaidFilterSellUnworn":
+            MessageLookupByLibrary.simpleMessage("出售未穿的衣物"),
+        "tutorialPaidFilterTitle":
+            MessageLookupByLibrary.simpleMessage("解锁高级筛选功能"),
+        "tutorialPaidFilterTrackFiltering":
+            MessageLookupByLibrary.simpleMessage("不要迷失在筛选中"),
+        "tutorialPaidMultiClosetCreateCapsule":
+            MessageLookupByLibrary.simpleMessage("创建胶囊衣柜"),
+        "tutorialPaidMultiClosetCreatePublicClosets":
+            MessageLookupByLibrary.simpleMessage("为转售创建公开衣柜"),
+        "tutorialPaidMultiClosetDeleteClosets":
+            MessageLookupByLibrary.simpleMessage("删除多余的衣柜"),
+        "tutorialPaidMultiClosetSwapClosets":
+            MessageLookupByLibrary.simpleMessage("将衣物移动到另一个衣柜"),
+        "tutorialPaidMultiClosetTitle":
+            MessageLookupByLibrary.simpleMessage("切换多个衣橱"),
+        "tutorialPaidMultiClosetViewUsableItems":
+            MessageLookupByLibrary.simpleMessage("查看今天可穿衣物"),
+        "tutorialPaidUsageAnalyticsCostPerWear":
+            MessageLookupByLibrary.simpleMessage("了解每件衣物的穿搭成本"),
+        "tutorialPaidUsageAnalyticsInspirationForTrips":
+            MessageLookupByLibrary.simpleMessage("获取旅行穿搭灵感"),
+        "tutorialPaidUsageAnalyticsOutfitSuggestions":
+            MessageLookupByLibrary.simpleMessage("今天穿什么？"),
+        "tutorialPaidUsageAnalyticsSellUnworn":
+            MessageLookupByLibrary.simpleMessage("出售不再穿的衣物"),
+        "tutorialPaidUsageAnalyticsTitle":
+            MessageLookupByLibrary.simpleMessage("追踪使用情况和进度"),
         "unableToProcessAccountDeletion": MessageLookupByLibrary.simpleMessage(
             "我们暂时无法处理您的账号删除请求。请发送电子邮件至support@example.com获取帮助。"),
         "unableToRetrieveUserId":

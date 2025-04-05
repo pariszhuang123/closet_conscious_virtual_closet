@@ -700,6 +700,16 @@ class S {
     );
   }
 
+  /// `Edit Item`
+  String get editItem {
+    return Intl.message(
+      'Edit Item',
+      name: 'editItem',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Filter`
   String get filter_filter {
     return Intl.message(
@@ -4330,60 +4340,60 @@ class S {
     );
   }
 
-  /// `Filters to filter your items more easily`
+  /// `Easily find what you need with advanced filters.`
   String get trialIncludedFilter {
     return Intl.message(
-      'Filters to filter your items more easily',
+      'Easily find what you need with advanced filters.',
       name: 'trialIncludedFilter',
       desc: '',
       args: [],
     );
   }
 
-  /// `Customize grid size and sort items by cost per wear, updated date, and more.`
+  /// `Customize your closet view – adjust grid size and sort by cost per wear, last worn, and more.`
   String get trialIncludedCustomize {
     return Intl.message(
-      'Customize grid size and sort items by cost per wear, updated date, and more.',
+      'Customize your closet view – adjust grid size and sort by cost per wear, last worn, and more.',
       name: 'trialIncludedCustomize',
       desc: '',
       args: [],
     );
   }
 
-  /// `Create and manage multiple closets (permanent and disappearing closets)`
+  /// `Create multiple closets – from permanent staples to seasonal disappearing wardrobes.`
   String get trialIncludedClosets {
     return Intl.message(
-      'Create and manage multiple closets (permanent and disappearing closets)',
+      'Create multiple closets – from permanent staples to seasonal disappearing wardrobes.',
       name: 'trialIncludedClosets',
       desc: '',
       args: [],
     );
   }
 
-  /// `Create multiple outfits a day`
+  /// `Style and save as many outfits as you like, every day.`
   String get trialIncludedOutfits {
     return Intl.message(
-      'Create multiple outfits a day',
+      'Style and save as many outfits as you like, every day.',
       name: 'trialIncludedOutfits',
       desc: '',
       args: [],
     );
   }
 
-  /// `Allow you to view previous outfits in a calendar format and integrate with multi-closet feature.`
+  /// `Look back at your outfits on a calendar and link them across your closets.`
   String get trialIncludedCalendar {
     return Intl.message(
-      'Allow you to view previous outfits in a calendar format and integrate with multi-closet feature.',
+      'Look back at your outfits on a calendar and link them across your closets.',
       name: 'trialIncludedCalendar',
       desc: '',
       args: [],
     );
   }
 
-  /// `Allow you to analyze your items’ cost per wear and provide personalized outfit insights.`
+  /// `Get smart insights into your wardrobe – track cost per wear and discover outfit ideas tailored to you.`
   String get trialIncludedDrawerInsights {
     return Intl.message(
-      'Allow you to analyze your items’ cost per wear and provide personalized outfit insights.',
+      'Get smart insights into your wardrobe – track cost per wear and discover outfit ideas tailored to you.',
       name: 'trialIncludedDrawerInsights',
       desc: '',
       args: [],
@@ -5166,6 +5176,326 @@ class S {
     return Intl.message(
       'To see your entire photo library and avoid being asked again, grant full access in Settings.',
       name: 'photoAccessDialogContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload your clothing into the closet`
+  String get tutorialFreeUploadCameraUploadClothing {
+    return Intl.message(
+      'Upload your clothing into the closet',
+      name: 'tutorialFreeUploadCameraUploadClothing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Declutter your items`
+  String get tutorialFreeEditCameraDeclutterItems {
+    return Intl.message(
+      'Declutter your items',
+      name: 'tutorialFreeEditCameraDeclutterItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Process of creating outfits`
+  String get tutorialFreeCreateOutfitCreateOutfitProcess {
+    return Intl.message(
+      'Process of creating outfits',
+      name: 'tutorialFreeCreateOutfitCreateOutfitProcess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Review your daily outfit`
+  String get tutorialFreeCreateOutfitReviewOutfit {
+    return Intl.message(
+      'Review your daily outfit',
+      name: 'tutorialFreeCreateOutfitReviewOutfit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not sure what to wear today?`
+  String get tutorialFreeCreateOutfitOutfitSuggestion {
+    return Intl.message(
+      'Not sure what to wear today?',
+      name: 'tutorialFreeCreateOutfitOutfitSuggestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Find clothing in a huge closet`
+  String get tutorialPaidFilterFindInCloset {
+    return Intl.message(
+      'Find clothing in a huge closet',
+      name: 'tutorialPaidFilterFindInCloset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sell unworn clothing`
+  String get tutorialPaidFilterSellUnworn {
+    return Intl.message(
+      'Sell unworn clothing',
+      name: 'tutorialPaidFilterSellUnworn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don't lose track of filtering`
+  String get tutorialPaidFilterTrackFiltering {
+    return Intl.message(
+      'Don\'t lose track of filtering',
+      name: 'tutorialPaidFilterTrackFiltering',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See all items in one glance`
+  String get tutorialPaidCustomizeViewAllItems {
+    return Intl.message(
+      'See all items in one glance',
+      name: 'tutorialPaidCustomizeViewAllItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customize your ordering`
+  String get tutorialPaidCustomizeCustomizeOrder {
+    return Intl.message(
+      'Customize your ordering',
+      name: 'tutorialPaidCustomizeCustomizeOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create capsule closets`
+  String get tutorialPaidMultiClosetCreateCapsule {
+    return Intl.message(
+      'Create capsule closets',
+      name: 'tutorialPaidMultiClosetCreateCapsule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View items usable today`
+  String get tutorialPaidMultiClosetViewUsableItems {
+    return Intl.message(
+      'View items usable today',
+      name: 'tutorialPaidMultiClosetViewUsableItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create public closets for future sales`
+  String get tutorialPaidMultiClosetCreatePublicClosets {
+    return Intl.message(
+      'Create public closets for future sales',
+      name: 'tutorialPaidMultiClosetCreatePublicClosets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete excess closets`
+  String get tutorialPaidMultiClosetDeleteClosets {
+    return Intl.message(
+      'Delete excess closets',
+      name: 'tutorialPaidMultiClosetDeleteClosets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swap items to another closet`
+  String get tutorialPaidMultiClosetSwapClosets {
+    return Intl.message(
+      'Swap items to another closet',
+      name: 'tutorialPaidMultiClosetSwapClosets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track first experiences`
+  String get tutorialPaidCalendarTrackFirstExperiences {
+    return Intl.message(
+      'Track first experiences',
+      name: 'tutorialPaidCalendarTrackFirstExperiences',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Easily create outfits for trip planning`
+  String get tutorialPaidCalendarPlanTrips {
+    return Intl.message(
+      'Easily create outfits for trip planning',
+      name: 'tutorialPaidCalendarPlanTrips',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Know clothing cost per wear`
+  String get tutorialPaidUsageAnalyticsCostPerWear {
+    return Intl.message(
+      'Know clothing cost per wear',
+      name: 'tutorialPaidUsageAnalyticsCostPerWear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Figure out what to wear today`
+  String get tutorialPaidUsageAnalyticsOutfitSuggestions {
+    return Intl.message(
+      'Figure out what to wear today',
+      name: 'tutorialPaidUsageAnalyticsOutfitSuggestions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Get outfit inspiration for trips`
+  String get tutorialPaidUsageAnalyticsInspirationForTrips {
+    return Intl.message(
+      'Get outfit inspiration for trips',
+      name: 'tutorialPaidUsageAnalyticsInspirationForTrips',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sell unworn clothing`
+  String get tutorialPaidUsageAnalyticsSellUnworn {
+    return Intl.message(
+      'Sell unworn clothing',
+      name: 'tutorialPaidUsageAnalyticsSellUnworn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong while saving your tutorial progress.`
+  String get errorSavingTutorialProgress {
+    return Intl.message(
+      'Something went wrong while saving your tutorial progress.',
+      name: 'errorSavingTutorialProgress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I'm ready`
+  String get iAmReady {
+    return Intl.message(
+      'I\'m ready',
+      name: 'iAmReady',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload Clothes with Your Camera`
+  String get tutorialFreeUploadCameraTitle {
+    return Intl.message(
+      'Upload Clothes with Your Camera',
+      name: 'tutorialFreeUploadCameraTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Items You’ve Captured`
+  String get tutorialFreeEditCameraTitle {
+    return Intl.message(
+      'Edit Items You’ve Captured',
+      name: 'tutorialFreeEditCameraTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mix and Match Outfits`
+  String get tutorialFreeCreateOutfitTitle {
+    return Intl.message(
+      'Mix and Match Outfits',
+      name: 'tutorialFreeCreateOutfitTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock Advanced Filters`
+  String get tutorialPaidFilterTitle {
+    return Intl.message(
+      'Unlock Advanced Filters',
+      name: 'tutorialPaidFilterTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customize Your Experience`
+  String get tutorialPaidCustomizeTitle {
+    return Intl.message(
+      'Customize Your Experience',
+      name: 'tutorialPaidCustomizeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Switch Between Multiple Closets`
+  String get tutorialPaidMultiClosetTitle {
+    return Intl.message(
+      'Switch Between Multiple Closets',
+      name: 'tutorialPaidMultiClosetTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Plan Your Outfits with a Calendar`
+  String get tutorialPaidCalendarTitle {
+    return Intl.message(
+      'Plan Your Outfits with a Calendar',
+      name: 'tutorialPaidCalendarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track Your Usage and Progress`
+  String get tutorialPaidUsageAnalyticsTitle {
+    return Intl.message(
+      'Track Your Usage and Progress',
+      name: 'tutorialPaidUsageAnalyticsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Explore Features`
+  String get tutorialHubTitle {
+    return Intl.message(
+      'Explore Features',
+      name: 'tutorialHubTitle',
       desc: '',
       args: [],
     );

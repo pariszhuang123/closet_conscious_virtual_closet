@@ -90,3 +90,38 @@ enum TransitionType {
   fadeScale,
   fade
 }
+
+enum TutorialType {
+  freeUploadCamera,
+  freeUploadPhotoLibrary,
+  freeEditCamera,
+  paidFilter,
+  paidCustomize,
+  paidMultiCloset,
+  freeCreateOutfit,
+  paidCalendar,
+  freeClosetUpload,
+  freeInfoHub,
+  paidUsageAnalytics,
+}
+
+enum FeatureKey {
+  uploadItemBronze,
+  uploadItemSilver,
+  uploadItemGold,
+  editItemBronze,
+  editItemSilver,
+  editItemGold,
+  selfieBronze,
+  selfieSilver,
+  selfieGold,
+  editClosetBronze,
+  editClosetSilver,
+  editClosetGold,
+  multiOutfit,
+  customize,
+  filter,
+  multicloset,
+  calendar,
+  usageAnalytics
+}

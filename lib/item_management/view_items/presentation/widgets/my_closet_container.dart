@@ -64,11 +64,6 @@ class MyClosetContainer extends StatelessWidget {
         BaseContainer(
           theme: theme,
           child: MyClosetNavigationRow(
-            uploadData: uploadData,
-            filterData: filterData,
-            arrangeData: arrangeData,
-            addClosetData: addClosetData,
-            publicClosetData: publicClosetData,
             onUploadButtonPressed: onUploadButtonPressed,
             onFilterButtonPressed: onFilterButtonPressed,
             onArrangeButtonPressed: onArrangeButtonPressed,

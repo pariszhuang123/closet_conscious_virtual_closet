@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/core_enums.dart';
+import '../../../../core/data/type_data.dart';
 
 class MyClosetNavigationRow extends StatelessWidget {
-  final dynamic uploadData;
-  final dynamic filterData;
-  final dynamic arrangeData;
-  final dynamic addClosetData;
-  final dynamic publicClosetData;
   final VoidCallback onUploadButtonPressed;
   final VoidCallback onFilterButtonPressed;
   final VoidCallback onArrangeButtonPressed;
@@ -17,11 +13,6 @@ class MyClosetNavigationRow extends StatelessWidget {
 
   const MyClosetNavigationRow({
     super.key,
-    required this.uploadData,
-    required this.filterData,
-    required this.arrangeData,
-    required this.addClosetData,
-    required this.publicClosetData,
     required this.onUploadButtonPressed,
     required this.onFilterButtonPressed,
     required this.onArrangeButtonPressed,
@@ -37,46 +28,46 @@ class MyClosetNavigationRow extends StatelessWidget {
         Row(
           children: [
             NavigationTypeButton(
-              label: uploadData.getName(context),
+              label: TypeDataList.bulkUpload(context).getName(context),
               selectedLabel: '',
               onPressed: onUploadButtonPressed,
-              assetPath: uploadData.assetPath!,
+              assetPath: TypeDataList.bulkUpload(context).assetPath,
               isFromMyCloset: true,
               buttonType: ButtonType.primary,
               usePredefinedColor: false,
             ),
             NavigationTypeButton(
-              label: filterData.getName(context),
+              label: TypeDataList.filter(context).getName(context),
               selectedLabel: '',
               onPressed: onFilterButtonPressed,
-              assetPath: filterData.assetPath ?? '',
+              assetPath: TypeDataList.filter(context).assetPath,
               isFromMyCloset: true,
               buttonType: ButtonType.secondary,
               usePredefinedColor: false,
             ),
             NavigationTypeButton(
-              label: arrangeData.getName(context),
+              label: TypeDataList.arrange(context).getName(context),
               selectedLabel: '',
               onPressed: onArrangeButtonPressed,
-              assetPath: arrangeData.assetPath ?? '',
+              assetPath: TypeDataList.arrange(context).assetPath,
               isFromMyCloset: true,
               buttonType: ButtonType.secondary,
               usePredefinedColor: false,
             ),
             NavigationTypeButton(
-              label: addClosetData.getName(context),
+              label: TypeDataList.addCloset(context).getName(context),
               selectedLabel: '',
               onPressed: onMultiClosetButtonPressed,
-              assetPath: addClosetData.assetPath ?? '',
+              assetPath: TypeDataList.addCloset(context).assetPath,
               isFromMyCloset: true,
               buttonType: ButtonType.secondary,
               usePredefinedColor: false,
             ),
             NavigationTypeButton(
-              label: publicClosetData.getName(context),
+              label: TypeDataList.publicCloset(context).getName(context),
               selectedLabel: '',
               onPressed: onPublicClosetButtonPressed,
-              assetPath: publicClosetData.assetPath ?? '',
+              assetPath: TypeDataList.publicCloset(context).assetPath,
               isFromMyCloset: true,
               buttonType: ButtonType.secondary,
               usePredefinedColor: false,

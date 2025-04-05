@@ -150,6 +150,10 @@ class TypeDataList {
     return TypeData('viewPendingUpload', (context) => S.of(context).viewPendingUpload, 'assets/icons/my_closet/upload/pending_items.svg', false);
   }
 
+  static TypeData editItem(BuildContext context) {
+    return TypeData('editItem', (context) => S.of(context).editItem, 'assets/icons/my_closet/upload/edit_item.svg', false);
+  }
+
   static TypeData filter(BuildContext context) {
     return
       TypeData('filter_filter', (context) => S.of(context).filter_filter, 'assets/icons/general/filter_search.svg', false);
@@ -236,6 +240,10 @@ class TypeDataList {
 
   static TypeData declutterOptionsThrow(BuildContext context) {
     return TypeData('Throw', (context) => S.of(context).Throw, 'assets/icons/my_closet/declutter/throw.svg', false);
+  }
+
+  static TypeData drawerTutorial(BuildContext context) {
+    return TypeData('TutorialHub', (context) => S.of(context).tutorialHubTitle, 'assets/icons/drawer/tutorial_hub.svg', false);
   }
 
   static TypeData drawerAchievements(BuildContext context) {

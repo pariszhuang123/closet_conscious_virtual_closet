@@ -164,9 +164,15 @@ class _SummaryOutfitAnalyticsScreenState
         BlocListener<SummaryOutfitAnalyticsBloc, SummaryOutfitAnalyticsState>(
           listener: (context, state) {
             if (state is UpdateOutfitReviewSuccess) {
+              final args = GoRouterState.of(context).extra as Map<String, dynamic>? ?? {};
+
               _logger.i("✅ Outfit review updated successfully. Navigating...");
               context.goNamed(
                 AppRoutesName.summaryOutfitAnalytics,
+                extra: {
+                  'isFromMyCloset': args['isFromMyCloset'] ?? false,
+                  'selectedOutfitIds': args['selectedOutfitIds'] ?? [],
+                },
               );
             }
           },

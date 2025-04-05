@@ -22,7 +22,6 @@ import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc/navi
 import '../../outfit_management/fetch_outfit_items/presentation/widgets/outfit_type_container.dart';
 import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
-import '../../core/paywall/data/feature_key.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
 import '../../core/achievement_celebration/helper/achievement_navigator.dart';

@@ -20,7 +20,6 @@ import '../../../../core/presentation/bloc/multi_selection_item_cubit/multi_sele
 import '../../../core/presentation/widgets/multi_closet_feature_container.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
-import '../../../../../core/paywall/data/feature_key.dart';
 
 class CreateMultiClosetScreen extends StatefulWidget {
   final List<String> selectedItemIds;

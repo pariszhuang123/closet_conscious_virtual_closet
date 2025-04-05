@@ -8,6 +8,7 @@ import '../../presentation/bloc/filter_bloc.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import 'filter_screen.dart';
+import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 
 class FilterProvider extends StatelessWidget {
   final bool isFromMyCloset;
@@ -59,6 +60,15 @@ class FilterProvider extends StatelessWidget {
             final crossAxisCubit = CrossAxisCountCubit(coreFetchService: coreFetchService);
             crossAxisCubit.fetchCrossAxisCount(); // Trigger initial fetch
             return crossAxisCubit;
+          },
+        ),
+        BlocProvider<TutorialBloc>(
+          create: (context) {
+            logger.d('Initializing TutorialBloc');
+            return TutorialBloc(
+              fetchService: coreFetchService,
+              saveService: coreSaveService,
+            );
           },
         ),
       ],

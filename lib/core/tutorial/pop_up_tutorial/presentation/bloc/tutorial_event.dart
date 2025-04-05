@@ -1,15 +1,29 @@
 part of 'tutorial_bloc.dart';
 
-abstract class TutorialEvent {}
+abstract class TutorialEvent extends Equatable {
+  const TutorialEvent();
+
+  @override
+  List<Object?> get props => [];
+}
 
 class CheckTutorialStatus extends TutorialEvent {
-  final String tutorialInput;
-  CheckTutorialStatus(this.tutorialInput);
+  final TutorialType tutorialType;
+  const CheckTutorialStatus(this.tutorialType);
+
+  @override
+  List<Object?> get props => [tutorialType];
 }
 
 class SaveTutorialProgress extends TutorialEvent {
   final String tutorialInput;
   final bool dismissedByButton;
 
-  SaveTutorialProgress(this.tutorialInput, this.dismissedByButton);
+  const SaveTutorialProgress({
+    required this.tutorialInput,
+    required this.dismissedByButton,
+  });
+
+  @override
+  List<Object?> get props => [tutorialInput, dismissedByButton];
 }

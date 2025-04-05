@@ -13,7 +13,6 @@ import '../../../theme/my_outfit_theme.dart';
 import '../../../widgets/button/themed_elevated_button.dart';
 import '../../../utilities/app_router.dart';
 import '../../../utilities/logger.dart';
-import '../../../paywall/data/feature_key.dart';
 
 class CustomizeScreen extends StatelessWidget {
   final bool isFromMyCloset;

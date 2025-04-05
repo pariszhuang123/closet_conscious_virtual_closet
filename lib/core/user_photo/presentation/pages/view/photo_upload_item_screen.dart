@@ -7,7 +7,6 @@ import '../../../../core_enums.dart';
 import '../../../../utilities/app_router.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../widgets/progress_indicator/closet_progress_indicator.dart';
-import '../../../../paywall/data/feature_key.dart';
 import '../../widgets/base/base_photo_screen.dart';
 
 class PhotoUploadItemScreen extends BasePhotoScreen {

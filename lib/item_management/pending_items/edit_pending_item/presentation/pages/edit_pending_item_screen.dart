@@ -108,9 +108,7 @@ class _EditPendingItemScreenState extends State<EditPendingItemScreen> {
             if (state is EditItemPendingItemIdFetched) {
               context.goNamed(
                   AppRoutesName.editPendingItem,
-                  extra: {
-                    'itemId': state.itemId,
-                  }
+                  extra: state.itemId,
               );
             }
           },

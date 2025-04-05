@@ -1,24 +1,4 @@
-enum FeatureKey {
-  uploadItemBronze,
-  uploadItemSilver,
-  uploadItemGold,
-  editItemBronze,
-  editItemSilver,
-  editItemGold,
-  selfieBronze,
-  selfieSilver,
-  selfieGold,
-  editClosetBronze,
-  editClosetSilver,
-  editClosetGold,
-  multiOutfit,
-  customize,
-  filter,
-  multicloset,
-  calendar,
-  usageAnalytics
-
-}
+import '../../core_enums.dart';
 
 extension FeatureKeyExtension on FeatureKey {
   String get key {

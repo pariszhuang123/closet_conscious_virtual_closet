@@ -16,7 +16,6 @@ import '../../../../../core/core_enums.dart';
 import '../../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/widgets/button/themed_elevated_button.dart';
-import '../../../../../core/paywall/data/feature_key.dart';
 import '../../../../../core/theme/my_closet_theme.dart';
 import '../../../../../core/theme/my_outfit_theme.dart';
 

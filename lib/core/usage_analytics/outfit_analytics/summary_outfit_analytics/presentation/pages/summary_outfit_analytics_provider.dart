@@ -23,7 +23,7 @@ import '../../../../../../outfit_management/core/presentation/bloc/single_select
 class SummaryOutfitAnalyticsProvider extends StatelessWidget {
   final bool isFromMyCloset;
   final List<String> selectedOutfitIds;
-  final List <String> selectedItemIds;
+  final List<String> selectedItemIds;
 
   const SummaryOutfitAnalyticsProvider({
     super.key,
