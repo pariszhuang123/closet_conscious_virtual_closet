@@ -37,6 +37,8 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
+  pod 'Mantle', :modular_headers => false
+
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 
   pod 'permission_handler_apple', :path => '.symlinks/plugins/permission_handler_apple/ios'
