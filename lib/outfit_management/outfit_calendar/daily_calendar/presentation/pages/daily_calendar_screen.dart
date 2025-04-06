@@ -66,7 +66,10 @@ class DailyCalendarScreen extends StatelessWidget {
           listener: (context, state) {
             if (state is DailyCalendarNavigationSuccessState) {
               _logger.i('✅ Navigation success: Navigating to DailyCalendar.');
-              context.goNamed(AppRoutesName.dailyCalendar);
+              context.goNamed(
+                AppRoutesName.dailyCalendar,
+                extra: {'outfitId': DateTime.now().millisecondsSinceEpoch.toString()},
+              );
             } else if (state is DailyCalendarSaveFailureState) {
               _logger.e('❌ Navigation failed.');
               ScaffoldMessenger.of(context).showSnackBar(

@@ -82,7 +82,10 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
         // Listen for the navigation success state and navigate accordingly
         if (state is DailyCalendarNavigationSuccessState) {
           _logger.i('Navigation success state detected. Navigating to DailyCalendar.');
-          context.goNamed(AppRoutesName.dailyDetailedCalendar);
+          context.goNamed(
+            AppRoutesName.dailyDetailedCalendar,
+            extra: {'outfitId': DateTime.now().millisecondsSinceEpoch.toString()},
+          );
         }
         // You can also handle failure states here if needed
         else if (state is DailyCalendarSaveFailureState) {
