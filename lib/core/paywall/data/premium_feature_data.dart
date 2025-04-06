@@ -44,7 +44,7 @@ class FeatureDataList {
           ),
           FeaturePart(
             source: UploadSource.photoLibrary,
-            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/edit_item.jpg',
+            imageUrl: 'https://vrhytwexijijwhlicqfw.supabase.co/storage/v1/object/public/closet-conscious-assets/InAppPurchase/photo_library.jpg',
             getDescription: (context) => S.of(context).uploadItemBronzeDescription,
           ),
         ],
