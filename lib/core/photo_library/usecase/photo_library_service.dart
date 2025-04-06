@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
 import '../../core_enums.dart';
 import '../../utilities/helper_functions/image_helper/image_resize_helper.dart';
 import '../../utilities/logger.dart';
@@ -27,7 +29,8 @@ class PhotoLibraryService {
 
     if (_cachedAlbums == null) {
       _logger.d('Fetching albums for the first time');
-      _cachedAlbums = await PhotoManager.getAssetPathList(type: RequestType.image);
+      _cachedAlbums =
+      await PhotoManager.getAssetPathList(type: RequestType.image);
     }
 
     if (_cachedAlbums == null || _cachedAlbums!.isEmpty) {
@@ -54,25 +57,66 @@ class PhotoLibraryService {
     final List<String> uploadedUrls = [];
 
     if (selectedImages.length > 5) {
-      _logger.w("Attempted to upload more than 5 images.");
-      throw Exception("Cannot upload more than 5 images.");
+      final exception = Exception("Cannot upload more than 5 images.");
+      _logger.w(exception.toString());
+      await Sentry.captureException(exception);
+      throw exception;
     }
 
     for (final asset in selectedImages) {
-      final Uint8List? resizedBytes = await ImageResizeHelper.getBytesFromAsset(
-        asset: asset,
-        purpose: ImagePurpose.upload,
-      );
+      try {
+        final Uint8List? resizedBytes = await ImageResizeHelper.getBytesFromAsset(
+          asset: asset,
+          purpose: ImagePurpose.upload,
+        );
 
-      if (resizedBytes != null) {
+        if (resizedBytes == null) {
+          final error = Exception("Failed to get resized bytes from asset: ${asset.id}");
+          _logger.e(error.toString());
+
+          await Sentry.captureException(error, withScope: (scope) {
+            scope.setContexts('asset', {
+              'id': asset.id,
+              'title': asset.title,
+              'type': asset.type.name,
+              'source': 'resizedBytes null',
+            });
+          });
+
+          continue;
+        }
+
         final url = await _coreSaveService.uploadImageFromBytes(resizedBytes);
         if (url != null) {
           uploadedUrls.add(url);
         } else {
-          _logger.e("Upload returned null URL for asset: ${asset.id}");
+          final error = Exception("Upload returned null URL for asset: ${asset.id}");
+          _logger.e(error.toString());
+
+          await Sentry.captureException(error, withScope: (scope) {
+            scope.setContexts('asset', {
+              'id': asset.id,
+              'title': asset.title,
+              'type': asset.type.name,
+              'source': 'uploadImageFromBytes null',
+            });
+            scope.setContexts('uploadAttempt', {
+              'bytesLength': resizedBytes.length,
+              'timestamp': DateTime.now().toIso8601String(),
+            });
+          });
         }
-      } else {
-        _logger.e("Failed to get resized bytes from asset: ${asset.id}");
+      } catch (e) {
+        _logger.e("Exception during image upload");
+
+        await Sentry.captureException(e, withScope: (scope) {
+          scope.setContexts('asset', {
+            'id': asset.id,
+            'title': asset.title,
+            'type': asset.type.name,
+            'source': 'general catch',
+          });
+        });
       }
     }
 
