@@ -40,7 +40,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Need to access the camera to upload items.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-   	<string>Need to access the library to extract photos.</string>
+   	<string>Closet Conscious needs photo access to help you upload your clothing items from the gallery.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

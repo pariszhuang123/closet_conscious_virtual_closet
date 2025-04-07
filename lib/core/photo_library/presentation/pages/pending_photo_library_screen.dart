@@ -1,9 +1,9 @@
-import 'package:closet_conscious/core/widgets/progress_indicator/closet_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../utilities/logger.dart';
 import '../bloc/photo_library_bloc.dart';
 import '../../../../generated/l10n.dart';
@@ -188,7 +188,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
           _logger.i('Builder: Current PhotoLibraryBloc state: ${state.runtimeType}');
 
           if (state is PhotoLibraryInitial) {
-            return const Center(child: ClosetProgressIndicator());
+            return const Center(child: OutfitProgressIndicator());
           }
 
           if (state is PhotoLibraryFailure) {
@@ -226,15 +226,16 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
                   ),
                 ),
               ),
-              ValueListenableBuilder<List<AssetEntity>>(
-                valueListenable: context.read<PhotoLibraryBloc>().selectedImagesNotifier,
-                builder: (context, selectedAssets, _) {
+              BlocBuilder<PhotoLibraryBloc, PhotoLibraryState>(
+                builder: (context, state) {
+                  final isLoading = state is PhotoLibraryUploading;
+                  final selectedAssets = context.watch<PhotoLibraryBloc>().selectedImages;
                   if (selectedAssets.isEmpty) return const SizedBox.shrink();
 
                   return Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: UploadButtonWithProgress(
-                      isLoading: state is PhotoLibraryUploading,
+                      isLoading: isLoading,
                       onPressed: () {
                         context.read<PhotoLibraryBloc>().add(
                           UploadSelectedLibraryImages(assets: selectedAssets),
@@ -248,7 +249,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
               ),
             ],
           );
-          }
+        },
       ),
     );
   }

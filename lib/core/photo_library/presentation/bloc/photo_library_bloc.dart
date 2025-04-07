@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:collection/collection.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'dart:io';
+import 'package:equatable/equatable.dart';
 
 import '../../../utilities/logger.dart';
 import '../../usecase/photo_library_service.dart';
@@ -41,7 +42,7 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
   })
       : _photoLibraryService = photoLibraryService,
         _itemFetchService = itemFetchService ?? ItemFetchService(),
-        super(PhotoLibraryInitial()) {
+        super(const PhotoLibraryInitial()) {
     _logger.i("PhotoLibraryBloc initialized");
 
     pagingController = PagingController<int, ClosetItemMinimal>(
@@ -105,7 +106,7 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     on<UploadSelectedLibraryImages>(_onUploadSelectedImages);
     on<_MarkReadyAfterFirstPage>((_, emit) {
       _logger.i("Emitting PhotoLibraryReady");
-      emit(PhotoLibraryReady());
+      emit(const PhotoLibraryReady());
     });
   }
 
@@ -118,26 +119,26 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     _logger.d("Permission granted: $granted");
 
     if (granted) {
-      emit(PhotoLibraryPermissionGranted());
+      emit(const PhotoLibraryPermissionGranted());
       // DO NOT immediately call InitializePhotoLibrary here
       // Let the screen respond and call it when ready
     } else {
       _logger.w("Permission denied.");
-      emit(PhotoLibraryPermissionDenied());
+      emit(const PhotoLibraryPermissionDenied());
     }
   }
 
   Future<void> _onInitialize(InitializePhotoLibrary event,
       Emitter<PhotoLibraryState> emit,) async {
     _logger.i("Initializing photo library...");
-    emit(PhotoLibraryLoadingImages());
+    emit(const PhotoLibraryLoadingImages());
     try {
       final permission = await PhotoManager.requestPermissionExtend();
       final hasAccess = permission.hasAccess;
 
       if (!hasAccess) {
         _logger.w("Permission check failed in initialize.");
-        emit(PhotoLibraryPermissionDenied());
+        emit(const PhotoLibraryPermissionDenied());
         return;
       }
 
@@ -155,7 +156,7 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
 
       if (initialAssets.isEmpty) {
         _logger.w("No accessible images found. Limited access with empty album.");
-        emit(PhotoLibraryNoAvailableImages());
+        emit(const PhotoLibraryNoAvailableImages());
         return;
       }
 
@@ -164,7 +165,7 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
       pagingController.refresh();
     } catch (e, stack) {
       _logger.e("Initialization failed: $e\n$stack");
-      emit(PhotoLibraryFailure("Initialization failed."));
+      emit(const PhotoLibraryFailure("Initialization failed."));
     }
   }
 
@@ -178,26 +179,29 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
       _logger.d("Result: $hasPending");
 
       if (hasPending) {
-        emit(PhotoLibraryPendingItem());
+        emit(const PhotoLibraryPendingItem());
       } else {
-        emit(PhotoLibraryNoPendingItem());
+        emit(const PhotoLibraryNoPendingItem());
         _logger.i("No pending items found. No state emitted.");
       }
     } catch (e, stack) {
       _logger.e("Error checking pending items: $e\n$stack");
-      emit(PhotoLibraryFailure("Failed to check pending items"));
+      emit(const PhotoLibraryFailure("Failed to check pending items"));
     }
   }
 
-  void _onToggleSelection(ToggleLibraryImageSelection event,
-      Emitter<PhotoLibraryState> emit,) {
+  void _onToggleSelection(
+      ToggleLibraryImageSelection event,
+      Emitter<PhotoLibraryState> emit,
+      ) {
     final isSelected = selectedImages.contains(event.image);
     _logger.d("Toggling: ${event.image.id}, isSelected: $isSelected");
 
     if (!isSelected && selectedImages.length >= _maxAllowed) {
       emit(PhotoLibraryMaxSelectionReached(
         images: List.of(_allAssets),
-        selectedImages: List.of(selectedImages),
+        selectedAssets: selectedImages,
+        selectedAssetIds: selectedImageIdsNotifier.value,
         maxAllowed: _maxAllowed,
         apparelCount: _apparelCount,
       ));
@@ -219,6 +223,12 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     selectedImageIdsNotifier.value = updatedIds;
 
     _logger.d("Selected images count: ${selectedImages.length}");
+
+    // 👇 Re-emit a valid state to trigger UI update
+    emit(PhotoLibraryReady(
+      selectedAssets: updatedImages,
+      selectedAssetIds: updatedIds,
+    ));
   }
 
   Future<void> _onUploadSelectedImages(UploadSelectedLibraryImages event,
@@ -228,11 +238,14 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
 
     if ([100, 300, 1000].contains(_apparelCount)) {
       _logger.i("Paywall triggered at $_apparelCount items");
-      emit(PhotoLibraryPaywallTriggered());
+      emit(const PhotoLibraryPaywallTriggered());
       return;
     }
 
-    emit(PhotoLibraryUploading());
+    emit(PhotoLibraryUploading(
+      selectedAssets: selectedImages,
+      selectedAssetIds: selectedImageIdsNotifier.value,
+    ));
 
     try {
       _logger.d("Uploading ${selectedImages.length} image(s) to Supabase...");
@@ -249,7 +262,7 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
           });
         });
 
-        emit(PhotoLibraryFailure("Image upload returned no results."));
+        emit(const PhotoLibraryFailure("Image upload returned no results."));
         return;
       }
 
@@ -257,14 +270,14 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
           imageUrls);
       if (success) {
         _logger.i("Metadata saved successfully.");
-        emit(PhotoLibraryUploadSuccess());
+        emit(const PhotoLibraryUploadSuccess());
       } else {
         _logger.e("Upload failed: No image URLs returned.");
-        emit(PhotoLibraryFailure("Image URLs could not be saved."));
+        emit(const PhotoLibraryFailure("Image URLs could not be saved."));
       }
     } catch (e, stack) {
       _logger.e("Upload failed: $e\n$stack");
-      emit(PhotoLibraryFailure("Image upload failed."));
+      emit(const PhotoLibraryFailure("Image upload failed."));
     }
   }
 

@@ -31,24 +31,16 @@ class PendingInteractiveItemGrid extends StatelessWidget {
     final logger = CustomLogger('PendingInteractiveItemGrid');
 
     logger.i("Building PendingInteractiveItemGrid");
-    logger.d("Props - crossAxisCount: $crossAxisCount, "
-        "enablePricePerWear: $enablePricePerWear, "
-        "enableItemName: $enableItemName, isOutfit: $isOutfit, "
-        "isLocalImage: $isLocalImage");
 
     final imageSize = ImageHelper.getImageSize(crossAxisCount);
-    logger.d("Calculated image size: $imageSize");
-
     final childAspectRatio = (!enableItemName || crossAxisCount == 5 || crossAxisCount == 7)
         ? 1 / 1
         : 2.15 / 3;
-    logger.d("Child aspect ratio set to: $childAspectRatio");
 
     final showItemName = enableItemName && !(crossAxisCount == 5 || crossAxisCount == 7);
     final showPricePerWear = enablePricePerWear && !(crossAxisCount == 5 || crossAxisCount == 7);
 
     final bloc = context.read<PhotoLibraryBloc>();
-
 
     return BlocBuilder<PhotoLibraryBloc, PhotoLibraryState>(
       builder: (context, state) {
@@ -62,13 +54,29 @@ class PendingInteractiveItemGrid extends StatelessWidget {
           return const Center(child: ClosetProgressIndicator());
         }
 
+        Set<String> selectedIds = {};
+
+        if (state is PhotoLibraryReady) {
+          selectedIds = state.selectedAssetIds;
+        } else if (state is PhotoLibraryMaxSelectionReached) {
+          selectedIds = state.selectedAssetIds;
+        } else if (state is PhotoLibraryUploading) {
+          selectedIds = state.selectedAssetIds;
+        } else if (state is PhotoLibraryUploadSuccess) {
+          selectedIds = state.selectedAssetIds;
+        } else if (state is PhotoLibraryFailure) {
+          selectedIds = state.selectedAssetIds;
+        } else if (state is PhotoLibraryPageLoaded) {
+          selectedIds = state.selectedAssetIds;
+        }
+
         return ValueListenableBuilder<PagingState<int, ClosetItemMinimal>>(
           valueListenable: bloc.pagingController,
-          builder: (context, state, child) {
-            logger.d("PagedGridView rebuilding with ${state.pages?.length ?? 0} page(s) loaded");
+          builder: (context, pagingState, child) {
+            logger.d("PagedGridView rebuilding with ${pagingState.pages?.length ?? 0} page(s) loaded");
 
             return PagedGridView<int, ClosetItemMinimal>(
-              state: state,
+              state: pagingState,
               fetchNextPage: bloc.pagingController.fetchNextPage,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
@@ -76,67 +84,32 @@ class PendingInteractiveItemGrid extends StatelessWidget {
               ),
               builderDelegate: PagedChildBuilderDelegate<ClosetItemMinimal>(
                 itemBuilder: (context, item, index) {
-                  logger.d("Rendering item: index=$index, itemId=${item.itemId}");
-
                   final asset = bloc.findAssetById(item.itemId);
-                  final isSelected = asset != null &&
-                      bloc.selectedImages.any((selected) => selected.id == asset.id);
+                  final isSelected = asset != null && selectedIds.contains(asset.id);
 
-                  if (asset == null) {
-                    logger.w("Asset not found for itemId: ${item.itemId}");
-                  } else {
-                    logger.d("Asset found for itemId: ${item.itemId}, isSelected: $isSelected");
-                  }
-
-                  return ValueListenableBuilder<Set<String>>(
-                    valueListenable: bloc.selectedImageIdsNotifier,
-                    builder: (context, selectedIds, _) {
+                  return GridItem(
+                    key: ValueKey('${item.itemId}_$isSelected'),
+                    item: item,
+                    isSelected: isSelected,
+                    isDisliked: item.isDisliked,
+                    imageSize: imageSize,
+                    showItemName: showItemName,
+                    showPricePerWear: showPricePerWear,
+                    isOutfit: isOutfit,
+                    onItemTapped: () {
                       final asset = bloc.findAssetById(item.itemId);
-                      final isSelected = asset != null && selectedIds.contains(asset.id);
-
-                      return GridItem(
-                        key: ValueKey('${item.itemId}_$isSelected'),
-                        item: item,
-                        isSelected: isSelected,
-                        isDisliked: item.isDisliked,
-                        imageSize: imageSize,
-                        showItemName: showItemName,
-                        showPricePerWear: showPricePerWear,
-                        isOutfit: isOutfit,
-                        onItemTapped: () {
-                          final asset = bloc.findAssetById(item.itemId);
-                          if (asset != null) {
-                            bloc.add(ToggleLibraryImageSelection(image: asset));
-                          }
-                        },
-                      );
+                      if (asset != null) {
+                        bloc.add(ToggleLibraryImageSelection(image: asset));
+                      }
                     },
                   );
                 },
-                noItemsFoundIndicatorBuilder: (_) {
-                  logger.i("No items found in image grid.");
-                  return Center(child: Text(S.of(context).noPhotosFound));
-                },
-                firstPageProgressIndicatorBuilder: (_) {
-                  logger.i("Loading first page of images...");
-                  return const Center(child: ClosetProgressIndicator());
-                },
-                newPageProgressIndicatorBuilder: (_) {
-                  logger.i("Loading next page of images...");
-                  return const Center(child: ClosetProgressIndicator());
-                },
-                noMoreItemsIndicatorBuilder: (_) {
-                  logger.i("No more pages to load.");
-                  return const SizedBox.shrink();
-                },
-                firstPageErrorIndicatorBuilder: (_) {
-                  logger.e("Error loading first page of images.");
-                  return Center(child: Text(S.of(context).failedToLoadImages));
-                },
-                newPageErrorIndicatorBuilder: (_) {
-                  logger.e("Error loading new page of images.");
-                  return Center(child: Text(S.of(context).failedToLoadMoreImages));
-                },
+                noItemsFoundIndicatorBuilder: (_) => Center(child: Text(S.of(context).noPhotosFound)),
+                firstPageProgressIndicatorBuilder: (_) => const Center(child: ClosetProgressIndicator()),
+                newPageProgressIndicatorBuilder: (_) => const Center(child: ClosetProgressIndicator()),
+                noMoreItemsIndicatorBuilder: (_) => const SizedBox.shrink(),
+                firstPageErrorIndicatorBuilder: (_) => Center(child: Text(S.of(context).failedToLoadImages)),
+                newPageErrorIndicatorBuilder: (_) => Center(child: Text(S.of(context).failedToLoadMoreImages)),
               ),
             );
           },
