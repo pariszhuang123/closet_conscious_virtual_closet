@@ -3,6 +3,8 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter/foundation.dart';
 import 'package:collection/collection.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'dart:io';
 
 import '../../../utilities/logger.dart';
 import '../../usecase/photo_library_service.dart';
@@ -236,6 +238,20 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
       _logger.d("Uploading ${selectedImages.length} image(s) to Supabase...");
       final imageUrls = await _photoLibraryService.uploadImages(selectedImages);
       _logger.d("Upload complete. Received ${imageUrls.length} URL(s)");
+
+
+      if (imageUrls.isEmpty) {
+        _logger.e("Upload failed: No image URLs returned from Supabase.");
+        await Sentry.captureMessage("Supabase returned no image URLs on iOS", withScope: (scope) {
+          scope.setContexts("platform", {"os": Platform.operatingSystem});
+          scope.setContexts("uploadAttempt", {
+            "selectedCount": selectedImages.length,
+          });
+        });
+
+        emit(PhotoLibraryFailure("Image upload returned no results."));
+        return;
+      }
 
       final success = await ItemSaveService().uploadPendingItemsMetadata(
           imageUrls);

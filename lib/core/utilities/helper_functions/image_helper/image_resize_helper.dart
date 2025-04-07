@@ -16,7 +16,7 @@ class ImageResizeHelper {
   }) async {
     try {
       final size = purpose == ImagePurpose.preview ? _previewSize : _uploadSize;
-      final file = await asset.file;
+      final file = await asset.originFile ?? await asset.file;
 
       if (file == null) {
         final error = Exception('Asset file is null for asset: ${asset.id}');
