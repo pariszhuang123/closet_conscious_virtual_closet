@@ -3,36 +3,59 @@ part of 'photo_library_bloc.dart';
 abstract class PhotoLibraryState extends Equatable {
   const PhotoLibraryState();
 
+  String get debugLabel; // 👈 Add this line
+
   @override
   List<Object?> get props => [];
 }
 
 class PhotoLibraryInitial extends PhotoLibraryState {
   const PhotoLibraryInitial();
+
+  @override
+  String get debugLabel => '📦 Initial';
 }
 
 class PhotoLibraryPermissionDenied extends PhotoLibraryState {
   const PhotoLibraryPermissionDenied();
+
+  @override
+  String get debugLabel => '🚫 Permission Denied';
 }
 
 class PhotoLibraryPermissionGranted extends PhotoLibraryState {
   const PhotoLibraryPermissionGranted();
+
+  @override
+  String get debugLabel => '✅ Permission Granted';
 }
 
 class PhotoLibraryNoAvailableImages extends PhotoLibraryState {
   const PhotoLibraryNoAvailableImages();
+
+  @override
+  String get debugLabel => '🖼️ No Available Images';
 }
 
 class PhotoLibraryLoadingImages extends PhotoLibraryState {
   const PhotoLibraryLoadingImages();
+
+  @override
+  String get debugLabel => '🔄 Loading Images';
 }
 
 class PhotoLibraryPendingItem extends PhotoLibraryState {
   const PhotoLibraryPendingItem();
+
+  @override
+  String get debugLabel => '⏳ Pending Items Found';
 }
 
 class PhotoLibraryNoPendingItem extends PhotoLibraryState {
   const PhotoLibraryNoPendingItem();
+
+  @override
+  String get debugLabel => '📭 No Pending Items';
 }
 
 class PhotoLibraryPageLoaded extends PhotoLibraryState {
@@ -84,6 +107,10 @@ class PhotoLibraryPageLoaded extends PhotoLibraryState {
     maxAllowed,
     hasReachedEnd,
   ];
+
+  @override
+  String get debugLabel =>
+      '📸 Page Loaded — Total: ${allLoadedImages.length}, New: ${newImages.length}, Selected: ${selectedAssets.length}';
 }
 
 class PhotoLibraryMaxSelectionReached extends PhotoLibraryState {
@@ -117,13 +144,21 @@ class PhotoLibraryMaxSelectionReached extends PhotoLibraryState {
     );
   }
 
+
   @override
   List<Object?> get props =>
       [images, selectedAssets, selectedAssetIds, maxAllowed, apparelCount];
+
+  @override
+  String get debugLabel =>
+      '⚠️ Max Selection Reached ($maxAllowed). Apparel Count: $apparelCount';
 }
 
 class PhotoLibraryPaywallTriggered extends PhotoLibraryState {
   const PhotoLibraryPaywallTriggered();
+
+  @override
+  String get debugLabel => '💰 Paywall Triggered';
 }
 
 class PhotoLibraryUploading extends PhotoLibraryState {
@@ -145,8 +180,13 @@ class PhotoLibraryUploading extends PhotoLibraryState {
     );
   }
 
+
   @override
   List<Object?> get props => [selectedAssets, selectedAssetIds];
+
+  @override
+  String get debugLabel =>
+      '⬆️ Uploading ${selectedAssets.length} image(s)';
 }
 
 class PhotoLibraryReady extends PhotoLibraryState {
@@ -170,6 +210,10 @@ class PhotoLibraryReady extends PhotoLibraryState {
 
   @override
   List<Object?> get props => [selectedAssets, selectedAssetIds];
+
+  @override
+  String get debugLabel =>
+      '🟢 Ready — ${selectedAssets.length} selected';
 }
 
 class PhotoLibraryUploadSuccess extends PhotoLibraryState {
@@ -181,18 +225,12 @@ class PhotoLibraryUploadSuccess extends PhotoLibraryState {
     this.selectedAssetIds = const {},
   });
 
-  PhotoLibraryUploadSuccess copyWith({
-    List<AssetEntity>? selectedAssets,
-    Set<String>? selectedAssetIds,
-  }) {
-    return PhotoLibraryUploadSuccess(
-      selectedAssets: selectedAssets ?? this.selectedAssets,
-      selectedAssetIds: selectedAssetIds ?? this.selectedAssetIds,
-    );
-  }
-
   @override
   List<Object?> get props => [selectedAssets, selectedAssetIds];
+
+  @override
+  String get debugLabel =>
+      '✅ Upload Success — ${selectedAssets.length} uploaded';
 }
 
 class PhotoLibraryFailure extends PhotoLibraryState {
@@ -206,18 +244,10 @@ class PhotoLibraryFailure extends PhotoLibraryState {
         this.selectedAssetIds = const {},
       });
 
-  PhotoLibraryFailure copyWith({
-    String? error,
-    List<AssetEntity>? selectedAssets,
-    Set<String>? selectedAssetIds,
-  }) {
-    return PhotoLibraryFailure(
-      error ?? this.error,
-      selectedAssets: selectedAssets ?? this.selectedAssets,
-      selectedAssetIds: selectedAssetIds ?? this.selectedAssetIds,
-    );
-  }
-
   @override
   List<Object?> get props => [error, selectedAssets, selectedAssetIds];
+
+  @override
+  String get debugLabel =>
+      '❌ Failure: $error (${selectedAssets.length} selected)';
 }

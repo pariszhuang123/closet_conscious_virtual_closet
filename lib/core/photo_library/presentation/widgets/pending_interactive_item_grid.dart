@@ -54,7 +54,16 @@ class PendingInteractiveItemGrid extends StatelessWidget {
             state is! PhotoLibraryMaxSelectionReached &&
             state is! PhotoLibraryUploading) {
           logger.i("Skipping PagedGridView — current state: ${state.runtimeType}");
-          return const Center(child: ClosetProgressIndicator());
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const ClosetProgressIndicator(),
+                const SizedBox(height: 16),
+                Text(state.debugLabel), // use your manual label instead of runtimeType
+              ],
+            ),
+          );
         }
 
         Set<String> selectedIds = {};
@@ -108,8 +117,27 @@ class PendingInteractiveItemGrid extends StatelessWidget {
                   );
                 },
                 noItemsFoundIndicatorBuilder: (_) => Center(child: Text(S.of(context).noPhotosFound)),
-                firstPageProgressIndicatorBuilder: (_) => const Center(child: ClosetProgressIndicator()),
-                newPageProgressIndicatorBuilder: (_) => const Center(child: ClosetProgressIndicator()),
+                firstPageProgressIndicatorBuilder: (_) => const Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ClosetProgressIndicator(),
+                      SizedBox(height: 12),
+                      Text('🔄 firstPageProgressIndicatorBuilder'),
+                    ],
+                  ),
+                ),
+
+                newPageProgressIndicatorBuilder: (_) => const Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ClosetProgressIndicator(),
+                      SizedBox(height: 12),
+                      Text('📦 newPageProgressIndicatorBuilder'),
+                    ],
+                  ),
+                ),
                 noMoreItemsIndicatorBuilder: (_) => const SizedBox.shrink(),
                 firstPageErrorIndicatorBuilder: (_) => Center(child: Text(S.of(context).failedToLoadImages)),
                 newPageErrorIndicatorBuilder: (_) => Center(child: Text(S.of(context).failedToLoadMoreImages)),
