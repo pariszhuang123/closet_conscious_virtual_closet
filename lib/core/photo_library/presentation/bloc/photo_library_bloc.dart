@@ -2,11 +2,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter/foundation.dart';
-import 'package:collection/collection.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'dart:io';
 import 'package:equatable/equatable.dart';
+import 'package:collection/collection.dart';
 
+import '../../../utilities/log_bread_crumb.dart';
 import '../../../utilities/logger.dart';
 import '../../usecase/photo_library_service.dart';
 import '../../../../item_management/core/data/services/item_save_service.dart';
@@ -110,10 +111,8 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     });
   }
 
-  Future<void> _onRequestPermission(
-      RequestLibraryPermission event,
-      Emitter<PhotoLibraryState> emit,
-      ) async {
+  Future<void> _onRequestPermission(RequestLibraryPermission event,
+      Emitter<PhotoLibraryState> emit,) async {
     _logger.i("Requesting permission...");
     final granted = await _photoLibraryService.requestPhotoPermission();
     _logger.d("Permission granted: $granted");
@@ -155,7 +154,8 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
       );
 
       if (initialAssets.isEmpty) {
-        _logger.w("No accessible images found. Limited access with empty album.");
+        _logger.w(
+            "No accessible images found. Limited access with empty album.");
         emit(const PhotoLibraryNoAvailableImages());
         return;
       }
@@ -169,10 +169,8 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     }
   }
 
-  Future<void> _onCheckForPendingItems(
-      CheckForPendingItems event,
-      Emitter<PhotoLibraryState> emit,
-      ) async {
+  Future<void> _onCheckForPendingItems(CheckForPendingItems event,
+      Emitter<PhotoLibraryState> emit,) async {
     _logger.i("Checking if user has pending items...");
     try {
       final hasPending = await _itemFetchService.hasPendingItems();
@@ -190,10 +188,8 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     }
   }
 
-  void _onToggleSelection(
-      ToggleLibraryImageSelection event,
-      Emitter<PhotoLibraryState> emit,
-      ) {
+  void _onToggleSelection(ToggleLibraryImageSelection event,
+      Emitter<PhotoLibraryState> emit,) {
     final isSelected = selectedImages.contains(event.image);
     _logger.d("Toggling: ${event.image.id}, isSelected: $isSelected");
 
@@ -236,8 +232,14 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     _logger.i("Uploading selected images...");
     _logger.d("Current apparel count: $_apparelCount");
 
+    logBreadcrumb("Started upload process", data: {
+      'apparelCount': _apparelCount,
+      'selectedCount': selectedImages.length,
+    });
+
     if ([100, 300, 1000].contains(_apparelCount)) {
       _logger.i("Paywall triggered at $_apparelCount items");
+      logBreadcrumb("Paywall triggered", data: {'apparelCount': _apparelCount});
       emit(const PhotoLibraryPaywallTriggered());
       return;
     }
@@ -249,34 +251,56 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
 
     try {
       _logger.d("Uploading ${selectedImages.length} image(s) to Supabase...");
-      final imageUrls = await _photoLibraryService.uploadImages(selectedImages);
-      _logger.d("Upload complete. Received ${imageUrls.length} URL(s)");
+      logBreadcrumb("Uploading images to Supabase", data: {
+        'count': selectedImages.length,
+      });
 
+      final imageUrls = await _photoLibraryService.uploadImages(selectedImages);
+
+      _logger.d("Upload complete. Received ${imageUrls.length} URL(s)");
+      logBreadcrumb("Upload finished", data: {'urlCount': imageUrls.length});
 
       if (imageUrls.isEmpty) {
         _logger.e("Upload failed: No image URLs returned from Supabase.");
-        await Sentry.captureMessage("Supabase returned no image URLs on iOS", withScope: (scope) {
-          scope.setContexts("platform", {"os": Platform.operatingSystem});
-          scope.setContexts("uploadAttempt", {
-            "selectedCount": selectedImages.length,
-          });
-        });
+
+        await Sentry.captureMessage(
+          "Supabase returned no image URLs on iOS",
+          withScope: (scope) {
+            scope.setContexts("platform", {"os": Platform.operatingSystem});
+            scope.setContexts("uploadAttempt", {
+              "selectedCount": selectedImages.length,
+            });
+          },
+        );
+
+        logBreadcrumb("Upload failed: No image URLs returned",
+            level: SentryLevel.error);
 
         emit(const PhotoLibraryFailure("Image upload returned no results."));
         return;
       }
 
-      final success = await ItemSaveService().uploadPendingItemsMetadata(
-          imageUrls);
+      logBreadcrumb("Saving metadata to Supabase");
+
+      final success =
+      await ItemSaveService().uploadPendingItemsMetadata(imageUrls);
+
       if (success) {
         _logger.i("Metadata saved successfully.");
+        logBreadcrumb("Metadata save success — Upload complete");
+
         emit(const PhotoLibraryUploadSuccess());
       } else {
-        _logger.e("Upload failed: No image URLs returned.");
+        _logger.e("Upload failed: Metadata not saved.");
+        logBreadcrumb("Metadata save failed", level: SentryLevel.error);
         emit(const PhotoLibraryFailure("Image URLs could not be saved."));
       }
     } catch (e, stack) {
       _logger.e("Upload failed: $e\n$stack");
+
+      await Sentry.captureException(e, stackTrace: stack);
+      logBreadcrumb("Exception during upload", level: SentryLevel.error);
+
       emit(const PhotoLibraryFailure("Image upload failed."));
     }
   }

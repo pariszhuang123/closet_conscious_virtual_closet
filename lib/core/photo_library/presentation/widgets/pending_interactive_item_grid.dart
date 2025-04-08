@@ -44,7 +44,10 @@ class PendingInteractiveItemGrid extends StatelessWidget {
 
     return BlocBuilder<PhotoLibraryBloc, PhotoLibraryState>(
       builder: (context, state) {
-        if (state is! PhotoLibraryReady &&
+        if (state is PhotoLibraryFailure) {
+          return Center(child: Text(S.of(context).failedToLoadImages));
+        }
+        else if (state is! PhotoLibraryReady &&
             state is! PhotoLibraryLoadingImages &&
             state is! PhotoLibraryNoPendingItem &&
             state is! PhotoLibraryPendingItem &&

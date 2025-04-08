@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../utilities/log_bread_crumb.dart';
 import '../../../widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../utilities/logger.dart';
 import '../bloc/photo_library_bloc.dart';
@@ -237,6 +238,8 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
                     child: UploadButtonWithProgress(
                       isLoading: isLoading,
                       onPressed: () {
+                        logBreadcrumb('Upload button pressed', category: 'photo.upload', data: {'selectedCount': 3});
+
                         context.read<PhotoLibraryBloc>().add(
                           UploadSelectedLibraryImages(assets: selectedAssets),
                         );
