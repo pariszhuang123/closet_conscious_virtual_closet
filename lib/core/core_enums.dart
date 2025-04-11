@@ -65,7 +65,6 @@ enum TooltipPosition { left, center, right }
 
 enum ImageSourceType {
   remote,
-  localFile,
   assetEntity,
 }
 

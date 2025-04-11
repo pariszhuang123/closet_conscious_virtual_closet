@@ -34,37 +34,54 @@ class EnhancedUserPhoto extends StatelessWidget {
     required this.isOutfit, // ✅ Default to false
   });
 
+  void _logImageSourceDetails() {
+    switch (imageSource.type) {
+      case ImageSourceType.remote:
+        _logger.d('🌐 imageSource type: remote | URL: ${imageSource.path}');
+        break;
+      case ImageSourceType.assetEntity:
+        final asset = imageSource.asset;
+        _logger.d(
+          '🖼️ imageSource type: assetEntity | assetId: ${asset?.id}, '
+              'title: ${asset?.title}, path: ${asset?.relativePath}, type: ${asset?.type}',
+        );
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     final bool showBorder = isSelected || isDisliked;
 
-    _logger.d('Building EnhancedUserPhoto - Item ID: $itemId, isSelected: $isSelected, isDisliked: $isDisliked');
+    _logger.d(
+        '🔄 Building EnhancedUserPhoto → itemId: $itemId, isSelected: $isSelected, isDisliked: $isDisliked');
+
+    _logImageSourceDetails();
 
     return GestureDetector(
       onTap: () {
-        _logger.i('EnhancedUserPhoto tapped - Item ID: $itemId');
-        onPressed(); // Trigger the onPressed callback
+        _logger.i('🖱️ EnhancedUserPhoto tapped → itemId: $itemId');
+        onPressed();
       },
       child: Container(
         decoration: customBoxDecoration(
           showBorder: showBorder,
           borderColor: theme.colorScheme.primary,
-          imageSize: imageSize, // Pass the image size
+          imageSize: imageSize,
         ),
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(2.0),
-                child: UserPhoto(
-                  imageUrl: imageSource.isRemote ? imageSource.path : null,
-                  localImagePath: imageSource.isLocalFile ? imageSource.path : null,
-                  asset: imageSource.isAsset ? imageSource.asset : null,
-                  imageSize: imageSize,),
+              child: UserPhoto(
+                imageUrl: imageSource.isRemote ? imageSource.path : null,
+                asset: imageSource.isAsset ? imageSource.asset : null,
+                imageSize: imageSize,
               ),
+            ),
             if (itemName != null || pricePerWear != null) ...[
-              const SizedBox(height: 6.0),
+              const SizedBox(height: 4.0),
               Flexible(
                 child: Column(
                   children: [
@@ -73,7 +90,7 @@ class EnhancedUserPhoto extends StatelessWidget {
                         itemName!,
                         style: Theme.of(context).textTheme.bodyMedium,
                         overflow: TextOverflow.ellipsis,
-                        maxLines: (isOutfit || pricePerWear != null) ? 1 : 2, // ✅ Restrict to 1 line for outfits
+                        maxLines: (isOutfit || pricePerWear != null) ? 1 : 2,
                       ),
                     if (pricePerWear != null)
                       Padding(

@@ -30,7 +30,17 @@ class GridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _logger.d('Building GridItem: ${item.itemId}, isSelected: $isSelected, isDisliked: $isDisliked');
+    final asset = item.imageSource.asset;
+
+    _logger.d(
+        'GridItem build → itemId: ${item.itemId}, '
+            'imageSource: ${item.imageSource}, '
+            'assetId: ${asset?.id}, '
+            'assetType: ${asset?.type}, '
+            'title: ${asset?.title}, '
+            'relativePath: ${asset?.relativePath}, '
+            'isLocallyAvailable: ${asset == null ? 'null' : 'TBD'}'
+    );
 
     return BaseGridItem<ClosetItemMinimal>(
       item: item,

@@ -12,16 +12,11 @@ class ImageSource extends Equatable {
       : type = ImageSourceType.remote,
         asset = null;
 
-  const ImageSource.localFile(this.path)
-      : type = ImageSourceType.localFile,
-        asset = null;
-
   const ImageSource.assetEntity(this.asset)
       : type = ImageSourceType.assetEntity,
         path = null;
 
   bool get isRemote => type == ImageSourceType.remote;
-  bool get isLocalFile => type == ImageSourceType.localFile;
   bool get isAsset => type == ImageSourceType.assetEntity;
 
   @override

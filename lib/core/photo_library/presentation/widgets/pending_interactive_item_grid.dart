@@ -95,27 +95,35 @@ class PendingInteractiveItemGrid extends StatelessWidget {
                 childAspectRatio: childAspectRatio,
               ),
               builderDelegate: PagedChildBuilderDelegate<ClosetItemMinimal>(
-                itemBuilder: (context, item, index) {
-                  final asset = bloc.findAssetById(item.itemId);
-                  final isSelected = asset != null && selectedIds.contains(asset.id);
+                  itemBuilder: (context, item, index) {
+                    final asset = item.imageSource.asset;
+                    final isSelected = asset != null && selectedIds.contains(asset.id);
 
-                  return GridItem(
-                    key: ValueKey('${item.itemId}_$isSelected'),
-                    item: item,
-                    isSelected: isSelected,
-                    isDisliked: item.isDisliked,
-                    imageSize: imageSize,
-                    showItemName: showItemName,
-                    showPricePerWear: showPricePerWear,
-                    isOutfit: isOutfit,
-                    onItemTapped: () {
-                      final asset = bloc.findAssetById(item.itemId);
-                      if (asset != null) {
-                        bloc.add(ToggleLibraryImageSelection(image: asset));
-                      }
-                    },
-                  );
-                },
+                    logger.d("Building GridItem: index=$index, itemId=${item.itemId}, "
+                        "assetId=${asset?.id}, isSelected=$isSelected, "
+                        "assetType=${asset?.type}, assetTitle=${asset?.title}, "
+                        "assetLocation=${asset?.relativePath}");
+
+                    return GridItem(
+                      key: ValueKey('${item.itemId}_$isSelected'),
+                      item: item,
+                      isSelected: isSelected,
+                      isDisliked: item.isDisliked,
+                      imageSize: imageSize,
+                      showItemName: showItemName,
+                      showPricePerWear: showPricePerWear,
+                      isOutfit: isOutfit,
+                      onItemTapped: () async {
+                        final asset = item.imageSource.asset;
+                        if (asset != null) {
+                          logger.i("Tapped assetId=${asset.id}, assetType=${asset.type}");
+                          bloc.add(ToggleLibraryImageSelection(image: asset));
+                        } else {
+                          logger.w("Tapped item with null assetEntity: itemId=${item.itemId}");
+                        }
+                      },
+                    );
+                  },
                 noItemsFoundIndicatorBuilder: (_) => Center(child: Text(S.of(context).noPhotosFound)),
                 firstPageProgressIndicatorBuilder: (_) => const Center(
                   child: Column(

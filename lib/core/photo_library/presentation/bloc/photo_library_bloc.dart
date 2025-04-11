@@ -66,13 +66,10 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
           _logger.d("Fetched ${newAssets.length} assets");
 
           final items = await Future.wait(newAssets.map((asset) async {
-            final file = await asset.file;
             return ClosetItemMinimal(
               itemId: asset.id,
               name: "cc_none",
-              imageSource: file != null
-                  ? ImageSource.localFile(file.path)
-                  : ImageSource.assetEntity(asset),
+              imageSource: ImageSource.assetEntity(asset), // ✅ Always use assetEntity
               itemIsActive: true,
             );
           }));

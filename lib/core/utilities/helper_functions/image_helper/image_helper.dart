@@ -79,10 +79,9 @@ class ImageHelper {
 }
 
 String? getImagePathFromSource(ImageSource source) {
-  if (source.isRemote || source.isLocalFile) {
+  if (source.isRemote) {
     return source.path;
   } else if (source.isAsset) {
-    // AssetEntity doesn't have a direct path; this is for display logic
     return 'asset:${source.asset?.id ?? ''}';
   }
   return null;
