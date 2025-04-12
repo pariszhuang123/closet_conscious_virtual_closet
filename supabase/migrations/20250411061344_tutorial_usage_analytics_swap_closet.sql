@@ -267,7 +267,7 @@ begin
     where user_id = current_user_id and tutorial_name = tutorial_input;
 
   else
-    insert into public.tutorial_progress (user_id, tutorial_name, tutorial_type, , interaction_count)
+    insert into public.tutorial_progress (user_id, tutorial_name, tutorial_type, interaction_count)
     values (current_user_id, tutorial_input, tutorial_type_value, 1);
   end if;
 
