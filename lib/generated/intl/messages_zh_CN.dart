@@ -397,6 +397,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "itemsUploadedTooltip":
             MessageLookupByLibrary.simpleMessage("您上传到环保衣橱的物品数量"),
         "jewellery": MessageLookupByLibrary.simpleMessage("珠宝"),
+        "lifeChange": MessageLookupByLibrary.simpleMessage("开启新篇章"),
         "light": MessageLookupByLibrary.simpleMessage("浅色"),
         "like": MessageLookupByLibrary.simpleMessage("爱它！😍"),
         "likeNew": MessageLookupByLibrary.simpleMessage("几乎\n全新"),
@@ -528,13 +529,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "outfitStatus": MessageLookupByLibrary.simpleMessage("穿搭状态"),
         "outfitsAll": MessageLookupByLibrary.simpleMessage("所有穿搭"),
         "outfits_upload": MessageLookupByLibrary.simpleMessage("上传的造型数量"),
-        "overFlowingCloset": MessageLookupByLibrary.simpleMessage("爆满衣橱"),
-        "parentMemories": MessageLookupByLibrary.simpleMessage("父母回忆"),
+        "parentMemories": MessageLookupByLibrary.simpleMessage("为我的宝贝建立衣橱"),
         "perfume": MessageLookupByLibrary.simpleMessage("化妆品"),
         "permanentCloset": MessageLookupByLibrary.simpleMessage("永久衣橱"),
         "permission_needed":
             MessageLookupByLibrary.simpleMessage("此权限是应用正常运行所必需的。"),
-        "personalStyle": MessageLookupByLibrary.simpleMessage("个人风格"),
+        "personalStyle": MessageLookupByLibrary.simpleMessage("找回我的风格"),
         "photoAccessDialogContent": MessageLookupByLibrary.simpleMessage(
             "如需查看整个相册并避免再次提示，请在设置中启用完整访问。"),
         "photoAccessDialogTitle":
@@ -651,6 +651,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "tabItemAnalytics": MessageLookupByLibrary.simpleMessage("单品分析"),
         "tabOutfitAnalytics": MessageLookupByLibrary.simpleMessage("穿搭分析"),
         "tagline": MessageLookupByLibrary.simpleMessage("在衣橱里购物\n爱上你的风格！"),
+        "tailorExperience": MessageLookupByLibrary.simpleMessage(
+            "我们希望根据你当下最在意的事，为你量身定制 衣格思觉 的体验。\n\n还不确定？先选一个最有共鸣的方向吧，以后随时可以更改。"),
         "tech": MessageLookupByLibrary.simpleMessage("科技产品"),
         "termsAcknowledgement": MessageLookupByLibrary.simpleMessage("我已阅读 "),
         "termsAndConditions": MessageLookupByLibrary.simpleMessage("服务条款"),
@@ -686,8 +688,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "trialIncludedOutfits":
             MessageLookupByLibrary.simpleMessage("每天都可以搭配并保存多套穿搭。"),
         "trialIncludedTitle": MessageLookupByLibrary.simpleMessage("试用包含的功能"),
-        "trialStartedMessage": MessageLookupByLibrary.simpleMessage(
-            "这些是您可以探索的所有高级功能。您想立即开始您的 30 天免费试用吗？"),
+        "trialStartedMessage":
+            MessageLookupByLibrary.simpleMessage("轻松开启30天高级体验，无需信用卡，无任何附加条件。"),
         "trialStartedNextSteps": MessageLookupByLibrary.simpleMessage(
             "您已成功激活高级功能。所有高级功能现已可用，以提升您的体验。"),
         "trialStartedNextStepsTitle":
@@ -829,6 +831,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "warning": MessageLookupByLibrary.simpleMessage("警告"),
         "wellLoved": MessageLookupByLibrary.simpleMessage("使用\n痕迹明显"),
         "white": MessageLookupByLibrary.simpleMessage("白色"),
+        "whyAreYouHereToday":
+            MessageLookupByLibrary.simpleMessage("你今天为什么来到 衣格思觉？"),
         "winter": MessageLookupByLibrary.simpleMessage("冬季"),
         "workplace": MessageLookupByLibrary.simpleMessage("工作场所"),
         "wornInOutfit": MessageLookupByLibrary.simpleMessage("穿着次数"),

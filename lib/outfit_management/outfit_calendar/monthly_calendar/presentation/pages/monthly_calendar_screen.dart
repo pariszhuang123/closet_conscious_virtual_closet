@@ -124,7 +124,12 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
             logger.d('MetadataBloc emitted state: $state');
             if (state is MonthlyCalendarSaveSuccessState || state is MonthlyCalendarResetSuccessState) {
               logger.i('Save or Reset succeeded. Navigating to monthlyCalendar...');
-              context.goNamed(AppRoutesName.monthlyCalendar);
+              context.goNamed(
+                'monthly_calendar',
+                extra: {
+                  'timestamp': DateTime.now().millisecondsSinceEpoch.toString(), // Just to force uniqueness
+                },
+              );
             }
           },
         ),
@@ -138,6 +143,7 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                 AppRoutesName.monthlyCalendar,
                 extra: {
                   'selectedOutfitIds': state.selectedOutfitIds, // Will always be a list
+                  'timestamp': DateTime.now().millisecondsSinceEpoch.toString(), // Just to force uniqueness
                 },
               );
             }

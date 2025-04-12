@@ -350,12 +350,12 @@ class TypeDataList {
     return TypeData('personalStyle', (context) => S.of(context).personalStyle, 'assets/icons/onboarding/personal_style.svg', false);
   }
 
-  static TypeData overFlowingCloset(BuildContext context) {
-    return TypeData('overFlowingCloset', (context) => S.of(context).overFlowingCloset, 'assets/icons/onboarding/overflowing_closet.svg', false);
+  static TypeData lifeChange(BuildContext context) {
+    return TypeData('lifeChange', (context) => S.of(context).lifeChange, 'assets/icons/onboarding/life_change.svg', false);
   }
 
   static TypeData parentMemories(BuildContext context) {
-    return TypeData('parentMemories', (context) => S.of(context).parentMemories, 'assets/icons/onboarding/parentMemories.svg', false);
+    return TypeData('parentMemories', (context) => S.of(context).parentMemories, 'assets/icons/onboarding/parents_memories_sale.svg', false);
   }
 
   static List<TypeData> gridSizes(BuildContext context) {

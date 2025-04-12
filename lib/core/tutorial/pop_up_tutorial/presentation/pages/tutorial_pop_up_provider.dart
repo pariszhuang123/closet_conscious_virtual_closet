@@ -5,6 +5,7 @@ import '../../presentation/bloc/tutorial_bloc.dart';
 import 'tutorial_pop_up_screen.dart';
 import '../../../../data/services/core_fetch_services.dart';
 import '../../../../data/services/core_save_services.dart';
+import '../../../../presentation/bloc/personalization_flow_cubit/personalization_flow_cubit.dart';
 
 class TutorialPopUpProvider extends StatelessWidget {
   final String tutorialInputKey;
@@ -20,11 +21,22 @@ class TutorialPopUpProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => TutorialBloc(
-        fetchService: CoreFetchService(),
-        saveService: CoreSaveService(),
-      ),
+    final coreFetchService = CoreFetchService();
+    final coreSaveService = CoreSaveService();
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => TutorialBloc(
+            fetchService: coreFetchService,
+            saveService: coreSaveService,
+          ),
+        ),
+        BlocProvider(
+          create: (_) => PersonalizationFlowCubit(coreFetchService: coreFetchService)
+            ..fetchPersonalizationFlowType(),
+        ),
+      ],
       child: TutorialPopUpScreen(
         tutorialInputKey: tutorialInputKey,
         nextRoute: nextRoute,

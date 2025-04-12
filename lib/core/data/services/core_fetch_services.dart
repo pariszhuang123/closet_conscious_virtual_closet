@@ -713,4 +713,68 @@ class CoreFetchService {
     }
   }
 
+  Future<bool> isFirstTimeScenario() async {
+    _logger.i('Checking if this is the first time scenario');
+
+    try {
+      final authBloc = locator<AuthBloc>();
+      final userId = authBloc.userId;
+
+      if (userId == null) {
+        _logger.e('AuthBloc.userId is null — user might not be authenticated.');
+        return false;
+      }
+
+      final data = await Supabase.instance.client
+          .from('tutorial_progress')
+          .select('user_id')
+          .eq('user_id', userId)
+          .eq('tutorial_type', 'scenario')
+          .maybeSingle();
+
+      if (data == null) {
+        _logger.i('No scenarios has being created.');
+        return true;
+      } else {
+        _logger.i('They have decided a scenario');
+        return false;
+      }
+    } catch (e) {
+      _logger.e('Error checking scenario: $e');
+      return false;
+    }
+  }
+
+  Future<String> fetchPersonalizationFlowType() async {
+    _logger.i('Fetching personalization flow type for current user');
+
+    try {
+      final authBloc = locator<AuthBloc>();
+      final userId = authBloc.userId;
+
+      if (userId == null) {
+        _logger.e('AuthBloc.userId is null — user might not be authenticated.');
+        return 'default_flow';
+      }
+
+      final data = await Supabase.instance.client
+          .from('shared_preferences')
+          .select('personalization_flow_type')
+          .eq('user_id', userId)
+          .maybeSingle();
+
+      if (data == null || data['personalization_flow_type'] == null) {
+        _logger.w('No personalization_flow_type found — returning default.');
+        return 'default_flow';
+      }
+
+      final flowType = data['personalization_flow_type'] as String;
+      _logger.i('Fetched personalization flow type: $flowType');
+      return flowType;
+    } catch (e) {
+      _logger.e('Error fetching personalization flow type: $e');
+      return 'default_flow';
+    }
+  }
+
 }

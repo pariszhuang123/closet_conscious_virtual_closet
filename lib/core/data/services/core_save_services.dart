@@ -6,11 +6,13 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../core/config/supabase_config.dart';
-import '../../../core/utilities/logger.dart';
+import '../../config/supabase_config.dart';
+import '../../utilities/logger.dart';
+import '../../core_enums.dart';
+import '../../utilities/helper_functions/tutorial_helper.dart';
+import '../../filter/data/models/filter_setting.dart';
 import '../../../user_management/user_service_locator.dart';
 import '../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
-import '../../filter/data/models/filter_setting.dart';
 import '../../../outfit_management/core/outfit_enums.dart';
 
 class CoreSaveService {
@@ -554,6 +556,41 @@ class CoreSaveService {
       return false;
     }
   }
+
+  Future<bool> savePersonalizationFlowType(OnboardingJourneyType flowType) async {
+    logger.i('Saving personalization_flow_type: ${flowType.value}');
+
+    try {
+      final authBloc = locator<AuthBloc>(); // Assuming GetIt is used
+      final userId = authBloc.userId;
+
+      if (userId == null) {
+        logger.e('User ID is null. Cannot save personalization_flow_type.');
+        return false;
+      }
+
+      final response = await Supabase.instance.client
+          .from('shared_preferences')
+          .update({
+        'personalization_flow_type': flowType.value,
+        'updated_at': DateTime.now().toUtc().toIso8601String(),
+      })
+          .eq('user_id', userId)
+          .select(); // Confirm update
+
+      if (response.isEmpty) {
+        logger.e('No matching record found to update personalization_flow_type.');
+        return false;
+      }
+
+      logger.i('Personalization flow type updated successfully for user: $userId');
+      return true;
+    } catch (e) {
+      logger.e('Error saving personalization_flow_type for user: $e');
+      return false;
+    }
+  }
+
 }
 
 

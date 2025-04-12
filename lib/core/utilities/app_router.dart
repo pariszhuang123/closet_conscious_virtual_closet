@@ -33,6 +33,7 @@ import '../screens/webview_screen.dart';
 import '../../core/utilities/helper_functions/argument_helper.dart';
 import '../../core/tutorial/pop_up_tutorial/presentation/pages/tutorial_pop_up_provider.dart';
 import '../../core/tutorial/tutorial/presentation/pages/tutorial_hub_screen.dart';
+import '../../core/tutorial/scenario/presentation/pages/goal_selection_provider.dart';
 import '../../user_management/achievements/presentation/pages/achievements_page.dart';
 import '../achievement_celebration/presentation/pages/achievement_completed_screen.dart';
 import '../presentation/pages/trial_started/trial_started_provider.dart';
@@ -87,6 +88,7 @@ abstract class AppRoutesName {
   static const String payment = 'payment';
   static const String tutorialVideoPopUp = 'tutorial_video_pop_up';
   static const String tutorialHub = 'tutorial_hub';
+  static const String goalSelectionProvider = 'goal_selection_provider';
 }
 
 final GoRouter appRouter = GoRouter(
@@ -416,7 +418,7 @@ final GoRouter appRouter = GoRouter(
       pageBuilder: (context, state) {
         final args = state.extra as Map<String, dynamic>? ?? {};
         return buildCustomTransitionPage(
-          key: UniqueKey(),
+          key: ValueKey(args['timestamp'] ?? UniqueKey()),
           transitionType: TransitionType.slideFromRight,
           child: CalendarScaffold(
             myOutfitTheme: myOutfitTheme,
@@ -647,6 +649,17 @@ final GoRouter appRouter = GoRouter(
         return buildCustomTransitionPage(
           key: state.pageKey,
           child: const TutorialHubScreen(),
+          transitionType: TransitionType.fadeScale,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/goal_selection_provider',
+      name: 'goal_selection_provider',
+      pageBuilder: (context, state) {
+        return buildCustomTransitionPage(
+          key: state.pageKey,
+          child: const GoalSelectionProvider(),
           transitionType: TransitionType.fadeScale,
         );
       },

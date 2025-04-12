@@ -4300,10 +4300,10 @@ class S {
     );
   }
 
-  /// `These are all the premium features you can explore. Do you want to start your 30-day free trial now?`
+  /// `Experience all the premium perks for 30 days. Totally free. No credit card needed.`
   String get trialStartedMessage {
     return Intl.message(
-      'These are all the premium features you can explore. Do you want to start your 30-day free trial now?',
+      'Experience all the premium perks for 30 days. Totally free. No credit card needed.',
       name: 'trialStartedMessage',
       desc: '',
       args: [],
@@ -5131,31 +5131,51 @@ class S {
     );
   }
 
-  /// `Personal Style`
+  /// `Rediscover My Style`
   String get personalStyle {
     return Intl.message(
-      'Personal Style',
+      'Rediscover My Style',
       name: 'personalStyle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Overflowing Closet`
-  String get overFlowingCloset {
+  /// `Start a New Chapter`
+  String get lifeChange {
     return Intl.message(
-      'Overflowing Closet',
-      name: 'overFlowingCloset',
+      'Start a New Chapter',
+      name: 'lifeChange',
       desc: '',
       args: [],
     );
   }
 
-  /// `Parent Memories`
+  /// `Closet for My Little One`
   String get parentMemories {
     return Intl.message(
-      'Parent Memories',
+      'Closet for My Little One',
       name: 'parentMemories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Why are you here today?`
+  String get whyAreYouHereToday {
+    return Intl.message(
+      'Why are you here today?',
+      name: 'whyAreYouHereToday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We’ll tailor your Closet Conscious experience based on what matters to you most right now.\n\nNot sure? Pick what feels right — you can always update it later.`
+  String get tailorExperience {
+    return Intl.message(
+      'We’ll tailor your Closet Conscious experience based on what matters to you most right now.\n\nNot sure? Pick what feels right — you can always update it later.',
+      name: 'tailorExperience',
       desc: '',
       args: [],
     );

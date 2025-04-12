@@ -24,6 +24,7 @@ import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
 import '../../core/core_enums.dart';
 import '../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
 import '../../core/photo_library/presentation/bloc/photo_library_bloc.dart';
+import '../../core/tutorial/scenario/presentation/bloc/first_time_scenario_bloc.dart';
 
 class MyClosetScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -210,7 +211,14 @@ class MyClosetScreenState extends State<MyClosetScreen> {
               }
             },
           ),
-
+          BlocListener<FirstTimeScenarioBloc, FirstTimeScenarioState>(
+            listenWhen: (previous, current) => current is FirstTimeCheckSuccess,
+            listener: (context, state) {
+              if (state is FirstTimeCheckSuccess && state.isFirstTime) {
+                context.goNamed(AppRoutesName.goalSelectionProvider);
+              }
+            },
+          ),
           BlocListener<NavigateItemBloc, NavigateItemState>(
             listener: (context, state) {
               if (state is FetchFirstItemUploadedMilestoneSuccessState ||

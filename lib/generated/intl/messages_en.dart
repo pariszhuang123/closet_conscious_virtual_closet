@@ -460,6 +460,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "itemsUploadedTooltip": MessageLookupByLibrary.simpleMessage(
             "Number of items you\'ve uploaded to your conscious closet"),
         "jewellery": MessageLookupByLibrary.simpleMessage("Jewellery"),
+        "lifeChange":
+            MessageLookupByLibrary.simpleMessage("Start a New Chapter"),
         "light": MessageLookupByLibrary.simpleMessage("Light"),
         "like": MessageLookupByLibrary.simpleMessage("Love it!\n😍"),
         "likeNew": MessageLookupByLibrary.simpleMessage("Like\nNew"),
@@ -604,16 +606,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "outfitsAll": MessageLookupByLibrary.simpleMessage("All Outfits"),
         "outfits_upload":
             MessageLookupByLibrary.simpleMessage("Number of outfits uploaded"),
-        "overFlowingCloset":
-            MessageLookupByLibrary.simpleMessage("Overflowing Closet"),
         "parentMemories":
-            MessageLookupByLibrary.simpleMessage("Parent Memories"),
+            MessageLookupByLibrary.simpleMessage("Closet for My Little One"),
         "perfume": MessageLookupByLibrary.simpleMessage("Cosmetic"),
         "permanentCloset":
             MessageLookupByLibrary.simpleMessage("Permanent Closet"),
         "permission_needed": MessageLookupByLibrary.simpleMessage(
             "This permission is\nrequired for the app\nto function properly."),
-        "personalStyle": MessageLookupByLibrary.simpleMessage("Personal Style"),
+        "personalStyle":
+            MessageLookupByLibrary.simpleMessage("Rediscover My Style"),
         "photoAccessDialogContent": MessageLookupByLibrary.simpleMessage(
             "To see your entire photo library and avoid being asked again, grant full access in Settings."),
         "photoAccessDialogTitle":
@@ -767,6 +768,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Outfit Analytics"),
         "tagline": MessageLookupByLibrary.simpleMessage(
             "Shop Your Closet\nLove Your Style!"),
+        "tailorExperience": MessageLookupByLibrary.simpleMessage(
+            "We’ll tailor your Closet Conscious experience based on what matters to you most right now.\n\nNot sure? Pick what feels right — you can always update it later."),
         "tech": MessageLookupByLibrary.simpleMessage("Tech"),
         "termsAcknowledgement":
             MessageLookupByLibrary.simpleMessage("I have read the "),
@@ -807,7 +810,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "trialIncludedTitle": MessageLookupByLibrary.simpleMessage(
             "What’s included in your trial"),
         "trialStartedMessage": MessageLookupByLibrary.simpleMessage(
-            "These are all the premium features you can explore. Do you want to start your 30-day free trial now?"),
+            "Experience all the premium perks for 30 days. Totally free. No credit card needed."),
         "trialStartedNextSteps": MessageLookupByLibrary.simpleMessage(
             "You have successfully activated your premium features. All premium features are now available to enhance your experience."),
         "trialStartedNextStepsTitle":
@@ -964,6 +967,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "warning": MessageLookupByLibrary.simpleMessage("Warning"),
         "wellLoved": MessageLookupByLibrary.simpleMessage("Well\nLoved"),
         "white": MessageLookupByLibrary.simpleMessage("White"),
+        "whyAreYouHereToday":
+            MessageLookupByLibrary.simpleMessage("Why are you here today?"),
         "winter": MessageLookupByLibrary.simpleMessage("Winter"),
         "workplace": MessageLookupByLibrary.simpleMessage("Workplace"),
         "wornInOutfit": MessageLookupByLibrary.simpleMessage("Worn in Outfit"),

@@ -102,6 +102,17 @@ enum TutorialType {
   freeClosetUpload,
   freeInfoHub,
   paidUsageAnalytics,
+  flowIntroDefault,
+  flowIntroMemory,
+  flowIntroPersonalStyle,
+  flowIntroLifeChange,
+}
+
+enum OnboardingJourneyType {
+  defaultFlow,
+  memoryFlow,
+  personalStyleFlow,
+  lifeChangeFlow,
 }
 
 enum FeatureKey {

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+
 import '../../../../generated/l10n.dart';
+import '../../../core_enums.dart';
 
 class TutorialVideoPart {
+  final OnboardingJourneyType journeyType;
   final String youtubeId;
   final String Function(BuildContext) getDescription;
 
   const TutorialVideoPart({
+    required this.journeyType,
     required this.youtubeId,
     required this.getDescription,
   });
@@ -13,12 +17,12 @@ class TutorialVideoPart {
 
 class TutorialFeatureData {
   final String Function(BuildContext) getTitle;
-  final String tutorialInputKey;
+  final TutorialType tutorialType; // Changed from String
   final List<TutorialVideoPart> videos;
 
   const TutorialFeatureData({
     required this.getTitle,
-    required this.tutorialInputKey,
+    required this.tutorialType,
     required this.videos,
   });
 }
@@ -28,9 +32,10 @@ class TutorialFeatureList {
     return [
       TutorialFeatureData(
         getTitle: (context) => S.of(context).tutorialFreeUploadCameraTitle,
-        tutorialInputKey: 'free_upload_camera',
+        tutorialType: TutorialType.freeUploadCamera,
         videos: [
           TutorialVideoPart(
+            journeyType: OnboardingJourneyType.memoryFlow,
             youtubeId: 'FtwVBMwTAZk',
             getDescription: (context) => S.of(context).tutorialFreeUploadCameraUploadClothing,
           ),
@@ -38,9 +43,10 @@ class TutorialFeatureList {
       ),
       TutorialFeatureData(
         getTitle: (context) => S.of(context).tutorialFreeEditCameraTitle,
-        tutorialInputKey: 'free_edit_camera',
+        tutorialType: TutorialType.freeEditCamera,
         videos: [
           TutorialVideoPart(
+            journeyType: OnboardingJourneyType.memoryFlow,
             youtubeId: '3X4iSxrs_Gk',
             getDescription: (context) => S.of(context).tutorialFreeEditCameraDeclutterItems,
           ),
@@ -48,117 +54,70 @@ class TutorialFeatureList {
       ),
       TutorialFeatureData(
         getTitle: (context) => S.of(context).tutorialFreeCreateOutfitTitle,
-        tutorialInputKey: 'free_create_outfit',
+        tutorialType: TutorialType.freeCreateOutfit,
         videos: [
           TutorialVideoPart(
+            journeyType: OnboardingJourneyType.memoryFlow,
             youtubeId: 'ceueaW0ZDtc',
             getDescription: (context) => S.of(context).tutorialFreeCreateOutfitCreateOutfitProcess,
-          ),
-          TutorialVideoPart(
-            youtubeId: 'SeEzPZrvZJY',
-            getDescription: (context) => S.of(context).tutorialFreeCreateOutfitReviewOutfit,
-          ),
-          TutorialVideoPart(
-            youtubeId: 'UX2xjPBG5AA',
-            getDescription: (context) => S.of(context).tutorialFreeCreateOutfitOutfitSuggestion,
           ),
         ],
       ),
       TutorialFeatureData(
         getTitle: (context) => S.of(context).tutorialPaidFilterTitle,
-        tutorialInputKey: 'paid_filter',
+        tutorialType: TutorialType.paidFilter,
         videos: [
           TutorialVideoPart(
+            journeyType: OnboardingJourneyType.memoryFlow,
             youtubeId: 'OvXRbm4hp84',
             getDescription: (context) => S.of(context).tutorialPaidFilterFindInCloset,
-          ),
-          TutorialVideoPart(
-            youtubeId: 'D99Th66kQ2A',
-            getDescription: (context) => S.of(context).tutorialPaidFilterSellUnworn,
-          ),
-          TutorialVideoPart(
-            youtubeId: 'jLCNT--f6MA',
-            getDescription: (context) => S.of(context).tutorialPaidFilterTrackFiltering,
           ),
         ],
       ),
       TutorialFeatureData(
         getTitle: (context) => S.of(context).tutorialPaidCustomizeTitle,
-        tutorialInputKey: 'paid_customize',
+        tutorialType: TutorialType.paidCustomize,
         videos: [
           TutorialVideoPart(
+            journeyType: OnboardingJourneyType.memoryFlow,
             youtubeId: 'KmAB1FiRQpo',
             getDescription: (context) => S.of(context).tutorialPaidCustomizeViewAllItems,
-          ),
-          TutorialVideoPart(
-            youtubeId: 'DP4-OW6WJ9k',
-            getDescription: (context) => S.of(context).tutorialPaidCustomizeCustomizeOrder,
           ),
         ],
       ),
       TutorialFeatureData(
         getTitle: (context) => S.of(context).tutorialPaidMultiClosetTitle,
-        tutorialInputKey: 'paid_multi_closet',
+        tutorialType: TutorialType.paidMultiCloset,
         videos: [
           TutorialVideoPart(
+            journeyType: OnboardingJourneyType.memoryFlow,
             youtubeId: 'T2KN0vBxGUY',
             getDescription: (context) => S.of(context).tutorialPaidMultiClosetCreateCapsule,
-          ),
-          TutorialVideoPart(
-            youtubeId: '3CHu_udq3sQ',
-            getDescription: (context) => S.of(context).tutorialPaidMultiClosetViewUsableItems,
-          ),
-          TutorialVideoPart(
-            youtubeId: 'D99Th66kQ2A',
-            getDescription: (context) => S.of(context).tutorialPaidMultiClosetCreatePublicClosets,
-          ),
-          TutorialVideoPart(
-            youtubeId: '5wvQ-NBpZmU',
-            getDescription: (context) => S.of(context).tutorialPaidMultiClosetDeleteClosets,
-          ),
-          TutorialVideoPart(
-            youtubeId: 'Sj1CPF1oHI0',
-            getDescription: (context) => S.of(context).tutorialPaidMultiClosetSwapClosets,
           ),
         ],
       ),
       TutorialFeatureData(
         getTitle: (context) => S.of(context).tutorialPaidCalendarTitle,
-        tutorialInputKey: 'paid_calendar',
+        tutorialType: TutorialType.paidCalendar,
         videos: [
           TutorialVideoPart(
+            journeyType: OnboardingJourneyType.memoryFlow,
             youtubeId: 'Y4kfz7OvVhg',
             getDescription: (context) => S.of(context).tutorialPaidCalendarTrackFirstExperiences,
-          ),
-          TutorialVideoPart(
-            youtubeId: '0a1u3EVJeZI',
-            getDescription: (context) => S.of(context).tutorialPaidCalendarPlanTrips,
           ),
         ],
       ),
       TutorialFeatureData(
         getTitle: (context) => S.of(context).tutorialPaidUsageAnalyticsTitle,
-        tutorialInputKey: 'paid_usage_analytics',
+        tutorialType: TutorialType.paidUsageAnalytics,
         videos: [
           TutorialVideoPart(
+            journeyType: OnboardingJourneyType.memoryFlow,
             youtubeId: 'nd8x5qH4AYI',
             getDescription: (context) => S.of(context).tutorialPaidUsageAnalyticsCostPerWear,
           ),
-          TutorialVideoPart(
-            youtubeId: 'UX2xjPBG5AA',
-            getDescription: (context) => S.of(context).tutorialPaidUsageAnalyticsOutfitSuggestions,
-          ),
-          TutorialVideoPart(
-            youtubeId: '3Bii2qw-jFA',
-            getDescription: (context) => S.of(context).tutorialPaidUsageAnalyticsInspirationForTrips,
-          ),
-          TutorialVideoPart(
-            youtubeId: 'D99Th66kQ2A',
-            getDescription: (context) => S.of(context).tutorialPaidUsageAnalyticsSellUnworn,
-          ),
         ],
       ),
-      // Add more as needed...
     ];
   }
 }
