@@ -100,6 +100,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "alright": MessageLookupByLibrary.simpleMessage("Not sure\n🤷‍♀️"),
         "alright_feedback_sentence": MessageLookupByLibrary.simpleMessage(
             "Tap the items you\'re unsure about."),
+        "alwaysAvailableFeatures": MessageLookupByLibrary.simpleMessage(
+            "Always Available Feature Tutorials"),
         "amountSpent": MessageLookupByLibrary.simpleMessage("Amount Spent"),
         "amountSpentFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Amount Spent field is not filled."),
@@ -164,6 +166,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Calendar View?"),
         "calendarSelectable":
             MessageLookupByLibrary.simpleMessage("Create Closet"),
+        "cameraUpload": MessageLookupByLibrary.simpleMessage("Camera"),
         "camera_edit_item_permission_explanation":
             MessageLookupByLibrary.simpleMessage(
                 "Let us use your camera to update your item photos."),
@@ -639,6 +642,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "please_select_the_category_above":
             MessageLookupByLibrary.simpleMessage(
                 "Please select the category above"),
+        "premiumFeatureTutorials":
+            MessageLookupByLibrary.simpleMessage("Premium Feature Tutorials"),
         "previous": MessageLookupByLibrary.simpleMessage("Previous"),
         "pricePerWear": MessageLookupByLibrary.simpleMessage("Price Per Wear"),
         "privacyTerms": MessageLookupByLibrary.simpleMessage("Privacy Terms"),
@@ -678,6 +683,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Save Customization"),
         "saveFilter": MessageLookupByLibrary.simpleMessage("Save Filter"),
         "scarf": MessageLookupByLibrary.simpleMessage("Scarf"),
+        "scenarioTutorials":
+            MessageLookupByLibrary.simpleMessage("Scenario Tutorials"),
         "seasonFieldNotFilled": MessageLookupByLibrary.simpleMessage(
             "Season field is not selected."),
         "selectAccessoryType":
@@ -835,8 +842,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tutorialFreeUploadCameraUploadClothing":
             MessageLookupByLibrary.simpleMessage(
                 "Upload your clothing into the closet"),
-        "tutorialHubTitle":
-            MessageLookupByLibrary.simpleMessage("Explore Features"),
+        "tutorialHubTitle": MessageLookupByLibrary.simpleMessage("Tutorials"),
         "tutorialPaidCalendarPlanTrips": MessageLookupByLibrary.simpleMessage(
             "Easily create outfits for trip planning"),
         "tutorialPaidCalendarTitle": MessageLookupByLibrary.simpleMessage(
@@ -941,7 +947,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Oops! Looks like something went off the rails. Try again? 🚂"),
         "upload_successful": MessageLookupByLibrary.simpleMessage(
             "Success! Your closet just got a little more stylish! 🎉"),
-        "upload_upload": MessageLookupByLibrary.simpleMessage("Upload"),
         "usageAnalyticsFeatureTitle":
             MessageLookupByLibrary.simpleMessage("Your Closet Insights"),
         "usageAnalyticsTitle":

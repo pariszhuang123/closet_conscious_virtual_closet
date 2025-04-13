@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import '../widgets/tutorial_feature_navigation.dart';
 import '../../../../theme/my_closet_theme.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../utilities/app_router.dart';
 
 class TutorialHubScreen extends StatelessWidget {
   const TutorialHubScreen({super.key});
@@ -9,21 +12,35 @@ class TutorialHubScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: myClosetTheme, // or a custom theme for tutorial
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(S.of(context).tutorialHubTitle),
-        ),
-        body: const SingleChildScrollView(
-          padding: EdgeInsets.symmetric(vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TutorialFeatureNavigation(),
-            ],
+        data: myClosetTheme,
+        child: PopScope(
+        canPop: false, // Intercepts back navigation
+        onPopInvokedWithResult: (bool didPop, Object? result) {
+      if (!didPop) {
+        // Only manually go back if system didn't handle pop
+        context.goNamed(AppRoutesName.myCloset);
+      }
+    },
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(S.of(context).tutorialHubTitle),
+              leading: BackButton(
+                onPressed: () {
+                  context.goNamed(AppRoutesName.myCloset);
+                },
+              ),
+            ),
+            body: const SingleChildScrollView(
+              padding: EdgeInsets.symmetric(vertical: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TutorialFeatureNavigation(),
+                ],
+              ),
+            ),
           ),
         ),
-      ),
     );
   }
 }

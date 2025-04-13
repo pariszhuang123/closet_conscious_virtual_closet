@@ -64,7 +64,7 @@
   "workplace": "工作场所",
   "social": "社交",
   "event": "活动",
-  "upload_upload": "上传",
+  "cameraUpload": "相机拍照",
   "editItem": "修改衣物",
   "filter_filter": "筛选",
   "swap_item": "交换二维码",
@@ -546,5 +546,8 @@
   "tutorialPaidMultiClosetTitle": "切换多个衣橱",
   "tutorialPaidCalendarTitle": "使用日历规划穿搭",
   "tutorialPaidUsageAnalyticsTitle": "追踪使用情况和进度",
-  "tutorialHubTitle": "探索功能"
+  "tutorialHubTitle": "教程",
+  "alwaysAvailableFeatures": "始终可用的功能教程",
+  "premiumFeatureTutorials": "高级功能教程",
+  "scenarioTutorials": "场景教程"
 }

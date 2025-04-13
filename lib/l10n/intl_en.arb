@@ -64,7 +64,7 @@
   "workplace": "Workplace",
   "social": "Social",
   "event": "Event",
-  "upload_upload": "Upload",
+  "cameraUpload": "Camera",
   "editItem": "Edit Item",
   "filter_filter": "Filter",
   "swap_item": "Swap QR",
@@ -546,5 +546,8 @@
   "tutorialPaidMultiClosetTitle": "Switch Between Multiple Closets",
   "tutorialPaidCalendarTitle": "Plan Your Outfits with a Calendar",
   "tutorialPaidUsageAnalyticsTitle": "Track Your Usage and Progress",
-  "tutorialHubTitle": "Explore Features"
+  "tutorialHubTitle": "Tutorials",
+  "alwaysAvailableFeatures": "Always Available Feature Tutorials",
+  "premiumFeatureTutorials": "Premium Feature Tutorials",
+  "scenarioTutorials": "Scenario Tutorials"
 }

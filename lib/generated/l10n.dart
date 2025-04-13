@@ -690,11 +690,11 @@ class S {
     );
   }
 
-  /// `Upload`
-  String get upload_upload {
+  /// `Camera`
+  String get cameraUpload {
     return Intl.message(
-      'Upload',
-      name: 'upload_upload',
+      'Camera',
+      name: 'cameraUpload',
       desc: '',
       args: [],
     );
@@ -5511,11 +5511,41 @@ class S {
     );
   }
 
-  /// `Explore Features`
+  /// `Tutorials`
   String get tutorialHubTitle {
     return Intl.message(
-      'Explore Features',
+      'Tutorials',
       name: 'tutorialHubTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Always Available Feature Tutorials`
+  String get alwaysAvailableFeatures {
+    return Intl.message(
+      'Always Available Feature Tutorials',
+      name: 'alwaysAvailableFeatures',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Premium Feature Tutorials`
+  String get premiumFeatureTutorials {
+    return Intl.message(
+      'Premium Feature Tutorials',
+      name: 'premiumFeatureTutorials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scenario Tutorials`
+  String get scenarioTutorials {
+    return Intl.message(
+      'Scenario Tutorials',
+      name: 'scenarioTutorials',
       desc: '',
       args: [],
     );

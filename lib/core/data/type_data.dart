@@ -138,8 +138,8 @@ class TypeDataList {
     ];
   }
 
-  static TypeData upload(BuildContext context) {
-    return TypeData('upload_upload', (context) => S.of(context).upload_upload, 'assets/icons/my_closet/upload/upload_item.svg', false);
+  static TypeData cameraUpload(BuildContext context) {
+    return TypeData('cameraUpload', (context) => S.of(context).cameraUpload, 'assets/icons/my_closet/upload/upload_item.svg', false);
   }
 
   static TypeData bulkUpload(BuildContext context) {

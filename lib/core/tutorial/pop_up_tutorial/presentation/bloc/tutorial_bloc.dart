@@ -87,7 +87,7 @@ class TutorialBloc extends Bloc<TutorialEvent, TutorialState> {
         emit(TutorialSaveSuccess(event.dismissType));
       } else {
         logger.w('⚠️ Tutorial progress save failed — Supabase returned false');
-        emit(TutorialSaveFailure());
+        emit(TutorialSaveSuccess(event.dismissType));
       }
     } catch (e) {
       logger.e('❌ Exception while saving tutorial progress');

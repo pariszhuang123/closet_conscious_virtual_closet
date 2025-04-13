@@ -302,7 +302,7 @@ final GoRouter appRouter = GoRouter(
           child: CustomizeProvider(
             isFromMyCloset: args['isFromMyCloset'] ?? true,
             selectedItemIds: args['selectedItemIds'] ?? [],
-            returnRoute: args['returnRoute'] ?? '/my_closet',
+            returnRoute: args['returnRoute'] ?? AppRoutesName.myCloset,
           ),
           transitionType: TransitionType.slideFadeFromTop,
         );
@@ -321,7 +321,7 @@ final GoRouter appRouter = GoRouter(
             isFromMyCloset: args['isFromMyCloset'] ?? true,
             selectedItemIds: args['selectedItemIds'] ?? [],
             selectedOutfitIds: args['selectedOutfitIds'] ?? [],
-            returnRoute: args['returnRoute'] ?? '/my_closet',
+            returnRoute: args['returnRoute'] ?? AppRoutesName.myCloset,
             showOnlyClosetFilter: args['showOnlyClosetFilter'] ?? false,
           ),
         );

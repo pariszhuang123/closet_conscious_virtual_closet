@@ -90,6 +90,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "alright": MessageLookupByLibrary.simpleMessage("不确定\n🤷‍♀️"),
         "alright_feedback_sentence":
             MessageLookupByLibrary.simpleMessage("点击你不确定的物品。"),
+        "alwaysAvailableFeatures":
+            MessageLookupByLibrary.simpleMessage("始终可用的功能教程"),
         "amountSpent": MessageLookupByLibrary.simpleMessage("花费金额"),
         "amountSpentFieldNotFilled":
             MessageLookupByLibrary.simpleMessage("花费金额未填写。"),
@@ -140,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "calendarNotSelectable": MessageLookupByLibrary.simpleMessage("穿搭详情"),
         "calendarPremiumFeature": MessageLookupByLibrary.simpleMessage("日历视图？"),
         "calendarSelectable": MessageLookupByLibrary.simpleMessage("创建衣橱"),
+        "cameraUpload": MessageLookupByLibrary.simpleMessage("相机拍照"),
         "camera_edit_item_permission_explanation":
             MessageLookupByLibrary.simpleMessage("允许我们使用您的相机来更新物品照片。"),
         "camera_permission_explanation":
@@ -554,6 +557,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("请输入有效金额（0 或更高）。"),
         "please_select_the_category_above":
             MessageLookupByLibrary.simpleMessage("请先选择上方的类别"),
+        "premiumFeatureTutorials":
+            MessageLookupByLibrary.simpleMessage("高级功能教程"),
         "previous": MessageLookupByLibrary.simpleMessage("上一步"),
         "pricePerWear": MessageLookupByLibrary.simpleMessage("每次穿着价格"),
         "privacyTerms": MessageLookupByLibrary.simpleMessage("隐私条款"),
@@ -588,6 +593,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "saveCustomization": MessageLookupByLibrary.simpleMessage("保存自定义设置"),
         "saveFilter": MessageLookupByLibrary.simpleMessage("保存筛选"),
         "scarf": MessageLookupByLibrary.simpleMessage("围巾"),
+        "scenarioTutorials": MessageLookupByLibrary.simpleMessage("场景教程"),
         "seasonFieldNotFilled": MessageLookupByLibrary.simpleMessage("季节未选择。"),
         "selectAccessoryType": MessageLookupByLibrary.simpleMessage("选择配饰类型"),
         "selectAll": MessageLookupByLibrary.simpleMessage("全选"),
@@ -711,7 +717,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("使用相机上传衣物"),
         "tutorialFreeUploadCameraUploadClothing":
             MessageLookupByLibrary.simpleMessage("将你的衣物上传至衣柜"),
-        "tutorialHubTitle": MessageLookupByLibrary.simpleMessage("探索功能"),
+        "tutorialHubTitle": MessageLookupByLibrary.simpleMessage("教程"),
         "tutorialPaidCalendarPlanTrips":
             MessageLookupByLibrary.simpleMessage("为旅行计划穿搭"),
         "tutorialPaidCalendarTitle":
@@ -808,7 +814,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("哎呀！看起来出了点问题。再试一次？🚂"),
         "upload_successful":
             MessageLookupByLibrary.simpleMessage("成功！您的衣橱又增添了一些时尚！🎉"),
-        "upload_upload": MessageLookupByLibrary.simpleMessage("上传"),
         "usageAnalyticsFeatureTitle":
             MessageLookupByLibrary.simpleMessage("你的衣橱洞察"),
         "usageAnalyticsTitle": MessageLookupByLibrary.simpleMessage("使用分析"),
