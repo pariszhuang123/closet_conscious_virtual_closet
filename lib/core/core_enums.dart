@@ -135,3 +135,8 @@ enum FeatureKey {
   calendar,
   usageAnalytics
 }
+
+enum TutorialDismissType {
+  confirmed,    // from "I am ready"
+  dismissed,    // from close icon
+}

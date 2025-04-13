@@ -14,6 +14,11 @@ class FirstTimeCheckSuccess extends FirstTimeScenarioState {
 
 class FirstTimeCheckFailure extends FirstTimeScenarioState {}
 
+class FlowTypeSelected extends FirstTimeScenarioState {
+  final TutorialType selectedGoal;
+  FlowTypeSelected(this.selectedGoal);
+}
+
 class SaveFlowInProgress extends FirstTimeScenarioState {}
 
 class SaveFlowSuccess extends FirstTimeScenarioState {

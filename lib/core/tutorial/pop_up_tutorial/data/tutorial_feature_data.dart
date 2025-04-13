@@ -28,7 +28,7 @@ class TutorialFeatureData {
 }
 
 class TutorialFeatureList {
-  static List<TutorialFeatureData> getTutorials(BuildContext context) {
+  static List<TutorialFeatureData> getTutorials() {
     return [
       TutorialFeatureData(
         getTitle: (context) => S.of(context).tutorialFreeUploadCameraTitle,
@@ -110,6 +110,17 @@ class TutorialFeatureList {
       TutorialFeatureData(
         getTitle: (context) => S.of(context).tutorialPaidUsageAnalyticsTitle,
         tutorialType: TutorialType.paidUsageAnalytics,
+        videos: [
+          TutorialVideoPart(
+            journeyType: OnboardingJourneyType.memoryFlow,
+            youtubeId: 'nd8x5qH4AYI',
+            getDescription: (context) => S.of(context).tutorialPaidUsageAnalyticsCostPerWear,
+          ),
+        ],
+      ),
+      TutorialFeatureData(
+        getTitle: (context) => S.of(context).tutorialPaidUsageAnalyticsTitle,
+        tutorialType: TutorialType.flowIntroMemory,
         videos: [
           TutorialVideoPart(
             journeyType: OnboardingJourneyType.memoryFlow,

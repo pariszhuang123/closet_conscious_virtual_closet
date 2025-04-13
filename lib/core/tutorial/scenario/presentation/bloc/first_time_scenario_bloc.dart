@@ -42,18 +42,25 @@ class FirstTimeScenarioBloc extends Bloc<FirstTimeScenarioEvent, FirstTimeScenar
       SavePersonalizationFlowTypeEvent event,
       Emitter<FirstTimeScenarioState> emit,
       ) async {
-    _logger.i('Saving personalization flow type: ${event.flowType}');
-    emit(SaveFlowInProgress());
+    final flowType = event.flowType;
+    final selectedGoal = flowType.toTutorialType();
 
+    _logger.i('📝 User selected flow type: $flowType → TutorialType: $selectedGoal');
+    emit(FlowTypeSelected(selectedGoal));
+
+    _logger.i('💾 Attempting to save flow type to Supabase...');
     try {
-      final success = await coreSaveService.savePersonalizationFlowType(event.flowType);
+      final success = await coreSaveService.savePersonalizationFlowType(flowType);
+
       if (success) {
-        emit(SaveFlowSuccess(event.flowType.toTutorialType()));
+        _logger.i('✅ Flow type "$flowType" successfully saved.');
+        emit(SaveFlowSuccess(selectedGoal));
       } else {
+        _logger.w('⚠️ Flow type "$flowType" failed to save (no error thrown).');
         emit(SaveFlowFailure());
       }
-    } catch (e) {
-      _logger.e('Error saving personalization flow type: $e');
+    } catch (error) {
+      _logger.e('❌ Exception while saving flow type "$flowType".');
       emit(SaveFlowFailure());
     }
   }

@@ -10,14 +10,16 @@ import '../../../../data/type_data.dart';
 import '../../../../utilities/app_router.dart';
 import '../../../../utilities/helper_functions/tutorial_helper.dart';
 import '../bloc/first_time_scenario_bloc.dart';
+import '../../../../utilities/logger.dart';
 
 class GoalSelectionScreen extends StatelessWidget {
   const GoalSelectionScreen({super.key});
 
+  static final CustomLogger _logger = CustomLogger('GoalSelectionScreen');
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    TutorialType? selectedGoal; // local variable
 
     final goals = [
       (
@@ -37,6 +39,7 @@ class GoalSelectionScreen extends StatelessWidget {
     return BlocListener<FirstTimeScenarioBloc, FirstTimeScenarioState>(
       listener: (context, state) {
         if (state is SaveFlowSuccess) {
+          _logger.i('Navigation to tutorialVideoPopUp with: ${state.selectedGoal}');
           context.goNamed(
             AppRoutesName.tutorialVideoPopUp,
             extra: {
@@ -45,8 +48,8 @@ class GoalSelectionScreen extends StatelessWidget {
               'isFromMyCloset': true,
             },
           );
-        }
-        else if (state is SaveFlowFailure) {
+        } else if (state is SaveFlowFailure) {
+          _logger.e('Failed to save personalization flow type.');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(S.of(context).upload_failed)),
           );
@@ -77,8 +80,7 @@ class GoalSelectionScreen extends StatelessWidget {
                         label: goal.data.getName(context),
                         selectedLabel: goal.data.getName(context),
                         onPressed: () {
-                          selectedGoal = goal.type;
-
+                          _logger.i('Goal selected: ${goal.type}');
                           final onboardingType = switch (goal.type) {
                             TutorialType.flowIntroPersonalStyle =>
                             OnboardingJourneyType.personalStyleFlow,
@@ -97,7 +99,7 @@ class GoalSelectionScreen extends StatelessWidget {
                         isFromMyCloset: true,
                         buttonType: ButtonType.primary,
                         usePredefinedColor: false,
-                        isSelected: selectedGoal == goal.type,
+                        isSelected: false,
                         isHorizontal: false,
                       ),
                     );

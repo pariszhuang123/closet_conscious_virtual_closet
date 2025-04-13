@@ -9,16 +9,30 @@ abstract class TutorialState extends Equatable {
 
 class TutorialInitial extends TutorialState {}
 
+class TutorialFeatureLoading extends TutorialState {}
+
+class TutorialFeatureLoaded extends TutorialState {
+  final TutorialFeatureData featureData;
+
+  const TutorialFeatureLoaded(this.featureData);
+
+  @override
+  List<Object?> get props => [featureData];
+}
+
+class TutorialFeatureLoadFailure extends TutorialState {}
+
 class ShowTutorial extends TutorialState {}
 
 class SkipTutorial extends TutorialState {}
 
 class TutorialSaveSuccess extends TutorialState {
-  final bool dismissedByButton;
-  const TutorialSaveSuccess(this.dismissedByButton);
+  final TutorialDismissType dismissType;
+
+  const TutorialSaveSuccess(this.dismissType);
 
   @override
-  List<Object?> get props => [dismissedByButton];
+  List<Object?> get props => [dismissType];
 }
 
 class TutorialSaveFailure extends TutorialState {}
