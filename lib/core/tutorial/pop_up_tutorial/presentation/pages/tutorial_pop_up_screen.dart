@@ -27,7 +27,8 @@ class TutorialPopUpScreen extends StatelessWidget {
     required this.isFromMyCloset,
   });
 
-  void _onDismiss(BuildContext context, CustomLogger logger, TutorialDismissType type) {
+  void _onDismiss(BuildContext context, CustomLogger logger,
+      TutorialDismissType type) {
     logger.i('Tutorial dismissed with type: ${type.name}');
     context.read<TutorialBloc>().add(
       SaveTutorialProgress(
@@ -44,99 +45,117 @@ class TutorialPopUpScreen extends StatelessWidget {
 
     logger.d('🧱 build: Using theme = ${isFromMyCloset ? "Closet" : "Outfit"}');
 
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<TutorialBloc, TutorialState>(
-          listener: (context, state) {
-            if (state is TutorialSaveSuccess) {
-              logger.i('✅ Tutorial saved. Dismiss type: ${state.dismissType}');
-              switch (state.dismissType) {
-                case TutorialDismissType.confirmed:
-                  context.goNamed(nextRoute);
-                  break;
-                case TutorialDismissType.dismissed:
-                  context.goNamed(AppRoutesName.tutorialHub);
-                  break;
+    return PopScope(
+      canPop: false, // 🚫 Block back swipe or back button
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<TutorialBloc, TutorialState>(
+            listener: (context, state) {
+              if (state is TutorialSaveSuccess) {
+                logger.i(
+                    '✅ Tutorial saved. Dismiss type: ${state.dismissType}');
+                switch (state.dismissType) {
+                  case TutorialDismissType.confirmed:
+                    context.goNamed(nextRoute);
+                    break;
+                  case TutorialDismissType.dismissed:
+                    context.goNamed(AppRoutesName.tutorialHub);
+                    break;
+                }
+              } else if (state is TutorialSaveFailure) {
+                logger.e('❌ Failed to save tutorial progress.');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(S
+                      .of(context)
+                      .errorSavingTutorialProgress)),
+                );
               }
-            } else if (state is TutorialSaveFailure) {
-              logger.e('❌ Failed to save tutorial progress.');
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(S.of(context).errorSavingTutorialProgress)),
+            },
+          ),
+          BlocListener<PersonalizationFlowCubit, String>(
+            listener: (context, state) {
+              final tutorialType = tutorialInputKey.toTutorialType();
+              final journeyType = state.toOnboardingJourneyType();
+              logger.d(
+                  '📦 Dispatching LoadTutorialFeatureData: $tutorialType, $journeyType');
+              context.read<TutorialBloc>().add(
+                LoadTutorialFeatureData(
+                  tutorialType: tutorialType,
+                  journeyType: journeyType,
+                ),
               );
-            }
-          },
-        ),
-        BlocListener<PersonalizationFlowCubit, String>(
-          listener: (context, state) {
-            final tutorialType = tutorialInputKey.toTutorialType();
-            final journeyType = state.toOnboardingJourneyType();
-            logger.d('📦 Dispatching LoadTutorialFeatureData: $tutorialType, $journeyType');
-            context.read<TutorialBloc>().add(
-              LoadTutorialFeatureData(
-                tutorialType: tutorialType,
-                journeyType: journeyType,
-              ),
-            );
-          },
-        ),
-      ],
-      child: Scaffold(
-        backgroundColor: appliedTheme.colorScheme.surface,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: BlocBuilder<TutorialBloc, TutorialState>(
-              builder: (context, state) {
-                if (state is TutorialFeatureLoading) {
-                  logger.d('⏳ TutorialFeatureLoading: Showing loading spinner.');
-                  return const Center(child: ClosetProgressIndicator());
-                }
+            },
+          ),
+        ],
+        child: Scaffold(
+          backgroundColor: appliedTheme.colorScheme.surface,
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: BlocBuilder<TutorialBloc, TutorialState>(
+                builder: (context, state) {
+                  if (state is TutorialFeatureLoading) {
+                    logger.d(
+                        '⏳ TutorialFeatureLoading: Showing loading spinner.');
+                    return const Center(child: ClosetProgressIndicator());
+                  }
 
-                if (state is TutorialFeatureLoaded) {
-                  logger.i('📽️ TutorialFeatureLoaded: Showing tutorial content.');
-                  final featureData = state.featureData;
+                  if (state is TutorialFeatureLoaded) {
+                    logger.i(
+                        '📽️ TutorialFeatureLoaded: Showing tutorial content.');
+                    final featureData = state.featureData;
 
-                  return Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              featureData.getTitle(context),
-                              style: appliedTheme.textTheme.displayLarge,
+                    return Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                featureData.getTitle(context),
+                                style: appliedTheme.textTheme.displayLarge,
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.close),
-                            onPressed: () => _onDismiss(context, logger, TutorialDismissType.dismissed),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      Expanded(
-                        child: TutorialShortsCarousel(
-                          youtubeIds: featureData.videos.map((v) => v.youtubeId).toList(),
-                          descriptions: featureData.videos.map((v) => v.getDescription(context)).toList(),
-                          theme: appliedTheme,
+                            IconButton(
+                              icon: const Icon(Icons.close),
+                              onPressed: () =>
+                                  _onDismiss(context, logger,
+                                      TutorialDismissType.dismissed),
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(height: 24),
-                      ThemedElevatedButton(
-                        text: S.of(context).iAmReady,
-                        onPressed: () => _onDismiss(context, logger, TutorialDismissType.confirmed),
-                      ),
-                    ],
-                  );
-                }
+                        const SizedBox(height: 16),
+                        Expanded(
+                          child: TutorialShortsCarousel(
+                            youtubeIds: featureData.videos.map((v) =>
+                            v.youtubeId).toList(),
+                            descriptions: featureData.videos.map((v) =>
+                                v.getDescription(context)).toList(),
+                            theme: appliedTheme,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        ThemedElevatedButton(
+                          text: S
+                              .of(context)
+                              .iAmReady,
+                          onPressed: () =>
+                              _onDismiss(context, logger,
+                                  TutorialDismissType.confirmed),
+                        ),
+                      ],
+                    );
+                  }
 
-                if (state is TutorialFeatureLoadFailure) {
-                  logger.e('⚠️ TutorialFeatureLoadFailure: Could not load tutorial.');
-                  return const Center(child: ClosetProgressIndicator());
-                }
+                  if (state is TutorialFeatureLoadFailure) {
+                    logger.e(
+                        '⚠️ TutorialFeatureLoadFailure: Could not load tutorial.');
+                    return const Center(child: ClosetProgressIndicator());
+                  }
 
-                logger.d('🔄 Waiting for initial state...');
-                return const SizedBox();
-              },
+                  logger.d('🔄 Waiting for initial state...');
+                  return const SizedBox();
+                },
+              ),
             ),
           ),
         ),

@@ -36,78 +36,89 @@ class GoalSelectionScreen extends StatelessWidget {
       ),
     ];
 
-    return BlocListener<FirstTimeScenarioBloc, FirstTimeScenarioState>(
-      listener: (context, state) {
-        if (state is SaveFlowSuccess) {
-          _logger.i('Navigation to tutorialVideoPopUp with: ${state.selectedGoal}');
-          context.goNamed(
-            AppRoutesName.tutorialVideoPopUp,
-            extra: {
-              'tutorialInputKey': state.selectedGoal.value,
-              'nextRoute': AppRoutesName.myCloset,
-              'isFromMyCloset': true,
-            },
-          );
-        } else if (state is SaveFlowFailure) {
-          _logger.e('Failed to save personalization flow type.');
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(S.of(context).upload_failed)),
-          );
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(S.of(context).whyAreYouHereToday),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Text(
-                S.of(context).tailorExperience,
-                style: theme.textTheme.bodyMedium,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
-              Expanded(
-                child: ListView.separated(
-                  itemCount: goals.length,
-                  itemBuilder: (context, index) {
-                    final goal = goals[index];
-                    return BaseContainer(
-                      theme: theme,
-                      child: NavigationTypeButton(
-                        label: goal.data.getName(context),
-                        selectedLabel: goal.data.getName(context),
-                        onPressed: () {
-                          _logger.i('Goal selected: ${goal.type}');
-                          final onboardingType = switch (goal.type) {
-                            TutorialType.flowIntroPersonalStyle =>
-                            OnboardingJourneyType.personalStyleFlow,
-                            TutorialType.flowIntroLifeChange =>
-                            OnboardingJourneyType.lifeChangeFlow,
-                            TutorialType.flowIntroMemory =>
-                            OnboardingJourneyType.memoryFlow,
-                            _ => OnboardingJourneyType.defaultFlow,
-                          };
-
-                          context.read<FirstTimeScenarioBloc>().add(
-                            SavePersonalizationFlowTypeEvent(onboardingType),
-                          );
-                        },
-                        assetPath: goal.data.assetPath,
-                        isFromMyCloset: true,
-                        buttonType: ButtonType.primary,
-                        usePredefinedColor: false,
-                        isSelected: false,
-                        isHorizontal: false,
-                      ),
-                    );
-                  },
-                  separatorBuilder: (_, __) => const SizedBox(height: 16),
+    return PopScope(
+      canPop: false, // 🚫 Block back navigation
+      child: BlocListener<FirstTimeScenarioBloc, FirstTimeScenarioState>(
+        listener: (context, state) {
+          if (state is SaveFlowSuccess) {
+            _logger.i(
+                'Navigation to tutorialVideoPopUp with: ${state.selectedGoal}');
+            context.goNamed(
+              AppRoutesName.tutorialVideoPopUp,
+              extra: {
+                'tutorialInputKey': state.selectedGoal.value,
+                'nextRoute': AppRoutesName.myCloset,
+                'isFromMyCloset': true,
+              },
+            );
+          } else if (state is SaveFlowFailure) {
+            _logger.e('Failed to save personalization flow type.');
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(S
+                  .of(context)
+                  .upload_failed)),
+            );
+          }
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false, // 🚫 Hides back button in AppBar
+            title: Text(S
+                .of(context)
+                .whyAreYouHereToday),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Text(
+                  S
+                      .of(context)
+                      .tailorExperience,
+                  style: theme.textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
                 ),
-              ),
-            ],
+                const SizedBox(height: 24),
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: goals.length,
+                    itemBuilder: (context, index) {
+                      final goal = goals[index];
+                      return BaseContainer(
+                        theme: theme,
+                        child: NavigationTypeButton(
+                          label: goal.data.getName(context),
+                          selectedLabel: goal.data.getName(context),
+                          onPressed: () {
+                            _logger.i('Goal selected: ${goal.type}');
+                            final onboardingType = switch (goal.type) {
+                              TutorialType.flowIntroPersonalStyle =>
+                              OnboardingJourneyType.personalStyleFlow,
+                              TutorialType.flowIntroLifeChange =>
+                              OnboardingJourneyType.lifeChangeFlow,
+                              TutorialType.flowIntroMemory =>
+                              OnboardingJourneyType.memoryFlow,
+                              _ => OnboardingJourneyType.defaultFlow,
+                            };
+
+                            context.read<FirstTimeScenarioBloc>().add(
+                              SavePersonalizationFlowTypeEvent(onboardingType),
+                            );
+                          },
+                          assetPath: goal.data.assetPath,
+                          isFromMyCloset: true,
+                          buttonType: ButtonType.primary,
+                          usePredefinedColor: false,
+                          isSelected: false,
+                          isHorizontal: false,
+                        ),
+                      );
+                    },
+                    separatorBuilder: (_, __) => const SizedBox(height: 16),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
