@@ -114,7 +114,9 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   }
 
   void _onPhotoButtonPressed() {
-    context.goNamed(AppRoutesName.uploadItemPhoto);
+    context.read<TutorialBloc>().add(
+      const CheckTutorialStatus(TutorialType.freeUploadCamera),
+    );
   }
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
@@ -311,7 +313,23 @@ class MyClosetScreenState extends State<MyClosetScreen> {
               }
             },
           ),
-        ],
+          BlocListener<TutorialBloc, TutorialState>(
+            listener: (context, tutorialState) {
+              if (tutorialState is ShowTutorial) {
+                context.goNamed(
+                  AppRoutesName.tutorialVideoPopUp,
+                  extra: {
+                    'nextRoute': AppRoutesName.uploadItemPhoto,
+                    'tutorialInputKey': TutorialType.freeUploadCamera.value,
+                    'isFromMyCloset': true,
+                  },
+                );
+              } else if (tutorialState is SkipTutorial) {
+                context.goNamed(AppRoutesName.uploadItemPhoto);
+              }
+            },
+          ),
+          ],
         child: Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(appBarHeight),

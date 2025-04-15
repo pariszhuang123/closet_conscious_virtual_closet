@@ -13,7 +13,6 @@ import '../../../data/services/core_save_services.dart';
 import '../../../data/services/core_fetch_services.dart';
 import '../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
 import '../../../utilities/logger.dart';
-import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 
 final GetIt coreLocator = GetIt.instance;
 
@@ -47,15 +46,6 @@ class PhotoProvider extends StatelessWidget {
             coreFetchService: coreLocator<CoreFetchService>(),  // Access CoreFetchService via GetIt
             coreSaveService: coreLocator<CoreSaveService>(),    // Access CoreSaveService via GetIt
           ),
-        ),
-        BlocProvider<TutorialBloc>(
-          create: (context) {
-            logger.d('Creating TutorialBloc with core services');
-            return TutorialBloc(
-              coreFetchService: coreLocator<CoreFetchService>(),
-              coreSaveService: coreLocator<CoreSaveService>(),
-            );
-          },
         ),
       ],
       child: Builder(
