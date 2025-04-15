@@ -4,7 +4,7 @@ import '../../../../data/services/core_fetch_services.dart';
 import '../../../../data/services/core_save_services.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../core_enums.dart';
-import '../../../../utilities/helper_functions/tutorial_helper.dart';
+import '../../../../utilities/helper_functions/core/onboarding_journey_type_helper.dart';
 
 part 'first_time_scenario_event.dart';
 part 'first_time_scenario_state.dart';

@@ -401,6 +401,18 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("您上传到环保衣橱的物品数量"),
         "jewellery": MessageLookupByLibrary.simpleMessage("珠宝"),
         "lifeChange": MessageLookupByLibrary.simpleMessage("开启新篇章"),
+        "lifeChangeTrialCalendar":
+            MessageLookupByLibrary.simpleMessage("记录变化中的穿搭，了解何时穿了什么、为何如此选择。"),
+        "lifeChangeTrialClosets":
+            MessageLookupByLibrary.simpleMessage("为人生过渡期设立专属衣橱——如旅行、工作、育儿或休整。"),
+        "lifeChangeTrialCustomize":
+            MessageLookupByLibrary.simpleMessage("调整衣橱布局，让你专注当下所需。"),
+        "lifeChangeTrialFilter":
+            MessageLookupByLibrary.simpleMessage("快速找到适合你新生活节奏的穿搭选择。"),
+        "lifeChangeTrialInsights": MessageLookupByLibrary.simpleMessage(
+            "深入了解哪些单品真正陪你度过转变期——从使用频率到使用时机。"),
+        "lifeChangeTrialOutfits":
+            MessageLookupByLibrary.simpleMessage("打造贴合每日变化的实用穿搭组合。"),
         "light": MessageLookupByLibrary.simpleMessage("浅色"),
         "like": MessageLookupByLibrary.simpleMessage("爱它！😍"),
         "likeNew": MessageLookupByLibrary.simpleMessage("几乎\n全新"),
@@ -412,6 +424,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "medium": MessageLookupByLibrary.simpleMessage("中色"),
         "memoryScenarioTutorial": MessageLookupByLibrary.simpleMessage(
             "你以为自己会记得所有细节，\n现在真的可以了。\n\n他们的故事会延续——一套穿搭一个回忆。"),
+        "memoryTrialCalendar":
+            MessageLookupByLibrary.simpleMessage("按日期回顾那些塑造你季节的穿搭回忆。"),
+        "memoryTrialClosets":
+            MessageLookupByLibrary.simpleMessage("把人生章节分组成衣橱——每一个都有属于它的故事。"),
+        "memoryTrialCustomize":
+            MessageLookupByLibrary.simpleMessage("像摆放记忆一样排列衣物，重要的永远在眼前。"),
+        "memoryTrialFilter":
+            MessageLookupByLibrary.simpleMessage("按名称、类型筛选衣物，快速记录你的穿搭记忆。"),
+        "memoryTrialInsights": MessageLookupByLibrary.simpleMessage(
+            "了解在你人生故事中出现最多的单品——使用频率、情感、时间。"),
+        "memoryTrialOutfits":
+            MessageLookupByLibrary.simpleMessage("用充满回忆的单品搭配出意义非凡的穿搭。"),
         "memoryTutorialClosetUploaded": MessageLookupByLibrary.simpleMessage(
             "用他们已有的，\n建立记录连续天数，\n少选一点，就能解锁更多。"),
         "memoryTutorialFreeCreateOutfitCreateOutfitProcess":
@@ -561,12 +585,24 @@ class MessageLookup extends MessageLookupByLibrary {
         "outfitStatus": MessageLookupByLibrary.simpleMessage("穿搭状态"),
         "outfitsAll": MessageLookupByLibrary.simpleMessage("所有穿搭"),
         "outfits_upload": MessageLookupByLibrary.simpleMessage("上传的造型数量"),
-        "parentMemories": MessageLookupByLibrary.simpleMessage("为我的宝贝建立衣橱"),
+        "parentMemories": MessageLookupByLibrary.simpleMessage("建立童年记忆衣橱"),
         "perfume": MessageLookupByLibrary.simpleMessage("化妆品"),
         "permanentCloset": MessageLookupByLibrary.simpleMessage("永久衣橱"),
         "permission_needed":
             MessageLookupByLibrary.simpleMessage("此权限是应用正常运行所必需的。"),
         "personalStyle": MessageLookupByLibrary.simpleMessage("找回我的风格"),
+        "personalStyleTrialCalendar":
+            MessageLookupByLibrary.simpleMessage("每天记录，见证你风格的成长。"),
+        "personalStyleTrialClosets":
+            MessageLookupByLibrary.simpleMessage("建立与你风格相符的主题衣橱。"),
+        "personalStyleTrialCustomize":
+            MessageLookupByLibrary.simpleMessage("重新布局，让衣橱更符合当下的你。"),
+        "personalStyleTrialFilter":
+            MessageLookupByLibrary.simpleMessage("按名称、类型筛选衣物，定义你的独特风格。"),
+        "personalStyleTrialInsights":
+            MessageLookupByLibrary.simpleMessage("揭示最常穿的单品、最爱的搭配与风格轨迹。"),
+        "personalStyleTrialOutfits":
+            MessageLookupByLibrary.simpleMessage("跨天搭配，发现你风格的演变。"),
         "photoAccessDialogContent": MessageLookupByLibrary.simpleMessage(
             "如需查看整个相册并避免再次提示，请在设置中启用完整访问。"),
         "photoAccessDialogTitle":
@@ -668,6 +704,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "spendingTooltip": MessageLookupByLibrary.simpleMessage("您购买新物品的花费金额"),
         "spring": MessageLookupByLibrary.simpleMessage("春季"),
         "startFreeTrial": MessageLookupByLibrary.simpleMessage("开始免费试用"),
+        "streakBenefitsTitle":
+            MessageLookupByLibrary.simpleMessage("你的坚持，你的奖励"),
+        "streakBenefitsUrl": MessageLookupByLibrary.simpleMessage(
+            "https://www.notion.so/6907d8903bc0406abcc910c4d99b249c?pvs=4#106b40335c2d80f99440f588d07aa654"),
         "styleOn": MessageLookupByLibrary.simpleMessage("评论造型"),
         "success": MessageLookupByLibrary.simpleMessage("成功"),
         "summaryItemAnalytics": MessageLookupByLibrary.simpleMessage("物品洞察"),

@@ -11,8 +11,10 @@ import '../../presentation/widgets/tutorial_shorts_carousel.dart';
 import '../../../../widgets/button/themed_elevated_button.dart';
 import '../../../../utilities/app_router.dart';
 import '../../../../utilities/helper_functions/tutorial_helper.dart';
-import '../../../../presentation/bloc/personalization_flow_cubit/personalization_flow_cubit.dart';
+import '../../../../utilities/helper_functions/core/onboarding_journey_type_helper.dart';
 import '../../../../utilities/logger.dart';
+import '../../../../utilities/helper_functions/argument_helper.dart';
+import '../../../../presentation/bloc/personalization_flow_cubit/personalization_flow_cubit.dart';
 import '../../../../core_enums.dart';
 
 class TutorialPopUpScreen extends StatelessWidget {
@@ -20,13 +22,15 @@ class TutorialPopUpScreen extends StatelessWidget {
   final String nextRoute;
   final bool isFromMyCloset;
   final String? itemId;
+  final String? optionalUrl;
 
   const TutorialPopUpScreen({
     super.key,
     required this.tutorialInputKey,
     required this.nextRoute,
     required this.isFromMyCloset,
-    this.itemId, // ✅ optional param
+    this.itemId,
+    this.optionalUrl,
   });
 
   void _onDismiss(BuildContext context, CustomLogger logger,
@@ -58,14 +62,27 @@ class TutorialPopUpScreen extends StatelessWidget {
                     '✅ Tutorial saved. Dismiss type: ${state.dismissType}');
                 switch (state.dismissType) {
                   case TutorialDismissType.confirmed:
-                    if (itemId != null) {
+                    if (optionalUrl != null && optionalUrl!.isNotEmpty) {
+                      // Redirect to WebView if URL is provided
+                      context.pushNamed(
+                        AppRoutesName.webView,
+                        extra: WebViewArguments(
+                          url: optionalUrl!,
+                          title: S.of(context).streakBenefitsTitle,
+                          isFromMyCloset: isFromMyCloset,
+                        ),
+                      );
+                    } else if (itemId != null) {
+                      // Normal flow if itemId is passed
                       context.goNamed(
                         nextRoute,
-                        extra: itemId, // pass it along
+                        extra: itemId,
                       );
                     } else {
+                      // Fallback if no itemId or url
                       context.goNamed(nextRoute);
                     }
+                    break;
                   case TutorialDismissType.dismissed:
                     context.goNamed(AppRoutesName.tutorialHub);
                     break;

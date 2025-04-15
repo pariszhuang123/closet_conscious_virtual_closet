@@ -465,6 +465,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "jewellery": MessageLookupByLibrary.simpleMessage("Jewellery"),
         "lifeChange":
             MessageLookupByLibrary.simpleMessage("Start a New Chapter"),
+        "lifeChangeTrialCalendar": MessageLookupByLibrary.simpleMessage(
+            "Track your outfits during life shifts. See what worked and when."),
+        "lifeChangeTrialClosets": MessageLookupByLibrary.simpleMessage(
+            "Create closets for transitions—travel, work, motherhood, or pause."),
+        "lifeChangeTrialCustomize": MessageLookupByLibrary.simpleMessage(
+            "Update your closet layout to fit what matters today."),
+        "lifeChangeTrialFilter": MessageLookupByLibrary.simpleMessage(
+            "Quickly find what suits your new routines, roles, and realities."),
+        "lifeChangeTrialInsights": MessageLookupByLibrary.simpleMessage(
+            "Understand what truly served you during change—by use and by season."),
+        "lifeChangeTrialOutfits": MessageLookupByLibrary.simpleMessage(
+            "Build outfits that support your day-to-day changes."),
         "light": MessageLookupByLibrary.simpleMessage("Light"),
         "like": MessageLookupByLibrary.simpleMessage("Love it!\n😍"),
         "likeNew": MessageLookupByLibrary.simpleMessage("Like\nNew"),
@@ -476,6 +488,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "medium": MessageLookupByLibrary.simpleMessage("Medium"),
         "memoryScenarioTutorial": MessageLookupByLibrary.simpleMessage(
             "You thought you’d remember it all.\nNow you can.\n\nTheir story lives on—one outfit at a time."),
+        "memoryTrialCalendar": MessageLookupByLibrary.simpleMessage(
+            "Look back by date—see the outfits that shaped your seasons."),
+        "memoryTrialClosets": MessageLookupByLibrary.simpleMessage(
+            "Group life chapters into closets—each with a story of its own."),
+        "memoryTrialCustomize": MessageLookupByLibrary.simpleMessage(
+            "Arrange your items like memory shelves—what mattered most stays visible."),
+        "memoryTrialFilter": MessageLookupByLibrary.simpleMessage(
+            "Narrow your closet by name, item type to create your memory quickly."),
+        "memoryTrialInsights": MessageLookupByLibrary.simpleMessage(
+            "See which items showed up in your story most—by use, by love, by time."),
+        "memoryTrialOutfits": MessageLookupByLibrary.simpleMessage(
+            "Create outfits from pieces that carry your favorite memories."),
         "memoryTutorialClosetUploaded": MessageLookupByLibrary.simpleMessage(
             "Use what they have.\nBuild the streak.\nUnlock more—just by choosing less."),
         "memoryTutorialFreeCreateOutfitCreateOutfitProcess":
@@ -640,8 +664,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "outfitsAll": MessageLookupByLibrary.simpleMessage("All Outfits"),
         "outfits_upload":
             MessageLookupByLibrary.simpleMessage("Number of outfits uploaded"),
-        "parentMemories": MessageLookupByLibrary.simpleMessage(
-            "Preserve their Little Moments"),
+        "parentMemories":
+            MessageLookupByLibrary.simpleMessage("Create Memory Closet"),
         "perfume": MessageLookupByLibrary.simpleMessage("Cosmetic"),
         "permanentCloset":
             MessageLookupByLibrary.simpleMessage("Permanent Closet"),
@@ -649,6 +673,18 @@ class MessageLookup extends MessageLookupByLibrary {
             "This permission is\nrequired for the app\nto function properly."),
         "personalStyle":
             MessageLookupByLibrary.simpleMessage("Rediscover My Style"),
+        "personalStyleTrialCalendar": MessageLookupByLibrary.simpleMessage(
+            "Watch your style change over time, one day at a time."),
+        "personalStyleTrialClosets": MessageLookupByLibrary.simpleMessage(
+            "Make themed closets that mirror your personal aesthetic."),
+        "personalStyleTrialCustomize": MessageLookupByLibrary.simpleMessage(
+            "Reorganize your layout to reflect what feels like you right now."),
+        "personalStyleTrialFilter": MessageLookupByLibrary.simpleMessage(
+            "Narrow your closet by name, item type to define your unique look."),
+        "personalStyleTrialInsights": MessageLookupByLibrary.simpleMessage(
+            "Reveal your most-used items, favorite outfits, and style patterns."),
+        "personalStyleTrialOutfits": MessageLookupByLibrary.simpleMessage(
+            "Mix and match across days to discover your evolving style."),
         "photoAccessDialogContent": MessageLookupByLibrary.simpleMessage(
             "To see your entire photo library and avoid being asked again, grant full access in Settings."),
         "photoAccessDialogTitle":
@@ -781,6 +817,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "spring": MessageLookupByLibrary.simpleMessage("Spring"),
         "startFreeTrial":
             MessageLookupByLibrary.simpleMessage("Start Free Trial"),
+        "streakBenefitsTitle": MessageLookupByLibrary.simpleMessage(
+            "Your Streak, Your Style, Your Rewards"),
+        "streakBenefitsUrl": MessageLookupByLibrary.simpleMessage(
+            "https://www.notion.so/Pricing-0b17492513594b7b8975ec686eac1adf?pvs=4#cf77b531351848ed9be7ef80e95d6c2a"),
         "styleOn": MessageLookupByLibrary.simpleMessage("Review Outfit"),
         "success": MessageLookupByLibrary.simpleMessage("Success"),
         "summaryItemAnalytics":

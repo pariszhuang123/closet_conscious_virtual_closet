@@ -9,7 +9,7 @@ import 'package:uuid/uuid.dart';
 import '../../config/supabase_config.dart';
 import '../../utilities/logger.dart';
 import '../../core_enums.dart';
-import '../../utilities/helper_functions/tutorial_helper.dart';
+import '../../utilities/helper_functions/core/onboarding_journey_type_helper.dart';
 import '../../filter/data/models/filter_setting.dart';
 import '../../../user_management/user_service_locator.dart';
 import '../../../user_management/authentication/presentation/bloc/auth_bloc.dart';

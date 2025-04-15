@@ -2490,6 +2490,26 @@ class S {
     );
   }
 
+  /// `https://www.notion.so/Pricing-0b17492513594b7b8975ec686eac1adf?pvs=4#cf77b531351848ed9be7ef80e95d6c2a`
+  String get streakBenefitsUrl {
+    return Intl.message(
+      'https://www.notion.so/Pricing-0b17492513594b7b8975ec686eac1adf?pvs=4#cf77b531351848ed9be7ef80e95d6c2a',
+      name: 'streakBenefitsUrl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Streak, Your Style, Your Rewards`
+  String get streakBenefitsTitle {
+    return Intl.message(
+      'Your Streak, Your Style, Your Rewards',
+      name: 'streakBenefitsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Unable to retrieve user ID. Please sign in again.`
   String get unableToRetrieveUserId {
     return Intl.message(
@@ -5151,10 +5171,10 @@ class S {
     );
   }
 
-  /// `Preserve their Little Moments`
+  /// `Create Memory Closet`
   String get parentMemories {
     return Intl.message(
-      'Preserve their Little Moments',
+      'Create Memory Closet',
       name: 'parentMemories',
       desc: '',
       args: [],
@@ -5686,6 +5706,186 @@ class S {
     return Intl.message(
       'You thought you’d remember it all.\nNow you can.\n\nTheir story lives on—one outfit at a time.',
       name: 'memoryScenarioTutorial',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Narrow your closet by name, item type to create your memory quickly.`
+  String get memoryTrialFilter {
+    return Intl.message(
+      'Narrow your closet by name, item type to create your memory quickly.',
+      name: 'memoryTrialFilter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Arrange your items like memory shelves—what mattered most stays visible.`
+  String get memoryTrialCustomize {
+    return Intl.message(
+      'Arrange your items like memory shelves—what mattered most stays visible.',
+      name: 'memoryTrialCustomize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Group life chapters into closets—each with a story of its own.`
+  String get memoryTrialClosets {
+    return Intl.message(
+      'Group life chapters into closets—each with a story of its own.',
+      name: 'memoryTrialClosets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create outfits from pieces that carry your favorite memories.`
+  String get memoryTrialOutfits {
+    return Intl.message(
+      'Create outfits from pieces that carry your favorite memories.',
+      name: 'memoryTrialOutfits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Look back by date—see the outfits that shaped your seasons.`
+  String get memoryTrialCalendar {
+    return Intl.message(
+      'Look back by date—see the outfits that shaped your seasons.',
+      name: 'memoryTrialCalendar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See which items showed up in your story most—by use, by love, by time.`
+  String get memoryTrialInsights {
+    return Intl.message(
+      'See which items showed up in your story most—by use, by love, by time.',
+      name: 'memoryTrialInsights',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Narrow your closet by name, item type to define your unique look.`
+  String get personalStyleTrialFilter {
+    return Intl.message(
+      'Narrow your closet by name, item type to define your unique look.',
+      name: 'personalStyleTrialFilter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reorganize your layout to reflect what feels like you right now.`
+  String get personalStyleTrialCustomize {
+    return Intl.message(
+      'Reorganize your layout to reflect what feels like you right now.',
+      name: 'personalStyleTrialCustomize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Make themed closets that mirror your personal aesthetic.`
+  String get personalStyleTrialClosets {
+    return Intl.message(
+      'Make themed closets that mirror your personal aesthetic.',
+      name: 'personalStyleTrialClosets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mix and match across days to discover your evolving style.`
+  String get personalStyleTrialOutfits {
+    return Intl.message(
+      'Mix and match across days to discover your evolving style.',
+      name: 'personalStyleTrialOutfits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Watch your style change over time, one day at a time.`
+  String get personalStyleTrialCalendar {
+    return Intl.message(
+      'Watch your style change over time, one day at a time.',
+      name: 'personalStyleTrialCalendar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reveal your most-used items, favorite outfits, and style patterns.`
+  String get personalStyleTrialInsights {
+    return Intl.message(
+      'Reveal your most-used items, favorite outfits, and style patterns.',
+      name: 'personalStyleTrialInsights',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quickly find what suits your new routines, roles, and realities.`
+  String get lifeChangeTrialFilter {
+    return Intl.message(
+      'Quickly find what suits your new routines, roles, and realities.',
+      name: 'lifeChangeTrialFilter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update your closet layout to fit what matters today.`
+  String get lifeChangeTrialCustomize {
+    return Intl.message(
+      'Update your closet layout to fit what matters today.',
+      name: 'lifeChangeTrialCustomize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create closets for transitions—travel, work, motherhood, or pause.`
+  String get lifeChangeTrialClosets {
+    return Intl.message(
+      'Create closets for transitions—travel, work, motherhood, or pause.',
+      name: 'lifeChangeTrialClosets',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Build outfits that support your day-to-day changes.`
+  String get lifeChangeTrialOutfits {
+    return Intl.message(
+      'Build outfits that support your day-to-day changes.',
+      name: 'lifeChangeTrialOutfits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track your outfits during life shifts. See what worked and when.`
+  String get lifeChangeTrialCalendar {
+    return Intl.message(
+      'Track your outfits during life shifts. See what worked and when.',
+      name: 'lifeChangeTrialCalendar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Understand what truly served you during change—by use and by season.`
+  String get lifeChangeTrialInsights {
+    return Intl.message(
+      'Understand what truly served you during change—by use and by season.',
+      name: 'lifeChangeTrialInsights',
       desc: '',
       args: [],
     );

@@ -40,6 +40,7 @@ class MyClosetScreen extends StatefulWidget {
 class MyClosetScreenState extends State<MyClosetScreen> {
   final int _selectedIndex = 0;
   final ScrollController _scrollController = ScrollController();
+  TutorialType? _lastTriggeredTutorialType;
   final CustomLogger logger = CustomLogger('MyClosetPage');
 
   @override
@@ -114,6 +115,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   }
 
   void _onPhotoButtonPressed() {
+    _lastTriggeredTutorialType = TutorialType.freeUploadCamera;
     context.read<TutorialBloc>().add(
       const CheckTutorialStatus(TutorialType.freeUploadCamera),
     );
@@ -207,21 +209,6 @@ class MyClosetScreenState extends State<MyClosetScreen> {
       data: widget.myClosetTheme,
       child: MultiBlocListener(
         listeners: [
-          BlocListener<TutorialBloc, TutorialState>(
-            listener: (context, tutorialState) {
-              if (tutorialState is ShowTutorial) {
-                logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
-                context.goNamed(
-                  AppRoutesName.tutorialVideoPopUp,
-                  extra: {
-                    'nextRoute': AppRoutesName.myCloset,
-                    'tutorialInputKey': TutorialType.freeClosetUpload.value,
-                    'isFromMyCloset': true,
-                  },
-                );
-              }
-            },
-          ),
           BlocListener<PhotoLibraryBloc, PhotoLibraryState>(
             listener: (context, state) {
               if (state is PhotoLibraryPendingItem) {
@@ -306,6 +293,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                     (firstTimeState is FirstTimeCheckSuccess && !firstTimeState.isFirstTime);
 
                 if (isNotFirstTimeUser) {
+                  _lastTriggeredTutorialType = TutorialType.freeClosetUpload;
                   context.read<TutorialBloc>().add(
                     const CheckTutorialStatus(TutorialType.freeClosetUpload),
                   );
@@ -316,19 +304,38 @@ class MyClosetScreenState extends State<MyClosetScreen> {
           BlocListener<TutorialBloc, TutorialState>(
             listener: (context, tutorialState) {
               if (tutorialState is ShowTutorial) {
-                context.goNamed(
-                  AppRoutesName.tutorialVideoPopUp,
-                  extra: {
-                    'nextRoute': AppRoutesName.uploadItemPhoto,
-                    'tutorialInputKey': TutorialType.freeUploadCamera.value,
-                    'isFromMyCloset': true,
-                  },
-                );
+                switch (_lastTriggeredTutorialType) {
+                  case TutorialType.freeUploadCamera:
+                    context.goNamed(
+                      AppRoutesName.tutorialVideoPopUp,
+                      extra: {
+                        'nextRoute': AppRoutesName.uploadItemPhoto,
+                        'tutorialInputKey': TutorialType.freeUploadCamera.value,
+                        'isFromMyCloset': true,
+                      },
+                    );
+                    break;
+                  case TutorialType.freeClosetUpload:
+                    context.goNamed(
+                      AppRoutesName.tutorialVideoPopUp,
+                      extra: {
+                        'nextRoute': AppRoutesName.webView,
+                        'tutorialInputKey': TutorialType.freeClosetUpload.value,
+                        'isFromMyCloset': true,
+                        'optionalUrl': S.of(context).streakBenefitsUrl,
+                      },
+                    );
+                    break;
+                  default:
+                    break;
+                }
               } else if (tutorialState is SkipTutorial) {
-                context.goNamed(AppRoutesName.uploadItemPhoto);
+                if (_lastTriggeredTutorialType == TutorialType.freeUploadCamera) {
+                  context.goNamed(AppRoutesName.uploadItemPhoto);
+                }
               }
             },
-          ),
+          )
           ],
         child: Scaffold(
           appBar: PreferredSize(

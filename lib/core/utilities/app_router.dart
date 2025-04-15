@@ -637,7 +637,8 @@ final GoRouter appRouter = GoRouter(
             tutorialInputKey: args['tutorialInputKey'],
             nextRoute: args['nextRoute'],
             isFromMyCloset: args['isFromMyCloset'],
-            itemId: args['itemId'], // ✅ optional, may be null
+            itemId: args['itemId'],
+            optionalUrl: args['optionalUrl'],
           ),
           transitionType: TransitionType.slideFadeFromBottom,
         );

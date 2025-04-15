@@ -12,14 +12,15 @@ class TutorialPopUpProvider extends StatelessWidget {
   final String nextRoute;
   final bool isFromMyCloset;
   final String? itemId;
+  final String? optionalUrl;
 
   const TutorialPopUpProvider({
     super.key,
     required this.tutorialInputKey,
     required this.nextRoute,
     required this.isFromMyCloset,
-    this.itemId, // ✅ optional param
-
+    this.itemId,
+    this.optionalUrl,
   });
 
   @override
@@ -44,7 +45,8 @@ class TutorialPopUpProvider extends StatelessWidget {
         tutorialInputKey: tutorialInputKey,
         nextRoute: nextRoute,
         isFromMyCloset: isFromMyCloset,
-        itemId: itemId, // ✅ forward it
+        itemId: itemId,
+        optionalUrl: optionalUrl,
       ),
     );
   }

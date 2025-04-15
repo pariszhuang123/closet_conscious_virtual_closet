@@ -244,6 +244,8 @@
   "infoHubUrl": "https://inky-twill-3ab.notion.site/dc4dd32378b0478daf36fca24e00d0c8",
   "privacyTermsUrl": "https://inky-twill-3ab.notion.site/5c881235e92240d9a008e0fe6bb80f0b",
   "termsAndConditionsUrl": "https://www.notion.so/4d657b804aed4a30a9e5fa71ba0afc78",
+  "streakBenefitsUrl": "https://www.notion.so/6907d8903bc0406abcc910c4d99b249c?pvs=4#106b40335c2d80f99440f588d07aa654",
+  "streakBenefitsTitle": "你的坚持，你的奖励",
   "unableToRetrieveUserId": "无法获取用户ID。请重新登录。",
   "failedToSubmitScore": "提交评分失败。",
   "recommendClosetConscious": "您有多大可能向朋友推荐衣格思觉？",
@@ -510,7 +512,7 @@
   "viewPendingUpload": "查看待上传",
   "personalStyle": "找回我的风格",
   "lifeChange": "开启新篇章",
-  "parentMemories": "为我的宝贝建立衣橱",
+  "parentMemories": "建立童年记忆衣橱",
   "whyAreYouHereToday": "你今天为什么来到 衣格思觉？",
   "tailorExperience": "我们希望根据你当下最在意的事，为你量身定制 衣格思觉 的体验。\n\n还不确定？先选一个最有共鸣的方向吧，以后随时可以更改。",
   "photoAccessDialogTitle": "允许完整访问？",
@@ -566,5 +568,26 @@
   "memoryTutorialPaidCalendarTrackFirstExperiences": "你穿了什么，\n感觉如何，\n都在这里——随时回忆，随时重用。",
   "memoryTutorialPaidUsageAnalyticsCostPerWear": "他们长大了，衣服穿不了了——\n但那些你们共同经历的时刻还在。\n\n顺着线索找回去，\n看看哪些值得纪念，重新感受那一刻。",
   "memoryTutorialClosetUploaded": "用他们已有的，\n建立记录连续天数，\n少选一点，就能解锁更多。",
-  "memoryScenarioTutorial": "你以为自己会记得所有细节，\n现在真的可以了。\n\n他们的故事会延续——一套穿搭一个回忆。"
+  "memoryScenarioTutorial": "你以为自己会记得所有细节，\n现在真的可以了。\n\n他们的故事会延续——一套穿搭一个回忆。",
+  "memoryTrialFilter": "按名称、类型筛选衣物，快速记录你的穿搭记忆。",
+  "memoryTrialCustomize": "像摆放记忆一样排列衣物，重要的永远在眼前。",
+  "memoryTrialClosets": "把人生章节分组成衣橱——每一个都有属于它的故事。",
+  "memoryTrialOutfits": "用充满回忆的单品搭配出意义非凡的穿搭。",
+  "memoryTrialCalendar": "按日期回顾那些塑造你季节的穿搭回忆。",
+  "memoryTrialInsights": "了解在你人生故事中出现最多的单品——使用频率、情感、时间。",
+
+  "personalStyleTrialFilter": "按名称、类型筛选衣物，定义你的独特风格。",
+  "personalStyleTrialCustomize": "重新布局，让衣橱更符合当下的你。",
+  "personalStyleTrialClosets": "建立与你风格相符的主题衣橱。",
+  "personalStyleTrialOutfits": "跨天搭配，发现你风格的演变。",
+  "personalStyleTrialCalendar": "每天记录，见证你风格的成长。",
+  "personalStyleTrialInsights": "揭示最常穿的单品、最爱的搭配与风格轨迹。",
+
+  "lifeChangeTrialFilter": "快速找到适合你新生活节奏的穿搭选择。",
+  "lifeChangeTrialCustomize": "调整衣橱布局，让你专注当下所需。",
+  "lifeChangeTrialClosets": "为人生过渡期设立专属衣橱——如旅行、工作、育儿或休整。",
+  "lifeChangeTrialOutfits": "打造贴合每日变化的实用穿搭组合。",
+  "lifeChangeTrialCalendar": "记录变化中的穿搭，了解何时穿了什么、为何如此选择。",
+  "lifeChangeTrialInsights": "深入了解哪些单品真正陪你度过转变期——从使用频率到使用时机。"
+
 }
