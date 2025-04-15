@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../bloc/photo_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../bloc/photo_bloc.dart';
 import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
 import '../../../../core_enums.dart';
 import '../../../../utilities/app_router.dart';
 import '../../../../utilities/logger.dart';
+import '../../../../utilities/helper_functions/tutorial_helper.dart';
 import '../../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../widgets/base/base_photo_screen.dart';
+import '../../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 
 class PhotoUploadItemScreen extends BasePhotoScreen {
+
   PhotoUploadItemScreen({
     super.key,
     required super.cameraContext,
@@ -22,6 +26,16 @@ class PhotoUploadItemScreen extends BasePhotoScreen {
 }
 
 class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    // ✅ Trigger tutorial check using positional constructor
+    context.read<TutorialBloc>().add(
+      const CheckTutorialStatus(TutorialType.freeUploadCamera),
+    );
+  }
+
   @override
   void triggerAccessCheck() {
     widget.logger.i('Checking if upload item can be triggered');
@@ -52,6 +66,21 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
     return Scaffold(
       body: MultiBlocListener(
         listeners: [
+          BlocListener<TutorialBloc, TutorialState>(
+            listener: (context, tutorialState) {
+              if (tutorialState is ShowTutorial) {
+                widget.logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+                context.goNamed(
+                  AppRoutesName.tutorialVideoPopUp,
+                  extra: {
+                    'nextRoute': AppRoutesName.uploadItemPhoto,
+                    'tutorialInputKey': TutorialType.freeUploadCamera.value,
+                    'isFromMyCloset': true,
+                  },
+                );
+              }
+            },
+          ),
           BlocListener<NavigateCoreBloc, NavigateCoreState>(
             listener: (context, state) {
               if (state is BronzeUploadItemDeniedState ||

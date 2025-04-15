@@ -17,21 +17,23 @@ import '../../../generated/l10n.dart';
 import '../../../core/utilities/app_router.dart';
 import '../../../core/widgets/button/themed_elevated_button.dart';
 
-class NpsDialog extends StatelessWidget {
+class NpsDialog extends StatefulWidget {
   final int milestone;
-  final CustomLogger logger = CustomLogger('NPSDialogLogger');
-  final outfitSaveService = outfitLocator<OutfitSaveService>();
-  final AppStoreReview appStoreReview = AppStoreReview(); // Updated to use the new AppStoreReview class
 
-  NpsDialog({super.key, required this.milestone});
+  const NpsDialog({super.key, required this.milestone});
 
-  Future<void> _sendNpsScore(BuildContext context, int score) async {
-    final AuthBloc authBloc = locator<AuthBloc>();
-    final String? userId = authBloc.userId;
+  /// Static method to show dialog and handle score submission
+  static Future<void> show(BuildContext context, int milestone) async {
+    final logger = CustomLogger('NPSDialogLogger');
+    final outfitSaveService = outfitLocator<OutfitSaveService>();
+    final appStoreReview = AppStoreReview();
 
-    if (userId == null) {
-      logger.e('User ID is null, cannot send NPS score.');
-      if (context.mounted) {
+    Future<void> handleScore(int score) async {
+      final authBloc = locator<AuthBloc>();
+      final userId = authBloc.userId;
+
+      if (userId == null) {
+        logger.e('User ID is null, cannot send NPS score.');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
             S.of(context).unableToRetrieveUserId,
@@ -39,96 +41,119 @@ class NpsDialog extends StatelessWidget {
           ),
           backgroundColor: myOutfitTheme.snackBarTheme.backgroundColor,
         ));
+        return;
       }
-      return;
-    }
 
-    logger.i('Sending NPS score: $score for milestone: $milestone and user ID: $userId');
-    bool success = await outfitSaveService.recordUserReview(
-      userId: userId,
-      score: score,
-      milestone: milestone,
-    );
+      logger.i('Sending NPS score: $score for milestone: $milestone and user ID: $userId');
 
-    if (!context.mounted) return;
+      final success = await outfitSaveService.recordUserReview(
+        userId: userId,
+        score: score,
+        milestone: milestone,
+      );
 
-    if (success) {
-      logger.i('NPS score successfully recorded.');
-      if (Platform.isIOS) {
-        // For iOS, launch email regardless of score
-        logger.i('Launching email for iOS.');
-        launchEmail(context, EmailType.npsReview);
-      } else if (Platform.isAndroid) {
-        // For Android, follow app store review logic
-        if (score >= 9) {
-          await appStoreReview.startReviewFlow(context);
-        } else {
+      if (!context.mounted) return;
+
+      if (success) {
+        logger.i('NPS score successfully recorded.');
+        if (Platform.isIOS) {
+          logger.i('Launching email for iOS.');
           launchEmail(context, EmailType.npsReview);
+          // Wait for resume — handled in State class via _npsWasSubmitted
+        } else if (Platform.isAndroid) {
+          if (score >= 9) {
+            await appStoreReview.startReviewFlow(context);
+          } else {
+            launchEmail(context, EmailType.npsReview);
+          }
+          if (context.mounted) {
+            context.goNamed(AppRoutesName.createOutfit);
+          }
         }
+      } else {
+        logger.e('Failed to record NPS score.');
+        CustomSnackbar(
+          message: S.of(context).failedToSubmitScore,
+          theme: myOutfitTheme,
+        ).show(context);
       }
-      if (context.mounted) {
-        context.goNamed(AppRoutesName.createOutfit);
-      }
-
-    } else {
-      logger.e('Failed to record NPS score.');
-      CustomSnackbar(
-        message: S.of(context).failedToSubmitScore,
-        theme: myOutfitTheme,
-      ).show(context);
     }
-  }
 
-  // Use this method to trigger the dialog
-  Future<void> showNpsDialog(BuildContext context) async {
-    return await CustomAlertDialog.showCustomDialog(
+    await CustomAlertDialog.showCustomDialog(
       context: context,
       title: S.of(context).recommendClosetConscious,
-      content: _buildDialogContent(context),
       theme: myOutfitTheme,
       barrierDismissible: false,
-    );
-  }
-
-  Widget _buildDialogContent(BuildContext context) {
-    return SizedBox(
-      width: 300, // Maintain the fixed width
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            S.of(context).npsExplanation,
-            style: myOutfitTheme.textTheme.bodyMedium, // Adjust style as needed
-            textAlign: TextAlign.left,
-          ),
-          const SizedBox(height: 16.0),
-          Flexible(
-            child: GridView.builder(
-              shrinkWrap: true, // Ensures the GridView only takes up the space it needs
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, // 3 buttons per row
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 20.0,
-                childAspectRatio: 2.5, // Adjust button size as needed
-              ),
-              itemCount: 11, // Fixed number of buttons
-              itemBuilder: (context, index) {
-                return ThemedElevatedButton( // Use ThemedElevatedButton here
-                  onPressed: () => _sendNpsScore(context, index),
-                  text: index.toString(), // Pass the index as text
-                );
-              },
+      content: SizedBox(
+        width: 300,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              S.of(context).npsExplanation,
+              style: myOutfitTheme.textTheme.bodyMedium,
+              textAlign: TextAlign.left,
             ),
-          ),
-        ],
+            const SizedBox(height: 16.0),
+            Flexible(
+              child: GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 20.0,
+                  childAspectRatio: 2.5,
+                ),
+                itemCount: 11,
+                itemBuilder: (context, index) {
+                  return ThemedElevatedButton(
+                    onPressed: () async {
+                      Navigator.of(context).pop(); // Close dialog
+                      await handleScore(index);
+                    },
+                    text: index.toString(),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   @override
+  State<NpsDialog> createState() => _NpsDialogState();
+}
+
+class _NpsDialogState extends State<NpsDialog> with WidgetsBindingObserver {
+  bool _npsWasSubmitted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _npsWasSubmitted = true; // We know this screen exists only after submit
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && _npsWasSubmitted) {
+      if (mounted) {
+        context.goNamed(AppRoutesName.createOutfit);
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Return an empty Container or any Widget you desire
-    return Container();
+    return Container(); // Not used, dialog handles everything
   }
 }

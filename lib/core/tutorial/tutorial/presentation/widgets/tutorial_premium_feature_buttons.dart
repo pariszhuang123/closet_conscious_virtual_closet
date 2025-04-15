@@ -90,6 +90,7 @@ class TutorialPremiumFeatureButtons extends StatelessWidget {
 
         // Second Row
         Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Expanded(
               child: NavigationTypeButton(
@@ -108,7 +109,22 @@ class TutorialPremiumFeatureButtons extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            const Expanded(child: SizedBox.shrink()), // Empty
+            Expanded(
+              child: NavigationTypeButton(
+                label: S.of(context).usageInsights,
+                selectedLabel: '',
+                onPressed: () => navigateToTutorial(
+                  context: context,
+                  tutorialType: TutorialType.paidUsageAnalytics,
+                  nextRoute: AppRoutesName.summaryItemsAnalytics,
+                  isFromMyCloset: false,
+                ),
+                assetPath: TypeDataList.drawerInsights(context).assetPath,
+                isFromMyCloset: false,
+                buttonType: ButtonType.secondary,
+                usePredefinedColor: false,
+              ),
+            ),
             const SizedBox(width: 8),
             const Expanded(child: SizedBox.shrink()), // Empty
           ],

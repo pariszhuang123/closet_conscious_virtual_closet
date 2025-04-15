@@ -12,13 +12,14 @@ import '../widgets/monthly_feature_container.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/utilities/app_router.dart';
+import '../../../../../core/utilities/helper_functions/tutorial_helper.dart';
 import '../../../../../core/core_enums.dart';
 import '../../../../../core/widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/widgets/button/themed_elevated_button.dart';
 import '../../../../../core/theme/my_closet_theme.dart';
 import '../../../../../core/theme/my_outfit_theme.dart';
-
+import '../../../../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 
 class MonthlyCalendarScreen extends StatefulWidget {
   final bool isFromMyCloset;
@@ -42,6 +43,9 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
   void initState() {
     super.initState();
     eventNameController = TextEditingController();
+    context.read<TutorialBloc>().add(
+      const CheckTutorialStatus(TutorialType.paidCalendar),
+    );
     logger = CustomLogger('MonthlyCalendarScreen');
     logger.i('Initializing MonthlyCalendarScreen with selectedOutfitIds: ${widget.selectedOutfitIds}');
   }
@@ -90,6 +94,21 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
       data: theme, // ✅ Apply theme globally
       child: MultiBlocListener(
       listeners: [
+        BlocListener<TutorialBloc, TutorialState>(
+          listener: (context, tutorialState) {
+            if (tutorialState is ShowTutorial) {
+              logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+              context.goNamed(
+                AppRoutesName.tutorialVideoPopUp,
+                extra: {
+                  'nextRoute': AppRoutesName.monthlyCalendar,
+                  'tutorialInputKey': TutorialType.paidCalendar.value,
+                  'isFromMyCloset': widget.isFromMyCloset,
+                },
+              );
+            }
+          },
+        ),
         BlocListener<CalendarNavigationBloc, CalendarNavigationState>(
           listener: (context, state) {
             if (state is CalendarAccessState) {

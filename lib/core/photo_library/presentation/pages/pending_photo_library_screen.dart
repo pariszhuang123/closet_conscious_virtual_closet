@@ -18,6 +18,8 @@ import '../widgets/show_upload_success_dialog.dart';
 import '../widgets/photo_library_container.dart';
 import '../widgets/show_photo_permission_dialog.dart';
 import '../../../utilities/helper_functions/permission_helper/library_permission_helper.dart';
+import '../../../utilities/helper_functions/tutorial_helper.dart';
+import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../../core_enums.dart';
 
 class PendingPhotoLibraryScreen extends StatefulWidget {
@@ -39,6 +41,9 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
     _logger.i('initState: Requesting photo library permission');
     context.read<PhotoLibraryBloc>().add(RequestLibraryPermission());
     context.read<NavigateCoreBloc>().add(const CheckUploadItemCreationAccessEvent());
+    context.read<TutorialBloc>().add(
+      const CheckTutorialStatus(TutorialType.freeUploadPhotoLibrary),
+    );
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -111,6 +116,21 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
 
     return MultiBlocListener(
       listeners: [
+        BlocListener<TutorialBloc, TutorialState>(
+          listener: (context, tutorialState) {
+            if (tutorialState is ShowTutorial) {
+              _logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+              context.goNamed(
+                AppRoutesName.tutorialVideoPopUp,
+                extra: {
+                  'nextRoute': AppRoutesName.pendingPhotoLibrary,
+                  'tutorialInputKey': TutorialType.freeUploadPhotoLibrary.value,
+                  'isFromMyCloset': true,
+                },
+              );
+            }
+          },
+        ),
         BlocListener<PhotoLibraryBloc, PhotoLibraryState>(
           listener: (context, state) {
             if (state is PhotoLibraryMaxSelectionReached) {

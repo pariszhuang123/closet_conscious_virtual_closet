@@ -14,6 +14,7 @@ import '../../../../core/data/services/outfits_save_services.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../../core/data/services/core_save_services.dart';
 import '../../../../../core/core_service_locator.dart';
+import '../../../../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../../../outfit_service_locator.dart';
 
 class MonthlyCalendarProvider extends StatelessWidget {
@@ -100,6 +101,15 @@ class MonthlyCalendarProvider extends StatelessWidget {
             );
             bloc.add(CheckMultiClosetAccessEvent());
             return bloc;
+          },
+        ),
+        BlocProvider<TutorialBloc>(
+          create: (context) {
+            logger.d('Creating TutorialBloc with core services');
+            return TutorialBloc(
+              coreFetchService: coreFetchService,
+              coreSaveService: coreSaveService,
+            );
           },
         ),
       ],

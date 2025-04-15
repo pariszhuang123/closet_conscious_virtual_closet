@@ -13,6 +13,8 @@ import '../../../../../widgets/progress_indicator/closet_progress_indicator.dart
 import '../../../../../../generated/l10n.dart';
 import '../widgets/summary_item_analytics_feature_container.dart';
 import '../../../../../utilities/app_router.dart';
+import '../../../../../utilities/helper_functions/tutorial_helper.dart';
+import '../../../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../../../../item_management/view_items/presentation/bloc/view_items_bloc.dart';
 import '../../../../../widgets/feedback/custom_snack_bar.dart';
@@ -22,6 +24,7 @@ import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 import '../../../../../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
 import '../../../../../widgets/feedback/custom_tooltip.dart';
+
 
 class SummaryItemsScreen extends StatefulWidget {
   final bool isFromMyCloset; // Determines the theme
@@ -46,6 +49,9 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
     super.initState();
     logger.i(
         'SummaryItemsScreen initialized with isFromMyCloset=${widget.isFromMyCloset}'
+    );
+    context.read<TutorialBloc>().add(
+      const CheckTutorialStatus(TutorialType.paidUsageAnalytics),
     );
 
     _scrollController.addListener(() {
@@ -191,6 +197,21 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                   },
                 );
               }
+            }
+          },
+        ),
+        BlocListener<TutorialBloc, TutorialState>(
+          listener: (context, tutorialState) {
+            if (tutorialState is ShowTutorial) {
+              logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+              context.goNamed(
+                AppRoutesName.tutorialVideoPopUp,
+                extra: {
+                  'nextRoute': AppRoutesName.summaryItemsAnalytics,
+                  'tutorialInputKey': TutorialType.paidUsageAnalytics.value,
+                  'isFromMyCloset': widget.isFromMyCloset,
+                },
+              );
             }
           },
         ),

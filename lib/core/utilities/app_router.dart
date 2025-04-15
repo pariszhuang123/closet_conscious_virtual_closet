@@ -29,7 +29,7 @@ import '../../outfit_management/outfit_calendar/daily_calendar/presentation/page
 import '../../outfit_management/outfit_calendar/daily_detailed_calendar/presentation/pages/daily_detailed_calendar_provider.dart';
 import '../../outfit_management/review_outfit/presentation/pages/outfit_review_provider.dart';
 import '../../outfit_management/wear_outfit/presentation/pages/outfit_wear_provider.dart';
-import '../screens/webview_screen.dart';
+import '../presentation/pages/webview/webview_screen.dart';
 import '../../core/utilities/helper_functions/argument_helper.dart';
 import '../../core/tutorial/pop_up_tutorial/presentation/pages/tutorial_pop_up_provider.dart';
 import '../../core/tutorial/tutorial/presentation/pages/tutorial_hub_screen.dart';
@@ -192,7 +192,7 @@ final GoRouter appRouter = GoRouter(
       name: 'upload_item_photo',
       pageBuilder: (context, state) => buildCustomTransitionPage(
         key: state.pageKey,
-        child: const PhotoProvider(
+        child: PhotoProvider(
           cameraContext: CameraPermissionContext.uploadItem,
         ),
         transitionType: TransitionType.slideFromBottom,
@@ -263,7 +263,7 @@ final GoRouter appRouter = GoRouter(
         key: state.pageKey,
         transitionType: TransitionType.slideFromRight,
         child: PendingItemsScaffold(
-          body: const PendingPhotoLibraryProvider(),
+          body: PendingPhotoLibraryProvider(),
         ),
       ),
     ),
@@ -637,6 +637,7 @@ final GoRouter appRouter = GoRouter(
             tutorialInputKey: args['tutorialInputKey'],
             nextRoute: args['nextRoute'],
             isFromMyCloset: args['isFromMyCloset'],
+            itemId: args['itemId'], // ✅ optional, may be null
           ),
           transitionType: TransitionType.slideFadeFromBottom,
         );

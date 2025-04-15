@@ -13,30 +13,46 @@ import '../../../theme/my_outfit_theme.dart';
 import '../../../widgets/button/themed_elevated_button.dart';
 import '../../../utilities/app_router.dart';
 import '../../../utilities/logger.dart';
+import '../../../utilities/helper_functions/tutorial_helper.dart';
+import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 
-class CustomizeScreen extends StatelessWidget {
+class CustomizeScreen extends StatefulWidget {
   final bool isFromMyCloset;
   final List<String> selectedItemIds;
   final String returnRoute;
 
-  // Initialize logger for CustomizeScreen
-  final CustomLogger _logger = CustomLogger('CustomizeScreen');
-
-  CustomizeScreen({
+  const CustomizeScreen({
     super.key,
     required this.isFromMyCloset,
     required this.selectedItemIds,
     required this.returnRoute,
-  }) {
-    _logger.i('CustomizeScreen initialized with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds');
+  });
+
+  @override
+  State<CustomizeScreen> createState() => _CustomizeScreenState();
+}
+
+class _CustomizeScreenState extends State<CustomizeScreen> {
+  final CustomLogger _logger = CustomLogger('CustomizeScreen');
+
+  @override
+  void initState() {
+    super.initState();
+
+    // ✅ Trigger access check and tutorial on screen load
+    context.read<CustomizeBloc>().add(CheckCustomizeAccessEvent());
+
+    context.read<TutorialBloc>().add(
+      const CheckTutorialStatus(TutorialType.paidCustomize),
+    );
+
+    _logger.i('CustomizeScreen initialized with isFromMyCloset: ${widget.isFromMyCloset}, selectedItemIds: ${widget.selectedItemIds}');
   }
 
   @override
   Widget build(BuildContext context) {
-    context.read<CustomizeBloc>().add(CheckCustomizeAccessEvent());
-    // Log theme selection
-    ThemeData theme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
-    _logger.d('Theme selected: ${isFromMyCloset ? "myClosetTheme" : "myOutfitTheme"}');
+    ThemeData theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
+    _logger.d('Theme selected: ${widget.isFromMyCloset ? "myClosetTheme" : "myOutfitTheme"}');
 
     return Theme(
       data: theme,
@@ -55,40 +71,57 @@ class CustomizeScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: BlocListener<CustomizeBloc, CustomizeState>(
-          listener: (context, state) {
-            if (state.saveStatus == SaveStatus.saveSuccess) {
-              _logger.i('SaveStatus: saveSuccess, navigating to returnRoute: $returnRoute');
-              context.goNamed(
-                returnRoute,
-                extra: {'selectedItemIds': selectedItemIds},
-              );
-            }
-            if (state.accessStatus == AccessStatus.trialPending) {
-              _logger.i('Trial pending, navigating to trialStarted screen');
-
-              context.goNamed(
-                AppRoutesName.trialStarted,
-                extra: {
-                  'selectedFeatureRoute': AppRoutesName.customize, // ✅ Pass actual AppRoutes value
-                  'isFromMyCloset': isFromMyCloset,
-                },
-              );
-            }
-
-            if (state.accessStatus == AccessStatus.denied) {
-              _logger.i('AccessStatus: denied, navigating to payment screen');
-              context.goNamed(
-                AppRoutesName.payment,
-                extra: {
-                  'featureKey': FeatureKey.customize, // Pass necessary data
-                  'isFromMyCloset': isFromMyCloset,
-                  'previousRoute': isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
-                  'nextRoute': AppRoutesName.customize,
-                },
-              );
-            }
-          },
+        body: MultiBlocListener(
+          listeners: [
+            BlocListener<CustomizeBloc, CustomizeState>(
+              listener: (context, state) {
+                if (state.saveStatus == SaveStatus.saveSuccess) {
+                  _logger.i('SaveStatus: saveSuccess, navigating to returnRoute: $widget.returnRoute');
+                  context.goNamed(
+                    widget.returnRoute,
+                    extra: {'selectedItemIds': widget.selectedItemIds},
+                  );
+                }
+                if (state.accessStatus == AccessStatus.trialPending) {
+                  _logger.i('Trial pending, navigating to trialStarted screen');
+                  context.goNamed(
+                    AppRoutesName.trialStarted,
+                    extra: {
+                      'selectedFeatureRoute': AppRoutesName.customize,
+                      'isFromMyCloset': widget.isFromMyCloset,
+                    },
+                  );
+                }
+                if (state.accessStatus == AccessStatus.denied) {
+                  _logger.i('AccessStatus: denied, navigating to payment screen');
+                  context.goNamed(
+                    AppRoutesName.payment,
+                    extra: {
+                      'featureKey': FeatureKey.customize,
+                      'isFromMyCloset': widget.isFromMyCloset,
+                      'previousRoute': widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
+                      'nextRoute': AppRoutesName.customize,
+                    },
+                  );
+                }
+              },
+            ),
+            BlocListener<TutorialBloc, TutorialState>(
+              listener: (context, tutorialState) {
+                if (tutorialState is ShowTutorial) {
+                  _logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+                  context.goNamed(
+                    AppRoutesName.tutorialVideoPopUp,
+                    extra: {
+                      'nextRoute': AppRoutesName.customize,
+                      'tutorialInputKey': TutorialType.paidCustomize.value,
+                      'isFromMyCloset': widget. isFromMyCloset,
+                    },
+                  );
+                }
+              },
+            ),
+          ],
           child: BlocBuilder<CustomizeBloc, CustomizeState>(
             builder: (context, state) {
               if (state.saveStatus == SaveStatus.inProgress) {
@@ -113,7 +146,7 @@ class CustomizeScreen extends StatelessWidget {
                       );
                     },
                     context,
-                    isFromMyCloset,
+                    widget.isFromMyCloset,
                     false
                   ),
                   const SizedBox(height: 16),
@@ -132,7 +165,7 @@ class CustomizeScreen extends StatelessWidget {
                       );
                     },
                     context,
-                    isFromMyCloset,
+                    widget.isFromMyCloset,
                     false
                   ),
                   const SizedBox(height: 16),
@@ -151,7 +184,7 @@ class CustomizeScreen extends StatelessWidget {
                       );
                     },
                     context,
-                    isFromMyCloset,
+                    widget.isFromMyCloset,
                     false
                   ),
                   const SizedBox(height: 24),

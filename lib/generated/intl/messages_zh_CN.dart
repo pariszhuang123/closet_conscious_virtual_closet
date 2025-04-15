@@ -410,6 +410,35 @@ class MessageLookup extends MessageLookupByLibrary {
         "machine": MessageLookupByLibrary.simpleMessage("机洗"),
         "maxPendingItemsSnackbar": m4,
         "medium": MessageLookupByLibrary.simpleMessage("中色"),
+        "memoryScenarioTutorial": MessageLookupByLibrary.simpleMessage(
+            "你以为自己会记得所有细节，\n现在真的可以了。\n\n他们的故事会延续——一套穿搭一个回忆。"),
+        "memoryTutorialClosetUploaded": MessageLookupByLibrary.simpleMessage(
+            "用他们已有的，\n建立记录连续天数，\n少选一点，就能解锁更多。"),
+        "memoryTutorialFreeCreateOutfitCreateOutfitProcess":
+            MessageLookupByLibrary.simpleMessage(
+                "一套穿搭，一天回忆。\n拍下来，写下来，明天再感受一次。"),
+        "memoryTutorialFreeEditCameraDeclutterItems":
+            MessageLookupByLibrary.simpleMessage("他们在成长，\n那些穿过的衣物背后，也有成长的故事。"),
+        "memoryTutorialFreePhotoLibraryUploadClothing":
+            MessageLookupByLibrary.simpleMessage(
+                "你已经留下了这些瞬间——现在是时候整理记忆了。\n轻轻一点，每件衣物都能找到自己的故事。"),
+        "memoryTutorialFreeUploadCameraUploadClothing":
+            MessageLookupByLibrary.simpleMessage("细节很重要。\n现在拍下，以后好找。"),
+        "memoryTutorialPaidCalendarTrackFirstExperiences":
+            MessageLookupByLibrary.simpleMessage(
+                "你穿了什么，\n感觉如何，\n都在这里——随时回忆，随时重用。"),
+        "memoryTutorialPaidCustomizeViewAllItems":
+            MessageLookupByLibrary.simpleMessage(
+                "你的衣橱，由你掌控。\n放大查看，按喜爱排序。\n一点，就唤起所有回忆。"),
+        "memoryTutorialPaidFilterFindInCloset":
+            MessageLookupByLibrary.simpleMessage(
+                "生活节奏飞快，\n他们的衣橱也能跟上。\n需要什么，随时找到。"),
+        "memoryTutorialPaidMultiClosetCreateCapsule":
+            MessageLookupByLibrary.simpleMessage(
+                "有的衣橱收藏着过去，\n有的属于现在。\n它们都记录着你的故事。"),
+        "memoryTutorialPaidUsageAnalyticsCostPerWear":
+            MessageLookupByLibrary.simpleMessage(
+                "他们长大了，衣服穿不了了——\n但那些你们共同经历的时刻还在。\n\n顺着线索找回去，\n看看哪些值得纪念，重新感受那一刻。"),
         "metadata": MessageLookupByLibrary.simpleMessage("更多"),
         "metadataFeatureDescription":
             MessageLookupByLibrary.simpleMessage("想为您的物品添加更多细节，以便更好地组织？告诉我们吧！"),
@@ -701,6 +730,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "trialStartedNextStepsTitle":
             MessageLookupByLibrary.simpleMessage("试用已激活！"),
         "trialStartedTitle": MessageLookupByLibrary.simpleMessage("探索高级权益"),
+        "tutorialClosetUploadedTitle":
+            MessageLookupByLibrary.simpleMessage("衣橱上传教程"),
         "tutorialFreeCreateOutfitCreateOutfitProcess":
             MessageLookupByLibrary.simpleMessage("创建穿搭的流程"),
         "tutorialFreeCreateOutfitOutfitSuggestion":
@@ -708,26 +739,28 @@ class MessageLookup extends MessageLookupByLibrary {
         "tutorialFreeCreateOutfitReviewOutfit":
             MessageLookupByLibrary.simpleMessage("回顾你的每日穿搭"),
         "tutorialFreeCreateOutfitTitle":
-            MessageLookupByLibrary.simpleMessage("搭配你的穿搭"),
+            MessageLookupByLibrary.simpleMessage("旧衣新搭，织出风格新章"),
         "tutorialFreeEditCameraDeclutterItems":
             MessageLookupByLibrary.simpleMessage("清理你的衣物"),
         "tutorialFreeEditCameraTitle":
-            MessageLookupByLibrary.simpleMessage("编辑你拍摄的物品"),
+            MessageLookupByLibrary.simpleMessage("细修衣物，丰富穿搭记忆"),
+        "tutorialFreePhotoLibraryTitle":
+            MessageLookupByLibrary.simpleMessage("从相册上传"),
         "tutorialFreeUploadCameraTitle":
-            MessageLookupByLibrary.simpleMessage("使用相机上传衣物"),
+            MessageLookupByLibrary.simpleMessage("拍下衣物，开启故事篇章"),
         "tutorialFreeUploadCameraUploadClothing":
             MessageLookupByLibrary.simpleMessage("将你的衣物上传至衣柜"),
         "tutorialHubTitle": MessageLookupByLibrary.simpleMessage("教程"),
         "tutorialPaidCalendarPlanTrips":
             MessageLookupByLibrary.simpleMessage("为旅行计划穿搭"),
         "tutorialPaidCalendarTitle":
-            MessageLookupByLibrary.simpleMessage("使用日历规划穿搭"),
+            MessageLookupByLibrary.simpleMessage("穿搭故事，日日串联"),
         "tutorialPaidCalendarTrackFirstExperiences":
             MessageLookupByLibrary.simpleMessage("追踪首次穿搭体验"),
         "tutorialPaidCustomizeCustomizeOrder":
             MessageLookupByLibrary.simpleMessage("自定义排列顺序"),
         "tutorialPaidCustomizeTitle":
-            MessageLookupByLibrary.simpleMessage("自定义你的体验"),
+            MessageLookupByLibrary.simpleMessage("自定义排列，呈现你的风格秩序"),
         "tutorialPaidCustomizeViewAllItems":
             MessageLookupByLibrary.simpleMessage("一目了然地查看所有衣物"),
         "tutorialPaidFilterFindInCloset":
@@ -735,7 +768,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tutorialPaidFilterSellUnworn":
             MessageLookupByLibrary.simpleMessage("出售未穿的衣物"),
         "tutorialPaidFilterTitle":
-            MessageLookupByLibrary.simpleMessage("解锁高级筛选功能"),
+            MessageLookupByLibrary.simpleMessage("精准筛选，快速找回那件心头好"),
         "tutorialPaidFilterTrackFiltering":
             MessageLookupByLibrary.simpleMessage("不要迷失在筛选中"),
         "tutorialPaidMultiClosetCreateCapsule":
@@ -747,7 +780,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "tutorialPaidMultiClosetSwapClosets":
             MessageLookupByLibrary.simpleMessage("将衣物移动到另一个衣柜"),
         "tutorialPaidMultiClosetTitle":
-            MessageLookupByLibrary.simpleMessage("切换多个衣橱"),
+            MessageLookupByLibrary.simpleMessage("切换衣橱，自由穿梭不同章节"),
         "tutorialPaidMultiClosetViewUsableItems":
             MessageLookupByLibrary.simpleMessage("查看今天可穿衣物"),
         "tutorialPaidUsageAnalyticsCostPerWear":
@@ -759,7 +792,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "tutorialPaidUsageAnalyticsSellUnworn":
             MessageLookupByLibrary.simpleMessage("出售不再穿的衣物"),
         "tutorialPaidUsageAnalyticsTitle":
-            MessageLookupByLibrary.simpleMessage("追踪使用情况和进度"),
+            MessageLookupByLibrary.simpleMessage("追踪风格足迹，见证日常蜕变"),
+        "tutorialScenarioTitle": MessageLookupByLibrary.simpleMessage("情境教程"),
         "unableToProcessAccountDeletion": MessageLookupByLibrary.simpleMessage(
             "我们暂时无法处理您的账号删除请求。请发送电子邮件至support@example.com获取帮助。"),
         "unableToRetrieveUserId":

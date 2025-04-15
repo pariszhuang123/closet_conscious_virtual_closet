@@ -66,8 +66,8 @@ class FilterProvider extends StatelessWidget {
           create: (context) {
             logger.d('Initializing TutorialBloc');
             return TutorialBloc(
-              fetchService: coreFetchService,
-              saveService: coreSaveService,
+              coreFetchService: coreFetchService,
+              coreSaveService: coreSaveService,
             );
           },
         ),

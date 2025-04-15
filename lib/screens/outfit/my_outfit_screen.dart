@@ -25,6 +25,8 @@ import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
 import '../../core/achievement_celebration/helper/achievement_navigator.dart';
+import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../core/utilities/helper_functions/tutorial_helper.dart';
 
 class MyOutfitScreen extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -64,6 +66,9 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     _triggerOutfitCreation();
     _triggerOutfitCreateAchievement();
     _triggerSelfieTakenAchievement();
+    context.read<TutorialBloc>().add(
+      const CheckTutorialStatus(TutorialType.freeCreateOutfit),
+    );
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -228,6 +233,21 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
       data: widget.myOutfitTheme,
       child: MultiBlocListener( // BlocListener now inside the theme
         listeners: [
+          BlocListener<TutorialBloc, TutorialState>(
+            listener: (context, tutorialState) {
+              if (tutorialState is ShowTutorial) {
+                logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+                context.goNamed(
+                  AppRoutesName.tutorialVideoPopUp,
+                  extra: {
+                    'nextRoute': AppRoutesName.createOutfit,
+                    'tutorialInputKey': TutorialType.freeCreateOutfit.value,
+                    'isFromMyCloset': false,
+                  },
+                );
+              }
+            },
+          ),
           BlocListener<NavigateOutfitBloc, NavigateOutfitState>(
             listener: (context, state) {
               logger.i(
@@ -235,7 +255,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               if (state is NpsSurveyTriggeredState) {
                 logger.i(
                     'NPS Survey triggered for milestone: ${state.milestone}');
-                NpsDialog(milestone: state.milestone).showNpsDialog(context);
+                NpsDialog.show(context, state.milestone);
               }
               if (state is NavigateToReviewPageState) {
                 logger.i(

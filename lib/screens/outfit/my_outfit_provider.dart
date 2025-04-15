@@ -14,6 +14,8 @@ import '../../core/utilities/logger.dart';
 import '../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
 import '../../core/data/services/core_fetch_services.dart';
+import '../../core/data/services/core_save_services.dart';
+import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 
 class MyOutfitProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -36,14 +38,16 @@ class MyOutfitProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.d('Building MyOutfitProvider widgets');
 
+    final outfitFetchService = GetIt.instance<OutfitFetchService>();
+    final outfitSaveService = GetIt.instance<OutfitSaveService>();
+    final coreFetchService = GetIt.instance<CoreFetchService>();
+    final coreSaveService = GetIt.instance<CoreSaveService>();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) {
             _logger.d('Initializing FetchOutfitItemBloc');
-            final outfitFetchService = GetIt.instance<OutfitFetchService>();
-            final outfitSaveService = GetIt.instance<OutfitSaveService>();
-            _logger.d('Fetched services for FetchOutfitItemBloc: OutfitFetchService and OutfitSaveService');
             final fetchOutfitItemBloc = FetchOutfitItemBloc(outfitFetchService, outfitSaveService)
               ..add(const SelectCategoryEvent(OutfitItemCategory.clothing));
             _logger.i('SelectCategoryEvent added to FetchOutfitItemBloc with category: OutfitItemCategory.clothing');
@@ -61,28 +65,30 @@ class MyOutfitProvider extends StatelessWidget {
         BlocProvider(
           create: (context) {
             _logger.d('Initializing NavigateOutfitBloc');
-            final outfitFetchService = GetIt.instance<OutfitFetchService>();
-            final outfitSaveService = GetIt.instance<OutfitSaveService>();
-            final coreFetchServices = GetIt.instance<CoreFetchService>();
-            _logger.d('Fetched services for NavigateOutfitBloc: OutfitFetchService and OutfitSaveService');
-            return NavigateOutfitBloc(outfitFetchService: outfitFetchService, outfitSaveService: outfitSaveService, coreFetchService: coreFetchServices);
+            return NavigateOutfitBloc(outfitFetchService: outfitFetchService, outfitSaveService: outfitSaveService, coreFetchService: coreFetchService);
           },
         ),
         BlocProvider(
           create: (context) {
             _logger.d('Initializing OutfitSaveBloc');
-            final outfitSaveService = GetIt.instance<OutfitSaveService>();
-            _logger.d('Fetched service for OutfitSaveBloc: OutfitSaveService');
             return SaveOutfitItemsBloc(outfitSaveService);
           },
         ),
         BlocProvider(
           create: (context) {
             _logger.d('Initializing CrossAxisCountCubit');
-            final coreFetchService = GetIt.instance<CoreFetchService>(); // Fetch CoreFetchService
             final crossAxisCountCubit = CrossAxisCountCubit(coreFetchService: coreFetchService);
             crossAxisCountCubit.fetchCrossAxisCount(); // Trigger initial fetch
             return crossAxisCountCubit;
+          },
+        ),
+        BlocProvider<TutorialBloc>(
+          create: (context) {
+            _logger.d('Creating TutorialBloc with core services');
+            return TutorialBloc(
+              coreFetchService: coreFetchService,
+              coreSaveService: coreSaveService,
+            );
           },
         ),
       ],

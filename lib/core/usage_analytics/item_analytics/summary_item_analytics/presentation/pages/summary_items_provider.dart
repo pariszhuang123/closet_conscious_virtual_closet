@@ -17,6 +17,7 @@ import '../../../../../../item_management/multi_closet/core/presentation/bloc/mu
 import '../../../../../../item_management/item_service_locator.dart';
 import '../../../../../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
 import '../../../../../core_service_locator.dart';
+import '../../../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 
 
 class SummaryItemsProvider extends StatelessWidget {
@@ -82,6 +83,15 @@ class SummaryItemsProvider extends StatelessWidget {
             coreFetchService: coreFetchService,
             coreSaveService: coreSaveService,
           )..add(CheckMultiClosetAccessEvent()), // Ensure it initializes with access check
+        ),
+        BlocProvider<TutorialBloc>(
+          create: (context) {
+            logger.d('Creating TutorialBloc with core services');
+            return TutorialBloc(
+              coreFetchService: coreFetchService,
+              coreSaveService: coreSaveService,
+            );
+          },
         ),
 
       ],

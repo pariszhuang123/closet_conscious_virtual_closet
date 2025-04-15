@@ -9,45 +9,59 @@ import '../../presentation/widgets/tab/multi_selection_tab.dart';
 import '../../../theme/my_closet_theme.dart';
 import '../../../theme/my_outfit_theme.dart';
 import '../../../widgets/button/themed_elevated_button.dart';
-import '../../../utilities/logger.dart';
 import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../core_enums.dart';
+import '../../../utilities/logger.dart';
 import '../../../utilities/app_router.dart';
+import '../../../utilities/helper_functions/tutorial_helper.dart';
 import '../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../widgets/tab/single_selection_tab/all_closet_toggle.dart';
 import '../widgets/tab/single_selection_tab/closet_grid_widget.dart';
 import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 
-class FilterScreen extends StatelessWidget {
+class FilterScreen extends StatefulWidget {
   final bool isFromMyCloset;
   final List<String> selectedItemIds;
   final List<String> selectedOutfitIds;
   final String returnRoute;
-  final bool showOnlyClosetFilter; // New parameter
+  final bool showOnlyClosetFilter;
 
-
-  // Initialize logger for FilterScreen
-  final CustomLogger _logger = CustomLogger('FilterScreen');
-
-  FilterScreen({
+  const FilterScreen({
     super.key,
     required this.isFromMyCloset,
     required this.selectedItemIds,
     required this.selectedOutfitIds,
     required this.returnRoute,
-    required this.showOnlyClosetFilter, // Default to false
-  }) {
-    _logger.i('FilterScreen initialized with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds, showOnlyClosetFilter: $showOnlyClosetFilter');
+    required this.showOnlyClosetFilter,
+  });
+
+  @override
+  State<FilterScreen> createState() => _FilterScreenState();
+}
+
+class _FilterScreenState extends State<FilterScreen> {
+  final CustomLogger _logger = CustomLogger('FilterScreen');
+
+  @override
+  void initState() {
+    super.initState();
+
+    _logger.i(
+        'FilterScreen initState with isFromMyCloset: ${widget.isFromMyCloset}, selectedItemIds: ${widget.selectedItemIds}, showOnlyClosetFilter: ${widget.showOnlyClosetFilter}');
+
+    context.read<FilterBloc>().add(CheckFilterAccessEvent());
+    context.read<FilterBloc>().add(CheckMultiClosetFeatureEvent());
+
+    // 👇 Your desired tutorial event
+    context.read<TutorialBloc>().add(
+      const CheckTutorialStatus(TutorialType.paidFilter),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    context.read<FilterBloc>().add(CheckFilterAccessEvent());
-    context.read<FilterBloc>().add(CheckMultiClosetFeatureEvent());
-    context.read<TutorialBloc>().add(const CheckTutorialStatus(TutorialType.paidFilter));
-    // Select theme based on isFromMyCloset
-    ThemeData theme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
-    _logger.d('Theme selected: ${isFromMyCloset ? "myClosetTheme" : "myOutfitTheme"}');
+    ThemeData theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
+    _logger.d('Theme selected: ${widget.isFromMyCloset ? "myClosetTheme" : "myOutfitTheme"}');
 
     return DefaultTabController(
       length: 2,
@@ -56,7 +70,7 @@ class FilterScreen extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: Text(S.of(context).filterItemsTitle, style: theme.textTheme.titleMedium),
-            bottom: showOnlyClosetFilter
+            bottom: widget.showOnlyClosetFilter
                 ? null
                 : TabBar(
               tabs: [
@@ -81,12 +95,12 @@ class FilterScreen extends StatelessWidget {
             BlocListener<FilterBloc, FilterState>(
         listener: (context, state) {
           if (state.saveStatus == SaveStatus.saveSuccess) {
-            _logger.i('SaveStatus: saveSuccess, navigating to returnRoute: $returnRoute');
+            _logger.i('SaveStatus: saveSuccess, navigating to returnRoute: $widget.returnRoute');
             context.goNamed(
-              returnRoute,
+              widget.returnRoute,
               extra: {
-                'selectedItemIds': selectedItemIds,
-                'selectedOutfitIds': selectedOutfitIds,
+                'selectedItemIds': widget.selectedItemIds,
+                'selectedOutfitIds': widget.selectedOutfitIds,
               },
             );
           }
@@ -96,7 +110,7 @@ class FilterScreen extends StatelessWidget {
               AppRoutesName.trialStarted,
               extra: {
                 'selectedFeatureRoute': AppRoutesName.filter,
-                'isFromMyCloset': isFromMyCloset,
+                'isFromMyCloset': widget.isFromMyCloset,
               },
             );
           }
@@ -106,14 +120,29 @@ class FilterScreen extends StatelessWidget {
               AppRoutesName.payment,
               extra: {
                 'featureKey': FeatureKey.filter,
-                'isFromMyCloset': isFromMyCloset,
-                'previousRoute': isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
+                'isFromMyCloset': widget.isFromMyCloset,
+                'previousRoute': widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
                 'nextRoute': AppRoutesName.filter,
               },
             );
           }
         },
         ),
+              BlocListener<TutorialBloc, TutorialState>(
+                listener: (context, tutorialState) {
+                  if (tutorialState is ShowTutorial) {
+                    _logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+                    context.goNamed(
+                      AppRoutesName.tutorialVideoPopUp,
+                      extra: {
+                        'nextRoute': AppRoutesName.filter,
+                        'tutorialInputKey': TutorialType.paidFilter.value,
+                        'isFromMyCloset': widget.isFromMyCloset
+                      },
+                    );
+                  }
+                },
+              ),
             ],
 
         child: BlocBuilder<FilterBloc, FilterState>(
@@ -127,7 +156,7 @@ class FilterScreen extends StatelessWidget {
                 return Column(
                   children: [
                     // TabBarView takes available space above the button
-                    if (showOnlyClosetFilter) ...[
+                    if (widget.showOnlyClosetFilter) ...[
                       const SizedBox(height: 20),
                       if (state.hasMultiClosetFeature)
                         Padding(
@@ -167,7 +196,7 @@ class FilterScreen extends StatelessWidget {
                             SingleSelectionTab(state: state),
                             MultiSelectionTab(
                                 state: state,
-                              isFromMyCloset: isFromMyCloset),
+                              isFromMyCloset: widget.isFromMyCloset),
                           ],
                         ),
                       ),

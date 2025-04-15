@@ -474,6 +474,37 @@ class MessageLookup extends MessageLookupByLibrary {
         "machine": MessageLookupByLibrary.simpleMessage("Machine"),
         "maxPendingItemsSnackbar": m4,
         "medium": MessageLookupByLibrary.simpleMessage("Medium"),
+        "memoryScenarioTutorial": MessageLookupByLibrary.simpleMessage(
+            "You thought you’d remember it all.\nNow you can.\n\nTheir story lives on—one outfit at a time."),
+        "memoryTutorialClosetUploaded": MessageLookupByLibrary.simpleMessage(
+            "Use what they have.\nBuild the streak.\nUnlock more—just by choosing less."),
+        "memoryTutorialFreeCreateOutfitCreateOutfitProcess":
+            MessageLookupByLibrary.simpleMessage(
+                "One outfit. One day. One memory.\nSnap it. Note it. Feel it again tomorrow."),
+        "memoryTutorialFreeEditCameraDeclutterItems":
+            MessageLookupByLibrary.simpleMessage(
+                "They’re growing.\nSo are the stories behind what they wore."),
+        "memoryTutorialFreePhotoLibraryUploadClothing":
+            MessageLookupByLibrary.simpleMessage(
+                "You’ve saved the moments—now sort the memories.\nOne tap brings each piece into their story."),
+        "memoryTutorialFreeUploadCameraUploadClothing":
+            MessageLookupByLibrary.simpleMessage(
+                "The little things matter.\nCapture them now, find them later."),
+        "memoryTutorialPaidCalendarTrackFirstExperiences":
+            MessageLookupByLibrary.simpleMessage(
+                "What you wore.How it felt.\nIt’s all here—ready to remember, ready to reuse."),
+        "memoryTutorialPaidCustomizeViewAllItems":
+            MessageLookupByLibrary.simpleMessage(
+                "Your closet, your way.\nZoom in. Sort by love.\nOne tap brings it all back."),
+        "memoryTutorialPaidFilterFindInCloset":
+            MessageLookupByLibrary.simpleMessage(
+                "Life moves fast.\nTheir closet keeps up.\nFind what you need—right when you need it."),
+        "memoryTutorialPaidMultiClosetCreateCapsule":
+            MessageLookupByLibrary.simpleMessage(
+                "Some closets hold the past.\nSome, the present.\nAll of them—pieces of your story."),
+        "memoryTutorialPaidUsageAnalyticsCostPerWear":
+            MessageLookupByLibrary.simpleMessage(
+                "They outgrew the clothes—\nbut not the moments you lived in them.\nSee what mattered. Feel it again."),
         "metadata": MessageLookupByLibrary.simpleMessage("More"),
         "metadataFeatureDescription": MessageLookupByLibrary.simpleMessage(
             "Want to add extra details to your items for better organization? Let us know!"),
@@ -609,8 +640,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "outfitsAll": MessageLookupByLibrary.simpleMessage("All Outfits"),
         "outfits_upload":
             MessageLookupByLibrary.simpleMessage("Number of outfits uploaded"),
-        "parentMemories":
-            MessageLookupByLibrary.simpleMessage("Closet for My Little One"),
+        "parentMemories": MessageLookupByLibrary.simpleMessage(
+            "Preserve their Little Moments"),
         "perfume": MessageLookupByLibrary.simpleMessage("Cosmetic"),
         "permanentCloset":
             MessageLookupByLibrary.simpleMessage("Permanent Closet"),
@@ -824,6 +855,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Trial Activated!"),
         "trialStartedTitle":
             MessageLookupByLibrary.simpleMessage("Explore Premium Benefits"),
+        "tutorialClosetUploadedTitle":
+            MessageLookupByLibrary.simpleMessage("Closet Upload Tutorial"),
         "tutorialFreeCreateOutfitCreateOutfitProcess":
             MessageLookupByLibrary.simpleMessage("Process of creating outfits"),
         "tutorialFreeCreateOutfitOutfitSuggestion":
@@ -831,14 +864,16 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Not sure what to wear today?"),
         "tutorialFreeCreateOutfitReviewOutfit":
             MessageLookupByLibrary.simpleMessage("Review your daily outfit"),
-        "tutorialFreeCreateOutfitTitle":
-            MessageLookupByLibrary.simpleMessage("Mix and Match Outfits"),
+        "tutorialFreeCreateOutfitTitle": MessageLookupByLibrary.simpleMessage(
+            "Weave new looks from familiar threads"),
         "tutorialFreeEditCameraDeclutterItems":
             MessageLookupByLibrary.simpleMessage("Declutter your items"),
-        "tutorialFreeEditCameraTitle":
-            MessageLookupByLibrary.simpleMessage("Edit Items You’ve Captured"),
+        "tutorialFreeEditCameraTitle": MessageLookupByLibrary.simpleMessage(
+            "Shape each piece into your narrative"),
+        "tutorialFreePhotoLibraryTitle":
+            MessageLookupByLibrary.simpleMessage("Upload from Photo Library"),
         "tutorialFreeUploadCameraTitle": MessageLookupByLibrary.simpleMessage(
-            "Upload Clothes with Your Camera"),
+            "Capture pieces, begin the story"),
         "tutorialFreeUploadCameraUploadClothing":
             MessageLookupByLibrary.simpleMessage(
                 "Upload your clothing into the closet"),
@@ -846,21 +881,21 @@ class MessageLookup extends MessageLookupByLibrary {
         "tutorialPaidCalendarPlanTrips": MessageLookupByLibrary.simpleMessage(
             "Easily create outfits for trip planning"),
         "tutorialPaidCalendarTitle": MessageLookupByLibrary.simpleMessage(
-            "Plan Your Outfits with a Calendar"),
+            "Outfit stories, one day at a time"),
         "tutorialPaidCalendarTrackFirstExperiences":
             MessageLookupByLibrary.simpleMessage("Track first experiences"),
         "tutorialPaidCustomizeCustomizeOrder":
             MessageLookupByLibrary.simpleMessage("Customize your ordering"),
-        "tutorialPaidCustomizeTitle":
-            MessageLookupByLibrary.simpleMessage("Customize Your Experience"),
+        "tutorialPaidCustomizeTitle": MessageLookupByLibrary.simpleMessage(
+            "Arrange your closet, your way"),
         "tutorialPaidCustomizeViewAllItems":
             MessageLookupByLibrary.simpleMessage("See all items in one glance"),
         "tutorialPaidFilterFindInCloset": MessageLookupByLibrary.simpleMessage(
             "Find clothing in a huge closet"),
         "tutorialPaidFilterSellUnworn":
             MessageLookupByLibrary.simpleMessage("Sell unworn clothing"),
-        "tutorialPaidFilterTitle":
-            MessageLookupByLibrary.simpleMessage("Unlock Advanced Filters"),
+        "tutorialPaidFilterTitle": MessageLookupByLibrary.simpleMessage(
+            "Find what you need, when the moment calls"),
         "tutorialPaidFilterTrackFiltering":
             MessageLookupByLibrary.simpleMessage(
                 "Don\'t lose track of filtering"),
@@ -875,7 +910,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Swap items to another closet"),
         "tutorialPaidMultiClosetTitle": MessageLookupByLibrary.simpleMessage(
-            "Switch Between Multiple Closets"),
+            "Step into a new chapter, any time"),
         "tutorialPaidMultiClosetViewUsableItems":
             MessageLookupByLibrary.simpleMessage("View items usable today"),
         "tutorialPaidUsageAnalyticsCostPerWear":
@@ -889,7 +924,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "tutorialPaidUsageAnalyticsSellUnworn":
             MessageLookupByLibrary.simpleMessage("Sell unworn clothing"),
         "tutorialPaidUsageAnalyticsTitle": MessageLookupByLibrary.simpleMessage(
-            "Track Your Usage and Progress"),
+            "Trace your style, one day at a time"),
+        "tutorialScenarioTitle":
+            MessageLookupByLibrary.simpleMessage("Scenario Tutorial"),
         "unableToProcessAccountDeletion": MessageLookupByLibrary.simpleMessage(
             "We’re unable to process your account deletion right now. Could you kindly email us at support@example.com for assistance?"),
         "unableToRetrieveUserId": MessageLookupByLibrary.simpleMessage(

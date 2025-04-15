@@ -36,8 +36,19 @@ class TutorialFeatureList {
         videos: [
           TutorialVideoPart(
             journeyType: OnboardingJourneyType.memoryFlow,
-            youtubeId: 'FtwVBMwTAZk',
-            getDescription: (context) => S.of(context).tutorialFreeUploadCameraUploadClothing,
+            youtubeId: 'KvOLPU87i74',
+            getDescription: (context) => S.of(context).memoryTutorialFreeUploadCameraUploadClothing,
+          ),
+        ],
+      ),
+      TutorialFeatureData(
+        getTitle: (context) => S.of(context).tutorialFreePhotoLibraryTitle,
+        tutorialType: TutorialType.freeUploadPhotoLibrary,
+        videos: [
+          TutorialVideoPart(
+            journeyType: OnboardingJourneyType.memoryFlow,
+            youtubeId: 'WpNNCCElTrY',
+            getDescription: (context) => S.of(context).memoryTutorialFreePhotoLibraryUploadClothing,
           ),
         ],
       ),
@@ -47,8 +58,8 @@ class TutorialFeatureList {
         videos: [
           TutorialVideoPart(
             journeyType: OnboardingJourneyType.memoryFlow,
-            youtubeId: '3X4iSxrs_Gk',
-            getDescription: (context) => S.of(context).tutorialFreeEditCameraDeclutterItems,
+            youtubeId: 'vzHv_VpJwss',
+            getDescription: (context) => S.of(context).memoryTutorialFreeEditCameraDeclutterItems,
           ),
         ],
       ),
@@ -58,8 +69,8 @@ class TutorialFeatureList {
         videos: [
           TutorialVideoPart(
             journeyType: OnboardingJourneyType.memoryFlow,
-            youtubeId: 'ceueaW0ZDtc',
-            getDescription: (context) => S.of(context).tutorialFreeCreateOutfitCreateOutfitProcess,
+            youtubeId: 'J8PBmLyHvg8',
+            getDescription: (context) => S.of(context).memoryTutorialFreeCreateOutfitCreateOutfitProcess,
           ),
         ],
       ),
@@ -69,8 +80,8 @@ class TutorialFeatureList {
         videos: [
           TutorialVideoPart(
             journeyType: OnboardingJourneyType.memoryFlow,
-            youtubeId: 'OvXRbm4hp84',
-            getDescription: (context) => S.of(context).tutorialPaidFilterFindInCloset,
+            youtubeId: 'BJt5lGJb0Ng',
+            getDescription: (context) => S.of(context).memoryTutorialPaidFilterFindInCloset,
           ),
         ],
       ),
@@ -80,8 +91,8 @@ class TutorialFeatureList {
         videos: [
           TutorialVideoPart(
             journeyType: OnboardingJourneyType.memoryFlow,
-            youtubeId: 'KmAB1FiRQpo',
-            getDescription: (context) => S.of(context).tutorialPaidCustomizeViewAllItems,
+            youtubeId: 'UTNqr_VHAeI',
+            getDescription: (context) => S.of(context).memoryTutorialPaidCustomizeViewAllItems,
           ),
         ],
       ),
@@ -91,8 +102,8 @@ class TutorialFeatureList {
         videos: [
           TutorialVideoPart(
             journeyType: OnboardingJourneyType.memoryFlow,
-            youtubeId: 'T2KN0vBxGUY',
-            getDescription: (context) => S.of(context).tutorialPaidMultiClosetCreateCapsule,
+            youtubeId: 'cNJALyXLzrc',
+            getDescription: (context) => S.of(context).memoryTutorialPaidMultiClosetCreateCapsule,
           ),
         ],
       ),
@@ -102,8 +113,8 @@ class TutorialFeatureList {
         videos: [
           TutorialVideoPart(
             journeyType: OnboardingJourneyType.memoryFlow,
-            youtubeId: 'Y4kfz7OvVhg',
-            getDescription: (context) => S.of(context).tutorialPaidCalendarTrackFirstExperiences,
+            youtubeId: 'yoIMoX71Qkw',
+            getDescription: (context) => S.of(context).memoryTutorialPaidCalendarTrackFirstExperiences,
           ),
         ],
       ),
@@ -113,19 +124,30 @@ class TutorialFeatureList {
         videos: [
           TutorialVideoPart(
             journeyType: OnboardingJourneyType.memoryFlow,
-            youtubeId: 'nd8x5qH4AYI',
-            getDescription: (context) => S.of(context).tutorialPaidUsageAnalyticsCostPerWear,
+            youtubeId: 'opP4eiXY7jI',
+            getDescription: (context) => S.of(context).memoryTutorialPaidUsageAnalyticsCostPerWear,
           ),
         ],
       ),
       TutorialFeatureData(
-        getTitle: (context) => S.of(context).tutorialPaidUsageAnalyticsTitle,
+        getTitle: (context) => S.of(context).tutorialClosetUploadedTitle,
+        tutorialType: TutorialType.freeClosetUpload,
+        videos: [
+          TutorialVideoPart(
+            journeyType: OnboardingJourneyType.memoryFlow,
+            youtubeId: 'fFPEBUtfLDg',
+            getDescription: (context) => S.of(context).memoryTutorialClosetUploaded,
+          ),
+        ],
+      ),
+      TutorialFeatureData(
+        getTitle: (context) => S.of(context).tutorialScenarioTitle,
         tutorialType: TutorialType.flowIntroMemory,
         videos: [
           TutorialVideoPart(
             journeyType: OnboardingJourneyType.memoryFlow,
-            youtubeId: 'nd8x5qH4AYI',
-            getDescription: (context) => S.of(context).tutorialPaidUsageAnalyticsCostPerWear,
+            youtubeId: 'odERINOWkSA',
+            getDescription: (context) => S.of(context).memoryScenarioTutorial,
           ),
         ],
       ),

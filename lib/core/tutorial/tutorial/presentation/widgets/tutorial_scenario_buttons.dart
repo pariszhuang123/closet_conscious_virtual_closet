@@ -80,7 +80,7 @@ class TutorialScenarioButtons extends StatelessWidget {
                 ),
                 assetPath: TypeDataList.parentMemories(context).assetPath,
                 isFromMyCloset: isFromMyCloset,
-                buttonType: ButtonType.secondary,
+                buttonType: ButtonType.primary,
                 usePredefinedColor: false,
               ),
             ),

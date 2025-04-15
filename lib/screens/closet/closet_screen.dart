@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/core_enums.dart';
 import '../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../core/achievement_celebration/helper/achievement_navigator.dart';
 import '../../core/utilities/app_router.dart';
 import '../../core/utilities/logger.dart';
+import '../../core/utilities/helper_functions/tutorial_helper.dart';
+import '../../core/theme/ui_constant.dart';
+import '../../core/widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../core/widgets/dialog/trial_ended_dialog.dart';
+import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
 import '../../core/widgets/layout/grid/interactive_item_grid.dart';
+import '../../core/photo_library/presentation/bloc/photo_library_bloc.dart';
+import '../../core/tutorial/scenario/presentation/bloc/first_time_scenario_bloc.dart';
+import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../item_management/view_items/presentation/bloc/view_items_bloc.dart'; // Import ViewItemsBloc
 import '../../item_management/streak_item/presentation/bloc/upload_item_streak_bloc.dart';
 import '../../item_management/core/presentation/bloc/navigate_item_bloc/navigate_item_bloc.dart';
@@ -16,15 +26,7 @@ import '../../generated/l10n.dart';
 import '../../core/widgets/bottom_sheet/premium_bottom_sheet/public_closet_premium_bottom_sheet.dart';
 import '../../item_management/upload_item/presentation/widgets/upload_confirmation_bottom_sheet.dart';
 import '../app_drawer.dart';
-import '../../core/theme/ui_constant.dart';
-import '../../core/widgets/progress_indicator/closet_progress_indicator.dart';
-import '../../core/widgets/dialog/trial_ended_dialog.dart';
-import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
-import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
-import '../../core/core_enums.dart';
 import '../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
-import '../../core/photo_library/presentation/bloc/photo_library_bloc.dart';
-import '../../core/tutorial/scenario/presentation/bloc/first_time_scenario_bloc.dart';
 
 class MyClosetScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -43,7 +45,8 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   @override
   void initState() {
     super.initState();
-    // Dispatch initial item fetch event
+    context.read<UploadStreakBloc>().add(CheckUploadStatus());
+    context.read<FirstTimeScenarioBloc>().add(CheckFirstTimeScenario());
     _triggerItemUploadAchievement();
     _triggerItemPicEditedAchievement();
     _triggerItemGiftedAchievement();
@@ -202,6 +205,21 @@ class MyClosetScreenState extends State<MyClosetScreen> {
       data: widget.myClosetTheme,
       child: MultiBlocListener(
         listeners: [
+          BlocListener<TutorialBloc, TutorialState>(
+            listener: (context, tutorialState) {
+              if (tutorialState is ShowTutorial) {
+                logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+                context.goNamed(
+                  AppRoutesName.tutorialVideoPopUp,
+                  extra: {
+                    'nextRoute': AppRoutesName.myCloset,
+                    'tutorialInputKey': TutorialType.freeClosetUpload.value,
+                    'isFromMyCloset': true,
+                  },
+                );
+              }
+            },
+          ),
           BlocListener<PhotoLibraryBloc, PhotoLibraryState>(
             listener: (context, state) {
               if (state is PhotoLibraryPendingItem) {
@@ -265,16 +283,31 @@ class MyClosetScreenState extends State<MyClosetScreen> {
           ),
           BlocListener<UploadStreakBloc, UploadStreakState>(
             listener: (context, state) {
-              if (state is UploadStreakSuccess && state.apparelCount == 0) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  final snackBar = CustomSnackbar(
-                    message: S
-                        .of(context)
-                        .clickUploadItemInCloset,
-                    theme: Theme.of(context),
+              if (state is UploadStreakSuccess) {
+                if (!state.isUploadCompleted) {
+                  // Optional: still show snack if closet is empty and not uploaded
+                  if (state.apparelCount == 0) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      CustomSnackbar(
+                        message: S.of(context).clickUploadItemInCloset,
+                        theme: Theme.of(context),
+                      ).show(context);
+                    });
+                  }
+
+                  return; // ❌ Don’t trigger tutorial if not uploaded
+                }
+
+                final firstTimeState = context.read<FirstTimeScenarioBloc>().state;
+
+                final isNotFirstTimeUser = firstTimeState is FirstTimeCheckFailure ||
+                    (firstTimeState is FirstTimeCheckSuccess && !firstTimeState.isFirstTime);
+
+                if (isNotFirstTimeUser) {
+                  context.read<TutorialBloc>().add(
+                    const CheckTutorialStatus(TutorialType.freeClosetUpload),
                   );
-                  snackBar.show(context);
-                });
+                }
               }
             },
           ),

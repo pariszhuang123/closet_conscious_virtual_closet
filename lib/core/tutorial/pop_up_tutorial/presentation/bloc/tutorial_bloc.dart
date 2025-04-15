@@ -12,11 +12,11 @@ part 'tutorial_event.dart';
 part 'tutorial_state.dart';
 
 class TutorialBloc extends Bloc<TutorialEvent, TutorialState> {
-  final CoreFetchService fetchService;
-  final CoreSaveService saveService;
+  final CoreFetchService coreFetchService;
+  final CoreSaveService coreSaveService;
   final logger = CustomLogger('TutorialBloc');
 
-  TutorialBloc({required this.fetchService, required this.saveService})
+  TutorialBloc({required this.coreFetchService, required this.coreSaveService})
       : super(TutorialInitial()) {
     on<CheckTutorialStatus>(_onCheckTutorialStatus);
     on<LoadTutorialFeatureData>(_onLoadTutorialFeatureData);
@@ -25,7 +25,7 @@ class TutorialBloc extends Bloc<TutorialEvent, TutorialState> {
 
   Future<void> _onCheckTutorialStatus(CheckTutorialStatus event,
       Emitter<TutorialState> emit,) async {
-    final isFirstTime = await fetchService.isFirstTimeTutorial(
+    final isFirstTime = await coreFetchService.isFirstTimeTutorial(
       tutorialInput: event.tutorialType.value, // ✅ use the extension
     );
     if (isFirstTime) {
@@ -76,7 +76,7 @@ class TutorialBloc extends Bloc<TutorialEvent, TutorialState> {
             .dismissType.name})');
 
     try {
-      final result = await saveService.trackTutorialInteraction(
+      final result = await coreSaveService.trackTutorialInteraction(
         tutorialInput: event.tutorialInput,
       );
 

@@ -47,7 +47,7 @@ class GoalSelectionScreen extends StatelessWidget {
               AppRoutesName.tutorialVideoPopUp,
               extra: {
                 'tutorialInputKey': state.selectedGoal.value,
-                'nextRoute': AppRoutesName.myCloset,
+                'nextRoute': AppRoutesName.pendingPhotoLibrary,
                 'isFromMyCloset': true,
               },
             );

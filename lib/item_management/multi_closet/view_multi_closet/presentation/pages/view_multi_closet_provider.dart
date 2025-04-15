@@ -9,6 +9,7 @@ import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../../core/data/services/core_save_services.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../../../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 
 class ViewMultiClosetProvider extends StatelessWidget {
   final bool isFromMyCloset;
@@ -44,6 +45,15 @@ class ViewMultiClosetProvider extends StatelessWidget {
             final cubit = CrossAxisCountCubit(coreFetchService: coreFetchService);
             cubit.fetchCrossAxisCount(); // Trigger initial fetch
             return cubit;
+          },
+        ),
+        BlocProvider<TutorialBloc>(
+          create: (context) {
+            logger.d('Creating TutorialBloc with core services');
+            return TutorialBloc(
+              coreFetchService: coreFetchService,
+              coreSaveService: coreSaveService,
+            );
           },
         ),
       ],

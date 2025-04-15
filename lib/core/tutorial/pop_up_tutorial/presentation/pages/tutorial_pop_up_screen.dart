@@ -19,12 +19,14 @@ class TutorialPopUpScreen extends StatelessWidget {
   final String tutorialInputKey;
   final String nextRoute;
   final bool isFromMyCloset;
+  final String? itemId;
 
   const TutorialPopUpScreen({
     super.key,
     required this.tutorialInputKey,
     required this.nextRoute,
     required this.isFromMyCloset,
+    this.itemId, // ✅ optional param
   });
 
   void _onDismiss(BuildContext context, CustomLogger logger,
@@ -56,8 +58,14 @@ class TutorialPopUpScreen extends StatelessWidget {
                     '✅ Tutorial saved. Dismiss type: ${state.dismissType}');
                 switch (state.dismissType) {
                   case TutorialDismissType.confirmed:
-                    context.goNamed(nextRoute);
-                    break;
+                    if (itemId != null) {
+                      context.goNamed(
+                        nextRoute,
+                        extra: itemId, // pass it along
+                      );
+                    } else {
+                      context.goNamed(nextRoute);
+                    }
                   case TutorialDismissType.dismissed:
                     context.goNamed(AppRoutesName.tutorialHub);
                     break;

@@ -11,12 +11,15 @@ class TutorialPopUpProvider extends StatelessWidget {
   final String tutorialInputKey;
   final String nextRoute;
   final bool isFromMyCloset;
+  final String? itemId;
 
   const TutorialPopUpProvider({
     super.key,
     required this.tutorialInputKey,
     required this.nextRoute,
     required this.isFromMyCloset,
+    this.itemId, // ✅ optional param
+
   });
 
   @override
@@ -28,8 +31,8 @@ class TutorialPopUpProvider extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (_) => TutorialBloc(
-            fetchService: coreFetchService,
-            saveService: coreSaveService,
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
           ),
         ),
         BlocProvider(
@@ -41,6 +44,7 @@ class TutorialPopUpProvider extends StatelessWidget {
         tutorialInputKey: tutorialInputKey,
         nextRoute: nextRoute,
         isFromMyCloset: isFromMyCloset,
+        itemId: itemId, // ✅ forward it
       ),
     );
   }

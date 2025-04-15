@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../generated/l10n.dart';
@@ -6,6 +7,9 @@ import '../../../../core/widgets/bottom_sheet/premium_bottom_sheet/swap_premium_
 import '../../../../core/widgets/bottom_sheet/premium_bottom_sheet/metadata_premium_bottom_sheet.dart';
 import '../../../../core/utilities/app_router.dart';
 import '../../../../core/utilities/logger.dart';
+import '../../../../core/utilities/helper_functions/tutorial_helper.dart';
+import '../../../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../../../core/core_enums.dart';
 import '../../presentation/widgets/edit_item_image_with_additional_features.dart';
 import '../widgets/edit_item_metadata_button.dart';
 
@@ -30,7 +34,10 @@ class _EditItemScreenState extends State<EditItemScreen> {
   @override
   void initState() {
     super.initState();
-    _amountSpentFocusNode = FocusNode(); // <-- Initialize FocusNode here
+    _amountSpentFocusNode = FocusNode();
+    context.read<TutorialBloc>().add(
+      const CheckTutorialStatus(TutorialType.freeEditCamera),
+    );
     _logger.i('Initialized EditItemScreen with itemId: ${widget.itemId}');
   }
 
@@ -85,7 +92,27 @@ class _EditItemScreenState extends State<EditItemScreen> {
     return GestureDetector(
         onTap: _dismissKeyboard,
         behavior: HitTestBehavior.translucent,
-        child: Scaffold(
+        child: MultiBlocListener(
+        listeners: [
+        BlocListener<TutorialBloc, TutorialState>(
+        listener: (context, tutorialState) {
+      if (tutorialState is ShowTutorial) {
+        _logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+        context.goNamed(
+          AppRoutesName.tutorialVideoPopUp,
+          extra: {
+            'nextRoute': AppRoutesName.editItem,
+            'tutorialInputKey': TutorialType.freeEditCamera.value,
+            'isFromMyCloset': true,
+            'itemId': widget.itemId,
+          },
+        );
+      }
+    },
+    ),
+    ],
+
+    child: Scaffold(
           appBar: AppBar(
             title: Text(
               S.of(context).editPageTitle,
@@ -114,6 +141,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           ),
         ]),
       ),
+        )
     );
   }
 }

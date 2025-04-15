@@ -15,6 +15,7 @@ import '../../core/data/services/core_save_services.dart';
 import '../../core/photo_library/presentation/bloc/photo_library_bloc.dart';
 import '../../core/photo_library/usecase/photo_library_service.dart';
 import '../../core/tutorial/scenario/presentation/bloc/first_time_scenario_bloc.dart';
+import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 
 class MyClosetProvider extends StatelessWidget {
   final ThemeData myClosetTheme;
@@ -71,6 +72,14 @@ class MyClosetProvider extends StatelessWidget {
             coreFetchService: coreFetchService,
             coreSaveService: coreSaveService,
           )..add(CheckFirstTimeScenario()),
+        ),
+        BlocProvider<TutorialBloc>(
+          create: (context) {
+            return TutorialBloc(
+              coreFetchService: coreFetchService,
+              coreSaveService: coreSaveService,
+            );
+          },
         ),
       ],
       child: MyClosetScreen(

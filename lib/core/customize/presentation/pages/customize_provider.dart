@@ -6,7 +6,8 @@ import '../../../data/services/core_fetch_services.dart';
 import '../../../data/services/core_save_services.dart';
 import '../../presentation/bloc/customize_bloc.dart';
 import 'customize_screen.dart';
-import '../../../../core/utilities/logger.dart'; // Import your logger
+import '../../../utilities/logger.dart'; // Import your logger
+import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 
 class CustomizeProvider extends StatelessWidget {
   final bool isFromMyCloset;
@@ -33,18 +34,29 @@ class CustomizeProvider extends StatelessWidget {
     final coreFetchService = GetIt.instance.get<CoreFetchService>();
     final coreSaveService = GetIt.instance.get<CoreSaveService>();
 
-    return BlocProvider(
-      create: (context) {
-        _logger.d('Creating CustomizeBloc with core services');
-        final customizeBloc = CustomizeBloc(
-          coreFetchService: coreFetchService,
-          coreSaveService: coreSaveService,
-        );
-
-        _logger.i('Adding LoadCustomizeEvent to CustomizeBloc');
-        customizeBloc.add(LoadCustomizeEvent());
-        return customizeBloc;
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<CustomizeBloc>(
+          create: (context) {
+            _logger.d('Creating CustomizeBloc with core services');
+            final bloc = CustomizeBloc(
+              coreFetchService: coreFetchService,
+              coreSaveService: coreSaveService,
+            );
+            _logger.i('Adding LoadCustomizeEvent to CustomizeBloc');
+            return bloc;
+          },
+        ),
+        BlocProvider<TutorialBloc>(
+          create: (context) {
+            _logger.d('Creating TutorialBloc with core services');
+            return TutorialBloc(
+              coreFetchService: coreFetchService,
+              coreSaveService: coreSaveService,
+            );
+          },
+        ),
+      ],
       child: CustomizeScreen(
         isFromMyCloset: isFromMyCloset,
         selectedItemIds: selectedItemIds,

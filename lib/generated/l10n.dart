@@ -5151,10 +5151,10 @@ class S {
     );
   }
 
-  /// `Closet for My Little One`
+  /// `Preserve their Little Moments`
   String get parentMemories {
     return Intl.message(
-      'Closet for My Little One',
+      'Preserve their Little Moments',
       name: 'parentMemories',
       desc: '',
       args: [],
@@ -5431,80 +5431,80 @@ class S {
     );
   }
 
-  /// `Upload Clothes with Your Camera`
+  /// `Capture pieces, begin the story`
   String get tutorialFreeUploadCameraTitle {
     return Intl.message(
-      'Upload Clothes with Your Camera',
+      'Capture pieces, begin the story',
       name: 'tutorialFreeUploadCameraTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Edit Items You’ve Captured`
+  /// `Shape each piece into your narrative`
   String get tutorialFreeEditCameraTitle {
     return Intl.message(
-      'Edit Items You’ve Captured',
+      'Shape each piece into your narrative',
       name: 'tutorialFreeEditCameraTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Mix and Match Outfits`
+  /// `Weave new looks from familiar threads`
   String get tutorialFreeCreateOutfitTitle {
     return Intl.message(
-      'Mix and Match Outfits',
+      'Weave new looks from familiar threads',
       name: 'tutorialFreeCreateOutfitTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Unlock Advanced Filters`
+  /// `Find what you need, when the moment calls`
   String get tutorialPaidFilterTitle {
     return Intl.message(
-      'Unlock Advanced Filters',
+      'Find what you need, when the moment calls',
       name: 'tutorialPaidFilterTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Customize Your Experience`
+  /// `Arrange your closet, your way`
   String get tutorialPaidCustomizeTitle {
     return Intl.message(
-      'Customize Your Experience',
+      'Arrange your closet, your way',
       name: 'tutorialPaidCustomizeTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Switch Between Multiple Closets`
+  /// `Step into a new chapter, any time`
   String get tutorialPaidMultiClosetTitle {
     return Intl.message(
-      'Switch Between Multiple Closets',
+      'Step into a new chapter, any time',
       name: 'tutorialPaidMultiClosetTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Plan Your Outfits with a Calendar`
+  /// `Outfit stories, one day at a time`
   String get tutorialPaidCalendarTitle {
     return Intl.message(
-      'Plan Your Outfits with a Calendar',
+      'Outfit stories, one day at a time',
       name: 'tutorialPaidCalendarTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Track Your Usage and Progress`
+  /// `Trace your style, one day at a time`
   String get tutorialPaidUsageAnalyticsTitle {
     return Intl.message(
-      'Track Your Usage and Progress',
+      'Trace your style, one day at a time',
       name: 'tutorialPaidUsageAnalyticsTitle',
       desc: '',
       args: [],
@@ -5546,6 +5546,146 @@ class S {
     return Intl.message(
       'Scenario Tutorials',
       name: 'scenarioTutorials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload from Photo Library`
+  String get tutorialFreePhotoLibraryTitle {
+    return Intl.message(
+      'Upload from Photo Library',
+      name: 'tutorialFreePhotoLibraryTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Closet Upload Tutorial`
+  String get tutorialClosetUploadedTitle {
+    return Intl.message(
+      'Closet Upload Tutorial',
+      name: 'tutorialClosetUploadedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scenario Tutorial`
+  String get tutorialScenarioTitle {
+    return Intl.message(
+      'Scenario Tutorial',
+      name: 'tutorialScenarioTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The little things matter.\nCapture them now, find them later.`
+  String get memoryTutorialFreeUploadCameraUploadClothing {
+    return Intl.message(
+      'The little things matter.\nCapture them now, find them later.',
+      name: 'memoryTutorialFreeUploadCameraUploadClothing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve saved the moments—now sort the memories.\nOne tap brings each piece into their story.`
+  String get memoryTutorialFreePhotoLibraryUploadClothing {
+    return Intl.message(
+      'You’ve saved the moments—now sort the memories.\nOne tap brings each piece into their story.',
+      name: 'memoryTutorialFreePhotoLibraryUploadClothing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `They’re growing.\nSo are the stories behind what they wore.`
+  String get memoryTutorialFreeEditCameraDeclutterItems {
+    return Intl.message(
+      'They’re growing.\nSo are the stories behind what they wore.',
+      name: 'memoryTutorialFreeEditCameraDeclutterItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `One outfit. One day. One memory.\nSnap it. Note it. Feel it again tomorrow.`
+  String get memoryTutorialFreeCreateOutfitCreateOutfitProcess {
+    return Intl.message(
+      'One outfit. One day. One memory.\nSnap it. Note it. Feel it again tomorrow.',
+      name: 'memoryTutorialFreeCreateOutfitCreateOutfitProcess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Life moves fast.\nTheir closet keeps up.\nFind what you need—right when you need it.`
+  String get memoryTutorialPaidFilterFindInCloset {
+    return Intl.message(
+      'Life moves fast.\nTheir closet keeps up.\nFind what you need—right when you need it.',
+      name: 'memoryTutorialPaidFilterFindInCloset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your closet, your way.\nZoom in. Sort by love.\nOne tap brings it all back.`
+  String get memoryTutorialPaidCustomizeViewAllItems {
+    return Intl.message(
+      'Your closet, your way.\nZoom in. Sort by love.\nOne tap brings it all back.',
+      name: 'memoryTutorialPaidCustomizeViewAllItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Some closets hold the past.\nSome, the present.\nAll of them—pieces of your story.`
+  String get memoryTutorialPaidMultiClosetCreateCapsule {
+    return Intl.message(
+      'Some closets hold the past.\nSome, the present.\nAll of them—pieces of your story.',
+      name: 'memoryTutorialPaidMultiClosetCreateCapsule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What you wore.How it felt.\nIt’s all here—ready to remember, ready to reuse.`
+  String get memoryTutorialPaidCalendarTrackFirstExperiences {
+    return Intl.message(
+      'What you wore.How it felt.\nIt’s all here—ready to remember, ready to reuse.',
+      name: 'memoryTutorialPaidCalendarTrackFirstExperiences',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `They outgrew the clothes—\nbut not the moments you lived in them.\nSee what mattered. Feel it again.`
+  String get memoryTutorialPaidUsageAnalyticsCostPerWear {
+    return Intl.message(
+      'They outgrew the clothes—\nbut not the moments you lived in them.\nSee what mattered. Feel it again.',
+      name: 'memoryTutorialPaidUsageAnalyticsCostPerWear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use what they have.\nBuild the streak.\nUnlock more—just by choosing less.`
+  String get memoryTutorialClosetUploaded {
+    return Intl.message(
+      'Use what they have.\nBuild the streak.\nUnlock more—just by choosing less.',
+      name: 'memoryTutorialClosetUploaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You thought you’d remember it all.\nNow you can.\n\nTheir story lives on—one outfit at a time.`
+  String get memoryScenarioTutorial {
+    return Intl.message(
+      'You thought you’d remember it all.\nNow you can.\n\nTheir story lives on—one outfit at a time.',
+      name: 'memoryScenarioTutorial',
       desc: '',
       args: [],
     );
