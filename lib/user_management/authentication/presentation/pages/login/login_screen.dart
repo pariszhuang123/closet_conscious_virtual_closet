@@ -96,6 +96,7 @@ class LoginScreenState extends State<LoginScreen> {
           url: url,
           title: title,
           isFromMyCloset: true,
+          fallbackRouteName: AppRoutesName.login,
         ),
       );
       _logger.i("Navigation to WebViewScreen successful.");

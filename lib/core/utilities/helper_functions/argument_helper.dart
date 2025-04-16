@@ -24,10 +24,12 @@ class WebViewArguments {
   final String url;
   final bool isFromMyCloset;
   final String title;
+  final String fallbackRouteName;
 
   WebViewArguments({
     required this.url,
     required this.isFromMyCloset,
     required this.title,
+    required this.fallbackRouteName,
   });
 }

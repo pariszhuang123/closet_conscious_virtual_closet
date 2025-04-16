@@ -102,19 +102,22 @@ class DeclutterBottomSheetState extends State<DeclutterBottomSheet> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (BuildContext dialogContext) {
         return CustomAlertDialog(
           title: title,
           content: Text(message),
-          buttonText: S.of(context).confirm,
+          buttonText: S.of(dialogContext).confirm,
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(dialogContext).pop();
             _handleButtonPress(rpcName);
           },
           theme: widget.isFromMyCloset ? myClosetTheme : myOutfitTheme,
           iconButton: IconButton(
             icon: const Icon(Icons.close),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {
+              Navigator.of(dialogContext).pop(); // Pop dialog
+              Navigator.of(context).pop(); // Pop previous screen
+            },
           ),
           canPop: true,
         );

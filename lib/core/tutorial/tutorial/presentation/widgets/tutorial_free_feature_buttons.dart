@@ -84,7 +84,7 @@ class TutorialFreeFeatureButtons extends StatelessWidget {
                     navigateToTutorial(
                       context: context,
                       tutorialType: TutorialType.freeEditCamera,
-                      nextRoute: AppRoutesName.editItem,
+                      nextRoute: AppRoutesName.myCloset,
                       isFromMyCloset: isFromMyCloset,
                     ),
                 assetPath: TypeDataList

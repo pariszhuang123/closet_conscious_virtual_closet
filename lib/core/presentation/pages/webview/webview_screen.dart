@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../../theme/my_closet_theme.dart';
 import '../../../theme/my_outfit_theme.dart';
 import '../../../utilities/logger.dart';
@@ -8,6 +10,7 @@ class WebViewScreen extends StatelessWidget {
   final String url;
   final bool isFromMyCloset;
   final String title;
+  final String fallbackRouteName;
 
   final CustomLogger logger = CustomLogger('WebViewScreen');
 
@@ -16,6 +19,7 @@ class WebViewScreen extends StatelessWidget {
     required this.url,
     required this.isFromMyCloset,
     required this.title,
+    required this.fallbackRouteName,
   });
 
   @override
@@ -49,11 +53,21 @@ class WebViewScreen extends StatelessWidget {
 
     return Theme(
       data: theme,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (bool didPop, Object? result) {
+          if (!didPop) {
+            logger.i('Back navigation intercepted');
+
+            context.goNamed(
+              fallbackRouteName,
+            );
+          }
+        },
+        child: Scaffold(
+          appBar: AppBar(title: Text(title)),
+          body: WebViewWidget(controller: controller),
         ),
-        body: WebViewWidget(controller: controller),
       ),
     );
   }

@@ -570,6 +570,7 @@ final GoRouter appRouter = GoRouter(
             url: args.url,
             isFromMyCloset: args.isFromMyCloset,
             title: args.title,
+            fallbackRouteName: args.fallbackRouteName,
           ),
           transitionType: TransitionType.fade,
         );

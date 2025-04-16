@@ -64,12 +64,13 @@ class TutorialPopUpScreen extends StatelessWidget {
                   case TutorialDismissType.confirmed:
                     if (optionalUrl != null && optionalUrl!.isNotEmpty) {
                       // Redirect to WebView if URL is provided
-                      context.pushNamed(
+                      context.goNamed(
                         AppRoutesName.webView,
                         extra: WebViewArguments(
                           url: optionalUrl!,
                           title: S.of(context).streakBenefitsTitle,
                           isFromMyCloset: isFromMyCloset,
+                          fallbackRouteName: AppRoutesName.myCloset
                         ),
                       );
                     } else if (itemId != null) {

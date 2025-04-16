@@ -200,6 +200,7 @@ class AppDrawer extends StatelessWidget {
         url: infoHubUrl,
         isFromMyCloset: isFromMyCloset,
         title: infoHubTitle,
+        fallbackRouteName: AppRoutesName.myCloset,
       ),
     );
   }
