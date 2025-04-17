@@ -2740,346 +2740,6 @@ class S {
     );
   }
 
-  /// `Sustainable Start!`
-  String get noNewClothes90Achievement {
-    return Intl.message(
-      'Sustainable Start!',
-      name: 'noNewClothes90Achievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `You’ve hit 90 days without new clothes! Keep building those eco-friendly habits! 🌱`
-  String get noNewClothes90AchievementMessage {
-    return Intl.message(
-      'You’ve hit 90 days without new clothes! Keep building those eco-friendly habits! 🌱',
-      name: 'noNewClothes90AchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Eco-Warrior in the Making!`
-  String get noNewClothes225Achievement {
-    return Intl.message(
-      'Eco-Warrior in the Making!',
-      name: 'noNewClothes225Achievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `225 days and counting! Your closet is thriving, and so is the planet. 🌍`
-  String get noNewClothes225AchievementMessage {
-    return Intl.message(
-      '225 days and counting! Your closet is thriving, and so is the planet. 🌍',
-      name: 'noNewClothes225AchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Champion of Conscious Choices!`
-  String get noNewClothes405Achievement {
-    return Intl.message(
-      'Champion of Conscious Choices!',
-      name: 'noNewClothes405Achievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `405 days strong! Your commitment to conscious fashion is an inspiration.`
-  String get noNewClothes405AchievementMessage {
-    return Intl.message(
-      '405 days strong! Your commitment to conscious fashion is an inspiration.',
-      name: 'noNewClothes405AchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Sustainability Leader!`
-  String get noNewClothes630Achievement {
-    return Intl.message(
-      'Sustainability Leader!',
-      name: 'noNewClothes630Achievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `630 days without new clothes—you're leading by example! Keep going!`
-  String get noNewClothes630AchievementMessage {
-    return Intl.message(
-      '630 days without new clothes—you\'re leading by example! Keep going!',
-      name: 'noNewClothes630AchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Trailblazer of Change!`
-  String get noNewClothes900Achievement {
-    return Intl.message(
-      'Trailblazer of Change!',
-      name: 'noNewClothes900Achievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `900 days of conscious choices! You’re setting trends and making waves in sustainability!`
-  String get noNewClothes900AchievementMessage {
-    return Intl.message(
-      '900 days of conscious choices! You’re setting trends and making waves in sustainability!',
-      name: 'noNewClothes900AchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Icon of Sustainability!`
-  String get noNewClothes1215Achievement {
-    return Intl.message(
-      'Icon of Sustainability!',
-      name: 'noNewClothes1215Achievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `1,215 days of intentional living! Your journey is inspiring others to follow in your footsteps.`
-  String get noNewClothes1215AchievementMessage {
-    return Intl.message(
-      '1,215 days of intentional living! Your journey is inspiring others to follow in your footsteps.',
-      name: 'noNewClothes1215AchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Master of Minimalism!`
-  String get noNewClothes1575Achievement {
-    return Intl.message(
-      'Master of Minimalism!',
-      name: 'noNewClothes1575Achievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `1,575 days of embracing what you have. You're rewriting the rules of fashion!`
-  String get noNewClothes1575AchievementMessage {
-    return Intl.message(
-      '1,575 days of embracing what you have. You\'re rewriting the rules of fashion!',
-      name: 'noNewClothes1575AchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Beacon of Sustainability!`
-  String get noNewClothes1980Achievement {
-    return Intl.message(
-      'Beacon of Sustainability!',
-      name: 'noNewClothes1980Achievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `1,980 days of dedication to mindful choices! You're a shining example of sustainable living and an inspiration to us all. ✨🌏`
-  String get noNewClothes1980AchievementMessage {
-    return Intl.message(
-      '1,980 days of dedication to mindful choices! You\'re a shining example of sustainable living and an inspiration to us all. ✨🌏',
-      name: 'noNewClothes1980AchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `All Clothes, All You!`
-  String get allClothesWornAchievement {
-    return Intl.message(
-      'All Clothes, All You!',
-      name: 'allClothesWornAchievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `You've worn every single item in your closet! You're mastering mindful fashion choices.`
-  String get allClothesWornAchievementMessage {
-    return Intl.message(
-      'You\'ve worn every single item in your closet! You\'re mastering mindful fashion choices.',
-      name: 'allClothesWornAchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Virtual Closet Complete!`
-  String get closetUploadAchievement {
-    return Intl.message(
-      'Virtual Closet Complete!',
-      name: 'closetUploadAchievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Congratulations! You've uploaded all your items to your virtual closet. Now you can style like a pro!`
-  String get closetUploadAchievementMessage {
-    return Intl.message(
-      'Congratulations! You\'ve uploaded all your items to your virtual closet. Now you can style like a pro!',
-      name: 'closetUploadAchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Selfie Superstar!`
-  String get firstSelfieTakenAchievement {
-    return Intl.message(
-      'Selfie Superstar!',
-      name: 'firstSelfieTakenAchievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `You’ve taken your first selfie! Show off your style and let your closet shine!`
-  String get firstSelfieTakenAchievementMessage {
-    return Intl.message(
-      'You’ve taken your first selfie! Show off your style and let your closet shine!',
-      name: 'firstSelfieTakenAchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Outfit Architect!`
-  String get firstOutfitCreatedAchievement {
-    return Intl.message(
-      'Outfit Architect!',
-      name: 'firstOutfitCreatedAchievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Your first outfit is ready! You're on your way to mastering your style.`
-  String get firstOutfitCreatedAchievementMessage {
-    return Intl.message(
-      'Your first outfit is ready! You\'re on your way to mastering your style.',
-      name: 'firstOutfitCreatedAchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Generous Giver!`
-  String get firstItemGiftedAchievement {
-    return Intl.message(
-      'Generous Giver!',
-      name: 'firstItemGiftedAchievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `You’ve gifted your first item! Your style is making someone else’s day brighter.`
-  String get firstItemGiftedAchievementMessage {
-    return Intl.message(
-      'You’ve gifted your first item! Your style is making someone else’s day brighter.',
-      name: 'firstItemGiftedAchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Picture Perfect!`
-  String get firstItemPicEditedAchievement {
-    return Intl.message(
-      'Picture Perfect!',
-      name: 'firstItemPicEditedAchievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Your first item picture has been edited! Your closet is looking better than ever.`
-  String get firstItemPicEditedAchievementMessage {
-    return Intl.message(
-      'Your first item picture has been edited! Your closet is looking better than ever.',
-      name: 'firstItemPicEditedAchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Smart Seller!`
-  String get firstItemSoldAchievement {
-    return Intl.message(
-      'Smart Seller!',
-      name: 'firstItemSoldAchievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `You’ve sold your first item! Way to turn your closet into cash and make space for new looks.`
-  String get firstItemSoldAchievementMessage {
-    return Intl.message(
-      'You’ve sold your first item! Way to turn your closet into cash and make space for new looks.',
-      name: 'firstItemSoldAchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Sustainable Swapper!`
-  String get firstItemSwapAchievement {
-    return Intl.message(
-      'Sustainable Swapper!',
-      name: 'firstItemSwapAchievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `You’ve swapped your first item! Your wardrobe just got a stylish and sustainable refresh.`
-  String get firstItemSwapAchievementMessage {
-    return Intl.message(
-      'You’ve swapped your first item! Your wardrobe just got a stylish and sustainable refresh.',
-      name: 'firstItemSwapAchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Item Initiator!`
-  String get firstItemUploadAchievement {
-    return Intl.message(
-      'Item Initiator!',
-      name: 'firstItemUploadAchievement',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Your first item is uploaded! Your virtual closet journey has begun!`
-  String get firstItemUploadAchievementMessage {
-    return Intl.message(
-      'Your first item is uploaded! Your virtual closet journey has begun!',
-      name: 'firstItemUploadAchievementMessage',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Achievement Unlocked!`
   String get defaultAchievementTitle {
     return Intl.message(
@@ -5601,6 +5261,346 @@ class S {
     );
   }
 
+  /// `You've worn every single item in your closet! You're mastering mindful fashion choices.`
+  String get defaultAchievementAllClothesWornMessage {
+    return Intl.message(
+      'You\'ve worn every single item in your closet! You\'re mastering mindful fashion choices.',
+      name: 'defaultAchievementAllClothesWornMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Clothes, All You!`
+  String get defaultAchievementAllClothesWornTitle {
+    return Intl.message(
+      'All Clothes, All You!',
+      name: 'defaultAchievementAllClothesWornTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Congratulations! You've uploaded all your items to your virtual closet. Now you can style like a pro!`
+  String get defaultAchievementClosetUploadedMessage {
+    return Intl.message(
+      'Congratulations! You\'ve uploaded all your items to your virtual closet. Now you can style like a pro!',
+      name: 'defaultAchievementClosetUploadedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Virtual Closet Complete!`
+  String get defaultAchievementClosetUploadedTitle {
+    return Intl.message(
+      'Virtual Closet Complete!',
+      name: 'defaultAchievementClosetUploadedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve gifted your first item! Your style is making someone else’s day brighter.`
+  String get defaultAchievementFirstItemGiftedMessage {
+    return Intl.message(
+      'You’ve gifted your first item! Your style is making someone else’s day brighter.',
+      name: 'defaultAchievementFirstItemGiftedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generous Giver!`
+  String get defaultAchievementFirstItemGiftedTitle {
+    return Intl.message(
+      'Generous Giver!',
+      name: 'defaultAchievementFirstItemGiftedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your first item picture has been edited! Your closet is looking better than ever.`
+  String get defaultAchievementFirstItemPicEditedMessage {
+    return Intl.message(
+      'Your first item picture has been edited! Your closet is looking better than ever.',
+      name: 'defaultAchievementFirstItemPicEditedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Picture Perfect!`
+  String get defaultAchievementFirstItemPicEditedTitle {
+    return Intl.message(
+      'Picture Perfect!',
+      name: 'defaultAchievementFirstItemPicEditedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve sold your first item! Way to turn your closet into cash and make space for new looks.`
+  String get defaultAchievementFirstItemSoldMessage {
+    return Intl.message(
+      'You’ve sold your first item! Way to turn your closet into cash and make space for new looks.',
+      name: 'defaultAchievementFirstItemSoldMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Smart Seller!`
+  String get defaultAchievementFirstItemSoldTitle {
+    return Intl.message(
+      'Smart Seller!',
+      name: 'defaultAchievementFirstItemSoldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve swapped your first item! Your wardrobe just got a stylish and sustainable refresh.`
+  String get defaultAchievementFirstItemSwapMessage {
+    return Intl.message(
+      'You’ve swapped your first item! Your wardrobe just got a stylish and sustainable refresh.',
+      name: 'defaultAchievementFirstItemSwapMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sustainable Swapper!`
+  String get defaultAchievementFirstItemSwapTitle {
+    return Intl.message(
+      'Sustainable Swapper!',
+      name: 'defaultAchievementFirstItemSwapTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your first item is uploaded! Your virtual closet journey has begun!`
+  String get defaultAchievementFirstItemUploadMessage {
+    return Intl.message(
+      'Your first item is uploaded! Your virtual closet journey has begun!',
+      name: 'defaultAchievementFirstItemUploadMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Item Initiator!`
+  String get defaultAchievementFirstItemUploadTitle {
+    return Intl.message(
+      'Item Initiator!',
+      name: 'defaultAchievementFirstItemUploadTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your first outfit is ready! You're on your way to mastering your style.`
+  String get defaultAchievementFirstOutfitCreatedMessage {
+    return Intl.message(
+      'Your first outfit is ready! You\'re on your way to mastering your style.',
+      name: 'defaultAchievementFirstOutfitCreatedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Outfit Architect!`
+  String get defaultAchievementFirstOutfitCreatedTitle {
+    return Intl.message(
+      'Outfit Architect!',
+      name: 'defaultAchievementFirstOutfitCreatedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve taken your first selfie! Show off your style and let your closet shine!`
+  String get defaultAchievementFirstSelfieTakenMessage {
+    return Intl.message(
+      'You’ve taken your first selfie! Show off your style and let your closet shine!',
+      name: 'defaultAchievementFirstSelfieTakenMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Selfie Superstar!`
+  String get defaultAchievementFirstSelfieTakenTitle {
+    return Intl.message(
+      'Selfie Superstar!',
+      name: 'defaultAchievementFirstSelfieTakenTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,215 days of intentional living! Your journey is inspiring others to follow in your footsteps.`
+  String get defaultAchievementNoNewClothes1215Message {
+    return Intl.message(
+      '1,215 days of intentional living! Your journey is inspiring others to follow in your footsteps.',
+      name: 'defaultAchievementNoNewClothes1215Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Icon of Sustainability!`
+  String get defaultAchievementNoNewClothes1215Title {
+    return Intl.message(
+      'Icon of Sustainability!',
+      name: 'defaultAchievementNoNewClothes1215Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,575 days of embracing what you have. You're rewriting the rules of fashion!`
+  String get defaultAchievementNoNewClothes1575Message {
+    return Intl.message(
+      '1,575 days of embracing what you have. You\'re rewriting the rules of fashion!',
+      name: 'defaultAchievementNoNewClothes1575Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Master of Minimalism!`
+  String get defaultAchievementNoNewClothes1575Title {
+    return Intl.message(
+      'Master of Minimalism!',
+      name: 'defaultAchievementNoNewClothes1575Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,980 days of dedication to mindful choices! You're a shining example of sustainable living and an inspiration to us all. ✨🌏`
+  String get defaultAchievementNoNewClothes1980Message {
+    return Intl.message(
+      '1,980 days of dedication to mindful choices! You\'re a shining example of sustainable living and an inspiration to us all. ✨🌏',
+      name: 'defaultAchievementNoNewClothes1980Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Beacon of Sustainability!`
+  String get defaultAchievementNoNewClothes1980Title {
+    return Intl.message(
+      'Beacon of Sustainability!',
+      name: 'defaultAchievementNoNewClothes1980Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `225 days and counting! Your closet is thriving, and so is the planet. 🌍`
+  String get defaultAchievementNoNewClothes225Message {
+    return Intl.message(
+      '225 days and counting! Your closet is thriving, and so is the planet. 🌍',
+      name: 'defaultAchievementNoNewClothes225Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Eco-Warrior in the Making!`
+  String get defaultAchievementNoNewClothes225Title {
+    return Intl.message(
+      'Eco-Warrior in the Making!',
+      name: 'defaultAchievementNoNewClothes225Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `405 days strong! Your commitment to conscious fashion is an inspiration.`
+  String get defaultAchievementNoNewClothes405Message {
+    return Intl.message(
+      '405 days strong! Your commitment to conscious fashion is an inspiration.',
+      name: 'defaultAchievementNoNewClothes405Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Champion of Conscious Choices!`
+  String get defaultAchievementNoNewClothes405Title {
+    return Intl.message(
+      'Champion of Conscious Choices!',
+      name: 'defaultAchievementNoNewClothes405Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `630 days without new clothes—you're leading by example! Keep going!`
+  String get defaultAchievementNoNewClothes630Message {
+    return Intl.message(
+      '630 days without new clothes—you\'re leading by example! Keep going!',
+      name: 'defaultAchievementNoNewClothes630Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sustainability Leader!`
+  String get defaultAchievementNoNewClothes630Title {
+    return Intl.message(
+      'Sustainability Leader!',
+      name: 'defaultAchievementNoNewClothes630Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `900 days of conscious choices! You’re setting trends and making waves in sustainability!`
+  String get defaultAchievementNoNewClothes900Message {
+    return Intl.message(
+      '900 days of conscious choices! You’re setting trends and making waves in sustainability!',
+      name: 'defaultAchievementNoNewClothes900Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trailblazer of Change!`
+  String get defaultAchievementNoNewClothes900Title {
+    return Intl.message(
+      'Trailblazer of Change!',
+      name: 'defaultAchievementNoNewClothes900Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve hit 90 days without new clothes! Keep building those eco-friendly habits! 🌱`
+  String get defaultAchievementNoNewClothes90Message {
+    return Intl.message(
+      'You’ve hit 90 days without new clothes! Keep building those eco-friendly habits! 🌱',
+      name: 'defaultAchievementNoNewClothes90Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sustainable Start!`
+  String get defaultAchievementNoNewClothes90Title {
+    return Intl.message(
+      'Sustainable Start!',
+      name: 'defaultAchievementNoNewClothes90Title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The little things matter.\nCapture them now, find them later.`
   String get memoryTutorialFreeUploadCameraUploadClothing {
     return Intl.message(
@@ -5771,6 +5771,346 @@ class S {
     );
   }
 
+  /// `You've worn all your pieces, each with its unique story.`
+  String get memoryAchievementAllClothesWornMessage {
+    return Intl.message(
+      'You\'ve worn all your pieces, each with its unique story.',
+      name: 'memoryAchievementAllClothesWornMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Every Memory Worn!`
+  String get memoryAchievementAllClothesWornTitle {
+    return Intl.message(
+      'Every Memory Worn!',
+      name: 'memoryAchievementAllClothesWornTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve uploaded everything you own. Now every choice is intentional—your mindful journey begins.`
+  String get memoryAchievementClosetUploadedMessage {
+    return Intl.message(
+      'You’ve uploaded everything you own. Now every choice is intentional—your mindful journey begins.',
+      name: 'memoryAchievementClosetUploadedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Closet Counted!`
+  String get memoryAchievementClosetUploadedTitle {
+    return Intl.message(
+      'Closet Counted!',
+      name: 'memoryAchievementClosetUploadedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your gifted item carries memories forward, enriching someone else's story.`
+  String get memoryAchievementFirstItemGiftedMessage {
+    return Intl.message(
+      'Your gifted item carries memories forward, enriching someone else\'s story.',
+      name: 'memoryAchievementFirstItemGiftedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Memory Passed On!`
+  String get memoryAchievementFirstItemGiftedTitle {
+    return Intl.message(
+      'Memory Passed On!',
+      name: 'memoryAchievementFirstItemGiftedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First edit complete—your memories clearer and brighter than ever.`
+  String get memoryAchievementFirstItemPicEditedMessage {
+    return Intl.message(
+      'First edit complete—your memories clearer and brighter than ever.',
+      name: 'memoryAchievementFirstItemPicEditedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Memory Enhanced!`
+  String get memoryAchievementFirstItemPicEditedTitle {
+    return Intl.message(
+      'Memory Enhanced!',
+      name: 'memoryAchievementFirstItemPicEditedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your item sold—letting go, but memories linger and live on.`
+  String get memoryAchievementFirstItemSoldMessage {
+    return Intl.message(
+      'Your item sold—letting go, but memories linger and live on.',
+      name: 'memoryAchievementFirstItemSoldMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Memory Shared!`
+  String get memoryAchievementFirstItemSoldTitle {
+    return Intl.message(
+      'Memory Shared!',
+      name: 'memoryAchievementFirstItemSoldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First swap done—new memories await with your refreshed closet.`
+  String get memoryAchievementFirstItemSwapMessage {
+    return Intl.message(
+      'First swap done—new memories await with your refreshed closet.',
+      name: 'memoryAchievementFirstItemSwapMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Memory Refreshed!`
+  String get memoryAchievementFirstItemSwapTitle {
+    return Intl.message(
+      'Memory Refreshed!',
+      name: 'memoryAchievementFirstItemSwapTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your first memory item is safely stored—ready for future reminiscing.`
+  String get memoryAchievementFirstItemUploadMessage {
+    return Intl.message(
+      'Your first memory item is safely stored—ready for future reminiscing.',
+      name: 'memoryAchievementFirstItemUploadMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Memory Preserved!`
+  String get memoryAchievementFirstItemUploadTitle {
+    return Intl.message(
+      'Memory Preserved!',
+      name: 'memoryAchievementFirstItemUploadTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your first outfit saved—a moment you'll cherish forever.`
+  String get memoryAchievementFirstOutfitCreatedMessage {
+    return Intl.message(
+      'Your first outfit saved—a moment you\'ll cherish forever.',
+      name: 'memoryAchievementFirstOutfitCreatedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Milestone Marked!`
+  String get memoryAchievementFirstOutfitCreatedTitle {
+    return Intl.message(
+      'Milestone Marked!',
+      name: 'memoryAchievementFirstOutfitCreatedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First selfie taken—holding onto memories one picture at a time.`
+  String get memoryAchievementFirstSelfieTakenMessage {
+    return Intl.message(
+      'First selfie taken—holding onto memories one picture at a time.',
+      name: 'memoryAchievementFirstSelfieTakenMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Moment Captured!`
+  String get memoryAchievementFirstSelfieTakenTitle {
+    return Intl.message(
+      'Moment Captured!',
+      name: 'memoryAchievementFirstSelfieTakenTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,215 days preserving the stories held by each outfit. Your closet is a living scrapbook of memories.`
+  String get memoryAchievementNoNewClothes1215Message {
+    return Intl.message(
+      '1,215 days preserving the stories held by each outfit. Your closet is a living scrapbook of memories.',
+      name: 'memoryAchievementNoNewClothes1215Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Guardian of Moments!`
+  String get memoryAchievementNoNewClothes1215Title {
+    return Intl.message(
+      'Guardian of Moments!',
+      name: 'memoryAchievementNoNewClothes1215Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,575 days of mindful living—your wardrobe is a gallery of life's most meaningful moments.`
+  String get memoryAchievementNoNewClothes1575Message {
+    return Intl.message(
+      '1,575 days of mindful living—your wardrobe is a gallery of life\'s most meaningful moments.',
+      name: 'memoryAchievementNoNewClothes1575Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Memory Masterpiece!`
+  String get memoryAchievementNoNewClothes1575Title {
+    return Intl.message(
+      'Memory Masterpiece!',
+      name: 'memoryAchievementNoNewClothes1575Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,980 days of treasuring memories through clothes. Your closet narrates your beautiful, evolving story.`
+  String get memoryAchievementNoNewClothes1980Message {
+    return Intl.message(
+      '1,980 days of treasuring memories through clothes. Your closet narrates your beautiful, evolving story.',
+      name: 'memoryAchievementNoNewClothes1980Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Legend of Legacy!`
+  String get memoryAchievementNoNewClothes1980Title {
+    return Intl.message(
+      'Legend of Legacy!',
+      name: 'memoryAchievementNoNewClothes1980Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `225 days honoring memories, one outfit at a time. Your wardrobe is full of moments worth remembering.`
+  String get memoryAchievementNoNewClothes225Message {
+    return Intl.message(
+      '225 days honoring memories, one outfit at a time. Your wardrobe is full of moments worth remembering.',
+      name: 'memoryAchievementNoNewClothes225Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keeper of Memories!`
+  String get memoryAchievementNoNewClothes225Title {
+    return Intl.message(
+      'Keeper of Memories!',
+      name: 'memoryAchievementNoNewClothes225Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `405 days living through your wardrobe—each piece a reminder of life's precious moments.`
+  String get memoryAchievementNoNewClothes405Message {
+    return Intl.message(
+      '405 days living through your wardrobe—each piece a reminder of life\'s precious moments.',
+      name: 'memoryAchievementNoNewClothes405Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Story Collector!`
+  String get memoryAchievementNoNewClothes405Title {
+    return Intl.message(
+      'Story Collector!',
+      name: 'memoryAchievementNoNewClothes405Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `630 days weaving life's stories through your clothes—you're curating a beautiful narrative.`
+  String get memoryAchievementNoNewClothes630Message {
+    return Intl.message(
+      '630 days weaving life\'s stories through your clothes—you\'re curating a beautiful narrative.',
+      name: 'memoryAchievementNoNewClothes630Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Memory Maestro!`
+  String get memoryAchievementNoNewClothes630Title {
+    return Intl.message(
+      'Memory Maestro!',
+      name: 'memoryAchievementNoNewClothes630Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `900 days celebrating your life's journey through clothes. Every outfit tells a cherished story.`
+  String get memoryAchievementNoNewClothes900Message {
+    return Intl.message(
+      '900 days celebrating your life\'s journey through clothes. Every outfit tells a cherished story.',
+      name: 'memoryAchievementNoNewClothes900Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Historian of the Heart!`
+  String get memoryAchievementNoNewClothes900Title {
+    return Intl.message(
+      'Historian of the Heart!',
+      name: 'memoryAchievementNoNewClothes900Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `90 days cherishing your wardrobe memories. Every piece worn carries a precious story.`
+  String get memoryAchievementNoNewClothes90Message {
+    return Intl.message(
+      '90 days cherishing your wardrobe memories. Every piece worn carries a precious story.',
+      name: 'memoryAchievementNoNewClothes90Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `90 Days of Moments!`
+  String get memoryAchievementNoNewClothes90Title {
+    return Intl.message(
+      '90 Days of Moments!',
+      name: 'memoryAchievementNoNewClothes90Title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Narrow your closet by name, item type to define your unique look.`
   String get personalStyleTrialFilter {
     return Intl.message(
@@ -5831,6 +6171,346 @@ class S {
     );
   }
 
+  /// `You've confidently worn every piece you own! Keep embracing your personal style.`
+  String get personalStyleAchievementAllClothesWornMessage {
+    return Intl.message(
+      'You\'ve confidently worn every piece you own! Keep embracing your personal style.',
+      name: 'personalStyleAchievementAllClothesWornMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fully You!`
+  String get personalStyleAchievementAllClothesWornTitle {
+    return Intl.message(
+      'Fully You!',
+      name: 'personalStyleAchievementAllClothesWornTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your closet upload is complete. Confidence awaits in every combination.`
+  String get personalStyleAchievementClosetUploadedMessage {
+    return Intl.message(
+      'Your closet upload is complete. Confidence awaits in every combination.',
+      name: 'personalStyleAchievementClosetUploadedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Closet, Curated!`
+  String get personalStyleAchievementClosetUploadedTitle {
+    return Intl.message(
+      'Your Closet, Curated!',
+      name: 'personalStyleAchievementClosetUploadedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've passed along a piece of your style. Confidence looks good on both of you!`
+  String get personalStyleAchievementFirstItemGiftedMessage {
+    return Intl.message(
+      'You\'ve passed along a piece of your style. Confidence looks good on both of you!',
+      name: 'personalStyleAchievementFirstItemGiftedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Style Shared!`
+  String get personalStyleAchievementFirstItemGiftedTitle {
+    return Intl.message(
+      'Style Shared!',
+      name: 'personalStyleAchievementFirstItemGiftedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your item's picture is updated—your closet matches your confidence.`
+  String get personalStyleAchievementFirstItemPicEditedMessage {
+    return Intl.message(
+      'Your item\'s picture is updated—your closet matches your confidence.',
+      name: 'personalStyleAchievementFirstItemPicEditedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Styled to Perfection!`
+  String get personalStyleAchievementFirstItemPicEditedTitle {
+    return Intl.message(
+      'Styled to Perfection!',
+      name: 'personalStyleAchievementFirstItemPicEditedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve sold your first item, refining your closet to what truly feels good.`
+  String get personalStyleAchievementFirstItemSoldMessage {
+    return Intl.message(
+      'You’ve sold your first item, refining your closet to what truly feels good.',
+      name: 'personalStyleAchievementFirstItemSoldMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Curator of Confidence!`
+  String get personalStyleAchievementFirstItemSoldTitle {
+    return Intl.message(
+      'Curator of Confidence!',
+      name: 'personalStyleAchievementFirstItemSoldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’ve swapped your first piece. Keep discovering what makes you feel best.`
+  String get personalStyleAchievementFirstItemSwapMessage {
+    return Intl.message(
+      'You’ve swapped your first piece. Keep discovering what makes you feel best.',
+      name: 'personalStyleAchievementFirstItemSwapMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confidence Exchange!`
+  String get personalStyleAchievementFirstItemSwapTitle {
+    return Intl.message(
+      'Confidence Exchange!',
+      name: 'personalStyleAchievementFirstItemSwapTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've uploaded your first item. Let's discover the styles that feel uniquely you.`
+  String get personalStyleAchievementFirstItemUploadMessage {
+    return Intl.message(
+      'You\'ve uploaded your first item. Let\'s discover the styles that feel uniquely you.',
+      name: 'personalStyleAchievementFirstItemUploadMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confidence Unlocked!`
+  String get personalStyleAchievementFirstItemUploadTitle {
+    return Intl.message(
+      'Confidence Unlocked!',
+      name: 'personalStyleAchievementFirstItemUploadTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your first outfit is crafted. Revisit this look to feel great anytime.`
+  String get personalStyleAchievementFirstOutfitCreatedMessage {
+    return Intl.message(
+      'Your first outfit is crafted. Revisit this look to feel great anytime.',
+      name: 'personalStyleAchievementFirstOutfitCreatedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Signature Look Set!`
+  String get personalStyleAchievementFirstOutfitCreatedTitle {
+    return Intl.message(
+      'Signature Look Set!',
+      name: 'personalStyleAchievementFirstOutfitCreatedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your first selfie captured! Celebrate your style journey.`
+  String get personalStyleAchievementFirstSelfieTakenMessage {
+    return Intl.message(
+      'Your first selfie captured! Celebrate your style journey.',
+      name: 'personalStyleAchievementFirstSelfieTakenMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Own Your Style!`
+  String get personalStyleAchievementFirstSelfieTakenTitle {
+    return Intl.message(
+      'Own Your Style!',
+      name: 'personalStyleAchievementFirstSelfieTakenTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,215 days proving true style is timeless! You're a role model of authentic self-expression.`
+  String get personalStyleAchievementNoNewClothes1215Message {
+    return Intl.message(
+      '1,215 days proving true style is timeless! You\'re a role model of authentic self-expression.',
+      name: 'personalStyleAchievementNoNewClothes1215Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Legendary Style!`
+  String get personalStyleAchievementNoNewClothes1215Title {
+    return Intl.message(
+      'Legendary Style!',
+      name: 'personalStyleAchievementNoNewClothes1215Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,575 days curating a closet of confidence—your style speaks volumes without saying a word.`
+  String get personalStyleAchievementNoNewClothes1575Message {
+    return Intl.message(
+      '1,575 days curating a closet of confidence—your style speaks volumes without saying a word.',
+      name: 'personalStyleAchievementNoNewClothes1575Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Architect of Authenticity!`
+  String get personalStyleAchievementNoNewClothes1575Title {
+    return Intl.message(
+      'Architect of Authenticity!',
+      name: 'personalStyleAchievementNoNewClothes1575Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,980 days embodying your unique identity through fashion. You're redefining what it means to dress confidently.`
+  String get personalStyleAchievementNoNewClothes1980Message {
+    return Intl.message(
+      '1,980 days embodying your unique identity through fashion. You\'re redefining what it means to dress confidently.',
+      name: 'personalStyleAchievementNoNewClothes1980Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pinnacle of Personal Style!`
+  String get personalStyleAchievementNoNewClothes1980Title {
+    return Intl.message(
+      'Pinnacle of Personal Style!',
+      name: 'personalStyleAchievementNoNewClothes1980Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `225 days of rediscovering your wardrobe! You're defining confidence on your own terms.`
+  String get personalStyleAchievementNoNewClothes225Message {
+    return Intl.message(
+      '225 days of rediscovering your wardrobe! You\'re defining confidence on your own terms.',
+      name: 'personalStyleAchievementNoNewClothes225Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Style Setter!`
+  String get personalStyleAchievementNoNewClothes225Title {
+    return Intl.message(
+      'Style Setter!',
+      name: 'personalStyleAchievementNoNewClothes225Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `405 days mastering the art of personal style—your closet reflects your true self beautifully.`
+  String get personalStyleAchievementNoNewClothes405Message {
+    return Intl.message(
+      '405 days mastering the art of personal style—your closet reflects your true self beautifully.',
+      name: 'personalStyleAchievementNoNewClothes405Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wardrobe Whisperer!`
+  String get personalStyleAchievementNoNewClothes405Title {
+    return Intl.message(
+      'Wardrobe Whisperer!',
+      name: 'personalStyleAchievementNoNewClothes405Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `630 days confidently dressing from your own closet—you're inspiring others with your unique style.`
+  String get personalStyleAchievementNoNewClothes630Message {
+    return Intl.message(
+      '630 days confidently dressing from your own closet—you\'re inspiring others with your unique style.',
+      name: 'personalStyleAchievementNoNewClothes630Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confidence Creator!`
+  String get personalStyleAchievementNoNewClothes630Title {
+    return Intl.message(
+      'Confidence Creator!',
+      name: 'personalStyleAchievementNoNewClothes630Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `900 days of personal style mastery—your confidence is contagious and transformative!`
+  String get personalStyleAchievementNoNewClothes900Message {
+    return Intl.message(
+      '900 days of personal style mastery—your confidence is contagious and transformative!',
+      name: 'personalStyleAchievementNoNewClothes900Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Style Icon!`
+  String get personalStyleAchievementNoNewClothes900Title {
+    return Intl.message(
+      'Style Icon!',
+      name: 'personalStyleAchievementNoNewClothes900Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You've styled yourself confidently for 90 days using what you own—your personal style is thriving!`
+  String get personalStyleAchievementNoNewClothes90Message {
+    return Intl.message(
+      'You\'ve styled yourself confidently for 90 days using what you own—your personal style is thriving!',
+      name: 'personalStyleAchievementNoNewClothes90Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `90 Days Confident!`
+  String get personalStyleAchievementNoNewClothes90Title {
+    return Intl.message(
+      '90 Days Confident!',
+      name: 'personalStyleAchievementNoNewClothes90Title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Quickly find what suits your new routines, roles, and realities.`
   String get lifeChangeTrialFilter {
     return Intl.message(
@@ -5886,6 +6566,346 @@ class S {
     return Intl.message(
       'Understand what truly served you during change—by use and by season.',
       name: 'lifeChangeTrialInsights',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Every item worn—embracing your evolving identity wholeheartedly.`
+  String get lifeChangeAchievementAllClothesWornMessage {
+    return Intl.message(
+      'Every item worn—embracing your evolving identity wholeheartedly.',
+      name: 'lifeChangeAchievementAllClothesWornMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fully Transformed!`
+  String get lifeChangeAchievementAllClothesWornTitle {
+    return Intl.message(
+      'Fully Transformed!',
+      name: 'lifeChangeAchievementAllClothesWornTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Closet uploaded—ready to support this exciting new life phase.`
+  String get lifeChangeAchievementClosetUploadedMessage {
+    return Intl.message(
+      'Closet uploaded—ready to support this exciting new life phase.',
+      name: 'lifeChangeAchievementClosetUploadedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Life Updated!`
+  String get lifeChangeAchievementClosetUploadedTitle {
+    return Intl.message(
+      'Life Updated!',
+      name: 'lifeChangeAchievementClosetUploadedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gifted your first item—clearing space for the new you.`
+  String get lifeChangeAchievementFirstItemGiftedMessage {
+    return Intl.message(
+      'Gifted your first item—clearing space for the new you.',
+      name: 'lifeChangeAchievementFirstItemGiftedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forward Focused!`
+  String get lifeChangeAchievementFirstItemGiftedTitle {
+    return Intl.message(
+      'Forward Focused!',
+      name: 'lifeChangeAchievementFirstItemGiftedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edited your first item's picture—reflecting your current life beautifully.`
+  String get lifeChangeAchievementFirstItemPicEditedMessage {
+    return Intl.message(
+      'Edited your first item\'s picture—reflecting your current life beautifully.',
+      name: 'lifeChangeAchievementFirstItemPicEditedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ready for Renewal!`
+  String get lifeChangeAchievementFirstItemPicEditedTitle {
+    return Intl.message(
+      'Ready for Renewal!',
+      name: 'lifeChangeAchievementFirstItemPicEditedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sold your first item, making room for what truly suits you now.`
+  String get lifeChangeAchievementFirstItemSoldMessage {
+    return Intl.message(
+      'Sold your first item, making room for what truly suits you now.',
+      name: 'lifeChangeAchievementFirstItemSoldMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Old to New!`
+  String get lifeChangeAchievementFirstItemSoldTitle {
+    return Intl.message(
+      'Old to New!',
+      name: 'lifeChangeAchievementFirstItemSoldTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swapped your first item—your wardrobe matches your life's shift.`
+  String get lifeChangeAchievementFirstItemSwapMessage {
+    return Intl.message(
+      'Swapped your first item—your wardrobe matches your life\'s shift.',
+      name: 'lifeChangeAchievementFirstItemSwapMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Freshly Swapped!`
+  String get lifeChangeAchievementFirstItemSwapTitle {
+    return Intl.message(
+      'Freshly Swapped!',
+      name: 'lifeChangeAchievementFirstItemSwapTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your first item uploaded, symbolizing a fresh start in your journey.`
+  String get lifeChangeAchievementFirstItemUploadMessage {
+    return Intl.message(
+      'Your first item uploaded, symbolizing a fresh start in your journey.',
+      name: 'lifeChangeAchievementFirstItemUploadMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Chapter Begins!`
+  String get lifeChangeAchievementFirstItemUploadTitle {
+    return Intl.message(
+      'New Chapter Begins!',
+      name: 'lifeChangeAchievementFirstItemUploadTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your first outfit recorded—perfect for embracing your new phase.`
+  String get lifeChangeAchievementFirstOutfitCreatedMessage {
+    return Intl.message(
+      'Your first outfit recorded—perfect for embracing your new phase.',
+      name: 'lifeChangeAchievementFirstOutfitCreatedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transition Tracked!`
+  String get lifeChangeAchievementFirstOutfitCreatedTitle {
+    return Intl.message(
+      'Transition Tracked!',
+      name: 'lifeChangeAchievementFirstOutfitCreatedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your first selfie marks this moment—reflecting your evolving story.`
+  String get lifeChangeAchievementFirstSelfieTakenMessage {
+    return Intl.message(
+      'Your first selfie marks this moment—reflecting your evolving story.',
+      name: 'lifeChangeAchievementFirstSelfieTakenMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Documented!`
+  String get lifeChangeAchievementFirstSelfieTakenTitle {
+    return Intl.message(
+      'Change Documented!',
+      name: 'lifeChangeAchievementFirstSelfieTakenTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,215 days crafting your wardrobe to fit life's transformations. Your adaptability inspires!`
+  String get lifeChangeAchievementNoNewClothes1215Message {
+    return Intl.message(
+      '1,215 days crafting your wardrobe to fit life\'s transformations. Your adaptability inspires!',
+      name: 'lifeChangeAchievementNoNewClothes1215Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Architect of Change!`
+  String get lifeChangeAchievementNoNewClothes1215Title {
+    return Intl.message(
+      'Architect of Change!',
+      name: 'lifeChangeAchievementNoNewClothes1215Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,575 days gracefully navigating life's shifts. Your wardrobe reflects wisdom and growth.`
+  String get lifeChangeAchievementNoNewClothes1575Message {
+    return Intl.message(
+      '1,575 days gracefully navigating life\'s shifts. Your wardrobe reflects wisdom and growth.',
+      name: 'lifeChangeAchievementNoNewClothes1575Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Seasoned Transformer!`
+  String get lifeChangeAchievementNoNewClothes1575Title {
+    return Intl.message(
+      'Seasoned Transformer!',
+      name: 'lifeChangeAchievementNoNewClothes1575Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1,980 days redefining your style through life's changes—your story and wardrobe are beautifully aligned.`
+  String get lifeChangeAchievementNoNewClothes1980Message {
+    return Intl.message(
+      '1,980 days redefining your style through life\'s changes—your story and wardrobe are beautifully aligned.',
+      name: 'lifeChangeAchievementNoNewClothes1980Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Master of Life's Chapters!`
+  String get lifeChangeAchievementNoNewClothes1980Title {
+    return Intl.message(
+      'Master of Life\'s Chapters!',
+      name: 'lifeChangeAchievementNoNewClothes1980Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `225 days of intentional transformation—your closet is evolving with your life.`
+  String get lifeChangeAchievementNoNewClothes225Message {
+    return Intl.message(
+      '225 days of intentional transformation—your closet is evolving with your life.',
+      name: 'lifeChangeAchievementNoNewClothes225Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Champion!`
+  String get lifeChangeAchievementNoNewClothes225Title {
+    return Intl.message(
+      'Change Champion!',
+      name: 'lifeChangeAchievementNoNewClothes225Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `405 days navigating life's changes stylishly—you're gracefully moving forward, wardrobe and all.`
+  String get lifeChangeAchievementNoNewClothes405Message {
+    return Intl.message(
+      '405 days navigating life\'s changes stylishly—you\'re gracefully moving forward, wardrobe and all.',
+      name: 'lifeChangeAchievementNoNewClothes405Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Adapting with Style!`
+  String get lifeChangeAchievementNoNewClothes405Title {
+    return Intl.message(
+      'Adapting with Style!',
+      name: 'lifeChangeAchievementNoNewClothes405Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `630 days of aligning your style with your life's transitions—you're thriving in every chapter.`
+  String get lifeChangeAchievementNoNewClothes630Message {
+    return Intl.message(
+      '630 days of aligning your style with your life\'s transitions—you\'re thriving in every chapter.',
+      name: 'lifeChangeAchievementNoNewClothes630Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transformation Trailblazer!`
+  String get lifeChangeAchievementNoNewClothes630Title {
+    return Intl.message(
+      'Transformation Trailblazer!',
+      name: 'lifeChangeAchievementNoNewClothes630Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `900 days mastering change—your closet confidently mirrors your evolving journey.`
+  String get lifeChangeAchievementNoNewClothes900Message {
+    return Intl.message(
+      '900 days mastering change—your closet confidently mirrors your evolving journey.',
+      name: 'lifeChangeAchievementNoNewClothes900Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reinvention Leader!`
+  String get lifeChangeAchievementNoNewClothes900Title {
+    return Intl.message(
+      'Reinvention Leader!',
+      name: 'lifeChangeAchievementNoNewClothes900Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `90 days embracing change! Your wardrobe beautifully reflects your life's new chapter.`
+  String get lifeChangeAchievementNoNewClothes90Message {
+    return Intl.message(
+      '90 days embracing change! Your wardrobe beautifully reflects your life\'s new chapter.',
+      name: 'lifeChangeAchievementNoNewClothes90Message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `90-Day Evolution!`
+  String get lifeChangeAchievementNoNewClothes90Title {
+    return Intl.message(
+      '90-Day Evolution!',
+      name: 'lifeChangeAchievementNoNewClothes90Title',
       desc: '',
       args: [],
     );

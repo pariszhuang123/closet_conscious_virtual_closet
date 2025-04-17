@@ -1,44 +1,55 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:confetti/confetti.dart';
 import 'package:lottie/lottie.dart';
-import 'package:confetti/confetti.dart'; // Confetti package
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../generated/l10n.dart';
+import '../../../core_enums.dart';
+import '../../../presentation/bloc/personalization_flow_cubit/personalization_flow_cubit.dart';
+import '../../data/models/achievement_registry.dart';
+import '../../data/models/achievement_definition_model.dart';
+import '../../../utilities/helper_functions/core/onboarding_journey_type_helper.dart';
+import '../../../utilities/logger.dart';
 
-class AchievementScreen extends StatefulWidget {
-  final String achievementKey;  // Used for localized achievement name
+class AchievementCompletedScreen extends StatefulWidget {
+  final String achievementKey;
   final String achievementUrl;
   final String nextRoute;
 
-  const AchievementScreen({
+  const AchievementCompletedScreen({
     super.key,
-    required this.achievementKey,  // Added for localization
+    required this.achievementKey,
     required this.achievementUrl,
     required this.nextRoute,
   });
 
   @override
-  AchievementScreenState createState() => AchievementScreenState();
+  State<AchievementCompletedScreen> createState() => _AchievementCompletedScreenState();
 }
 
-class AchievementScreenState extends State<AchievementScreen> {
+class _AchievementCompletedScreenState extends State<AchievementCompletedScreen> {
   late ConfettiController _confettiController;
+  final _logger = CustomLogger('AchievementCompletedScreen');
 
   @override
   void initState() {
     super.initState();
-    _confettiController = ConfettiController(duration: const Duration(seconds: 3));
-    _confettiController.play();  // Start confetti celebration immediately
+    _logger.i('Initializing AchievementCompletedScreen for key: ${widget.achievementKey}');
 
-    // Set a timer to navigate to the next route after 5 seconds
+    _confettiController = ConfettiController(duration: const Duration(seconds: 3))..play();
+    _logger.i('Confetti started');
+
     Timer(const Duration(seconds: 5), () {
+      _logger.i('Navigating to next route: ${widget.nextRoute}');
       context.goNamed(widget.nextRoute);
     });
   }
 
   @override
   void dispose() {
+    _logger.i('Disposing confetti controller');
     _confettiController.dispose();
     super.dispose();
   }
@@ -46,157 +57,74 @@ class AchievementScreenState extends State<AchievementScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = S.of(context);
 
-    // Use the achievementKey to retrieve localized achievement message
-    String achievementTitle;
-    String achievementMessage;
+    return BlocBuilder<PersonalizationFlowCubit, String>(
+      builder: (context, flowString) {
+        final flow = flowString.toOnboardingJourneyType();
+        _logger.d('Detected onboarding flow: $flow');
 
-    switch (widget.achievementKey) {
-      case 'all_clothes_worn':
-        achievementTitle = S.of(context).allClothesWornAchievement;
-        achievementMessage = S.of(context).allClothesWornAchievementMessage;
-        break;
-      case 'closet_uploaded':
-        achievementTitle = S.of(context).closetUploadAchievement;
-        achievementMessage = S.of(context).closetUploadAchievementMessage;
-        break;
-      case 'no_new_clothes_1215':
-        achievementTitle = S.of(context).noNewClothes1215Achievement;
-        achievementMessage = S.of(context).noNewClothes1215AchievementMessage;
-        break;
-      case 'no_new_clothes_1575':
-        achievementTitle = S.of(context).noNewClothes1575Achievement;
-        achievementMessage = S.of(context).noNewClothes1575AchievementMessage;
-        break;
-      case 'no_new_clothes_1980':
-        achievementTitle = S.of(context).noNewClothes1980Achievement;
-        achievementMessage = S.of(context).noNewClothes1980AchievementMessage;
-        break;
-      case 'no_new_clothes_225':
-        achievementTitle = S.of(context).noNewClothes225Achievement;
-        achievementMessage = S.of(context).noNewClothes225AchievementMessage;
-        break;
-      case 'no_new_clothes_405':
-        achievementTitle = S.of(context).noNewClothes405Achievement;
-        achievementMessage = S.of(context).noNewClothes405AchievementMessage;
-        break;
-      case 'no_new_clothes_630':
-        achievementTitle = S.of(context).noNewClothes630Achievement;
-        achievementMessage = S.of(context).noNewClothes630AchievementMessage;
-        break;
-      case 'no_new_clothes_90':
-        achievementTitle = S.of(context).noNewClothes90Achievement;
-        achievementMessage = S.of(context).noNewClothes90AchievementMessage;
-        break;
-      case 'no_new_clothes_900':
-        achievementTitle = S.of(context).noNewClothes900Achievement;
-        achievementMessage = S.of(context).noNewClothes900AchievementMessage;
-        break;
-      case '1st_selfie_taken':
-        achievementTitle = S.of(context).firstSelfieTakenAchievement;
-        achievementMessage = S.of(context).firstSelfieTakenAchievementMessage;
-        break;
-      case '1st_outfit_created':
-        achievementTitle = S.of(context).firstOutfitCreatedAchievement;
-        achievementMessage = S.of(context).firstOutfitCreatedAchievementMessage;
-        break;
-      case '1st_item_gifted':
-        achievementTitle = S.of(context).firstItemGiftedAchievement;
-        achievementMessage = S.of(context).firstItemGiftedAchievementMessage;
-        break;
-      case '1st_item_pic_edited':
-        achievementTitle = S.of(context).firstItemPicEditedAchievement;
-        achievementMessage = S.of(context).firstItemPicEditedAchievementMessage;
-        break;
-      case '1st_item_sold':
-        achievementTitle = S.of(context).firstItemSoldAchievement;
-        achievementMessage = S.of(context).firstItemSoldAchievementMessage;
-        break;
-      case '1st_item_swap':
-        achievementTitle = S.of(context).firstItemSwapAchievement;
-        achievementMessage = S.of(context).firstItemSwapAchievementMessage;
-        break;
-      case '1st_item_uploaded':
-        achievementTitle = S.of(context).firstItemUploadAchievement;
-        achievementMessage = S.of(context).firstItemUploadAchievementMessage;
-        break;
-      default:
-        achievementTitle = S.of(context).defaultAchievementTitle; // Fallback if none match
-        achievementMessage = S.of(context).defaultAchievementMessage;
-        break;
-    }
+        final AchievementDefinition def = achievements.firstWhere(
+              (a) => a.key == widget.achievementKey,
+        );
 
-    return PopScope<Object?>(
-      canPop: false,
-      onPopInvokedWithResult: (bool didPop, Object? result) {
-        if (didPop) {
-          // Do nothing, effectively preventing the back action
-        }
-      },
-      child: Scaffold(
-        body: Stack(
-          alignment: Alignment.center,
-          children: [
-            // Confetti widget for celebration
-            ConfettiWidget(
-              confettiController: _confettiController,
-              blastDirectionality: BlastDirectionality.explosive,
-              colors: const [Colors.blue, Colors.lightGreenAccent, Colors.teal],
-              numberOfParticles: 30,
-            ),
-            // Main content
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Congratulatory text
-                    Text(
-                      S.of(context).congratulations,
-                      style: theme.textTheme.displayLarge,
-                    ),
-                    const SizedBox(height: 20),
+        final titleGetter = def.titleL10nGetters[flow] ?? def.titleL10nGetters[OnboardingJourneyType.defaultFlow];
+        final msgGetter = def.msgL10nGetters[flow] ?? def.msgL10nGetters[OnboardingJourneyType.defaultFlow];
 
-                    // Dynamic Achievement Title
-                    Text(
-                      achievementTitle,  // Localized achievement title based on key
-                      style: theme.textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 20),
+        final achievementTitle = titleGetter!(l10n);
+        final achievementMessage = msgGetter!(l10n);
 
-                    // Celebration animation
-                    SizedBox(
-                      height: 75,
-                      child: Lottie.asset('assets/lottie/tasty.json'),
-                    ),
-                    const SizedBox(height: 20),
+        _logger.d('Resolved achievement title: "$achievementTitle"');
+        _logger.d('Resolved achievement message: "$achievementMessage"');
 
-                    // Achievement Badge or Image
-                    SizedBox(
-                      height: 100,
-                      child: Image.network(
-                        widget.achievementUrl,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Dynamic Achievement Message
-                    Text(
-                      achievementMessage,  // Localized achievement message based on key
-                      style: theme.textTheme.titleMedium,
-                      textAlign: TextAlign.center,
-                    ),
-
-                    const SizedBox(height: 20),
-                  ],
+        return PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (_, __) {},
+          child: Scaffold(
+            body: Stack(
+              alignment: Alignment.center,
+              children: [
+                ConfettiWidget(
+                  confettiController: _confettiController,
+                  blastDirectionality: BlastDirectionality.explosive,
+                  colors: const [Colors.blue, Colors.lightGreenAccent, Colors.teal],
+                  numberOfParticles: 30,
                 ),
-              ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          l10n.congratulations,
+                          style: theme.textTheme.displayLarge,
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          achievementTitle,
+                          style: theme.textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 20),
+                        Lottie.asset('assets/lottie/tasty.json', height: 75),
+                        const SizedBox(height: 20),
+                        Image.network(widget.achievementUrl, height: 100, fit: BoxFit.contain),
+                        const SizedBox(height: 20),
+                        Text(
+                          achievementMessage,
+                          style: theme.textTheme.titleMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

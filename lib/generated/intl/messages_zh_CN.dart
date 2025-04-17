@@ -80,11 +80,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "allClosetLabel": MessageLookupByLibrary.simpleMessage("所有衣橱"),
         "allClosetShown": MessageLookupByLibrary.simpleMessage("所有衣橱"),
         "allClosets": MessageLookupByLibrary.simpleMessage("编辑所有衣柜"),
-        "allClothesWornAchievement":
-            MessageLookupByLibrary.simpleMessage("每件衣服，都是您的选择！"),
-        "allClothesWornAchievementMessage":
-            MessageLookupByLibrary.simpleMessage(
-                "您已经穿过衣橱中的每一件物品！您正在掌控自己的时尚选择。"),
         "allFeedback": MessageLookupByLibrary.simpleMessage("所有"),
         "allItems": MessageLookupByLibrary.simpleMessage("所有物品"),
         "alright": MessageLookupByLibrary.simpleMessage("不确定\n🤷‍♀️"),
@@ -163,10 +158,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "closetReappearMessage": m2,
         "closetReappearTitle": MessageLookupByLibrary.simpleMessage("衣橱重新出现"),
         "closetType": MessageLookupByLibrary.simpleMessage("衣橱类型"),
-        "closetUploadAchievement":
-            MessageLookupByLibrary.simpleMessage("虚拟衣橱已完成！"),
-        "closetUploadAchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "恭喜你！你已将所有物品上传到虚拟衣橱。现在你可以像专业人士一样搭配造型了！"),
         "closetUploadComplete":
             MessageLookupByLibrary.simpleMessage("我上传了我的衣橱"),
         "closet_created_successfully":
@@ -229,8 +220,84 @@ class MessageLookup extends MessageLookupByLibrary {
         "declutterOptions": MessageLookupByLibrary.simpleMessage("您想做什么？"),
         "declutterThrowWarning": MessageLookupByLibrary.simpleMessage(
             "一旦确认，该物品将从你的衣橱中永久消失\n\n你是否考虑过捐赠或升级改造？\n\n您可以将其放入公共衣橱，让其他人购买、以物换物或与您交换该物品。"),
+        "defaultAchievementAllClothesWornMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "你已经穿过衣柜里的每一件衣服！你正在掌握有意识的时尚选择。"),
+        "defaultAchievementAllClothesWornTitle":
+            MessageLookupByLibrary.simpleMessage("全衣上身，都是你！"),
+        "defaultAchievementClosetUploadedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "恭喜你！你已将所有物品上传到虚拟衣柜。现在可以像专业人士一样搭配了！"),
+        "defaultAchievementClosetUploadedTitle":
+            MessageLookupByLibrary.simpleMessage("虚拟衣柜已完成！"),
+        "defaultAchievementFirstItemGiftedMessage":
+            MessageLookupByLibrary.simpleMessage("你送出了第一件物品！你的风格正在点亮他人的一天。"),
+        "defaultAchievementFirstItemGiftedTitle":
+            MessageLookupByLibrary.simpleMessage("慷慨分享者！"),
+        "defaultAchievementFirstItemPicEditedMessage":
+            MessageLookupByLibrary.simpleMessage("你已编辑第一张物品照片！你的衣柜看起来比以往更棒了。"),
+        "defaultAchievementFirstItemPicEditedTitle":
+            MessageLookupByLibrary.simpleMessage("完美照片！"),
+        "defaultAchievementFirstItemSoldMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "你已售出第一件物品！把衣柜变成收入，同时为新风格腾出空间。"),
+        "defaultAchievementFirstItemSoldTitle":
+            MessageLookupByLibrary.simpleMessage("聪明卖家！"),
+        "defaultAchievementFirstItemSwapMessage":
+            MessageLookupByLibrary.simpleMessage("你完成了第一次换物！衣柜焕然一新，可持续又有型。"),
+        "defaultAchievementFirstItemSwapTitle":
+            MessageLookupByLibrary.simpleMessage("可持续交换者！"),
+        "defaultAchievementFirstItemUploadMessage":
+            MessageLookupByLibrary.simpleMessage("你的第一件物品已上传！虚拟衣柜之旅正式开始！"),
+        "defaultAchievementFirstItemUploadTitle":
+            MessageLookupByLibrary.simpleMessage("衣物上传先锋！"),
+        "defaultAchievementFirstOutfitCreatedMessage":
+            MessageLookupByLibrary.simpleMessage("你的第一套穿搭已创建！你正在掌握属于自己的风格。"),
+        "defaultAchievementFirstOutfitCreatedTitle":
+            MessageLookupByLibrary.simpleMessage("穿搭建筑师！"),
+        "defaultAchievementFirstSelfieTakenMessage":
+            MessageLookupByLibrary.simpleMessage("你拍下了第一张自拍！展示你的风格，让你的衣柜闪耀吧！"),
+        "defaultAchievementFirstSelfieTakenTitle":
+            MessageLookupByLibrary.simpleMessage("自拍之星！"),
         "defaultAchievementMessage":
             MessageLookupByLibrary.simpleMessage("您已达成一个新里程碑！继续努力，迈向环保时尚的旅程。"),
+        "defaultAchievementNoNewClothes1215Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,215 天的有意识生活！你的旅程正激励他人跟随你的脚步。"),
+        "defaultAchievementNoNewClothes1215Title":
+            MessageLookupByLibrary.simpleMessage("可持续典范！"),
+        "defaultAchievementNoNewClothes1575Message":
+            MessageLookupByLibrary.simpleMessage("1,575 天忠于已有衣物。你正在改写时尚的规则！"),
+        "defaultAchievementNoNewClothes1575Title":
+            MessageLookupByLibrary.simpleMessage("极简主义大师！"),
+        "defaultAchievementNoNewClothes1980Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,980 天的专注选择！你是可持续生活的闪亮典范，激励着我们所有人。✨🌏"),
+        "defaultAchievementNoNewClothes1980Title":
+            MessageLookupByLibrary.simpleMessage("可持续灯塔！"),
+        "defaultAchievementNoNewClothes225Message":
+            MessageLookupByLibrary.simpleMessage("坚持 225 天了！你的衣柜在成长，地球也在受益。🌍"),
+        "defaultAchievementNoNewClothes225Title":
+            MessageLookupByLibrary.simpleMessage("环保战士成长中！"),
+        "defaultAchievementNoNewClothes405Message":
+            MessageLookupByLibrary.simpleMessage("坚持了 405 天！你对有意识时尚的承诺令人钦佩。"),
+        "defaultAchievementNoNewClothes405Title":
+            MessageLookupByLibrary.simpleMessage("有意识选择的冠军！"),
+        "defaultAchievementNoNewClothes630Message":
+            MessageLookupByLibrary.simpleMessage(
+                "连续 630 天未买新衣——你正在用行动引领潮流！继续加油！"),
+        "defaultAchievementNoNewClothes630Title":
+            MessageLookupByLibrary.simpleMessage("可持续领导者！"),
+        "defaultAchievementNoNewClothes900Message":
+            MessageLookupByLibrary.simpleMessage(
+                "900 天的有意识选择！你正引领潮流，在可持续领域掀起波澜！"),
+        "defaultAchievementNoNewClothes900Title":
+            MessageLookupByLibrary.simpleMessage("变革先行者！"),
+        "defaultAchievementNoNewClothes90Message":
+            MessageLookupByLibrary.simpleMessage(
+                "你已连续 90 天未添新衣！继续培养这些环保好习惯吧！🌱"),
+        "defaultAchievementNoNewClothes90Title":
+            MessageLookupByLibrary.simpleMessage("可持续起步！"),
         "defaultAchievementTitle":
             MessageLookupByLibrary.simpleMessage("成就解锁！"),
         "defaultClosetName": MessageLookupByLibrary.simpleMessage("主衣橱"),
@@ -325,34 +392,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "filterSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("高级筛选？"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("筛选"),
-        "firstItemGiftedAchievement":
-            MessageLookupByLibrary.simpleMessage("慷慨送礼者！"),
-        "firstItemGiftedAchievementMessage":
-            MessageLookupByLibrary.simpleMessage("你送出了第一件物品！你的风格让别人的一天变得更加美好。"),
-        "firstItemPicEditedAchievement":
-            MessageLookupByLibrary.simpleMessage("完美图片！"),
-        "firstItemPicEditedAchievementMessage":
-            MessageLookupByLibrary.simpleMessage("你已编辑了第一张物品图片！你的衣橱看起来比以前更出色。"),
-        "firstItemSoldAchievement":
-            MessageLookupByLibrary.simpleMessage("聪明卖家！"),
-        "firstItemSoldAchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "你卖出了第一件物品！恭喜你把衣橱变现，同时腾出空间迎接新造型。"),
-        "firstItemSwapAchievement":
-            MessageLookupByLibrary.simpleMessage("可持续交换者！"),
-        "firstItemSwapAchievementMessage":
-            MessageLookupByLibrary.simpleMessage("你完成了第一次物品交换！你的衣橱变得既时尚又环保。"),
-        "firstItemUploadAchievement":
-            MessageLookupByLibrary.simpleMessage("物品发起者！"),
-        "firstItemUploadAchievementMessage":
-            MessageLookupByLibrary.simpleMessage("你已上传了第一件物品！你的虚拟衣橱之旅正式开始！"),
-        "firstOutfitCreatedAchievement":
-            MessageLookupByLibrary.simpleMessage("造型大师！"),
-        "firstOutfitCreatedAchievementMessage":
-            MessageLookupByLibrary.simpleMessage("你的第一套造型已经完成！你正迈向掌控自己风格的道路。"),
-        "firstSelfieTakenAchievement":
-            MessageLookupByLibrary.simpleMessage("自拍明星！"),
-        "firstSelfieTakenAchievementMessage":
-            MessageLookupByLibrary.simpleMessage("你拍下了第一张自拍！展示你的风格，让你的衣橱闪耀吧！"),
         "fix_validation_errors":
             MessageLookupByLibrary.simpleMessage("修正错误以继续。"),
         "focus": MessageLookupByLibrary.simpleMessage("专注当日"),
@@ -401,6 +440,80 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("您上传到环保衣橱的物品数量"),
         "jewellery": MessageLookupByLibrary.simpleMessage("珠宝"),
         "lifeChange": MessageLookupByLibrary.simpleMessage("开启新篇章"),
+        "lifeChangeAchievementAllClothesWornMessage":
+            MessageLookupByLibrary.simpleMessage("每件衣服都穿过了——你正在全心拥抱全新的自己。"),
+        "lifeChangeAchievementAllClothesWornTitle":
+            MessageLookupByLibrary.simpleMessage("全面转变！"),
+        "lifeChangeAchievementClosetUploadedMessage":
+            MessageLookupByLibrary.simpleMessage("衣柜已上传——为这段崭新的生活阶段做好准备。"),
+        "lifeChangeAchievementClosetUploadedTitle":
+            MessageLookupByLibrary.simpleMessage("生活更新！"),
+        "lifeChangeAchievementFirstItemGiftedMessage":
+            MessageLookupByLibrary.simpleMessage("送出第一件物品——为新的自己腾出空间。"),
+        "lifeChangeAchievementFirstItemGiftedTitle":
+            MessageLookupByLibrary.simpleMessage("面向未来！"),
+        "lifeChangeAchievementFirstItemPicEditedMessage":
+            MessageLookupByLibrary.simpleMessage("你编辑了第一件物品的照片——美好地展现了当下的生活。"),
+        "lifeChangeAchievementFirstItemPicEditedTitle":
+            MessageLookupByLibrary.simpleMessage("焕新准备！"),
+        "lifeChangeAchievementFirstItemSoldMessage":
+            MessageLookupByLibrary.simpleMessage("售出第一件物品，为真正适合现在的你腾出空间。"),
+        "lifeChangeAchievementFirstItemSoldTitle":
+            MessageLookupByLibrary.simpleMessage("旧物换新！"),
+        "lifeChangeAchievementFirstItemSwapMessage":
+            MessageLookupByLibrary.simpleMessage("完成了第一次换物——衣柜与你的人生转变完美契合。"),
+        "lifeChangeAchievementFirstItemSwapTitle":
+            MessageLookupByLibrary.simpleMessage("焕然一新！"),
+        "lifeChangeAchievementFirstItemUploadMessage":
+            MessageLookupByLibrary.simpleMessage("第一件物品上传，象征你人生旅程的新起点。"),
+        "lifeChangeAchievementFirstItemUploadTitle":
+            MessageLookupByLibrary.simpleMessage("新篇开启！"),
+        "lifeChangeAchievementFirstOutfitCreatedMessage":
+            MessageLookupByLibrary.simpleMessage("你的第一套穿搭已记录——迎接全新阶段的完美搭配。"),
+        "lifeChangeAchievementFirstOutfitCreatedTitle":
+            MessageLookupByLibrary.simpleMessage("转变已记录！"),
+        "lifeChangeAchievementFirstSelfieTakenMessage":
+            MessageLookupByLibrary.simpleMessage("你的第一张自拍，见证了此刻——反映你不断变化的故事。"),
+        "lifeChangeAchievementFirstSelfieTakenTitle":
+            MessageLookupByLibrary.simpleMessage("变化已记录！"),
+        "lifeChangeAchievementNoNewClothes1215Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,215 天用衣柜映照生活的变化。你的适应力令人敬佩！"),
+        "lifeChangeAchievementNoNewClothes1215Title":
+            MessageLookupByLibrary.simpleMessage("改变建筑师！"),
+        "lifeChangeAchievementNoNewClothes1575Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,575 天优雅地驾驭生活转变。你的衣柜展现了智慧与成长。"),
+        "lifeChangeAchievementNoNewClothes1575Title":
+            MessageLookupByLibrary.simpleMessage("转变老手！"),
+        "lifeChangeAchievementNoNewClothes1980Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,980 天通过穿搭重塑风格——你的故事和衣柜完美契合，动人心弦。"),
+        "lifeChangeAchievementNoNewClothes1980Title":
+            MessageLookupByLibrary.simpleMessage("人生章节掌控者！"),
+        "lifeChangeAchievementNoNewClothes225Message":
+            MessageLookupByLibrary.simpleMessage("225 天有意识的转变——你的衣柜正随生活演进。"),
+        "lifeChangeAchievementNoNewClothes225Title":
+            MessageLookupByLibrary.simpleMessage("转变先锋！"),
+        "lifeChangeAchievementNoNewClothes405Message":
+            MessageLookupByLibrary.simpleMessage("405 天优雅地面对生活变化——你和衣柜都在前行。"),
+        "lifeChangeAchievementNoNewClothes405Title":
+            MessageLookupByLibrary.simpleMessage("有型适应者！"),
+        "lifeChangeAchievementNoNewClothes630Message":
+            MessageLookupByLibrary.simpleMessage(
+                "630 天将穿搭与生活节奏对齐——你在每一个章节中都闪耀着光芒。"),
+        "lifeChangeAchievementNoNewClothes630Title":
+            MessageLookupByLibrary.simpleMessage("转变开拓者！"),
+        "lifeChangeAchievementNoNewClothes900Message":
+            MessageLookupByLibrary.simpleMessage(
+                "900 天掌握改变之道——你的衣柜自信地反映着你的成长旅程。"),
+        "lifeChangeAchievementNoNewClothes900Title":
+            MessageLookupByLibrary.simpleMessage("重塑引领者！"),
+        "lifeChangeAchievementNoNewClothes90Message":
+            MessageLookupByLibrary.simpleMessage(
+                "90 天的转变之旅！你的衣柜正在美丽地讲述新生活的故事。"),
+        "lifeChangeAchievementNoNewClothes90Title":
+            MessageLookupByLibrary.simpleMessage("90 天的蜕变！"),
         "lifeChangeTrialCalendar":
             MessageLookupByLibrary.simpleMessage("记录变化中的穿搭，了解何时穿了什么、为何如此选择。"),
         "lifeChangeTrialClosets":
@@ -422,6 +535,80 @@ class MessageLookup extends MessageLookupByLibrary {
         "machine": MessageLookupByLibrary.simpleMessage("机洗"),
         "maxPendingItemsSnackbar": m4,
         "medium": MessageLookupByLibrary.simpleMessage("中色"),
+        "memoryAchievementAllClothesWornMessage":
+            MessageLookupByLibrary.simpleMessage("你穿过了所有衣物，每一件都承载着独特回忆。"),
+        "memoryAchievementAllClothesWornTitle":
+            MessageLookupByLibrary.simpleMessage("每段记忆都穿上了！"),
+        "memoryAchievementClosetUploadedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "你拥有的所有衣物现在都在记忆衣橱里。从今天开始，重新出发，用心穿搭，开启你的无买挑战。"),
+        "memoryAchievementClosetUploadedTitle":
+            MessageLookupByLibrary.simpleMessage("衣橱归档完成！"),
+        "memoryAchievementFirstItemGiftedMessage":
+            MessageLookupByLibrary.simpleMessage("你送出的物品将回忆延续，丰富了别人的故事。"),
+        "memoryAchievementFirstItemGiftedTitle":
+            MessageLookupByLibrary.simpleMessage("回忆传递者！"),
+        "memoryAchievementFirstItemPicEditedMessage":
+            MessageLookupByLibrary.simpleMessage("首次编辑完成——你的回忆更加清晰、鲜明。"),
+        "memoryAchievementFirstItemPicEditedTitle":
+            MessageLookupByLibrary.simpleMessage("回忆更动人！"),
+        "memoryAchievementFirstItemSoldMessage":
+            MessageLookupByLibrary.simpleMessage("你售出了某件物品——虽然放手，但回忆仍在延续。"),
+        "memoryAchievementFirstItemSoldTitle":
+            MessageLookupByLibrary.simpleMessage("回忆共享者！"),
+        "memoryAchievementFirstItemSwapMessage":
+            MessageLookupByLibrary.simpleMessage("第一次换物完成——新的回忆即将在更新的衣柜中诞生。"),
+        "memoryAchievementFirstItemSwapTitle":
+            MessageLookupByLibrary.simpleMessage("回忆刷新者！"),
+        "memoryAchievementFirstItemUploadMessage":
+            MessageLookupByLibrary.simpleMessage("你已保存了第一件回忆物品——未来可随时怀念。"),
+        "memoryAchievementFirstItemUploadTitle":
+            MessageLookupByLibrary.simpleMessage("回忆守护者！"),
+        "memoryAchievementFirstOutfitCreatedMessage":
+            MessageLookupByLibrary.simpleMessage("你保存了第一套穿搭——这将成为你永远珍惜的时刻。"),
+        "memoryAchievementFirstOutfitCreatedTitle":
+            MessageLookupByLibrary.simpleMessage("重要时刻已标记！"),
+        "memoryAchievementFirstSelfieTakenMessage":
+            MessageLookupByLibrary.simpleMessage("你拍下了第一张自拍——一张照片留住一个回忆。"),
+        "memoryAchievementFirstSelfieTakenTitle":
+            MessageLookupByLibrary.simpleMessage("时光定格者！"),
+        "memoryAchievementNoNewClothes1215Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,215 天保护每套穿搭背后的故事。你的衣柜是一本会呼吸的回忆书。"),
+        "memoryAchievementNoNewClothes1215Title":
+            MessageLookupByLibrary.simpleMessage("时光守护者！"),
+        "memoryAchievementNoNewClothes1575Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,575 天的有意识生活——你的衣柜是你人生重要片段的画廊。"),
+        "memoryAchievementNoNewClothes1575Title":
+            MessageLookupByLibrary.simpleMessage("记忆杰作！"),
+        "memoryAchievementNoNewClothes1980Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,980 天通过衣物珍藏回忆。你的衣柜讲述着一段美丽而动人的故事。"),
+        "memoryAchievementNoNewClothes1980Title":
+            MessageLookupByLibrary.simpleMessage("回忆传奇！"),
+        "memoryAchievementNoNewClothes225Message":
+            MessageLookupByLibrary.simpleMessage("225 天里，每套穿搭都在诉说值得铭记的瞬间。"),
+        "memoryAchievementNoNewClothes225Title":
+            MessageLookupByLibrary.simpleMessage("回忆守望者！"),
+        "memoryAchievementNoNewClothes405Message":
+            MessageLookupByLibrary.simpleMessage("405 天通过衣柜回顾人生——每一件都见证了珍贵时刻。"),
+        "memoryAchievementNoNewClothes405Title":
+            MessageLookupByLibrary.simpleMessage("故事收藏家！"),
+        "memoryAchievementNoNewClothes630Message":
+            MessageLookupByLibrary.simpleMessage(
+                "630 天用衣物编织生活故事——你正在打造一段美丽的叙事。"),
+        "memoryAchievementNoNewClothes630Title":
+            MessageLookupByLibrary.simpleMessage("回忆指挥家！"),
+        "memoryAchievementNoNewClothes900Message":
+            MessageLookupByLibrary.simpleMessage(
+                "900 天通过衣服庆祝人生旅程。每一套穿搭都是珍藏故事。"),
+        "memoryAchievementNoNewClothes900Title":
+            MessageLookupByLibrary.simpleMessage("心灵历史学家！"),
+        "memoryAchievementNoNewClothes90Message":
+            MessageLookupByLibrary.simpleMessage("90 天珍惜衣橱回忆。每一件穿过的衣服都藏着宝贵故事。"),
+        "memoryAchievementNoNewClothes90Title":
+            MessageLookupByLibrary.simpleMessage("90 天的珍贵时光！"),
         "memoryScenarioTutorial": MessageLookupByLibrary.simpleMessage(
             "你以为自己会记得所有细节，\n现在真的可以了。\n\n他们的故事会延续——一套穿搭一个回忆。"),
         "memoryTrialCalendar":
@@ -505,41 +692,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("暂无物品！添加衣橱物品或调整筛选条件。"),
         "noItemsInOutfitCategory":
             MessageLookupByLibrary.simpleMessage("添加衣橱物品，或调整筛选以创建穿搭。"),
-        "noNewClothes1215Achievement":
-            MessageLookupByLibrary.simpleMessage("可持续时尚偶像！"),
-        "noNewClothes1215AchievementMessage":
-            MessageLookupByLibrary.simpleMessage(
-                "1,215天的有意生活！您的旅程正在激励他人追随您的脚步。"),
-        "noNewClothes1575Achievement":
-            MessageLookupByLibrary.simpleMessage("极简主义大师！"),
-        "noNewClothes1575AchievementMessage":
-            MessageLookupByLibrary.simpleMessage("1,575天珍惜已有之物。您正在重新定义时尚规则！"),
-        "noNewClothes1980Achievement":
-            MessageLookupByLibrary.simpleMessage("可持续发展的灯塔！"),
-        "noNewClothes1980AchievementMessage":
-            MessageLookupByLibrary.simpleMessage(
-                "1980天坚持明智的选择！你是可持续生活的光辉榜样，激励着我们所有人。✨🌏"),
-        "noNewClothes225Achievement":
-            MessageLookupByLibrary.simpleMessage("环保战士在行动！"),
-        "noNewClothes225AchievementMessage":
-            MessageLookupByLibrary.simpleMessage("225天了！您的衣橱在成长，地球也在受益。🌍"),
-        "noNewClothes405Achievement":
-            MessageLookupByLibrary.simpleMessage("环保选择的冠军！"),
-        "noNewClothes405AchievementMessage":
-            MessageLookupByLibrary.simpleMessage("405天了！您对环保时尚的承诺令人鼓舞。"),
-        "noNewClothes630Achievement":
-            MessageLookupByLibrary.simpleMessage("可持续发展的领袖！"),
-        "noNewClothes630AchievementMessage":
-            MessageLookupByLibrary.simpleMessage("630天不买新衣—您正在引领潮流！继续加油！"),
-        "noNewClothes900Achievement":
-            MessageLookupByLibrary.simpleMessage("改变的先驱者！"),
-        "noNewClothes900AchievementMessage":
-            MessageLookupByLibrary.simpleMessage(
-                "900天的环保选择！您正在时尚领域树立可持续发展新标杆！"),
-        "noNewClothes90Achievement":
-            MessageLookupByLibrary.simpleMessage("可持续的开始！"),
-        "noNewClothes90AchievementMessage":
-            MessageLookupByLibrary.simpleMessage("您已达成90天不买新衣的目标！继续建立环保习惯！🌱"),
         "noOutfitComments": MessageLookupByLibrary.simpleMessage("这套穿搭没有评论。"),
         "noOutfitsAvailable":
             MessageLookupByLibrary.simpleMessage("没有可用的服装或物品"),
@@ -591,6 +743,81 @@ class MessageLookup extends MessageLookupByLibrary {
         "permission_needed":
             MessageLookupByLibrary.simpleMessage("此权限是应用正常运行所必需的。"),
         "personalStyle": MessageLookupByLibrary.simpleMessage("找回我的风格"),
+        "personalStyleAchievementAllClothesWornMessage":
+            MessageLookupByLibrary.simpleMessage("你自信地穿上了每一件衣服！继续拥抱属于你的个人风格吧。"),
+        "personalStyleAchievementAllClothesWornTitle":
+            MessageLookupByLibrary.simpleMessage("完全做自己！"),
+        "personalStyleAchievementClosetUploadedMessage":
+            MessageLookupByLibrary.simpleMessage("你的衣柜上传完成。每种搭配都蕴藏自信。"),
+        "personalStyleAchievementClosetUploadedTitle":
+            MessageLookupByLibrary.simpleMessage("你的衣柜，由你策划！"),
+        "personalStyleAchievementFirstItemGiftedMessage":
+            MessageLookupByLibrary.simpleMessage("你分享了你的风格给他人。自信在你们之间流动！"),
+        "personalStyleAchievementFirstItemGiftedTitle":
+            MessageLookupByLibrary.simpleMessage("风格传递者！"),
+        "personalStyleAchievementFirstItemPicEditedMessage":
+            MessageLookupByLibrary.simpleMessage("物品照片已更新——你的衣柜与自信完美匹配。"),
+        "personalStyleAchievementFirstItemPicEditedTitle":
+            MessageLookupByLibrary.simpleMessage("风格至上！"),
+        "personalStyleAchievementFirstItemSoldMessage":
+            MessageLookupByLibrary.simpleMessage("你售出第一件物品，精简出真正让你感到自在的衣柜。"),
+        "personalStyleAchievementFirstItemSoldTitle":
+            MessageLookupByLibrary.simpleMessage("自信策展人！"),
+        "personalStyleAchievementFirstItemSwapMessage":
+            MessageLookupByLibrary.simpleMessage("你完成了第一次换物。继续发现最适合你的风格。"),
+        "personalStyleAchievementFirstItemSwapTitle":
+            MessageLookupByLibrary.simpleMessage("自信交换！"),
+        "personalStyleAchievementFirstItemUploadMessage":
+            MessageLookupByLibrary.simpleMessage("你上传了第一件物品。一起发现最适合你的风格表达。"),
+        "personalStyleAchievementFirstItemUploadTitle":
+            MessageLookupByLibrary.simpleMessage("自信开启！"),
+        "personalStyleAchievementFirstOutfitCreatedMessage":
+            MessageLookupByLibrary.simpleMessage("你的第一套穿搭已完成。随时回顾，让自己焕发光彩。"),
+        "personalStyleAchievementFirstOutfitCreatedTitle":
+            MessageLookupByLibrary.simpleMessage("标志性穿搭定格！"),
+        "personalStyleAchievementFirstSelfieTakenMessage":
+            MessageLookupByLibrary.simpleMessage("第一张自拍已拍下！庆祝你的风格之旅。"),
+        "personalStyleAchievementFirstSelfieTakenTitle":
+            MessageLookupByLibrary.simpleMessage("风格由你掌控！"),
+        "personalStyleAchievementNoNewClothes1215Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,215 天证明真正的风格是永恒的！你是忠于自我的榜样。"),
+        "personalStyleAchievementNoNewClothes1215Title":
+            MessageLookupByLibrary.simpleMessage("风格传奇！"),
+        "personalStyleAchievementNoNewClothes1575Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,575 天打造自信衣柜——你的风格无需言语，已尽显风采。"),
+        "personalStyleAchievementNoNewClothes1575Title":
+            MessageLookupByLibrary.simpleMessage("真实风格建筑师！"),
+        "personalStyleAchievementNoNewClothes1980Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,980 天通过穿搭体现独特个性。你正在重新定义自信穿衣的意义。"),
+        "personalStyleAchievementNoNewClothes1980Title":
+            MessageLookupByLibrary.simpleMessage("个人风格巅峰！"),
+        "personalStyleAchievementNoNewClothes225Message":
+            MessageLookupByLibrary.simpleMessage("225 天重新发现你的衣柜！你正用自己的方式定义自信。"),
+        "personalStyleAchievementNoNewClothes225Title":
+            MessageLookupByLibrary.simpleMessage("风格引领者！"),
+        "personalStyleAchievementNoNewClothes405Message":
+            MessageLookupByLibrary.simpleMessage(
+                "405 天掌握个人风格的艺术——你的衣柜完美呈现真正的你。"),
+        "personalStyleAchievementNoNewClothes405Title":
+            MessageLookupByLibrary.simpleMessage("衣橱共鸣者！"),
+        "personalStyleAchievementNoNewClothes630Message":
+            MessageLookupByLibrary.simpleMessage(
+                "630 天自信地从自己的衣柜中穿搭——你正以独特风格启发他人。"),
+        "personalStyleAchievementNoNewClothes630Title":
+            MessageLookupByLibrary.simpleMessage("自信塑造者！"),
+        "personalStyleAchievementNoNewClothes900Message":
+            MessageLookupByLibrary.simpleMessage(
+                "900 天掌握个人风格——你的自信具有感染力，令人耳目一新！"),
+        "personalStyleAchievementNoNewClothes900Title":
+            MessageLookupByLibrary.simpleMessage("风格偶像！"),
+        "personalStyleAchievementNoNewClothes90Message":
+            MessageLookupByLibrary.simpleMessage(
+                "连续 90 天用已有衣物自信穿搭——你的个人风格正在闪耀！"),
+        "personalStyleAchievementNoNewClothes90Title":
+            MessageLookupByLibrary.simpleMessage("90 天的自信风格！"),
         "personalStyleTrialCalendar":
             MessageLookupByLibrary.simpleMessage("每天记录，见证你风格的成长。"),
         "personalStyleTrialClosets":

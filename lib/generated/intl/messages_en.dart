@@ -91,10 +91,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "allClosetLabel": MessageLookupByLibrary.simpleMessage("All Closet"),
         "allClosetShown": MessageLookupByLibrary.simpleMessage("All Closets"),
         "allClosets": MessageLookupByLibrary.simpleMessage("Edit All Closets"),
-        "allClothesWornAchievement":
-            MessageLookupByLibrary.simpleMessage("All Clothes, All You!"),
-        "allClothesWornAchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "You\'ve worn every single item in your closet! You\'re mastering mindful fashion choices."),
         "allFeedback": MessageLookupByLibrary.simpleMessage("All"),
         "allItems": MessageLookupByLibrary.simpleMessage("All Items"),
         "alright": MessageLookupByLibrary.simpleMessage("Not sure\n🤷‍♀️"),
@@ -191,10 +187,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "closetReappearTitle":
             MessageLookupByLibrary.simpleMessage("Closet Reappeared"),
         "closetType": MessageLookupByLibrary.simpleMessage("Closet Type"),
-        "closetUploadAchievement":
-            MessageLookupByLibrary.simpleMessage("Virtual Closet Complete!"),
-        "closetUploadAchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "Congratulations! You\'ve uploaded all your items to your virtual closet. Now you can style like a pro!"),
         "closetUploadComplete":
             MessageLookupByLibrary.simpleMessage("I uploaded my closet"),
         "closet_created_successfully": MessageLookupByLibrary.simpleMessage(
@@ -267,8 +259,94 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("What would you like to do?"),
         "declutterThrowWarning": MessageLookupByLibrary.simpleMessage(
             "Once you confirm, this item will disappear from your closet view permanently.\n\nHave you considered donating or upcycling instead?\n\n You could put it in a public closet, where people can buy / barter / swap with you for the item."),
+        "defaultAchievementAllClothesWornMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "You\'ve worn every single item in your closet! You\'re mastering mindful fashion choices."),
+        "defaultAchievementAllClothesWornTitle":
+            MessageLookupByLibrary.simpleMessage("All Clothes, All You!"),
+        "defaultAchievementClosetUploadedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Congratulations! You\'ve uploaded all your items to your virtual closet. Now you can style like a pro!"),
+        "defaultAchievementClosetUploadedTitle":
+            MessageLookupByLibrary.simpleMessage("Virtual Closet Complete!"),
+        "defaultAchievementFirstItemGiftedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "You’ve gifted your first item! Your style is making someone else’s day brighter."),
+        "defaultAchievementFirstItemGiftedTitle":
+            MessageLookupByLibrary.simpleMessage("Generous Giver!"),
+        "defaultAchievementFirstItemPicEditedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your first item picture has been edited! Your closet is looking better than ever."),
+        "defaultAchievementFirstItemPicEditedTitle":
+            MessageLookupByLibrary.simpleMessage("Picture Perfect!"),
+        "defaultAchievementFirstItemSoldMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "You’ve sold your first item! Way to turn your closet into cash and make space for new looks."),
+        "defaultAchievementFirstItemSoldTitle":
+            MessageLookupByLibrary.simpleMessage("Smart Seller!"),
+        "defaultAchievementFirstItemSwapMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "You’ve swapped your first item! Your wardrobe just got a stylish and sustainable refresh."),
+        "defaultAchievementFirstItemSwapTitle":
+            MessageLookupByLibrary.simpleMessage("Sustainable Swapper!"),
+        "defaultAchievementFirstItemUploadMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your first item is uploaded! Your virtual closet journey has begun!"),
+        "defaultAchievementFirstItemUploadTitle":
+            MessageLookupByLibrary.simpleMessage("Item Initiator!"),
+        "defaultAchievementFirstOutfitCreatedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your first outfit is ready! You\'re on your way to mastering your style."),
+        "defaultAchievementFirstOutfitCreatedTitle":
+            MessageLookupByLibrary.simpleMessage("Outfit Architect!"),
+        "defaultAchievementFirstSelfieTakenMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "You’ve taken your first selfie! Show off your style and let your closet shine!"),
+        "defaultAchievementFirstSelfieTakenTitle":
+            MessageLookupByLibrary.simpleMessage("Selfie Superstar!"),
         "defaultAchievementMessage": MessageLookupByLibrary.simpleMessage(
             "You’ve reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion."),
+        "defaultAchievementNoNewClothes1215Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,215 days of intentional living! Your journey is inspiring others to follow in your footsteps."),
+        "defaultAchievementNoNewClothes1215Title":
+            MessageLookupByLibrary.simpleMessage("Icon of Sustainability!"),
+        "defaultAchievementNoNewClothes1575Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,575 days of embracing what you have. You\'re rewriting the rules of fashion!"),
+        "defaultAchievementNoNewClothes1575Title":
+            MessageLookupByLibrary.simpleMessage("Master of Minimalism!"),
+        "defaultAchievementNoNewClothes1980Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,980 days of dedication to mindful choices! You\'re a shining example of sustainable living and an inspiration to us all. ✨🌏"),
+        "defaultAchievementNoNewClothes1980Title":
+            MessageLookupByLibrary.simpleMessage("Beacon of Sustainability!"),
+        "defaultAchievementNoNewClothes225Message":
+            MessageLookupByLibrary.simpleMessage(
+                "225 days and counting! Your closet is thriving, and so is the planet. 🌍"),
+        "defaultAchievementNoNewClothes225Title":
+            MessageLookupByLibrary.simpleMessage("Eco-Warrior in the Making!"),
+        "defaultAchievementNoNewClothes405Message":
+            MessageLookupByLibrary.simpleMessage(
+                "405 days strong! Your commitment to conscious fashion is an inspiration."),
+        "defaultAchievementNoNewClothes405Title":
+            MessageLookupByLibrary.simpleMessage(
+                "Champion of Conscious Choices!"),
+        "defaultAchievementNoNewClothes630Message":
+            MessageLookupByLibrary.simpleMessage(
+                "630 days without new clothes—you\'re leading by example! Keep going!"),
+        "defaultAchievementNoNewClothes630Title":
+            MessageLookupByLibrary.simpleMessage("Sustainability Leader!"),
+        "defaultAchievementNoNewClothes900Message":
+            MessageLookupByLibrary.simpleMessage(
+                "900 days of conscious choices! You’re setting trends and making waves in sustainability!"),
+        "defaultAchievementNoNewClothes900Title":
+            MessageLookupByLibrary.simpleMessage("Trailblazer of Change!"),
+        "defaultAchievementNoNewClothes90Message":
+            MessageLookupByLibrary.simpleMessage(
+                "You’ve hit 90 days without new clothes! Keep building those eco-friendly habits! 🌱"),
+        "defaultAchievementNoNewClothes90Title":
+            MessageLookupByLibrary.simpleMessage("Sustainable Start!"),
         "defaultAchievementTitle":
             MessageLookupByLibrary.simpleMessage("Achievement Unlocked!"),
         "defaultClosetName":
@@ -381,36 +459,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "filterSearchPremiumFeature":
             MessageLookupByLibrary.simpleMessage("Advanced Filters?"),
         "filter_filter": MessageLookupByLibrary.simpleMessage("Filter"),
-        "firstItemGiftedAchievement":
-            MessageLookupByLibrary.simpleMessage("Generous Giver!"),
-        "firstItemGiftedAchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "You’ve gifted your first item! Your style is making someone else’s day brighter."),
-        "firstItemPicEditedAchievement":
-            MessageLookupByLibrary.simpleMessage("Picture Perfect!"),
-        "firstItemPicEditedAchievementMessage":
-            MessageLookupByLibrary.simpleMessage(
-                "Your first item picture has been edited! Your closet is looking better than ever."),
-        "firstItemSoldAchievement":
-            MessageLookupByLibrary.simpleMessage("Smart Seller!"),
-        "firstItemSoldAchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "You’ve sold your first item! Way to turn your closet into cash and make space for new looks."),
-        "firstItemSwapAchievement":
-            MessageLookupByLibrary.simpleMessage("Sustainable Swapper!"),
-        "firstItemSwapAchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "You’ve swapped your first item! Your wardrobe just got a stylish and sustainable refresh."),
-        "firstItemUploadAchievement":
-            MessageLookupByLibrary.simpleMessage("Item Initiator!"),
-        "firstItemUploadAchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "Your first item is uploaded! Your virtual closet journey has begun!"),
-        "firstOutfitCreatedAchievement":
-            MessageLookupByLibrary.simpleMessage("Outfit Architect!"),
-        "firstOutfitCreatedAchievementMessage":
-            MessageLookupByLibrary.simpleMessage(
-                "Your first outfit is ready! You\'re on your way to mastering your style."),
-        "firstSelfieTakenAchievement":
-            MessageLookupByLibrary.simpleMessage("Selfie Superstar!"),
-        "firstSelfieTakenAchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "You’ve taken your first selfie! Show off your style and let your closet shine!"),
         "fix_validation_errors":
             MessageLookupByLibrary.simpleMessage("Fix the errors to continue."),
         "focus": MessageLookupByLibrary.simpleMessage("Day Focus"),
@@ -465,6 +513,91 @@ class MessageLookup extends MessageLookupByLibrary {
         "jewellery": MessageLookupByLibrary.simpleMessage("Jewellery"),
         "lifeChange":
             MessageLookupByLibrary.simpleMessage("Start a New Chapter"),
+        "lifeChangeAchievementAllClothesWornMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Every item worn—embracing your evolving identity wholeheartedly."),
+        "lifeChangeAchievementAllClothesWornTitle":
+            MessageLookupByLibrary.simpleMessage("Fully Transformed!"),
+        "lifeChangeAchievementClosetUploadedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Closet uploaded—ready to support this exciting new life phase."),
+        "lifeChangeAchievementClosetUploadedTitle":
+            MessageLookupByLibrary.simpleMessage("Life Updated!"),
+        "lifeChangeAchievementFirstItemGiftedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Gifted your first item—clearing space for the new you."),
+        "lifeChangeAchievementFirstItemGiftedTitle":
+            MessageLookupByLibrary.simpleMessage("Forward Focused!"),
+        "lifeChangeAchievementFirstItemPicEditedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Edited your first item\'s picture—reflecting your current life beautifully."),
+        "lifeChangeAchievementFirstItemPicEditedTitle":
+            MessageLookupByLibrary.simpleMessage("Ready for Renewal!"),
+        "lifeChangeAchievementFirstItemSoldMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Sold your first item, making room for what truly suits you now."),
+        "lifeChangeAchievementFirstItemSoldTitle":
+            MessageLookupByLibrary.simpleMessage("Old to New!"),
+        "lifeChangeAchievementFirstItemSwapMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Swapped your first item—your wardrobe matches your life\'s shift."),
+        "lifeChangeAchievementFirstItemSwapTitle":
+            MessageLookupByLibrary.simpleMessage("Freshly Swapped!"),
+        "lifeChangeAchievementFirstItemUploadMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your first item uploaded, symbolizing a fresh start in your journey."),
+        "lifeChangeAchievementFirstItemUploadTitle":
+            MessageLookupByLibrary.simpleMessage("New Chapter Begins!"),
+        "lifeChangeAchievementFirstOutfitCreatedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your first outfit recorded—perfect for embracing your new phase."),
+        "lifeChangeAchievementFirstOutfitCreatedTitle":
+            MessageLookupByLibrary.simpleMessage("Transition Tracked!"),
+        "lifeChangeAchievementFirstSelfieTakenMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your first selfie marks this moment—reflecting your evolving story."),
+        "lifeChangeAchievementFirstSelfieTakenTitle":
+            MessageLookupByLibrary.simpleMessage("Change Documented!"),
+        "lifeChangeAchievementNoNewClothes1215Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,215 days crafting your wardrobe to fit life\'s transformations. Your adaptability inspires!"),
+        "lifeChangeAchievementNoNewClothes1215Title":
+            MessageLookupByLibrary.simpleMessage("Architect of Change!"),
+        "lifeChangeAchievementNoNewClothes1575Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,575 days gracefully navigating life\'s shifts. Your wardrobe reflects wisdom and growth."),
+        "lifeChangeAchievementNoNewClothes1575Title":
+            MessageLookupByLibrary.simpleMessage("Seasoned Transformer!"),
+        "lifeChangeAchievementNoNewClothes1980Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,980 days redefining your style through life\'s changes—your story and wardrobe are beautifully aligned."),
+        "lifeChangeAchievementNoNewClothes1980Title":
+            MessageLookupByLibrary.simpleMessage("Master of Life\'s Chapters!"),
+        "lifeChangeAchievementNoNewClothes225Message":
+            MessageLookupByLibrary.simpleMessage(
+                "225 days of intentional transformation—your closet is evolving with your life."),
+        "lifeChangeAchievementNoNewClothes225Title":
+            MessageLookupByLibrary.simpleMessage("Change Champion!"),
+        "lifeChangeAchievementNoNewClothes405Message":
+            MessageLookupByLibrary.simpleMessage(
+                "405 days navigating life\'s changes stylishly—you\'re gracefully moving forward, wardrobe and all."),
+        "lifeChangeAchievementNoNewClothes405Title":
+            MessageLookupByLibrary.simpleMessage("Adapting with Style!"),
+        "lifeChangeAchievementNoNewClothes630Message":
+            MessageLookupByLibrary.simpleMessage(
+                "630 days of aligning your style with your life\'s transitions—you\'re thriving in every chapter."),
+        "lifeChangeAchievementNoNewClothes630Title":
+            MessageLookupByLibrary.simpleMessage("Transformation Trailblazer!"),
+        "lifeChangeAchievementNoNewClothes900Message":
+            MessageLookupByLibrary.simpleMessage(
+                "900 days mastering change—your closet confidently mirrors your evolving journey."),
+        "lifeChangeAchievementNoNewClothes900Title":
+            MessageLookupByLibrary.simpleMessage("Reinvention Leader!"),
+        "lifeChangeAchievementNoNewClothes90Message":
+            MessageLookupByLibrary.simpleMessage(
+                "90 days embracing change! Your wardrobe beautifully reflects your life\'s new chapter."),
+        "lifeChangeAchievementNoNewClothes90Title":
+            MessageLookupByLibrary.simpleMessage("90-Day Evolution!"),
         "lifeChangeTrialCalendar": MessageLookupByLibrary.simpleMessage(
             "Track your outfits during life shifts. See what worked and when."),
         "lifeChangeTrialClosets": MessageLookupByLibrary.simpleMessage(
@@ -486,6 +619,91 @@ class MessageLookup extends MessageLookupByLibrary {
         "machine": MessageLookupByLibrary.simpleMessage("Machine"),
         "maxPendingItemsSnackbar": m4,
         "medium": MessageLookupByLibrary.simpleMessage("Medium"),
+        "memoryAchievementAllClothesWornMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "You\'ve worn all your pieces, each with its unique story."),
+        "memoryAchievementAllClothesWornTitle":
+            MessageLookupByLibrary.simpleMessage("Every Memory Worn!"),
+        "memoryAchievementClosetUploadedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "You’ve uploaded everything you own. Now every choice is intentional—your mindful journey begins."),
+        "memoryAchievementClosetUploadedTitle":
+            MessageLookupByLibrary.simpleMessage("Closet Counted!"),
+        "memoryAchievementFirstItemGiftedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your gifted item carries memories forward, enriching someone else\'s story."),
+        "memoryAchievementFirstItemGiftedTitle":
+            MessageLookupByLibrary.simpleMessage("Memory Passed On!"),
+        "memoryAchievementFirstItemPicEditedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "First edit complete—your memories clearer and brighter than ever."),
+        "memoryAchievementFirstItemPicEditedTitle":
+            MessageLookupByLibrary.simpleMessage("Memory Enhanced!"),
+        "memoryAchievementFirstItemSoldMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your item sold—letting go, but memories linger and live on."),
+        "memoryAchievementFirstItemSoldTitle":
+            MessageLookupByLibrary.simpleMessage("Memory Shared!"),
+        "memoryAchievementFirstItemSwapMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "First swap done—new memories await with your refreshed closet."),
+        "memoryAchievementFirstItemSwapTitle":
+            MessageLookupByLibrary.simpleMessage("Memory Refreshed!"),
+        "memoryAchievementFirstItemUploadMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your first memory item is safely stored—ready for future reminiscing."),
+        "memoryAchievementFirstItemUploadTitle":
+            MessageLookupByLibrary.simpleMessage("Memory Preserved!"),
+        "memoryAchievementFirstOutfitCreatedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your first outfit saved—a moment you\'ll cherish forever."),
+        "memoryAchievementFirstOutfitCreatedTitle":
+            MessageLookupByLibrary.simpleMessage("Milestone Marked!"),
+        "memoryAchievementFirstSelfieTakenMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "First selfie taken—holding onto memories one picture at a time."),
+        "memoryAchievementFirstSelfieTakenTitle":
+            MessageLookupByLibrary.simpleMessage("Moment Captured!"),
+        "memoryAchievementNoNewClothes1215Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,215 days preserving the stories held by each outfit. Your closet is a living scrapbook of memories."),
+        "memoryAchievementNoNewClothes1215Title":
+            MessageLookupByLibrary.simpleMessage("Guardian of Moments!"),
+        "memoryAchievementNoNewClothes1575Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,575 days of mindful living—your wardrobe is a gallery of life\'s most meaningful moments."),
+        "memoryAchievementNoNewClothes1575Title":
+            MessageLookupByLibrary.simpleMessage("Memory Masterpiece!"),
+        "memoryAchievementNoNewClothes1980Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,980 days of treasuring memories through clothes. Your closet narrates your beautiful, evolving story."),
+        "memoryAchievementNoNewClothes1980Title":
+            MessageLookupByLibrary.simpleMessage("Legend of Legacy!"),
+        "memoryAchievementNoNewClothes225Message":
+            MessageLookupByLibrary.simpleMessage(
+                "225 days honoring memories, one outfit at a time. Your wardrobe is full of moments worth remembering."),
+        "memoryAchievementNoNewClothes225Title":
+            MessageLookupByLibrary.simpleMessage("Keeper of Memories!"),
+        "memoryAchievementNoNewClothes405Message":
+            MessageLookupByLibrary.simpleMessage(
+                "405 days living through your wardrobe—each piece a reminder of life\'s precious moments."),
+        "memoryAchievementNoNewClothes405Title":
+            MessageLookupByLibrary.simpleMessage("Story Collector!"),
+        "memoryAchievementNoNewClothes630Message":
+            MessageLookupByLibrary.simpleMessage(
+                "630 days weaving life\'s stories through your clothes—you\'re curating a beautiful narrative."),
+        "memoryAchievementNoNewClothes630Title":
+            MessageLookupByLibrary.simpleMessage("Memory Maestro!"),
+        "memoryAchievementNoNewClothes900Message":
+            MessageLookupByLibrary.simpleMessage(
+                "900 days celebrating your life\'s journey through clothes. Every outfit tells a cherished story."),
+        "memoryAchievementNoNewClothes900Title":
+            MessageLookupByLibrary.simpleMessage("Historian of the Heart!"),
+        "memoryAchievementNoNewClothes90Message":
+            MessageLookupByLibrary.simpleMessage(
+                "90 days cherishing your wardrobe memories. Every piece worn carries a precious story."),
+        "memoryAchievementNoNewClothes90Title":
+            MessageLookupByLibrary.simpleMessage("90 Days of Moments!"),
         "memoryScenarioTutorial": MessageLookupByLibrary.simpleMessage(
             "You thought you’d remember it all.\nNow you can.\n\nTheir story lives on—one outfit at a time."),
         "memoryTrialCalendar": MessageLookupByLibrary.simpleMessage(
@@ -581,38 +799,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "No items yet!\nAdd to your closet or change filters to explore."),
         "noItemsInOutfitCategory": MessageLookupByLibrary.simpleMessage(
             "Your outfit canvas is waiting!\nAdd items to your closet or adjust filters to see more."),
-        "noNewClothes1215Achievement":
-            MessageLookupByLibrary.simpleMessage("Icon of Sustainability!"),
-        "noNewClothes1215AchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "1,215 days of intentional living! Your journey is inspiring others to follow in your footsteps."),
-        "noNewClothes1575Achievement":
-            MessageLookupByLibrary.simpleMessage("Master of Minimalism!"),
-        "noNewClothes1575AchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "1,575 days of embracing what you have. You\'re rewriting the rules of fashion!"),
-        "noNewClothes1980Achievement":
-            MessageLookupByLibrary.simpleMessage("Beacon of Sustainability!"),
-        "noNewClothes1980AchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "1,980 days of dedication to mindful choices! You\'re a shining example of sustainable living and an inspiration to us all. ✨🌏"),
-        "noNewClothes225Achievement":
-            MessageLookupByLibrary.simpleMessage("Eco-Warrior in the Making!"),
-        "noNewClothes225AchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "225 days and counting! Your closet is thriving, and so is the planet. 🌍"),
-        "noNewClothes405Achievement": MessageLookupByLibrary.simpleMessage(
-            "Champion of Conscious Choices!"),
-        "noNewClothes405AchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "405 days strong! Your commitment to conscious fashion is an inspiration."),
-        "noNewClothes630Achievement":
-            MessageLookupByLibrary.simpleMessage("Sustainability Leader!"),
-        "noNewClothes630AchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "630 days without new clothes—you\'re leading by example! Keep going!"),
-        "noNewClothes900Achievement":
-            MessageLookupByLibrary.simpleMessage("Trailblazer of Change!"),
-        "noNewClothes900AchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "900 days of conscious choices! You’re setting trends and making waves in sustainability!"),
-        "noNewClothes90Achievement":
-            MessageLookupByLibrary.simpleMessage("Sustainable Start!"),
-        "noNewClothes90AchievementMessage": MessageLookupByLibrary.simpleMessage(
-            "You’ve hit 90 days without new clothes! Keep building those eco-friendly habits! 🌱"),
         "noOutfitComments": MessageLookupByLibrary.simpleMessage(
             "No comments available for this outfit."),
         "noOutfitsAvailable":
@@ -673,6 +859,91 @@ class MessageLookup extends MessageLookupByLibrary {
             "This permission is\nrequired for the app\nto function properly."),
         "personalStyle":
             MessageLookupByLibrary.simpleMessage("Rediscover My Style"),
+        "personalStyleAchievementAllClothesWornMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "You\'ve confidently worn every piece you own! Keep embracing your personal style."),
+        "personalStyleAchievementAllClothesWornTitle":
+            MessageLookupByLibrary.simpleMessage("Fully You!"),
+        "personalStyleAchievementClosetUploadedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your closet upload is complete. Confidence awaits in every combination."),
+        "personalStyleAchievementClosetUploadedTitle":
+            MessageLookupByLibrary.simpleMessage("Your Closet, Curated!"),
+        "personalStyleAchievementFirstItemGiftedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "You\'ve passed along a piece of your style. Confidence looks good on both of you!"),
+        "personalStyleAchievementFirstItemGiftedTitle":
+            MessageLookupByLibrary.simpleMessage("Style Shared!"),
+        "personalStyleAchievementFirstItemPicEditedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your item\'s picture is updated—your closet matches your confidence."),
+        "personalStyleAchievementFirstItemPicEditedTitle":
+            MessageLookupByLibrary.simpleMessage("Styled to Perfection!"),
+        "personalStyleAchievementFirstItemSoldMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "You’ve sold your first item, refining your closet to what truly feels good."),
+        "personalStyleAchievementFirstItemSoldTitle":
+            MessageLookupByLibrary.simpleMessage("Curator of Confidence!"),
+        "personalStyleAchievementFirstItemSwapMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "You’ve swapped your first piece. Keep discovering what makes you feel best."),
+        "personalStyleAchievementFirstItemSwapTitle":
+            MessageLookupByLibrary.simpleMessage("Confidence Exchange!"),
+        "personalStyleAchievementFirstItemUploadMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "You\'ve uploaded your first item. Let\'s discover the styles that feel uniquely you."),
+        "personalStyleAchievementFirstItemUploadTitle":
+            MessageLookupByLibrary.simpleMessage("Confidence Unlocked!"),
+        "personalStyleAchievementFirstOutfitCreatedMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your first outfit is crafted. Revisit this look to feel great anytime."),
+        "personalStyleAchievementFirstOutfitCreatedTitle":
+            MessageLookupByLibrary.simpleMessage("Signature Look Set!"),
+        "personalStyleAchievementFirstSelfieTakenMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "Your first selfie captured! Celebrate your style journey."),
+        "personalStyleAchievementFirstSelfieTakenTitle":
+            MessageLookupByLibrary.simpleMessage("Own Your Style!"),
+        "personalStyleAchievementNoNewClothes1215Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,215 days proving true style is timeless! You\'re a role model of authentic self-expression."),
+        "personalStyleAchievementNoNewClothes1215Title":
+            MessageLookupByLibrary.simpleMessage("Legendary Style!"),
+        "personalStyleAchievementNoNewClothes1575Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,575 days curating a closet of confidence—your style speaks volumes without saying a word."),
+        "personalStyleAchievementNoNewClothes1575Title":
+            MessageLookupByLibrary.simpleMessage("Architect of Authenticity!"),
+        "personalStyleAchievementNoNewClothes1980Message":
+            MessageLookupByLibrary.simpleMessage(
+                "1,980 days embodying your unique identity through fashion. You\'re redefining what it means to dress confidently."),
+        "personalStyleAchievementNoNewClothes1980Title":
+            MessageLookupByLibrary.simpleMessage("Pinnacle of Personal Style!"),
+        "personalStyleAchievementNoNewClothes225Message":
+            MessageLookupByLibrary.simpleMessage(
+                "225 days of rediscovering your wardrobe! You\'re defining confidence on your own terms."),
+        "personalStyleAchievementNoNewClothes225Title":
+            MessageLookupByLibrary.simpleMessage("Style Setter!"),
+        "personalStyleAchievementNoNewClothes405Message":
+            MessageLookupByLibrary.simpleMessage(
+                "405 days mastering the art of personal style—your closet reflects your true self beautifully."),
+        "personalStyleAchievementNoNewClothes405Title":
+            MessageLookupByLibrary.simpleMessage("Wardrobe Whisperer!"),
+        "personalStyleAchievementNoNewClothes630Message":
+            MessageLookupByLibrary.simpleMessage(
+                "630 days confidently dressing from your own closet—you\'re inspiring others with your unique style."),
+        "personalStyleAchievementNoNewClothes630Title":
+            MessageLookupByLibrary.simpleMessage("Confidence Creator!"),
+        "personalStyleAchievementNoNewClothes900Message":
+            MessageLookupByLibrary.simpleMessage(
+                "900 days of personal style mastery—your confidence is contagious and transformative!"),
+        "personalStyleAchievementNoNewClothes900Title":
+            MessageLookupByLibrary.simpleMessage("Style Icon!"),
+        "personalStyleAchievementNoNewClothes90Message":
+            MessageLookupByLibrary.simpleMessage(
+                "You\'ve styled yourself confidently for 90 days using what you own—your personal style is thriving!"),
+        "personalStyleAchievementNoNewClothes90Title":
+            MessageLookupByLibrary.simpleMessage("90 Days Confident!"),
         "personalStyleTrialCalendar": MessageLookupByLibrary.simpleMessage(
             "Watch your style change over time, one day at a time."),
         "personalStyleTrialClosets": MessageLookupByLibrary.simpleMessage(

@@ -35,7 +35,7 @@ import '../../core/tutorial/pop_up_tutorial/presentation/pages/tutorial_pop_up_p
 import '../../core/tutorial/tutorial/presentation/pages/tutorial_hub_screen.dart';
 import '../../core/tutorial/scenario/presentation/pages/goal_selection_provider.dart';
 import '../../user_management/achievements/presentation/pages/achievements_page.dart';
-import '../achievement_celebration/presentation/pages/achievement_completed_screen.dart';
+import '../achievement_celebration/presentation/pages/achievement_completed_provider.dart';
 import '../presentation/pages/trial_started/trial_started_provider.dart';
 import '../usage_analytics/core/presentation/pages/usage_analytics_scaffold.dart';
 import '../usage_analytics/item_analytics/summary_item_analytics/presentation/pages/summary_items_provider.dart';
@@ -592,13 +592,13 @@ final GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: '/achievement',
+      path: '/achievement_screen',
       name: 'achievement_screen',
       pageBuilder: (context, state) {
         final args = state.extra as AchievementScreenArguments;
         return buildCustomTransitionPage(
           key: state.pageKey,
-          child: AchievementScreen(
+          child: AchievementCompletedProvider(
             achievementKey: args.achievementKey,
             achievementUrl: args.achievementUrl,
             nextRoute: args.nextRoute,
