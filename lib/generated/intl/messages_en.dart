@@ -815,6 +815,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "No related outfits reviewed yet.\n\nTry styling this outfit differently!"),
         "noReviewedOutfitMessage": MessageLookupByLibrary.simpleMessage(
             "You haven’t reviewed any outfits yet. Start by reviewing your first outfit!"),
+        "notification_permission_explanation": MessageLookupByLibrary.simpleMessage(
+            "We use notifications to gently remind you to upload items or create outfits. No spam, just a little nudge when it matters."),
         "npsExplanation": MessageLookupByLibrary.simpleMessage(
             "On a scale from 0 to 10:\n0: Not at all likely\n10: Extremely likely"),
         "npsReviewEmailBody": MessageLookupByLibrary.simpleMessage(
@@ -1008,6 +1010,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "red": MessageLookupByLibrary.simpleMessage("Red"),
         "relatedOutfits":
             MessageLookupByLibrary.simpleMessage("Related Outfits"),
+        "reminderDialogContent": MessageLookupByLibrary.simpleMessage(
+            "Would you like me to remind you later to upload your closet?"),
+        "reminderDialogTitle":
+            MessageLookupByLibrary.simpleMessage("Remind Me Later"),
         "reservedClosetNameError": MessageLookupByLibrary.simpleMessage(
             "\'cc_closet\' is a reserved name. Please choose another."),
         "reset": MessageLookupByLibrary.simpleMessage("reset"),

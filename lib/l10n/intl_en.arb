@@ -258,6 +258,7 @@
   "camera_selfie_permission_explanation": "We need access to your camera for your stunning outfit selfies!",
   "camera_permission_explanation": "Camera access is required to take photos.",
   "photo_library_permission_explanation": "We need access to your photo library so you can select and upload your favorite outfits.",
+  "notification_permission_explanation": "We use notifications to gently remind you to upload items or create outfits. No spam, just a little nudge when it matters.",
   "general_permission_explanation": "We need this permission to make the app work properly.",
   "open_settings": "Open Settings",
   "noImage": "No Image Available",
@@ -518,6 +519,8 @@
   "alwaysAvailableFeatures": "Always Available Feature Tutorials",
   "premiumFeatureTutorials": "Premium Feature Tutorials",
   "scenarioTutorials": "Scenario Tutorials",
+  "reminderDialogTitle": "Remind Me Later",
+  "reminderDialogContent": "Would you like me to remind you later to upload your closet?",
 
   "tutorialFreePhotoLibraryTitle": "Upload from Photo Library",
   "tutorialClosetUploadedTitle": "Closet Upload Tutorial",

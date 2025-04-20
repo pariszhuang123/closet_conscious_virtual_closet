@@ -41,6 +41,7 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
 
     // ✅ Trigger access check and tutorial on screen load
     context.read<CustomizeBloc>().add(CheckCustomizeAccessEvent());
+    context.read<CustomizeBloc>().add(LoadCustomizeEvent());
 
     context.read<TutorialBloc>().add(
       const CheckTutorialStatus(TutorialType.paidCustomize),

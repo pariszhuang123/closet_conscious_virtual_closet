@@ -146,7 +146,7 @@ class TutorialFeatureList {
         videos: [
           TutorialVideoPart(
             journeyType: OnboardingJourneyType.memoryFlow,
-            youtubeId: 'odERINOWkSA',
+            youtubeId: 'UPCh59qIflw',
             getDescription: (context) => S.of(context).memoryScenarioTutorial,
           ),
         ],

@@ -258,6 +258,7 @@
   "camera_selfie_permission_explanation": "允许访问您的相机，以便与您的服装拍摄自拍。",
   "camera_permission_explanation": "相机权限是拍摄照片所必需的。",
   "photo_library_permission_explanation": "我们需要访问您的相册，以便您可以选择并上传喜爱的穿搭。",
+  "notification_permission_explanation": "我们会通过通知温馨提醒你上传衣物或搭配穿搭。没有垃圾信息，只有在你需要时的小小提示。",
   "general_permission_explanation": "我们需要此权限以使应用正常工作。",
   "open_settings": "打开设置",
   "noImage": "没有图片",
@@ -518,6 +519,8 @@
   "alwaysAvailableFeatures": "始终可用的功能教程",
   "premiumFeatureTutorials": "高级功能教程",
   "scenarioTutorials": "场景教程",
+  "reminderDialogTitle": "稍后提醒我",
+  "reminderDialogContent": "您想让我稍后提醒您上传衣橱吗？",
 
   "tutorialFreePhotoLibraryTitle": "从相册上传",
   "tutorialClosetUploadedTitle": "衣橱上传教程",

@@ -4,10 +4,12 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'core/config/config_reader.dart';
 import 'core/config/flavor_config.dart';
 import 'core/config/supabase_config.dart';
+import 'core/data/services/timezone_service.dart';
 
 import 'user_management/user_service_locator.dart' as user_management_locator;
 import 'core/core_service_locator.dart' as core_locator;
 import 'core/utilities/logger.dart';
+import 'core/notification/data/services/notification_service.dart';
 import 'outfit_management/outfit_service_locator.dart' as outfit_locator;
 import 'item_management/item_service_locator.dart' as item_locator;
 
@@ -41,6 +43,12 @@ Future<void> mainCommon(String environment) async {
 
       // Log Supabase client initialization
       logger.i('Supabase client initialized: ${SupabaseConfig.client}');
+
+      // ✅ Initialize timezone logic
+      await TimezoneService.initialize();
+      await NotificationService.initialize();
+      await NotificationService.createNotificationChannel();
+      logger.i('Timezone & notifications initialized: ${TimezoneService.localTimezone}');
 
       runApp(const MainApp());
 

@@ -16,6 +16,8 @@ import '../../../../utilities/logger.dart';
 import '../../../../utilities/helper_functions/argument_helper.dart';
 import '../../../../presentation/bloc/personalization_flow_cubit/personalization_flow_cubit.dart';
 import '../../../../core_enums.dart';
+import '../../../../notification/presentation/widgets/show_notification_prompt.dart';
+import '../../../../notification/data/services/notification_service.dart';
 
 class TutorialPopUpScreen extends StatelessWidget {
   final String tutorialInputKey;
@@ -23,6 +25,7 @@ class TutorialPopUpScreen extends StatelessWidget {
   final bool isFromMyCloset;
   final String? itemId;
   final String? optionalUrl;
+  final bool isFirstScenario;
 
   const TutorialPopUpScreen({
     super.key,
@@ -31,6 +34,7 @@ class TutorialPopUpScreen extends StatelessWidget {
     required this.isFromMyCloset,
     this.itemId,
     this.optionalUrl,
+    required this.isFirstScenario
   });
 
   void _onDismiss(BuildContext context, CustomLogger logger,
@@ -85,7 +89,26 @@ class TutorialPopUpScreen extends StatelessWidget {
                     }
                     break;
                   case TutorialDismissType.dismissed:
-                    context.goNamed(AppRoutesName.tutorialHub);
+                    if (isFirstScenario) {
+                      // show the “do you want a reminder?” dialog
+                      NotificationReminderDialog.show(
+                        context: context,
+                        theme: appliedTheme,
+                        onConfirm: () {
+                          // when they tap “yes”, schedule the local notification
+                          NotificationService
+                              .scheduleReminderFromPicker(context)
+                              .then((_) {
+                            if (context.mounted) {
+                              context.goNamed(AppRoutesName.tutorialHub);
+                            }
+                          });
+                        },
+                      );
+                    } else {
+                      // just the normal flow
+                      context.goNamed(AppRoutesName.tutorialHub);
+                    }
                     break;
                 }
               } else if (state is TutorialSaveFailure) {

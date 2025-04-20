@@ -56,6 +56,8 @@ class PermissionService {
       }
     } else if (permission == Permission.photos) {
       explanation = S.of(context).photo_library_permission_explanation;
+    } else if (permission == Permission.notification) {
+      return S.of(context).notification_permission_explanation;
     } else {
       explanation = S
           .of(context)

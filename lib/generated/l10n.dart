@@ -2630,6 +2630,16 @@ class S {
     );
   }
 
+  /// `We use notifications to gently remind you to upload items or create outfits. No spam, just a little nudge when it matters.`
+  String get notification_permission_explanation {
+    return Intl.message(
+      'We use notifications to gently remind you to upload items or create outfits. No spam, just a little nudge when it matters.',
+      name: 'notification_permission_explanation',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `We need this permission to make the app work properly.`
   String get general_permission_explanation {
     return Intl.message(
@@ -5226,6 +5236,26 @@ class S {
     return Intl.message(
       'Scenario Tutorials',
       name: 'scenarioTutorials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remind Me Later`
+  String get reminderDialogTitle {
+    return Intl.message(
+      'Remind Me Later',
+      name: 'reminderDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Would you like me to remind you later to upload your closet?`
+  String get reminderDialogContent {
+    return Intl.message(
+      'Would you like me to remind you later to upload your closet?',
+      name: 'reminderDialogContent',
       desc: '',
       args: [],
     );

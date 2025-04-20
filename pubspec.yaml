@@ -36,6 +36,9 @@ dependencies:
   localization: ^2.1.1
   sentry_flutter: ^8.14.1
   in_app_purchase: ^3.2.0
+  flutter_local_notifications: ^19.1.0
+  timezone: ^0.10.0
+  flutter_timezone: ^4.1.0
   logging: ^1.2.0
   logger: ^2.2.0
   uuid: ^4.4.0

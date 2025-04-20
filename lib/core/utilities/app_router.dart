@@ -316,7 +316,7 @@ final GoRouter appRouter = GoRouter(
 
         return buildCustomTransitionPage(
           key: state.pageKey,
-          transitionType: TransitionType.slideFromTop, // 👈 Slide down
+          transitionType: TransitionType.slideFadeFromTop, // 👈 Slide down
           child: FilterProvider(
             isFromMyCloset: args['isFromMyCloset'] ?? true,
             selectedItemIds: args['selectedItemIds'] ?? [],
@@ -640,6 +640,7 @@ final GoRouter appRouter = GoRouter(
             isFromMyCloset: args['isFromMyCloset'],
             itemId: args['itemId'],
             optionalUrl: args['optionalUrl'],
+            isFirstScenario: args['isFirstScenario'] ?? false,
           ),
           transitionType: TransitionType.slideFadeFromBottom,
         );

@@ -5,12 +5,17 @@ import '../widgets/tutorial_feature_navigation.dart';
 import '../../../../theme/my_closet_theme.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../utilities/app_router.dart';
+import '../../../../notification/data/services/notification_service.dart';
 
 class TutorialHubScreen extends StatelessWidget {
   const TutorialHubScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      NotificationService.showTestNotification(); // Make sure you import it!
+    });
+
     return Theme(
         data: myClosetTheme,
         child: PopScope(

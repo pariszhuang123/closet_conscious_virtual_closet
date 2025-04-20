@@ -41,6 +41,10 @@
 	<string>Need to access the camera to upload items.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
    	<string>Closet Conscious needs photo access to help you upload your clothing items from the gallery.</string>
+    <key>NSLocalNotificationUsageDescription</key>
+    <string>Closet Conscious uses reminders to help you build habits and stay on track with your closet.</string>
+    <key>NSUserNotificationAlertStyle</key>
+    <string>alert</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

@@ -706,6 +706,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("暂无相关穿搭评价。\n\n尝试不同的搭配风格吧！"),
         "noReviewedOutfitMessage":
             MessageLookupByLibrary.simpleMessage("您尚未评价任何穿搭。请从评价您的第一个穿搭开始！"),
+        "notification_permission_explanation":
+            MessageLookupByLibrary.simpleMessage(
+                "我们会通过通知温馨提醒你上传衣物或搭配穿搭。没有垃圾信息，只有在你需要时的小小提示。"),
         "npsExplanation":
             MessageLookupByLibrary.simpleMessage("0-10评分:\n0: 不太可能\n10: 非常可能"),
         "npsReviewEmailBody":
@@ -875,6 +878,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("您有多大可能向朋友推荐衣格思觉？"),
         "red": MessageLookupByLibrary.simpleMessage("红色"),
         "relatedOutfits": MessageLookupByLibrary.simpleMessage("相关穿搭"),
+        "reminderDialogContent":
+            MessageLookupByLibrary.simpleMessage("您想让我稍后提醒您上传衣橱吗？"),
+        "reminderDialogTitle": MessageLookupByLibrary.simpleMessage("稍后提醒我"),
         "reservedClosetNameError": MessageLookupByLibrary.simpleMessage(
             "\'cc_closet\' 是保留名称，请选择其他名称。"),
         "reset": MessageLookupByLibrary.simpleMessage("刷新"),

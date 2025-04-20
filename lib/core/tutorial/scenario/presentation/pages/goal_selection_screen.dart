@@ -49,6 +49,7 @@ class GoalSelectionScreen extends StatelessWidget {
                 'tutorialInputKey': state.selectedGoal.value,
                 'nextRoute': AppRoutesName.pendingPhotoLibrary,
                 'isFromMyCloset': true,
+                'isFirstScenario': true,
               },
             );
           } else if (state is SaveFlowFailure) {

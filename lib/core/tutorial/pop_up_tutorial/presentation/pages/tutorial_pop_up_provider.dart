@@ -13,6 +13,7 @@ class TutorialPopUpProvider extends StatelessWidget {
   final bool isFromMyCloset;
   final String? itemId;
   final String? optionalUrl;
+  final bool isFirstScenario;
 
   const TutorialPopUpProvider({
     super.key,
@@ -21,6 +22,7 @@ class TutorialPopUpProvider extends StatelessWidget {
     required this.isFromMyCloset,
     this.itemId,
     this.optionalUrl,
+    required this.isFirstScenario
   });
 
   @override
@@ -47,6 +49,7 @@ class TutorialPopUpProvider extends StatelessWidget {
         isFromMyCloset: isFromMyCloset,
         itemId: itemId,
         optionalUrl: optionalUrl,
+        isFirstScenario: isFirstScenario,
       ),
     );
   }
