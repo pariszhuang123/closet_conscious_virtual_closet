@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'dart:io';
 
 import '../../../data/services/timezone_service.dart';
 import '../../../utilities/logger.dart';
@@ -16,15 +17,31 @@ class NotificationService {
       _logger.i('Already initialized. Skipping.');
       return;
     }
+    const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const iosInit = DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
+    const settings = InitializationSettings(
+      android: androidInit,
+      iOS: iosInit,
+    );
 
-    const android = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const ios = DarwinInitializationSettings();
-    const settings = InitializationSettings(android: android, iOS: ios);
-
-    await _notifications.initialize(settings);
-    _initialized = true;
-
+    await _notifications.initialize(
+      settings,
+      onDidReceiveNotificationResponse: (details) {
+        _logger.i('Notification tapped with payload: ${details.payload}');
+      },
+    );
     _logger.i('Notification plugin initialized.');
+
+    // 3️⃣ Create Android channel if on Android O+
+    if (Platform.isAndroid) {
+      await createNotificationChannel();
+    }
+
+    _initialized = true;
   }
 
   static Future<void> createNotificationChannel() async {
@@ -35,15 +52,12 @@ class NotificationService {
       description: 'Reminder notifications for Closet Conscious',
       importance: Importance.high,
     );
-
     final androidPlugin = _notifications
         .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
-
     if (androidPlugin == null) {
-      _logger.w('AndroidFlutterLocalNotificationsPlugin is null – channel not created.');
+      _logger.w('Android plugin is null; channel not created.');
       return;
     }
-
     await androidPlugin.createNotificationChannel(androidChannel);
     _logger.i('Notification channel created: ${androidChannel.id}');
   }
@@ -118,7 +132,6 @@ class NotificationService {
           iOS: DarwinNotificationDetails(),
         ),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        matchDateTimeComponents: DateTimeComponents.dateAndTime,
       );
 
       _logger.i('Notification scheduled successfully.');

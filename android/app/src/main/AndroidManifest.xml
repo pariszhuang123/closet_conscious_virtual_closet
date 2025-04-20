@@ -6,6 +6,7 @@
     <uses-permission android:name="com.android.vending.BILLING"/>
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
     <application
         android:label="closet_conscious"
@@ -34,6 +35,11 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <receiver
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"
+            android:exported="true" />
+
     </application>
 
     <queries>
