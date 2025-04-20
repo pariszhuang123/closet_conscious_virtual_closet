@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:workmanager/workmanager.dart';
 import 'dart:io';
 
 import '../../../data/services/timezone_service.dart';
@@ -11,7 +12,7 @@ class NotificationService {
   static final CustomLogger _logger = CustomLogger('NotificationService');
   static bool _initialized = false;
 
-  /// Call this once in `main()` before scheduling any notifications
+  /// Initializes the notification plugin. Should be called once in main().
   static Future<void> initialize() async {
     if (_initialized) {
       _logger.i('Already initialized. Skipping.');
@@ -36,7 +37,6 @@ class NotificationService {
     );
     _logger.i('Notification plugin initialized.');
 
-    // 3️⃣ Create Android channel if on Android O+
     if (Platform.isAndroid) {
       await createNotificationChannel();
     }
@@ -62,13 +62,30 @@ class NotificationService {
     _logger.i('Notification channel created: ${androidChannel.id}');
   }
 
-  static Future<void> showTestNotification() async {
-    _logger.i('Showing test notification...');
+  /// Handles the notification display from a background WorkManager task.
+  static Future<void> showWorkManagerNotification(Map<String, dynamic>? inputData) async {
+    final title = inputData?['title'] ?? 'Closet Reminder';
+    final body = inputData?['body'] ?? 'Time to upload your closet!';
+    final scheduledAt = inputData?['scheduled_at'];
+
+    final now = DateTime.now();
+    _logger.i('[WorkManager] 🔔 Notification firing at: $now');
+
+    if (scheduledAt != null) {
+      final parsedScheduled = DateTime.tryParse(scheduledAt);
+      if (parsedScheduled != null) {
+        final delay = now.difference(parsedScheduled);
+        _logger.i('[WorkManager] ⏱ Elapsed time since scheduled: ${delay.inSeconds}s');
+      } else {
+        _logger.w('[WorkManager] Failed to parse scheduled_at: $scheduledAt');
+      }
+    }
+
     try {
       await _notifications.show(
-        999,
-        'Test Notification',
-        'This is a test to check if notification appears',
+        1001,
+        title,
+        body,
         const NotificationDetails(
           android: AndroidNotificationDetails(
             'reminder_channel_id',
@@ -79,13 +96,13 @@ class NotificationService {
           iOS: DarwinNotificationDetails(),
         ),
       );
-      _logger.i('Test notification triggered.');
-    } catch (e, stackTrace) {
-      _logger.e('Failed to show test notification: $e\n$stackTrace');
+      _logger.i('[WorkManager] ✅ Notification shown');
+    } catch (e, st) {
+      _logger.e('[WorkManager] ❌ Failed to show notification: $e\n$st');
     }
   }
 
-  /// This method handles permission + picker + scheduling
+  /// Requests permission, picks datetime, and schedules a notification.
   static Future<void> scheduleReminderFromPicker(BuildContext context) async {
     _logger.i('Requesting notification permission...');
     final status = await Permission.notification.request();
@@ -116,40 +133,71 @@ class NotificationService {
     _logger.i('Current time: ${now.toLocal()}');
     _logger.i('Scheduled time: ${scheduledTime.toLocal()}');
 
-    try {
-      await _notifications.zonedSchedule(
-        0,
-        'Closet Reminder',
-        'Time to upload your closet!',
-        scheduledTime,
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'reminder_channel_id',
-            'Closet Reminders',
-            importance: Importance.high,
-            priority: Priority.high,
-          ),
-          iOS: DarwinNotificationDetails(),
-        ),
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+    if (Platform.isAndroid) {
+      // 🟨 Android fallback logic using WorkManager
+      final delay = scheduledTime.difference(DateTime.now());
+      if (delay.isNegative) {
+        _logger.w('Scheduled time is in the past. Aborting.');
+        return;
+      }
+
+      await Workmanager().registerOneOffTask(
+        'closet_reminder_${selected.millisecondsSinceEpoch}',
+        'show_closet_reminder',
+        initialDelay: delay,
+        inputData: {
+          'title': 'Closet Reminder',
+          'body': 'Time to upload your closet!',
+          'scheduled_at': DateTime.now().toIso8601String(), // 👈 Add this
+        },
       );
 
-      _logger.i('Notification scheduled successfully.');
+      _logger.i('✅ WorkManager task registered for: $selected');
+
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Reminder set for ${scheduledTime.toLocal()}')),
         );
       }
-    } catch (e, stackTrace) {
-      _logger.e('❌ Failed to schedule notification: $e\n$stackTrace');
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to schedule reminder')),
+    } else {
+      // 🍏 iOS — safe to use zonedSchedule
+      try {
+        await _notifications.zonedSchedule(
+          0,
+          'Closet Reminder',
+          'Time to upload your closet!',
+          scheduledTime,
+          const NotificationDetails(
+            android: AndroidNotificationDetails(
+              'reminder_channel_id',
+              'Closet Reminders',
+              importance: Importance.high,
+              priority: Priority.high,
+            ),
+            iOS: DarwinNotificationDetails(),
+          ),
+          androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         );
+
+        _logger.i('✅ Notification scheduled via flutter_local_notifications');
+
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Reminder set for ${scheduledTime.toLocal()}')),
+          );
+        }
+      } catch (e, stackTrace) {
+        _logger.e('❌ Failed to schedule iOS notification: $e\n$stackTrace');
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to schedule reminder')),
+          );
+        }
       }
     }
   }
 
+  /// Helper to pick datetime from user
   static Future<DateTime?> _selectDateTime(BuildContext context) async {
     final now = DateTime.now();
     _logger.d('Opening date picker...');

@@ -37,6 +37,7 @@ dependencies:
   sentry_flutter: ^8.14.1
   in_app_purchase: ^3.2.0
   flutter_local_notifications: ^19.1.0
+  workmanager: ^0.5.2
   timezone: ^0.10.0
   flutter_timezone: ^4.1.0
   logging: ^1.2.0
