@@ -10,6 +10,7 @@ import 'core/data/services/timezone_service.dart';
 import 'user_management/user_service_locator.dart' as user_management_locator;
 import 'core/core_service_locator.dart' as core_locator;
 import 'core/utilities/logger.dart';
+import 'core/utilities/navigation_service.dart';
 import 'core/notification/data/services/notification_service.dart';
 import 'core/notification/data/services/notification_callback_dispatcher.dart';
 import 'outfit_management/outfit_service_locator.dart' as outfit_locator;
@@ -56,7 +57,11 @@ Future<void> mainCommon(String environment) async {
       await NotificationService.createNotificationChannel();
       logger.i('Timezone & notifications initialized: ${TimezoneService.localTimezone}');
 
-      runApp(const MainApp());
+      runApp(MainApp(navigatorKey: navigatorKey));
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        NotificationService.handlePendingNavigation();
+      });
 
       // Log the current user
       final currentUser = SupabaseConfig.client.auth.currentUser;

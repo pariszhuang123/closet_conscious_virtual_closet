@@ -7,13 +7,15 @@ import 'generated/l10n.dart';
 import 'core/init/app_initializer_provider.dart';
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  final GlobalKey<NavigatorState> navigatorKey;
+
+  const MainApp({super.key, required this.navigatorKey});
 
   @override
   Widget build(BuildContext context) {
     return AppInitializerProvider(
       child: MaterialApp.router(
-        routerConfig: appRouter,
+        routerConfig: appRouter, // 👈 Pass it here
         debugShowCheckedModeBanner: false,
         theme: myClosetTheme,
         localizationsDelegates: const [

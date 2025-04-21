@@ -1,16 +1,23 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:workmanager/workmanager.dart';
 import 'dart:io';
+import 'package:go_router/go_router.dart';
 
 import '../../../data/services/timezone_service.dart';
 import '../../../utilities/logger.dart';
+import '../../../utilities/app_router.dart';
+import '../../../utilities/navigation_service.dart';
 
 class NotificationService {
   static final _notifications = FlutterLocalNotificationsPlugin();
   static final CustomLogger _logger = CustomLogger('NotificationService');
   static bool _initialized = false;
+
+  static String? _pendingNavigationAction;
 
   /// Initializes the notification plugin. Should be called once in main().
   static Future<void> initialize() async {
@@ -19,23 +26,30 @@ class NotificationService {
       return;
     }
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const iosInit = DarwinInitializationSettings(
+    var iosInit = const DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
     );
-    const settings = InitializationSettings(
+
+    var settings = InitializationSettings(
       android: androidInit,
       iOS: iosInit,
     );
 
     await _notifications.initialize(
       settings,
-      onDidReceiveNotificationResponse: (details) {
-        _logger.i('Notification tapped with payload: ${details.payload}');
+      onDidReceiveNotificationResponse: (details) async {
+        _logger.i('🔔 Notification tapped: ${details.actionId}');
+        _pendingNavigationAction = 'UPLOAD_CLOSET';
+
+        if (navigatorKey.currentContext != null) {
+          handlePendingNavigation();
+        } else {
+          _logger.w('❌ Context is null. Deferring navigation.');
+        }
       },
     );
-    _logger.i('Notification plugin initialized.');
 
     if (Platform.isAndroid) {
       await createNotificationChannel();
@@ -52,12 +66,14 @@ class NotificationService {
       description: 'Reminder notifications for Closet Conscious',
       importance: Importance.high,
     );
+
     final androidPlugin = _notifications
         .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
     if (androidPlugin == null) {
       _logger.w('Android plugin is null; channel not created.');
       return;
     }
+
     await androidPlugin.createNotificationChannel(androidChannel);
     _logger.i('Notification channel created: ${androidChannel.id}');
   }
@@ -76,8 +92,6 @@ class NotificationService {
       if (parsedScheduled != null) {
         final delay = now.difference(parsedScheduled);
         _logger.i('[WorkManager] ⏱ Elapsed time since scheduled: ${delay.inSeconds}s');
-      } else {
-        _logger.w('[WorkManager] Failed to parse scheduled_at: $scheduledAt');
       }
     }
 
@@ -92,6 +106,7 @@ class NotificationService {
             'Closet Reminders',
             importance: Importance.high,
             priority: Priority.high,
+            styleInformation: DefaultStyleInformation(true, true),
           ),
           iOS: DarwinNotificationDetails(),
         ),
@@ -120,87 +135,61 @@ class NotificationService {
       return;
     }
 
-    _logger.i('Permission granted. Showing date/time picker...');
-    final DateTime? selected = await _selectDateTime(context);
-    if (!context.mounted || selected == null) {
-      _logger.w('No date/time selected. Aborting.');
+    final selected = await _selectDateTime(context);
+    if (!context.mounted || selected == null) return;
+
+    final scheduledTime = TimezoneService.toLocalTZ(selected);
+    final delay = scheduledTime.difference(DateTime.now());
+
+    if (delay.isNegative) {
+      _logger.w('Scheduled time is in the past. Aborting.');
       return;
     }
 
-    final scheduledTime = TimezoneService.toLocalTZ(selected);
-    final now = DateTime.now();
+    await Workmanager().registerOneOffTask(
+      'closet_reminder_${selected.millisecondsSinceEpoch}',
+      'show_closet_reminder',
+      initialDelay: delay,
+      inputData: {
+        'title': _localized('title'),
+        'body': _localized('body'),
+        'scheduled_at': DateTime.now().toIso8601String(),
+      },
+    );
 
-    _logger.i('Current time: ${now.toLocal()}');
-    _logger.i('Scheduled time: ${scheduledTime.toLocal()}');
-
-    if (Platform.isAndroid) {
-      // 🟨 Android fallback logic using WorkManager
-      final delay = scheduledTime.difference(DateTime.now());
-      if (delay.isNegative) {
-        _logger.w('Scheduled time is in the past. Aborting.');
-        return;
-      }
-
-      await Workmanager().registerOneOffTask(
-        'closet_reminder_${selected.millisecondsSinceEpoch}',
-        'show_closet_reminder',
-        initialDelay: delay,
-        inputData: {
-          'title': 'Closet Reminder',
-          'body': 'Time to upload your closet!',
-          'scheduled_at': DateTime.now().toIso8601String(), // 👈 Add this
-        },
+    _logger.i('✅ WorkManager task registered for: $scheduledTime');
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Reminder set for ${scheduledTime.toLocal()}')),
       );
-
-      _logger.i('✅ WorkManager task registered for: $selected');
-
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Reminder set for ${scheduledTime.toLocal()}')),
-        );
-      }
-    } else {
-      // 🍏 iOS — safe to use zonedSchedule
-      try {
-        await _notifications.zonedSchedule(
-          0,
-          'Closet Reminder',
-          'Time to upload your closet!',
-          scheduledTime,
-          const NotificationDetails(
-            android: AndroidNotificationDetails(
-              'reminder_channel_id',
-              'Closet Reminders',
-              importance: Importance.high,
-              priority: Priority.high,
-            ),
-            iOS: DarwinNotificationDetails(),
-          ),
-          androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-        );
-
-        _logger.i('✅ Notification scheduled via flutter_local_notifications');
-
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Reminder set for ${scheduledTime.toLocal()}')),
-          );
-        }
-      } catch (e, stackTrace) {
-        _logger.e('❌ Failed to schedule iOS notification: $e\n$stackTrace');
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to schedule reminder')),
-          );
-        }
-      }
     }
   }
 
-  /// Helper to pick datetime from user
+  static String _localized(String key) {
+    final lang = PlatformDispatcher.instance.locale.languageCode;
+    const translations = {
+      'en': {
+        'title': 'Closet Reminder',
+        'body': 'Time to upload your closet!',
+      },
+      'zh': {
+        'title': '衣橱提醒',
+        'body': '该上传你的衣橱了！',
+      },
+    };
+    return translations[lang]?[key] ?? translations['en']![key]!;
+  }
+
+  static void handlePendingNavigation() {
+    if (_pendingNavigationAction == 'UPLOAD_CLOSET') {
+      _logger.i('🚀 Navigating to photo library from notification');
+      navigatorKey.currentContext?.goNamed(AppRoutesName.pendingPhotoLibrary);
+    }
+    _pendingNavigationAction = null;
+  }
+
   static Future<DateTime?> _selectDateTime(BuildContext context) async {
     final now = DateTime.now();
-    _logger.d('Opening date picker...');
 
     final date = await showDatePicker(
       context: context,
@@ -208,30 +197,14 @@ class NotificationService {
       firstDate: now,
       lastDate: now.add(const Duration(days: 30)),
     );
-    if (date == null || !context.mounted) {
-      _logger.w('Date not selected or context unmounted.');
-      return null;
-    }
+    if (date == null || !context.mounted) return null;
 
-    _logger.d('Opening time picker...');
     final time = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    if (time == null || !context.mounted) {
-      _logger.w('Time not selected or context unmounted.');
-      return null;
-    }
+    if (time == null || !context.mounted) return null;
 
-    final fullDate = DateTime(
-      date.year,
-      date.month,
-      date.day,
-      time.hour,
-      time.minute,
-    );
-
-    _logger.i('User selected: $fullDate');
-    return fullDate;
+    return DateTime(date.year, date.month, date.day, time.hour, time.minute);
   }
 }
