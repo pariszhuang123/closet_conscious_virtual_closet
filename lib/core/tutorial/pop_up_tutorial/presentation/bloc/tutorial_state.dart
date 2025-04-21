@@ -22,9 +22,23 @@ class TutorialFeatureLoaded extends TutorialState {
 
 class TutorialFeatureLoadFailure extends TutorialState {}
 
-class ShowTutorial extends TutorialState {}
+class ShowTutorial extends TutorialState {
+  final TutorialType tutorialType;
 
-class SkipTutorial extends TutorialState {}
+  const ShowTutorial(this.tutorialType);
+
+  @override
+  List<Object?> get props => [tutorialType];
+}
+
+class SkipTutorial extends TutorialState {
+  final TutorialType tutorialType;
+
+  const SkipTutorial(this.tutorialType);
+
+  @override
+  List<Object?> get props => [tutorialType];
+}
 
 class TutorialSaveSuccess extends TutorialState {
   final TutorialDismissType dismissType;

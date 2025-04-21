@@ -22,59 +22,68 @@ class MyClosetNavigationRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            NavigationTypeButton(
-              label: TypeDataList.bulkUpload(context).getName(context),
-              selectedLabel: '',
-              onPressed: onUploadButtonPressed,
-              assetPath: TypeDataList.bulkUpload(context).assetPath,
-              isFromMyCloset: true,
-              buttonType: ButtonType.primary,
-              usePredefinedColor: false,
-            ),
-            NavigationTypeButton(
-              label: TypeDataList.filter(context).getName(context),
-              selectedLabel: '',
-              onPressed: onFilterButtonPressed,
-              assetPath: TypeDataList.filter(context).assetPath,
-              isFromMyCloset: true,
-              buttonType: ButtonType.secondary,
-              usePredefinedColor: false,
-            ),
-            NavigationTypeButton(
-              label: TypeDataList.arrange(context).getName(context),
-              selectedLabel: '',
-              onPressed: onArrangeButtonPressed,
-              assetPath: TypeDataList.arrange(context).assetPath,
-              isFromMyCloset: true,
-              buttonType: ButtonType.secondary,
-              usePredefinedColor: false,
-            ),
-            NavigationTypeButton(
-              label: TypeDataList.addCloset(context).getName(context),
-              selectedLabel: '',
-              onPressed: onMultiClosetButtonPressed,
-              assetPath: TypeDataList.addCloset(context).assetPath,
-              isFromMyCloset: true,
-              buttonType: ButtonType.secondary,
-              usePredefinedColor: false,
-            ),
-            NavigationTypeButton(
-              label: TypeDataList.publicCloset(context).getName(context),
-              selectedLabel: '',
-              onPressed: onPublicClosetButtonPressed,
-              assetPath: TypeDataList.publicCloset(context).assetPath,
-              isFromMyCloset: true,
-              buttonType: ButtonType.secondary,
-              usePredefinedColor: false,
-            ),
-          ],
-        ),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Row(
+        children: [
+          NavigationTypeButton(
+            label: TypeDataList.bulkUpload(context).getName(context),
+            selectedLabel: '',
+            onPressed: onUploadButtonPressed,
+            assetPath: TypeDataList
+                .bulkUpload(context)
+                .assetPath,
+            isFromMyCloset: true,
+            buttonType: ButtonType.primary,
+            usePredefinedColor: false,
+          ),
+          NavigationTypeButton(
+            label: TypeDataList.filter(context).getName(context),
+            selectedLabel: '',
+            onPressed: onFilterButtonPressed,
+            assetPath: TypeDataList
+                .filter(context)
+                .assetPath,
+            isFromMyCloset: true,
+            buttonType: ButtonType.secondary,
+            usePredefinedColor: false,
+          ),
+          NavigationTypeButton(
+            label: TypeDataList.arrange(context).getName(context),
+            selectedLabel: '',
+            onPressed: onArrangeButtonPressed,
+            assetPath: TypeDataList
+                .arrange(context)
+                .assetPath,
+            isFromMyCloset: true,
+            buttonType: ButtonType.secondary,
+            usePredefinedColor: false,
+          ),
+          NavigationTypeButton(
+            label: TypeDataList.addCloset(context).getName(context),
+            selectedLabel: '',
+            onPressed: onMultiClosetButtonPressed,
+            assetPath: TypeDataList
+                .addCloset(context)
+                .assetPath,
+            isFromMyCloset: true,
+            buttonType: ButtonType.secondary,
+            usePredefinedColor: false,
+          ),
+          NavigationTypeButton(
+            label: TypeDataList.publicCloset(context).getName(context),
+            selectedLabel: '',
+            onPressed: onPublicClosetButtonPressed,
+            assetPath: TypeDataList
+                .publicCloset(context)
+                .assetPath,
+            isFromMyCloset: true,
+            buttonType: ButtonType.secondary,
+            usePredefinedColor: false,
+          ),
+        ],
+      ),
     );
   }
 }

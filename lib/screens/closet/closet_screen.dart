@@ -303,9 +303,12 @@ class MyClosetScreenState extends State<MyClosetScreen> {
           ),
           BlocListener<TutorialBloc, TutorialState>(
             listener: (context, tutorialState) {
+              logger.i('👂 TutorialBloc state received: ${tutorialState.runtimeType}');
+
               if (tutorialState is ShowTutorial) {
                 switch (_lastTriggeredTutorialType) {
                   case TutorialType.freeUploadCamera:
+                    logger.i('📽 Showing tutorial popup for freeUploadCamera');
                     context.goNamed(
                       AppRoutesName.tutorialVideoPopUp,
                       extra: {
@@ -316,6 +319,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                     );
                     break;
                   case TutorialType.freeClosetUpload:
+                    logger.i('📽 Showing tutorial popup for freeClosetUpload');
                     context.goNamed(
                       AppRoutesName.tutorialVideoPopUp,
                       extra: {
@@ -327,6 +331,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                     );
                     break;
                   default:
+                    logger.w('⚠️ TutorialType is null or unsupported: $_lastTriggeredTutorialType');
                     break;
                 }
               } else if (tutorialState is SkipTutorial) {
@@ -336,7 +341,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
               }
             },
           )
-          ],
+        ],
         child: Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(appBarHeight),

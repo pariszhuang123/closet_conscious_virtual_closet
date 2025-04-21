@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../bloc/photo_bloc.dart';
 import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
@@ -51,7 +52,17 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
   Widget build(BuildContext context) {
     widget.logger.d('Building PhotoUploadItemScreen');
 
-    return Scaffold(
+    return PopScope(
+        canPop: true,
+        onPopInvokedWithResult: (bool didPop, Object? result) {
+          widget.logger.i('User tried to pop PhotoUploadItemScreen, didPop: $didPop');
+          // Delay navigation to avoid context issues during pop
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.goNamed(AppRoutesName.myCloset);
+          });
+        },
+
+    child: Scaffold(
       body: MultiBlocListener(
         listeners: [
           BlocListener<NavigateCoreBloc, NavigateCoreState>(
@@ -111,6 +122,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
           },
         ),
       ),
+    )
     );
   }
 }

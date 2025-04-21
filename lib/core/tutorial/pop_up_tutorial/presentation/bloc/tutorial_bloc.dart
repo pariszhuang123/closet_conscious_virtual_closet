@@ -23,15 +23,26 @@ class TutorialBloc extends Bloc<TutorialEvent, TutorialState> {
     on<SaveTutorialProgress>(_onSaveTutorialProgress);
   }
 
-  Future<void> _onCheckTutorialStatus(CheckTutorialStatus event,
-      Emitter<TutorialState> emit,) async {
-    final isFirstTime = await coreFetchService.isFirstTimeTutorial(
-      tutorialInput: event.tutorialType.value, // ✅ use the extension
-    );
-    if (isFirstTime) {
-      emit(ShowTutorial());
-    } else {
-      emit(SkipTutorial());
+  Future<void> _onCheckTutorialStatus(
+      CheckTutorialStatus event,
+      Emitter<TutorialState> emit,
+      ) async {
+    logger.i('🔍 Checking if tutorial is first-time for: ${event.tutorialType}');
+    try {
+      final isFirstTime = await coreFetchService.isFirstTimeTutorial(
+        tutorialInput: event.tutorialType.value,
+      );
+      logger.i('📘 Tutorial isFirstTime: $isFirstTime');
+      if (isFirstTime) {
+        emit(ShowTutorial(event.tutorialType));
+        logger.i('🎬 Emitting ShowTutorial');
+      } else {
+        emit(SkipTutorial(event.tutorialType));
+        logger.i('⏩ Emitting SkipTutorial');
+      }
+    } catch (e, stack) {
+      logger.e('❌ Error during CheckTutorialStatus: $e\n$stack');
+      emit(SkipTutorial(event.tutorialType));
     }
   }
 
