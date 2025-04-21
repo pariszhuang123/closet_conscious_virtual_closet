@@ -336,7 +336,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                 }
               } else if (tutorialState is SkipTutorial) {
                 if (_lastTriggeredTutorialType == TutorialType.freeUploadCamera) {
-                  context.goNamed(AppRoutesName.uploadItemPhoto);
+                  context.pushNamed(AppRoutesName.uploadItemPhoto);
                 }
               }
             },

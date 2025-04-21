@@ -33,3 +33,19 @@
 # General Android SDK rules (prevent stripping of core classes)
 -keep class android.** { *; }
 -dontwarn android.**
+
+# WorkManager rules — required for background job execution
+-keep class androidx.work.** { *; }
+-dontwarn androidx.work.**
+
+# flutter_local_notifications plugin
+-keep class com.dexterous.flutterlocalnotifications.** { *; }
+-dontwarn com.dexterous.flutterlocalnotifications.**
+
+# Optional: your app-specific classes used in background execution
+-keep class com.makinglifeeasie.closetconscious.** { *; }
+-dontwarn com.makinglifeeasie.closetconscious.**
+
+# Logger package (if needed, generally safe)
+-keep class com.orhanobut.logger.** { *; }
+-dontwarn com.orhanobut.logger.**

@@ -1,20 +1,25 @@
 import 'package:workmanager/workmanager.dart';
 
 import 'notification_service.dart';
+import '../../../utilities/logger.dart';
 
 /// This function is registered with WorkManager to handle background tasks
 /// such as triggering local notifications even when the app is terminated.
 ///
 /// It must be a top-level function or static, as required by WorkManager.
+@pragma('vm:entry-point')
 void notificationCallbackDispatcher() {
+  final logger = CustomLogger('WorkManager');
+
   Workmanager().executeTask((task, inputData) async {
-    // Initialize the notification plugin (required when in background)
+    logger.i('🛠 Task received: $task');
+
     await NotificationService.initialize();
+    logger.i('✅ NotificationService initialized');
 
-    // Show a notification using the passed input data
     await NotificationService.showWorkManagerNotification(inputData);
+    logger.i('✅ Notification triggered');
 
-    // Return true to indicate the task was successful
     return Future.value(true);
   });
 }
