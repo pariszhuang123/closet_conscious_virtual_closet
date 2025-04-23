@@ -5662,10 +5662,10 @@ class S {
   }
 
   /// `One outfit. One day. One memory.\nSnap it. Note it. Feel it again tomorrow.`
-  String get memoryTutorialFreeCreateOutfitCreateOutfitProcess {
+  String get memoryTutorialFreeCreateOutfitProcess {
     return Intl.message(
       'One outfit. One day. One memory.\nSnap it. Note it. Feel it again tomorrow.',
-      name: 'memoryTutorialFreeCreateOutfitCreateOutfitProcess',
+      name: 'memoryTutorialFreeCreateOutfitProcess',
       desc: '',
       args: [],
     );
@@ -6141,6 +6141,116 @@ class S {
     );
   }
 
+  /// `Start identifying your personal style by uploading pieces you already wear. Each piece tells a story about your taste.`
+  String get personalStyleTutorialFreeUploadCameraUploadClothing {
+    return Intl.message(
+      'Start identifying your personal style by uploading pieces you already wear. Each piece tells a story about your taste.',
+      name: 'personalStyleTutorialFreeUploadCameraUploadClothing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload up to 5 items at once to quickly surface what reflects your style.`
+  String get personalStyleTutorialFreePhotoLibraryUploadClothing {
+    return Intl.message(
+      'Upload up to 5 items at once to quickly surface what reflects your style.',
+      name: 'personalStyleTutorialFreePhotoLibraryUploadClothing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove what doesn’t align with your evolving style. It’s not just about less—it’s about the *right* items.`
+  String get personalStyleTutorialFreeEditCameraDeclutterItems {
+    return Intl.message(
+      'Remove what doesn’t align with your evolving style. It’s not just about less—it’s about the *right* items.',
+      name: 'personalStyleTutorialFreeEditCameraDeclutterItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Put your pieces together to see what looks like ‘you’. We’re building your signature style.`
+  String get personalStyleTutorialFreeCreateOutfitProcess {
+    return Intl.message(
+      'Put your pieces together to see what looks like ‘you’. We’re building your signature style.',
+      name: 'personalStyleTutorialFreeCreateOutfitProcess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Find pieces that match your vibe today. Use filters to spot hidden gems.`
+  String get personalStyleTutorialPaidFilterFindInCloset {
+    return Intl.message(
+      'Find pieces that match your vibe today. Use filters to spot hidden gems.',
+      name: 'personalStyleTutorialPaidFilterFindInCloset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Visualize your wardrobe in different ways to surface forgotten favorites.`
+  String get personalStyleTutorialPaidCustomizeViewAllItems {
+    return Intl.message(
+      'Visualize your wardrobe in different ways to surface forgotten favorites.',
+      name: 'personalStyleTutorialPaidCustomizeViewAllItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create style capsules for different parts of your identity—work, weekend, or wild.`
+  String get personalStyleTutorialPaidMultiClosetCreateCapsule {
+    return Intl.message(
+      'Create style capsules for different parts of your identity—work, weekend, or wild.',
+      name: 'personalStyleTutorialPaidMultiClosetCreateCapsule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track your outfits to discover which ones feel most like ‘you’.`
+  String get personalStyleTutorialPaidCalendarTrackFirstExperiences {
+    return Intl.message(
+      'Track your outfits to discover which ones feel most like ‘you’.',
+      name: 'personalStyleTutorialPaidCalendarTrackFirstExperiences',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See what you're actually wearing—your style speaks through repetition.`
+  String get personalStyleTutorialPaidUsageAnalyticsCostPerWear {
+    return Intl.message(
+      'See what you\'re actually wearing—your style speaks through repetition.',
+      name: 'personalStyleTutorialPaidUsageAnalyticsCostPerWear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track your streaks and unlock features—just by using what you already own.`
+  String get personalStyleTutorialClosetUploaded {
+    return Intl.message(
+      'Track your streaks and unlock features—just by using what you already own.',
+      name: 'personalStyleTutorialClosetUploaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’re not starting from scratch. Your closet already has clues. Let’s figure out your personal style.`
+  String get personalStyleScenarioTutorial {
+    return Intl.message(
+      'You’re not starting from scratch. Your closet already has clues. Let’s figure out your personal style.',
+      name: 'personalStyleScenarioTutorial',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Narrow your closet by name, item type to define your unique look.`
   String get personalStyleTrialFilter {
     return Intl.message(
@@ -6536,6 +6646,116 @@ class S {
     return Intl.message(
       '90 Days Confident!',
       name: 'personalStyleAchievementNoNewClothes90Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start fresh by uploading what’s still with you. Your style can shift—and so can you.`
+  String get lifeChangeTutorialFreeUploadCameraUploadClothing {
+    return Intl.message(
+      'Start fresh by uploading what’s still with you. Your style can shift—and so can you.',
+      name: 'lifeChangeTutorialFreeUploadCameraUploadClothing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quickly upload what you’ve worn recently to reflect your current reality.`
+  String get lifeChangeTutorialFreePhotoLibraryUploadClothing {
+    return Intl.message(
+      'Quickly upload what you’ve worn recently to reflect your current reality.',
+      name: 'lifeChangeTutorialFreePhotoLibraryUploadClothing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Let go of what no longer fits your life. Keep what supports who you are now.`
+  String get lifeChangeTutorialFreeEditCameraDeclutterItems {
+    return Intl.message(
+      'Let go of what no longer fits your life. Keep what supports who you are now.',
+      name: 'lifeChangeTutorialFreeEditCameraDeclutterItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try on combinations that meet you where you are today. Feel grounded in your choices.`
+  String get lifeChangeTutorialFreeCreateOutfitProcess {
+    return Intl.message(
+      'Try on combinations that meet you where you are today. Feel grounded in your choices.',
+      name: 'lifeChangeTutorialFreeCreateOutfitProcess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter your wardrobe to find what works for this season of your life.`
+  String get lifeChangeTutorialPaidFilterFindInCloset {
+    return Intl.message(
+      'Filter your wardrobe to find what works for this season of your life.',
+      name: 'lifeChangeTutorialPaidFilterFindInCloset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See your wardrobe in a new light. Sometimes a new view brings clarity.`
+  String get lifeChangeTutorialPaidCustomizeViewAllItems {
+    return Intl.message(
+      'See your wardrobe in a new light. Sometimes a new view brings clarity.',
+      name: 'lifeChangeTutorialPaidCustomizeViewAllItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create closets that fit different aspects of your life—work, home, change, or celebration.`
+  String get lifeChangeTutorialPaidMultiClosetCreateCapsule {
+    return Intl.message(
+      'Create closets that fit different aspects of your life—work, home, change, or celebration.',
+      name: 'lifeChangeTutorialPaidMultiClosetCreateCapsule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track outfits during new beginnings. These memories matter.`
+  String get lifeChangeTutorialPaidCalendarTrackFirstExperiences {
+    return Intl.message(
+      'Track outfits during new beginnings. These memories matter.',
+      name: 'lifeChangeTutorialPaidCalendarTrackFirstExperiences',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See what you’re reaching for now. It’s okay if your go-tos have changed.`
+  String get lifeChangeTutorialPaidUsageAnalyticsCostPerWear {
+    return Intl.message(
+      'See what you’re reaching for now. It’s okay if your go-tos have changed.',
+      name: 'lifeChangeTutorialPaidUsageAnalyticsCostPerWear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This is your reset. Use what you already have to adapt, feel at home, and move forward.`
+  String get lifeChangeTutorialClosetUploaded {
+    return Intl.message(
+      'This is your reset. Use what you already have to adapt, feel at home, and move forward.',
+      name: 'lifeChangeTutorialClosetUploaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Big changes affect how you dress and feel. Let’s shape a wardrobe that supports where you are now.`
+  String get lifeChangeScenarioTutorial {
+    return Intl.message(
+      'Big changes affect how you dress and feel. Let’s shape a wardrobe that supports where you are now.',
+      name: 'lifeChangeScenarioTutorial',
       desc: '',
       args: [],
     );

@@ -514,6 +514,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "90 天的转变之旅！你的衣柜正在美丽地讲述新生活的故事。"),
         "lifeChangeAchievementNoNewClothes90Title":
             MessageLookupByLibrary.simpleMessage("90 天的蜕变！"),
+        "lifeChangeScenarioTutorial": MessageLookupByLibrary.simpleMessage(
+            "生活的变化会影响你的穿衣与感受。让我们一起打造一个支持你现在阶段的衣橱。"),
         "lifeChangeTrialCalendar":
             MessageLookupByLibrary.simpleMessage("记录变化中的穿搭，了解何时穿了什么、为何如此选择。"),
         "lifeChangeTrialClosets":
@@ -526,6 +528,30 @@ class MessageLookup extends MessageLookupByLibrary {
             "深入了解哪些单品真正陪你度过转变期——从使用频率到使用时机。"),
         "lifeChangeTrialOutfits":
             MessageLookupByLibrary.simpleMessage("打造贴合每日变化的实用穿搭组合。"),
+        "lifeChangeTutorialClosetUploaded":
+            MessageLookupByLibrary.simpleMessage(
+                "这是一次重启。用你已有的衣物，适应生活、找到归属、继续前行。"),
+        "lifeChangeTutorialFreeCreateOutfitProcess":
+            MessageLookupByLibrary.simpleMessage(
+                "尝试新的穿搭组合，适应你现在的生活。让选择成为一种安定感。"),
+        "lifeChangeTutorialFreeEditCameraDeclutterItems":
+            MessageLookupByLibrary.simpleMessage("放下那些已不再适合你生活的物品。保留真正支持你的衣服。"),
+        "lifeChangeTutorialFreePhotoLibraryUploadClothing":
+            MessageLookupByLibrary.simpleMessage("快速上传你最近穿的衣物，反映你当下的状态。"),
+        "lifeChangeTutorialFreeUploadCameraUploadClothing":
+            MessageLookupByLibrary.simpleMessage(
+                "上传那些还陪在你身边的衣物，重新出发。风格会变，你也一样。"),
+        "lifeChangeTutorialPaidCalendarTrackFirstExperiences":
+            MessageLookupByLibrary.simpleMessage("记录那些新的开始。这些时刻值得被记住。"),
+        "lifeChangeTutorialPaidCustomizeViewAllItems":
+            MessageLookupByLibrary.simpleMessage("用新的角度看待衣橱。有时换个视角，就能看清方向。"),
+        "lifeChangeTutorialPaidFilterFindInCloset":
+            MessageLookupByLibrary.simpleMessage("用筛选器找到适合你这个人生阶段的衣物。"),
+        "lifeChangeTutorialPaidMultiClosetCreateCapsule":
+            MessageLookupByLibrary.simpleMessage(
+                "为生活的不同面向建立专属衣橱——工作、家庭、变化，或是庆祝。"),
+        "lifeChangeTutorialPaidUsageAnalyticsCostPerWear":
+            MessageLookupByLibrary.simpleMessage("看看你现在常穿的是什么。喜好会变，这很正常。"),
         "light": MessageLookupByLibrary.simpleMessage("浅色"),
         "like": MessageLookupByLibrary.simpleMessage("爱它！😍"),
         "likeNew": MessageLookupByLibrary.simpleMessage("几乎\n全新"),
@@ -625,7 +651,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("用充满回忆的单品搭配出意义非凡的穿搭。"),
         "memoryTutorialClosetUploaded": MessageLookupByLibrary.simpleMessage(
             "用他们已有的，\n建立记录连续天数，\n少选一点，就能解锁更多。"),
-        "memoryTutorialFreeCreateOutfitCreateOutfitProcess":
+        "memoryTutorialFreeCreateOutfitProcess":
             MessageLookupByLibrary.simpleMessage(
                 "一套穿搭，一天回忆。\n拍下来，写下来，明天再感受一次。"),
         "memoryTutorialFreeEditCameraDeclutterItems":
@@ -821,6 +847,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "连续 90 天用已有衣物自信穿搭——你的个人风格正在闪耀！"),
         "personalStyleAchievementNoNewClothes90Title":
             MessageLookupByLibrary.simpleMessage("90 天的自信风格！"),
+        "personalStyleScenarioTutorial": MessageLookupByLibrary.simpleMessage(
+            "你不是从零开始。你的衣橱里已经藏着线索。一起找出你的个人风格。"),
         "personalStyleTrialCalendar":
             MessageLookupByLibrary.simpleMessage("每天记录，见证你风格的成长。"),
         "personalStyleTrialClosets":
@@ -833,6 +861,29 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("揭示最常穿的单品、最爱的搭配与风格轨迹。"),
         "personalStyleTrialOutfits":
             MessageLookupByLibrary.simpleMessage("跨天搭配，发现你风格的演变。"),
+        "personalStyleTutorialClosetUploaded":
+            MessageLookupByLibrary.simpleMessage("只用你已有的衣服，就能积累天数、解锁功能。"),
+        "personalStyleTutorialFreeCreateOutfitProcess":
+            MessageLookupByLibrary.simpleMessage("组合衣服，看看什么最像你。一起打造属于你的风格标志。"),
+        "personalStyleTutorialFreeEditCameraDeclutterItems":
+            MessageLookupByLibrary.simpleMessage("清理不再适合你风格的衣服。不是越少越好，而是越对越好。"),
+        "personalStyleTutorialFreePhotoLibraryUploadClothing":
+            MessageLookupByLibrary.simpleMessage("一次上传最多 5 件衣服，快速看出哪些符合你的风格。"),
+        "personalStyleTutorialFreeUploadCameraUploadClothing":
+            MessageLookupByLibrary.simpleMessage(
+                "从上传你常穿的衣服开始，找出你的个人风格。每一件都反映了你的品味。"),
+        "personalStyleTutorialPaidCalendarTrackFirstExperiences":
+            MessageLookupByLibrary.simpleMessage("记录每日穿搭，找出最像你的那一套。"),
+        "personalStyleTutorialPaidCustomizeViewAllItems":
+            MessageLookupByLibrary.simpleMessage("以不同视角查看衣橱，重新发现你喜欢却遗忘的单品。"),
+        "personalStyleTutorialPaidFilterFindInCloset":
+            MessageLookupByLibrary.simpleMessage(
+                "用筛选器找到符合你今天感觉的衣服。你会发现许多被忽视的宝藏。"),
+        "personalStyleTutorialPaidMultiClosetCreateCapsule":
+            MessageLookupByLibrary.simpleMessage(
+                "为生活的不同面貌创建风格胶囊——上班、周末，或是尽情玩乐。"),
+        "personalStyleTutorialPaidUsageAnalyticsCostPerWear":
+            MessageLookupByLibrary.simpleMessage("看看你真正常穿的是什么——风格藏在重复里。"),
         "photoAccessDialogContent": MessageLookupByLibrary.simpleMessage(
             "如需查看整个相册并避免再次提示，请在设置中启用完整访问。"),
         "photoAccessDialogTitle":

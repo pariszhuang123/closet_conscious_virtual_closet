@@ -21,7 +21,7 @@ if (keystorePropertiesFile.exists()) {
 // Define the major and minor version manually
 def majorVersion = 1
 def minorVersion = 12  // You can manually update this for each release
-def patchVersion = 1
+def patchVersion = 2
 
 // Get the build number from the environment variable (set in GitHub Actions)
 def buildNumber = (System.getenv("BUILD_NUMBER") ?: '1').toInteger()

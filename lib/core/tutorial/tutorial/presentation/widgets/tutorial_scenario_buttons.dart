@@ -41,7 +41,7 @@ class TutorialScenarioButtons extends StatelessWidget {
                 onPressed: () => navigateToTutorial(
                   context: context,
                   tutorialType: TutorialType.flowIntroPersonalStyle,
-                  nextRoute: AppRoutesName.myCloset,
+                  nextRoute: AppRoutesName.pendingPhotoLibrary,
                   isFromMyCloset: isFromMyCloset,
                 ),
                 assetPath: TypeDataList.personalStyle(context).assetPath,
@@ -58,7 +58,7 @@ class TutorialScenarioButtons extends StatelessWidget {
                 onPressed: () => navigateToTutorial(
                   context: context,
                   tutorialType: TutorialType.flowIntroLifeChange,
-                  nextRoute: AppRoutesName.myCloset,
+                  nextRoute: AppRoutesName.pendingPhotoLibrary,
                   isFromMyCloset: isFromMyCloset,
                 ),
                 assetPath: TypeDataList.lifeChange(context).assetPath,
@@ -75,7 +75,7 @@ class TutorialScenarioButtons extends StatelessWidget {
                 onPressed: () => navigateToTutorial(
                   context: context,
                   tutorialType: TutorialType.flowIntroMemory,
-                  nextRoute: AppRoutesName.myCloset,
+                  nextRoute: AppRoutesName.pendingPhotoLibrary,
                   isFromMyCloset: isFromMyCloset,
                 ),
                 assetPath: TypeDataList.parentMemories(context).assetPath,

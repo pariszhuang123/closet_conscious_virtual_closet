@@ -60,9 +60,20 @@ class TutorialBloc extends Bloc<TutorialEvent, TutorialState> {
         },
       );
 
-      final matchingVideos = feature.videos
+      final isScenario = feature.videos.length == 1;
+
+      final matchingVideos = isScenario
+          ? feature.videos
+          : feature.videos
           .where((v) => v.journeyType == event.journeyType)
           .toList();
+
+      if (matchingVideos.isEmpty) {
+        logger.e(
+            '🚨 No matching videos for ${event.tutorialType} with journey ${event.journeyType}');
+        emit(TutorialFeatureLoadFailure());
+        return;
+      }
 
       logger.i('✅ Loaded ${matchingVideos.length} videos for ${event
           .tutorialType} & ${event.journeyType}');

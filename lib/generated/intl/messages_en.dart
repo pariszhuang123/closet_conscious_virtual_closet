@@ -598,6 +598,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "90 days embracing change! Your wardrobe beautifully reflects your life\'s new chapter."),
         "lifeChangeAchievementNoNewClothes90Title":
             MessageLookupByLibrary.simpleMessage("90-Day Evolution!"),
+        "lifeChangeScenarioTutorial": MessageLookupByLibrary.simpleMessage(
+            "Big changes affect how you dress and feel. Let’s shape a wardrobe that supports where you are now."),
         "lifeChangeTrialCalendar": MessageLookupByLibrary.simpleMessage(
             "Track your outfits during life shifts. See what worked and when."),
         "lifeChangeTrialClosets": MessageLookupByLibrary.simpleMessage(
@@ -610,6 +612,35 @@ class MessageLookup extends MessageLookupByLibrary {
             "Understand what truly served you during change—by use and by season."),
         "lifeChangeTrialOutfits": MessageLookupByLibrary.simpleMessage(
             "Build outfits that support your day-to-day changes."),
+        "lifeChangeTutorialClosetUploaded": MessageLookupByLibrary.simpleMessage(
+            "This is your reset. Use what you already have to adapt, feel at home, and move forward."),
+        "lifeChangeTutorialFreeCreateOutfitProcess":
+            MessageLookupByLibrary.simpleMessage(
+                "Try on combinations that meet you where you are today. Feel grounded in your choices."),
+        "lifeChangeTutorialFreeEditCameraDeclutterItems":
+            MessageLookupByLibrary.simpleMessage(
+                "Let go of what no longer fits your life. Keep what supports who you are now."),
+        "lifeChangeTutorialFreePhotoLibraryUploadClothing":
+            MessageLookupByLibrary.simpleMessage(
+                "Quickly upload what you’ve worn recently to reflect your current reality."),
+        "lifeChangeTutorialFreeUploadCameraUploadClothing":
+            MessageLookupByLibrary.simpleMessage(
+                "Start fresh by uploading what’s still with you. Your style can shift—and so can you."),
+        "lifeChangeTutorialPaidCalendarTrackFirstExperiences":
+            MessageLookupByLibrary.simpleMessage(
+                "Track outfits during new beginnings. These memories matter."),
+        "lifeChangeTutorialPaidCustomizeViewAllItems":
+            MessageLookupByLibrary.simpleMessage(
+                "See your wardrobe in a new light. Sometimes a new view brings clarity."),
+        "lifeChangeTutorialPaidFilterFindInCloset":
+            MessageLookupByLibrary.simpleMessage(
+                "Filter your wardrobe to find what works for this season of your life."),
+        "lifeChangeTutorialPaidMultiClosetCreateCapsule":
+            MessageLookupByLibrary.simpleMessage(
+                "Create closets that fit different aspects of your life—work, home, change, or celebration."),
+        "lifeChangeTutorialPaidUsageAnalyticsCostPerWear":
+            MessageLookupByLibrary.simpleMessage(
+                "See what you’re reaching for now. It’s okay if your go-tos have changed."),
         "light": MessageLookupByLibrary.simpleMessage("Light"),
         "like": MessageLookupByLibrary.simpleMessage("Love it!\n😍"),
         "likeNew": MessageLookupByLibrary.simpleMessage("Like\nNew"),
@@ -720,7 +751,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Create outfits from pieces that carry your favorite memories."),
         "memoryTutorialClosetUploaded": MessageLookupByLibrary.simpleMessage(
             "Use what they have.\nBuild the streak.\nUnlock more—just by choosing less."),
-        "memoryTutorialFreeCreateOutfitCreateOutfitProcess":
+        "memoryTutorialFreeCreateOutfitProcess":
             MessageLookupByLibrary.simpleMessage(
                 "One outfit. One day. One memory.\nSnap it. Note it. Feel it again tomorrow."),
         "memoryTutorialFreeEditCameraDeclutterItems":
@@ -946,6 +977,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "You\'ve styled yourself confidently for 90 days using what you own—your personal style is thriving!"),
         "personalStyleAchievementNoNewClothes90Title":
             MessageLookupByLibrary.simpleMessage("90 Days Confident!"),
+        "personalStyleScenarioTutorial": MessageLookupByLibrary.simpleMessage(
+            "You’re not starting from scratch. Your closet already has clues. Let’s figure out your personal style."),
         "personalStyleTrialCalendar": MessageLookupByLibrary.simpleMessage(
             "Watch your style change over time, one day at a time."),
         "personalStyleTrialClosets": MessageLookupByLibrary.simpleMessage(
@@ -958,6 +991,35 @@ class MessageLookup extends MessageLookupByLibrary {
             "Reveal your most-used items, favorite outfits, and style patterns."),
         "personalStyleTrialOutfits": MessageLookupByLibrary.simpleMessage(
             "Mix and match across days to discover your evolving style."),
+        "personalStyleTutorialClosetUploaded": MessageLookupByLibrary.simpleMessage(
+            "Track your streaks and unlock features—just by using what you already own."),
+        "personalStyleTutorialFreeCreateOutfitProcess":
+            MessageLookupByLibrary.simpleMessage(
+                "Put your pieces together to see what looks like ‘you’. We’re building your signature style."),
+        "personalStyleTutorialFreeEditCameraDeclutterItems":
+            MessageLookupByLibrary.simpleMessage(
+                "Remove what doesn’t align with your evolving style. It’s not just about less—it’s about the *right* items."),
+        "personalStyleTutorialFreePhotoLibraryUploadClothing":
+            MessageLookupByLibrary.simpleMessage(
+                "Upload up to 5 items at once to quickly surface what reflects your style."),
+        "personalStyleTutorialFreeUploadCameraUploadClothing":
+            MessageLookupByLibrary.simpleMessage(
+                "Start identifying your personal style by uploading pieces you already wear. Each piece tells a story about your taste."),
+        "personalStyleTutorialPaidCalendarTrackFirstExperiences":
+            MessageLookupByLibrary.simpleMessage(
+                "Track your outfits to discover which ones feel most like ‘you’."),
+        "personalStyleTutorialPaidCustomizeViewAllItems":
+            MessageLookupByLibrary.simpleMessage(
+                "Visualize your wardrobe in different ways to surface forgotten favorites."),
+        "personalStyleTutorialPaidFilterFindInCloset":
+            MessageLookupByLibrary.simpleMessage(
+                "Find pieces that match your vibe today. Use filters to spot hidden gems."),
+        "personalStyleTutorialPaidMultiClosetCreateCapsule":
+            MessageLookupByLibrary.simpleMessage(
+                "Create style capsules for different parts of your identity—work, weekend, or wild."),
+        "personalStyleTutorialPaidUsageAnalyticsCostPerWear":
+            MessageLookupByLibrary.simpleMessage(
+                "See what you\'re actually wearing—your style speaks through repetition."),
         "photoAccessDialogContent": MessageLookupByLibrary.simpleMessage(
             "To see your entire photo library and avoid being asked again, grant full access in Settings."),
         "photoAccessDialogTitle":
