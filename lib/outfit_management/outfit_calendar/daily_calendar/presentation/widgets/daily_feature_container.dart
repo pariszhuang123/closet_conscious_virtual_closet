@@ -9,7 +9,6 @@ import '../bloc/daily_calendar_bloc.dart';
 
 class DailyFeatureContainer extends StatelessWidget {
   final ThemeData theme;
-  final VoidCallback onCalendarButtonPressed;
   final VoidCallback onArrangeButtonPressed;
   final VoidCallback onPreviousButtonPressed;
   final VoidCallback onNextButtonPressed;
@@ -18,7 +17,6 @@ class DailyFeatureContainer extends StatelessWidget {
   const DailyFeatureContainer({
     super.key,
     required this.theme,
-    required this.onCalendarButtonPressed,
     required this.onArrangeButtonPressed,
     required this.onPreviousButtonPressed,
     required this.onNextButtonPressed,
@@ -47,15 +45,6 @@ class DailyFeatureContainer extends StatelessWidget {
         scrollDirection: Axis.horizontal, // Enables horizontal scrolling
         child: Row(
           children: [
-            NavigationTypeButton(
-              label: TypeDataList.calendar(context).getName(context),
-              selectedLabel: '',
-              onPressed: onCalendarButtonPressed,
-              assetPath: TypeDataList.calendar(context).assetPath,
-              isFromMyCloset: false,
-              buttonType: ButtonType.secondary,
-              usePredefinedColor: false,
-            ),
             NavigationTypeButton(
               label: TypeDataList.arrange(context).getName(context),
               selectedLabel: '',

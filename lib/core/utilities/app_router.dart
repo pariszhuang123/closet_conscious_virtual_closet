@@ -362,11 +362,9 @@ GoRouter appRouter = GoRouter(
           return buildCustomTransitionPage(
             key: UniqueKey(),
             transitionType: TransitionType.slideFromRight,
-            child: MultiClosetScaffold(
-              body: CreateMultiClosetProvider(
+            child: CreateMultiClosetProvider(
                 selectedItemIds: args['selectedItemIds'] ?? [],
               ),
-            ),
           );
         },
       ),
@@ -378,11 +376,9 @@ GoRouter appRouter = GoRouter(
           return buildCustomTransitionPage(
             key: UniqueKey(),
             transitionType: TransitionType.slideFromRight,
-            child: MultiClosetScaffold(
-              body: EditMultiClosetProvider(
+            child: EditMultiClosetProvider(
                 selectedItemIds: args['selectedItemIds'] ?? [],
               ),
-            ),
           );
         },
       ),
@@ -464,12 +460,9 @@ GoRouter appRouter = GoRouter(
           return buildCustomTransitionPage(
             key: UniqueKey(),
             transitionType: TransitionType.fadeScale,
-            child: CalendarScaffold(
+            child: DailyDetailedCalendarProvider(
               myOutfitTheme: myOutfitTheme,
-              body: DailyDetailedCalendarProvider(
-                myOutfitTheme: myOutfitTheme,
-                outfitId: args['outfitId'],
-              ),
+              outfitId: args['outfitId'],
             ),
           );
         },
@@ -501,15 +494,12 @@ GoRouter appRouter = GoRouter(
           final itemId = state.extra as String;
 
           return buildCustomTransitionPage(
-            key: state.pageKey,
+            key: UniqueKey(),
             transitionType: TransitionType.fadeScale,
-            child: UsageAnalyticsScaffold(
-              isFromMyCloset: true,
-              body: FocusedItemsAnalyticsProvider(
+            child: FocusedItemsAnalyticsProvider(
                 isFromMyCloset: true,
                 itemId: itemId,
               ),
-            ),
           );
         },
       ),
@@ -543,13 +533,10 @@ GoRouter appRouter = GoRouter(
           return buildCustomTransitionPage(
             key: UniqueKey(),
             transitionType: TransitionType.fadeScale,
-            child: UsageAnalyticsScaffold(
-              isFromMyCloset: false,
-              body: RelatedOutfitAnalyticsProvider(
+            child: RelatedOutfitAnalyticsProvider(
                 isFromMyCloset: false,
                 outfitId: outfitId,
               ),
-            ),
           );
         },
       ),

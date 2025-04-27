@@ -38,171 +38,171 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
   @override
   void initState() {
     super.initState();
+    _logger.i('CustomizeScreen initState');
 
-    // ✅ Trigger access check and tutorial on screen load
     context.read<CustomizeBloc>().add(CheckCustomizeAccessEvent());
     context.read<CustomizeBloc>().add(LoadCustomizeEvent());
-
-    context.read<TutorialBloc>().add(
-      const CheckTutorialStatus(TutorialType.paidCustomize),
-    );
-
-    _logger.i('CustomizeScreen initialized with isFromMyCloset: ${widget.isFromMyCloset}, selectedItemIds: ${widget.selectedItemIds}');
+    context.read<TutorialBloc>().add(const CheckTutorialStatus(TutorialType.paidCustomize));
   }
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
-    _logger.d('Theme selected: ${widget.isFromMyCloset ? "myClosetTheme" : "myOutfitTheme"}');
+    final theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
+    _logger.d('Theme selected: ${widget.isFromMyCloset ? "Closet" : "Outfit"}');
 
     return Theme(
       data: theme,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(S.of(context).customizeClosetView, style: theme.textTheme.titleMedium),
-          actions: [
-            // Reset to Default Icon Button
-            IconButton(
-              icon: const Icon(Icons.refresh),
-              tooltip: S.of(context).resetToDefault,
-              onPressed: () {
-                _logger.i('Reset to Default button pressed');
-                context.read<CustomizeBloc>().add(ResetCustomizeEvent());
-              },
-            ),
-          ],
-        ),
-        body: MultiBlocListener(
-          listeners: [
-            BlocListener<CustomizeBloc, CustomizeState>(
-              listener: (context, state) {
-                if (state.saveStatus == SaveStatus.saveSuccess) {
-                  _logger.i('SaveStatus: saveSuccess, navigating to returnRoute: $widget.returnRoute');
-                  context.goNamed(
-                    widget.returnRoute,
-                    extra: {'selectedItemIds': widget.selectedItemIds},
-                  );
-                }
-                if (state.accessStatus == AccessStatus.trialPending) {
-                  _logger.i('Trial pending, navigating to trialStarted screen');
-                  context.goNamed(
-                    AppRoutesName.trialStarted,
-                    extra: {
-                      'selectedFeatureRoute': AppRoutesName.customize,
-                      'isFromMyCloset': widget.isFromMyCloset,
-                    },
-                  );
-                }
-                if (state.accessStatus == AccessStatus.denied) {
-                  _logger.i('AccessStatus: denied, navigating to payment screen');
-                  context.goNamed(
-                    AppRoutesName.payment,
-                    extra: {
-                      'featureKey': FeatureKey.customize,
-                      'isFromMyCloset': widget.isFromMyCloset,
-                      'previousRoute': widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
-                      'nextRoute': AppRoutesName.customize,
-                    },
-                  );
-                }
-              },
-            ),
-            BlocListener<TutorialBloc, TutorialState>(
-              listener: (context, tutorialState) {
-                if (tutorialState is ShowTutorial) {
-                  _logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
-                  context.goNamed(
-                    AppRoutesName.tutorialVideoPopUp,
-                    extra: {
-                      'nextRoute': AppRoutesName.customize,
-                      'tutorialInputKey': TutorialType.paidCustomize.value,
-                      'isFromMyCloset': widget. isFromMyCloset,
-                    },
-                  );
-                }
-              },
-            ),
-          ],
-          child: BlocBuilder<CustomizeBloc, CustomizeState>(
-            builder: (context, state) {
-              if (state.saveStatus == SaveStatus.inProgress) {
-                _logger.d('SaveStatus: inProgress, showing ClosetProgressIndicator');
-                return const Center(child: ClosetProgressIndicator());
-              }
-
-              return Column(
-                children: [
-                  const SizedBox(height: 16),
-                  // Title for Grid Size Picker
-                  Text(S.of(context).gridSizePickerTitle, style: theme.textTheme.titleMedium),
-                  // Grid Size Picker using buildIconRows
-                  ...buildIconRows(
-                    TypeDataList.gridSizes(context),
-                    [state.gridSize.toString()],
-                          (selectedKeys) {  // Updated to receive a List<String>
-                        final selectedKey = selectedKeys.first;  // Use the first item from the list
-                      _logger.d('Grid Size Picker selected: $selectedKey');
-                      context.read<CustomizeBloc>().add(
-                        UpdateCustomizeEvent(gridSize: int.parse(selectedKey)),
-                      );
-                    },
-                    context,
-                    widget.isFromMyCloset,
-                    false
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Title for Sort Category Picker
-                  Text(S.of(context).sortCategoryPickerTitle, style: theme.textTheme.titleMedium),
-                  // Sort Category Picker using buildIconRows
-                  ...buildIconRows(
-                    TypeDataList.sortCategories(context),
-                    [state.sortCategory],
-                          (selectedKeys) {  // Updated to receive a List<String>
-                        final selectedKey = selectedKeys.first;  // Use the first item from the list
-                      _logger.d('Sort Category Picker selected: $selectedKey');
-                      context.read<CustomizeBloc>().add(
-                        UpdateCustomizeEvent(sortCategory: selectedKey),
-                      );
-                    },
-                    context,
-                    widget.isFromMyCloset,
-                    false
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Title for Sort Order Picker
-                  Text(S.of(context).sortOrderPickerTitle, style: theme.textTheme.titleMedium),
-                  // Sort Order Picker using buildIconRows
-                  ...buildIconRows(
-                    TypeDataList.sortOrder(context),
-                    [state.sortOrder],
-                          (selectedKeys) {  // Updated to receive a List<String>
-                        final selectedKey = selectedKeys.first;  // Use the first item from the list
-                      _logger.d('Sort Order Picker selected: $selectedKey');
-                      context.read<CustomizeBloc>().add(
-                        UpdateCustomizeEvent(sortOrder: selectedKey),
-                      );
-                    },
-                    context,
-                    widget.isFromMyCloset,
-                    false
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Save Button using ThemedElevatedButton
-                  Center(
-                    child: ThemedElevatedButton(
-                      onPressed: () {
-                        _logger.i('Save Button pressed');
-                        context.read<CustomizeBloc>().add(SaveCustomizeEvent());
-                      },
-                      text: S.of(context).saveCustomization,
-                    ),
-                  ),
-                ],
+      child: PopScope(
+        canPop: true,
+        onPopInvokedWithResult: (bool didPop, Object? result) {
+          _logger.i('Pop invoked: didPop = $didPop, result = $result');
+          if (!didPop) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.goNamed(
+                widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
               );
-            },
+            });
+          }
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            leading: BackButton(
+              onPressed: () {
+                final navigator = Navigator.of(context);
+                if (navigator.canPop()) {
+                  _logger.i('Navigator can pop, popping');
+                  navigator.pop();
+                } else {
+                  _logger.i('Navigator cannot pop, fallback');
+                  context.goNamed(
+                    widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
+                  );
+                }
+              },
+            ),
+            title: Text(S.of(context).customizeClosetView, style: theme.textTheme.titleMedium),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                tooltip: S.of(context).resetToDefault,
+                onPressed: () {
+                  _logger.i('Reset to Default pressed');
+                  context.read<CustomizeBloc>().add(ResetCustomizeEvent());
+                },
+              ),
+            ],
+          ),
+          body: MultiBlocListener(
+            listeners: [
+              BlocListener<CustomizeBloc, CustomizeState>(
+                listener: (context, state) {
+                  if (state.saveStatus == SaveStatus.saveSuccess) {
+                    _logger.i('Customization saved successfully, navigating back');
+                    context.goNamed(
+                      widget.returnRoute,
+                      extra: {'selectedItemIds': widget.selectedItemIds},
+                    );
+                  } else if (state.accessStatus == AccessStatus.trialPending) {
+                    _logger.i('Trial pending, going to trialStarted');
+                    context.goNamed(
+                      AppRoutesName.trialStarted,
+                      extra: {
+                        'selectedFeatureRoute': AppRoutesName.customize,
+                        'isFromMyCloset': widget.isFromMyCloset,
+                      },
+                    );
+                  } else if (state.accessStatus == AccessStatus.denied) {
+                    _logger.i('Access denied, navigating to payment');
+                    context.goNamed(
+                      AppRoutesName.payment,
+                      extra: {
+                        'featureKey': FeatureKey.customize,
+                        'isFromMyCloset': widget.isFromMyCloset,
+                        'previousRoute': widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
+                        'nextRoute': AppRoutesName.customize,
+                      },
+                    );
+                  }
+                },
+              ),
+              BlocListener<TutorialBloc, TutorialState>(
+                listener: (context, tutorialState) {
+                  if (tutorialState is ShowTutorial) {
+                    _logger.i('Tutorial detected, navigating to tutorial pop-up');
+                    context.goNamed(
+                      AppRoutesName.tutorialVideoPopUp,
+                      extra: {
+                        'nextRoute': AppRoutesName.customize,
+                        'tutorialInputKey': TutorialType.paidCustomize.value,
+                        'isFromMyCloset': widget.isFromMyCloset,
+                      },
+                    );
+                  }
+                },
+              ),
+            ],
+            child: BlocBuilder<CustomizeBloc, CustomizeState>(
+              builder: (context, state) {
+                if (state.saveStatus == SaveStatus.inProgress) {
+                  return const Center(child: ClosetProgressIndicator());
+                }
+
+                return Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    Text(S.of(context).gridSizePickerTitle, style: theme.textTheme.titleMedium),
+                    ...buildIconRows(
+                      TypeDataList.gridSizes(context),
+                      [state.gridSize.toString()],
+                          (selectedKeys) {
+                        final selectedKey = selectedKeys.first;
+                        context.read<CustomizeBloc>().add(UpdateCustomizeEvent(gridSize: int.parse(selectedKey)));
+                      },
+                      context,
+                      widget.isFromMyCloset,
+                      false,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(S.of(context).sortCategoryPickerTitle, style: theme.textTheme.titleMedium),
+                    ...buildIconRows(
+                      TypeDataList.sortCategories(context),
+                      [state.sortCategory],
+                          (selectedKeys) {
+                        final selectedKey = selectedKeys.first;
+                        context.read<CustomizeBloc>().add(UpdateCustomizeEvent(sortCategory: selectedKey));
+                      },
+                      context,
+                      widget.isFromMyCloset,
+                      false,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(S.of(context).sortOrderPickerTitle, style: theme.textTheme.titleMedium),
+                    ...buildIconRows(
+                      TypeDataList.sortOrder(context),
+                      [state.sortOrder],
+                          (selectedKeys) {
+                        final selectedKey = selectedKeys.first;
+                        context.read<CustomizeBloc>().add(UpdateCustomizeEvent(sortOrder: selectedKey));
+                      },
+                      context,
+                      widget.isFromMyCloset,
+                      false,
+                    ),
+                    const SizedBox(height: 24),
+                    Center(
+                      child: ThemedElevatedButton(
+                        onPressed: () {
+                          _logger.i('Save customization pressed');
+                          context.read<CustomizeBloc>().add(SaveCustomizeEvent());
+                        },
+                        text: S.of(context).saveCustomization,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),

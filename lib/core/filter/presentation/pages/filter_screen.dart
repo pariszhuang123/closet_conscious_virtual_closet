@@ -58,162 +58,188 @@ class _FilterScreenState extends State<FilterScreen> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
-    _logger.d('Theme selected: ${widget.isFromMyCloset ? "myClosetTheme" : "myOutfitTheme"}');
+    final theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
+    _logger.d('Selected theme: ${widget.isFromMyCloset ? "Closet" : "Outfit"}');
 
-    return DefaultTabController(
-      length: 2,
-      child: Theme(
-        data: theme,
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(S.of(context).filterItemsTitle, style: theme.textTheme.titleMedium),
-            bottom: widget.showOnlyClosetFilter
-                ? null
-                : TabBar(
-              tabs: [
-                Tab(text: S.of(context).basicFiltersTab),
-                Tab(text: S.of(context).advancedFiltersTab),
-              ],
-            ),
-            actions: [
-              // Refresh Icon Button
-              IconButton(
-                icon: const Icon(Icons.refresh),
-                tooltip: S.of(context).resetToDefault,
-                onPressed: () {
-                  _logger.i('Refresh Filters button pressed');
-                  context.read<FilterBloc>().add(ResetFilterEvent());
-                },
-              ),
-            ],
-          ),
-          body: MultiBlocListener(
-            listeners: [
-            BlocListener<FilterBloc, FilterState>(
-        listener: (context, state) {
-          if (state.saveStatus == SaveStatus.saveSuccess) {
-            _logger.i('SaveStatus: saveSuccess, navigating to returnRoute: $widget.returnRoute');
-            context.goNamed(
-              widget.returnRoute,
-              extra: {
-                'selectedItemIds': widget.selectedItemIds,
-                'selectedOutfitIds': widget.selectedOutfitIds,
-              },
-            );
-          }
-          if (state.accessStatus == AccessStatus.trialPending) {
-            _logger.i('Trial pending, navigating to trialStarted screen');
-            context.goNamed(
-              AppRoutesName.trialStarted,
-              extra: {
-                'selectedFeatureRoute': AppRoutesName.filter,
-                'isFromMyCloset': widget.isFromMyCloset,
-              },
-            );
-          }
-          if (state.accessStatus == AccessStatus.denied) {
-            _logger.i('AccessStatus: denied, navigating to payment screen');
-            context.goNamed(
-              AppRoutesName.payment,
-              extra: {
-                'featureKey': FeatureKey.filter,
-                'isFromMyCloset': widget.isFromMyCloset,
-                'previousRoute': widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
-                'nextRoute': AppRoutesName.filter,
-              },
-            );
+    return Theme(
+      data: theme,
+      child: PopScope(
+        canPop: true,
+        onPopInvokedWithResult: (bool didPop, Object? result) {
+          _logger.i('Pop invoked: didPop = $didPop, result = $result');
+          if (!didPop) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.goNamed(
+                widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
+              );
+            });
           }
         },
-        ),
-              BlocListener<TutorialBloc, TutorialState>(
-                listener: (context, tutorialState) {
-                  if (tutorialState is ShowTutorial) {
-                    _logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+        child: DefaultTabController(
+          length: widget.showOnlyClosetFilter ? 1 : 2,
+          child: Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              leading: BackButton(
+                onPressed: () async {
+                  final navigator = Navigator.of(context);
+                  if (navigator.canPop()) {
+                    _logger.i('Navigator can pop, popping');
+                    navigator.pop();
+                  } else {
+                    _logger.i('Navigator cannot pop, fallback navigation');
                     context.goNamed(
-                      AppRoutesName.tutorialVideoPopUp,
-                      extra: {
-                        'nextRoute': AppRoutesName.filter,
-                        'tutorialInputKey': TutorialType.paidFilter.value,
-                        'isFromMyCloset': widget.isFromMyCloset
-                      },
+                      widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
                     );
                   }
                 },
               ),
-            ],
+              title: Text(
+                S.of(context).filterItemsTitle,
+                style: theme.textTheme.titleMedium,
+              ),
+              bottom: widget.showOnlyClosetFilter
+                  ? null
+                  : TabBar(
+                tabs: [
+                  Tab(text: S.of(context).basicFiltersTab),
+                  Tab(text: S.of(context).advancedFiltersTab),
+                ],
+              ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.refresh),
+                  tooltip: S.of(context).resetToDefault,
+                  onPressed: () {
+                    _logger.i('Refresh Filters button pressed');
+                    context.read<FilterBloc>().add(ResetFilterEvent());
+                  },
+                ),
+              ],
+            ),
+            body: MultiBlocListener(
+              listeners: [
+                BlocListener<FilterBloc, FilterState>(
+                  listener: (context, state) {
+                    if (state.saveStatus == SaveStatus.saveSuccess) {
+                      _logger.i('Save success, navigating back to ${widget.returnRoute}');
+                      context.goNamed(
+                        widget.returnRoute,
+                        extra: {
+                          'selectedItemIds': widget.selectedItemIds,
+                          'selectedOutfitIds': widget.selectedOutfitIds,
+                        },
+                      );
+                    } else if (state.accessStatus == AccessStatus.trialPending) {
+                      _logger.i('Trial pending, navigating to trialStarted');
+                      context.goNamed(
+                        AppRoutesName.trialStarted,
+                        extra: {
+                          'selectedFeatureRoute': AppRoutesName.filter,
+                          'isFromMyCloset': widget.isFromMyCloset,
+                        },
+                      );
+                    } else if (state.accessStatus == AccessStatus.denied) {
+                      _logger.i('Access denied, navigating to payment');
+                      context.goNamed(
+                        AppRoutesName.payment,
+                        extra: {
+                          'featureKey': FeatureKey.filter,
+                          'isFromMyCloset': widget.isFromMyCloset,
+                          'previousRoute': widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
+                          'nextRoute': AppRoutesName.filter,
+                        },
+                      );
+                    }
+                  },
+                ),
+                BlocListener<TutorialBloc, TutorialState>(
+                  listener: (context, tutorialState) {
+                    if (tutorialState is ShowTutorial) {
+                      _logger.i('Showing tutorial popup');
+                      context.goNamed(
+                        AppRoutesName.tutorialVideoPopUp,
+                        extra: {
+                          'nextRoute': AppRoutesName.filter,
+                          'tutorialInputKey': TutorialType.paidFilter.value,
+                          'isFromMyCloset': widget.isFromMyCloset,
+                        },
+                      );
+                    }
+                  },
+                ),
+              ],
+              child: BlocBuilder<FilterBloc, FilterState>(
+                builder: (context, state) {
+                  if (state.saveStatus == SaveStatus.inProgress || state.saveStatus == SaveStatus.failure) {
+                    return const ClosetProgressIndicator();
+                  }
 
-        child: BlocBuilder<FilterBloc, FilterState>(
-              builder: (context, state) {
-                if (state.saveStatus == SaveStatus.inProgress) {
-                  return const ClosetProgressIndicator(); // Use custom ClosetProgressIndicator
-                } else if (state.saveStatus == SaveStatus.failure) {
-                  return const ClosetProgressIndicator();
-                }
-
-                return Column(
-                  children: [
-                    // TabBarView takes available space above the button
-                    if (widget.showOnlyClosetFilter) ...[
-                      const SizedBox(height: 20),
-                      if (state.hasMultiClosetFeature)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0), // Apply horizontal padding
-                          child: AllClosetToggle(
-                            isAllCloset: state.allCloset,
-                            onChanged: (value) {
-                              context.read<FilterBloc>().add(UpdateFilterEvent(allCloset: value));
-                              _logger.i('Dispatched UpdateFilterEvent with allCloset: $value');
-                            },
-                          ),
-                        ),
-                      const SizedBox(height: 20),
-                      if (state.hasMultiClosetFeature && !state.allCloset)
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0), // Apply padding around ClosetGridWidget
-                            child: BlocBuilder<CrossAxisCountCubit, int>(
-                              builder: (context, crossAxisCount) {
-                                return ClosetGridWidget(
-                                  closets: state.allClosetsDisplay,
-                                  selectedClosetId: state.selectedClosetId,
-                                  onSelectCloset: (closetId) {
-                                    context.read<FilterBloc>().add(UpdateFilterEvent(selectedClosetId: closetId));
-                                    _logger.i('Dispatched UpdateFilterEvent with selectedClosetId: $closetId');
-                                  },
-                                  crossAxisCount: crossAxisCount,
-                                );
+                  return Column(
+                    children: [
+                      if (widget.showOnlyClosetFilter) ...[
+                        const SizedBox(height: 20),
+                        if (state.hasMultiClosetFeature)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: AllClosetToggle(
+                              isAllCloset: state.allCloset,
+                              onChanged: (value) {
+                                context.read<FilterBloc>().add(UpdateFilterEvent(allCloset: value));
+                                _logger.i('UpdateFilterEvent dispatched: allCloset = $value');
                               },
                             ),
                           ),
-                        ),
-                    ] else ...[
-                      Expanded(
-                        child: TabBarView(
-                          children: [
-                            SingleSelectionTab(state: state),
-                            MultiSelectionTab(
+                        const SizedBox(height: 20),
+                        if (state.hasMultiClosetFeature && !state.allCloset)
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: BlocBuilder<CrossAxisCountCubit, int>(
+                                builder: (context, crossAxisCount) {
+                                  return ClosetGridWidget(
+                                    closets: state.allClosetsDisplay,
+                                    selectedClosetId: state.selectedClosetId,
+                                    onSelectCloset: (closetId) {
+                                      context.read<FilterBloc>().add(UpdateFilterEvent(selectedClosetId: closetId));
+                                      _logger.i('UpdateFilterEvent dispatched: selectedClosetId = $closetId');
+                                    },
+                                    crossAxisCount: crossAxisCount,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                      ] else ...[
+                        Expanded(
+                          child: TabBarView(
+                            children: [
+                              SingleSelectionTab(state: state),
+                              MultiSelectionTab(
                                 state: state,
-                              isFromMyCloset: widget.isFromMyCloset),
-                          ],
+                                isFromMyCloset: widget.isFromMyCloset,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ThemedElevatedButton(
+                          onPressed: () {
+                            _logger.i('Save Filter button pressed');
+                            context.read<FilterBloc>().add(SaveFilterEvent());
+                          },
+                          text: S.of(context).saveFilter,
                         ),
                       ),
                     ],
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: ThemedElevatedButton(
-                        onPressed: () {
-                          _logger.i('Save Filter button pressed');
-                          context.read<FilterBloc>().add(SaveFilterEvent());
-                        },
-                        text: S.of(context).saveFilter,
-                      ),
-                    ),
-                  ],
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ),

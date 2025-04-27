@@ -73,7 +73,7 @@ class DailyCalendarScreen extends StatelessWidget {
         data: myOutfitTheme, // ✅ Apply your custom theme
         child: Scaffold(
           appBar: AppBar(
-            automaticallyImplyLeading: true,
+            automaticallyImplyLeading: false,
             leading: BackButton(
               onPressed: () async {
                 final navigator = Navigator.of(context);
@@ -203,9 +203,6 @@ class DailyCalendarScreen extends StatelessWidget {
                         children: [
                           DailyFeatureContainer(
                             theme: myOutfitTheme,
-                            onCalendarButtonPressed: () {
-                              context.goNamed(AppRoutesName.monthlyCalendar);
-                            },
                             onArrangeButtonPressed: () =>
                                 _onArrangeButtonPressed(context, false),
                             onPreviousButtonPressed: () {

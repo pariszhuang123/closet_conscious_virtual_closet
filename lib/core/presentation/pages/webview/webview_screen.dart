@@ -66,7 +66,19 @@ class WebViewScreen extends StatelessWidget {
         },
         child: Scaffold(
           appBar: AppBar(
-              automaticallyImplyLeading: true,
+              automaticallyImplyLeading: false,
+              leading: BackButton(
+                onPressed: () {
+                  final navigator = Navigator.of(context);
+                  if (navigator.canPop()) {
+                    logger.i('Navigator can pop, popping...');
+                    navigator.pop();
+                  } else {
+                    logger.i('Navigator cannot pop, redirecting to fallbackRouteName: $fallbackRouteName');
+                    context.goNamed(fallbackRouteName);
+                  }
+                },
+              ),
               title: Text(title)),
           body: WebViewWidget(controller: controller),
         ),

@@ -181,7 +181,7 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
           listener: (context, state) {
             if (state is ActiveItemsFetched) {
               logger.i('Active items fetched. Navigating to create multi-closet.');
-              context.goNamed(
+              context.pushNamed(
                 AppRoutesName.createMultiCloset,
                 extra: {'selectedItemIds': state.activeItemIds},
               );

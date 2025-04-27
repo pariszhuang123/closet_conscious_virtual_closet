@@ -76,7 +76,7 @@ class _SummaryOutfitAnalyticsScreenState
     final selectedOutfitIds = context
         .read<MultiSelectionOutfitCubit>()
         .state.selectedOutfitIds;
-    context.goNamed(
+    context.pushNamed(
       AppRoutesName.filter,
       extra: {
         'isFromMyCloset': false,
@@ -181,7 +181,7 @@ class _SummaryOutfitAnalyticsScreenState
           listener: (context, state) {
             if (state is OutfitFocusedDateSuccess) {
               _logger.i("✅ Focused date set successfully for outfit: ${state.outfitId}");
-              context.goNamed(
+              context.pushNamed(
                 AppRoutesName.relatedOutfitAnalytics,
                 extra: state.outfitId,
               );
@@ -198,7 +198,7 @@ class _SummaryOutfitAnalyticsScreenState
           listener: (context, state) {
             if (state is ActiveItemsFetched) {
               _logger.i('Active items fetched. Navigating to create multi-closet.');
-              context.goNamed(
+              context.pushNamed(
                 AppRoutesName.createMultiCloset,
                 extra: {'selectedItemIds': state.activeItemIds},
               );

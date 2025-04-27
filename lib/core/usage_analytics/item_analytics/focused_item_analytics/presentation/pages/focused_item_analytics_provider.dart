@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../item_management/core/data/services/item_fetch_service.dart';
 import '../../../../../data/services/core_save_services.dart';
 import '../../../../../../item_management/core/presentation/bloc/fetch_item_image_cubit/fetch_item_image_cubit.dart';
-import '../../../../core/presentation/bloc/navigate_to_item_cubit/navigate_to_item_cubit.dart';
 import '../../../../../utilities/logger.dart';
 import 'focused_items_analytics_screen.dart';
 import '../../../../../core_service_locator.dart';
@@ -50,9 +49,6 @@ class FocusedItemsAnalyticsProvider extends StatelessWidget {
             cubit.fetchItemImage(itemId);
             return cubit;
           },
-        ),
-        BlocProvider<NavigateToItemCubit>(
-          create: (_) => NavigateToItemCubit(coreSaveService),
         ),
         BlocProvider<FetchItemRelatedOutfitsCubit>(
           create: (_) {

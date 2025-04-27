@@ -137,7 +137,7 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
     final selectedItemIds =
         context.read<MultiSelectionItemCubit>().state.selectedItemIds;
     if (selectedItemIds.isNotEmpty) {
-      context.goNamed(
+      context.pushNamed(
         AppRoutesName.createMultiCloset,
         extra: {'selectedItemIds': selectedItemIds},
       );

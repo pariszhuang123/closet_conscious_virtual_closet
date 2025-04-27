@@ -18,27 +18,37 @@ class MultiClosetScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.i('Building MultiClosetScaffold'); // Log scaffold initialization
 
-    return PopScope<Object?>(
-      canPop: false, // Allow pop actions to be intercepted
+    return PopScope(
+      canPop: true,
       onPopInvokedWithResult: (bool didPop, Object? result) {
-        logger.i('Pop invoked: didPop = $didPop, result = $result'); // Log pop action
-
+        logger.i('Pop invoked: didPop = $didPop, result = $result');
+        if (!didPop) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             context.goNamed(AppRoutesName.myCloset);
           });
+        }
       },
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: true, // already defaults to true
-          leading: Navigator.of(context).canPop()
-              ? const BackButton()
-              : const BackButton(), // force showing only when stack can pop
+          automaticallyImplyLeading: false, // ❗️disable auto back button
+          leading: BackButton(
+            onPressed: () {
+              final navigator = Navigator.of(context);
+              if (navigator.canPop()) {
+                logger.i('Navigator can pop, popping...');
+                navigator.pop();
+              } else {
+                logger.i('Navigator cannot pop, navigating to MyCloset');
+                context.goNamed(AppRoutesName.myCloset);
+              }
+            },
+          ),
           title: Text(
-            S.of(context).multiClosetManagement, // Localized title
-            style: Theme.of(context).textTheme.titleMedium, // Apply theme styling
+            S.of(context).multiClosetManagement,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
-        body: body, // Render the dynamic body
+        body: body,
       ),
     );
   }

@@ -17,6 +17,8 @@ import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage
 import '../../../../../core_enums.dart';
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 import '../../../../../utilities/helper_functions/image_helper/image_helper.dart';
+import '../../../../../theme/my_closet_theme.dart';
+import '../../../../../theme/my_outfit_theme.dart';
 
 class RelatedOutfitAnalyticsScreen extends StatelessWidget {
   final bool isFromMyCloset;
@@ -35,165 +37,193 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _logger.d('Building RelatedOutfitAnalyticsScreen for outfitId: $outfitId');
-    return MultiBlocListener(
-        listeners: [
-          BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
-            listener: (context, state) {
-              if (state is OutfitFocusedDateSuccess) {
-                _logger.i('✅ Focused date set successfully for outfitId: ${state.outfitId}');
-                context.pushNamed(
-                  AppRoutesName.dailyCalendar,
-                  extra: {'outfitId': state.outfitId},
-                );
-              } else if (state is OutfitFocusedDateFailure) {
-                _logger.e('❌ Failed to set focused date: ${state.error}');
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.error)),
-                );
-              }
-            },
-          ),
-          BlocListener<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
-            listener: (context, state) {
-              if (state is UsageAnalyticsAccessState) {
-                if (state.accessStatus == AccessStatus.denied) {
-                  _logger.w('Access denied: Navigating to payment page');
-                  context.goNamed(
-                    AppRoutesName.payment,
-                    extra: {
-                      'featureKey': FeatureKey.usageAnalytics,
-                      'isFromMyCloset': isFromMyCloset,
-                      'previousRoute': AppRoutesName.myCloset,
-                      'nextRoute': AppRoutesName.relatedOutfitAnalytics,
-                    },
-                  );
-                } else if (state.accessStatus == AccessStatus.trialPending) {
-                  _logger.i('Trial pending, navigating to trialStarted screen');
-                  context.goNamed(
-                    AppRoutesName.trialStarted,
-                    extra: {
-                      'selectedFeatureRoute': AppRoutesName.relatedOutfitAnalytics,
-                      'isFromMyCloset': isFromMyCloset,
-                    },
-                  );
+
+    final ThemeData effectiveTheme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
+
+    return Theme(
+      data: effectiveTheme,
+      child: PopScope(
+        canPop: true,
+        onPopInvokedWithResult: (bool didPop, Object? result) {
+          _logger.i('Pop invoked: didPop = $didPop, result = $result');
+          if (!didPop) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              context.goNamed(AppRoutesName.summaryOutfitAnalytics);
+            });
+          }
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            leading: BackButton(
+              onPressed: () async {
+                final navigator = Navigator.of(context);
+                if (navigator.canPop()) {
+                  _logger.i('BackButton: Navigator can pop, popping...');
+                  navigator.pop();
+                } else {
+                  _logger.i('BackButton: Navigator cannot pop, going to MyCloset.');
+                  context.goNamed(AppRoutesName.summaryOutfitAnalytics);
                 }
-              }
-            },
-          ),
-        ],
-
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        // ✅ Fetch & Display Main Outfit
-        BlocBuilder<SingleOutfitCubit, SingleOutfitState>(
-          builder: (context, outfitState) {
-            if (outfitState is FetchOutfitLoading) {
-              return const Center(child: OutfitProgressIndicator());
-            } else if (outfitState is FetchOutfitFailure) {
-              return Center(child: Text('Error: ${outfitState.error}'));
-            } else if (outfitState is FetchOutfitSuccess) {
-              final mainOutfit = outfitState.outfit;
-
-              return BlocBuilder<CrossAxisCountCubit, int>(
-                builder: (context, crossAxisCount) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 80),
-                    child: CarouselOutfit(
-                      outfit: mainOutfit,
-                      crossAxisCount: crossAxisCount,
-                      outfitSize: OutfitSize.smallOutfitImage,
-                      getHeightForOutfitSize: ImageHelper.getHeightForOutfitSize, // ✅ Pass function dynamically
-                      isSelected: true,
-                      onTap: () {
-                        _logger.d('Tapped on main outfit: $outfitId');
-                        context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(outfitId);
-                      },
-                    ),
-                  );
-                },
-              );
-            }
-            return const SizedBox.shrink();
-          },
-        ),
-
-
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 0.0), // ✅ Adjusted padding
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Text(
-              S.of(context).relatedOutfitsToAboveOutfit, // ✅ Localized text
-              style: Theme.of(context).textTheme.bodyMedium,
+              },
+            ),
+            title: Text(
+              S.of(context).relatedOutfitsToAboveOutfit,
+              style: effectiveTheme.textTheme.titleMedium,
             ),
           ),
-        ),
+          body: MultiBlocListener(
+            listeners: [
+              BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
+                listener: (context, state) {
+                  if (state is OutfitFocusedDateSuccess) {
+                    _logger.i('✅ Focused date set successfully for outfitId: ${state.outfitId}');
+                    context.pushNamed(
+                      AppRoutesName.dailyCalendar,
+                      extra: {'outfitId': state.outfitId},
+                    );
+                  } else if (state is OutfitFocusedDateFailure) {
+                    _logger.e('❌ Failed to set focused date: ${state.error}');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(state.error)),
+                    );
+                  }
+                },
+              ),
+              BlocListener<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
+                listener: (context, state) {
+                  if (state is UsageAnalyticsAccessState) {
+                    if (state.accessStatus == AccessStatus.denied) {
+                      _logger.w('Access denied: Navigating to payment page');
+                      context.goNamed(
+                        AppRoutesName.payment,
+                        extra: {
+                          'featureKey': FeatureKey.usageAnalytics,
+                          'isFromMyCloset': isFromMyCloset,
+                          'previousRoute': AppRoutesName.myCloset,
+                          'nextRoute': AppRoutesName.relatedOutfitAnalytics,
+                        },
+                      );
+                    } else if (state.accessStatus == AccessStatus.trialPending) {
+                      _logger.i('Trial pending, navigating to trialStarted screen');
+                      context.goNamed(
+                        AppRoutesName.trialStarted,
+                        extra: {
+                          'selectedFeatureRoute': AppRoutesName.relatedOutfitAnalytics,
+                          'isFromMyCloset': isFromMyCloset,
+                        },
+                      );
+                    }
+                  }
+                },
+              ),
+            ],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Main Outfit
+                BlocBuilder<SingleOutfitCubit, SingleOutfitState>(
+                  builder: (context, outfitState) {
+                    if (outfitState is FetchOutfitLoading) {
+                      return const Center(child: OutfitProgressIndicator());
+                    } else if (outfitState is FetchOutfitFailure) {
+                      return Center(child: Text('Error: ${outfitState.error}'));
+                    } else if (outfitState is FetchOutfitSuccess) {
+                      final mainOutfit = outfitState.outfit;
 
-
-// Divider using theme's dividerColor
-        Divider(color: Theme.of(context).dividerColor, thickness: 2, height: 0),
-
-        const SizedBox(height: 16),
-
-        // ✅ Fetch & Display Related Outfits
-        Expanded(
-
-        child: BlocBuilder<RelatedOutfitsCubit, RelatedOutfitsState>(
-          builder: (context, relatedState) {
-            if (relatedState is RelatedOutfitsLoading) {
-              return const Center(child: OutfitProgressIndicator());
-            } else if (relatedState is RelatedOutfitsFailure) {
-              return Center(child: Text('Error: ${relatedState.error}'));
-            } else if (relatedState is NoRelatedOutfitState) {
-              return Center(
-                child: Text(
-                  S.of(context).noRelatedOutfits, // ✅ Localized empty state text
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleMedium, // ✅ Consistent typography
+                      return BlocBuilder<CrossAxisCountCubit, int>(
+                        builder: (context, crossAxisCount) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 80),
+                            child: CarouselOutfit(
+                              outfit: mainOutfit,
+                              crossAxisCount: crossAxisCount,
+                              outfitSize: OutfitSize.smallOutfitImage,
+                              getHeightForOutfitSize: ImageHelper.getHeightForOutfitSize,
+                              isSelected: true,
+                              onTap: () {
+                                _logger.d('Tapped on main outfit: $outfitId');
+                                context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(outfitId);
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
                 ),
-              );
-            } else if (relatedState is RelatedOutfitsSuccess) {
-              final relatedOutfits = relatedState.relatedOutfits;
 
-              return BlocBuilder<CrossAxisCountCubit, int>(
-                  builder: (context, crossAxisCount) {
-                    return BlocBuilder<
-                        FocusOrCreateClosetBloc,
-                        FocusOrCreateClosetState>(
-                      builder: (context, focusState) {
-                        final outfitSelectionMode = (focusState is FocusOrCreateClosetLoaded &&
-                            focusState.isCalendarSelectable)
-                            ? OutfitSelectionMode.multiSelection
-                            : OutfitSelectionMode.action;
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      S.of(context).relatedOutfitsToAboveOutfit,
+                      style: effectiveTheme.textTheme.bodyMedium,
+                    ),
+                  ),
+                ),
+                Divider(color: effectiveTheme.dividerColor, thickness: 2, height: 0),
+                const SizedBox(height: 16),
 
-                        return OutfitList<OutfitData>(
-                          outfits: relatedOutfits,
-                          crossAxisCount: crossAxisCount,
-                          outfitSelectionMode: outfitSelectionMode,
-                          selectedOutfitIds: selectedOutfitIds,
-                          outfitSize: OutfitSize.relatedOutfitImage,
-                          getHeightForOutfitSize: ImageHelper.getHeightForOutfitSize, // ✅ Pass function dynamically
-                          onAction: (selectedOutfitId) {
-                            _logger.d(
-                                'Tapped related outfit: $selectedOutfitId');
-                            context.goNamed(
-                              AppRoutesName.relatedOutfitAnalytics,
-                              extra: selectedOutfitId,
+                // Related Outfits
+                Expanded(
+                  child: BlocBuilder<RelatedOutfitsCubit, RelatedOutfitsState>(
+                    builder: (context, relatedState) {
+                      if (relatedState is RelatedOutfitsLoading) {
+                        return const Center(child: OutfitProgressIndicator());
+                      } else if (relatedState is RelatedOutfitsFailure) {
+                        return Center(child: Text('Error: ${relatedState.error}'));
+                      } else if (relatedState is NoRelatedOutfitState) {
+                        return Center(
+                          child: Text(
+                            S.of(context).noRelatedOutfits,
+                            textAlign: TextAlign.center,
+                            style: effectiveTheme.textTheme.titleMedium,
+                          ),
+                        );
+                      } else if (relatedState is RelatedOutfitsSuccess) {
+                        final relatedOutfits = relatedState.relatedOutfits;
+
+                        return BlocBuilder<CrossAxisCountCubit, int>(
+                          builder: (context, crossAxisCount) {
+                            return BlocBuilder<FocusOrCreateClosetBloc, FocusOrCreateClosetState>(
+                              builder: (context, focusState) {
+                                final outfitSelectionMode =
+                                (focusState is FocusOrCreateClosetLoaded && focusState.isCalendarSelectable)
+                                    ? OutfitSelectionMode.multiSelection
+                                    : OutfitSelectionMode.action;
+
+                                return OutfitList<OutfitData>(
+                                  outfits: relatedOutfits,
+                                  crossAxisCount: crossAxisCount,
+                                  outfitSelectionMode: outfitSelectionMode,
+                                  selectedOutfitIds: selectedOutfitIds,
+                                  outfitSize: OutfitSize.relatedOutfitImage,
+                                  getHeightForOutfitSize: ImageHelper.getHeightForOutfitSize,
+                                  onAction: (selectedOutfitId) {
+                                    _logger.d('Tapped related outfit: $selectedOutfitId');
+                                    context.goNamed(
+                                      AppRoutesName.relatedOutfitAnalytics,
+                                      extra: selectedOutfitId,
+                                    );
+                                  },
+                                );
+                              },
                             );
                           },
                         );
-                      },
-                    );
-                  }
-              );
-            }
-            return const SizedBox.shrink();
-          },
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        )
-      ],
-    )
+      ),
     );
   }
 }
