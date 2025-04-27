@@ -60,9 +60,9 @@ class SummaryItemAnalyticsFeatureContainer extends StatelessWidget {
     logger.d("isCalendarSelectable: $isCalendarSelectable");
     logger.d("MultiClosetAccessGrantedState: $multiClosetAccessGranted");
 
-    final bool showFocus = multiClosetAccessGranted && isCalendarSelectable;
+    final bool showFocus = multiClosetAccessGranted && !isCalendarSelectable;
     final bool showCreateCloset = multiClosetAccessGranted &&
-        !isCalendarSelectable;
+        isCalendarSelectable;
 
     logger.d("showFocus: $showFocus, showCreateCloset: $showCreateCloset");
 

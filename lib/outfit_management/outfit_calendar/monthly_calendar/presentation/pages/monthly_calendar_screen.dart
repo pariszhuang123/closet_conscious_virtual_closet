@@ -168,7 +168,7 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
             }
             if (state is FocusedDateUpdatedState) {
               logger.i('Focused Date updated successfully. Navigating to daily calendar with outfitId: ${state.outfitId}');
-              context.goNamed(
+              context.pushNamed(
                 AppRoutesName.dailyCalendar,
                 extra: {
                   'outfitId': state.outfitId, // ✅ Pass outfitId in navigation arguments
@@ -249,9 +249,9 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                           if (state is MonthlyCalendarLoadedState) {
                             final metadata = state.metadataList.first;
 
-                            final updatedMetadata = metadata.copyWith(isCalendarSelectable: false);
+                            final updatedMetadata = metadata.copyWith(isCalendarSelectable: true);
 
-                            logger.i('Updating and saving metadata: isCalendarSelectable = false');
+                            logger.i('Updating and saving metadata: isCalendarSelectable = true');
 
                             context.read<MonthlyCalendarMetadataBloc>().add(
                               UpdateSelectedMetadataEvent(updatedMetadata),
@@ -266,9 +266,9 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                           if (state is MonthlyCalendarLoadedState) {
                             final metadata = state.metadataList.first;
 
-                            final updatedMetadata = metadata.copyWith(isCalendarSelectable: true);
+                            final updatedMetadata = metadata.copyWith(isCalendarSelectable: false);
 
-                            logger.i('Updating and saving metadata: isCalendarSelectable = true');
+                            logger.i('Updating and saving metadata: isCalendarSelectable = false');
 
                             context.read<MonthlyCalendarMetadataBloc>().add(
                               UpdateSelectedMetadataEvent(updatedMetadata),
@@ -317,7 +317,7 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                           return const Center(child: OutfitProgressIndicator());
                         },
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 8),
                       BlocBuilder<MonthlyCalendarImagesBloc, MonthlyCalendarImagesState>(
                         builder: (context, state) {
                           if (state is MonthlyCalendarImagesLoaded) {

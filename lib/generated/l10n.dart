@@ -2250,10 +2250,10 @@ class S {
     );
   }
 
-  /// `Selfie`
+  /// `OOTD`
   String get selfie {
     return Intl.message(
-      'Selfie',
+      'OOTD',
       name: 'selfie',
       desc: '',
       args: [],
@@ -2600,10 +2600,10 @@ class S {
     );
   }
 
-  /// `We need access to your camera for your stunning outfit selfies!`
+  /// `We need access to your camera for your stunning outfit!`
   String get camera_selfie_permission_explanation {
     return Intl.message(
-      'We need access to your camera for your stunning outfit selfies!',
+      'We need access to your camera for your stunning outfit!',
       name: 'camera_selfie_permission_explanation',
       desc: '',
       args: [],
@@ -2900,60 +2900,60 @@ class S {
     );
   }
 
-  /// `Bronze Plan - Selfie`
+  /// `Bronze Plan - OOTD`
   String get selfieBronzeTitle {
     return Intl.message(
-      'Bronze Plan - Selfie',
+      'Bronze Plan - OOTD',
       name: 'selfieBronzeTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Take 200 more selfies and keep your style on point!`
+  /// `Take 200 more OOTD and keep your style on point!`
   String get selfieBronzeDescription {
     return Intl.message(
-      'Take 200 more selfies and keep your style on point!',
+      'Take 200 more OOTD and keep your style on point!',
       name: 'selfieBronzeDescription',
       desc: '',
       args: [],
     );
   }
 
-  /// `Silver Plan - Selfie`
+  /// `Silver Plan - OOTD`
   String get selfieSilverTitle {
     return Intl.message(
-      'Silver Plan - Selfie',
+      'Silver Plan - OOTD',
       name: 'selfieSilverTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Take 700 more selfies and show off your fashion progress!`
+  /// `Take 700 more OOTD and show off your fashion progress!`
   String get selfieSilverDescription {
     return Intl.message(
-      'Take 700 more selfies and show off your fashion progress!',
+      'Take 700 more OOTD and show off your fashion progress!',
       name: 'selfieSilverDescription',
       desc: '',
       args: [],
     );
   }
 
-  /// `Gold Plan - Selfie`
+  /// `Gold Plan - OOTD`
   String get selfieGoldTitle {
     return Intl.message(
-      'Gold Plan - Selfie',
+      'Gold Plan - OOTD',
       name: 'selfieGoldTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Unlimited selfies! Capture your looks whenever inspiration strikes.`
+  /// `Unlimited OOTD! Capture your looks whenever inspiration strikes.`
   String get selfieGoldDescription {
     return Intl.message(
-      'Unlimited selfies! Capture your looks whenever inspiration strikes.',
+      'Unlimited OOTD! Capture your looks whenever inspiration strikes.',
       name: 'selfieGoldDescription',
       desc: '',
       args: [],
@@ -4471,11 +4471,21 @@ class S {
     );
   }
 
-  /// `Related Outfits`
-  String get relatedOutfits {
+  /// `Related Outfits to above Item`
+  String get relatedOutfitsToAboveItem {
     return Intl.message(
-      'Related Outfits',
-      name: 'relatedOutfits',
+      'Related Outfits to above Item',
+      name: 'relatedOutfitsToAboveItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Related Outfits to above Outfit`
+  String get relatedOutfitsToAboveOutfit {
+    return Intl.message(
+      'Related Outfits to above Outfit',
+      name: 'relatedOutfitsToAboveOutfit',
       desc: '',
       args: [],
     );
@@ -5261,6 +5271,26 @@ class S {
     );
   }
 
+  /// `Show More`
+  String get showMore {
+    return Intl.message(
+      'Show More',
+      name: 'showMore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show Less`
+  String get showLess {
+    return Intl.message(
+      'Show Less',
+      name: 'showLess',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Upload from Photo Library`
   String get tutorialFreePhotoLibraryTitle {
     return Intl.message(
@@ -5451,20 +5481,20 @@ class S {
     );
   }
 
-  /// `You’ve taken your first selfie! Show off your style and let your closet shine!`
+  /// `You’ve taken your first OOTD! Show off your style and let your closet shine!`
   String get defaultAchievementFirstSelfieTakenMessage {
     return Intl.message(
-      'You’ve taken your first selfie! Show off your style and let your closet shine!',
+      'You’ve taken your first OOTD! Show off your style and let your closet shine!',
       name: 'defaultAchievementFirstSelfieTakenMessage',
       desc: '',
       args: [],
     );
   }
 
-  /// `Selfie Superstar!`
+  /// `OOTD Superstar!`
   String get defaultAchievementFirstSelfieTakenTitle {
     return Intl.message(
-      'Selfie Superstar!',
+      'OOTD Superstar!',
       name: 'defaultAchievementFirstSelfieTakenTitle',
       desc: '',
       args: [],
@@ -5961,10 +5991,10 @@ class S {
     );
   }
 
-  /// `First selfie taken—holding onto memories one picture at a time.`
+  /// `First OOTD taken—holding onto memories one picture at a time.`
   String get memoryAchievementFirstSelfieTakenMessage {
     return Intl.message(
-      'First selfie taken—holding onto memories one picture at a time.',
+      'First OOTD taken—holding onto memories one picture at a time.',
       name: 'memoryAchievementFirstSelfieTakenMessage',
       desc: '',
       args: [],
@@ -6471,10 +6501,10 @@ class S {
     );
   }
 
-  /// `Your first selfie captured! Celebrate your style journey.`
+  /// `Your first OOTD captured! Celebrate your style journey.`
   String get personalStyleAchievementFirstSelfieTakenMessage {
     return Intl.message(
-      'Your first selfie captured! Celebrate your style journey.',
+      'Your first OOTD captured! Celebrate your style journey.',
       name: 'personalStyleAchievementFirstSelfieTakenMessage',
       desc: '',
       args: [],
@@ -6981,10 +7011,10 @@ class S {
     );
   }
 
-  /// `Your first selfie marks this moment—reflecting your evolving story.`
+  /// `Your first OOTD marks this moment—reflecting your evolving story.`
   String get lifeChangeAchievementFirstSelfieTakenMessage {
     return Intl.message(
-      'Your first selfie marks this moment—reflecting your evolving story.',
+      'Your first OOTD marks this moment—reflecting your evolving story.',
       name: 'lifeChangeAchievementFirstSelfieTakenMessage',
       desc: '',
       args: [],

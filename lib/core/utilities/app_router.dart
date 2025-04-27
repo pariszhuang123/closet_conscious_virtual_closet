@@ -449,12 +449,9 @@ GoRouter appRouter = GoRouter(
           return buildCustomTransitionPage(
             key: UniqueKey(),
             transitionType: TransitionType.fadeScale,
-            child: CalendarScaffold(
+            child: DailyCalendarProvider(
               myOutfitTheme: myOutfitTheme,
-              body: DailyCalendarProvider(
-                myOutfitTheme: myOutfitTheme,
-                outfitId: args['outfitId'],
-              ),
+              outfitId: args['outfitId'],
             ),
           );
         },

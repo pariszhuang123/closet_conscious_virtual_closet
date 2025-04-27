@@ -59,6 +59,9 @@ class ImageCalendarWidget extends StatelessWidget {
           onDaySelected: (selectedDay, _) {
             _handleDaySelected(context, selectedDay, logger);
           },
+          pageJumpingEnabled: false,
+          availableGestures: AvailableGestures.verticalSwipe,
+          sixWeekMonthsEnforced: false,
         ),
         if (calendarData.isEmpty) _buildEmptyState(context),
       ],

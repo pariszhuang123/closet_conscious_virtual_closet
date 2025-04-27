@@ -94,7 +94,7 @@ class DailyCalendarProvider extends StatelessWidget {
       ],
       // Wrap content in CalendarScaffold
       child: DailyCalendarScreen(
-        theme: myOutfitTheme,
+        myOutfitTheme: myOutfitTheme,
         outfitId: outfitId
       ),
     );

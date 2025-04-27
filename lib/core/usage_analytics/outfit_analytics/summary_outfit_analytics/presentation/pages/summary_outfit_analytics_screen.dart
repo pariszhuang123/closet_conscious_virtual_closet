@@ -115,10 +115,10 @@ class _SummaryOutfitAnalyticsScreenState
         .read<FocusOrCreateClosetBloc>()
         .state;
     if (state is FocusOrCreateClosetLoaded) {
-      _logger.i('Updating and saving state: isCalendarSelectable = false');
+      _logger.i('Updating and saving state: isCalendarSelectable = true');
 
       context.read<FocusOrCreateClosetBloc>().add(
-        UpdateFocusOrCreateCloset(false),
+        UpdateFocusOrCreateCloset(true),
       );
     }
   }
@@ -134,10 +134,10 @@ class _SummaryOutfitAnalyticsScreenState
         .read<FocusOrCreateClosetBloc>()
         .state;
     if (state is FocusOrCreateClosetLoaded) {
-      _logger.i('Updating and saving state: isCalendarSelectable = true');
+      _logger.i('Updating and saving state: isCalendarSelectable = false');
 
       context.read<FocusOrCreateClosetBloc>().add(
-        UpdateFocusOrCreateCloset(true),
+        UpdateFocusOrCreateCloset(false),
       );
     }
   }

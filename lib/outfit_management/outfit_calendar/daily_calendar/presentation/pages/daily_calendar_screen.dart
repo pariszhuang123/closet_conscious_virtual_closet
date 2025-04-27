@@ -19,15 +19,19 @@ import '../../../../core/presentation/bloc/outfit_selection_bloc/outfit_selectio
 import '../../../../../core/widgets/feedback/custom_snack_bar.dart';
 
 class DailyCalendarScreen extends StatelessWidget {
-  final ThemeData theme;
-  final String? outfitId; // ✅ Accept outfitId
+  final ThemeData myOutfitTheme;
+  final String? outfitId;
 
   static final _logger = CustomLogger('DailyCalendarScreen');
 
-  const DailyCalendarScreen({super.key, required this.theme, this.outfitId});
+  const DailyCalendarScreen(
+      {super.key, required this.myOutfitTheme, this.outfitId});
 
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
+    final selectedItemIds = context
+        .read<MultiSelectionItemCubit>()
+        .state
+        .selectedItemIds;
     context.pushNamed(
       AppRoutesName.customize,
       extra: {
@@ -46,13 +50,8 @@ class DailyCalendarScreen extends StatelessWidget {
     if (state is DailyCalendarLoaded) {
       final allOutfitIds = state.dailyOutfits.map((outfit) => outfit.outfitId)
           .toList();
-
-      // Select all outfits
       outfitSelectionBloc.add(SelectAllOutfitsEvent(allOutfitIds));
-
-      // Fetch item IDs from Supabase using the selected outfit IDs
-      outfitSelectionBloc.add(
-          FetchActiveItemsEvent(allOutfitIds));
+      outfitSelectionBloc.add(FetchActiveItemsEvent(allOutfitIds));
     }
   }
 
@@ -60,167 +59,201 @@ class DailyCalendarScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.i('Building DailyCalendarScreen');
 
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<DailyCalendarBloc, DailyCalendarState>(
-          listener: (context, state) {
-            if (state is DailyCalendarNavigationSuccessState) {
-              _logger.i('✅ Navigation success: Navigating to DailyCalendar.');
-              context.goNamed(
-                AppRoutesName.dailyCalendar,
-                extra: {'outfitId': DateTime.now().millisecondsSinceEpoch.toString()},
-              );
-            } else if (state is DailyCalendarSaveFailureState) {
-              _logger.e('❌ Navigation failed.');
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(S.of(context).calendarNavigationFailed)),
-              );
-            }
-          },
-        ),
-        BlocListener<CalendarNavigationBloc, CalendarNavigationState>(
-          listener: (context, state) {
-            if (state is CalendarAccessState) {
-              if (state.accessStatus == AccessStatus.denied) {
-                _logger.w('🚫 Access denied: Navigating to payment page');
-                context.goNamed(
-                  AppRoutesName.payment,
-                  extra: {
-                    'featureKey': FeatureKey.calendar,
-                    'isFromMyCloset': false,
-                    'previousRoute': AppRoutesName.createOutfit,
-                    'nextRoute': AppRoutesName.dailyCalendar,
-                  },
-                );
-              } else if (state.accessStatus == AccessStatus.trialPending) {
-                _logger.i('⏳ Trial pending, navigating to trialStarted screen');
-                context.goNamed(
-                  AppRoutesName.trialStarted,
-                  extra: {
-                    'selectedFeatureRoute': AppRoutesName.dailyCalendar,
-                    'isFromMyCloset': false,
-                  },
-                );
-              }
-            }
-          },
-        ),
-        BlocListener<OutfitSelectionBloc, OutfitSelectionState>(
-          listener: (context, state) {
-            if (state is ActiveItemsFetched) {
-              context.pushNamed(
-                AppRoutesName.createOutfit,
-                extra: {
-                  'selectedItemIds': state.activeItemIds,
-                },
-              );
-              } else if (state is OutfitSelectionError) {
-              _logger.e('Error fetching active items: ${state.message}');
-              CustomSnackbar(
-                message: S.of(context).failedToLoadItems,
-                theme: Theme.of(context),
-              ).show(context);
-            }
-          },
-         ),
-      BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
-          listener: (context, state) {
-            if (state is OutfitFocusedDateSuccess) {
-              _logger.i("✅ Focused date saved. Navigating to outfit details.");
-
-              context.pushNamed(
-                AppRoutesName.dailyDetailedCalendar,
-                extra: {'outfitId': state.outfitId},
-              );
-            } else if (state is OutfitFocusedDateFailure) {
-              _logger.e('❌ Failed to set focused date: ${state.error}');
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(S.of(context).calendarNavigationFailed)),
-              );
-            }
-          },
-      )
-      ],
-      child: BlocBuilder<DailyCalendarBloc, DailyCalendarState>(
-        builder: (context, dailyCalendarState) {
-          _logger.d('DailyCalendarBloc State: ${dailyCalendarState.runtimeType}');
-
-          if (dailyCalendarState is DailyCalendarLoading) {
-            _logger.i('Daily Calendar is loading...');
-            return const Center(child: OutfitProgressIndicator());
-          } else if (dailyCalendarState is DailyCalendarError) {
-            _logger.e('Error in Daily Calendar: ${dailyCalendarState.message}');
-            return Center(child: Text('Error: ${dailyCalendarState.message}'));
-          } else if (dailyCalendarState is DailyCalendarLoaded) {
-            final outfits = dailyCalendarState.dailyOutfits;
-            final formattedDate =
-            DateFormat('dd/MM/yyyy').format(dailyCalendarState.focusedDate);
-            _logger.i('Loaded ${outfits.length} outfits for the calendar');
-            _logger.i('Focused Date: $formattedDate');
-
-            if (outfits.isEmpty) {
-              _logger.w('No outfits found in the closet');
-              return Center(child: Text(S.of(context).noItemsInCloset));
-            }
-
-            return BlocBuilder<CrossAxisCountCubit, int>(
-              builder: (context, crossAxisCount) {
-                _logger.d('CrossAxisCountCubit State: $crossAxisCount');
-
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    DailyFeatureContainer(
-                      theme: Theme.of(context),
-                      onCalendarButtonPressed: () {
-                        _logger.i("Calendar button pressed");
-                        context.goNamed(
-                            AppRoutesName.monthlyCalendar);
-                      },
-                      onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
-                      onPreviousButtonPressed: () {
-                        _logger.i("Previous button pressed");
-                        context.read<DailyCalendarBloc>().add(
-                          const NavigateCalendarEvent(direction: 'backward'),
-                        );
-                      },
-                      onNextButtonPressed: () {
-                        _logger.i("Next button pressed");
-                        context.read<DailyCalendarBloc>().add(
-                          const NavigateCalendarEvent(direction: 'forward'),
-                        );
-                      },
-                      onCreateOutfitButtonPressed: () => _onCreateOutfitButtonPressed(context, false),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Text(
-                        formattedDate,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ),
-                    Expanded(
-                      child: DailyCalendarCarousel(
-                        outfits: outfits,
-                        theme: Theme.of(context),
-                        crossAxisCount: crossAxisCount,
-                        onTap: (outfitId) {
-                          _logger.i(
-                              "Saving focused date before navigating to outfit details for outfitId: $outfitId");
-                          context
-                              .read<OutfitFocusedDateCubit>()
-                              .setFocusedDateForOutfit(outfitId);
-                        },
-                      ),
-                    ),
-                  ],
-                );
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        _logger.i('Pop invoked: didPop = $didPop, result = $result');
+        if (!didPop) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.goNamed(AppRoutesName.monthlyCalendar);
+          });
+        }
+      },
+      child: Theme(
+        data: myOutfitTheme, // ✅ Apply your custom theme
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: true,
+            leading: BackButton(
+              onPressed: () async {
+                final navigator = Navigator.of(context);
+                if (navigator.canPop()) {
+                  _logger.i('BackButton: Navigator can pop, popping...');
+                  navigator.pop();
+                } else {
+                  _logger.i(
+                      'BackButton: Navigator cannot pop, going to MonthlyCalendar.');
+                  context.goNamed(AppRoutesName.monthlyCalendar);
+                }
               },
-            );
-          }
-          _logger.w('No matching state found, rendering empty widget');
-          return const SizedBox.shrink();
-        },
+            ),
+            title: Text(
+              S
+                  .of(context)
+                  .calendarFeatureTitle,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .titleMedium, // Now will use myOutfitTheme
+            ),
+          ),
+          body: MultiBlocListener(
+            listeners: [
+              BlocListener<DailyCalendarBloc, DailyCalendarState>(
+                listener: (context, state) {
+                  if (state is DailyCalendarNavigationSuccessState) {
+                    _logger.i('✅ Navigation success: Navigating to DailyCalendar.');
+                    context.goNamed(
+                      AppRoutesName.dailyCalendar,
+                      extra: {'outfitId': DateTime.now().millisecondsSinceEpoch.toString()},
+                    );
+                  } else if (state is DailyCalendarSaveFailureState) {
+                    _logger.e('❌ Navigation failed.');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(S.of(context).calendarNavigationFailed)),
+                    );
+                  }
+                },
+              ),
+              BlocListener<CalendarNavigationBloc, CalendarNavigationState>(
+                listener: (context, state) {
+                  if (state is CalendarAccessState) {
+                    if (state.accessStatus == AccessStatus.denied) {
+                      _logger.w('🚫 Access denied: Navigating to payment page');
+                      context.goNamed(
+                        AppRoutesName.payment,
+                        extra: {
+                          'featureKey': FeatureKey.calendar,
+                          'isFromMyCloset': false,
+                          'previousRoute': AppRoutesName.createOutfit,
+                          'nextRoute': AppRoutesName.dailyCalendar,
+                        },
+                      );
+                    } else if (state.accessStatus == AccessStatus.trialPending) {
+                      _logger.i('⏳ Trial pending, navigating to trialStarted screen');
+                      context.goNamed(
+                        AppRoutesName.trialStarted,
+                        extra: {
+                          'selectedFeatureRoute': AppRoutesName.dailyCalendar,
+                          'isFromMyCloset': false,
+                        },
+                      );
+                    }
+                  }
+                },
+              ),
+              BlocListener<OutfitSelectionBloc, OutfitSelectionState>(
+                listener: (context, state) {
+                  if (state is ActiveItemsFetched) {
+                    context.pushNamed(
+                      AppRoutesName.createOutfit,
+                      extra: {
+                        'selectedItemIds': state.activeItemIds,
+                      },
+                    );
+                  } else if (state is OutfitSelectionError) {
+                    _logger.e('Error fetching active items: ${state.message}');
+                    CustomSnackbar(
+                      message: S.of(context).failedToLoadItems,
+                      theme: Theme.of(context),
+                    ).show(context);
+                  }
+                },
+              ),
+              BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
+                listener: (context, state) {
+                  if (state is OutfitFocusedDateSuccess) {
+                    _logger.i("✅ Focused date saved. Navigating to outfit details.");
+
+                    context.pushNamed(
+                      AppRoutesName.dailyDetailedCalendar,
+                      extra: {'outfitId': state.outfitId},
+                    );
+                  } else if (state is OutfitFocusedDateFailure) {
+                    _logger.e('❌ Failed to set focused date: ${state.error}');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(S.of(context).calendarNavigationFailed)),
+                    );
+                  }
+                },
+              )
+            ],
+            child: BlocBuilder<DailyCalendarBloc, DailyCalendarState>(
+              builder: (context, dailyCalendarState) {
+                if (dailyCalendarState is DailyCalendarLoading) {
+                  return const Center(child: OutfitProgressIndicator());
+                } else if (dailyCalendarState is DailyCalendarError) {
+                  return Center(
+                      child: Text('Error: ${dailyCalendarState.message}'));
+                } else if (dailyCalendarState is DailyCalendarLoaded) {
+                  final outfits = dailyCalendarState.dailyOutfits;
+                  final formattedDate = DateFormat('dd/MM/yyyy').format(
+                      dailyCalendarState.focusedDate);
+
+                  if (outfits.isEmpty) {
+                    return Center(child: Text(S
+                        .of(context)
+                        .noItemsInCloset));
+                  }
+
+                  return BlocBuilder<CrossAxisCountCubit, int>(
+                    builder: (context, crossAxisCount) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          DailyFeatureContainer(
+                            theme: myOutfitTheme,
+                            onCalendarButtonPressed: () {
+                              context.goNamed(AppRoutesName.monthlyCalendar);
+                            },
+                            onArrangeButtonPressed: () =>
+                                _onArrangeButtonPressed(context, false),
+                            onPreviousButtonPressed: () {
+                              context.read<DailyCalendarBloc>().add(
+                                const NavigateCalendarEvent(
+                                    direction: 'backward'),
+                              );
+                            },
+                            onNextButtonPressed: () {
+                              context.read<DailyCalendarBloc>().add(
+                                const NavigateCalendarEvent(
+                                    direction: 'forward'),
+                              );
+                            },
+                            onCreateOutfitButtonPressed: () =>
+                                _onCreateOutfitButtonPressed(context, false),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            child: Text(
+                              formattedDate,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .bodyMedium,
+                            ),
+                          ),
+                          Expanded(
+                            child: DailyCalendarCarousel(
+                              outfits: outfits,
+                              theme: myOutfitTheme,
+                              crossAxisCount: crossAxisCount,
+                              onTap: (outfitId) {
+                                context.read<OutfitFocusedDateCubit>()
+                                    .setFocusedDateForOutfit(outfitId);
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+        ),
       ),
     );
   }

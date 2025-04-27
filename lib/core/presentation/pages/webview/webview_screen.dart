@@ -65,7 +65,9 @@ class WebViewScreen extends StatelessWidget {
           }
         },
         child: Scaffold(
-          appBar: AppBar(title: Text(title)),
+          appBar: AppBar(
+              automaticallyImplyLeading: true,
+              title: Text(title)),
           body: WebViewWidget(controller: controller),
         ),
       ),

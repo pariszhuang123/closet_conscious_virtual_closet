@@ -114,10 +114,10 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
   void _onFocusButtonPressed(BuildContext context) {
     final state = context.read<FocusOrCreateClosetBloc>().state;
     if (state is FocusOrCreateClosetLoaded) {
-      logger.i('Updating and saving state: isCalendarSelectable = false');
+      logger.i('Updating and saving state: isCalendarSelectable = true');
 
       context.read<FocusOrCreateClosetBloc>().add(
-        UpdateFocusOrCreateCloset(false),
+        UpdateFocusOrCreateCloset(true),
       );
     }
   }
@@ -125,10 +125,10 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
   void _onCreateClosetButtonPressed(BuildContext context) {
     final state = context.read<FocusOrCreateClosetBloc>().state;
     if (state is FocusOrCreateClosetLoaded) {
-      logger.i('Updating and saving state: isCalendarSelectable = true');
+      logger.i('Updating and saving state: isCalendarSelectable = false');
 
       context.read<FocusOrCreateClosetBloc>().add(
-        UpdateFocusOrCreateCloset(true),
+        UpdateFocusOrCreateCloset(false),
       );
     }
   }

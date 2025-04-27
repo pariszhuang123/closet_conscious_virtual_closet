@@ -67,7 +67,7 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
             listener: (context, state) {
               if (state is OutfitFocusedDateSuccess) {
                 logger.i('✅ Focused date set successfully for outfitId: ${state.outfitId}');
-                context.goNamed(
+                context.pushNamed(
                   AppRoutesName.dailyCalendar,
                   extra: {'outfitId': state.outfitId}, // ✅ Pass as a Map
                 );
@@ -133,7 +133,7 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Text(
-                      S.of(context).relatedOutfits, // ✅ Localized text
+                      S.of(context).relatedOutfitsToAboveItem, // ✅ Localized text
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),

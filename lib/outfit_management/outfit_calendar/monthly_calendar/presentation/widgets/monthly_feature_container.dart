@@ -66,8 +66,8 @@ class MonthlyFeatureContainer extends StatelessWidget {
       },
     );
 
-    final bool showFocus = multiClosetAccessGranted && isCalendarSelectable;
-    final bool showCreateCloset = multiClosetAccessGranted && !isCalendarSelectable;
+    final bool showFocus = multiClosetAccessGranted && !isCalendarSelectable;
+    final bool showCreateCloset = multiClosetAccessGranted && isCalendarSelectable;
 
     logger.d("showFocus: $showFocus, showCreateCloset: $showCreateCloset");
 

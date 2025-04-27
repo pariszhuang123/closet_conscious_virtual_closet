@@ -170,7 +170,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Camera access is required to take photos."),
         "camera_selfie_permission_explanation":
             MessageLookupByLibrary.simpleMessage(
-                "We need access to your camera for your stunning outfit selfies!"),
+                "We need access to your camera for your stunning outfit!"),
         "camera_upload_item_permission_explanation":
             MessageLookupByLibrary.simpleMessage(
                 "We need camera access to help you upload photos of your clothes."),
@@ -301,9 +301,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Outfit Architect!"),
         "defaultAchievementFirstSelfieTakenMessage":
             MessageLookupByLibrary.simpleMessage(
-                "You’ve taken your first selfie! Show off your style and let your closet shine!"),
+                "You’ve taken your first OOTD! Show off your style and let your closet shine!"),
         "defaultAchievementFirstSelfieTakenTitle":
-            MessageLookupByLibrary.simpleMessage("Selfie Superstar!"),
+            MessageLookupByLibrary.simpleMessage("OOTD Superstar!"),
         "defaultAchievementMessage": MessageLookupByLibrary.simpleMessage(
             "You’ve reached a new milestone! Keep up the great work as you continue your journey towards mindful fashion."),
         "defaultAchievementNoNewClothes1215Message":
@@ -555,7 +555,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Transition Tracked!"),
         "lifeChangeAchievementFirstSelfieTakenMessage":
             MessageLookupByLibrary.simpleMessage(
-                "Your first selfie marks this moment—reflecting your evolving story."),
+                "Your first OOTD marks this moment—reflecting your evolving story."),
         "lifeChangeAchievementFirstSelfieTakenTitle":
             MessageLookupByLibrary.simpleMessage("Change Documented!"),
         "lifeChangeAchievementNoNewClothes1215Message":
@@ -692,7 +692,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Milestone Marked!"),
         "memoryAchievementFirstSelfieTakenMessage":
             MessageLookupByLibrary.simpleMessage(
-                "First selfie taken—holding onto memories one picture at a time."),
+                "First OOTD taken—holding onto memories one picture at a time."),
         "memoryAchievementFirstSelfieTakenTitle":
             MessageLookupByLibrary.simpleMessage("Moment Captured!"),
         "memoryAchievementNoNewClothes1215Message":
@@ -934,7 +934,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Signature Look Set!"),
         "personalStyleAchievementFirstSelfieTakenMessage":
             MessageLookupByLibrary.simpleMessage(
-                "Your first selfie captured! Celebrate your style journey."),
+                "Your first OOTD captured! Celebrate your style journey."),
         "personalStyleAchievementFirstSelfieTakenTitle":
             MessageLookupByLibrary.simpleMessage("Own Your Style!"),
         "personalStyleAchievementNoNewClothes1215Message":
@@ -1070,8 +1070,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "recommendClosetConscious": MessageLookupByLibrary.simpleMessage(
             "How likely are you to recommend Closet Conscious to a friend?"),
         "red": MessageLookupByLibrary.simpleMessage("Red"),
-        "relatedOutfits":
-            MessageLookupByLibrary.simpleMessage("Related Outfits"),
+        "relatedOutfitsToAboveItem": MessageLookupByLibrary.simpleMessage(
+            "Related Outfits to above Item"),
+        "relatedOutfitsToAboveOutfit": MessageLookupByLibrary.simpleMessage(
+            "Related Outfits to above Outfit"),
         "reminderDialogContent": MessageLookupByLibrary.simpleMessage(
             "Would you like me to remind you later to upload your closet?"),
         "reminderDialogTitle":
@@ -1115,19 +1117,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectSeason": MessageLookupByLibrary.simpleMessage("Select Season"),
         "selectShoeType":
             MessageLookupByLibrary.simpleMessage("Select Shoe Type"),
-        "selfie": MessageLookupByLibrary.simpleMessage("Selfie"),
+        "selfie": MessageLookupByLibrary.simpleMessage("OOTD"),
         "selfieBronzeDescription": MessageLookupByLibrary.simpleMessage(
-            "Take 200 more selfies and keep your style on point!"),
+            "Take 200 more OOTD and keep your style on point!"),
         "selfieBronzeTitle":
-            MessageLookupByLibrary.simpleMessage("Bronze Plan - Selfie"),
+            MessageLookupByLibrary.simpleMessage("Bronze Plan - OOTD"),
         "selfieGoldDescription": MessageLookupByLibrary.simpleMessage(
-            "Unlimited selfies! Capture your looks whenever inspiration strikes."),
+            "Unlimited OOTD! Capture your looks whenever inspiration strikes."),
         "selfieGoldTitle":
-            MessageLookupByLibrary.simpleMessage("Gold Plan - Selfie"),
+            MessageLookupByLibrary.simpleMessage("Gold Plan - OOTD"),
         "selfieSilverDescription": MessageLookupByLibrary.simpleMessage(
-            "Take 700 more selfies and show off your fashion progress!"),
+            "Take 700 more OOTD and show off your fashion progress!"),
         "selfieSilverTitle":
-            MessageLookupByLibrary.simpleMessage("Silver Plan - Selfie"),
+            MessageLookupByLibrary.simpleMessage("Silver Plan - OOTD"),
         "sell": MessageLookupByLibrary.simpleMessage("Sell"),
         "semiSynthetic": MessageLookupByLibrary.simpleMessage("Semi-Synthetic"),
         "share": MessageLookupByLibrary.simpleMessage("Share"),
@@ -1140,6 +1142,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Shoes type is not selected."),
         "shortTagline":
             MessageLookupByLibrary.simpleMessage("Shop Your Closet"),
+        "showLess": MessageLookupByLibrary.simpleMessage("Show Less"),
+        "showMore": MessageLookupByLibrary.simpleMessage("Show More"),
         "singleClosetShown":
             MessageLookupByLibrary.simpleMessage("Single Closet"),
         "social": MessageLookupByLibrary.simpleMessage("Social"),

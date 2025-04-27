@@ -42,6 +42,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   final ScrollController _scrollController = ScrollController();
   TutorialType? _lastTriggeredTutorialType;
   final CustomLogger logger = CustomLogger('MyClosetPage');
+  bool _showFab = true;
 
   @override
   void initState() {
@@ -68,6 +69,25 @@ class MyClosetScreenState extends State<MyClosetScreen> {
         }
       }
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final isCurrent = ModalRoute.of(context)?.isCurrent ?? false;
+
+    if (!isCurrent && _showFab) {
+      setState(() {
+        _showFab = false;
+      });
+    }
+
+    if (isCurrent && !_showFab) {
+      setState(() {
+        _showFab = true;
+      });
+    }
   }
 
   void _triggerItemUploadAchievement() {
@@ -453,11 +473,13 @@ class MyClosetScreenState extends State<MyClosetScreen> {
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButton(
+          floatingActionButton: _showFab
+              ? FloatingActionButton(
             onPressed: _onPhotoButtonPressed,
             backgroundColor: widget.myClosetTheme.colorScheme.primary,
             child: const Icon(Icons.camera_alt, size: 30),
-          ),
+          )
+              : null,
           floatingActionButtonLocation: FloatingActionButtonLocation
               .centerDocked,
           bottomNavigationBar: MainBottomNavBar(

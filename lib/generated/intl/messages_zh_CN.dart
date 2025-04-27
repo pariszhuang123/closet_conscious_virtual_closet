@@ -256,9 +256,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "defaultAchievementFirstOutfitCreatedTitle":
             MessageLookupByLibrary.simpleMessage("穿搭建筑师！"),
         "defaultAchievementFirstSelfieTakenMessage":
-            MessageLookupByLibrary.simpleMessage("你拍下了第一张自拍！展示你的风格，让你的衣柜闪耀吧！"),
+            MessageLookupByLibrary.simpleMessage(
+                "你拍下了第一张今日穿搭！展示你的风格，让你的衣柜闪耀吧！"),
         "defaultAchievementFirstSelfieTakenTitle":
-            MessageLookupByLibrary.simpleMessage("自拍之星！"),
+            MessageLookupByLibrary.simpleMessage("今日穿搭之星！"),
         "defaultAchievementMessage":
             MessageLookupByLibrary.simpleMessage("您已达成一个新里程碑！继续努力，迈向环保时尚的旅程。"),
         "defaultAchievementNoNewClothes1215Message":
@@ -473,7 +474,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "lifeChangeAchievementFirstOutfitCreatedTitle":
             MessageLookupByLibrary.simpleMessage("转变已记录！"),
         "lifeChangeAchievementFirstSelfieTakenMessage":
-            MessageLookupByLibrary.simpleMessage("你的第一张自拍，见证了此刻——反映你不断变化的故事。"),
+            MessageLookupByLibrary.simpleMessage(
+                "你的第一张今日穿搭，见证了此刻——反映你不断变化的故事。"),
         "lifeChangeAchievementFirstSelfieTakenTitle":
             MessageLookupByLibrary.simpleMessage("变化已记录！"),
         "lifeChangeAchievementNoNewClothes1215Message":
@@ -595,7 +597,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "memoryAchievementFirstOutfitCreatedTitle":
             MessageLookupByLibrary.simpleMessage("重要时刻已标记！"),
         "memoryAchievementFirstSelfieTakenMessage":
-            MessageLookupByLibrary.simpleMessage("你拍下了第一张自拍——一张照片留住一个回忆。"),
+            MessageLookupByLibrary.simpleMessage("你拍下了第一张今日穿搭——一张照片留住一个回忆。"),
         "memoryAchievementFirstSelfieTakenTitle":
             MessageLookupByLibrary.simpleMessage("时光定格者！"),
         "memoryAchievementNoNewClothes1215Message":
@@ -805,7 +807,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "personalStyleAchievementFirstOutfitCreatedTitle":
             MessageLookupByLibrary.simpleMessage("标志性穿搭定格！"),
         "personalStyleAchievementFirstSelfieTakenMessage":
-            MessageLookupByLibrary.simpleMessage("第一张自拍已拍下！庆祝你的风格之旅。"),
+            MessageLookupByLibrary.simpleMessage("第一张今日穿搭已拍下！庆祝你的风格之旅。"),
         "personalStyleAchievementFirstSelfieTakenTitle":
             MessageLookupByLibrary.simpleMessage("风格由你掌控！"),
         "personalStyleAchievementNoNewClothes1215Message":
@@ -928,7 +930,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "recommendClosetConscious":
             MessageLookupByLibrary.simpleMessage("您有多大可能向朋友推荐衣格思觉？"),
         "red": MessageLookupByLibrary.simpleMessage("红色"),
-        "relatedOutfits": MessageLookupByLibrary.simpleMessage("相关穿搭"),
+        "relatedOutfitsToAboveItem":
+            MessageLookupByLibrary.simpleMessage("与上述单品相关的搭配"),
+        "relatedOutfitsToAboveOutfit":
+            MessageLookupByLibrary.simpleMessage("与上述穿搭相关的搭配"),
         "reminderDialogContent":
             MessageLookupByLibrary.simpleMessage("您想让我稍后提醒您上传衣橱吗？"),
         "reminderDialogTitle": MessageLookupByLibrary.simpleMessage("稍后提醒我"),
@@ -958,16 +963,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectOccasion": MessageLookupByLibrary.simpleMessage("选择场合"),
         "selectSeason": MessageLookupByLibrary.simpleMessage("选择季节"),
         "selectShoeType": MessageLookupByLibrary.simpleMessage("选择鞋子类型"),
-        "selfie": MessageLookupByLibrary.simpleMessage("自拍"),
+        "selfie": MessageLookupByLibrary.simpleMessage("今日穿搭"),
         "selfieBronzeDescription":
-            MessageLookupByLibrary.simpleMessage("再拍200张自拍，保持您的风格！"),
-        "selfieBronzeTitle": MessageLookupByLibrary.simpleMessage("铜计划 - 自拍"),
+            MessageLookupByLibrary.simpleMessage("再拍200张今日穿搭，保持您的风格！"),
+        "selfieBronzeTitle": MessageLookupByLibrary.simpleMessage("铜计划 - 今日穿搭"),
         "selfieGoldDescription":
-            MessageLookupByLibrary.simpleMessage("无限自拍！当灵感来临时，随时记录您的造型。"),
-        "selfieGoldTitle": MessageLookupByLibrary.simpleMessage("金计划 - 自拍"),
+            MessageLookupByLibrary.simpleMessage("无限今日穿搭！当灵感来临时，随时记录您的造型。"),
+        "selfieGoldTitle": MessageLookupByLibrary.simpleMessage("金计划 - 今日穿搭"),
         "selfieSilverDescription":
-            MessageLookupByLibrary.simpleMessage("再拍700张自拍，展示您的时尚进步！"),
-        "selfieSilverTitle": MessageLookupByLibrary.simpleMessage("银计划 - 自拍"),
+            MessageLookupByLibrary.simpleMessage("再拍700张今日穿搭，展示您的时尚进步！"),
+        "selfieSilverTitle": MessageLookupByLibrary.simpleMessage("银计划 - 今日穿搭"),
         "sell": MessageLookupByLibrary.simpleMessage("出售"),
         "semiSynthetic": MessageLookupByLibrary.simpleMessage("半合成材质"),
         "share": MessageLookupByLibrary.simpleMessage("分享"),
@@ -977,6 +982,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "shoes": MessageLookupByLibrary.simpleMessage("鞋子"),
         "shoesTypeRequired": MessageLookupByLibrary.simpleMessage("鞋类类型未选择。"),
         "shortTagline": MessageLookupByLibrary.simpleMessage("在衣橱里购物"),
+        "showLess": MessageLookupByLibrary.simpleMessage("收起"),
+        "showMore": MessageLookupByLibrary.simpleMessage("展开更多"),
         "singleClosetShown": MessageLookupByLibrary.simpleMessage("单一衣橱"),
         "social": MessageLookupByLibrary.simpleMessage("社交"),
         "somethingWentWrong": MessageLookupByLibrary.simpleMessage("出了点问题！😱"),
