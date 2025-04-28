@@ -10,7 +10,6 @@ import '../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_stylist_usage_bott
 import '../../core/utilities/logger.dart';
 import '../app_drawer.dart';
 import '../../core/theme/ui_constant.dart';
-import '../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../outfit_management/fetch_outfit_items/presentation/widgets/outfit_feature_container.dart';
 import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../core/core_enums.dart';
@@ -20,13 +19,12 @@ import '../../core/utilities/app_router.dart';
 import '../../outfit_management/fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
 import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc/navigate_outfit_bloc.dart';
 import '../../outfit_management/fetch_outfit_items/presentation/widgets/outfit_type_container.dart';
-import '../../outfit_management/user_nps_feedback/presentation/nps_dialog.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../core/presentation/bloc/navigation_status_cubit/navigation_status_cubit.dart';
 import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
-import '../../core/achievement_celebration/helper/achievement_navigator.dart';
 import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
-import '../../core/utilities/helper_functions/tutorial_helper.dart';
+import 'my_outfit_bloc_listeners.dart';
 
 class MyOutfitScreen extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -40,7 +38,6 @@ class MyOutfitScreen extends StatefulWidget {
 
   @override
   MyOutfitScreenState createState() => MyOutfitScreenState();
-
 }
 
 class MyOutfitScreenState extends State<MyOutfitScreen> {
@@ -48,64 +45,42 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   final CustomLogger logger = CustomLogger('OutfitPage');
   final ScrollController _scrollController = ScrollController();
   int newOutfitCount = 2;
-  bool _snackBarShown = false;
-  bool _isNavigating = false; // New flag to track if navigation is in progress
-
-  final OutfitFetchService _outfitFetchService = GetIt.instance<
-      OutfitFetchService>();
+  final OutfitFetchService _outfitFetchService = GetIt.instance<OutfitFetchService>();
 
   @override
   void initState() {
     super.initState();
     logger.i('MyOutfitView initialized');
-    context.read<CrossAxisCountCubit>().fetchCrossAxisCount(); // Trigger fetch
+    context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
     _fetchOutfitsCount();
-    _checkNavigationToReview(context);
+    _checkNavigationToReview();
     _triggerClothingAchievement();
-    _triggerNoBuyAchievement(); // Call the method after setting the outfit count
+    _triggerNoBuyAchievement();
     _triggerOutfitCreation();
     _triggerOutfitCreateAchievement();
     _triggerSelfieTakenAchievement();
-    context.read<TutorialBloc>().add(
-      const CheckTutorialStatus(TutorialType.freeCreateOutfit),
-    );
+    context.read<TutorialBloc>().add(const CheckTutorialStatus(TutorialType.freeCreateOutfit));
+
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        logger.i('Reached the end of the list, fetching more items...');
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
         _fetchMoreItems();
       }
     });
   }
 
   void _fetchMoreItems() {
-    logger.i('Fetching more items...');
     context.read<FetchOutfitItemBloc>().add(FetchMoreItemsEvent());
   }
 
   void _onSaveOutfit() {
-    logger.i('Save outfit button pressed');
-    final selectedItemIds = context
-        .read<MultiSelectionItemCubit>()
-        .state
-        .selectedItemIds;
-    logger.d('Selected items: $selectedItemIds');
-
+    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
     context.read<SaveOutfitItemsBloc>().add(SaveOutfitEvent(selectedItemIds));
   }
 
-  void _checkNavigationToReview(BuildContext context) {
-    final userId = GetIt
-        .instance<AuthBloc>()
-        .userId; // Access userId from AuthBloc
-
+  void _checkNavigationToReview() {
+    final userId = GetIt.instance<AuthBloc>().userId;
     if (userId != null) {
-      logger.i(
-          'Attempting to check navigation to review pages with userId: $userId');
-      context.read<NavigateOutfitBloc>().add(
-          CheckNavigationToReviewEvent(userId: userId));
-    } else {
-      logger.e('Error: userId is null. Cannot check navigation to review.');
+      context.read<NavigateOutfitBloc>().add(CheckNavigationToReviewEvent(userId: userId));
     }
   }
 
@@ -118,34 +93,23 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
 
 
   void _triggerClothingAchievement() {
-    logger.i('Checking if Clothing Achievement Milestone is successful');
-    context.read<NavigateOutfitBloc>().add(
-        const FetchAndSaveClothingWornAchievementEvent());
+    context.read<NavigateOutfitBloc>().add(const FetchAndSaveClothingWornAchievementEvent());
   }
 
   void _triggerNoBuyAchievement() {
-    logger.i('Checking if Clothing Achievement Milestone is successful');
-    context.read<NavigateOutfitBloc>().add(
-        const FetchAndSaveNoBuyMilestoneAchievementEvent());
+    context.read<NavigateOutfitBloc>().add(const FetchAndSaveNoBuyMilestoneAchievementEvent());
   }
 
-
   void _triggerOutfitCreateAchievement() {
-    logger.i('Checking if Outfit Create Milestone is successful');
-    context.read<NavigateOutfitBloc>().add(
-        const FetchFirstOutfitCreatedAchievementEvent());
+    context.read<NavigateOutfitBloc>().add(const FetchFirstOutfitCreatedAchievementEvent());
   }
 
   void _triggerSelfieTakenAchievement() {
-    logger.i('Checking if Selfie Taken Milestone is successful');
-    context.read<NavigateOutfitBloc>().add(
-        const FetchFirstSelfieTakenAchievementEvent());
+    context.read<NavigateOutfitBloc>().add(const FetchFirstSelfieTakenAchievementEvent());
   }
 
   void _triggerOutfitCreation() {
-    logger.i('Checking if Outfit can be created');
-    context.read<NavigateOutfitBloc>().add(
-        const CheckOutfitCreationAccessEvent());
+    context.read<NavigateOutfitBloc>().add(const CheckOutfitCreationAccessEvent());
   }
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
@@ -195,13 +159,9 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   Future<void> _fetchOutfitsCount() async {
-    logger.i('Fetching outfits count...');
     try {
       final result = await _outfitFetchService.fetchOutfitsCountAndNPS();
       final count = result['outfits_created'];
-
-      logger.i('Outfits count fetched: $count');
-
       if (mounted) {
         setState(() {
           newOutfitCount = count;
@@ -216,7 +176,6 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
 
   @override
   void dispose() {
-    logger.i('Disposing MyOutfitView...');
     _scrollController.dispose();
     super.dispose();
   }
@@ -229,134 +188,11 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     final outfitAccessoryType = TypeDataList.outfitAccessoryType(context);
     final outfitShoesType = TypeDataList.outfitShoesType(context);
 
-    return Theme( // Apply the relevant theme higher up
+    return Theme(
       data: widget.myOutfitTheme,
-      child: MultiBlocListener( // BlocListener now inside the theme
-        listeners: [
-          BlocListener<TutorialBloc, TutorialState>(
-            listener: (context, tutorialState) {
-              if (tutorialState is ShowTutorial) {
-                logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
-                context.goNamed(
-                  AppRoutesName.tutorialVideoPopUp,
-                  extra: {
-                    'nextRoute': AppRoutesName.createOutfit,
-                    'tutorialInputKey': TutorialType.freeCreateOutfit.value,
-                    'isFromMyCloset': false,
-                  },
-                );
-              }
-            },
-          ),
-          BlocListener<NavigateOutfitBloc, NavigateOutfitState>(
-            listener: (context, state) {
-              logger.i(
-                  'NavigateOutfitBloc listener triggered with state: $state');
-              if (state is NpsSurveyTriggeredState) {
-                logger.i(
-                    'NPS Survey triggered for milestone: ${state.milestone}');
-                NpsDialog.show(context, state.milestone);
-              }
-              if (state is NavigateToReviewPageState) {
-                logger.i(
-                    'Navigating to OutfitReviewProvider for outfitId: ${state
-                        .outfitId}');
-                _isNavigating =
-                true; // Set navigating to true when navigating to review page
-                context.goNamed(
-                  AppRoutesName.reviewOutfit,
-                  extra: DateTime.now().millisecondsSinceEpoch.toString(), // Just for uniqueness
-                );
-              }
-              if (state is FetchAndSaveClothingAchievementMilestoneSuccessState ||
-                  state is FetchAndSaveNoBuyMilestoneSuccessState ||
-                  state is FetchFirstOutfitMilestoneSuccessState ||
-                  state is FetchFirstSelfieTakenMilestoneSuccessState) {
-                final dynamic s = state;
-                logger.i('Navigating to achievement pages for achievement: ${s.badgeUrl}');
-                _isNavigating = true;
-
-                handleAchievementNavigationWithTheme(
-                  context: context,
-                  achievementKey: s.achievementName,
-                  badgeUrl: s.badgeUrl,
-                  nextRoute: AppRoutesName.createOutfit,
-                  isFromMyCloset: false,
-                );
-
-                _isNavigating = false;
-              }
-              if (state is MultiOutfitAccessState) {
-                if (state.accessStatus == AccessStatus.denied) {
-                  logger.w('Access denied: Navigating to payment page');
-                  context.goNamed(
-                    AppRoutesName.payment,
-                    extra: {
-                      'featureKey': FeatureKey.multiOutfit,
-                      'isFromMyCloset': false,
-                      'previousRoute': AppRoutesName.myCloset,
-                      'nextRoute': AppRoutesName.createOutfit,
-                    },
-                  );
-                } else if (state.accessStatus == AccessStatus.trialPending) {
-                  logger.i('Trial pending, navigating to trialStarted screen');
-                  context.goNamed(
-                    AppRoutesName.trialStarted,
-                    extra: {
-                      'selectedFeatureRoute': AppRoutesName.myCloset,
-                      // ✅ Correct AppRoutes value
-                      'isFromMyCloset': false,
-                    },
-                  );
-                }
-              }
-            },
-          ),
-          BlocListener<SaveOutfitItemsBloc, SaveOutfitItemsState>(
-            listener: (context, state) {
-              if (state.saveStatus == SaveStatus.success &&
-                  state.outfitId != null) {
-                logger.i('Navigating to OutfitWearProvider for outfitId: ${state
-                    .outfitId}');
-                context.goNamed(
-                    AppRoutesName.wearOutfit, extra: state.outfitId);
-              }
-              if (state.saveStatus == SaveStatus.failure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(S
-                      .of(context)
-                      .failedToSaveOutfit)),
-                );
-              }
-            },
-          ),
-          BlocListener<FetchOutfitItemBloc, FetchOutfitItemState>(
-            listener: (context, state) {
-              logger.i(
-                  'CreateOutfitItemBloc listener triggered with state: $state');
-
-              // Show SnackBar if no items are selected
-              if (!state.hasSelectedItems && !_snackBarShown &&
-                  !_isNavigating && newOutfitCount == 0) {
-                _isNavigating =
-                true; // Prevent the SnackBar from showing during navigation
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  final snackBar = CustomSnackbar(
-                    message: S
-                        .of(context)
-                        .selectItemsToCreateOutfit,
-                    theme: Theme.of(context),
-                  );
-                  snackBar.show(
-                      context); // Call show separately, don't treat it like a value
-                  _snackBarShown =
-                  true; // Set the flag to true after the snackbar is shown
-                  _isNavigating = false; // Reset after SnackBar is shown
-                });
-              }
-            },
-          ),
-        ],
+      child: MyOutfitBlocListeners(
+        logger: logger,
+        newOutfitCount: newOutfitCount,
         child: PopScope(
           canPop: false,
           child: Scaffold(
@@ -416,7 +252,7 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                                       .of(context)
                                       .failedToLoadItems));
                             } else if (currentItems.isEmpty) {
-                              _snackBarShown = false;
+                              context.read<NavigationStatusCubit>().setSnackBarShown(false);
                               return Center(
                                   child: Text(S
                                       .of(context)

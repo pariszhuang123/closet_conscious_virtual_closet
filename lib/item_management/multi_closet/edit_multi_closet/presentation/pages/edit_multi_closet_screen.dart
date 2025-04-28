@@ -158,7 +158,7 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
           logger.i('Pop invoked: didPop = $didPop, result = $result');
           if (!didPop) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              context.goNamed(AppRoutesName.myCloset);
+              context.goNamed(AppRoutesName.viewMultiCloset);
             });
           }
         },
@@ -172,8 +172,8 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                   logger.i('BackButton: Navigator can pop, popping...');
                   navigator.pop();
                 } else {
-                  logger.i('BackButton: Navigator cannot pop, going to MyCloset.');
-                  context.goNamed(AppRoutesName.myCloset);
+                  logger.i('BackButton: Navigator cannot pop, going to ViewMultiCloset.');
+                  context.goNamed(AppRoutesName.viewMultiCloset);
                 }
               },
             ),

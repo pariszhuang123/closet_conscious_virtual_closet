@@ -16,6 +16,8 @@ import '../../item_management/core/presentation/bloc/single_selection_item_cubit
 import '../../core/data/services/core_fetch_services.dart';
 import '../../core/data/services/core_save_services.dart';
 import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../core/presentation/bloc/navigation_status_cubit/navigation_status_cubit.dart';
+
 
 class MyOutfitProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -90,6 +92,9 @@ class MyOutfitProvider extends StatelessWidget {
               coreSaveService: coreSaveService,
             );
           },
+        ),
+        BlocProvider(
+          create: (context) => NavigationStatusCubit(),
         ),
       ],
       child: MyOutfitScreen(
