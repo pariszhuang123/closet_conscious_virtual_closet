@@ -105,12 +105,16 @@ class PaymentScreenState extends State<PaymentScreen> {
 
     if (widget.previousRoute == AppRoutesName.editItem && widget.itemId != null) {
       _logger.i('Navigating back to EditItem with itemId: ${widget.itemId}');
-      Navigator.pop(context);
-      Navigator.pop(context,  widget.itemId);
+      context.goNamed(
+        AppRoutesName.editItem,
+        extra: widget.itemId,
+      );
     } else if (widget.previousRoute == AppRoutesName.wearOutfit && widget.outfitId != null) {
       _logger.i('Navigating back to WearOutfit with outfitId: ${widget.outfitId}');
-      Navigator.pop(context);
-      Navigator.pop(context, widget.outfitId);
+      context.goNamed(
+        AppRoutesName.wearOutfit,
+        extra: widget.outfitId,
+      );
     } else if (widget.previousRoute == AppRoutesName.myCloset) {
       _logger.i('Navigating back to MyCloset without specific arguments.');
       context.goNamed(
@@ -158,7 +162,7 @@ class PaymentScreenState extends State<PaymentScreen> {
       },
       builder: (context, state) {
         // Show a loading indicator when payment is in progress
-        bool isLoading = state is PaymentInProgress;
+        bool isLoading = state is PaymentInProgress || state is PaymentPendingState;
 
         return PopScope<Object?>(
           canPop: false, // Preventing back navigation

@@ -56,7 +56,7 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
         listeners: [
           // Listen for navigation and access events
           BlocListener<NavigateCoreBloc, NavigateCoreState>(
-            listener: (context, state) async {
+            listener: (context, state) {
               if (state is BronzeEditItemDeniedState ||
                   state is SilverEditItemDeniedState ||
                   state is GoldEditItemDeniedState) {
@@ -70,7 +70,7 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
 
                 paymentRequired = true; // 🚨 Mark that payment was required
 
-                final result = await navigateSafely(AppRoutesName.payment, extra: {
+                navigateSafely(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
                   'previousRoute': AppRoutesName.editItem,
@@ -78,8 +78,12 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
                   'itemId': widget.itemId,
                 });
 
-                if (result == true) {
-                  widget.logger.i('Payment completed successfully, granting access');
+              } else if (state is ItemAccessGrantedState) {
+                widget.logger.i('Upload item access granted.');
+
+                if (!paymentRequired) {
+                  widget.logger.i('No payment required, proceeding.');
+
                   onAccessGranted();
                 } else {
                   widget.logger.w('Payment was cancelled or failed, blocking access');
@@ -89,7 +93,7 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
                 widget.logger.i('Item access granted with no payment needed');
                 onAccessGranted();
               } else if (state is ItemAccessErrorState) {
-                widget.logger.e('Error checking edit access');
+                widget.logger.e('Error checking access');
               }
             },
           ),

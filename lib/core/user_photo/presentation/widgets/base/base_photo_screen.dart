@@ -59,8 +59,10 @@ abstract class BasePhotoScreenState<T extends BasePhotoScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed && !cameraInitialized) {
-      widget.logger.d('App resumed, checking camera permission again');
+    if (state == AppLifecycleState.resumed
+        && accessGranted
+        && !cameraInitialized) {
+      widget.logger.d('App resumed & access granted → rechecking camera');
       checkCameraPermission();
     }
   }
@@ -82,13 +84,12 @@ abstract class BasePhotoScreenState<T extends BasePhotoScreen>
     );
   }
 
-  Future<R?> navigateSafely<R>(String routeName, {Object? extra}) {
+  void navigateSafely(String routeName, {Object? extra}) {
     if (mounted) {
       widget.logger.d('Navigating to $routeName with extra: $extra');
-      return context.pushNamed<R>(routeName, extra: extra);
+      context.goNamed(routeName, extra: extra);
     } else {
       widget.logger.e("Cannot navigate to $routeName, widget is not mounted");
-      return Future.value(null);
     }
   }
 

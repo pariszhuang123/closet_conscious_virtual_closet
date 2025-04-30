@@ -54,7 +54,7 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
         body: MultiBlocListener(
           listeners: [
             BlocListener<NavigateCoreBloc, NavigateCoreState>(
-              listener: (context, state) async {
+              listener: (context, state) {
                 if (state is BronzeSelfieDeniedState ||
                     state is SilverSelfieDeniedState ||
                     state is GoldSelfieDeniedState) {
@@ -66,7 +66,7 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
 
                   paymentRequired = true; // 🚨 Payment is required
 
-                  final result = await navigateSafely(AppRoutesName.payment, extra: {
+                  navigateSafely(AppRoutesName.payment, extra: {
                     'featureKey': featureKey,
                     'isFromMyCloset': true,
                     'previousRoute': AppRoutesName.wearOutfit,
@@ -74,8 +74,12 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
                     'outfitId': widget.outfitId,
                   });
 
-                  if (result == true) {
-                    widget.logger.i('Payment completed successfully, granting access');
+                } else if (state is ItemAccessGrantedState) {
+                  widget.logger.i('Upload item access granted.');
+
+                  if (!paymentRequired) {
+                    widget.logger.i('No payment required, proceeding.');
+
                     onAccessGranted();
                   } else {
                     widget.logger.w('Payment was cancelled or failed, blocking access');
@@ -85,7 +89,7 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
                   widget.logger.i('Item access granted with no payment needed');
                   onAccessGranted();
                 } else if (state is ItemAccessErrorState) {
-                  widget.logger.e('Error checking edit access');
+                  widget.logger.e('Error checking access');
                 }
               },
             ),

@@ -57,7 +57,7 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
       body: MultiBlocListener(
         listeners: [
           BlocListener<NavigateCoreBloc, NavigateCoreState>(
-            listener: (context, state) async {
+            listener: (context, state) {
               if (state is BronzeEditClosetDeniedState ||
                   state is SilverEditClosetDeniedState ||
                   state is GoldEditClosetDeniedState) {
@@ -71,7 +71,7 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
 
                 paymentRequired = true; // 🚨 Mark payment needed
 
-                final result = await navigateSafely(AppRoutesName.payment, extra: {
+                navigateSafely(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
                   'previousRoute': AppRoutesName.editMultiCloset,
@@ -79,18 +79,21 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
                   'closetId': widget.closetId,
                 });
 
-                if (result == true) {
-                  widget.logger.i('Payment completed successfully, granting access');
+              } else if (state is ClosetAccessGrantedState) {
+                widget.logger.i('Upload item access granted.');
+
+                if (!paymentRequired) {
+                  widget.logger.i('No payment required, proceeding.');
                   onAccessGranted();
                 } else {
                   widget.logger.w('Payment was cancelled or failed, blocking access');
                   // Optionally navigate away or show a message
                 }
               } else if (state is ClosetAccessGrantedState && !paymentRequired) {
-                widget.logger.i('Item access granted with no payment needed');
+                widget.logger.i('Closet access granted with no payment needed');
                 onAccessGranted();
               } else if (state is ClosetAccessErrorState) {
-                widget.logger.e('Error checking edit access');
+                widget.logger.e('Error checking closet access');
               }
             },
           ),

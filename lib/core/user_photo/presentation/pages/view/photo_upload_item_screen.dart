@@ -57,7 +57,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
       body: MultiBlocListener(
         listeners: [
           BlocListener<NavigateCoreBloc, NavigateCoreState>(
-            listener: (context, state) async {
+            listener: (context, state) {
               if (state is BronzeUploadItemDeniedState ||
                   state is SilverUploadItemDeniedState ||
                   state is GoldUploadItemDeniedState) {
@@ -71,7 +71,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
 
                 paymentRequired = true; // 🚨 Payment required
 
-                final result = await navigateSafely(AppRoutesName.payment, extra: {
+                navigateSafely(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
                   'previousRoute': AppRoutesName.myCloset,
@@ -79,8 +79,12 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
                   'uploadSource': UploadSource.camera,
                 });
 
-                if (result == true) {
-                  widget.logger.i('Payment completed successfully, granting access');
+              } else if (state is ItemAccessGrantedState) {
+                widget.logger.i('Upload item access granted.');
+
+                if (!paymentRequired) {
+                  widget.logger.i('No payment required, proceeding.');
+
                   onAccessGranted();
                 } else {
                   widget.logger.w('Payment was cancelled or failed, blocking access');
@@ -90,7 +94,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
                 widget.logger.i('Item access granted with no payment needed');
                 onAccessGranted();
               } else if (state is ItemAccessErrorState) {
-                widget.logger.e('Error checking edit access');
+                widget.logger.e('Error checking access');
               }
             },
           ),

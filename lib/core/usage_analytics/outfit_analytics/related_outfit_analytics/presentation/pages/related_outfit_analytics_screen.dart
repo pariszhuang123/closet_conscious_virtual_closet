@@ -71,7 +71,7 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
                 },
               ),
               title: Text(
-                S.of(context).relatedOutfitsToAboveOutfit,
+                S.of(context).usageAnalyticsTitle,
                 style: effectiveTheme.textTheme.titleMedium,
               ),
             ),
