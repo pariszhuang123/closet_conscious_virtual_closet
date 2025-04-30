@@ -9,7 +9,9 @@ import '../../../../core/utilities/app_router.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/utilities/helper_functions/tutorial_helper.dart';
 import '../../../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../presentation/bloc/edit_item_bloc.dart';
 import '../../../../core/core_enums.dart';
+import '../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../presentation/widgets/edit_item_image_with_additional_features.dart';
 import '../widgets/edit_item_metadata_button.dart';
 import '../../../../core/theme/my_closet_theme.dart';
@@ -131,24 +133,40 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   style: theme.textTheme.titleMedium,
                 ),
               ),
-              body: Column(
-                children: [
-                  EditItemImageWithAdditionalFeatures(
-                    imageUrl: _imageUrl,
-                    onImageTap: _navigateToPhotoProvider,
-                    onSwapPressed: _openSwapSheet,
-                    onMetadataPressed: _openMetadataSheet,
-                  ),
-                  Expanded(
-                    child: EditItemMetadataWithButton(
-                      itemId: widget.itemId,
-                      isPendingFlow: false,
-                      onPostUpdate: () {
-                        // Handle post-update
-                      },
-                    ),
-                  ),
-                ],
+              body: BlocBuilder<EditItemBloc, EditItemState>(
+                builder: (context, state) {
+                  if (state is EditItemLoading || state is EditItemInitial) {
+                    _logger.i('Showing loading spinner while item is loading');
+                    return const Center(child: ClosetProgressIndicator());
+                  } else if (state is EditItemLoaded ||
+                      state is EditItemMetadataChanged ||
+                      state is EditItemValidationFailure ||
+                      state is EditItemValidationSuccess) {
+                    _logger.i('Building EditItemScreen content with loaded state');
+                    return Column(
+                      children: [
+                        EditItemImageWithAdditionalFeatures(
+                          imageUrl: _imageUrl,
+                          onImageTap: _navigateToPhotoProvider,
+                          onSwapPressed: _openSwapSheet,
+                          onMetadataPressed: _openMetadataSheet,
+                        ),
+                        Expanded(
+                          child: EditItemMetadataWithButton(
+                            itemId: widget.itemId,
+                            isPendingFlow: false,
+                            onPostUpdate: () {
+                              // Handle post-update if necessary
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    _logger.e('Unexpected state, showing empty fallback');
+                    return const SizedBox.shrink();
+                  }
+                },
               ),
             ),
           ),

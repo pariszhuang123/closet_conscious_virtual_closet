@@ -48,4 +48,9 @@ class LibraryPermissionHelper {
 
     return false;
   }
+  Future<bool> checkPermissionSilently() async {
+    final status = await Permission.photos.status;
+    _logger.d('Silent check: photo library permission = $status');
+    return status.isGranted;
+  }
 }

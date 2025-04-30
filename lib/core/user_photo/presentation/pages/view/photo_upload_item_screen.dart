@@ -23,6 +23,7 @@ class PhotoUploadItemScreen extends BasePhotoScreen {
 }
 
 class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScreen> {
+  bool paymentRequired = false; // 🚨 Track payment requirement
 
   @override
   void triggerAccessCheck() {
@@ -66,6 +67,10 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
                     ? FeatureKey.uploadItemSilver
                     : FeatureKey.uploadItemGold;
 
+                widget.logger.i('${featureKey.name} access denied, navigating to payment screen');
+
+                paymentRequired = true; // 🚨 Payment required
+
                 navigateSafely(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
@@ -74,8 +79,16 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
                   'uploadSource': UploadSource.camera,
                 });
               } else if (state is ItemAccessGrantedState) {
-                widget.logger.d('Upload access granted.');
-                onAccessGranted();
+                widget.logger.i('Upload item access granted.');
+
+                if (!paymentRequired) {
+                  widget.logger.i('No payment required, proceeding.');
+                  onAccessGranted();
+                } else {
+                  widget.logger.i('Access granted after payment, proceeding.');
+                  onAccessGranted();
+                  paymentRequired = false; // Reset after verified
+                }
               } else if (state is ItemAccessErrorState) {
                 widget.logger.e('Error checking upload access');
               }

@@ -39,12 +39,10 @@ class CustomizeProvider extends StatelessWidget {
         BlocProvider<CustomizeBloc>(
           create: (context) {
             _logger.d('Creating CustomizeBloc with core services');
-            final bloc = CustomizeBloc(
+            return CustomizeBloc(
               coreFetchService: coreFetchService,
               coreSaveService: coreSaveService,
             );
-            _logger.i('Adding LoadCustomizeEvent to CustomizeBloc');
-            return bloc;
           },
         ),
         BlocProvider<TutorialBloc>(

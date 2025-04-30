@@ -23,6 +23,8 @@ class PhotoEditClosetScreen extends BasePhotoScreen {
 }
 
 class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScreen> {
+  bool paymentRequired = false; // 🚨 Track if payment was needed
+
   @override
   void triggerAccessCheck() {
     // Dispatch event specific for closet editing
@@ -65,6 +67,10 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
                     ? FeatureKey.editClosetSilver
                     : FeatureKey.editClosetGold;
 
+                widget.logger.i('${featureKey.name} access denied, navigating to payment screen');
+
+                paymentRequired = true; // 🚨 Mark payment needed
+
                 navigateSafely(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
@@ -73,7 +79,16 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
                   'closetId': widget.closetId,
                 });
               } else if (state is ClosetAccessGrantedState) {
-                onAccessGranted();
+                widget.logger.i('Closet access granted.');
+
+                if (!paymentRequired) {
+                  widget.logger.i('No payment required, proceeding to access.');
+                  onAccessGranted();
+                } else {
+                  widget.logger.i('Access granted after payment, proceeding.');
+                  onAccessGranted();
+                  paymentRequired = false; // Reset payment tracking
+                }
               } else if (state is ClosetAccessErrorState) {
                 widget.logger.e('Error checking edit access');
               }

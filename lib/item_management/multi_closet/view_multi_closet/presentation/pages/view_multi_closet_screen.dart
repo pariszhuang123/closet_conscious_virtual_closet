@@ -28,6 +28,7 @@ class ViewMultiClosetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<CrossAxisCountCubit>().fetchCrossAxisCount(); // Fetch crossAxisCount
+    context.read<ViewMultiClosetBloc>().add(FetchViewMultiClosetsEvent());
     context.read<MultiClosetNavigationBloc>().add(CheckMultiClosetAccessEvent());
     context.read<TutorialBloc>().add(
       const CheckTutorialStatus(TutorialType.paidMultiCloset),
@@ -145,7 +146,7 @@ class ViewMultiClosetScreen extends StatelessWidget {
 
                 return BlocBuilder<ViewMultiClosetBloc, ViewMultiClosetState>(
                   builder: (context, state) {
-                    if (state is ViewMultiClosetsLoading) {
+                    if (state is ViewMultiClosetsLoading || state is ViewMultiClosetsInitial) {
                       return const Center(child: ClosetProgressIndicator());
                     } else if (state is ViewMultiClosetsLoaded) {
                       return ClosetGridWidget(

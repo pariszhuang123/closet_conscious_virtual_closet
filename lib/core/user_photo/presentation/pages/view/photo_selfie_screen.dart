@@ -26,6 +26,8 @@ class PhotoSelfieScreen extends BasePhotoScreen {
 }
 
 class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
+  bool paymentRequired = false; // 🚨 Track if payment was needed
+
   @override
   void triggerAccessCheck() {
     navigateCoreBloc.add(const CheckSelfieCreationAccessEvent());
@@ -62,6 +64,8 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
                       ? FeatureKey.selfieSilver
                       : FeatureKey.selfieGold;
 
+                  paymentRequired = true; // 🚨 Payment is required
+
                   navigateSafely(AppRoutesName.payment, extra: {
                     'featureKey': featureKey,
                     'isFromMyCloset': true,
@@ -70,7 +74,16 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
                     'outfitId': widget.outfitId,
                   });
                 } else if (state is ItemAccessGrantedState) {
-                  onAccessGranted();
+                  widget.logger.i('Item access granted for selfie.');
+
+                  if (!paymentRequired) {
+                    widget.logger.i('No payment needed, proceeding.');
+                    onAccessGranted();
+                  } else {
+                    widget.logger.i('Access granted after payment, proceeding.');
+                    onAccessGranted();
+                    paymentRequired = false; // Reset payment tracking
+                  }
                 } else if (state is ItemAccessErrorState) {
                   widget.logger.e('Error checking selfie access');
                 }

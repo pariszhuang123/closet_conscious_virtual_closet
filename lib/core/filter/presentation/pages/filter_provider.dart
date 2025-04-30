@@ -44,12 +44,10 @@ class FilterProvider extends StatelessWidget {
         BlocProvider<FilterBloc>(
           create: (context) {
             logger.d('Initializing FilterBloc with core services');
-            final filterBloc = FilterBloc(
+            return FilterBloc(
               coreFetchService: coreFetchService,
               coreSaveService: coreSaveService,
             );
-            filterBloc.add(LoadFilterEvent());
-            return filterBloc;
           },
         ),
 
@@ -57,9 +55,7 @@ class FilterProvider extends StatelessWidget {
         BlocProvider<CrossAxisCountCubit>(
           create: (context) {
             logger.d('Initializing CrossAxisCountCubit');
-            final crossAxisCubit = CrossAxisCountCubit(coreFetchService: coreFetchService);
-            crossAxisCubit.fetchCrossAxisCount(); // Trigger initial fetch
-            return crossAxisCubit;
+            return CrossAxisCountCubit(coreFetchService: coreFetchService);
           },
         ),
         BlocProvider<TutorialBloc>(

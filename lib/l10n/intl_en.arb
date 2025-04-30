@@ -216,7 +216,7 @@
   "myOutfitOfTheDay": "My Outfit of the Day",
   "date": "Date",
   "noItemsFound": "No items found.",
-  "styleOn": "Review Outfit",
+  "styleOn": "Confirm Outfit",
   "like": "Love it!\n😍",
   "alright": "Not sure\n🤷‍♀️",
   "dislike": "Not quite\nmy vibe 🤔",
@@ -524,6 +524,7 @@
   "reminderDialogContent": "Would you like me to remind you later to upload your closet?",
   "showMore": "Show More",
   "showLess": "Show Less",
+  "pickingDateAndTime": "Picking date & time…",
 
   "tutorialFreePhotoLibraryTitle": "Upload from Photo Library",
   "tutorialClosetUploadedTitle": "Closet Upload Tutorial",

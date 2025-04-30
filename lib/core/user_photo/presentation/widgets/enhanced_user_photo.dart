@@ -81,7 +81,7 @@ class EnhancedUserPhoto extends StatelessWidget {
               ),
             ),
             if (itemName != null || pricePerWear != null) ...[
-              const SizedBox(height: 2.0),
+              const SizedBox(height: 1.0),
               Flexible(
                 child: Column(
                   children: [

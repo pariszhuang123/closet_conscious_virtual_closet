@@ -216,7 +216,7 @@
   "myOutfitOfTheDay": "我的今日造型",
   "date": "日期",
   "noItemsFound": "未找到物品。",
-  "styleOn": "评论造型",
+  "styleOn": "确认穿搭",
   "like": "爱它！😍",
   "alright": "不确定\n🤷‍♀️",
   "dislike": "不太适合我 🤔",
@@ -524,6 +524,7 @@
   "reminderDialogContent": "您想让我稍后提醒您上传衣橱吗？",
   "showMore": "展开更多",
   "showLess": "收起",
+  "pickingDateAndTime": "正在选择日期和时间…",
 
   "tutorialFreePhotoLibraryTitle": "从相册上传",
   "tutorialClosetUploadedTitle": "衣橱上传教程",

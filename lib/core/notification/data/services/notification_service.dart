@@ -139,30 +139,35 @@ class NotificationService {
     if (!context.mounted || selected == null) return;
 
     final scheduledTime = TimezoneService.toLocalTZ(selected);
-    final delay = scheduledTime.difference(DateTime.now());
 
-    if (delay.isNegative) {
-      _logger.w('Scheduled time is in the past. Aborting.');
-      return;
-    }
+    await scheduleReminder(scheduledTime);
 
-    await Workmanager().registerOneOffTask(
-      'closet_reminder_${selected.millisecondsSinceEpoch}',
-      'show_closet_reminder',
-      initialDelay: delay,
-      inputData: {
-        'title': _localized('title'),
-        'body': _localized('body'),
-        'scheduled_at': DateTime.now().toIso8601String(),
-      },
-    );
-
-    _logger.i('✅ WorkManager task registered for: $scheduledTime');
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Reminder set for ${scheduledTime.toLocal()}')),
       );
     }
+  }
+
+  static Future<void> scheduleReminder(DateTime when) async {
+    final delay = when.difference(DateTime.now());
+    if (delay.isNegative) {
+      _logger.w('Scheduled time is in the past: $when');
+      return;
+    }
+
+    await Workmanager().registerOneOffTask(
+      'closet_reminder_${when.millisecondsSinceEpoch}',
+      'show_closet_reminder',
+      initialDelay: delay,
+      inputData: {
+        'title': _localized('title'),
+        'body':  _localized('body'),
+        'scheduled_at': DateTime.now().toIso8601String(),
+      },
+    );
+    _logger.i('✅ Reminder scheduled for $when');
+
   }
 
   static String _localized(String key) {

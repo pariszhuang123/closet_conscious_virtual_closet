@@ -10,6 +10,7 @@ import '../../../theme/my_closet_theme.dart';
 import '../../../theme/my_outfit_theme.dart';
 import '../../../widgets/button/themed_elevated_button.dart';
 import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../../widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../core_enums.dart';
 import '../../../utilities/logger.dart';
 import '../../../utilities/app_router.dart';
@@ -51,8 +52,8 @@ class _FilterScreenState extends State<FilterScreen> {
 
     context.read<FilterBloc>().add(CheckFilterAccessEvent());
     context.read<FilterBloc>().add(CheckMultiClosetFeatureEvent());
-
-    // 👇 Your desired tutorial event
+    context.read<FilterBloc>().add(LoadFilterEvent());
+    context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
     context.read<TutorialBloc>().add(
       const CheckTutorialStatus(TutorialType.paidFilter),
     );
@@ -174,8 +175,14 @@ class _FilterScreenState extends State<FilterScreen> {
               ],
               child: BlocBuilder<FilterBloc, FilterState>(
                 builder: (context, state) {
-                  if (state.saveStatus == SaveStatus.inProgress || state.saveStatus == SaveStatus.failure) {
-                    return const ClosetProgressIndicator();
+                  if (state.saveStatus == SaveStatus.inProgress || state.saveStatus == SaveStatus.initial || state.saveStatus == SaveStatus.failure) {
+                    _logger.i('Showing loading spinner based on isFromMyCloset');
+
+                    return Center(
+                      child: widget.isFromMyCloset
+                          ? const ClosetProgressIndicator()
+                          : const OutfitProgressIndicator(),
+                    );
                   }
 
                   return Column(

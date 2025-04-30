@@ -4,7 +4,7 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../utilities/log_bread_crumb.dart';
-import '../../../widgets/progress_indicator/outfit_progress_indicator.dart';
+import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../utilities/logger.dart';
 import '../bloc/photo_library_bloc.dart';
 import '../../../../generated/l10n.dart';
@@ -208,8 +208,8 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
         builder: (context, state) {
           _logger.i('Builder: Current PhotoLibraryBloc state: ${state.runtimeType}');
 
-          if (state is PhotoLibraryInitial) {
-            return const Center(child: OutfitProgressIndicator());
+          if (state is PhotoLibraryInitial || state is PhotoLibraryLoadingImages) {
+            return const Center(child: ClosetProgressIndicator());
           }
 
           if (state is PhotoLibraryFailure) {
@@ -217,61 +217,67 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
             return Center(child: Text(S.of(context).failedToLoadImages));
           }
 
+          if (state is PhotoLibraryReady ||
+              state is PhotoLibraryPendingItem ||
+              state is PhotoLibraryNoPendingItem ||
+              state is PhotoLibraryMaxSelectionReached) {
+
             final selectedAssets = context.select<PhotoLibraryBloc, List<AssetEntity>>(
                   (bloc) => bloc.selectedImages,
             );
 
             _logger.d('Rendering item grid with ${selectedAssets.length} selected images');
 
-          return Column(
-            children: [
-              if (state is PhotoLibraryPendingItem)
-                PhotoLibraryContainer(
-                  theme: Theme.of(context),
-                  onViewPendingUploadButtonPressed: () {
-                    context.goNamed(AppRoutesName.viewPendingItem);
+            return Column(
+              children: [
+                if (state is PhotoLibraryPendingItem)
+                  PhotoLibraryContainer(
+                    theme: Theme.of(context),
+                    onViewPendingUploadButtonPressed: () {
+                      context.goNamed(AppRoutesName.viewPendingItem);
+                    },
+                  ),
+                const Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+                    child: PendingInteractiveItemGrid(
+                      crossAxisCount: 3,
+                      enablePricePerWear: false,
+                      enableItemName: false,
+                      isOutfit: false,
+                      isLocalImage: true,
+                    ),
+                  ),
+                ),
+                BlocBuilder<PhotoLibraryBloc, PhotoLibraryState>(
+                  builder: (context, state) {
+                    final isLoading = state is PhotoLibraryUploading;
+                    final selectedAssets = context.watch<PhotoLibraryBloc>().selectedImages;
+                    if (selectedAssets.isEmpty) return const SizedBox.shrink();
+
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: UploadButtonWithProgress(
+                        isLoading: isLoading,
+                        onPressed: () {
+                          logBreadcrumb('Upload button pressed', category: 'photo.upload', data: {'selectedCount': selectedAssets.length});
+
+                          context.read<PhotoLibraryBloc>().add(
+                            UploadSelectedLibraryImages(assets: selectedAssets),
+                          );
+                        },
+                        text: S.of(context).upload,
+                        isFromMyCloset: true,
+                      ),
+                    );
                   },
                 ),
-              const Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                    vertical: 4.0,
-                  ),
-                  child: PendingInteractiveItemGrid(
-                    crossAxisCount: 3,
-                    enablePricePerWear: false,
-                    enableItemName: false,
-                    isOutfit: false,
-                    isLocalImage: true,
-                  ),
-                ),
-              ),
-              BlocBuilder<PhotoLibraryBloc, PhotoLibraryState>(
-                builder: (context, state) {
-                  final isLoading = state is PhotoLibraryUploading;
-                  final selectedAssets = context.watch<PhotoLibraryBloc>().selectedImages;
-                  if (selectedAssets.isEmpty) return const SizedBox.shrink();
+              ],
+            );
+          }
 
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: UploadButtonWithProgress(
-                      isLoading: isLoading,
-                      onPressed: () {
-                        logBreadcrumb('Upload button pressed', category: 'photo.upload', data: {'selectedCount': 3});
-
-                        context.read<PhotoLibraryBloc>().add(
-                          UploadSelectedLibraryImages(assets: selectedAssets),
-                        );
-                      },
-                      text: S.of(context).upload,
-                      isFromMyCloset: true,
-                    ),
-                  );
-                },
-              ),
-            ],
-          );
+          _logger.w('Unhandled state: ${state.runtimeType}');
+          return const Center(child: ClosetProgressIndicator());
         },
       ),
     );

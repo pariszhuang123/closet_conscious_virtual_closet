@@ -283,6 +283,9 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                       const SizedBox(height: 16),
                       BlocBuilder<MonthlyCalendarMetadataBloc, MonthlyCalendarMetadataState>(
                         builder: (context, state) {
+                          if (state is MonthlyCalendarLoadingState || state is MonthlyCalendarInitialState) {
+                            return const OutfitProgressIndicator();
+                          }
                           if (state is MonthlyCalendarLoadedState) {
                             final metadata = state.metadataList.first;
                             if (eventNameController.text != metadata.eventName) {
@@ -320,6 +323,9 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
                       const SizedBox(height: 8),
                       BlocBuilder<MonthlyCalendarImagesBloc, MonthlyCalendarImagesState>(
                         builder: (context, state) {
+                          if (state is MonthlyCalendarImagesLoading || state is MonthlyCalendarImagesInitial) {
+                            return const OutfitProgressIndicator();
+                          }
                           if (state is MonthlyCalendarImagesLoaded) {
                             return BlocBuilder<OutfitSelectionBloc, OutfitSelectionState>(
                               builder: (context, outfitState) {

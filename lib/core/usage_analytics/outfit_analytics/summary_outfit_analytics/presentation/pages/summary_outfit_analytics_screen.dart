@@ -19,6 +19,7 @@ import '../../../../../../outfit_management/core/presentation/bloc/outfit_select
 import '../../../../../widgets/feedback/custom_snack_bar.dart';
 import '../../../../../theme/my_outfit_theme.dart';
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
+import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import '../../../../../../outfit_management/core/data/models/outfit_data.dart';
 import '../../../../../../outfit_management/core/presentation/bloc/multi_selection_outfit_cubit/multi_selection_outfit_cubit.dart';
 import '../../../../../core_enums.dart';
@@ -161,6 +162,33 @@ class _SummaryOutfitAnalyticsScreenState
 
     return MultiBlocListener(
       listeners: [
+        BlocListener<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
+          listener: (context, state) {
+            if (state is UsageAnalyticsAccessState) {
+              if (state.accessStatus == AccessStatus.denied) {
+                _logger.w('Access denied: Navigating to payment page');
+                context.goNamed(
+                  AppRoutesName.payment,
+                  extra: {
+                    'featureKey': FeatureKey.usageAnalytics,
+                    'isFromMyCloset': widget.isFromMyCloset,
+                    'previousRoute': AppRoutesName.myCloset,
+                    'nextRoute': AppRoutesName.summaryItemsAnalytics,
+                  },
+                );
+              } else if (state.accessStatus == AccessStatus.trialPending) {
+                _logger.i('Trial pending, navigating to trialStarted screen');
+                context.goNamed(
+                  AppRoutesName.trialStarted,
+                  extra: {
+                    'selectedFeatureRoute': AppRoutesName.summaryItemsAnalytics,
+                    'isFromMyCloset': widget.isFromMyCloset,
+                  },
+                );
+              }
+            }
+          },
+        ),
         BlocListener<SummaryOutfitAnalyticsBloc, SummaryOutfitAnalyticsState>(
           listener: (context, state) {
             if (state is UpdateOutfitReviewSuccess) {
@@ -226,7 +254,7 @@ class _SummaryOutfitAnalyticsScreenState
             builder: (context, state) {
               _logger.d("Current Bloc State: $state");
 
-              if (state is SummaryOutfitAnalyticsLoading) {
+              if (state is SummaryOutfitAnalyticsLoading || state is SummaryOutfitAnalyticsInitial) {
                 return const Center(child: OutfitProgressIndicator());
               } else if (state is SummaryOutfitAnalyticsSuccess) {
                 return Column(

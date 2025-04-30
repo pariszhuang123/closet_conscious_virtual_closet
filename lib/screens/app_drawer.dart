@@ -205,10 +205,11 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  void _showUsageInsightsBottomSheet(BuildContext context,
-      bool isFromMyCloset) {
+  void _showUsageInsightsBottomSheet(BuildContext context, bool isFromMyCloset) {
     context.pushNamed(
-      AppRoutesName.summaryItemsAnalytics,
+      isFromMyCloset
+          ? AppRoutesName.summaryItemsAnalytics
+          : AppRoutesName.summaryOutfitAnalytics,
     );
   }
 

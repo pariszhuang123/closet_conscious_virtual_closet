@@ -17,7 +17,6 @@ import '../../../../utilities/helper_functions/argument_helper.dart';
 import '../../../../presentation/bloc/personalization_flow_cubit/personalization_flow_cubit.dart';
 import '../../../../core_enums.dart';
 import '../../../../notification/presentation/widgets/show_notification_prompt.dart';
-import '../../../../notification/data/services/notification_service.dart';
 
 class TutorialPopUpScreen extends StatelessWidget {
   final String tutorialInputKey;
@@ -34,11 +33,10 @@ class TutorialPopUpScreen extends StatelessWidget {
     required this.isFromMyCloset,
     this.itemId,
     this.optionalUrl,
-    required this.isFirstScenario
+    required this.isFirstScenario,
   });
 
-  void _onDismiss(BuildContext context, CustomLogger logger,
-      TutorialDismissType type) {
+  void _onDismiss(BuildContext context, CustomLogger logger, TutorialDismissType type) {
     logger.i('Tutorial dismissed with type: ${type.name}');
     context.read<TutorialBloc>().add(
       SaveTutorialProgress(
@@ -48,65 +46,59 @@ class TutorialPopUpScreen extends StatelessWidget {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
-    final CustomLogger logger = CustomLogger('TutorialPopUpScreen');
     final appliedTheme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
+    final logger = CustomLogger('TutorialPopUpScreen');
 
     logger.d('🧱 build: Using theme = ${isFromMyCloset ? "Closet" : "Outfit"}');
 
     return PopScope(
-      canPop: false, // 🚫 Block back swipe or back button
+      canPop: false,
       child: MultiBlocListener(
         listeners: [
           BlocListener<TutorialBloc, TutorialState>(
             listener: (context, state) {
               if (state is TutorialSaveSuccess) {
-                logger.i(
-                    '✅ Tutorial saved. Dismiss type: ${state.dismissType}');
+                logger.i('✅ Tutorial saved. Dismiss type: ${state.dismissType}');
                 switch (state.dismissType) {
                   case TutorialDismissType.confirmed:
                     if (optionalUrl != null && optionalUrl!.isNotEmpty) {
-                      // Redirect to WebView if URL is provided
                       context.goNamed(
                         AppRoutesName.webView,
                         extra: WebViewArguments(
                           url: optionalUrl!,
                           title: S.of(context).streakBenefitsTitle,
                           isFromMyCloset: isFromMyCloset,
-                          fallbackRouteName: AppRoutesName.myCloset
+                          fallbackRouteName: AppRoutesName.myCloset,
                         ),
                       );
                     } else if (itemId != null) {
-                      // Normal flow if itemId is passed
                       context.goNamed(
                         nextRoute,
                         extra: itemId,
                       );
                     } else {
-                      // Fallback if no itemId or url
                       context.goNamed(nextRoute);
                     }
                     break;
+
                   case TutorialDismissType.dismissed:
                     if (isFirstScenario) {
-                      // show the “do you want a reminder?” dialog
-                      NotificationReminderDialog.show(
-                        context: context,
-                        theme: appliedTheme,
-                        onConfirm: () {
-                          // when they tap “yes”, schedule the local notification
-                          NotificationService
-                              .scheduleReminderFromPicker(context)
-                              .then((_) {
-                            if (context.mounted) {
-                              context.goNamed(AppRoutesName.tutorialHub);
-                            }
-                          });
-                        },
-                      );
-                    } else {
-                      // just the normal flow
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        NotificationReminderDialog.show(
+                          context: context,
+                          theme: appliedTheme,
+                          onConfirm: () =>
+                              context.goNamed(
+                                AppRoutesName.scheduleReminderProvider,
+                                extra: appliedTheme,
+                              ),
+                        );
+                      });
+                    }
+                 else {
                       context.goNamed(AppRoutesName.tutorialHub);
                     }
                     break;
@@ -114,9 +106,7 @@ class TutorialPopUpScreen extends StatelessWidget {
               } else if (state is TutorialSaveFailure) {
                 logger.e('❌ Failed to save tutorial progress.');
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(S
-                      .of(context)
-                      .errorSavingTutorialProgress)),
+                  SnackBar(content: Text(S.of(context).errorSavingTutorialProgress)),
                 );
               }
             },
@@ -125,8 +115,7 @@ class TutorialPopUpScreen extends StatelessWidget {
             listener: (context, state) {
               final tutorialType = tutorialInputKey.toTutorialType();
               final journeyType = state.toOnboardingJourneyType();
-              logger.d(
-                  '📦 Dispatching LoadTutorialFeatureData: $tutorialType, $journeyType');
+              logger.d('📦 Dispatching LoadTutorialFeatureData: $tutorialType, $journeyType');
               context.read<TutorialBloc>().add(
                 LoadTutorialFeatureData(
                   tutorialType: tutorialType,
@@ -144,14 +133,12 @@ class TutorialPopUpScreen extends StatelessWidget {
               child: BlocBuilder<TutorialBloc, TutorialState>(
                 builder: (context, state) {
                   if (state is TutorialFeatureLoading) {
-                    logger.d(
-                        '⏳ TutorialFeatureLoading: Showing loading spinner.');
+                    logger.d('⏳ TutorialFeatureLoading: Showing loading spinner.');
                     return const Center(child: ClosetProgressIndicator());
                   }
 
                   if (state is TutorialFeatureLoaded) {
-                    logger.i(
-                        '📽️ TutorialFeatureLoaded: Showing tutorial content.');
+                    logger.i('📽️ TutorialFeatureLoaded: Showing tutorial content.');
                     final featureData = state.featureData;
 
                     return Column(
@@ -166,38 +153,29 @@ class TutorialPopUpScreen extends StatelessWidget {
                             ),
                             IconButton(
                               icon: const Icon(Icons.close),
-                              onPressed: () =>
-                                  _onDismiss(context, logger,
-                                      TutorialDismissType.dismissed),
+                              onPressed: () => _onDismiss(context, logger, TutorialDismissType.dismissed),
                             ),
                           ],
                         ),
                         const SizedBox(height: 16),
                         Expanded(
                           child: TutorialShortsCarousel(
-                            youtubeIds: featureData.videos.map((v) =>
-                            v.youtubeId).toList(),
-                            descriptions: featureData.videos.map((v) =>
-                                v.getDescription(context)).toList(),
+                            youtubeIds: featureData.videos.map((v) => v.youtubeId).toList(),
+                            descriptions: featureData.videos.map((v) => v.getDescription(context)).toList(),
                             theme: appliedTheme,
                           ),
                         ),
                         const SizedBox(height: 24),
                         ThemedElevatedButton(
-                          text: S
-                              .of(context)
-                              .iAmReady,
-                          onPressed: () =>
-                              _onDismiss(context, logger,
-                                  TutorialDismissType.confirmed),
+                          text: S.of(context).iAmReady,
+                          onPressed: () => _onDismiss(context, logger, TutorialDismissType.confirmed),
                         ),
                       ],
                     );
                   }
 
                   if (state is TutorialFeatureLoadFailure) {
-                    logger.e(
-                        '⚠️ TutorialFeatureLoadFailure: Could not load tutorial.');
+                    logger.e('⚠️ TutorialFeatureLoadFailure: Could not load tutorial.');
                     return const Center(child: ClosetProgressIndicator());
                   }
 

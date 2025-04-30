@@ -23,6 +23,8 @@ class PhotoEditItemScreen extends BasePhotoScreen {
 }
 
 class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen> {
+  bool paymentRequired = false; // 🚨 Track whether payment was needed
+
   @override
   void triggerAccessCheck() {
     // Dispatch the event to check edit item creation access
@@ -66,6 +68,8 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
 
                 widget.logger.i('${featureKey.name} access denied, navigating to payment screen');
 
+                paymentRequired = true; // 🚨 Mark that payment was required
+
                 navigateSafely(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
@@ -74,7 +78,17 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
                   'itemId': widget.itemId,
                 });
               } else if (state is ItemAccessGrantedState) {
-                onAccessGranted();
+                widget.logger.i('Item access granted');
+                if (!paymentRequired) {
+                  // ✅ Only grant access immediately if NO payment was needed
+                  widget.logger.i('No payment was needed, proceeding to access.');
+                  onAccessGranted();
+                } else {
+                  // 🚨 Payment was required, need to verify if returning after payment
+                  widget.logger.i('Access granted after payment, rechecking...');
+                  onAccessGranted();
+                  paymentRequired = false; // Reset payment required status
+                }
               } else if (state is ItemAccessErrorState) {
                 widget.logger.e('Error checking edit access');
               }

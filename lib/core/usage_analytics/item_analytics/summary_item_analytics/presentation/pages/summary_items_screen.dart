@@ -238,7 +238,7 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                     'BlocBuilder - Summary Section: Current state = ${state.runtimeType}'
                 );
 
-                if (state is SummaryItemsLoading) {
+                if (state is SummaryItemsLoading || state is SummaryItemsInitial) {
                   return const ClosetProgressIndicator();
                 } else if (state is SummaryItemsLoaded) {
                   logger.i(

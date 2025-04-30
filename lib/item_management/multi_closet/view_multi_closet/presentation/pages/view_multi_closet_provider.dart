@@ -37,14 +37,12 @@ class ViewMultiClosetProvider extends StatelessWidget {
         BlocProvider(
           create: (_) => ViewMultiClosetBloc(
             fetchService: coreFetchService,
-          )..add(FetchViewMultiClosetsEvent()),
+          ),
         ),
         BlocProvider(
           create: (_) {
-            logger.d('Initializing CrossAxisCountCubit');
-            final cubit = CrossAxisCountCubit(coreFetchService: coreFetchService);
-            cubit.fetchCrossAxisCount(); // Trigger initial fetch
-            return cubit;
+            logger.d('Creating CrossAxisCountCubit');
+            return CrossAxisCountCubit(coreFetchService: coreFetchService);
           },
         ),
         BlocProvider<TutorialBloc>(

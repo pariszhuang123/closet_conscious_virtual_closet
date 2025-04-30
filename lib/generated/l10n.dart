@@ -2210,10 +2210,10 @@ class S {
     );
   }
 
-  /// `Review Outfit`
+  /// `Confirm Outfit`
   String get styleOn {
     return Intl.message(
-      'Review Outfit',
+      'Confirm Outfit',
       name: 'styleOn',
       desc: '',
       args: [],
@@ -5286,6 +5286,16 @@ class S {
     return Intl.message(
       'Show Less',
       name: 'showLess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Picking date & time…`
+  String get pickingDateAndTime {
+    return Intl.message(
+      'Picking date & time…',
+      name: 'pickingDateAndTime',
       desc: '',
       args: [],
     );

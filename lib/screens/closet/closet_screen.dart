@@ -3,14 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/core_enums.dart';
-import '../../core/widgets/feedback/custom_snack_bar.dart';
-import '../../core/achievement_celebration/helper/achievement_navigator.dart';
 import '../../core/utilities/app_router.dart';
 import '../../core/utilities/logger.dart';
-import '../../core/utilities/helper_functions/tutorial_helper.dart';
 import '../../core/theme/ui_constant.dart';
 import '../../core/widgets/progress_indicator/closet_progress_indicator.dart';
-import '../../core/widgets/dialog/trial_ended_dialog.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
 import '../../core/widgets/layout/grid/interactive_item_grid.dart';
@@ -27,6 +23,7 @@ import '../../core/widgets/bottom_sheet/premium_bottom_sheet/public_closet_premi
 import '../../item_management/upload_item/presentation/widgets/upload_confirmation_bottom_sheet.dart';
 import '../app_drawer.dart';
 import '../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
+import 'my_closet_bloc_listeners.dart';
 
 class MyClosetScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -227,141 +224,8 @@ class MyClosetScreenState extends State<MyClosetScreen> {
 
     return Theme(
       data: widget.myClosetTheme,
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<PhotoLibraryBloc, PhotoLibraryState>(
-            listener: (context, state) {
-              if (state is PhotoLibraryPendingItem) {
-                context.pushNamed(AppRoutesName.viewPendingItem);
-              } else if (state is PhotoLibraryNoPendingItem) {
-                context.pushNamed(AppRoutesName.pendingPhotoLibrary);
-              }
-            },
-          ),
-          BlocListener<FirstTimeScenarioBloc, FirstTimeScenarioState>(
-            listenWhen: (previous, current) => current is FirstTimeCheckSuccess,
-            listener: (context, state) {
-              if (state is FirstTimeCheckSuccess && state.isFirstTime) {
-                context.goNamed(AppRoutesName.goalSelectionProvider);
-              }
-            },
-          ),
-          BlocListener<NavigateItemBloc, NavigateItemState>(
-            listener: (context, state) {
-              if (state is FetchFirstItemUploadedMilestoneSuccessState ||
-                  state is FetchFirstItemGiftedMilestoneSuccessState ||
-                  state is FetchFirstItemSoldMilestoneSuccessState ||
-                  state is FetchFirstItemSwapMilestoneSuccessState ||
-                  state is FetchFirstItemPicEditedMilestoneSuccessState) {
-                final dynamic s = state;
-                handleAchievementNavigationWithTheme(
-                  context: context,
-                  achievementKey: s.achievementName,
-                  badgeUrl: s.badgeUrl,
-                  nextRoute: AppRoutesName.myCloset,
-                  isFromMyCloset: true,
-                );
-              }
-              if (state is FetchDisappearedClosetsSuccessState) {
-                context.pushNamed(
-                  AppRoutesName.reappearCloset,
-                  extra: {
-                    'closetId': state.closetId,
-                    'closetName': state.closetName,
-                    'closetImage': state.closetImage,
-                  },
-                );
-              }
-              if (state is TrialEndedSuccessState) {
-                logger.i(
-                    'Trial has ended');
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  // Prevent dismissing by clicking elsewhere
-                  builder: (BuildContext dialogContext) {
-                    return TrialEndedDialog(
-                      onClose: () {
-                        Navigator.of(dialogContext).pop(); // Close the dialog
-                      },
-                    );
-                  },
-                );
-              }
-            },
-          ),
-          BlocListener<UploadStreakBloc, UploadStreakState>(
-            listener: (context, state) {
-              if (state is UploadStreakSuccess) {
-                if (!state.isUploadCompleted) {
-                  // Optional: still show snack if closet is empty and not uploaded
-                  if (state.apparelCount == 0) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      CustomSnackbar(
-                        message: S.of(context).clickUploadItemInCloset,
-                        theme: Theme.of(context),
-                      ).show(context);
-                    });
-                  }
-
-                  return; // ❌ Don’t trigger tutorial if not uploaded
-                }
-
-                final firstTimeState = context.read<FirstTimeScenarioBloc>().state;
-
-                final isNotFirstTimeUser = firstTimeState is FirstTimeCheckFailure ||
-                    (firstTimeState is FirstTimeCheckSuccess && !firstTimeState.isFirstTime);
-
-                if (isNotFirstTimeUser) {
-                  _lastTriggeredTutorialType = TutorialType.freeClosetUpload;
-                  context.read<TutorialBloc>().add(
-                    const CheckTutorialStatus(TutorialType.freeClosetUpload),
-                  );
-                }
-              }
-            },
-          ),
-          BlocListener<TutorialBloc, TutorialState>(
-            listener: (context, tutorialState) {
-              logger.i('👂 TutorialBloc state received: ${tutorialState.runtimeType}');
-
-              if (tutorialState is ShowTutorial) {
-                switch (_lastTriggeredTutorialType) {
-                  case TutorialType.freeUploadCamera:
-                    logger.i('📽 Showing tutorial popup for freeUploadCamera');
-                    context.goNamed(
-                      AppRoutesName.tutorialVideoPopUp,
-                      extra: {
-                        'nextRoute': AppRoutesName.uploadItemPhoto,
-                        'tutorialInputKey': TutorialType.freeUploadCamera.value,
-                        'isFromMyCloset': true,
-                      },
-                    );
-                    break;
-                  case TutorialType.freeClosetUpload:
-                    logger.i('📽 Showing tutorial popup for freeClosetUpload');
-                    context.goNamed(
-                      AppRoutesName.tutorialVideoPopUp,
-                      extra: {
-                        'nextRoute': AppRoutesName.webView,
-                        'tutorialInputKey': TutorialType.freeClosetUpload.value,
-                        'isFromMyCloset': true,
-                        'optionalUrl': S.of(context).streakBenefitsUrl,
-                      },
-                    );
-                    break;
-                  default:
-                    logger.w('⚠️ TutorialType is null or unsupported: $_lastTriggeredTutorialType');
-                    break;
-                }
-              } else if (tutorialState is SkipTutorial) {
-                if (_lastTriggeredTutorialType == TutorialType.freeUploadCamera) {
-                  context.pushNamed(AppRoutesName.uploadItemPhoto);
-                }
-              }
-            },
-          )
-        ],
+      child: MyClosetBlocListeners(
+        lastTriggeredTutorialType: _lastTriggeredTutorialType,
         child: Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(appBarHeight),

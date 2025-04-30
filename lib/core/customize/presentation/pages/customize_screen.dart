@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../../widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../presentation/bloc/customize_bloc.dart';
 import '../../../core_enums.dart';
 import '../../../data/type_data.dart';
@@ -144,8 +145,16 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
             ],
             child: BlocBuilder<CustomizeBloc, CustomizeState>(
               builder: (context, state) {
-                if (state.saveStatus == SaveStatus.inProgress) {
-                  return const Center(child: ClosetProgressIndicator());
+                final theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
+
+                if (state.saveStatus == SaveStatus.inProgress || state.saveStatus == SaveStatus.initial || state.saveStatus == SaveStatus.failure) {
+                  _logger.i('Showing loading spinner based on isFromMyCloset');
+
+                  return Center(
+                    child: widget.isFromMyCloset
+                        ? const ClosetProgressIndicator()
+                        : const OutfitProgressIndicator(),
+                  );
                 }
 
                 return Column(

@@ -46,6 +46,7 @@ import '../usage_analytics/outfit_analytics/related_outfit_analytics/presentatio
 import '../paywall/presentation/pages/payment_provider.dart';
 import '../user_photo/presentation/pages/photo_provider.dart';
 import '../customize/presentation/pages/customize_provider.dart';
+import '../notification/presentation/pages/schedule_reminder_provider.dart';
 import '../filter/presentation/pages/filter_provider.dart';
 import '../core_enums.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
@@ -90,6 +91,7 @@ abstract class AppRoutesName {
   static const String tutorialVideoPopUp = 'tutorial_video_pop_up';
   static const String tutorialHub = 'tutorial_hub';
   static const String goalSelectionProvider = 'goal_selection_provider';
+  static const String scheduleReminderProvider = 'schedule_reminder_provider';
 }
 
 GoRouter appRouter = GoRouter(
@@ -661,6 +663,18 @@ GoRouter appRouter = GoRouter(
             key: state.pageKey,
             child: const GoalSelectionProvider(),
             transitionType: TransitionType.fadeScale,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/schedule_reminder_provider',
+        name: 'schedule_reminder_provider',
+        pageBuilder: (context, state) {
+          final theme = state.extra as ThemeData;
+          return buildCustomTransitionPage(
+            key: state.pageKey,
+            child: ScheduleReminderProvider(theme: theme),
+            transitionType: TransitionType.slideFadeFromBottom,
           );
         },
       ),

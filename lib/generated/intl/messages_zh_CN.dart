@@ -892,6 +892,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("允许完整访问？"),
         "photo_library_permission_explanation":
             MessageLookupByLibrary.simpleMessage("我们需要访问您的相册，以便您可以选择并上传喜爱的穿搭。"),
+        "pickingDateAndTime":
+            MessageLookupByLibrary.simpleMessage("正在选择日期和时间…"),
         "pleaseCorrectTheErrors":
             MessageLookupByLibrary.simpleMessage("请更正表单中的错误。"),
         "pleaseEnterItemName": MessageLookupByLibrary.simpleMessage("请输入物品名称"),
@@ -999,7 +1001,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("你的坚持，你的奖励"),
         "streakBenefitsUrl": MessageLookupByLibrary.simpleMessage(
             "https://www.notion.so/6907d8903bc0406abcc910c4d99b249c?pvs=4#106b40335c2d80f99440f588d07aa654"),
-        "styleOn": MessageLookupByLibrary.simpleMessage("评论造型"),
+        "styleOn": MessageLookupByLibrary.simpleMessage("确认穿搭"),
         "success": MessageLookupByLibrary.simpleMessage("成功"),
         "summaryItemAnalytics": MessageLookupByLibrary.simpleMessage("物品洞察"),
         "summaryOutfitAnalytics": MessageLookupByLibrary.simpleMessage("穿搭洞察"),

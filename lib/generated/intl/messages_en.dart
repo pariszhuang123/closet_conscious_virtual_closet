@@ -1027,6 +1027,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "photo_library_permission_explanation":
             MessageLookupByLibrary.simpleMessage(
                 "We need access to your photo library so you can select and upload your favorite outfits."),
+        "pickingDateAndTime":
+            MessageLookupByLibrary.simpleMessage("Picking date & time…"),
         "pleaseCorrectTheErrors": MessageLookupByLibrary.simpleMessage(
             "Please correct the errors in the form."),
         "pleaseEnterItemName":
@@ -1164,7 +1166,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Your Streak, Your Style, Your Rewards"),
         "streakBenefitsUrl": MessageLookupByLibrary.simpleMessage(
             "https://www.notion.so/Pricing-0b17492513594b7b8975ec686eac1adf?pvs=4#cf77b531351848ed9be7ef80e95d6c2a"),
-        "styleOn": MessageLookupByLibrary.simpleMessage("Review Outfit"),
+        "styleOn": MessageLookupByLibrary.simpleMessage("Confirm Outfit"),
         "success": MessageLookupByLibrary.simpleMessage("Success"),
         "summaryItemAnalytics":
             MessageLookupByLibrary.simpleMessage("Item\nInsights"),
