@@ -12,10 +12,11 @@ import 'closet_screen.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../core/data/services/core_fetch_services.dart';
 import '../../core/data/services/core_save_services.dart';
-import '../../core/photo_library/presentation/bloc/photo_library_bloc.dart';
+import '../../core/photo_library/presentation/bloc/photo_library_bloc/photo_library_bloc.dart';
 import '../../core/photo_library/usecase/photo_library_service.dart';
 import '../../core/tutorial/scenario/presentation/bloc/first_time_scenario_bloc.dart';
 import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../core/tutorial/core/presentation/bloc/tutorial_cubit.dart';
 
 class MyClosetProvider extends StatelessWidget {
   final ThemeData myClosetTheme;
@@ -80,6 +81,9 @@ class MyClosetProvider extends StatelessWidget {
               coreSaveService: coreSaveService,
             );
           },
+        ),
+        BlocProvider<TutorialTypeCubit>(
+          create: (_) => TutorialTypeCubit(),
         ),
       ],
       child: MyClosetScreen(

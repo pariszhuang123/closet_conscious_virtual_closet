@@ -7,7 +7,7 @@ import '../../../utilities/logger.dart';
 import '../../../utilities/helper_functions/image_helper/image_helper.dart';
 import '../../../widgets/layout/grid_item/grid_item.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
-import '../bloc/photo_library_bloc.dart';
+import '../bloc/photo_library_bloc/photo_library_bloc.dart';
 import '../../../../generated/l10n.dart';
 
 class PendingInteractiveItemGrid extends StatelessWidget {

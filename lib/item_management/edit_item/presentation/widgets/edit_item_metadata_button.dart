@@ -12,7 +12,7 @@ import '../../presentation/widgets/edit_item_metadata.dart';
 import '../../../../core/utilities/app_router.dart';
 import '../../../declutter_items/presentation/widgets/declutter_options_bottom_sheet.dart';
 import '../../../../core/utilities/logger.dart';
-import '../../../../core/photo_library/presentation/bloc/photo_library_bloc.dart';
+import '../../../../core/photo_library/presentation/bloc/photo_library_bloc/photo_library_bloc.dart';
 
 class EditItemMetadataWithButton extends StatefulWidget {
   final String itemId;

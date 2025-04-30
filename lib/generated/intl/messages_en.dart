@@ -1372,7 +1372,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "usageAnalyticsFeatureTitle":
             MessageLookupByLibrary.simpleMessage("Your Closet Insights"),
         "usageAnalyticsTitle":
-            MessageLookupByLibrary.simpleMessage("Usage Analytics"),
+            MessageLookupByLibrary.simpleMessage("Closet Analytics"),
         "usageInsights": MessageLookupByLibrary.simpleMessage("Usage Insights"),
         "validDate": MessageLookupByLibrary.simpleMessage("Valid Date"),
         "validation_error": MessageLookupByLibrary.simpleMessage(

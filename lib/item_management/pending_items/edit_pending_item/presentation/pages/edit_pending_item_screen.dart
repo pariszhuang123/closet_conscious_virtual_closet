@@ -8,7 +8,7 @@ import '../../../../../core/widgets/bottom_sheet/premium_bottom_sheet/metadata_p
 import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/utilities/logger.dart';
 import '../../../../edit_item/presentation/widgets/edit_item_image_with_additional_features.dart';
-import '../../../../../core/photo_library/presentation/bloc/photo_library_bloc.dart';
+import '../../../../../core/photo_library/presentation/bloc/photo_library_bloc/photo_library_bloc.dart';
 import '../widgets/show_edit_pending_success_dialog.dart';
 import '../../../../edit_item/presentation/widgets/edit_item_metadata_button.dart';
 

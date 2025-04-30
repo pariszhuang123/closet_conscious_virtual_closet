@@ -1183,7 +1183,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("成功！您的衣橱又增添了一些时尚！🎉"),
         "usageAnalyticsFeatureTitle":
             MessageLookupByLibrary.simpleMessage("你的衣橱洞察"),
-        "usageAnalyticsTitle": MessageLookupByLibrary.simpleMessage("使用分析"),
+        "usageAnalyticsTitle": MessageLookupByLibrary.simpleMessage("衣橱分析"),
         "usageInsights": MessageLookupByLibrary.simpleMessage("使用情况分析"),
         "validDate": MessageLookupByLibrary.simpleMessage("有效日期"),
         "validation_error": MessageLookupByLibrary.simpleMessage("发现错误。请检查输入。"),

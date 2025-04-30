@@ -57,7 +57,7 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
       body: MultiBlocListener(
         listeners: [
           BlocListener<NavigateCoreBloc, NavigateCoreState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state is BronzeEditClosetDeniedState ||
                   state is SilverEditClosetDeniedState ||
                   state is GoldEditClosetDeniedState) {
@@ -71,24 +71,24 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
 
                 paymentRequired = true; // 🚨 Mark payment needed
 
-                navigateSafely(AppRoutesName.payment, extra: {
+                final result = await navigateSafely(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
                   'previousRoute': AppRoutesName.editMultiCloset,
                   'nextRoute': AppRoutesName.myCloset,
                   'closetId': widget.closetId,
                 });
-              } else if (state is ClosetAccessGrantedState) {
-                widget.logger.i('Closet access granted.');
 
-                if (!paymentRequired) {
-                  widget.logger.i('No payment required, proceeding to access.');
+                if (result == true) {
+                  widget.logger.i('Payment completed successfully, granting access');
                   onAccessGranted();
                 } else {
-                  widget.logger.i('Access granted after payment, proceeding.');
-                  onAccessGranted();
-                  paymentRequired = false; // Reset payment tracking
+                  widget.logger.w('Payment was cancelled or failed, blocking access');
+                  // Optionally navigate away or show a message
                 }
+              } else if (state is ClosetAccessGrantedState && !paymentRequired) {
+                widget.logger.i('Item access granted with no payment needed');
+                onAccessGranted();
               } else if (state is ClosetAccessErrorState) {
                 widget.logger.e('Error checking edit access');
               }

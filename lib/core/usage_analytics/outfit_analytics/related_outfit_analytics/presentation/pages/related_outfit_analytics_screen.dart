@@ -13,12 +13,12 @@ import '../../../../../widgets/layout/list/outfit_list.dart';
 import '../../../../../widgets/progress_indicator/outfit_progress_indicator.dart';
 import '../../../../../utilities/app_router.dart';
 import '../../../../../../generated/l10n.dart';
-import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import '../../../../../core_enums.dart';
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 import '../../../../../utilities/helper_functions/image_helper/image_helper.dart';
 import '../../../../../theme/my_closet_theme.dart';
 import '../../../../../theme/my_outfit_theme.dart';
+import 'related_outfit_analytics_listeners.dart';
 
 class RelatedOutfitAnalyticsScreen extends StatelessWidget {
   final bool isFromMyCloset;
@@ -40,88 +40,44 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
 
     final ThemeData effectiveTheme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
 
-    return Theme(
-      data: effectiveTheme,
-      child: PopScope(
-        canPop: true,
-        onPopInvokedWithResult: (bool didPop, Object? result) {
-          _logger.i('Pop invoked: didPop = $didPop, result = $result');
-          if (!didPop) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              context.goNamed(AppRoutesName.summaryOutfitAnalytics);
-            });
-          }
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            leading: BackButton(
-              onPressed: () async {
-                final navigator = Navigator.of(context);
-                if (navigator.canPop()) {
-                  _logger.i('BackButton: Navigator can pop, popping...');
-                  navigator.pop();
-                } else {
-                  _logger.i('BackButton: Navigator cannot pop, going to MyCloset.');
-                  context.goNamed(AppRoutesName.summaryOutfitAnalytics);
-                }
-              },
-            ),
-            title: Text(
-              S.of(context).relatedOutfitsToAboveOutfit,
-              style: effectiveTheme.textTheme.titleMedium,
-            ),
-          ),
-          body: MultiBlocListener(
-            listeners: [
-              BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
-                listener: (context, state) {
-                  if (state is OutfitFocusedDateSuccess) {
-                    _logger.i('✅ Focused date set successfully for outfitId: ${state.outfitId}');
-                    context.pushNamed(
-                      AppRoutesName.dailyCalendar,
-                      extra: {'outfitId': state.outfitId},
-                    );
-                  } else if (state is OutfitFocusedDateFailure) {
-                    _logger.e('❌ Failed to set focused date: ${state.error}');
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(state.error)),
-                    );
+    return RelatedOutfitAnalyticsListeners(
+      isFromMyCloset: isFromMyCloset,
+      logger: _logger,
+      child: Theme(
+        data: effectiveTheme,
+        child: PopScope(
+          canPop: true,
+          onPopInvokedWithResult: (bool didPop, Object? result) {
+            _logger.i('Pop invoked: didPop = $didPop, result = $result');
+            if (!didPop) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed(AppRoutesName.summaryOutfitAnalytics);
+              });
+            }
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              leading: BackButton(
+                onPressed: () async {
+                  final navigator = Navigator.of(context);
+                  if (navigator.canPop()) {
+                    _logger.i('BackButton: Navigator can pop, popping...');
+                    navigator.pop();
+                  } else {
+                    _logger.i('BackButton: Navigator cannot pop, going to MyCloset.');
+                    context.goNamed(AppRoutesName.summaryOutfitAnalytics);
                   }
                 },
               ),
-              BlocListener<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
-                listener: (context, state) {
-                  if (state is UsageAnalyticsAccessState) {
-                    if (state.accessStatus == AccessStatus.denied) {
-                      _logger.w('Access denied: Navigating to payment page');
-                      context.goNamed(
-                        AppRoutesName.payment,
-                        extra: {
-                          'featureKey': FeatureKey.usageAnalytics,
-                          'isFromMyCloset': isFromMyCloset,
-                          'previousRoute': AppRoutesName.myCloset,
-                          'nextRoute': AppRoutesName.relatedOutfitAnalytics,
-                        },
-                      );
-                    } else if (state.accessStatus == AccessStatus.trialPending) {
-                      _logger.i('Trial pending, navigating to trialStarted screen');
-                      context.goNamed(
-                        AppRoutesName.trialStarted,
-                        extra: {
-                          'selectedFeatureRoute': AppRoutesName.relatedOutfitAnalytics,
-                          'isFromMyCloset': isFromMyCloset,
-                        },
-                      );
-                    }
-                  }
-                },
+              title: Text(
+                S.of(context).relatedOutfitsToAboveOutfit,
+                style: effectiveTheme.textTheme.titleMedium,
               ),
-            ],
-            child: Column(
+            ),
+            body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Main Outfit
                 BlocBuilder<SingleOutfitCubit, SingleOutfitState>(
                   builder: (context, outfitState) {
                     if (outfitState is FetchOutfitLoading) {
@@ -153,7 +109,6 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
                     return const SizedBox.shrink();
                   },
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Align(
@@ -166,8 +121,6 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
                 ),
                 Divider(color: effectiveTheme.dividerColor, thickness: 2, height: 0),
                 const SizedBox(height: 16),
-
-                // Related Outfits
                 Expanded(
                   child: BlocBuilder<RelatedOutfitsCubit, RelatedOutfitsState>(
                     builder: (context, relatedState) {

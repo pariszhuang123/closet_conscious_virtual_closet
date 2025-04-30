@@ -56,7 +56,7 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
         listeners: [
           // Listen for navigation and access events
           BlocListener<NavigateCoreBloc, NavigateCoreState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state is BronzeEditItemDeniedState ||
                   state is SilverEditItemDeniedState ||
                   state is GoldEditItemDeniedState) {
@@ -70,30 +70,30 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
 
                 paymentRequired = true; // 🚨 Mark that payment was required
 
-                navigateSafely(AppRoutesName.payment, extra: {
+                final result = await navigateSafely(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
                   'previousRoute': AppRoutesName.editItem,
                   'nextRoute': AppRoutesName.myCloset,
                   'itemId': widget.itemId,
                 });
-              } else if (state is ItemAccessGrantedState) {
-                widget.logger.i('Item access granted');
-                if (!paymentRequired) {
-                  // ✅ Only grant access immediately if NO payment was needed
-                  widget.logger.i('No payment was needed, proceeding to access.');
+
+                if (result == true) {
+                  widget.logger.i('Payment completed successfully, granting access');
                   onAccessGranted();
                 } else {
-                  // 🚨 Payment was required, need to verify if returning after payment
-                  widget.logger.i('Access granted after payment, rechecking...');
-                  onAccessGranted();
-                  paymentRequired = false; // Reset payment required status
+                  widget.logger.w('Payment was cancelled or failed, blocking access');
+                  // Optionally navigate away or show a message
                 }
+              } else if (state is ItemAccessGrantedState && !paymentRequired) {
+                widget.logger.i('Item access granted with no payment needed');
+                onAccessGranted();
               } else if (state is ItemAccessErrorState) {
                 widget.logger.e('Error checking edit access');
               }
             },
           ),
+
           // Listen for photo capture and camera permission events
           BlocListener<PhotoBloc, PhotoState>(
             listener: (context, state) {

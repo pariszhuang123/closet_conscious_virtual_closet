@@ -14,8 +14,8 @@ import '../../../theme/my_outfit_theme.dart';
 import '../../../widgets/button/themed_elevated_button.dart';
 import '../../../utilities/app_router.dart';
 import '../../../utilities/logger.dart';
-import '../../../utilities/helper_functions/tutorial_helper.dart';
 import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import 'customize_screen_listeners.dart';
 
 class CustomizeScreen extends StatefulWidget {
   final bool isFromMyCloset;
@@ -43,111 +43,68 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
 
     context.read<CustomizeBloc>().add(CheckCustomizeAccessEvent());
     context.read<CustomizeBloc>().add(LoadCustomizeEvent());
-    context.read<TutorialBloc>().add(const CheckTutorialStatus(TutorialType.paidCustomize));
+    context.read<TutorialBloc>().add(
+      const CheckTutorialStatus(TutorialType.paidCustomize),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
-    _logger.d('Theme selected: ${widget.isFromMyCloset ? "Closet" : "Outfit"}');
 
     return Theme(
       data: theme,
-      child: PopScope(
-        canPop: true,
-        onPopInvokedWithResult: (bool didPop, Object? result) {
-          _logger.i('Pop invoked: didPop = $didPop, result = $result');
-          if (!didPop) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              context.goNamed(
-                widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
-              );
-            });
-          }
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            leading: BackButton(
-              onPressed: () {
-                final navigator = Navigator.of(context);
-                if (navigator.canPop()) {
-                  _logger.i('Navigator can pop, popping');
-                  navigator.pop();
-                } else {
-                  _logger.i('Navigator cannot pop, fallback');
-                  context.goNamed(
-                    widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
-                  );
-                }
-              },
-            ),
-            title: Text(S.of(context).customizeClosetView, style: theme.textTheme.titleMedium),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.refresh),
-                tooltip: S.of(context).resetToDefault,
+      child: CustomizeScreenListeners(
+        isFromMyCloset: widget.isFromMyCloset,
+        returnRoute: widget.returnRoute,
+        selectedItemIds: widget.selectedItemIds,
+        logger: _logger,
+        child: PopScope(
+          canPop: true,
+          onPopInvokedWithResult: (bool didPop, Object? result) {
+            _logger.i('Pop invoked: didPop = $didPop, result = $result');
+            if (!didPop) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed(
+                  widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
+                );
+              });
+            }
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              leading: BackButton(
                 onPressed: () {
-                  _logger.i('Reset to Default pressed');
-                  context.read<CustomizeBloc>().add(ResetCustomizeEvent());
-                },
-              ),
-            ],
-          ),
-          body: MultiBlocListener(
-            listeners: [
-              BlocListener<CustomizeBloc, CustomizeState>(
-                listener: (context, state) {
-                  if (state.saveStatus == SaveStatus.saveSuccess) {
-                    _logger.i('Customization saved successfully, navigating back');
+                  final navigator = Navigator.of(context);
+                  if (navigator.canPop()) {
+                    _logger.i('Navigator can pop, popping');
+                    navigator.pop();
+                  } else {
+                    _logger.i('Navigator cannot pop, fallback');
                     context.goNamed(
-                      widget.returnRoute,
-                      extra: {'selectedItemIds': widget.selectedItemIds},
-                    );
-                  } else if (state.accessStatus == AccessStatus.trialPending) {
-                    _logger.i('Trial pending, going to trialStarted');
-                    context.goNamed(
-                      AppRoutesName.trialStarted,
-                      extra: {
-                        'selectedFeatureRoute': AppRoutesName.customize,
-                        'isFromMyCloset': widget.isFromMyCloset,
-                      },
-                    );
-                  } else if (state.accessStatus == AccessStatus.denied) {
-                    _logger.i('Access denied, navigating to payment');
-                    context.goNamed(
-                      AppRoutesName.payment,
-                      extra: {
-                        'featureKey': FeatureKey.customize,
-                        'isFromMyCloset': widget.isFromMyCloset,
-                        'previousRoute': widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
-                        'nextRoute': AppRoutesName.customize,
-                      },
+                      widget.isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
                     );
                   }
                 },
               ),
-              BlocListener<TutorialBloc, TutorialState>(
-                listener: (context, tutorialState) {
-                  if (tutorialState is ShowTutorial) {
-                    _logger.i('Tutorial detected, navigating to tutorial pop-up');
-                    context.goNamed(
-                      AppRoutesName.tutorialVideoPopUp,
-                      extra: {
-                        'nextRoute': AppRoutesName.customize,
-                        'tutorialInputKey': TutorialType.paidCustomize.value,
-                        'isFromMyCloset': widget.isFromMyCloset,
-                      },
-                    );
-                  }
-                },
-              ),
-            ],
-            child: BlocBuilder<CustomizeBloc, CustomizeState>(
+              title: Text(S.of(context).customizeClosetView, style: theme.textTheme.titleMedium),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.refresh),
+                  tooltip: S.of(context).resetToDefault,
+                  onPressed: () {
+                    _logger.i('Reset to Default pressed');
+                    context.read<CustomizeBloc>().add(ResetCustomizeEvent());
+                  },
+                ),
+              ],
+            ),
+            body: BlocBuilder<CustomizeBloc, CustomizeState>(
               builder: (context, state) {
-                final theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
-
-                if (state.saveStatus == SaveStatus.inProgress || state.saveStatus == SaveStatus.initial || state.saveStatus == SaveStatus.failure) {
+                if (state.saveStatus == SaveStatus.inProgress ||
+                    state.saveStatus == SaveStatus.initial ||
+                    state.saveStatus == SaveStatus.failure) {
                   _logger.i('Showing loading spinner based on isFromMyCloset');
 
                   return Center(

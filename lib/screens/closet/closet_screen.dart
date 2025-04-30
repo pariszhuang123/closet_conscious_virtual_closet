@@ -10,7 +10,7 @@ import '../../core/widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
 import '../../core/widgets/layout/grid/interactive_item_grid.dart';
-import '../../core/photo_library/presentation/bloc/photo_library_bloc.dart';
+import '../../core/photo_library/presentation/bloc/photo_library_bloc/photo_library_bloc.dart';
 import '../../core/tutorial/scenario/presentation/bloc/first_time_scenario_bloc.dart';
 import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../item_management/view_items/presentation/bloc/view_items_bloc.dart'; // Import ViewItemsBloc
@@ -24,6 +24,7 @@ import '../../item_management/upload_item/presentation/widgets/upload_confirmati
 import '../app_drawer.dart';
 import '../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
 import 'my_closet_bloc_listeners.dart';
+import '../../core/tutorial/core/presentation/bloc/tutorial_cubit.dart';
 
 class MyClosetScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -37,7 +38,6 @@ class MyClosetScreen extends StatefulWidget {
 class MyClosetScreenState extends State<MyClosetScreen> {
   final int _selectedIndex = 0;
   final ScrollController _scrollController = ScrollController();
-  TutorialType? _lastTriggeredTutorialType;
   final CustomLogger logger = CustomLogger('MyClosetPage');
   bool _showFab = true;
 
@@ -132,7 +132,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   }
 
   void _onPhotoButtonPressed() {
-    _lastTriggeredTutorialType = TutorialType.freeUploadCamera;
+    context.read<TutorialTypeCubit>().setType(TutorialType.freeUploadCamera);
     context.read<TutorialBloc>().add(
       const CheckTutorialStatus(TutorialType.freeUploadCamera),
     );
@@ -225,7 +225,6 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     return Theme(
       data: widget.myClosetTheme,
       child: MyClosetBlocListeners(
-        lastTriggeredTutorialType: _lastTriggeredTutorialType,
         child: Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(appBarHeight),

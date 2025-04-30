@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../utilities/log_bread_crumb.dart';
 import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../utilities/logger.dart';
-import '../bloc/photo_library_bloc.dart';
+import '../bloc/photo_library_bloc/photo_library_bloc.dart';
 import '../../../../generated/l10n.dart';
 import '../../../user_photo/presentation/widgets/base/user_photo.dart';
 import '../widgets/pending_interactive_item_grid.dart';

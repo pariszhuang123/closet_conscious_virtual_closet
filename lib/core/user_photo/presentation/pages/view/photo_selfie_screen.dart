@@ -54,7 +54,7 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
         body: MultiBlocListener(
           listeners: [
             BlocListener<NavigateCoreBloc, NavigateCoreState>(
-              listener: (context, state) {
+              listener: (context, state) async {
                 if (state is BronzeSelfieDeniedState ||
                     state is SilverSelfieDeniedState ||
                     state is GoldSelfieDeniedState) {
@@ -66,29 +66,30 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
 
                   paymentRequired = true; // 🚨 Payment is required
 
-                  navigateSafely(AppRoutesName.payment, extra: {
+                  final result = await navigateSafely(AppRoutesName.payment, extra: {
                     'featureKey': featureKey,
                     'isFromMyCloset': true,
                     'previousRoute': AppRoutesName.wearOutfit,
                     'nextRoute': AppRoutesName.createOutfit,
                     'outfitId': widget.outfitId,
                   });
-                } else if (state is ItemAccessGrantedState) {
-                  widget.logger.i('Item access granted for selfie.');
 
-                  if (!paymentRequired) {
-                    widget.logger.i('No payment needed, proceeding.');
+                  if (result == true) {
+                    widget.logger.i('Payment completed successfully, granting access');
                     onAccessGranted();
                   } else {
-                    widget.logger.i('Access granted after payment, proceeding.');
-                    onAccessGranted();
-                    paymentRequired = false; // Reset payment tracking
+                    widget.logger.w('Payment was cancelled or failed, blocking access');
+                    // Optionally navigate away or show a message
                   }
+                } else if (state is ItemAccessGrantedState && !paymentRequired) {
+                  widget.logger.i('Item access granted with no payment needed');
+                  onAccessGranted();
                 } else if (state is ItemAccessErrorState) {
-                  widget.logger.e('Error checking selfie access');
+                  widget.logger.e('Error checking edit access');
                 }
               },
             ),
+
             BlocListener<PhotoBloc, PhotoState>(
               listener: (context, state) {
                 if (state is CameraPermissionDenied) {

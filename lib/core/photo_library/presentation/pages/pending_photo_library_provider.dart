@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-import '../bloc/photo_library_bloc.dart';
+import '../bloc/photo_library_bloc/photo_library_bloc.dart';
 import '../../usecase/photo_library_service.dart';
 import '../../../data/services/core_save_services.dart';
 import '../../../data/services/core_fetch_services.dart';

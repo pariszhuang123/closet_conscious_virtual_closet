@@ -4320,10 +4320,10 @@ class S {
     );
   }
 
-  /// `Usage Analytics`
+  /// `Closet Analytics`
   String get usageAnalyticsTitle {
     return Intl.message(
-      'Usage Analytics',
+      'Closet Analytics',
       name: 'usageAnalyticsTitle',
       desc: '',
       args: [],

@@ -82,12 +82,13 @@ abstract class BasePhotoScreenState<T extends BasePhotoScreen>
     );
   }
 
-  void navigateSafely(String routeName, {Object? extra}) {
+  Future<R?> navigateSafely<R>(String routeName, {Object? extra}) {
     if (mounted) {
       widget.logger.d('Navigating to $routeName with extra: $extra');
-      context.pushNamed(routeName, extra: extra);
+      return context.pushNamed<R>(routeName, extra: extra);
     } else {
       widget.logger.e("Cannot navigate to $routeName, widget is not mounted");
+      return Future.value(null);
     }
   }
 

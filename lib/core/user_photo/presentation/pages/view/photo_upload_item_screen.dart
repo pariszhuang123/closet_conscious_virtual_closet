@@ -57,7 +57,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
       body: MultiBlocListener(
         listeners: [
           BlocListener<NavigateCoreBloc, NavigateCoreState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state is BronzeUploadItemDeniedState ||
                   state is SilverUploadItemDeniedState ||
                   state is GoldUploadItemDeniedState) {
@@ -71,26 +71,26 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
 
                 paymentRequired = true; // 🚨 Payment required
 
-                navigateSafely(AppRoutesName.payment, extra: {
+                final result = await navigateSafely(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
                   'previousRoute': AppRoutesName.myCloset,
                   'nextRoute': AppRoutesName.uploadItemPhoto,
                   'uploadSource': UploadSource.camera,
                 });
-              } else if (state is ItemAccessGrantedState) {
-                widget.logger.i('Upload item access granted.');
 
-                if (!paymentRequired) {
-                  widget.logger.i('No payment required, proceeding.');
+                if (result == true) {
+                  widget.logger.i('Payment completed successfully, granting access');
                   onAccessGranted();
                 } else {
-                  widget.logger.i('Access granted after payment, proceeding.');
-                  onAccessGranted();
-                  paymentRequired = false; // Reset after verified
+                  widget.logger.w('Payment was cancelled or failed, blocking access');
+                  // Optionally navigate away or show a message
                 }
+              } else if (state is ItemAccessGrantedState && !paymentRequired) {
+                widget.logger.i('Item access granted with no payment needed');
+                onAccessGranted();
               } else if (state is ItemAccessErrorState) {
-                widget.logger.e('Error checking upload access');
+                widget.logger.e('Error checking edit access');
               }
             },
           ),
