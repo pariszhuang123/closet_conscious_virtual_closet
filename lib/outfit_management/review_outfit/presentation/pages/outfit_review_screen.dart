@@ -15,6 +15,8 @@ import '../../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../../core/core_enums.dart';
 import '../../../core/outfit_enums.dart';
 import '../widgets/outfit_review_content.dart';
+import '../../../../core/presentation/bloc/personalization_flow_cubit/personalization_flow_cubit.dart';
+import '../../../../core/utilities/helper_functions/prompt_helper/comment_prompt_helper.dart';
 
 class OutfitReviewScreen extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -33,7 +35,15 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
   final TextEditingController _commentController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    logger.i('Initializing OutfitReviewScreen');
+    context.read<PersonalizationFlowCubit>().fetchPersonalizationFlowType();
+  }
+
+  @override
   void dispose() {
+    logger.i('Disposing OutfitReviewScreen');
     _commentController.dispose();
     super.dispose();
   }
@@ -48,12 +58,12 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
       canPop: false,
       onPopInvokedWithResult: (bool didPop, Object? result) {
         if (didPop) {
-          // Do nothing, effectively preventing the back action
+          logger.d('Back navigation prevented on OutfitReviewScreen');
         }
       },
       child: GestureDetector(
         onTap: () {
-          // Dismiss the keyboard
+          logger.d('Tap detected outside input – dismissing keyboard');
           FocusScope.of(context).unfocus();
         },
         behavior: HitTestBehavior.translucent,
@@ -76,6 +86,8 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                               : state.eventName!;
                         }
 
+                        logger.d('Displaying event name text: $displayText');
+
                         return LogoTextContainer(
                           themeData: widget.myOutfitTheme,
                           text: displayText,
@@ -89,13 +101,17 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                     const SizedBox(height: 15),
                     BlocConsumer<OutfitReviewBloc, OutfitReviewState>(
                       listener: (context, state) {
+                        logger.i('BlocListener received state: $state');
+
                         if (state is ReviewInvalidItems) {
                           final String message = S.of(context).pleaseSelectAtLeastOneItem;
+                          logger.w('Invalid submission – no items selected');
                           CustomSnackbar(
                             message: message,
                             theme: widget.myOutfitTheme,
                           ).show(context);
                         } else if (state is ReviewSubmissionSuccess) {
+                          logger.i('Review submission successful – showing dialog');
                           showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -106,12 +122,12 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                             },
                           );
                         } else if (state is OutfitReviewItemsLoaded) {
-                          // 🎯 CLEAR SELECTION ONLY WHEN FEEDBACK CHANGES
-                            context.read<MultiSelectionItemCubit>().clearSelection();
+                          logger.i('Clearing item selection after loading items');
+                          context.read<MultiSelectionItemCubit>().clearSelection();
                         }
                       },
                       builder: (context, state) {
-                        logger.i('Rendering OutfitReviewContainer with state: $state');
+                        logger.d('Building OutfitReviewContainer with state: $state');
                         return OutfitReviewContainer(
                           outfitReviewLike: outfitReviewLike,
                           outfitReviewAlright: outfitReviewAlright,
@@ -123,23 +139,28 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                     const SizedBox(height: 25),
                     BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
                       builder: (context, state) {
+                        logger.d('Rendering OutfitReviewContent with state: $state');
                         return OutfitReviewContent(
                           state: state,
                           theme: widget.myOutfitTheme,
                         );
                       },
                     ),
-
                     const SizedBox(height: 16),
+                    BlocBuilder<PersonalizationFlowCubit, String>(
+                      builder: (context, flowType) {
+                        final hintText = CommentPromptHelper.getPrompt(context, flowType);
+                        logger.d('FlowType from PersonalizationFlowCubit: $flowType');
+                        logger.d('Generated hintText: $hintText');
 
-
-                    CommentField(
-                      controller: _commentController,
-                      theme: widget.myOutfitTheme,
+                        return CommentField(
+                          controller: _commentController,
+                          theme: widget.myOutfitTheme,
+                          hintText: hintText,
+                        );
+                      },
                     ),
-
                     const SizedBox(height: 16),
-
                     Padding(
                       padding: const EdgeInsets.only(top: 2.0, bottom: 20.0, left: 16.0, right: 16.0),
                       child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
@@ -160,13 +181,20 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                             onPressed: isSubmitting || isButtonDisabled
                                 ? null
                                 : () {
+                              logger.i('Submit button pressed');
                               if (state is OutfitReviewItemsLoaded || state is OutfitImageUrlAvailable) {
                                 final outfitId = state.outfitId ?? "";
                                 final feedback = state.feedback.toString();
                                 final comments = _commentController.text;
-                                final selectedItems = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
+                                final selectedItems = context
+                                    .read<MultiSelectionItemCubit>()
+                                    .state
+                                    .selectedItemIds;
 
-                                logger.i("Submit button pressed. Comment: $comments");
+                                logger.d('OutfitId: $outfitId');
+                                logger.d('Feedback: $feedback');
+                                logger.d('Selected Items Count: ${selectedItems.length}');
+                                logger.d('Comments: $comments');
 
                                 context.read<OutfitReviewBloc>().add(
                                   ValidateReviewSubmission(
@@ -177,7 +205,7 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                                   ),
                                 );
                               } else {
-                                logger.e("Submit button pressed, but state is not OutfitReviewItemsLoaded");
+                                logger.e('Submit blocked – invalid state: $state');
                               }
                             },
                             child: isSubmitting

@@ -5671,6 +5671,16 @@ class S {
     );
   }
 
+  /// `Tell us what you think of this outfit—your thoughts help the AI learn your style and evolving journey.`
+  String get defaultOutfitReviewCommentPrompt {
+    return Intl.message(
+      'Tell us what you think of this outfit—your thoughts help the AI learn your style and evolving journey.',
+      name: 'defaultOutfitReviewCommentPrompt',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The little things matter.\nCapture them now, find them later.`
   String get memoryTutorialFreeUploadCameraUploadClothing {
     return Intl.message(
@@ -6176,6 +6186,16 @@ class S {
     return Intl.message(
       '90 Days of Moments!',
       name: 'memoryAchievementNoNewClothes90Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Does this outfit remind you of something? Memories help shape your story, and the AI learns from that too.`
+  String get memoryOutfitReviewCommentPrompt {
+    return Intl.message(
+      'Does this outfit remind you of something? Memories help shape your story, and the AI learns from that too.',
+      name: 'memoryOutfitReviewCommentPrompt',
       desc: '',
       args: [],
     );
@@ -6691,6 +6711,16 @@ class S {
     );
   }
 
+  /// `Whether you loved this look or not, your feedback helps the AI understand your personal style.`
+  String get personalStyleOutfitReviewCommentPrompt {
+    return Intl.message(
+      'Whether you loved this look or not, your feedback helps the AI understand your personal style.',
+      name: 'personalStyleOutfitReviewCommentPrompt',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Start fresh by uploading what’s still with you. Your style can shift—and so can you.`
   String get lifeChangeTutorialFreeUploadCameraUploadClothing {
     return Intl.message(
@@ -7196,6 +7226,16 @@ class S {
     return Intl.message(
       '90-Day Evolution!',
       name: 'lifeChangeAchievementNoNewClothes90Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Was this outfit part of a change? Your reflection helps train the AI.`
+  String get lifeChangeOutfitReviewCommentPrompt {
+    return Intl.message(
+      'Was this outfit part of a change? Your reflection helps train the AI.',
+      name: 'lifeChangeOutfitReviewCommentPrompt',
       desc: '',
       args: [],
     );

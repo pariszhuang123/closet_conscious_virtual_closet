@@ -162,7 +162,7 @@ class PaymentScreenState extends State<PaymentScreen> {
       },
       builder: (context, state) {
         // Show a loading indicator when payment is in progress
-        bool isLoading = state is PaymentInProgress || state is PaymentPendingState;
+        bool isLoading = state is PaymentInProgress;
 
         return PopScope<Object?>(
           canPop: false, // Preventing back navigation

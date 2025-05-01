@@ -302,6 +302,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "defaultAchievementTitle":
             MessageLookupByLibrary.simpleMessage("成就解锁！"),
         "defaultClosetName": MessageLookupByLibrary.simpleMessage("主衣橱"),
+        "defaultOutfitReviewCommentPrompt":
+            MessageLookupByLibrary.simpleMessage(
+                "分享你对这套穿搭的看法——你的想法将帮助 AI 学习你的风格、故事和成长轨迹。"),
         "delete": MessageLookupByLibrary.simpleMessage("删除"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("删除账号"),
         "deleteAccountConfirmation": MessageLookupByLibrary.simpleMessage(
@@ -516,6 +519,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "90 天的转变之旅！你的衣柜正在美丽地讲述新生活的故事。"),
         "lifeChangeAchievementNoNewClothes90Title":
             MessageLookupByLibrary.simpleMessage("90 天的蜕变！"),
+        "lifeChangeOutfitReviewCommentPrompt":
+            MessageLookupByLibrary.simpleMessage("这套穿搭是否代表着某种改变？你的分享有助于训练 AI。"),
         "lifeChangeScenarioTutorial": MessageLookupByLibrary.simpleMessage(
             "生活的变化会影响你的穿衣与感受。让我们一起打造一个支持你现在阶段的衣橱。"),
         "lifeChangeTrialCalendar":
@@ -637,6 +642,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("90 天珍惜衣橱回忆。每一件穿过的衣服都藏着宝贵故事。"),
         "memoryAchievementNoNewClothes90Title":
             MessageLookupByLibrary.simpleMessage("90 天的珍贵时光！"),
+        "memoryOutfitReviewCommentPrompt": MessageLookupByLibrary.simpleMessage(
+            "这套穿搭让你想起了什么吗？无论是好是坏，记忆塑造了你的故事，AI 也会从中学习。"),
         "memoryScenarioTutorial": MessageLookupByLibrary.simpleMessage(
             "你以为自己会记得所有细节，\n现在真的可以了。\n\n他们的故事会延续——一套穿搭一个回忆。"),
         "memoryTrialCalendar":
@@ -849,6 +856,9 @@ class MessageLookup extends MessageLookupByLibrary {
                 "连续 90 天用已有衣物自信穿搭——你的个人风格正在闪耀！"),
         "personalStyleAchievementNoNewClothes90Title":
             MessageLookupByLibrary.simpleMessage("90 天的自信风格！"),
+        "personalStyleOutfitReviewCommentPrompt":
+            MessageLookupByLibrary.simpleMessage(
+                "无论你喜欢还是不确定这套穿搭，你的反馈能帮助 AI 更了解你的穿衣风格。"),
         "personalStyleScenarioTutorial": MessageLookupByLibrary.simpleMessage(
             "你不是从零开始。你的衣橱里已经藏着线索。一起找出你的个人风格。"),
         "personalStyleTrialCalendar":

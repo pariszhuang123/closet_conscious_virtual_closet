@@ -564,6 +564,7 @@
   "defaultAchievementNoNewClothes900Title": "Trailblazer of Change!",
   "defaultAchievementNoNewClothes90Message": "You’ve hit 90 days without new clothes! Keep building those eco-friendly habits! 🌱",
   "defaultAchievementNoNewClothes90Title": "Sustainable Start!",
+  "defaultOutfitReviewCommentPrompt": "Tell us what you think of this outfit—your thoughts help the AI learn your style and evolving journey.",
 
   "memoryTutorialFreeUploadCameraUploadClothing": "The little things matter.\nCapture them now, find them later.",
   "memoryTutorialFreePhotoLibraryUploadClothing": "You’ve saved the moments—now sort the memories.\nOne tap brings each piece into their story.",
@@ -616,6 +617,7 @@
   "memoryAchievementNoNewClothes900Title": "Historian of the Heart!",
   "memoryAchievementNoNewClothes90Message": "90 days cherishing your wardrobe memories. Every piece worn carries a precious story.",
   "memoryAchievementNoNewClothes90Title": "90 Days of Moments!",
+  "memoryOutfitReviewCommentPrompt": "Does this outfit remind you of something? Memories help shape your story, and the AI learns from that too.",
 
   "personalStyleTutorialFreeUploadCameraUploadClothing": "Start identifying your personal style by uploading pieces you already wear. Each piece tells a story about your taste.",
   "personalStyleTutorialFreePhotoLibraryUploadClothing": "Upload up to 5 items at once to quickly surface what reflects your style.",
@@ -668,6 +670,7 @@
   "personalStyleAchievementNoNewClothes900Title": "Style Icon!",
   "personalStyleAchievementNoNewClothes90Message": "You've styled yourself confidently for 90 days using what you own—your personal style is thriving!",
   "personalStyleAchievementNoNewClothes90Title": "90 Days Confident!",
+  "personalStyleOutfitReviewCommentPrompt": "Whether you loved this look or not, your feedback helps the AI understand your personal style.",
 
   "lifeChangeTutorialFreeUploadCameraUploadClothing": "Start fresh by uploading what’s still with you. Your style can shift—and so can you.",
   "lifeChangeTutorialFreePhotoLibraryUploadClothing": "Quickly upload what you’ve worn recently to reflect your current reality.",
@@ -719,5 +722,6 @@
   "lifeChangeAchievementNoNewClothes900Message": "900 days mastering change—your closet confidently mirrors your evolving journey.",
   "lifeChangeAchievementNoNewClothes900Title": "Reinvention Leader!",
   "lifeChangeAchievementNoNewClothes90Message": "90 days embracing change! Your wardrobe beautifully reflects your life's new chapter.",
-  "lifeChangeAchievementNoNewClothes90Title": "90-Day Evolution!"
+  "lifeChangeAchievementNoNewClothes90Title": "90-Day Evolution!",
+  "lifeChangeOutfitReviewCommentPrompt": "Was this outfit part of a change? Your reflection helps train the AI."
 }

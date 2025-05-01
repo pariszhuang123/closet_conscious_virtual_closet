@@ -26,6 +26,14 @@ final ThemeData myClosetTheme = ThemeData(
       bodySmall: GoogleFonts.averageSans(fontSize: 12, fontWeight: FontWeight.normal, color: const Color(0xFFEF9A9A)), // Medium body text
   ),
 
+  inputDecorationTheme: InputDecorationTheme(
+    hintStyle: GoogleFonts.averageSans(
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: const Color(0xFF263238),
+    ),
+  ),
+
   chipTheme: ChipThemeData(
     backgroundColor: Colors.grey.shade100,
     selectedColor: Colors.teal.shade900, // Closest to #366D59

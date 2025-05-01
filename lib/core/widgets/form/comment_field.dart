@@ -7,6 +7,7 @@ class CommentField extends StatelessWidget {
   final ThemeData theme;
   final String? initialText; // For read-only mode
   final bool isReadOnly; // New flag for read-only mode
+  final String? hintText;
 
   const CommentField({
     super.key,
@@ -14,6 +15,7 @@ class CommentField extends StatelessWidget {
     required this.theme,
     this.initialText,
     this.isReadOnly = false,
+    this.hintText,
   });
 
   @override
@@ -34,6 +36,7 @@ class CommentField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           labelText: S.of(context).addYourComments,
+          hintText: hintText,
           border: InputBorder.none,
         ),
         maxLines: 3,

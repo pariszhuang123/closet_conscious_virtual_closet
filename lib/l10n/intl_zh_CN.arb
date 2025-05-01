@@ -564,6 +564,7 @@
   "defaultAchievementNoNewClothes1575Title": "极简主义大师！",
   "defaultAchievementNoNewClothes1980Message": "1,980 天的专注选择！你是可持续生活的闪亮典范，激励着我们所有人。✨🌏",
   "defaultAchievementNoNewClothes1980Title": "可持续灯塔！",
+  "defaultOutfitReviewCommentPrompt": "分享你对这套穿搭的看法——你的想法将帮助 AI 学习你的风格、故事和成长轨迹。",
 
   "memoryTutorialFreeUploadCameraUploadClothing": "细节很重要。\n现在拍下，以后好找。",
   "memoryTutorialFreePhotoLibraryUploadClothing": "你已经留下了这些瞬间——现在是时候整理记忆了。\n轻轻一点，每件衣物都能找到自己的故事。",
@@ -616,6 +617,7 @@
   "memoryAchievementNoNewClothes1575Title": "记忆杰作！",
   "memoryAchievementNoNewClothes1980Message": "1,980 天通过衣物珍藏回忆。你的衣柜讲述着一段美丽而动人的故事。",
   "memoryAchievementNoNewClothes1980Title": "回忆传奇！",
+  "memoryOutfitReviewCommentPrompt": "这套穿搭让你想起了什么吗？无论是好是坏，记忆塑造了你的故事，AI 也会从中学习。",
 
   "personalStyleTutorialFreeUploadCameraUploadClothing": "从上传你常穿的衣服开始，找出你的个人风格。每一件都反映了你的品味。",
   "personalStyleTutorialFreePhotoLibraryUploadClothing": "一次上传最多 5 件衣服，快速看出哪些符合你的风格。",
@@ -668,6 +670,7 @@
   "personalStyleAchievementNoNewClothes1575Title": "真实风格建筑师！",
   "personalStyleAchievementNoNewClothes1980Message": "1,980 天通过穿搭体现独特个性。你正在重新定义自信穿衣的意义。",
   "personalStyleAchievementNoNewClothes1980Title": "个人风格巅峰！",
+  "personalStyleOutfitReviewCommentPrompt": "无论你喜欢还是不确定这套穿搭，你的反馈能帮助 AI 更了解你的穿衣风格。",
 
   "lifeChangeTutorialFreeUploadCameraUploadClothing": "上传那些还陪在你身边的衣物，重新出发。风格会变，你也一样。",
   "lifeChangeTutorialFreePhotoLibraryUploadClothing": "快速上传你最近穿的衣物，反映你当下的状态。",
@@ -719,5 +722,6 @@
   "lifeChangeAchievementNoNewClothes1575Message": "1,575 天优雅地驾驭生活转变。你的衣柜展现了智慧与成长。",
   "lifeChangeAchievementNoNewClothes1575Title": "转变老手！",
   "lifeChangeAchievementNoNewClothes1980Message": "1,980 天通过穿搭重塑风格——你的故事和衣柜完美契合，动人心弦。",
-  "lifeChangeAchievementNoNewClothes1980Title": "人生章节掌控者！"
+  "lifeChangeAchievementNoNewClothes1980Title": "人生章节掌控者！",
+  "lifeChangeOutfitReviewCommentPrompt": "这套穿搭是否代表着某种改变？你的分享有助于训练 AI。"
 }

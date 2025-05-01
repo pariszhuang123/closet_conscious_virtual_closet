@@ -351,6 +351,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Achievement Unlocked!"),
         "defaultClosetName":
             MessageLookupByLibrary.simpleMessage("Main Closet"),
+        "defaultOutfitReviewCommentPrompt": MessageLookupByLibrary.simpleMessage(
+            "Tell us what you think of this outfit—your thoughts help the AI learn your style and evolving journey."),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
         "deleteAccountConfirmation": MessageLookupByLibrary.simpleMessage(
@@ -598,6 +600,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "90 days embracing change! Your wardrobe beautifully reflects your life\'s new chapter."),
         "lifeChangeAchievementNoNewClothes90Title":
             MessageLookupByLibrary.simpleMessage("90-Day Evolution!"),
+        "lifeChangeOutfitReviewCommentPrompt": MessageLookupByLibrary.simpleMessage(
+            "Was this outfit part of a change? Your reflection helps train the AI."),
         "lifeChangeScenarioTutorial": MessageLookupByLibrary.simpleMessage(
             "Big changes affect how you dress and feel. Let’s shape a wardrobe that supports where you are now."),
         "lifeChangeTrialCalendar": MessageLookupByLibrary.simpleMessage(
@@ -735,6 +739,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "90 days cherishing your wardrobe memories. Every piece worn carries a precious story."),
         "memoryAchievementNoNewClothes90Title":
             MessageLookupByLibrary.simpleMessage("90 Days of Moments!"),
+        "memoryOutfitReviewCommentPrompt": MessageLookupByLibrary.simpleMessage(
+            "Does this outfit remind you of something? Memories help shape your story, and the AI learns from that too."),
         "memoryScenarioTutorial": MessageLookupByLibrary.simpleMessage(
             "You thought you’d remember it all.\nNow you can.\n\nTheir story lives on—one outfit at a time."),
         "memoryTrialCalendar": MessageLookupByLibrary.simpleMessage(
@@ -977,6 +983,9 @@ class MessageLookup extends MessageLookupByLibrary {
                 "You\'ve styled yourself confidently for 90 days using what you own—your personal style is thriving!"),
         "personalStyleAchievementNoNewClothes90Title":
             MessageLookupByLibrary.simpleMessage("90 Days Confident!"),
+        "personalStyleOutfitReviewCommentPrompt":
+            MessageLookupByLibrary.simpleMessage(
+                "Whether you loved this look or not, your feedback helps the AI understand your personal style."),
         "personalStyleScenarioTutorial": MessageLookupByLibrary.simpleMessage(
             "You’re not starting from scratch. Your closet already has clues. Let’s figure out your personal style."),
         "personalStyleTrialCalendar": MessageLookupByLibrary.simpleMessage(

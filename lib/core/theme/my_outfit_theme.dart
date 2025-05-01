@@ -26,6 +26,15 @@ final ThemeData myOutfitTheme = ThemeData(
     titleMedium: GoogleFonts.openSans(fontSize: 15, fontWeight: FontWeight.bold, color: const Color(0xFF263238)), // Medium-emphasis text
     bodySmall: GoogleFonts.averageSans(fontSize: 12, fontWeight: FontWeight.normal, color: const Color(0xFFEF9A9A)), // Medium body text
   ),
+
+  inputDecorationTheme: InputDecorationTheme(
+    hintStyle: GoogleFonts.averageSans(
+      fontSize: 14,
+      fontWeight: FontWeight.normal,
+      color: const Color(0xFF263238),
+    ),
+  ),
+
   chipTheme: ChipThemeData(
     backgroundColor: Colors.grey.shade100,
     selectedColor: Colors.purple.shade700, // Dark blue for selected chip
