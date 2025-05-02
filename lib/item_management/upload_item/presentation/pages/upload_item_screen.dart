@@ -244,9 +244,7 @@ class _UploadItemScreenState extends State<UploadItemScreen> {
             child: PopScope<Object?>(
         canPop: false,
         onPopInvokedWithResult: (bool didPop, Object? result) {
-        if (didPop) {
-        _logger.i('Preventing back navigation');
-        }
+        _logger.i('Back press prevented on UploadItemScreen');
         },
         child: Theme(
             data: widget.myClosetTheme,

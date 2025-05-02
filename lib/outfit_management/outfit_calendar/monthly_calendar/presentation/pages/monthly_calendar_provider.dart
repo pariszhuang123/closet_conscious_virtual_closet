@@ -40,77 +40,40 @@ class MonthlyCalendarProvider extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) {
-            logger.i('Creating OutfitSelectionBloc...');
-            final bloc = OutfitSelectionBloc(
-              outfitFetchService: outfitFetchService,
-              logger: logger,
-            );
-            if (selectedOutfitIds.isNotEmpty) {
-              bloc.add(BulkToggleOutfitSelectionEvent(selectedOutfitIds));
-            }
-
-            return bloc;
-          },
+          create: (_) => OutfitSelectionBloc(
+            outfitFetchService: outfitFetchService,
+            logger: logger,
+          ),
         ),
         BlocProvider(
-          create: (_) {
-            logger.i('Creating MonthlyCalendarMetadataBloc...');
-            final bloc = MonthlyCalendarMetadataBloc(
-              outfitFetchService: outfitFetchService,
-              outfitSaveService: outfitSaveService,
-            );
-            bloc.add(FetchMonthlyCalendarMetadataEvent());
-            return bloc;
-          },
+          create: (_) => MonthlyCalendarMetadataBloc(
+            outfitFetchService: outfitFetchService,
+            outfitSaveService: outfitSaveService,
+          ),
         ),
         BlocProvider(
-          create: (_) {
-            logger.i('Creating MonthlyCalendarImagesBloc...');
-            final imagesBloc = MonthlyCalendarImagesBloc(
-              outfitFetchService: outfitFetchService,
-              outfitSaveService: outfitSaveService,
-            );
-
-            imagesBloc.add(FetchMonthlyCalendarImages(selectedOutfitIds: selectedOutfitIds));
-            return imagesBloc;
-          },
+          create: (_) => MonthlyCalendarImagesBloc(
+            outfitFetchService: outfitFetchService,
+            outfitSaveService: outfitSaveService,
+          ),
         ),
         BlocProvider(
-          create: (_) {
-            logger.i('Creating CrossAxisCountCubit...');
-            final cubit = CrossAxisCountCubit(coreFetchService: coreFetchService);
-            cubit.fetchCrossAxisCount();
-            return cubit;
-          },
+          create: (_) => CrossAxisCountCubit(coreFetchService: coreFetchService),
         ),
         BlocProvider(
-          create: (_) {
-            logger.i('Creating CalendarNavigationBloc...');
-            final bloc = CalendarNavigationBloc(coreFetchService: coreFetchService);
-            bloc.add(CheckCalendarAccessEvent());
-            return bloc;
-          },
+          create: (_) => CalendarNavigationBloc(coreFetchService: coreFetchService),
         ),
         BlocProvider(
-          create: (_) {
-            logger.i('Creating MultiClosetNavigationBloc...');
-            final bloc = MultiClosetNavigationBloc(
-              coreFetchService: coreFetchService,
-              coreSaveService: coreSaveService,
-            );
-            bloc.add(CheckMultiClosetAccessEvent());
-            return bloc;
-          },
+          create: (_) => MultiClosetNavigationBloc(
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
+          ),
         ),
         BlocProvider<TutorialBloc>(
-          create: (context) {
-            logger.d('Creating TutorialBloc with core services');
-            return TutorialBloc(
-              coreFetchService: coreFetchService,
-              coreSaveService: coreSaveService,
-            );
-          },
+          create: (_) => TutorialBloc(
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
+          ),
         ),
       ],
       child: MonthlyCalendarScreen(

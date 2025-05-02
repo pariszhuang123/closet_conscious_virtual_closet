@@ -8,6 +8,7 @@ import '../../../utilities/logger.dart';
 import '../../../utilities/app_router.dart';
 import '../../../core_enums.dart';
 import '../../../utilities/helper_functions/tutorial_helper.dart';
+import '../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 
 class FilterScreenListeners extends StatelessWidget {
   final bool isFromMyCloset;
@@ -79,6 +80,16 @@ class FilterScreenListeners extends StatelessWidget {
                   'isFromMyCloset': isFromMyCloset,
                 },
               );
+            }
+          },
+        ),
+        BlocListener<FilterBloc, FilterState>(
+          listenWhen: (previous, current) =>
+          previous.hasMultiClosetFeature != current.hasMultiClosetFeature,
+          listener: (context, state) {
+            if (state.hasMultiClosetFeature) {
+              logger.i('Multi-closet feature active — fetching cross axis count');
+              context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
             }
           },
         ),

@@ -2,11 +2,11 @@ part of 'photo_library_bloc.dart';
 
 abstract class PhotoLibraryEvent {}
 
-class RequestLibraryPermission extends PhotoLibraryEvent {}
+class PhotoLibraryStarted extends PhotoLibraryEvent {
+  PhotoLibraryStarted();
+}
 
 class InitializePhotoLibrary extends PhotoLibraryEvent {}
-
-class CheckForPendingItems extends PhotoLibraryEvent {}
 
 class LoadNextLibraryImagePage extends PhotoLibraryEvent {
   final int page;
@@ -28,3 +28,5 @@ class UploadSelectedLibraryImages extends PhotoLibraryEvent {
 
   UploadSelectedLibraryImages({required this.assets});
 }
+
+class CheckPostUploadApparelCount extends PhotoLibraryEvent {}

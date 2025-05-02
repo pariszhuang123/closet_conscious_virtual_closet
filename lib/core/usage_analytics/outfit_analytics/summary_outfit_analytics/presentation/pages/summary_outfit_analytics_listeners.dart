@@ -10,6 +10,13 @@ import '../bloc/summary_outfit_analytics_bloc/summary_outfit_analytics_bloc.dart
 import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../../../outfit_management/core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
+import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
+import '../../../../core/presentation/bloc/filtered_outfit_cubit/filtered_outfits_cubit.dart';
+import '../../../../../../outfit_management/core/presentation/bloc/multi_selection_outfit_cubit/multi_selection_outfit_cubit.dart';
+import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../../../../../item_management/multi_closet/core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
+import '../../../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../../../../utilities/helper_functions/tutorial_helper.dart';
 
 class SummaryOutfitAnalyticsListeners extends StatelessWidget {
   final Widget child;
@@ -42,6 +49,15 @@ class SummaryOutfitAnalyticsListeners extends StatelessWidget {
                     'previousRoute': AppRoutesName.myCloset,
                     'nextRoute': AppRoutesName.summaryItemsAnalytics,
                   },
+                );
+              } else if (state.accessStatus == AccessStatus.granted) {
+                logger.i('Access granted: Fetching data');
+                context.read<FilteredOutfitsCubit>().fetchFilteredOutfits();
+                context.read<MultiSelectionOutfitCubit>().initializeSelection(selectedOutfitIds);
+                context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+                context.read<MultiClosetNavigationBloc>().add(CheckMultiClosetAccessEvent());
+                context.read<SummaryOutfitAnalyticsBloc>().add(
+                  FetchOutfitAnalytics(),
                 );
               } else if (state.accessStatus == AccessStatus.trialPending) {
                 logger.i('Trial pending, navigating to trialStarted screen');
@@ -95,6 +111,29 @@ class SummaryOutfitAnalyticsListeners extends StatelessWidget {
                 AppRoutesName.createMultiCloset,
                 extra: {'selectedItemIds': state.activeItemIds},
               );
+            }
+          },
+        ),
+        BlocListener<TutorialBloc, TutorialState>(
+          listener: (context, tutorialState) {
+            if (tutorialState is ShowTutorial) {
+              logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+              context.goNamed(
+                AppRoutesName.tutorialVideoPopUp,
+                extra: {
+                  'nextRoute': AppRoutesName.summaryOutfitAnalytics,
+                  'tutorialInputKey': TutorialType.paidUsageAnalytics.value,
+                  'isFromMyCloset': isFromMyCloset,
+                },
+              );
+            }
+          },
+        ),
+        BlocListener<MultiClosetNavigationBloc, MultiClosetNavigationState>(
+          listener: (context, state) {
+            if (state is MultiClosetAccessState && state.accessStatus == AccessStatus.granted) {
+              logger.i("Multi-closet access granted. Fetching focus or create closet state.");
+              context.read<FocusOrCreateClosetBloc>().add(FetchFocusOrCreateCloset());
             }
           },
         ),

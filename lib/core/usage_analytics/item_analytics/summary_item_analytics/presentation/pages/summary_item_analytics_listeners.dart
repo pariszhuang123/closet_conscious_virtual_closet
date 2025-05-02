@@ -8,16 +8,24 @@ import '../../../../../utilities/logger.dart';
 import '../../../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import '../../../../../utilities/helper_functions/tutorial_helper.dart';
+import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../../../../../item_management/multi_closet/core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
+import '../../../../../../item_management/view_items/presentation/bloc/view_items_bloc.dart';
+import '../../presentation/bloc/summary_items_bloc.dart';
+import '../../../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
+import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 
 class SummaryItemAnalyticsListeners extends StatelessWidget {
   final Widget child;
   final bool isFromMyCloset;
+  final List<String> selectedItemIds;
   final CustomLogger logger;
 
   const SummaryItemAnalyticsListeners({
     super.key,
     required this.child,
     required this.isFromMyCloset,
+    required this.selectedItemIds,
     required this.logger,
   });
 
@@ -48,6 +56,14 @@ class SummaryItemAnalyticsListeners extends StatelessWidget {
                     'isFromMyCloset': isFromMyCloset,
                   },
                 );
+              } else if (state.accessStatus == AccessStatus.granted) {
+                logger.i('Access granted: Fetching all summary & items');
+
+                context.read<ViewItemsBloc>().add(FetchItemsEvent(0, isPending: false));
+                context.read<SummaryItemsBloc>().add(FetchSummaryItemEvent());
+                context.read<MultiSelectionItemCubit>().initializeSelection(selectedItemIds);
+                context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+                context.read<MultiClosetNavigationBloc>().add(CheckMultiClosetAccessEvent());
               }
             }
           },
@@ -64,6 +80,14 @@ class SummaryItemAnalyticsListeners extends StatelessWidget {
                   'isFromMyCloset': isFromMyCloset,
                 },
               );
+            }
+          },
+        ),
+        BlocListener<MultiClosetNavigationBloc, MultiClosetNavigationState>(
+          listener: (context, state) {
+            if (state is MultiClosetAccessState && state.accessStatus == AccessStatus.granted) {
+              logger.i('Multi-closet access granted. Fetching calendar selectability...');
+              context.read<FocusOrCreateClosetBloc>().add(FetchFocusOrCreateCloset());
             }
           },
         ),

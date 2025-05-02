@@ -7,6 +7,14 @@ abstract class FilterEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class FilterStarted extends FilterEvent {
+  const FilterStarted();
+}
+
+class CheckFilterAccessEvent extends FilterEvent {}
+
+class CheckMultiClosetFeatureEvent extends FilterEvent {}
+
 // Load existing filter settings for a user
 class LoadFilterEvent extends FilterEvent {}
 
@@ -63,12 +71,9 @@ class UpdateFilterEvent extends FilterEvent {
   ];
 }
 
-class CheckMultiClosetFeatureEvent extends FilterEvent {}
-
 // Save the user's filter settings
 class SaveFilterEvent extends FilterEvent {}
 
 // Reset filter settings to defaults
 class ResetFilterEvent extends FilterEvent {}
 
-class CheckFilterAccessEvent extends FilterEvent {}

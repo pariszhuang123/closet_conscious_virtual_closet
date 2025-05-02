@@ -8,6 +8,8 @@ import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/core_enums.dart';
 import '../../../../../core/utilities/helper_functions/tutorial_helper.dart';
+import '../bloc/view_multi_closet_bloc.dart';
+import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 
 class ViewMultiClosetListeners extends StatelessWidget {
   final bool isFromMyCloset;
@@ -37,6 +39,10 @@ class ViewMultiClosetListeners extends StatelessWidget {
                     'isFromMyCloset': isFromMyCloset,
                   },
                 );
+              } else if (state.accessStatus == AccessStatus.granted) {
+                logger.i('Access granted: Fetching data');
+                context.read<ViewMultiClosetBloc>().add(FetchViewMultiClosetsEvent());
+                context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
               } else if (state.accessStatus == AccessStatus.denied) {
                 logger.w('Access denied: Navigating to payment page');
                 context.goNamed(

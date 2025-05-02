@@ -22,76 +22,106 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
   }) : logger = CustomLogger('FilterBlocLogger'),
         super(const FilterState()) {
     logger.i('FilterBloc initialized');
+
+    // 1️⃣ Kick off the sequence
+    on<FilterStarted>(_onFilterStarted);
+    // 2️⃣ Access check
+    on<CheckFilterAccessEvent>(_onCheckFilterAccess);
+    // 3️⃣ Multi-closet feature
+    on<CheckMultiClosetFeatureEvent>(_onCheckMultiClosetFeature);
+    // 4️⃣ Load saved filters
     on<LoadFilterEvent>(_onLoadFilter);
-    on<CheckMultiClosetFeatureEvent>(_onCheckMultiClosetFeature); // Add the new event handler
+    // Other existing handlers
     on<UpdateFilterEvent>(_onUpdateFilter);
     on<SaveFilterEvent>(_onSaveFilter);
     on<ResetFilterEvent>(_onResetFilter);
-    on<CheckFilterAccessEvent>(_onCheckFilterAccess);
   }
 
-  Future<void> _onLoadFilter(LoadFilterEvent event, Emitter<FilterState> emit) async {
-    logger.i('Loading filter settings...');
-    emit(state.copyWith(saveStatus: SaveStatus.inProgress));
+  Future<void> _onFilterStarted(FilterStarted event, Emitter<FilterState> emit) async {
+    // Optionally show a spinner
+    emit(state.copyWith(saveStatus: SaveStatus.initial));
+    // Start by checking access
+    add(CheckFilterAccessEvent());
+  }
 
+  Future<void> _onCheckFilterAccess(
+      CheckFilterAccessEvent event,
+      Emitter<FilterState> emit
+      ) async {
+    logger.i('Checking filter access...');
     try {
-      // Fetch all closets for the user
-      final closetData = await coreFetchService.fetchPermanentClosets();
-      logger.i('Fetched all closets successfully: ${closetData.length} items');
-
-      final allClosetsDisplay = closetData.map((closetMap) => MultiClosetMinimal.fromMap(closetMap)).toList();
-
-      final filterData = await coreFetchService.fetchFilterSettings();
-      logger.i('Filter settings loaded successfully');
-
-      final FilterSettings filterSettings = filterData['filters'];
-      final selectedClosetId = filterData['selectedClosetId'] as String;
-      final allCloset = filterData['allCloset'] as bool;
-      final onlyItemsUnworn = filterData['onlyItemsUnworn'] as bool;
-      final itemName = filterData['itemName'] as String;
-      final ignoreItemName = filterData['ignoreItemName'] as bool;
-      final adjustedItemName = ignoreItemName ? '' : itemName;
-
-      emit(state.copyWith(
-        saveStatus: SaveStatus.loadSuccess,
-        allClosetsDisplay: allClosetsDisplay,
-        itemType: filterSettings.itemType,
-        occasion: filterSettings.occasion,
-        season: filterSettings.season,
-        colour: filterSettings.colour,
-        colourVariations: filterSettings.colourVariations,
-        clothingType: filterSettings.clothingType,
-        clothingLayer: filterSettings.clothingLayer,
-        shoesType: filterSettings.shoesType,
-        accessoryType: filterSettings.accessoryType,
-        selectedClosetId: selectedClosetId,
-        onlyItemsUnworn: !onlyItemsUnworn,
-        allCloset: allCloset,
-        itemName: adjustedItemName,
-      ));
-      logger.i('Filter settings state updated successfully');
+      final hasAccess = await coreFetchService.accessFilterPage();
+      if (hasAccess) {
+        emit(state.copyWith(accessStatus: AccessStatus.granted));
+        // Now check multi-closet feature
+        add(CheckMultiClosetFeatureEvent());
+      } else if (await coreFetchService.isTrialPending()) {
+        emit(state.copyWith(accessStatus: AccessStatus.trialPending));
+      } else {
+        emit(state.copyWith(accessStatus: AccessStatus.denied));
+      }
     } catch (error) {
-      logger.e('Error fetching filters: $error');
-      emit(state.copyWith(saveStatus: SaveStatus.failure));
+      logger.e('Error in access check: $error');
+      emit(state.copyWith(accessStatus: AccessStatus.error));
     }
   }
 
   Future<void> _onCheckMultiClosetFeature(
-      CheckMultiClosetFeatureEvent event, Emitter<FilterState> emit) async {
-    logger.i('Checking multi_closet feature for user.');
-
+      CheckMultiClosetFeatureEvent event,
+      Emitter<FilterState> emit
+      ) async {
+    logger.i('Checking multi-closet feature...');
     try {
-      // Use fetchService to check if the user has multi_closet access
       final hasFeature = await coreFetchService.checkMultiClosetFeature();
-      logger.i('Multi-closet feature access: $hasFeature');
-
-      // Update state with the result
       emit(state.copyWith(hasMultiClosetFeature: hasFeature));
+      // Now load the actual filters
+      add(LoadFilterEvent());
     } catch (error) {
-      logger.e('Error checking multi_closet feature: $error');
-      emit(state.copyWith(hasMultiClosetFeature: false)); // Default to false on error
+      logger.e('Error checking multi-closet feature: $error');
+      emit(state.copyWith(hasMultiClosetFeature: false));
+      add(LoadFilterEvent());
     }
   }
+
+  Future<void> _onLoadFilter(
+      LoadFilterEvent event,
+      Emitter<FilterState> emit
+      ) async {
+    logger.i('Loading filter settings...');
+    emit(state.copyWith(saveStatus: SaveStatus.inProgress));
+    try {
+      final closetData = await coreFetchService.fetchPermanentClosets();
+      final allClosetsDisplay = closetData
+          .map((map) => MultiClosetMinimal.fromMap(map))
+          .toList();
+
+      final filterData = await coreFetchService.fetchFilterSettings();
+      final settings = filterData['filters'] as FilterSettings;
+
+      emit(state.copyWith(
+        saveStatus: SaveStatus.loadSuccess,
+        allClosetsDisplay: allClosetsDisplay,
+        itemType: settings.itemType,
+        occasion: settings.occasion,
+        season: settings.season,
+        colour: settings.colour,
+        colourVariations: settings.colourVariations,
+        clothingType: settings.clothingType,
+        clothingLayer: settings.clothingLayer,
+        shoesType: settings.shoesType,
+        accessoryType: settings.accessoryType,
+        selectedClosetId: filterData['selectedClosetId'] as String,
+        allCloset: filterData['allCloset'] as bool,
+        onlyItemsUnworn: !(filterData['onlyItemsUnworn'] as bool),
+        itemName: (filterData['ignoreItemName'] as bool)
+            ? '' : filterData['itemName'] as String,
+      ));
+    } catch (error) {
+      logger.e('Error loading filters: $error');
+      emit(state.copyWith(saveStatus: SaveStatus.failure));
+    }
+  }
+
 
   void _onUpdateFilter(UpdateFilterEvent event, Emitter<FilterState> emit) {
     logger.i('Updating filter settings with event: $event');
@@ -199,37 +229,6 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     } catch (error) {
       logger.e('Error resetting filters: $error');
       emit(state.copyWith(saveStatus: SaveStatus.failure));
-    }
-  }
-
-  Future<void> _onCheckFilterAccess(
-      CheckFilterAccessEvent event, Emitter<FilterState> emit) async {
-    logger.i('Checking if the user has access to the filter feature.');
-
-    try {
-      // Step 1: Check if user already has access via milestones, purchases, etc.
-      bool hasFilterAccess = await coreFetchService.accessFilterPage();
-
-      if (hasFilterAccess) {
-        emit(state.copyWith(accessStatus: AccessStatus.granted));
-        logger.i('User already has filter access via milestones/purchase.');
-        return; // Exit early since access is granted
-      }
-
-      // Step 2: If no access, check trial status
-      logger.w('User does not have filter access, checking trial status...');
-      bool trialPending = await coreFetchService.isTrialPending();
-
-      if (trialPending) {
-        logger.i('Trial is pending. Navigating to trialStarted.');
-        emit(state.copyWith(accessStatus: AccessStatus.trialPending));
-      } else {
-        logger.i('Trial not pending. Navigating to payment screen.');
-        emit(state.copyWith(accessStatus: AccessStatus.denied));
-      }
-    } catch (error) {
-      logger.e('Error checking filter access: $error');
-      emit(state.copyWith(accessStatus: AccessStatus.error));
     }
   }
 }

@@ -52,25 +52,24 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
   Widget build(BuildContext context) {
     widget.logger.d('Building PhotoUploadItemScreen');
 
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<NavigateCoreBloc, NavigateCoreState>(
+          listener: (context, state) {
+            if (state is BronzeUploadItemDeniedState ||
+                state is SilverUploadItemDeniedState ||
+                state is GoldUploadItemDeniedState) {
+              final featureKey = state is BronzeUploadItemDeniedState
+                  ? FeatureKey.uploadItemBronze
+                  : state is SilverUploadItemDeniedState
+                  ? FeatureKey.uploadItemSilver
+                  : FeatureKey.uploadItemGold;
 
-    return Scaffold(
-      body: MultiBlocListener(
-        listeners: [
-          BlocListener<NavigateCoreBloc, NavigateCoreState>(
-            listener: (context, state) {
-              if (state is BronzeUploadItemDeniedState ||
-                  state is SilverUploadItemDeniedState ||
-                  state is GoldUploadItemDeniedState) {
-                final featureKey = state is BronzeUploadItemDeniedState
-                    ? FeatureKey.uploadItemBronze
-                    : state is SilverUploadItemDeniedState
-                    ? FeatureKey.uploadItemSilver
-                    : FeatureKey.uploadItemGold;
+              widget.logger.i('${featureKey
+                  .name} access denied, navigating to payment screen');
+              paymentRequired = true;
 
-                widget.logger.i('${featureKey.name} access denied, navigating to payment screen');
-
-                paymentRequired = true; // 🚨 Payment required
-
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 navigateSafely(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
@@ -78,56 +77,59 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
                   'nextRoute': AppRoutesName.uploadItemPhoto,
                   'uploadSource': UploadSource.camera,
                 });
-
-              } else if (state is ItemAccessGrantedState) {
-                widget.logger.i('Upload item access granted.');
-
-                if (!paymentRequired) {
-                  widget.logger.i('No payment required, proceeding.');
-
-                  onAccessGranted();
-                } else {
-                  widget.logger.w('Payment was cancelled or failed, blocking access');
-                  // Optionally navigate away or show a message
-                }
-              } else if (state is ItemAccessGrantedState && !paymentRequired) {
-                widget.logger.i('Item access granted with no payment needed');
-                onAccessGranted();
-              } else if (state is ItemAccessErrorState) {
-                widget.logger.e('Error checking access');
-              }
-            },
-          ),
-          BlocListener<PhotoBloc, PhotoState>(
-            listener: (context, state) {
-              if (state is CameraPermissionDenied) {
-                widget.logger.w('Camera permission denied');
-                handleCameraPermission();
-              } else if (state is CameraPermissionGranted && !cameraInitialized) {
-                widget.logger.i('Camera permission granted, capturing photo');
-                handleCameraInitialized();
-                photoBloc.add(CapturePhoto());
-              } else if (state is PhotoCaptureFailure) {
-                widget.logger.e('Photo capture failed');
-                navigateSafely(AppRoutesName.myCloset);
-              } else if (state is PhotoCaptureSuccess) {
-                widget.logger.i('Photo uploaded with imageUrl: ${state.imageUrl}');
-                _navigateToUploadItem(state.imageUrl);
-              }
-            },
-          ),
-        ],
-        child: BlocBuilder<PhotoBloc, PhotoState>(
-          builder: (context, state) {
-            if (state is PhotoCaptureInProgress ||
-                (state is CameraPermissionGranted && !cameraInitialized)) {
-              return const ClosetProgressIndicator();
-            } else {
-              widget.logger.d('Waiting for camera permission...');
-              return const ClosetProgressIndicator();
+              });
+            } else if (state is ItemAccessGrantedState &&
+                !paymentRequired &&
+                !accessGranted) {
+              widget.logger.i('Access granted, calling onAccessGranted()');
+              onAccessGranted();
+            } else if (state is ItemAccessErrorState) {
+              widget.logger.e('Error checking access');
             }
           },
         ),
+        BlocListener<PhotoBloc, PhotoState>(
+          listener: (context, state) {
+            if (state is CameraPermissionDenied) {
+              widget.logger.w('Camera permission denied');
+              handleCameraPermission();
+            } else if (state is CameraPermissionGranted && !cameraInitialized) {
+              widget.logger.i('Camera permission granted, capturing photo');
+              handleCameraInitialized();
+              photoBloc.add(CapturePhoto());
+            } else if (state is PhotoCaptureFailure) {
+              widget.logger.e('Photo capture failed');
+              navigateSafely(AppRoutesName.myCloset);
+            } else if (state is PhotoCaptureSuccess) {
+              widget.logger.i(
+                  'Photo uploaded with imageUrl: ${state.imageUrl}');
+              _navigateToUploadItem(state.imageUrl);
+            }
+          },
+        ),
+      ],
+      child: BlocBuilder<NavigateCoreBloc, NavigateCoreState>(
+        builder: (context, accessState) {
+          if (accessState is InitialNavigateCoreState) {
+            return const Scaffold(
+              body: Center(child: ClosetProgressIndicator()),
+            );
+          }
+
+          return Scaffold(
+            body: BlocBuilder<PhotoBloc, PhotoState>(
+              builder: (context, state) {
+                if (state is PhotoCaptureInProgress ||
+                    (state is CameraPermissionGranted && !cameraInitialized)) {
+                  return const ClosetProgressIndicator();
+                }
+
+                widget.logger.d('Waiting for camera permission...');
+                return const ClosetProgressIndicator(); // Replace with camera preview when ready
+              },
+            ),
+          );
+        },
       ),
     );
   }

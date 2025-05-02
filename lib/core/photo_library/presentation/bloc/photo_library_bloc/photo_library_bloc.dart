@@ -97,30 +97,52 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
               .map((p) => p.length).toList()}');
     });
 
-    on<RequestLibraryPermission>(_onRequestPermission);
+    on<PhotoLibraryStarted>(_onPhotoLibraryStarted);
     on<InitializePhotoLibrary>(_onInitialize);
-    on<CheckForPendingItems>(_onCheckForPendingItems);
     on<ToggleLibraryImageSelection>(_onToggleSelection);
     on<UploadSelectedLibraryImages>(_onUploadSelectedImages);
+    on<CheckPostUploadApparelCount>(_onCheckPostUploadApparelCount);
     on<_MarkReadyAfterFirstPage>((_, emit) {
       _logger.i("Emitting PhotoLibraryReady");
       emit(const PhotoLibraryReady());
     });
   }
 
-  Future<void> _onRequestPermission(RequestLibraryPermission event,
-      Emitter<PhotoLibraryState> emit,) async {
-    _logger.i("Requesting permission...");
-    final granted = await _photoLibraryService.requestPhotoPermission();
-    _logger.d("Permission granted: $granted");
+  Future<void> _onPhotoLibraryStarted(
+      PhotoLibraryStarted event,
+      Emitter<PhotoLibraryState> emit,
+      ) async {
+    _logger.i("PhotoLibraryStarted triggered");
 
-    if (granted) {
+    // ✅ Set loading state immediately
+    emit(const PhotoLibraryInitial());
+
+    try {
+      final hasPendingItems = await _itemFetchService.hasPendingItems();
+      _logger.d("Pending items check result: $hasPendingItems");
+
+      if (hasPendingItems) {
+        _logger.i("Pending items found — skip photo permission");
+        emit(const PhotoLibraryPendingItem());
+        return;
+      }
+      emit (const PhotoLibraryNoPendingItem());
+      // ✅ No pending items — request permission
+      final permissionGranted = await _photoLibraryService.requestPhotoPermission();
+
+      if (!permissionGranted) {
+        _logger.w("Photo permission denied");
+        emit(const PhotoLibraryPermissionDenied());
+        return;
+      }
+
       emit(const PhotoLibraryPermissionGranted());
-      // DO NOT immediately call InitializePhotoLibrary here
-      // Let the screen respond and call it when ready
-    } else {
-      _logger.w("Permission denied.");
-      emit(const PhotoLibraryPermissionDenied());
+
+      // Proceed to full initialization
+      add(InitializePhotoLibrary());
+    } catch (e, stack) {
+      _logger.e("Error during PhotoLibraryStarted: $e\n$stack");
+      emit(const PhotoLibraryFailure("Failed to load photo library"));
     }
   }
 
@@ -163,25 +185,6 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     } catch (e, stack) {
       _logger.e("Initialization failed: $e\n$stack");
       emit(const PhotoLibraryFailure("Initialization failed."));
-    }
-  }
-
-  Future<void> _onCheckForPendingItems(CheckForPendingItems event,
-      Emitter<PhotoLibraryState> emit,) async {
-    _logger.i("Checking if user has pending items...");
-    try {
-      final hasPending = await _itemFetchService.hasPendingItems();
-      _logger.d("Result: $hasPending");
-
-      if (hasPending) {
-        emit(const PhotoLibraryPendingItem());
-      } else {
-        emit(const PhotoLibraryNoPendingItem());
-        _logger.i("No pending items found. No state emitted.");
-      }
-    } catch (e, stack) {
-      _logger.e("Error checking pending items: $e\n$stack");
-      emit(const PhotoLibraryFailure("Failed to check pending items"));
     }
   }
 
@@ -233,13 +236,6 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
       'apparelCount': _apparelCount,
       'selectedCount': selectedImages.length,
     });
-
-    if ([100, 300, 1000].contains(_apparelCount)) {
-      _logger.i("Paywall triggered at $_apparelCount items");
-      logBreadcrumb("Paywall triggered", data: {'apparelCount': _apparelCount});
-      emit(const PhotoLibraryPaywallTriggered());
-      return;
-    }
 
     emit(PhotoLibraryUploading(
       selectedAssets: selectedImages,
@@ -299,6 +295,26 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
       logBreadcrumb("Exception during upload", level: SentryLevel.error);
 
       emit(const PhotoLibraryFailure("Image upload failed."));
+    }
+  }
+
+  Future<void> _onCheckPostUploadApparelCount(
+      CheckPostUploadApparelCount event,
+      Emitter<PhotoLibraryState> emit,
+      ) async {
+    _apparelCount = await _itemFetchService.fetchApparelCount();
+    _logger.i("Apparel count after upload: $_apparelCount");
+
+    const warningThresholds = [100, 300, 1000];         // These are your milestone limits
+    const preTriggerBuffer = 5;                         // This means: trigger a warning if you're within 5 items of the limit
+
+    final isNearLimit = warningThresholds.any((limit) =>
+    _apparelCount >= limit - preTriggerBuffer && _apparelCount <= limit);
+
+    if (isNearLimit) {
+      emit(const PhotoLibraryViewPendingLibrary());
+    } else {
+      emit(const PhotoLibraryUploadSuccessShowDialog());
     }
   }
 

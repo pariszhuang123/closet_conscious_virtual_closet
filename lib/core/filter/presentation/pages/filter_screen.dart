@@ -50,10 +50,7 @@ class _FilterScreenState extends State<FilterScreen> {
     _logger.i(
         'FilterScreen initState with isFromMyCloset: ${widget.isFromMyCloset}, selectedItemIds: ${widget.selectedItemIds}, showOnlyClosetFilter: ${widget.showOnlyClosetFilter}');
 
-    context.read<FilterBloc>().add(CheckFilterAccessEvent());
-    context.read<FilterBloc>().add(CheckMultiClosetFeatureEvent());
-    context.read<FilterBloc>().add(LoadFilterEvent());
-    context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+    context.read<FilterBloc>().add(const FilterStarted());
     context.read<TutorialBloc>().add(
       const CheckTutorialStatus(TutorialType.paidFilter),
     );

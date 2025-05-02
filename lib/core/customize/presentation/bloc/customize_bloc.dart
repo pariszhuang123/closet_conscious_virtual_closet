@@ -25,11 +25,39 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
         sortOrder: 'DESC',
         saveStatus: SaveStatus.initial,
       )) {
+    on<CustomizeStarted>(_onCustomizeStarted); // ✅ Add here
     on<LoadCustomizeEvent>(_onLoadCustomize);
     on<UpdateCustomizeEvent>(_onUpdateCustomize);
     on<SaveCustomizeEvent>(_onSaveCustomize);
     on<ResetCustomizeEvent>(_onResetCustomize);
-    on<CheckCustomizeAccessEvent>(_onCheckCustomizeAccess);
+  }
+
+  Future<void> _onCustomizeStarted(
+      CustomizeStarted event,
+      Emitter<CustomizeState> emit,
+      ) async {
+    logger.i('CustomizeStarted triggered – checking access...');
+
+    emit(state.copyWith(saveStatus: SaveStatus.initial));
+
+    try {
+      final hasAccess = await coreFetchService.accessCustomizePage();
+
+      if (hasAccess) {
+        logger.i('Access granted. Loading customize settings...');
+        emit(state.copyWith(accessStatus: AccessStatus.granted));
+        add(LoadCustomizeEvent());
+      } else if (await coreFetchService.isTrialPending()) {
+        logger.i('Trial is pending.');
+        emit(state.copyWith(accessStatus: AccessStatus.trialPending));
+      } else {
+        logger.i('Access denied.');
+        emit(state.copyWith(accessStatus: AccessStatus.denied));
+      }
+    } catch (error) {
+      logger.e('Error during CustomizeStarted sequence: $error');
+      emit(state.copyWith(accessStatus: AccessStatus.error));
+    }
   }
 
   Future<void> _onLoadCustomize(LoadCustomizeEvent event,
@@ -92,37 +120,6 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
     } catch (error) {
       logger.e('Error resetting arrangement: $error');
       emit(state.copyWith(saveStatus: SaveStatus.failure));
-    }
-  }
-
-  Future<void> _onCheckCustomizeAccess(CheckCustomizeAccessEvent event,
-      Emitter<CustomizeState> emit) async {
-    logger.i('Checking if the user has access to the customize pages.');
-
-    try {
-      // Step 1: Check if user already has access via milestones, purchases, etc.
-      bool hasCustomizeAccess = await coreFetchService.accessCustomizePage();
-
-      if (hasCustomizeAccess) {
-        emit(state.copyWith(accessStatus: AccessStatus.granted));
-        logger.i('User already has customize access via milestones/purchase.');
-        return; // Exit early since access is granted
-      }
-
-      // Step 2: If no access, check trial status
-      logger.w('User does not have customize access, checking trial status...');
-      bool trialPending = await coreFetchService.isTrialPending();
-
-      if (trialPending) {
-        logger.i('Trial is pending. Navigating to trialStarted.');
-        emit(state.copyWith(accessStatus: AccessStatus.trialPending));
-      } else {
-        logger.i('Trial not pending. Navigating to payment screen.');
-        emit(state.copyWith(accessStatus: AccessStatus.denied));
-      }
-    } catch (error) {
-      logger.e('Error checking customize access: $error');
-      emit(state.copyWith(accessStatus: AccessStatus.error));
     }
   }
 }

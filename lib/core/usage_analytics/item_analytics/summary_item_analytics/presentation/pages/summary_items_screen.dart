@@ -23,6 +23,8 @@ import '../../../../../../item_management/core/presentation/bloc/single_selectio
 import '../../../../../widgets/feedback/custom_tooltip.dart';
 import 'summary_item_analytics_listeners.dart';
 import '../../../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
+
 
 class SummaryItemsScreen extends StatefulWidget {
   final bool isFromMyCloset;
@@ -47,6 +49,7 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
     super.initState();
     logger.i('SummaryItemsScreen initialized with isFromMyCloset=${widget.isFromMyCloset}');
 
+    context.read<UsageAnalyticsNavigationBloc>().add(CheckUsageAnalyticsAccessEvent());
     context.read<TutorialBloc>().add(
       const CheckTutorialStatus(TutorialType.paidUsageAnalytics),
     );
@@ -163,143 +166,189 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
     final theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
     logger.d('Building SummaryItemsScreen UI');
 
-    return SummaryItemAnalyticsListeners(
-      isFromMyCloset: widget.isFromMyCloset,
-      logger: logger,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            SummaryItemAnalyticsFeatureContainer(
-              theme: theme,
-              onFilterButtonPressed: () => _onFilterButtonPressed(context, false),
-              onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
-              onResetButtonPressed: () => _onResetButtonPressed(context),
-              onSelectAllButtonPressed: () => _onSelectAllButtonPressed(context),
-              onFocusButtonPressed: () => _onFocusButtonPressed(context),
-              onCreateClosetButtonPressed: () => _onCreateClosetButtonPressed(context),
-            ),
-            const SizedBox(height: 12),
-            BlocBuilder<SummaryItemsBloc, SummaryItemsState>(
-              builder: (context, state) {
-                logger.d('BlocBuilder - Summary Section: Current state = ${state.runtimeType}');
+    return BlocBuilder<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
+        builder: (context, accessState) {
+          if (accessState is UsageAnalyticsAccessState &&
+              accessState.accessStatus == AccessStatus.pending) {
+            return const Center(child: ClosetProgressIndicator());
+          }
 
-                if (state is SummaryItemsLoading || state is SummaryItemsInitial) {
-                  return const ClosetProgressIndicator();
-                } else if (state is SummaryItemsLoaded) {
-                  logger.i('Summary data loaded: totalItems=${state.totalItems}, totalCost=${state.totalItemCost}, avgPricePerWear=${state.avgPricePerWear}');
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CustomTooltip(
-                        message: S.of(context).totalItemsTooltip,
-                        position: TooltipPosition.left,
-                        theme: theme,
-                        child: SummaryCard(
-                          title: S.of(context).totalItems,
-                          value: state.totalItems,
-                        ),
-                      ),
-                      CustomTooltip(
-                        message: S.of(context).totalCostTooltip,
-                        position: TooltipPosition.center,
-                        theme: theme,
-                        child: SummaryCard(
-                          title: S.of(context).totalCost,
-                          value: state.totalItemCost,
-                        ),
-                      ),
-                      CustomTooltip(
-                        message: S.of(context).costPerWearTooltip,
-                        position: TooltipPosition.right,
-                        theme: theme,
-                        child: SummaryCard(
-                          title: S.of(context).avgPricePerWear,
-                          value: state.avgPricePerWear,
-                        ),
-                      ),
-                    ],
-                  );
-                } else if (state is SummaryItemsError) {
-                  logger.e('Error loading summary items: ${state.message}');
-                  return Center(
-                    child: Text(
-                      state.message,
-                      style: theme.textTheme.bodyMedium,
-                    ),
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: BlocBuilder<CrossAxisCountCubit, int>(
-                builder: (context, crossAxisCount) {
-                  return BlocBuilder<ViewItemsBloc, ViewItemsState>(
-                    builder: (context, viewState) {
-                      return BlocBuilder<FocusOrCreateClosetBloc, FocusOrCreateClosetState>(
-                        builder: (context, focusState) {
-                          ItemSelectionMode itemSelectionMode = ItemSelectionMode.action;
+          return SummaryItemAnalyticsListeners(
+            isFromMyCloset: widget.isFromMyCloset,
+            selectedItemIds: widget.selectedItemIds,
+            logger: logger,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  SummaryItemAnalyticsFeatureContainer(
+                    theme: theme,
+                    onFilterButtonPressed: () =>
+                        _onFilterButtonPressed(context, false),
+                    onArrangeButtonPressed: () =>
+                        _onArrangeButtonPressed(context, false),
+                    onResetButtonPressed: () => _onResetButtonPressed(context),
+                    onSelectAllButtonPressed: () =>
+                        _onSelectAllButtonPressed(context),
+                    onFocusButtonPressed: () => _onFocusButtonPressed(context),
+                    onCreateClosetButtonPressed: () =>
+                        _onCreateClosetButtonPressed(context),
+                  ),
+                  const SizedBox(height: 12),
+                  BlocBuilder<SummaryItemsBloc, SummaryItemsState>(
+                    builder: (context, state) {
+                      logger.d(
+                          'BlocBuilder - Summary Section: Current state = ${state
+                              .runtimeType}');
 
-                          if (focusState is FocusOrCreateClosetLoaded) {
-                            itemSelectionMode = focusState.isCalendarSelectable
-                                ? ItemSelectionMode.multiSelection
-                                : ItemSelectionMode.action;
-                          }
-
-                          if (viewState is ItemsLoading) {
-                            return const Center(child: ClosetProgressIndicator());
-                          } else if (viewState is ItemsError) {
-                            return Center(child: Text(S.of(context).failedToLoadItems));
-                          } else if (viewState is ItemsLoaded) {
-                            return InteractiveItemGrid(
-                              items: viewState.items,
-                              scrollController: _scrollController,
-                              crossAxisCount: crossAxisCount,
-                              enablePricePerWear: true,
-                              itemSelectionMode: itemSelectionMode,
-                              selectedItemIds: widget.selectedItemIds,
-                              isOutfit: false,
-                              isLocalImage: false,
-                              onAction: () => _onItemSelected(context),
-                            );
-                          } else {
-                            return Center(
-                              child: Text(
-                                S.of(context).noItemsInCloset,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.titleMedium,
+                      if (state is SummaryItemsLoading ||
+                          state is SummaryItemsInitial) {
+                        return const ClosetProgressIndicator();
+                      } else if (state is SummaryItemsLoaded) {
+                        logger.i('Summary data loaded: totalItems=${state
+                            .totalItems}, totalCost=${state
+                            .totalItemCost}, avgPricePerWear=${state
+                            .avgPricePerWear}');
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            CustomTooltip(
+                              message: S
+                                  .of(context)
+                                  .totalItemsTooltip,
+                              position: TooltipPosition.left,
+                              theme: theme,
+                              child: SummaryCard(
+                                title: S
+                                    .of(context)
+                                    .totalItems,
+                                value: state.totalItems,
                               ),
-                            );
-                          }
-                        },
-                      );
+                            ),
+                            CustomTooltip(
+                              message: S
+                                  .of(context)
+                                  .totalCostTooltip,
+                              position: TooltipPosition.center,
+                              theme: theme,
+                              child: SummaryCard(
+                                title: S
+                                    .of(context)
+                                    .totalCost,
+                                value: state.totalItemCost,
+                              ),
+                            ),
+                            CustomTooltip(
+                              message: S
+                                  .of(context)
+                                  .costPerWearTooltip,
+                              position: TooltipPosition.right,
+                              theme: theme,
+                              child: SummaryCard(
+                                title: S
+                                    .of(context)
+                                    .avgPricePerWear,
+                                value: state.avgPricePerWear,
+                              ),
+                            ),
+                          ],
+                        );
+                      } else if (state is SummaryItemsError) {
+                        logger.e(
+                            'Error loading summary items: ${state.message}');
+                        return Center(
+                          child: Text(
+                            state.message,
+                            style: theme.textTheme.bodyMedium,
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
                     },
-                  );
-                },
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: BlocBuilder<CrossAxisCountCubit, int>(
+                      builder: (context, crossAxisCount) {
+                        return BlocBuilder<ViewItemsBloc, ViewItemsState>(
+                          builder: (context, viewState) {
+                            return BlocBuilder<
+                                FocusOrCreateClosetBloc,
+                                FocusOrCreateClosetState>(
+                              builder: (context, focusState) {
+                                ItemSelectionMode itemSelectionMode = ItemSelectionMode
+                                    .action;
+
+                                if (focusState is FocusOrCreateClosetLoaded) {
+                                  itemSelectionMode =
+                                  focusState.isCalendarSelectable
+                                      ? ItemSelectionMode.multiSelection
+                                      : ItemSelectionMode.action;
+                                }
+
+                                if (viewState is ItemsLoading) {
+                                  return const Center(
+                                      child: ClosetProgressIndicator());
+                                } else if (viewState is ItemsError) {
+                                  return Center(child: Text(S
+                                      .of(context)
+                                      .failedToLoadItems));
+                                } else if (viewState is ItemsLoaded) {
+                                  return InteractiveItemGrid(
+                                    items: viewState.items,
+                                    scrollController: _scrollController,
+                                    crossAxisCount: crossAxisCount,
+                                    enablePricePerWear: true,
+                                    itemSelectionMode: itemSelectionMode,
+                                    selectedItemIds: widget.selectedItemIds,
+                                    isOutfit: false,
+                                    isLocalImage: false,
+                                    onAction: () => _onItemSelected(context),
+                                  );
+                                } else {
+                                  return Center(
+                                    child: Text(
+                                      S
+                                          .of(context)
+                                          .noItemsInCloset,
+                                      textAlign: TextAlign.center,
+                                      style: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                  );
+                                }
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
+                    builder: (context, state) {
+                      if (state.selectedItemIds.isNotEmpty) {
+                        return SafeArea(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: ThemedElevatedButton(
+                              onPressed: _handleCreateCloset,
+                              text: S
+                                  .of(context)
+                                  .createCloset,
+                            ),
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
-            BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
-              builder: (context, state) {
-                if (state.selectedItemIds.isNotEmpty) {
-                  return SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: ThemedElevatedButton(
-                        onPressed: _handleCreateCloset,
-                        text: S.of(context).createCloset,
-                      ),
-                    ),
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }

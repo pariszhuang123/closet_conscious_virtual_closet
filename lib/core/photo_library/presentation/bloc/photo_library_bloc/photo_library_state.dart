@@ -233,6 +233,20 @@ class PhotoLibraryUploadSuccess extends PhotoLibraryState {
       '✅ Upload Success — ${selectedAssets.length} uploaded';
 }
 
+class PhotoLibraryUploadSuccessShowDialog extends PhotoLibraryState {
+  const PhotoLibraryUploadSuccessShowDialog();
+
+  @override
+  String get debugLabel => '✅ Upload Success — Show Dialog';
+}
+
+class PhotoLibraryViewPendingLibrary extends PhotoLibraryState {
+  const PhotoLibraryViewPendingLibrary();
+
+  @override
+  String get debugLabel => '✅ Upload Success — View Pending Library';
+}
+
 class PhotoLibraryFailure extends PhotoLibraryState {
   final String error;
   final List<AssetEntity> selectedAssets;

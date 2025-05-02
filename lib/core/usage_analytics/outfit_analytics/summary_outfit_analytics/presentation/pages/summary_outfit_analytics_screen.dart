@@ -24,6 +24,8 @@ import '../../../../../../outfit_management/core/presentation/bloc/multi_selecti
 import '../../../../../core_enums.dart';
 import '../../../../../utilities/helper_functions/image_helper/image_helper.dart';
 import 'summary_outfit_analytics_listeners.dart';
+import '../../../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 
 class SummaryOutfitAnalyticsScreen extends StatefulWidget {
   final bool isFromMyCloset;
@@ -46,7 +48,11 @@ class _SummaryOutfitAnalyticsScreenState extends State<SummaryOutfitAnalyticsScr
   @override
   void initState() {
     super.initState();
-    context.read<FilteredOutfitsCubit>().fetchFilteredOutfits();
+
+    context.read<UsageAnalyticsNavigationBloc>().add(CheckUsageAnalyticsAccessEvent());
+    context.read<TutorialBloc>().add(
+      const CheckTutorialStatus(TutorialType.paidUsageAnalytics),
+    );
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
@@ -128,135 +134,178 @@ class _SummaryOutfitAnalyticsScreenState extends State<SummaryOutfitAnalyticsScr
   Widget build(BuildContext context) {
     _logger.i("Building SummaryOutfitAnalyticsScreen...");
 
-    return SummaryOutfitAnalyticsListeners(
-      logger: _logger,
-      isFromMyCloset: widget.isFromMyCloset,
-      selectedOutfitIds: widget.selectedOutfitIds,
-      child: Column(
-        children: [
-          SummaryOutfitAnalyticsFeatureContainer(
-            theme: myOutfitTheme,
-            onFilterButtonPressed: () => _onFilterButtonPressed(context, widget.isFromMyCloset),
-            onResetButtonPressed: () => _onResetButtonPressed(context),
-            onSelectAllButtonPressed: () => _onSelectAllButtonPressed(context),
-            onFocusButtonPressed: () => _onFocusButtonPressed(context),
-            onCreateClosetButtonPressed: () => _onCreateClosetButtonPressed(context),
-          ),
-          const SizedBox(height: 6),
-          BlocBuilder<SummaryOutfitAnalyticsBloc, SummaryOutfitAnalyticsState>(
-            builder: (context, state) {
-              _logger.d("Current Bloc State: $state");
-              if (state is SummaryOutfitAnalyticsLoading || state is SummaryOutfitAnalyticsInitial) {
-                return const Center(child: OutfitProgressIndicator());
-              } else if (state is SummaryOutfitAnalyticsSuccess) {
-                return Column(
-                  children: [
-                    Text(
-                      S.of(context).analyticsSummary(
-                        state.totalReviews,
-                        state.daysTracked,
-                        state.closetShown == "cc_closet"
-                            ? S.of(context).defaultClosetName
-                            : state.closetShown == "allClosetShown"
-                            ? S.of(context).allClosetShown
-                            : state.closetShown,
-                      ),
-                      style: Theme.of(context).textTheme.titleMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 5),
-                    OutfitReviewAnalyticsContainer(
-                      theme: Theme.of(context),
-                      outfitReviewLike: TypeDataList.outfitReviewLike(context),
-                      outfitReviewAlright: TypeDataList.outfitReviewAlright(context),
-                      outfitReviewDislike: TypeDataList.outfitReviewDislike(context),
-                    ),
-                  ],
-                );
-              } else if (state is SummaryOutfitAnalyticsFailure) {
-                _logger.e("Failed to load analytics: ${state.message}");
-                return Center(child: Text(state.message));
-              }
-              return Container();
-            },
-          ),
-          const SizedBox(height: 12),
-          Expanded(
-            child: BlocBuilder<FocusOrCreateClosetBloc, FocusOrCreateClosetState>(
-              builder: (context, focusState) {
-                final outfitSelectionMode =
-                (focusState is FocusOrCreateClosetLoaded && focusState.isCalendarSelectable)
-                    ? OutfitSelectionMode.multiSelection
-                    : OutfitSelectionMode.action;
+    return BlocBuilder<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
+        builder: (context, accessState)
+    {
+      if (accessState is UsageAnalyticsAccessState &&
+          accessState.accessStatus == AccessStatus.pending) {
+        return const Center(child: OutfitProgressIndicator());
+      }
 
-                return BlocBuilder<FilteredOutfitsCubit, FilteredOutfitsState>(
-                  builder: (context, state) {
-                    if (state is FilteredOutfitsLoading) {
-                      return const Center(child: OutfitProgressIndicator());
-                    } else if (state is NoReviewedOutfitState) {
-                      return Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            S.of(context).noReviewedOutfitMessage,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
+      return SummaryOutfitAnalyticsListeners(
+        logger: _logger,
+        isFromMyCloset: widget.isFromMyCloset,
+        selectedOutfitIds: widget.selectedOutfitIds,
+        child: Column(
+          children: [
+            SummaryOutfitAnalyticsFeatureContainer(
+              theme: myOutfitTheme,
+              onFilterButtonPressed: () =>
+                  _onFilterButtonPressed(context, widget.isFromMyCloset),
+              onResetButtonPressed: () => _onResetButtonPressed(context),
+              onSelectAllButtonPressed: () =>
+                  _onSelectAllButtonPressed(context),
+              onFocusButtonPressed: () => _onFocusButtonPressed(context),
+              onCreateClosetButtonPressed: () =>
+                  _onCreateClosetButtonPressed(context),
+            ),
+            const SizedBox(height: 6),
+            BlocBuilder<SummaryOutfitAnalyticsBloc,
+                SummaryOutfitAnalyticsState>(
+              builder: (context, state) {
+                _logger.d("Current Bloc State: $state");
+                if (state is SummaryOutfitAnalyticsLoading ||
+                    state is SummaryOutfitAnalyticsInitial) {
+                  return const Center(child: OutfitProgressIndicator());
+                } else if (state is SummaryOutfitAnalyticsSuccess) {
+                  return Column(
+                    children: [
+                      Text(
+                        S.of(context).analyticsSummary(
+                          state.totalReviews,
+                          state.daysTracked,
+                          state.closetShown == "cc_closet"
+                              ? S
+                              .of(context)
+                              .defaultClosetName
+                              : state.closetShown == "allClosetShown"
+                              ? S
+                              .of(context)
+                              .allClosetShown
+                              : state.closetShown,
                         ),
-                      );
-                    } else if (state is NoFilteredReviewedOutfitState) {
-                      return Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            S.of(context).noFilteredOutfitMessage,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ),
-                      );
-                    } else if (state is FilteredOutfitsSuccess) {
-                      _logger.d("✅ Filtered outfits count: ${state.outfits.length}");
-                      return BlocBuilder<CrossAxisCountCubit, int>(
-                        builder: (context, crossAxisCount) {
-                          return OutfitList<OutfitData>(
-                            outfits: state.outfits,
-                            crossAxisCount: crossAxisCount,
-                            outfitSelectionMode: outfitSelectionMode,
-                            selectedOutfitIds: widget.selectedOutfitIds,
-                            outfitSize: OutfitSize.relatedOutfitImage,
-                            getHeightForOutfitSize: ImageHelper.getHeightForOutfitSize,
-                            onAction: (outfitId) => _onOutfitTap(context, outfitId),
-                          );
-                        },
-                      );
-                    } else if (state is FilteredOutfitsFailure) {
-                      return Center(child: Text(state.message));
-                    }
-                    return const SizedBox();
-                  },
-                );
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .titleMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 5),
+                      OutfitReviewAnalyticsContainer(
+                        theme: Theme.of(context),
+                        outfitReviewLike: TypeDataList.outfitReviewLike(
+                            context),
+                        outfitReviewAlright: TypeDataList.outfitReviewAlright(
+                            context),
+                        outfitReviewDislike: TypeDataList.outfitReviewDislike(
+                            context),
+                      ),
+                    ],
+                  );
+                } else if (state is SummaryOutfitAnalyticsFailure) {
+                  _logger.e("Failed to load analytics: ${state.message}");
+                  return Center(child: Text(state.message));
+                }
+                return Container();
               },
             ),
-          ),
-          BlocBuilder<MultiSelectionOutfitCubit, MultiSelectionOutfitState>(
-            builder: (context, state) {
-              if (state.selectedOutfitIds.isNotEmpty) {
-                return SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: ThemedElevatedButton(
-                      onPressed: _handleCreateCloset,
-                      text: S.of(context).createCloset,
+            const SizedBox(height: 12),
+            Expanded(
+              child: BlocBuilder<
+                  FocusOrCreateClosetBloc,
+                  FocusOrCreateClosetState>(
+                builder: (context, focusState) {
+                  final outfitSelectionMode =
+                  (focusState is FocusOrCreateClosetLoaded &&
+                      focusState.isCalendarSelectable)
+                      ? OutfitSelectionMode.multiSelection
+                      : OutfitSelectionMode.action;
+
+                  return BlocBuilder<FilteredOutfitsCubit,
+                      FilteredOutfitsState>(
+                    builder: (context, state) {
+                      if (state is FilteredOutfitsLoading) {
+                        return const Center(child: OutfitProgressIndicator());
+                      } else if (state is NoReviewedOutfitState) {
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              S
+                                  .of(context)
+                                  .noReviewedOutfitMessage,
+                              textAlign: TextAlign.center,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .titleMedium,
+                            ),
+                          ),
+                        );
+                      } else if (state is NoFilteredReviewedOutfitState) {
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              S
+                                  .of(context)
+                                  .noFilteredOutfitMessage,
+                              textAlign: TextAlign.center,
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .titleMedium,
+                            ),
+                          ),
+                        );
+                      } else if (state is FilteredOutfitsSuccess) {
+                        _logger.d("✅ Filtered outfits count: ${state.outfits
+                            .length}");
+                        return BlocBuilder<CrossAxisCountCubit, int>(
+                          builder: (context, crossAxisCount) {
+                            return OutfitList<OutfitData>(
+                              outfits: state.outfits,
+                              crossAxisCount: crossAxisCount,
+                              outfitSelectionMode: outfitSelectionMode,
+                              selectedOutfitIds: widget.selectedOutfitIds,
+                              outfitSize: OutfitSize.relatedOutfitImage,
+                              getHeightForOutfitSize: ImageHelper
+                                  .getHeightForOutfitSize,
+                              onAction: (outfitId) =>
+                                  _onOutfitTap(context, outfitId),
+                            );
+                          },
+                        );
+                      } else if (state is FilteredOutfitsFailure) {
+                        return Center(child: Text(state.message));
+                      }
+                      return const SizedBox();
+                    },
+                  );
+                },
+              ),
+            ),
+            BlocBuilder<MultiSelectionOutfitCubit, MultiSelectionOutfitState>(
+              builder: (context, state) {
+                if (state.selectedOutfitIds.isNotEmpty) {
+                  return SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: ThemedElevatedButton(
+                        onPressed: _handleCreateCloset,
+                        text: S
+                            .of(context)
+                            .createCloset,
+                      ),
                     ),
-                  ),
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-        ],
-      ),
-    );
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

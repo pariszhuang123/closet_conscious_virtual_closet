@@ -270,14 +270,16 @@ GoRouter appRouter = GoRouter(
       GoRoute(
         path: '/pending_photo_library',
         name: 'pending_photo_library',
-        pageBuilder: (context, state) =>
-            buildCustomTransitionPage(
-              key: state.pageKey,
-              transitionType: TransitionType.slideFromRight,
-              child: PendingItemsScaffold(
-                body: PendingPhotoLibraryProvider(),
-              ),
+        pageBuilder: (context, state) {
+          final timestamp = state.uri.queryParameters['t'] ?? '${DateTime.now().millisecondsSinceEpoch}';
+          return buildCustomTransitionPage(
+            key: ValueKey(timestamp),
+            transitionType: TransitionType.slideFromRight,
+            child: PendingItemsScaffold(
+              body: PendingPhotoLibraryProvider(),
             ),
+          );
+        },
       ),
       GoRoute(
         path: '/view_pending_item',

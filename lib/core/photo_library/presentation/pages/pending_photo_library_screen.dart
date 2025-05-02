@@ -39,8 +39,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
   void initState() {
     super.initState();
     _logger.i('initState: Requesting photo library permission');
-    context.read<PhotoLibraryBloc>().add(RequestLibraryPermission());
-    context.read<NavigateCoreBloc>().add(const CheckUploadItemCreationAccessEvent());
+    context.read<PhotoLibraryBloc>().add(PhotoLibraryStarted());
     context.read<TutorialBloc>().add(
       const CheckTutorialStatus(TutorialType.freeUploadPhotoLibrary),
     );
@@ -155,6 +154,10 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
                 );
               });
             }
+            if (state is PhotoLibraryNoPendingItem) {
+              _logger.i('No pending items — dispatching access check for uploads');
+              context.read<NavigateCoreBloc>().add(const CheckUploadItemCreationAccessEvent());
+            }
             if (state is PhotoLibraryPermissionDenied) {
               _logger.w('Photo library permission denied. Triggering permission helper.');
               WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -167,15 +170,15 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
 
               // ✅ now dispatch initialization after user has interacted
               context.read<PhotoLibraryBloc>().add(InitializePhotoLibrary());
-              context.read<PhotoLibraryBloc>().add(CheckForPendingItems());
             }
 
               if (state is PhotoLibraryUploadSuccess) {
-              _logger.i(
-                  'Listener: Upload success — showing continue upload dialog');
-
-              showUploadSuccessDialog(context, Theme.of(context));
-            }
+                context.read<PhotoLibraryBloc>().add(CheckPostUploadApparelCount());
+              } else if (state is PhotoLibraryViewPendingLibrary) {
+                context.goNamed(AppRoutesName.viewPendingItem);
+              } else if (state is PhotoLibraryUploadSuccessShowDialog) {
+                showUploadSuccessDialog(context, Theme.of(context));
+              }
           },
         ),
         BlocListener<NavigateCoreBloc, NavigateCoreState>(
@@ -208,7 +211,7 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
         builder: (context, state) {
           _logger.i('Builder: Current PhotoLibraryBloc state: ${state.runtimeType}');
 
-          if (state is PhotoLibraryInitial || state is PhotoLibraryLoadingImages) {
+          if (state is PhotoLibraryInitial) {
             return const Center(child: ClosetProgressIndicator());
           }
 
@@ -217,14 +220,17 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
             return Center(child: Text(S.of(context).failedToLoadImages));
           }
 
-          if (state is PhotoLibraryReady ||
+          if (state is PhotoLibraryLoadingImages ||
+              state is PhotoLibraryReady ||
               state is PhotoLibraryPendingItem ||
               state is PhotoLibraryNoPendingItem ||
-              state is PhotoLibraryMaxSelectionReached) {
+              state is PhotoLibraryMaxSelectionReached ||
+              state is PhotoLibraryUploading) {
 
             final selectedAssets = context.select<PhotoLibraryBloc, List<AssetEntity>>(
                   (bloc) => bloc.selectedImages,
             );
+            final isLoading = state is PhotoLibraryUploading;
 
             _logger.d('Rendering item grid with ${selectedAssets.length} selected images');
 
@@ -249,32 +255,30 @@ class _PendingPhotoLibraryScreen extends State<PendingPhotoLibraryScreen> with W
                     ),
                   ),
                 ),
-                BlocBuilder<PhotoLibraryBloc, PhotoLibraryState>(
-                  builder: (context, state) {
-                    final isLoading = state is PhotoLibraryUploading;
-                    final selectedAssets = context.watch<PhotoLibraryBloc>().selectedImages;
-                    if (selectedAssets.isEmpty) return const SizedBox.shrink();
+                if (selectedAssets.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: UploadButtonWithProgress(
+                      isLoading: isLoading,
+                      onPressed: () {
+                        logBreadcrumb(
+                          'Upload button pressed',
+                          category: 'photo.upload',
+                          data: {'selectedCount': selectedAssets.length},
+                        );
 
-                    return Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: UploadButtonWithProgress(
-                        isLoading: isLoading,
-                        onPressed: () {
-                          logBreadcrumb('Upload button pressed', category: 'photo.upload', data: {'selectedCount': selectedAssets.length});
-
-                          context.read<PhotoLibraryBloc>().add(
-                            UploadSelectedLibraryImages(assets: selectedAssets),
-                          );
-                        },
-                        text: S.of(context).upload,
-                        isFromMyCloset: true,
-                      ),
-                    );
-                  },
-                ),
+                        context.read<PhotoLibraryBloc>().add(
+                          UploadSelectedLibraryImages(assets: selectedAssets),
+                        );
+                      },
+                      text: S.of(context).upload,
+                      isFromMyCloset: true,
+                    ),
+                  ),
               ],
             );
           }
+
 
           _logger.w('Unhandled state: ${state.runtimeType}');
           return const Center(child: ClosetProgressIndicator());

@@ -13,7 +13,12 @@ void showUploadSuccessDialog(BuildContext context, ThemeData theme) {
     buttonText: S.of(context).yes,
     onPressed: () {
       Navigator.pop(context); // Close the dialog first
-      context.goNamed(AppRoutesName.pendingPhotoLibrary);
+      context.goNamed(
+        AppRoutesName.pendingPhotoLibrary,
+        queryParameters: {
+          't': DateTime.now().millisecondsSinceEpoch.toString(), // 👈 this changes every time
+        },
+      );
     },
     theme: theme,
     iconButton: IconButton(

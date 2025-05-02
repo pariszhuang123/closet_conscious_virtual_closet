@@ -41,8 +41,7 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
     super.initState();
     _logger.i('CustomizeScreen initState');
 
-    context.read<CustomizeBloc>().add(CheckCustomizeAccessEvent());
-    context.read<CustomizeBloc>().add(LoadCustomizeEvent());
+    context.read<CustomizeBloc>().add(const CustomizeStarted());
     context.read<TutorialBloc>().add(
       const CheckTutorialStatus(TutorialType.paidCustomize),
     );
