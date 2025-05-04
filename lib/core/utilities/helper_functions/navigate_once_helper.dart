@@ -6,14 +6,14 @@ mixin NavigateOnceHelper<T extends StatefulWidget> on State<T> {
 
   void navigateOnce(VoidCallback callback) {
     if (_hasNavigated) return;
-
     _hasNavigated = true;
 
-    // Use microtask to delay until it's safe to navigate
-    scheduleMicrotask(() {
-      if (mounted) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      scheduleMicrotask(() {
         callback();
-      }
+      });
     });
   }
 
