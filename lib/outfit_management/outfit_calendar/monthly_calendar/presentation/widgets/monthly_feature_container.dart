@@ -7,7 +7,6 @@ import '../../../../../core/core_enums.dart';
 import '../../../../../core/data/type_data.dart';
 import '../bloc/monthly_calendar_metadata_bloc/monthly_calendar_metadata_bloc.dart';
 import '../bloc/monthly_calendar_images_bloc/monthly_calendar_images_bloc.dart';
-import '../../../../../item_management/multi_closet/core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
 import '../../../../../core/utilities/logger.dart';
 
 class MonthlyFeatureContainer extends StatelessWidget {
@@ -33,8 +32,6 @@ class MonthlyFeatureContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final metadataBlocState = context.watch<MonthlyCalendarMetadataBloc>().state;
-    final multiClosetNavBlocState =
-        context.watch<MultiClosetNavigationBloc>().state; // ✅ Watch MultiClosetNavigationBloc
 
     bool isCalendarSelectable = false;
     bool multiClosetAccessGranted = false;
@@ -43,12 +40,7 @@ class MonthlyFeatureContainer extends StatelessWidget {
       isCalendarSelectable = metadataBlocState.metadataList.first.isCalendarSelectable;
     }
 
-    if (multiClosetNavBlocState is MultiClosetAccessState &&
-        multiClosetNavBlocState.accessStatus == AccessStatus.granted) {
-      multiClosetAccessGranted = true;
-    }
     logger.d("MetadataBloc State: ${metadataBlocState.runtimeType}");
-    logger.d("MultiClosetNavigationBloc State: ${multiClosetNavBlocState.runtimeType}");
     logger.d("isCalendarSelectable: $isCalendarSelectable");
     logger.d("MultiClosetAccessGrantedState: $multiClosetAccessGranted");
 
@@ -66,8 +58,8 @@ class MonthlyFeatureContainer extends StatelessWidget {
       },
     );
 
-    final bool showFocus = multiClosetAccessGranted && !isCalendarSelectable;
-    final bool showCreateCloset = multiClosetAccessGranted && isCalendarSelectable;
+    final bool showFocus = !isCalendarSelectable;
+    final bool showCreateCloset = isCalendarSelectable;
 
     logger.d("showFocus: $showFocus, showCreateCloset: $showCreateCloset");
 

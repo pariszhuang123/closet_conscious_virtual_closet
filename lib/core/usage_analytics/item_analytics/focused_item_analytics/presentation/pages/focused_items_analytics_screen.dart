@@ -13,32 +13,47 @@ import '../../../../../../outfit_management/core/data/models/outfit_data.dart';
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../../../generated/l10n.dart';
-import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import '../../../../../core_enums.dart';
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 import '../../../../../utilities/helper_functions/image_helper/image_helper.dart';
 import '../../../../../theme/my_closet_theme.dart';
 import '../../../../../theme/my_outfit_theme.dart';
+import 'focused_item_analytics_listeners.dart';
+import '../../../../../widgets/layout/bottom_nav_bar/analytics_bottom_nav_bar.dart';
+import '../../../../../usage_analytics/core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 
-class FocusedItemsAnalyticsScreen extends StatelessWidget {
+class FocusedItemsAnalyticsScreen extends StatefulWidget {
   final bool isFromMyCloset;
   final String itemId;
   final List<String> selectedOutfitIds;
 
-  final CustomLogger logger = CustomLogger('FocusedItemsAnalyticsScreen');
-
-  FocusedItemsAnalyticsScreen({
+  const FocusedItemsAnalyticsScreen({
     super.key,
     required this.isFromMyCloset,
     required this.itemId,
     this.selectedOutfitIds = const [],
   });
 
+  @override
+  State<FocusedItemsAnalyticsScreen> createState() => _FocusedItemsAnalyticsScreenState();
+}
+
+class _FocusedItemsAnalyticsScreenState extends State<FocusedItemsAnalyticsScreen> {
+  final CustomLogger logger = CustomLogger('FocusedItemsAnalyticsScreen');
+
+  @override
+  void initState() {
+    super.initState();
+    logger.i('Running initState logic for itemId: ${widget.itemId}');
+
+    context.read<UsageAnalyticsNavigationBloc>().add(CheckUsageAnalyticsAccessEvent());
+  }
+
   void _onImageTap(BuildContext context) {
     logger.i('Image tapped, navigating to EditItem');
     context.pushNamed(
       AppRoutesName.editItem,
-      extra: itemId,
+      extra: widget.itemId,
     );
   }
 
@@ -46,87 +61,45 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.i('Building FocusedItemsAnalyticsScreen');
 
-    final ThemeData effectiveTheme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
+    final ThemeData effectiveTheme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
 
-    return Theme(
-      data: effectiveTheme,
-      child: PopScope(
-        canPop: true,
-        onPopInvokedWithResult: (bool didPop, Object? result) {
-          logger.i('Pop invoked: didPop = $didPop, result = $result');
-          if (!didPop) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              context.goNamed(AppRoutesName.summaryItemsAnalytics);
-            });
-          }
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            leading: BackButton(
-              onPressed: () async {
-                final navigator = Navigator.of(context);
-                if (navigator.canPop()) {
-                  logger.i('BackButton: Navigator can pop, popping...');
-                  navigator.pop();
-                } else {
-                  logger.i('BackButton: Navigator cannot pop, going to MyCloset.');
-                  context.goNamed(AppRoutesName.summaryItemsAnalytics);
-                }
-              },
-            ),
-            title: Text(
-              S.of(context).usageAnalyticsTitle,
-              style: effectiveTheme.textTheme.titleMedium,
-            ),
-          ),
-          body: MultiBlocListener(
-            listeners: [
-              BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
-                listener: (context, state) {
-                  if (state is OutfitFocusedDateSuccess) {
-                    logger.i('✅ Focused date set successfully for outfitId: ${state.outfitId}');
-                    context.pushNamed(
-                      AppRoutesName.dailyCalendar,
-                      extra: {'outfitId': state.outfitId},
-                    );
-                  } else if (state is OutfitFocusedDateFailure) {
-                    logger.e('❌ Failed to set focused date: ${state.error}');
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(state.error)),
-                    );
+    return FocusedItemsAnalyticsListeners( // ✅ wrap everything
+      isFromMyCloset: widget.isFromMyCloset,
+      itemId: widget.itemId,
+      logger: logger,
+      child: Theme(
+        data: effectiveTheme,
+        child: PopScope(
+          canPop: true,
+          onPopInvokedWithResult: (bool didPop, Object? result) {
+            logger.i('Pop invoked: didPop = $didPop, result = $result');
+            if (!didPop) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed(AppRoutesName.summaryItemsAnalytics);
+              });
+            }
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              leading: BackButton(
+                onPressed: () async {
+                  final navigator = Navigator.of(context);
+                  if (navigator.canPop()) {
+                    logger.i('BackButton: Navigator can pop, popping...');
+                    navigator.pop();
+                  } else {
+                    logger.i('BackButton: Navigator cannot pop, going to MyCloset.');
+                    context.goNamed(AppRoutesName.summaryItemsAnalytics);
                   }
                 },
               ),
-              BlocListener<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
-                listener: (context, state) {
-                  if (state is UsageAnalyticsAccessState) {
-                    if (state.accessStatus == AccessStatus.denied) {
-                      logger.w('Access denied: Navigating to payment page');
-                      context.goNamed(
-                        AppRoutesName.payment,
-                        extra: {
-                          'featureKey': FeatureKey.usageAnalytics,
-                          'isFromMyCloset': isFromMyCloset,
-                          'previousRoute': AppRoutesName.myCloset,
-                          'nextRoute': AppRoutesName.focusedItemsAnalytics,
-                        },
-                      );
-                    } else if (state.accessStatus == AccessStatus.trialPending) {
-                      logger.i('Trial pending, navigating to trialStarted screen');
-                      context.goNamed(
-                        AppRoutesName.trialStarted,
-                        extra: {
-                          'selectedFeatureRoute': AppRoutesName.focusedItemsAnalytics,
-                          'isFromMyCloset': isFromMyCloset,
-                        },
-                      );
-                    }
-                  }
-                },
+              title: Text(
+                S.of(context).usageAnalyticsTitle,
+                style: effectiveTheme.textTheme.titleMedium,
               ),
-            ],
-            child: BlocBuilder<FetchItemImageCubit, FetchItemImageState>(
+            ),
+            body: BlocBuilder<FetchItemImageCubit, FetchItemImageState>(
               builder: (context, state) {
                 if (state is FetchItemImageLoading) {
                   logger.d('Loading image...');
@@ -192,7 +165,7 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                                           outfits: outfits,
                                           crossAxisCount: crossAxisCount,
                                           outfitSelectionMode: outfitSelectionMode,
-                                          selectedOutfitIds: selectedOutfitIds,
+                                          selectedOutfitIds: widget.selectedOutfitIds,
                                           outfitSize: OutfitSize.relatedOutfitImage,
                                           getHeightForOutfitSize: ImageHelper.getHeightForOutfitSize,
                                           onAction: (outfitId) {
@@ -223,6 +196,10 @@ class FocusedItemsAnalyticsScreen extends StatelessWidget {
                 }
                 return const SizedBox.shrink();
               },
+            ),
+            bottomNavigationBar: AnalyticsBottomNavBar(
+              currentIndex: widget.isFromMyCloset ? 0 : 1,
+              isFromMyCloset: widget.isFromMyCloset,
             ),
           ),
         ),

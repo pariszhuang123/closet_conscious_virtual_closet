@@ -38,24 +38,28 @@ class SummaryItemAnalyticsListeners extends StatelessWidget {
             if (state is UsageAnalyticsAccessState) {
               if (state.accessStatus == AccessStatus.denied) {
                 logger.w('Access denied: Navigating to payment page');
-                context.goNamed(
-                  AppRoutesName.payment,
-                  extra: {
-                    'featureKey': FeatureKey.usageAnalytics,
-                    'isFromMyCloset': isFromMyCloset,
-                    'previousRoute': AppRoutesName.myCloset,
-                    'nextRoute': AppRoutesName.summaryItemsAnalytics,
-                  },
-                );
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  context.goNamed(
+                    AppRoutesName.payment,
+                    extra: {
+                      'featureKey': FeatureKey.usageAnalytics,
+                      'isFromMyCloset': isFromMyCloset,
+                      'previousRoute': AppRoutesName.myCloset,
+                      'nextRoute': AppRoutesName.summaryItemsAnalytics,
+                    },
+                  );
+                });
               } else if (state.accessStatus == AccessStatus.trialPending) {
                 logger.i('Trial pending, navigating to trialStarted screen');
-                context.goNamed(
-                  AppRoutesName.trialStarted,
-                  extra: {
-                    'selectedFeatureRoute': AppRoutesName.summaryItemsAnalytics,
-                    'isFromMyCloset': isFromMyCloset,
-                  },
-                );
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  context.goNamed(
+                    AppRoutesName.trialStarted,
+                    extra: {
+                      'selectedFeatureRoute': AppRoutesName.summaryItemsAnalytics,
+                      'isFromMyCloset': isFromMyCloset,
+                    },
+                  );
+                });
               } else if (state.accessStatus == AccessStatus.granted) {
                 logger.i('Access granted: Fetching all summary & items');
 
@@ -63,6 +67,7 @@ class SummaryItemAnalyticsListeners extends StatelessWidget {
                 context.read<SummaryItemsBloc>().add(FetchSummaryItemEvent());
                 context.read<MultiSelectionItemCubit>().initializeSelection(selectedItemIds);
                 context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+                context.read<FocusOrCreateClosetBloc>().add(FetchFocusOrCreateCloset());
                 context.read<MultiClosetNavigationBloc>().add(CheckMultiClosetAccessEvent());
               }
             }
@@ -72,20 +77,23 @@ class SummaryItemAnalyticsListeners extends StatelessWidget {
           listener: (context, tutorialState) {
             if (tutorialState is ShowTutorial) {
               logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
-              context.goNamed(
-                AppRoutesName.tutorialVideoPopUp,
-                extra: {
-                  'nextRoute': AppRoutesName.summaryItemsAnalytics,
-                  'tutorialInputKey': TutorialType.paidUsageAnalytics.value,
-                  'isFromMyCloset': isFromMyCloset,
-                },
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed(
+                  AppRoutesName.tutorialVideoPopUp,
+                  extra: {
+                    'nextRoute': AppRoutesName.summaryItemsAnalytics,
+                    'tutorialInputKey': TutorialType.paidUsageAnalytics.value,
+                    'isFromMyCloset': isFromMyCloset,
+                  },
+                );
+              });
             }
           },
         ),
         BlocListener<MultiClosetNavigationBloc, MultiClosetNavigationState>(
           listener: (context, state) {
-            if (state is MultiClosetAccessState && state.accessStatus == AccessStatus.granted) {
+            if (state is MultiClosetAccessState &&
+                state.accessStatus == AccessStatus.granted) {
               logger.i('Multi-closet access granted. Fetching calendar selectability...');
               context.read<FocusOrCreateClosetBloc>().add(FetchFocusOrCreateCloset());
             }

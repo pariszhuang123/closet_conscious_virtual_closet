@@ -57,9 +57,8 @@ class SummaryOutfitAnalyticsFeatureContainer extends StatelessWidget {
     logger.d("isCalendarSelectable: $isCalendarSelectable");
     logger.d("MultiClosetAccessGrantedState: $multiClosetAccessGranted");
 
-    final bool showFocus = multiClosetAccessGranted && !isCalendarSelectable;
-    final bool showCreateCloset = multiClosetAccessGranted &&
-        isCalendarSelectable;
+    final bool showFocus = !isCalendarSelectable;
+    final bool showCreateCloset = isCalendarSelectable;
     final bool showFilter = multiClosetAccessGranted;
 
     logger.d("showFocus: $showFocus, showCreateCloset: $showCreateCloset");

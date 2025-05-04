@@ -55,6 +55,7 @@ class SummaryOutfitAnalyticsListeners extends StatelessWidget {
                 context.read<FilteredOutfitsCubit>().fetchFilteredOutfits();
                 context.read<MultiSelectionOutfitCubit>().initializeSelection(selectedOutfitIds);
                 context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+                context.read<FocusOrCreateClosetBloc>().add(FetchFocusOrCreateCloset());
                 context.read<MultiClosetNavigationBloc>().add(CheckMultiClosetAccessEvent());
                 context.read<SummaryOutfitAnalyticsBloc>().add(
                   FetchOutfitAnalytics(),

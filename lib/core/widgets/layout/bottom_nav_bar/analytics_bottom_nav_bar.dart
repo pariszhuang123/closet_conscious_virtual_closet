@@ -19,12 +19,12 @@ class AnalyticsBottomNavBar extends StatelessWidget {
   void _onItemTapped(BuildContext context, int index) {
     if (index == 0 && currentIndex != 0) {
       // Navigate only if not already on this tab
-      context.goNamed(
+      context.pushNamed(
         AppRoutesName.summaryItemsAnalytics,
         extra: {'isFromMyCloset': true},
       );
     } else if (index == 1 && currentIndex != 1) {
-      context.goNamed(
+      context.pushNamed(
         AppRoutesName.summaryOutfitAnalytics,
         extra: {'isFromMyCloset': false},
       );

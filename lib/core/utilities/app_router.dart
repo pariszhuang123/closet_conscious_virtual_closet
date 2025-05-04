@@ -176,7 +176,7 @@ GoRouter appRouter = GoRouter(
         pageBuilder: (context, state) {
           final outfitId = state.extra as String;
           return buildCustomTransitionPage(
-            key: state.pageKey,
+            key: UniqueKey(),
             child: OutfitWearProvider(outfitId: outfitId),
             transitionType: TransitionType.slideFromLeft,
           );
@@ -272,11 +272,15 @@ GoRouter appRouter = GoRouter(
         name: 'pending_photo_library',
         pageBuilder: (context, state) {
           final timestamp = state.uri.queryParameters['t'] ?? '${DateTime.now().millisecondsSinceEpoch}';
+          final key = ValueKey('pending-$timestamp');
+
           return buildCustomTransitionPage(
-            key: ValueKey(timestamp),
+            key: key,
             transitionType: TransitionType.slideFromRight,
             child: PendingItemsScaffold(
-              body: PendingPhotoLibraryProvider(),
+              body: PendingPhotoLibraryProvider(
+                key: key
+              ),
             ),
           );
         },
@@ -298,11 +302,12 @@ GoRouter appRouter = GoRouter(
         name: 'edit_pending_item',
         pageBuilder: (context, state) {
           final itemId = state.extra as String;
+          final key = ValueKey('edit-pending-$itemId'); // 👈 create a unique key
           return buildCustomTransitionPage(
             key: state.pageKey,
             transitionType: TransitionType.slideFromRight,
             child: PendingItemsScaffold(
-              body: EditPendingItemProvider(itemId: itemId),
+              body: EditPendingItemProvider(itemId: itemId, key: key), // 👈 pass key
             ),
           );
         },

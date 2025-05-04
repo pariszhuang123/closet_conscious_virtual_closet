@@ -7,7 +7,6 @@ import '../../../../../widgets/button/navigation_type_button.dart';
 import '../../../../../core_enums.dart';
 import '../../../../../data/type_data.dart';
 import '../../../../../utilities/logger.dart';
-import '../../../../../../item_management/multi_closet/core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
 
 class SummaryItemAnalyticsFeatureContainer extends StatelessWidget {
   final ThemeData theme;
@@ -37,32 +36,20 @@ class SummaryItemAnalyticsFeatureContainer extends StatelessWidget {
     final focusOrCreateClosetState = context
         .watch<FocusOrCreateClosetBloc>()
         .state;
-    final multiClosetNavBlocState = context
-        .watch<MultiClosetNavigationBloc>()
-        .state;
 
     bool isCalendarSelectable = false;
-    bool multiClosetAccessGranted = false;
 
 
     if (focusOrCreateClosetState is FocusOrCreateClosetLoaded) {
       isCalendarSelectable = focusOrCreateClosetState.isCalendarSelectable;
     }
 
-    if (multiClosetNavBlocState is MultiClosetAccessState &&
-        multiClosetNavBlocState.accessStatus == AccessStatus.granted) {
-      multiClosetAccessGranted = true;
-    }
     logger.d(
         "FocusOrCreateClosetState: ${focusOrCreateClosetState.runtimeType}");
-    logger.d("MultiClosetNavigationBloc State: ${multiClosetNavBlocState
-        .runtimeType}");
     logger.d("isCalendarSelectable: $isCalendarSelectable");
-    logger.d("MultiClosetAccessGrantedState: $multiClosetAccessGranted");
 
-    final bool showFocus = multiClosetAccessGranted && !isCalendarSelectable;
-    final bool showCreateCloset = multiClosetAccessGranted &&
-        isCalendarSelectable;
+    final bool showFocus = !isCalendarSelectable;
+    final bool showCreateCloset = isCalendarSelectable;
 
     logger.d("showFocus: $showFocus, showCreateCloset: $showCreateCloset");
 

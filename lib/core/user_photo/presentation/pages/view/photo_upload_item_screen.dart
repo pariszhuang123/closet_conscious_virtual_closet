@@ -26,6 +26,9 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
   bool paymentRequired = false; // 🚨 Track payment requirement
 
   @override
+  bool get autoTriggerAccessCheck => false;
+
+  @override
   void triggerAccessCheck() {
     widget.logger.i('Checking if upload item can be triggered');
     navigateCoreBloc.add(const CheckUploadItemCreationAccessEvent());

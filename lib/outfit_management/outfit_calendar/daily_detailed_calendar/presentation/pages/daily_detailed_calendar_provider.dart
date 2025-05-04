@@ -39,61 +39,36 @@ class DailyDetailedCalendarProvider extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        // Provide the DailyCalendarBloc
-        BlocProvider<DailyCalendarBloc>(
-          create: (context) {
-            _logger.d('Creating DailyCalendarBloc');
-            return DailyCalendarBloc(
-                outfitFetchService: outfitFetchService,
-                outfitSaveService: outfitSaveService)
-              ..add(const FetchDailyCalendarEvent()); // Fetch latest data from Supabase
-          },
+        BlocProvider(
+          create: (_) => DailyCalendarBloc(
+            outfitFetchService: outfitFetchService,
+            outfitSaveService: outfitSaveService,
+          ),
         ),
-        // Provide the CrossAxisCountCubit
-        BlocProvider<CrossAxisCountCubit>(
-          create: (context) {
-            _logger.d('Creating CrossAxisCountCubit');
-            return CrossAxisCountCubit(
-                coreFetchService: coreLocator<CoreFetchService>())
-              ..fetchCrossAxisCount();
-          },
+        BlocProvider(
+          create: (_) => CrossAxisCountCubit(
+            coreFetchService: coreLocator<CoreFetchService>(),
+          ),
         ),
         BlocProvider(
           create: (_) {
-            _logger.i('Creating MultiSelectionItemCubit...');
             final cubit = MultiSelectionItemCubit();
-            cubit.initializeSelection(selectedItemIds); // ✅ Initialize selection
-            _logger.i('MultiSelectionItemCubit initialized with selected items.');
+            cubit.initializeSelection(selectedItemIds);
             return cubit;
           },
         ),
+        BlocProvider(create: (_) => SingleSelectionItemCubit()),
+        BlocProvider(create: (_) => OutfitFocusedDateCubit(coreSaveService)),
         BlocProvider(
-          create: (_) {
-            _logger.i('Creating SingleItemCubit...');
-            final cubit = SingleSelectionItemCubit();
-            return cubit;
-          },
-        ),
-        BlocProvider(
-          create: (context) {
-            _logger.i('Creating OutfitFocusedDateCubit...');
-            return OutfitFocusedDateCubit(coreSaveService);
-          },
-        ),
-        BlocProvider(
-          create: (context) {
-            _logger.d('Creating OutfitSelectionBloc...');
-            return OutfitSelectionBloc(
-              outfitFetchService: outfitFetchService,
-              logger: CustomLogger('OutfitSelectionBloc'),
-            );
-          },
+          create: (_) => OutfitSelectionBloc(
+            outfitFetchService: outfitFetchService,
+            logger: CustomLogger('OutfitSelectionBloc'),
+          ),
         ),
       ],
-    // Wrap content in CalendarScaffold
       child: DailyDetailedCalendarScreen(
-          theme: myOutfitTheme,
-          outfitId: outfitId
+        theme: myOutfitTheme,
+        outfitId: outfitId,
       ),
     );
   }

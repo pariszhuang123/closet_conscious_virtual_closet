@@ -37,7 +37,7 @@ class EditPendingItemProvider extends StatelessWidget {
           ),
         ),
       ],
-      child: EditPendingItemScreen(itemId: itemId),
+      child: EditPendingItemScreen(itemId: itemId, key: key),
     );
   }
 }

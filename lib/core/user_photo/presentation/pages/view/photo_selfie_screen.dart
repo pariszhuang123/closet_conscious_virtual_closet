@@ -29,6 +29,9 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
   bool paymentRequired = false; // 🚨 Track if payment was needed
 
   @override
+  bool get autoTriggerAccessCheck => false;
+
+  @override
   void triggerAccessCheck() {
     navigateCoreBloc.add(const CheckSelfieCreationAccessEvent());
     widget.logger.i('Checking if selfie creation can be triggered');

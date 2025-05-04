@@ -15,6 +15,7 @@ import '../../../../core/presentation/bloc/single_selection_item_cubit/single_se
 import 'create_multi_closet_screen.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
+import '../../../../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 
 class CreateMultiClosetProvider extends StatelessWidget {
   final List<String> selectedItemIds;
@@ -72,6 +73,15 @@ class CreateMultiClosetProvider extends StatelessWidget {
             coreFetchService: coreFetchService,
             coreSaveService: coreSaveService,
           ),
+        ),
+        BlocProvider<TutorialBloc>(
+          create: (context) {
+            logger.d('Creating TutorialBloc with core services');
+            return TutorialBloc(
+              coreFetchService: coreFetchService,
+              coreSaveService: coreSaveService,
+            );
+          },
         ),
       ],
       child: CreateMultiClosetScreen(

@@ -42,74 +42,20 @@ class FocusedItemsAnalyticsProvider extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider<FetchItemImageCubit>(
-          create: (_) {
-            logger.i('Creating FetchItemImageCubit...');
-            final cubit = FetchItemImageCubit(itemFetchService);
-            cubit.fetchItemImage(itemId);
-            return cubit;
-          },
-        ),
-        BlocProvider<FetchItemRelatedOutfitsCubit>(
-          create: (_) {
-            logger.i('Creating FetchItemRelatedOutfitsCubit...');
-            final cubit = FetchItemRelatedOutfitsCubit(coreFetchService);
-            cubit.fetchItemRelatedOutfits(itemId: itemId);
-            return cubit;
-          },
-        ),
-
-        /// **Fetches CrossAxisCount for Outfit Grid**
-        BlocProvider<CrossAxisCountCubit>(
-          create: (_) {
-            logger.i('Creating CrossAxisCountCubit...');
-            final cubit = CrossAxisCountCubit(coreFetchService: coreFetchService);
-            cubit.fetchCrossAxisCount();
-            return cubit;
-          },
-        ),
+        BlocProvider(create: (_) => FetchItemImageCubit(itemFetchService)),
+        BlocProvider(create: (_) => FetchItemRelatedOutfitsCubit(coreFetchService)),
+        BlocProvider(create: (_) => CrossAxisCountCubit(coreFetchService: coreFetchService)),
+        BlocProvider(create: (_) => OutfitFocusedDateCubit(coreSaveService)),
+        BlocProvider(create: (_) => MultiSelectionItemCubit()),
+        BlocProvider(create: (_) => UsageAnalyticsNavigationBloc(coreFetchService: coreFetchService)),
         BlocProvider(
-          create: (context) {
-            logger.i('Creating OutfitFocusedDateCubit...');
-            return OutfitFocusedDateCubit(coreSaveService);
-          },
-        ),
-        BlocProvider(
-          create: (_) {
-            logger.i('Creating MultiSelectionItemCubit...');
-            final cubit = MultiSelectionItemCubit();
-            cubit.initializeSelection;
-            return cubit;
-          },
-        ),
-        BlocProvider<UsageAnalyticsNavigationBloc>(
-          create: (context) {
-            logger.i('Creating UsageAnalyticsNavigationBloc...');
-            final bloc = UsageAnalyticsNavigationBloc(coreFetchService: coreFetchService);
-            bloc.add(CheckUsageAnalyticsAccessEvent());
-            return bloc;
-          },
-        ),
-        BlocProvider(
-          create: (context) => FocusOrCreateClosetBloc(
+          create: (_) => FocusOrCreateClosetBloc(
             coreFetchService: coreFetchService,
             coreSaveService: coreSaveService,
-          )..add(FetchFocusOrCreateCloset()),
+          ),
         ),
-        BlocProvider<MultiSelectionOutfitCubit>(
-          create: (_) {
-            logger.i('Creating MultiSelectionOutfitCubit with selectedOutfitIds: $selectedOutfitIds');
-            final cubit = MultiSelectionOutfitCubit();
-            cubit.initializeSelection(selectedOutfitIds); // ✅ Pass correct data
-            return cubit;
-          },
-        ),
-        BlocProvider<SingleSelectionOutfitCubit>(
-          create: (_) {
-            logger.i('Creating SingleSelectionOutfitCubit...');
-            return SingleSelectionOutfitCubit();
-          },
-        ),
+        BlocProvider(create: (_) => MultiSelectionOutfitCubit()),
+        BlocProvider(create: (_) => SingleSelectionOutfitCubit()),
       ],
       child: FocusedItemsAnalyticsScreen(
           isFromMyCloset: isFromMyCloset,

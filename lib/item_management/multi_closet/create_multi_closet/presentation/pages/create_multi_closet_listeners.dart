@@ -13,6 +13,9 @@ import '../../../core/presentation/bloc/multi_closet_navigation_bloc/multi_close
 import '../bloc/create_multi_closet_bloc.dart';
 import '../../../../core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../../../core/data/items_enums.dart';
+import '../../../../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../../../../core/utilities/helper_functions/tutorial_helper.dart';
+import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
 
 class CreateMultiClosetListeners extends StatelessWidget {
   final Widget child;
@@ -30,18 +33,35 @@ class CreateMultiClosetListeners extends StatelessWidget {
       listeners: [
         BlocListener<MultiClosetNavigationBloc, MultiClosetNavigationState>(
           listener: (context, state) {
-            if (state is MultiClosetAccessState &&
-                state.accessStatus == AccessStatus.denied) {
-              logger.w('Access denied: Navigating to payment page');
-              context.goNamed(
-                AppRoutesName.payment,
-                extra: {
-                  'featureKey': FeatureKey.multicloset,
-                  'isFromMyCloset': true,
-                  'previousRoute': AppRoutesName.myCloset,
-                  'nextRoute': AppRoutesName.createMultiCloset,
-                },
-              );
+            if (state is MultiClosetAccessState) {
+              if (state.accessStatus == AccessStatus.trialPending) {
+                logger.i('Trial pending: Navigating to trialStarted screen');
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  context.goNamed(
+                    AppRoutesName.trialStarted,
+                    extra: {
+                      'selectedFeatureRoute': AppRoutesName.createMultiCloset,
+                      'isFromMyCloset': true,
+                    },
+                  );
+                });
+              } else if (state.accessStatus == AccessStatus.denied) {
+                logger.w('Access denied: Navigating to payment page');
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  context.goNamed(
+                    AppRoutesName.payment,
+                    extra: {
+                      'featureKey': FeatureKey.multicloset,
+                      'isFromMyCloset': true,
+                      'previousRoute': AppRoutesName.myCloset,
+                      'nextRoute': AppRoutesName.createMultiCloset,
+                    },
+                  );
+                });
+              } else if (state.accessStatus == AccessStatus.granted) {
+                logger.i('Access granted: Fetching closet items.');
+                context.read<ViewItemsBloc>().add(FetchItemsEvent(0, isPending: false));
+              }
             }
           },
         ),
@@ -51,8 +71,7 @@ class CreateMultiClosetListeners extends StatelessWidget {
 
             if (state.status == ClosetStatus.valid) {
               logger.i('Validation succeeded. Creating closet.');
-              final metadataState =
-                  context.read<UpdateClosetMetadataCubit>().state;
+              final metadataState = context.read<UpdateClosetMetadataCubit>().state;
 
               context.read<CreateMultiClosetBloc>().add(
                 CreateMultiClosetRequested(
@@ -72,7 +91,10 @@ class CreateMultiClosetListeners extends StatelessWidget {
                 message: S.of(context).closet_created_successfully,
                 theme: theme,
               ).show(context);
-              context.goNamed(AppRoutesName.myCloset);
+
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed(AppRoutesName.myCloset);
+              });
             } else if (state.status == ClosetStatus.failure) {
               logger.e('Error creating closet.');
               CustomSnackbar(
@@ -81,6 +103,23 @@ class CreateMultiClosetListeners extends StatelessWidget {
                     : S.of(context).fix_validation_errors,
                 theme: theme,
               ).show(context);
+            }
+          },
+        ),
+        BlocListener<TutorialBloc, TutorialState>(
+          listener: (context, tutorialState) {
+            if (tutorialState is ShowTutorial) {
+              logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed(
+                  AppRoutesName.tutorialVideoPopUp,
+                  extra: {
+                    'nextRoute': AppRoutesName.createMultiCloset,
+                    'tutorialInputKey': TutorialType.paidMultiCloset.value,
+                    'isFromMyCloset': true,
+                  },
+                );
+              });
             }
           },
         ),

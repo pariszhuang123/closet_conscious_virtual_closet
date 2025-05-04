@@ -22,7 +22,6 @@ class PendingPhotoLibraryProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
     return MultiBlocProvider(
       providers: [
         BlocProvider<NavigateCoreBloc>(
@@ -48,7 +47,7 @@ class PendingPhotoLibraryProvider extends StatelessWidget {
           },
         ),
       ],
-      child: const PendingPhotoLibraryScreen(),
+        child: PendingPhotoLibraryScreen(key: key),
     );
   }
 }

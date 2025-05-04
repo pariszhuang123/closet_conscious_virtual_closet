@@ -81,8 +81,6 @@ class _EditPendingItemScreenState extends State<EditPendingItemScreen> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(

@@ -38,33 +38,39 @@ class FilterScreenListeners extends StatelessWidget {
           listener: (context, state) {
             if (state.saveStatus == SaveStatus.saveSuccess) {
               logger.i('Save success, navigating back to $returnRoute');
-              context.goNamed(
-                returnRoute,
-                extra: {
-                  'selectedItemIds': selectedItemIds,
-                  'selectedOutfitIds': selectedOutfitIds,
-                },
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed(
+                  returnRoute,
+                  extra: {
+                    'selectedItemIds': selectedItemIds,
+                    'selectedOutfitIds': selectedOutfitIds,
+                  },
+                );
+              });
             } else if (state.accessStatus == AccessStatus.trialPending) {
               logger.i('Trial pending, navigating to trialStarted');
-              context.goNamed(
-                AppRoutesName.trialStarted,
-                extra: {
-                  'selectedFeatureRoute': AppRoutesName.filter,
-                  'isFromMyCloset': isFromMyCloset,
-                },
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed(
+                  AppRoutesName.trialStarted,
+                  extra: {
+                    'selectedFeatureRoute': AppRoutesName.filter,
+                    'isFromMyCloset': isFromMyCloset,
+                  },
+                );
+              });
             } else if (state.accessStatus == AccessStatus.denied) {
               logger.i('Access denied, navigating to payment');
-              context.goNamed(
-                AppRoutesName.payment,
-                extra: {
-                  'featureKey': FeatureKey.filter,
-                  'isFromMyCloset': isFromMyCloset,
-                  'previousRoute': isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
-                  'nextRoute': AppRoutesName.filter,
-                },
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed(
+                  AppRoutesName.payment,
+                  extra: {
+                    'featureKey': FeatureKey.filter,
+                    'isFromMyCloset': isFromMyCloset,
+                    'previousRoute': isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
+                    'nextRoute': AppRoutesName.filter,
+                  },
+                );
+              });
             }
           },
         ),
@@ -72,14 +78,16 @@ class FilterScreenListeners extends StatelessWidget {
           listener: (context, tutorialState) {
             if (tutorialState is ShowTutorial) {
               logger.i('Showing tutorial popup');
-              context.goNamed(
-                AppRoutesName.tutorialVideoPopUp,
-                extra: {
-                  'nextRoute': AppRoutesName.filter,
-                  'tutorialInputKey': TutorialType.paidFilter.value,
-                  'isFromMyCloset': isFromMyCloset,
-                },
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed(
+                  AppRoutesName.tutorialVideoPopUp,
+                  extra: {
+                    'nextRoute': AppRoutesName.filter,
+                    'tutorialInputKey': TutorialType.paidFilter.value,
+                    'isFromMyCloset': isFromMyCloset,
+                  },
+                );
+              });
             }
           },
         ),

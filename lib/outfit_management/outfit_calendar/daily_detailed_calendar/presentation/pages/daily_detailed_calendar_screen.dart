@@ -15,19 +15,34 @@ import '../../../daily_calendar/presentation/widgets/daily_feature_container.dar
 import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/usage_analytics/core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
-import '../../../../../core/widgets/feedback/custom_snack_bar.dart';
+import 'daily_detailed_calendar_listeners.dart';
 
-class DailyDetailedCalendarScreen extends StatelessWidget {
+class DailyDetailedCalendarScreen extends StatefulWidget {
   final ThemeData theme;
   final String? outfitId;
-
-  static final _logger = CustomLogger('DailyDetailedCalendarScreen');
 
   const DailyDetailedCalendarScreen({
     super.key,
     required this.theme,
     this.outfitId,
   });
+
+  @override
+  State<DailyDetailedCalendarScreen> createState() => _DailyDetailedCalendarScreenState();
+}
+
+class _DailyDetailedCalendarScreenState extends State<DailyDetailedCalendarScreen> {
+  static final _logger = CustomLogger('DailyDetailedCalendarScreen');
+
+  @override
+  void initState() {
+    super.initState();
+
+    _logger.i('initState: Triggering initial events');
+
+    context.read<DailyCalendarBloc>().add(const FetchDailyCalendarEvent());
+    context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+  }
 
   void _onArrangeButtonPressed(BuildContext context) {
     final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
@@ -72,7 +87,10 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.i('Building DailyDetailedCalendarScreen');
 
-    return PopScope(
+    return DailyDetailedCalendarListeners(
+        theme: widget.theme,
+        outfitId: widget.outfitId,
+        child: PopScope(
       canPop: true,
       onPopInvokedWithResult: (bool didPop, Object? result) {
         _logger.i('Pop invoked: didPop = $didPop, result = $result');
@@ -83,7 +101,7 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
         }
       },
       child: Theme(
-        data: theme,
+        data: widget.theme,
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: true,
@@ -102,63 +120,10 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
             ),
             title: Text(
               S.of(context).calendarFeatureTitle,
-              style: theme.textTheme.titleMedium, // ✅ Use `theme`
+              style: widget.theme.textTheme.titleMedium, // ✅ Use `theme`
             ),
           ),
-          body: MultiBlocListener(
-            listeners: [
-              BlocListener<DailyCalendarBloc, DailyCalendarState>(
-                listener: (context, state) {
-                  if (state is DailyCalendarNavigationSuccessState) {
-                    _logger.i('Navigation success, navigating to DailyDetailedCalendar.');
-                    context.goNamed(
-                      AppRoutesName.dailyDetailedCalendar,
-                      extra: {'outfitId': DateTime.now().millisecondsSinceEpoch.toString()},
-                    );
-                  } else if (state is DailyCalendarSaveFailureState) {
-                    _logger.e('Navigation failed.');
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(S.of(context).calendarNavigationFailed)),
-                    );
-                  }
-                },
-              ),
-              BlocListener<OutfitSelectionBloc, OutfitSelectionState>(
-                listener: (context, state) {
-                  if (state is ActiveItemsFetched) {
-                    context.pushNamed(
-                      AppRoutesName.createOutfit,
-                      extra: {
-                        'selectedItemIds': state.activeItemIds,
-                      },
-                    );
-                  } else if (state is OutfitSelectionError) {
-                    _logger.e('Error fetching active items: ${state.message}');
-                    CustomSnackbar(
-                      message: S.of(context).failedToLoadItems,
-                      theme: theme, // ✅ Use `theme`
-                    ).show(context);
-                  }
-                },
-              ),
-              BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
-                listener: (context, state) {
-                  if (state is OutfitFocusedDateSuccess) {
-                    _logger.i("✅ Focused date saved. Navigating to outfit details.");
-                    context.pushNamed(
-                      AppRoutesName.relatedOutfitAnalytics,
-                      extra: outfitId,
-                    );
-                  } else if (state is OutfitFocusedDateFailure) {
-                    _logger.e('❌ Failed to set focused date: ${state.error}');
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(S.of(context).calendarNavigationFailed)),
-                    );
-                  }
-                },
-              )
-            ],
-            child: BlocBuilder<DailyCalendarBloc, DailyCalendarState>(
+            body: BlocBuilder<DailyCalendarBloc, DailyCalendarState>(
               builder: (context, dailyCalendarState) {
                 if (dailyCalendarState is DailyCalendarLoading) {
                   return const Center(child: OutfitProgressIndicator());
@@ -178,7 +143,7 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           DailyFeatureContainer(
-                            theme: theme, // ✅ Use `theme`
+                            theme: widget.theme, // ✅ Use `theme`
                             onArrangeButtonPressed: () => _onArrangeButtonPressed(context),
                             onPreviousButtonPressed: () {
                               context.read<DailyCalendarBloc>().add(
@@ -196,13 +161,13 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 10.0),
                             child: Text(
                               formattedDate,
-                              style: theme.textTheme.bodyMedium, // ✅ Use `theme`
+                              style: widget.theme.textTheme.bodyMedium, // ✅ Use `theme`
                             ),
                           ),
                           Expanded(
                             child: DailyDetailedCalendarCarousel(
                               outfits: outfits,
-                              theme: theme, // ✅ Use `theme`
+                              theme: widget.theme, // ✅ Use `theme`
                               crossAxisCount: crossAxisCount,
                               onOutfitTap: (outfitId) {
                                 context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(outfitId);
@@ -222,6 +187,6 @@ class DailyDetailedCalendarScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
+        );
   }
 }

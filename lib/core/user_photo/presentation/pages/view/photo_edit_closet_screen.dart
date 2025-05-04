@@ -26,6 +26,9 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
   bool paymentRequired = false; // 🚨 Track if payment was needed
 
   @override
+  bool get autoTriggerAccessCheck => false;
+
+  @override
   void triggerAccessCheck() {
     // Dispatch event specific for closet editing
     navigateCoreBloc.add(const CheckEditClosetCreationAccessEvent());

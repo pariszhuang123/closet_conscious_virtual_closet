@@ -46,7 +46,6 @@ class _CreateMultiClosetScreenState extends State<CreateMultiClosetScreen> {
     super.initState();
     logger.i('CreateMultiClosetScreen initialized');
     context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
-    context.read<ViewItemsBloc>().add(FetchItemsEvent(0, isPending: false));
     context.read<MultiClosetNavigationBloc>().add(CheckMultiClosetAccessEvent());
 
     _scrollController.addListener(() {

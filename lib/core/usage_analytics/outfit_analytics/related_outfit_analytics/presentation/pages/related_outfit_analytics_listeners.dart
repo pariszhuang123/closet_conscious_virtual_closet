@@ -8,17 +8,23 @@ import '../../../../../utilities/logger.dart';
 import '../../../../../widgets/feedback/custom_snack_bar.dart';
 import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
+import '../bloc/related_outfits_cubit/related_outfits_cubit.dart';
+import '../../presentation/bloc/single_outfit_cubit/single_outfit_cubit.dart';
+import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+
 
 class RelatedOutfitAnalyticsListeners extends StatelessWidget {
   final Widget child;
   final bool isFromMyCloset;
   final CustomLogger logger;
+  final String outfitId;
 
   const RelatedOutfitAnalyticsListeners({
     super.key,
     required this.child,
     required this.isFromMyCloset,
     required this.logger,
+    required this.outfitId
   });
 
   @override
@@ -45,26 +51,40 @@ class RelatedOutfitAnalyticsListeners extends StatelessWidget {
         BlocListener<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
           listener: (context, state) {
             if (state is UsageAnalyticsAccessState) {
-              if (state.accessStatus == AccessStatus.denied) {
-                logger.w('Access denied: Navigating to payment page');
-                context.goNamed(
-                  AppRoutesName.payment,
-                  extra: {
-                    'featureKey': FeatureKey.usageAnalytics,
-                    'isFromMyCloset': isFromMyCloset,
-                    'previousRoute': AppRoutesName.myCloset,
-                    'nextRoute': AppRoutesName.relatedOutfitAnalytics,
-                  },
-                );
-              } else if (state.accessStatus == AccessStatus.trialPending) {
-                logger.i('Trial pending, navigating to trialStarted screen');
-                context.goNamed(
-                  AppRoutesName.trialStarted,
-                  extra: {
-                    'selectedFeatureRoute': AppRoutesName.relatedOutfitAnalytics,
-                    'isFromMyCloset': isFromMyCloset,
-                  },
-                );
+              switch (state.accessStatus) {
+                case AccessStatus.pending:
+                  logger.w('Access pending');
+                case AccessStatus.error:
+                  logger.w('Access error');
+                case AccessStatus.denied:
+                  logger.w('Access denied: Navigating to payment page');
+                  context.goNamed(
+                    AppRoutesName.payment,
+                    extra: {
+                      'featureKey': FeatureKey.usageAnalytics,
+                      'isFromMyCloset': isFromMyCloset,
+                      'previousRoute': AppRoutesName.myCloset,
+                      'nextRoute': AppRoutesName.relatedOutfitAnalytics,
+                    },
+                  );
+                  break;
+                case AccessStatus.trialPending:
+                  logger.i('Trial pending: Navigating to trialStarted');
+                  context.goNamed(
+                    AppRoutesName.trialStarted,
+                    extra: {
+                      'selectedFeatureRoute': AppRoutesName.relatedOutfitAnalytics,
+                      'isFromMyCloset': isFromMyCloset,
+                    },
+                  );
+                  break;
+                case AccessStatus.granted:
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    context.read<SingleOutfitCubit>().fetchOutfit(outfitId);
+                    context.read<RelatedOutfitsCubit>().fetchRelatedOutfits(outfitId: outfitId);
+                    context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+                  });
+                  break;
               }
             }
           },

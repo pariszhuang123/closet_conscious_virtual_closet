@@ -29,6 +29,7 @@ class EditItemListeners extends StatelessWidget {
           listener: (context, tutorialState) {
             if (tutorialState is ShowTutorial) {
               logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+              WidgetsBinding.instance.addPostFrameCallback((_) {
               context.goNamed(
                 AppRoutesName.tutorialVideoPopUp,
                 extra: {
@@ -38,6 +39,7 @@ class EditItemListeners extends StatelessWidget {
                   'itemId': itemId,
                 },
               );
+              });
             }
           },
         ),

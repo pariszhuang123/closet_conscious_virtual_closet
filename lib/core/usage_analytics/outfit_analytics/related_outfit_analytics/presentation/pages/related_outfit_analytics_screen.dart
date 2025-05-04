@@ -15,17 +15,17 @@ import '../../../../../utilities/app_router.dart';
 import '../../../../../../generated/l10n.dart';
 import '../../../../../core_enums.dart';
 import '../../../../core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
+import '../../../../../usage_analytics/core/presentation/bloc/usage_analytics_navigation_bloc/usage_analytics_navigation_bloc.dart';
 import '../../../../../utilities/helper_functions/image_helper/image_helper.dart';
 import '../../../../../theme/my_closet_theme.dart';
 import '../../../../../theme/my_outfit_theme.dart';
 import 'related_outfit_analytics_listeners.dart';
+import '../../../../../widgets/layout/bottom_nav_bar/analytics_bottom_nav_bar.dart';
 
-class RelatedOutfitAnalyticsScreen extends StatelessWidget {
+class RelatedOutfitAnalyticsScreen extends StatefulWidget {
   final bool isFromMyCloset;
   final String outfitId;
   final List<String> selectedOutfitIds;
-
-  static final _logger = CustomLogger('RelatedOutfitAnalyticsScreen');
 
   const RelatedOutfitAnalyticsScreen({
     super.key,
@@ -35,13 +35,27 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    _logger.d('Building RelatedOutfitAnalyticsScreen for outfitId: $outfitId');
+  State<RelatedOutfitAnalyticsScreen> createState() => _RelatedOutfitAnalyticsScreenState();
+}
 
-    final ThemeData effectiveTheme = isFromMyCloset ? myClosetTheme : myOutfitTheme;
+class _RelatedOutfitAnalyticsScreenState extends State<RelatedOutfitAnalyticsScreen> {
+  static final _logger = CustomLogger('RelatedOutfitAnalyticsScreen');
+
+  @override
+  void initState() {
+    super.initState();
+    _logger.i('initState: Fetching outfit and related data for outfitId: ${widget.outfitId}');
+
+    context.read<UsageAnalyticsNavigationBloc>().add(CheckUsageAnalyticsAccessEvent());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final effectiveTheme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
 
     return RelatedOutfitAnalyticsListeners(
-      isFromMyCloset: isFromMyCloset,
+      isFromMyCloset: widget.isFromMyCloset,
+      outfitId: widget.outfitId,
       logger: _logger,
       child: Theme(
         data: effectiveTheme,
@@ -98,8 +112,8 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
                               getHeightForOutfitSize: ImageHelper.getHeightForOutfitSize,
                               isSelected: true,
                               onTap: () {
-                                _logger.d('Tapped on main outfit: $outfitId');
-                                context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(outfitId);
+                                _logger.d('Tapped on main outfit: $widget.outfitId');
+                                context.read<OutfitFocusedDateCubit>().setFocusedDateForOutfit(widget.outfitId);
                               },
                             ),
                           );
@@ -152,12 +166,12 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
                                   outfits: relatedOutfits,
                                   crossAxisCount: crossAxisCount,
                                   outfitSelectionMode: outfitSelectionMode,
-                                  selectedOutfitIds: selectedOutfitIds,
+                                  selectedOutfitIds: widget.selectedOutfitIds,
                                   outfitSize: OutfitSize.relatedOutfitImage,
                                   getHeightForOutfitSize: ImageHelper.getHeightForOutfitSize,
                                   onAction: (selectedOutfitId) {
                                     _logger.d('Tapped related outfit: $selectedOutfitId');
-                                    context.goNamed(
+                                    context.pushNamed(
                                       AppRoutesName.relatedOutfitAnalytics,
                                       extra: selectedOutfitId,
                                     );
@@ -173,6 +187,10 @@ class RelatedOutfitAnalyticsScreen extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            bottomNavigationBar: AnalyticsBottomNavBar(
+              currentIndex: widget.isFromMyCloset ? 0 : 1,
+              isFromMyCloset: widget.isFromMyCloset,
             ),
           ),
         ),

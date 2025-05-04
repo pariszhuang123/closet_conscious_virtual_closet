@@ -32,36 +32,44 @@ class ViewMultiClosetListeners extends StatelessWidget {
             if (state is MultiClosetAccessState) {
               if (state.accessStatus == AccessStatus.trialPending) {
                 logger.i('Trial pending, navigating to trialStarted screen');
-                context.goNamed(
-                  AppRoutesName.trialStarted,
-                  extra: {
-                    'selectedFeatureRoute': AppRoutesName.viewMultiCloset,
-                    'isFromMyCloset': isFromMyCloset,
-                  },
-                );
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  context.goNamed(
+                    AppRoutesName.trialStarted,
+                    extra: {
+                      'selectedFeatureRoute': AppRoutesName.viewMultiCloset,
+                      'isFromMyCloset': isFromMyCloset,
+                    },
+                  );
+                });
               } else if (state.accessStatus == AccessStatus.granted) {
                 logger.i('Access granted: Fetching data');
                 context.read<ViewMultiClosetBloc>().add(FetchViewMultiClosetsEvent());
                 context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
               } else if (state.accessStatus == AccessStatus.denied) {
                 logger.w('Access denied: Navigating to payment page');
-                context.goNamed(
-                  AppRoutesName.payment,
-                  extra: {
-                    'featureKey': FeatureKey.multicloset,
-                    'isFromMyCloset': isFromMyCloset,
-                    'previousRoute': AppRoutesName.myCloset,
-                    'nextRoute': AppRoutesName.viewMultiCloset,
-                  },
-                );
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  context.goNamed(
+                    AppRoutesName.payment,
+                    extra: {
+                      'featureKey': FeatureKey.multicloset,
+                      'isFromMyCloset': isFromMyCloset,
+                      'previousRoute': AppRoutesName.myCloset,
+                      'nextRoute': AppRoutesName.viewMultiCloset,
+                    },
+                  );
+                });
               }
             } else if (state is CreateMultiClosetNavigationState) {
               logger.i('Navigating to Create Multi Closet screen.');
-              context.pushNamed(AppRoutesName.createMultiCloset);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.pushNamed(AppRoutesName.createMultiCloset);
+              });
             } else if (state is EditSingleMultiClosetNavigationState ||
                 state is EditAllMultiClosetNavigationState) {
               logger.i('Navigating to Edit Multi Closet screen.');
-              context.pushNamed(AppRoutesName.editMultiCloset);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.pushNamed(AppRoutesName.editMultiCloset);
+              });
             } else {
               logger.d('Unhandled state in MultiClosetNavigationBloc: ${state.runtimeType}');
             }
@@ -71,14 +79,16 @@ class ViewMultiClosetListeners extends StatelessWidget {
           listener: (context, tutorialState) {
             if (tutorialState is ShowTutorial) {
               logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
-              context.goNamed(
-                AppRoutesName.tutorialVideoPopUp,
-                extra: {
-                  'nextRoute': AppRoutesName.viewMultiCloset,
-                  'tutorialInputKey': TutorialType.paidMultiCloset.value,
-                  'isFromMyCloset': isFromMyCloset,
-                },
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed(
+                  AppRoutesName.tutorialVideoPopUp,
+                  extra: {
+                    'nextRoute': AppRoutesName.viewMultiCloset,
+                    'tutorialInputKey': TutorialType.paidMultiCloset.value,
+                    'isFromMyCloset': isFromMyCloset,
+                  },
+                );
+              });
             }
           },
         ),

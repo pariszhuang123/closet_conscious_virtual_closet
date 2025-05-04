@@ -38,14 +38,17 @@ class MonthlyCalendarListeners extends StatelessWidget {
           listener: (context, tutorialState) {
             if (tutorialState is ShowTutorial) {
               logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
-              context.goNamed(
-                AppRoutesName.tutorialVideoPopUp,
-                extra: {
-                  'nextRoute': AppRoutesName.monthlyCalendar,
-                  'tutorialInputKey': TutorialType.paidCalendar.value,
-                  'isFromMyCloset': isFromMyCloset,
-                },
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
+                context.goNamed(
+                  AppRoutesName.tutorialVideoPopUp,
+                  extra: {
+                    'nextRoute': AppRoutesName.monthlyCalendar,
+                    'tutorialInputKey': TutorialType.paidCalendar.value,
+                    'isFromMyCloset': isFromMyCloset,
+                  },
+                );
+              });
             }
           },
         ),
@@ -82,17 +85,20 @@ class MonthlyCalendarListeners extends StatelessWidget {
                   );
                   break;
                 case AccessStatus.granted:
-                  context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
-                  if (selectedOutfitIds.isNotEmpty) {
-                    context.read<OutfitSelectionBloc>().add(
-                      BulkToggleOutfitSelectionEvent(selectedOutfitIds),
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+                    if (selectedOutfitIds.isNotEmpty) {
+                      context.read<OutfitSelectionBloc>().add(
+                        BulkToggleOutfitSelectionEvent(selectedOutfitIds),
+                      );
+                    }
+                    context.read<MonthlyCalendarMetadataBloc>().add(FetchMonthlyCalendarMetadataEvent());
+                    context.read<MonthlyCalendarImagesBloc>().add(
+                      FetchMonthlyCalendarImages(selectedOutfitIds: selectedOutfitIds),
                     );
-                  }
-                  context.read<MonthlyCalendarMetadataBloc>().add(FetchMonthlyCalendarMetadataEvent());
-                  context.read<MonthlyCalendarImagesBloc>().add(
-                    FetchMonthlyCalendarImages(selectedOutfitIds: selectedOutfitIds),
-                  );
-                  context.read<MultiClosetNavigationBloc>().add(CheckMultiClosetAccessEvent());
+                    context.read<MultiClosetNavigationBloc>().add(CheckMultiClosetAccessEvent());
+                    context.read<FocusOrCreateClosetBloc>().add(FetchFocusOrCreateCloset());
+                  });
                   break;
               }
             }
@@ -102,38 +108,46 @@ class MonthlyCalendarListeners extends StatelessWidget {
           listener: (context, state) {
             logger.d('MetadataBloc emitted state: $state');
             if (state is MonthlyCalendarSaveSuccessState || state is MonthlyCalendarResetSuccessState) {
-              context.goNamed(
-                AppRoutesName.monthlyCalendar,
-                extra: {'timestamp': DateTime.now().millisecondsSinceEpoch.toString()},
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed(
+                  AppRoutesName.monthlyCalendar,
+                  extra: {'timestamp': DateTime.now().millisecondsSinceEpoch.toString()},
+                );
+              });
             }
           },
         ),
         BlocListener<MonthlyCalendarImagesBloc, MonthlyCalendarImagesState>(
           listener: (context, state) {
             if (state is MonthlyCalendarNavigationSuccessState) {
-              context.goNamed(
-                AppRoutesName.monthlyCalendar,
-                extra: {
-                  'selectedOutfitIds': state.selectedOutfitIds,
-                  'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
-                },
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.goNamed(
+                  AppRoutesName.monthlyCalendar,
+                  extra: {
+                    'selectedOutfitIds': state.selectedOutfitIds,
+                    'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
+                  },
+                );
+              });
             } else if (state is FocusedDateUpdatedState) {
-              context.pushNamed(
-                AppRoutesName.dailyCalendar,
-                extra: {'outfitId': state.outfitId},
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.pushNamed(
+                  AppRoutesName.dailyCalendar,
+                  extra: {'outfitId': state.outfitId},
+                );
+              });
             }
           },
         ),
         BlocListener<OutfitSelectionBloc, OutfitSelectionState>(
           listener: (context, state) {
             if (state is ActiveItemsFetched) {
-              context.pushNamed(
-                AppRoutesName.createMultiCloset,
-                extra: {'selectedItemIds': state.activeItemIds},
-              );
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                context.pushNamed(
+                  AppRoutesName.createMultiCloset,
+                  extra: {'selectedItemIds': state.activeItemIds},
+                );
+              });
             }
           },
         ),

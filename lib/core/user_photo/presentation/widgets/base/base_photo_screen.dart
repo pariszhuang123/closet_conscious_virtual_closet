@@ -25,6 +25,7 @@ abstract class BasePhotoScreenState<T extends BasePhotoScreen>
   late final CameraPermissionHelper cameraPermissionHelper;
   bool cameraInitialized = false;
   bool accessGranted = false;
+  bool get autoTriggerAccessCheck => true;
 
   @override
   void initState() {
@@ -32,7 +33,16 @@ abstract class BasePhotoScreenState<T extends BasePhotoScreen>
     photoBloc = context.read<PhotoBloc>();
     navigateCoreBloc = context.read<NavigateCoreBloc>();
     cameraPermissionHelper = CameraPermissionHelper();
-    triggerAccessCheck(); // Abstract: screen-specific access event.
+
+    if (autoTriggerAccessCheck) {
+      widget.logger.i('🚀 Auto-triggering access check immediately');
+      triggerAccessCheck();
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        widget.logger.i('🕒 Delayed access check after first frame');
+        triggerAccessCheck();
+      });
+    }
     WidgetsBinding.instance.addObserver(this);
     widget.logger.d('Initializing ${widget.runtimeType}');
   }

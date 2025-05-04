@@ -26,6 +26,9 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
   bool paymentRequired = false; // 🚨 Track whether payment was needed
 
   @override
+  bool get autoTriggerAccessCheck => false;
+
+  @override
   void triggerAccessCheck() {
     // Dispatch the event to check edit item creation access
     navigateCoreBloc.add(const CheckEditItemCreationAccessEvent());
