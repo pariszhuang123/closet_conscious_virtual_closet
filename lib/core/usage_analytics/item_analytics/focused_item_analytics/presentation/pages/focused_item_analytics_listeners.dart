@@ -10,9 +10,9 @@ import '../../../../core/presentation/bloc/single_outfit_focused_date_cubit/outf
 import '../../../../../../item_management/core/presentation/bloc/fetch_item_image_cubit/fetch_item_image_cubit.dart';
 import '../bloc/fetch_item_related_outfits_cubit.dart';
 import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../../../../utilities/helper_functions/navigate_once_helper.dart';
 
-
-class FocusedItemsAnalyticsListeners extends StatelessWidget {
+class FocusedItemsAnalyticsListeners extends StatefulWidget {
   final bool isFromMyCloset;
   final CustomLogger logger;
   final String itemId;
@@ -27,66 +27,84 @@ class FocusedItemsAnalyticsListeners extends StatelessWidget {
   });
 
   @override
+  State<FocusedItemsAnalyticsListeners> createState() => _FocusedItemsAnalyticsListenersState();
+}
+
+class _FocusedItemsAnalyticsListenersState extends State<FocusedItemsAnalyticsListeners> with NavigateOnceHelper {
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
+        BlocListener<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
+          listener: (context, state) {
+            if (state is UsageAnalyticsAccessState) {
+              switch (state.accessStatus) {
+                case AccessStatus.granted:
+                  widget.logger.i('Access granted → fetching analytics');
+                  navigateOnce(() {
+                    context.read<FetchItemImageCubit>().fetchItemImage(widget.itemId);
+                    context.read<FetchItemRelatedOutfitsCubit>().fetchItemRelatedOutfits(itemId: widget.itemId);
+                    context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+                  });
+                  break;
+
+                case AccessStatus.denied:
+                  widget.logger.w('Access denied → navigating to payment');
+                  navigateOnce(() {
+                    context.goNamed(
+                      AppRoutesName.payment,
+                      extra: {
+                        'featureKey': FeatureKey.usageAnalytics,
+                        'isFromMyCloset': widget.isFromMyCloset,
+                        'previousRoute': AppRoutesName.myCloset,
+                        'nextRoute': AppRoutesName.summaryItemsAnalytics,
+                      },
+                    );
+                  });
+                  break;
+
+                case AccessStatus.trialPending:
+                  widget.logger.i('Trial pending → navigating to trialStarted');
+                  navigateOnce(() {
+                    context.goNamed(
+                      AppRoutesName.trialStarted,
+                      extra: {
+                        'selectedFeatureRoute': AppRoutesName.summaryItemsAnalytics,
+                        'isFromMyCloset': widget.isFromMyCloset,
+                      },
+                    );
+                  });
+                  break;
+
+                case AccessStatus.pending:
+                case AccessStatus.error:
+                  widget.logger.w('Access status: ${state.accessStatus}');
+                  break;
+              }
+            }
+          },
+        ),
         BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
           listener: (context, state) {
             if (state is OutfitFocusedDateSuccess) {
-              logger.i('✅ Focused date set successfully for outfitId: ${state.outfitId}');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('✅ Focused date set for outfitId: ${state.outfitId}');
+              navigateOnce(() {
                 context.pushNamed(
                   AppRoutesName.dailyCalendar,
                   extra: {'outfitId': state.outfitId},
                 );
               });
             } else if (state is OutfitFocusedDateFailure) {
-              logger.e('❌ Failed to set focused date: ${state.error}');
+              widget.logger.e('❌ Failed to set focused date: ${state.error}');
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.error)),
               );
             }
           },
         ),
-        BlocListener<UsageAnalyticsNavigationBloc, UsageAnalyticsNavigationState>(
-          listener: (context, state) {
-            if (state is UsageAnalyticsAccessState) {
-              if (state.accessStatus == AccessStatus.denied) {
-                logger.w('Access denied: Navigating to payment page');
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  context.goNamed(
-                    AppRoutesName.payment,
-                    extra: {
-                      'featureKey': FeatureKey.usageAnalytics,
-                      'isFromMyCloset': isFromMyCloset,
-                      'previousRoute': AppRoutesName.myCloset,
-                      'nextRoute': AppRoutesName.summaryItemsAnalytics,
-                    },
-                  );
-                });
-              } else if (state.accessStatus == AccessStatus.trialPending) {
-                logger.i('Trial pending, navigating to trialStarted screen');
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  context.goNamed(
-                    AppRoutesName.trialStarted,
-                    extra: {
-                      'selectedFeatureRoute': AppRoutesName.summaryItemsAnalytics,
-                      'isFromMyCloset': isFromMyCloset,
-                    },
-                  );
-                });
-              } else if (state.accessStatus == AccessStatus.granted) {
-                logger.i('Access granted: Fetching all summary & items');
-
-                context.read<FetchItemImageCubit>().fetchItemImage(itemId);
-                context.read<FetchItemRelatedOutfitsCubit>().fetchItemRelatedOutfits(itemId: itemId);
-                context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
-              }
-            }
-          },
-        ),
       ],
-      child: child,
+      child: widget.child,
     );
   }
 }

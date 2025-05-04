@@ -40,7 +40,10 @@ class _DailyCalendarScreenState extends State<DailyCalendarScreen> {
     super.initState();
 
     // ⏱️ Initial event triggers (previously in Provider)
-    context.read<CalendarNavigationBloc>().add(CheckCalendarAccessEvent());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<CalendarNavigationBloc>().add(CheckCalendarAccessEvent());
+    });
 
     _logger.i('Initial events triggered from initState');
   }

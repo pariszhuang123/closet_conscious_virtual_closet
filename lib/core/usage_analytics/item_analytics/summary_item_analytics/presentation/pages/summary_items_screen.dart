@@ -49,10 +49,11 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
     super.initState();
     logger.i('SummaryItemsScreen initialized with isFromMyCloset=${widget.isFromMyCloset}');
 
-    context.read<UsageAnalyticsNavigationBloc>().add(CheckUsageAnalyticsAccessEvent());
-    context.read<TutorialBloc>().add(
-      const CheckTutorialStatus(TutorialType.paidUsageAnalytics),
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<UsageAnalyticsNavigationBloc>().add(CheckUsageAnalyticsAccessEvent());
+      context.read<TutorialBloc>().add(const CheckTutorialStatus(TutorialType.paidUsageAnalytics));
+    });
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {

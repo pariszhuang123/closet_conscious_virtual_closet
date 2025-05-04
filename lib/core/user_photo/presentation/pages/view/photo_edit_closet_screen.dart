@@ -38,7 +38,7 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
   @override
   void onPermissionClose() {
     widget.logger.i('Camera permission check failed, navigating to EditCloset');
-    navigateSafely(AppRoutesName.editMultiCloset);
+    navigateOnceTo(AppRoutesName.editMultiCloset);
   }
 
   @override
@@ -74,7 +74,7 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
 
                 paymentRequired = true; // 🚨 Mark payment needed
 
-                navigateSafely(AppRoutesName.payment, extra: {
+                navigateOnceTo(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
                   'previousRoute': AppRoutesName.editMultiCloset,
@@ -111,14 +111,14 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
                   photoBloc.add(CaptureEditClosetPhoto(widget.closetId!));
                 } else {
                   widget.logger.e('Closet ID is null. Cannot capture Edit Closet.');
-                  navigateSafely(AppRoutesName.editMultiCloset);
+                  navigateOnceTo(AppRoutesName.editMultiCloset);
                 }
               } else if (state is PhotoCaptureFailure) {
                 widget.logger.e('Photo capture failed');
-                navigateSafely(AppRoutesName.editMultiCloset);
+                navigateOnceTo(AppRoutesName.editMultiCloset);
               } else if (state is EditClosetCaptureSuccess) {
                 widget.logger.i('Photo upload succeeded with closetId: ${state.closetId}');
-                navigateSafely(AppRoutesName.editMultiCloset);
+                navigateOnceTo(AppRoutesName.editMultiCloset);
               }
             },
           ),

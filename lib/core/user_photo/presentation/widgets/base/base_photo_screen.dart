@@ -7,6 +7,7 @@ import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart
 import '../../../../utilities/helper_functions/permission_helper/camera_permission_helper.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../core_enums.dart';
+import '../../../../utilities/helper_functions/navigate_once_helper.dart';
 
 abstract class BasePhotoScreen extends StatefulWidget {
   final CameraPermissionContext cameraContext;
@@ -19,7 +20,7 @@ abstract class BasePhotoScreen extends StatefulWidget {
 }
 
 abstract class BasePhotoScreenState<T extends BasePhotoScreen>
-    extends State<T> with WidgetsBindingObserver {
+    extends State<T> with WidgetsBindingObserver, NavigateOnceHelper<T> {
   late final PhotoBloc photoBloc;
   late final NavigateCoreBloc navigateCoreBloc;
   late final CameraPermissionHelper cameraPermissionHelper;
@@ -94,13 +95,11 @@ abstract class BasePhotoScreenState<T extends BasePhotoScreen>
     );
   }
 
-  void navigateSafely(String routeName, {Object? extra}) {
-    if (mounted) {
-      widget.logger.d('Navigating to $routeName with extra: $extra');
+  void navigateOnceTo(String routeName, {Object? extra}) {
+    navigateOnce(() {
+      widget.logger.i('Navigating once to $routeName with extra: $extra');
       context.goNamed(routeName, extra: extra);
-    } else {
-      widget.logger.e("Cannot navigate to $routeName, widget is not mounted");
-    }
+    });
   }
 
   @override

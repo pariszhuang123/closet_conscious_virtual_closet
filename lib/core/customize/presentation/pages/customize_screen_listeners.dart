@@ -8,8 +8,9 @@ import '../../../core_enums.dart';
 import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../presentation/bloc/customize_bloc.dart';
 import '../../../utilities/helper_functions/tutorial_helper.dart';
+import '../../../utilities/helper_functions/navigate_once_helper.dart';
 
-class CustomizeScreenListeners extends StatelessWidget {
+class CustomizeScreenListeners extends StatefulWidget {
   final bool isFromMyCloset;
   final String returnRoute;
   final List<String> selectedItemIds;
@@ -26,39 +27,45 @@ class CustomizeScreenListeners extends StatelessWidget {
   });
 
   @override
+  State<CustomizeScreenListeners> createState() => _CustomizeScreenListenersState();
+}
+
+class _CustomizeScreenListenersState extends State<CustomizeScreenListeners> with NavigateOnceHelper {
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
         BlocListener<CustomizeBloc, CustomizeState>(
           listener: (context, state) {
             if (state.saveStatus == SaveStatus.saveSuccess) {
-              logger.i('Customization saved, navigating back');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('Customization saved, navigating back to ${widget.returnRoute}');
+              navigateOnce(() {
                 context.goNamed(
-                  returnRoute,
-                  extra: {'selectedItemIds': selectedItemIds},
+                  widget.returnRoute,
+                  extra: {'selectedItemIds': widget.selectedItemIds},
                 );
               });
             } else if (state.accessStatus == AccessStatus.trialPending) {
-              logger.i('Trial pending, navigating to trialStarted');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('Trial pending, navigating to trialStarted');
+              navigateOnce(() {
                 context.goNamed(
                   AppRoutesName.trialStarted,
                   extra: {
                     'selectedFeatureRoute': AppRoutesName.customize,
-                    'isFromMyCloset': isFromMyCloset,
+                    'isFromMyCloset': widget.isFromMyCloset,
                   },
                 );
               });
             } else if (state.accessStatus == AccessStatus.denied) {
-              logger.i('Access denied, navigating to payment');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('Access denied, navigating to payment');
+              navigateOnce(() {
                 context.goNamed(
                   AppRoutesName.payment,
                   extra: {
                     'featureKey': FeatureKey.customize,
-                    'isFromMyCloset': isFromMyCloset,
-                    'previousRoute': isFromMyCloset
+                    'isFromMyCloset': widget.isFromMyCloset,
+                    'previousRoute': widget.isFromMyCloset
                         ? AppRoutesName.myCloset
                         : AppRoutesName.createOutfit,
                     'nextRoute': AppRoutesName.customize,
@@ -71,14 +78,14 @@ class CustomizeScreenListeners extends StatelessWidget {
         BlocListener<TutorialBloc, TutorialState>(
           listener: (context, tutorialState) {
             if (tutorialState is ShowTutorial) {
-              logger.i('Showing tutorial popup');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('Showing tutorial popup');
+              navigateOnce(() {
                 context.goNamed(
                   AppRoutesName.tutorialVideoPopUp,
                   extra: {
                     'nextRoute': AppRoutesName.customize,
                     'tutorialInputKey': TutorialType.paidCustomize.value,
-                    'isFromMyCloset': isFromMyCloset,
+                    'isFromMyCloset': widget.isFromMyCloset,
                   },
                 );
               });
@@ -86,7 +93,7 @@ class CustomizeScreenListeners extends StatelessWidget {
           },
         ),
       ],
-      child: child,
+      child: widget.child,
     );
   }
 }

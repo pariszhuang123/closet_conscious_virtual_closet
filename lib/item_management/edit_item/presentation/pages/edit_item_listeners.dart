@@ -7,9 +7,10 @@ import '../../../../core/utilities/logger.dart';
 import '../../../../core/core_enums.dart';
 import '../../../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../../../core/utilities/helper_functions/tutorial_helper.dart';
+import '../../../../core/utilities/helper_functions/navigate_once_helper.dart';
 import '../bloc/edit_item_bloc.dart';
 
-class EditItemListeners extends StatelessWidget {
+class EditItemListeners extends StatefulWidget {
   final Widget child;
   final String itemId;
   final CustomLogger logger;
@@ -22,23 +23,29 @@ class EditItemListeners extends StatelessWidget {
   });
 
   @override
+  State<EditItemListeners> createState() => _EditItemListenersState();
+}
+
+class _EditItemListenersState extends State<EditItemListeners> with NavigateOnceHelper{
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
         BlocListener<TutorialBloc, TutorialState>(
           listener: (context, tutorialState) {
             if (tutorialState is ShowTutorial) {
-              logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-              context.goNamed(
-                AppRoutesName.tutorialVideoPopUp,
-                extra: {
-                  'nextRoute': AppRoutesName.editItem,
-                  'tutorialInputKey': TutorialType.freeEditCamera.value,
-                  'isFromMyCloset': true,
-                  'itemId': itemId,
-                },
-              );
+              widget.logger.i('Tutorial trigger detected for edit item screen');
+              navigateOnce(() {
+                context.goNamed(
+                  AppRoutesName.tutorialVideoPopUp,
+                  extra: {
+                    'nextRoute': AppRoutesName.editItem,
+                    'tutorialInputKey': TutorialType.freeEditCamera.value,
+                    'isFromMyCloset': true,
+                    'itemId': widget.itemId,
+                  },
+                );
               });
             }
           },
@@ -46,10 +53,12 @@ class EditItemListeners extends StatelessWidget {
         BlocListener<EditItemBloc, EditItemState>(
           listener: (context, state) {
             if (state is EditItemUpdateSuccess) {
-              logger.i('Update successful, navigating to MyCloset');
-              context.goNamed(AppRoutesName.myCloset);
+              widget.logger.i('Edit success, navigating back to MyCloset');
+              navigateOnce(() {
+                context.goNamed(AppRoutesName.myCloset);
+              });
             } else if (state is EditItemUpdateFailure) {
-              logger.e('Update failed: ${state.errorMessage}');
+              widget.logger.e('Edit failed: ${state.errorMessage}');
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.errorMessage)),
               );
@@ -57,7 +66,7 @@ class EditItemListeners extends StatelessWidget {
           },
         ),
       ],
-      child: child,
+      child: widget.child,
     );
   }
 }

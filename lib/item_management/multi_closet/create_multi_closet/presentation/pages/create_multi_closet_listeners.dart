@@ -16,8 +16,9 @@ import '../../../../core/data/items_enums.dart';
 import '../../../../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../../../../core/utilities/helper_functions/tutorial_helper.dart';
 import '../../../../view_items/presentation/bloc/view_items_bloc.dart';
+import '../../../../../core/utilities/helper_functions/navigate_once_helper.dart';
 
-class CreateMultiClosetListeners extends StatelessWidget {
+class CreateMultiClosetListeners extends StatefulWidget {
   final Widget child;
   final CustomLogger logger;
 
@@ -28,6 +29,11 @@ class CreateMultiClosetListeners extends StatelessWidget {
   });
 
   @override
+  State<CreateMultiClosetListeners> createState() => _CreateMultiClosetListenersState();
+}
+
+class _CreateMultiClosetListenersState extends State<CreateMultiClosetListeners> with NavigateOnceHelper {
+  @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
@@ -35,8 +41,8 @@ class CreateMultiClosetListeners extends StatelessWidget {
           listener: (context, state) {
             if (state is MultiClosetAccessState) {
               if (state.accessStatus == AccessStatus.trialPending) {
-                logger.i('Trial pending: Navigating to trialStarted screen');
-                WidgetsBinding.instance.addPostFrameCallback((_) {
+                widget.logger.i('Trial pending: Navigating to trialStarted');
+                navigateOnce(() {
                   context.goNamed(
                     AppRoutesName.trialStarted,
                     extra: {
@@ -46,8 +52,8 @@ class CreateMultiClosetListeners extends StatelessWidget {
                   );
                 });
               } else if (state.accessStatus == AccessStatus.denied) {
-                logger.w('Access denied: Navigating to payment page');
-                WidgetsBinding.instance.addPostFrameCallback((_) {
+                widget.logger.w('Access denied: Navigating to payment');
+                navigateOnce(() {
                   context.goNamed(
                     AppRoutesName.payment,
                     extra: {
@@ -59,7 +65,7 @@ class CreateMultiClosetListeners extends StatelessWidget {
                   );
                 });
               } else if (state.accessStatus == AccessStatus.granted) {
-                logger.i('Access granted: Fetching closet items.');
+                widget.logger.i('Access granted: Fetching items');
                 context.read<ViewItemsBloc>().add(FetchItemsEvent(0, isPending: false));
               }
             }
@@ -70,33 +76,29 @@ class CreateMultiClosetListeners extends StatelessWidget {
             final theme = myClosetTheme;
 
             if (state.status == ClosetStatus.valid) {
-              logger.i('Validation succeeded. Creating closet.');
+              widget.logger.i('Valid metadata: triggering creation');
               final metadataState = context.read<UpdateClosetMetadataCubit>().state;
-
               context.read<CreateMultiClosetBloc>().add(
                 CreateMultiClosetRequested(
                   closetName: metadataState.closetName,
                   closetType: metadataState.closetType,
                   isPublic: metadataState.isPublic,
                   monthsLater: metadataState.monthsLater,
-                  itemIds: context
-                      .read<MultiSelectionItemCubit>()
-                      .state
-                      .selectedItemIds,
+                  itemIds: context.read<MultiSelectionItemCubit>().state.selectedItemIds,
                 ),
               );
             } else if (state.status == ClosetStatus.success) {
-              logger.i('Closet created successfully.');
+              widget.logger.i('Closet created → navigating to MyCloset');
               CustomSnackbar(
                 message: S.of(context).closet_created_successfully,
                 theme: theme,
               ).show(context);
 
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              navigateOnce(() {
                 context.goNamed(AppRoutesName.myCloset);
               });
             } else if (state.status == ClosetStatus.failure) {
-              logger.e('Error creating closet.');
+              widget.logger.e('Failed to create closet');
               CustomSnackbar(
                 message: state.error != null
                     ? S.of(context).error_creating_closet(state.error!)
@@ -109,8 +111,8 @@ class CreateMultiClosetListeners extends StatelessWidget {
         BlocListener<TutorialBloc, TutorialState>(
           listener: (context, tutorialState) {
             if (tutorialState is ShowTutorial) {
-              logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('Tutorial detected → navigating to tutorial popup');
+              navigateOnce(() {
                 context.goNamed(
                   AppRoutesName.tutorialVideoPopUp,
                   extra: {
@@ -124,7 +126,7 @@ class CreateMultiClosetListeners extends StatelessWidget {
           },
         ),
       ],
-      child: child,
+      child: widget.child,
     );
   }
 }

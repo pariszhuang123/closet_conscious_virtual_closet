@@ -40,8 +40,12 @@ class _DailyDetailedCalendarScreenState extends State<DailyDetailedCalendarScree
 
     _logger.i('initState: Triggering initial events');
 
-    context.read<DailyCalendarBloc>().add(const FetchDailyCalendarEvent());
-    context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<DailyCalendarBloc>().add(const FetchDailyCalendarEvent());
+      context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+    });
+
   }
 
   void _onArrangeButtonPressed(BuildContext context) {

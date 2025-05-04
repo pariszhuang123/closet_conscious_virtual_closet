@@ -10,8 +10,9 @@ import '../../../../../generated/l10n.dart';
 import '../../../daily_calendar/presentation/bloc/daily_calendar_bloc.dart';
 import '../../../../../core/usage_analytics/core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
+import '../../../../../core/utilities/helper_functions/navigate_once_helper.dart';
 
-class DailyDetailedCalendarListeners extends StatelessWidget {
+class DailyDetailedCalendarListeners extends StatefulWidget {
   final Widget child;
   final ThemeData theme;
   final String? outfitId;
@@ -24,23 +25,28 @@ class DailyDetailedCalendarListeners extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final logger = CustomLogger('DailyDetailedCalendarListeners');
+  State<DailyDetailedCalendarListeners> createState() => _DailyDetailedCalendarListenersState();
+}
 
+class _DailyDetailedCalendarListenersState extends State<DailyDetailedCalendarListeners> with NavigateOnceHelper{
+  final _logger = CustomLogger('DailyDetailedCalendarListeners');
+
+  @override
+  Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
         BlocListener<DailyCalendarBloc, DailyCalendarState>(
           listener: (context, state) {
             if (state is DailyCalendarNavigationSuccessState) {
-              logger.i('Navigation success, navigating to DailyDetailedCalendar.');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              _logger.i('Navigation success → DailyDetailedCalendar');
+              navigateOnce(() {
                 context.goNamed(
                   AppRoutesName.dailyDetailedCalendar,
                   extra: {'outfitId': DateTime.now().millisecondsSinceEpoch.toString()},
                 );
               });
             } else if (state is DailyCalendarSaveFailureState) {
-              logger.e('Navigation failed.');
+              _logger.e('Navigation failure from calendar bloc');
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(S.of(context).calendarNavigationFailed)),
               );
@@ -50,17 +56,18 @@ class DailyDetailedCalendarListeners extends StatelessWidget {
         BlocListener<OutfitSelectionBloc, OutfitSelectionState>(
           listener: (context, state) {
             if (state is ActiveItemsFetched) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              _logger.i('Items fetched, navigating to create outfit');
+              navigateOnce(() {
                 context.pushNamed(
                   AppRoutesName.createOutfit,
                   extra: {'selectedItemIds': state.activeItemIds},
                 );
               });
             } else if (state is OutfitSelectionError) {
-              logger.e('Error fetching active items: ${state.message}');
+              _logger.e('Item fetch failed: ${state.message}');
               CustomSnackbar(
                 message: S.of(context).failedToLoadItems,
-                theme: theme,
+                theme: widget.theme,
               ).show(context);
             }
           },
@@ -68,15 +75,15 @@ class DailyDetailedCalendarListeners extends StatelessWidget {
         BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
           listener: (context, state) {
             if (state is OutfitFocusedDateSuccess) {
-              logger.i("✅ Focused date saved. Navigating to outfit details.");
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              _logger.i('Focused date saved, navigating to analytics');
+              navigateOnce(() {
                 context.pushNamed(
                   AppRoutesName.relatedOutfitAnalytics,
-                  extra: outfitId,
+                  extra: widget.outfitId,
                 );
               });
             } else if (state is OutfitFocusedDateFailure) {
-              logger.e('❌ Failed to set focused date: ${state.error}');
+              _logger.e('Focused date failed: ${state.error}');
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(S.of(context).calendarNavigationFailed)),
               );
@@ -84,7 +91,7 @@ class DailyDetailedCalendarListeners extends StatelessWidget {
           },
         ),
       ],
-      child: child,
+      child: widget.child,
     );
   }
 }

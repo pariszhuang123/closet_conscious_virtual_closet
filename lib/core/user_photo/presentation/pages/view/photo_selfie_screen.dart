@@ -40,7 +40,7 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
   @override
   void onPermissionClose() {
     widget.logger.i('Camera permission check failed, navigating to WearOutfit');
-    navigateSafely(AppRoutesName.wearOutfit, extra: widget.outfitId);
+    navigateOnceTo(AppRoutesName.wearOutfit, extra: widget.outfitId);
   }
 
   @override
@@ -69,7 +69,7 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
 
                   paymentRequired = true; // 🚨 Payment is required
 
-                  navigateSafely(AppRoutesName.payment, extra: {
+                  navigateOnceTo(AppRoutesName.payment, extra: {
                     'featureKey': featureKey,
                     'isFromMyCloset': true,
                     'previousRoute': AppRoutesName.wearOutfit,
@@ -108,14 +108,14 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
                     photoBloc.add(CaptureSelfiePhoto(widget.outfitId!));
                   } else {
                     widget.logger.e('Outfit ID is null. Cannot capture selfie.');
-                    navigateSafely(AppRoutesName.wearOutfit, extra: widget.outfitId);
+                    navigateOnceTo(AppRoutesName.wearOutfit, extra: widget.outfitId);
                   }
                 } else if (state is PhotoCaptureFailure) {
                   widget.logger.e('Photo capture failed');
-                  navigateSafely(AppRoutesName.wearOutfit, extra: widget.outfitId);
+                  navigateOnceTo(AppRoutesName.wearOutfit, extra: widget.outfitId);
                 } else if (state is SelfieCaptureSuccess) {
                   widget.logger.i('Selfie upload succeeded with outfitId: ${state.outfitId}');
-                  navigateSafely(AppRoutesName.wearOutfit, extra: widget.outfitId);
+                  navigateOnceTo(AppRoutesName.wearOutfit, extra: widget.outfitId);
                 }
               },
             ),

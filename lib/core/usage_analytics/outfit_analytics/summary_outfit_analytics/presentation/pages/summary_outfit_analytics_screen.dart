@@ -49,10 +49,11 @@ class _SummaryOutfitAnalyticsScreenState extends State<SummaryOutfitAnalyticsScr
   void initState() {
     super.initState();
 
-    context.read<UsageAnalyticsNavigationBloc>().add(CheckUsageAnalyticsAccessEvent());
-    context.read<TutorialBloc>().add(
-      const CheckTutorialStatus(TutorialType.paidUsageAnalytics),
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<UsageAnalyticsNavigationBloc>().add(CheckUsageAnalyticsAccessEvent());
+      context.read<TutorialBloc>().add(const CheckTutorialStatus(TutorialType.paidUsageAnalytics));
+    });
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {

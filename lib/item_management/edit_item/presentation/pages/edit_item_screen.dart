@@ -38,7 +38,12 @@ class _EditItemScreenState extends State<EditItemScreen> {
   void initState() {
     super.initState();
     _amountSpentFocusNode = FocusNode();
-    context.read<TutorialBloc>().add(const CheckTutorialStatus(TutorialType.freeEditCamera));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<TutorialBloc>().add(
+        const CheckTutorialStatus(TutorialType.freeEditCamera),
+      );
+    });
     _logger.i('Initialized EditItemScreen with itemId: ${widget.itemId}');
   }
 

@@ -35,11 +35,16 @@ class _PendingPhotoLibraryScreenState extends State<PendingPhotoLibraryScreen> w
   @override
   void initState() {
     super.initState();
-    _logger.i('initState: Requesting photo library permission');
-    context.read<PhotoLibraryBloc>().add(PhotoLibraryStarted());
-    context.read<TutorialBloc>().add(
-      const CheckTutorialStatus(TutorialType.freeUploadPhotoLibrary),
-    );
+    _logger.i('initState: Scheduling post-frame permission + tutorial check');
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<PhotoLibraryBloc>().add(PhotoLibraryStarted());
+      context.read<TutorialBloc>().add(
+        const CheckTutorialStatus(TutorialType.freeUploadPhotoLibrary),
+      );
+    });
+
     WidgetsBinding.instance.addObserver(this);
   }
 

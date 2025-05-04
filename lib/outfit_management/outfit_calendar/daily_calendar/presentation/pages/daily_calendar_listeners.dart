@@ -13,13 +13,20 @@ import '../../../../../core/usage_analytics/core/presentation/bloc/single_outfit
 import '../../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
 import '../bloc/daily_calendar_bloc.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../../../../core/utilities/helper_functions/navigate_once_helper.dart';
 
 final _logger = CustomLogger('DailyCalendarListeners');
 
-class DailyCalendarListeners extends StatelessWidget {
+class DailyCalendarListeners extends StatefulWidget {
   final Widget child;
 
   const DailyCalendarListeners({super.key, required this.child});
+
+  @override
+  State<DailyCalendarListeners> createState() => _DailyCalendarListenersState();
+}
+
+class _DailyCalendarListenersState extends State<DailyCalendarListeners> with NavigateOnceHelper{
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +35,8 @@ class DailyCalendarListeners extends StatelessWidget {
         BlocListener<DailyCalendarBloc, DailyCalendarState>(
           listener: (context, state) {
             if (state is DailyCalendarNavigationSuccessState) {
-              _logger.i('✅ Navigation success: Navigating to DailyCalendar.');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              _logger.i('✅ Navigation success: Reloading DailyCalendar');
+              navigateOnce(() {
                 context.goNamed(
                   AppRoutesName.dailyCalendar,
                   extra: {'outfitId': DateTime.now().millisecondsSinceEpoch.toString()},
@@ -37,42 +44,51 @@ class DailyCalendarListeners extends StatelessWidget {
               });
             } else if (state is DailyCalendarSaveFailureState) {
               _logger.e('❌ Navigation failed.');
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(S.of(context).calendarNavigationFailed)),
-              );
+              CustomSnackbar(
+                message: S.of(context).calendarNavigationFailed,
+                theme: Theme.of(context),
+              ).show(context);
             }
           },
         ),
         BlocListener<CalendarNavigationBloc, CalendarNavigationState>(
           listener: (context, state) {
             if (state is CalendarAccessState) {
-              if (state.accessStatus == AccessStatus.denied) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  context.goNamed(
-                    AppRoutesName.payment,
-                    extra: {
-                      'featureKey': FeatureKey.calendar,
-                      'isFromMyCloset': false,
-                      'previousRoute': AppRoutesName.createOutfit,
-                      'nextRoute': AppRoutesName.dailyCalendar,
-                    },
-                  );
-                });
-              } else if (state.accessStatus == AccessStatus.trialPending) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  context.goNamed(
-                    AppRoutesName.trialStarted,
-                    extra: {
-                      'selectedFeatureRoute': AppRoutesName.dailyCalendar,
-                      'isFromMyCloset': false,
-                    },
-                  );
-                });
-              } else if (state.accessStatus == AccessStatus.granted) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  context.read<DailyCalendarBloc>().add(const FetchDailyCalendarEvent());
-                  context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
-                });
+              switch (state.accessStatus) {
+                case AccessStatus.denied:
+                  navigateOnce(() {
+                    context.goNamed(
+                      AppRoutesName.payment,
+                      extra: {
+                        'featureKey': FeatureKey.calendar,
+                        'isFromMyCloset': false,
+                        'previousRoute': AppRoutesName.createOutfit,
+                        'nextRoute': AppRoutesName.dailyCalendar,
+                      },
+                    );
+                  });
+                  break;
+                case AccessStatus.trialPending:
+                  navigateOnce(() {
+                    context.goNamed(
+                      AppRoutesName.trialStarted,
+                      extra: {
+                        'selectedFeatureRoute': AppRoutesName.dailyCalendar,
+                        'isFromMyCloset': false,
+                      },
+                    );
+                  });
+                  break;
+                case AccessStatus.granted:
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    context.read<DailyCalendarBloc>().add(const FetchDailyCalendarEvent());
+                    context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+                  });
+                  break;
+                case AccessStatus.pending:
+                case AccessStatus.error:
+                  _logger.w('Unhandled calendar access status: ${state.accessStatus}');
+                  break;
               }
             }
           },
@@ -80,7 +96,7 @@ class DailyCalendarListeners extends StatelessWidget {
         BlocListener<OutfitSelectionBloc, OutfitSelectionState>(
           listener: (context, state) {
             if (state is ActiveItemsFetched) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              navigateOnce(() {
                 context.pushNamed(
                   AppRoutesName.createOutfit,
                   extra: {'selectedItemIds': state.activeItemIds},
@@ -98,8 +114,8 @@ class DailyCalendarListeners extends StatelessWidget {
         BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
           listener: (context, state) {
             if (state is OutfitFocusedDateSuccess) {
-              _logger.i("✅ Focused date saved. Navigating to outfit details.");
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              _logger.i("✅ Focused date saved. Navigating to detailed calendar.");
+              navigateOnce(() {
                 context.pushNamed(
                   AppRoutesName.dailyDetailedCalendar,
                   extra: {'outfitId': state.outfitId},
@@ -107,14 +123,15 @@ class DailyCalendarListeners extends StatelessWidget {
               });
             } else if (state is OutfitFocusedDateFailure) {
               _logger.e('❌ Failed to set focused date: ${state.error}');
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(S.of(context).calendarNavigationFailed)),
-              );
+              CustomSnackbar(
+                message: S.of(context).calendarNavigationFailed,
+                theme: Theme.of(context),
+              ).show(context);
             }
           },
         ),
       ],
-      child: child,
+      child: widget.child,
     );
   }
 }

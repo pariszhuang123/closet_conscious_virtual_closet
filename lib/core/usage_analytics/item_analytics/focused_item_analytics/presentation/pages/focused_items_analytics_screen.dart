@@ -46,7 +46,10 @@ class _FocusedItemsAnalyticsScreenState extends State<FocusedItemsAnalyticsScree
     super.initState();
     logger.i('Running initState logic for itemId: ${widget.itemId}');
 
-    context.read<UsageAnalyticsNavigationBloc>().add(CheckUsageAnalyticsAccessEvent());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<UsageAnalyticsNavigationBloc>().add(CheckUsageAnalyticsAccessEvent());
+    });
   }
 
   void _onImageTap(BuildContext context) {

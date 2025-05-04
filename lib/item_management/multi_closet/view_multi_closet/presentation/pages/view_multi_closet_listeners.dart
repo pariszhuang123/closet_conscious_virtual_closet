@@ -10,8 +10,9 @@ import '../../../../../core/core_enums.dart';
 import '../../../../../core/utilities/helper_functions/tutorial_helper.dart';
 import '../bloc/view_multi_closet_bloc.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../../../../core/utilities/helper_functions/navigate_once_helper.dart';
 
-class ViewMultiClosetListeners extends StatelessWidget {
+class ViewMultiClosetListeners extends StatefulWidget {
   final bool isFromMyCloset;
   final CustomLogger logger;
   final Widget child;
@@ -24,6 +25,12 @@ class ViewMultiClosetListeners extends StatelessWidget {
   });
 
   @override
+  State<ViewMultiClosetListeners> createState() => _ViewMultiClosetListenersState();
+}
+
+class _ViewMultiClosetListenersState extends State<ViewMultiClosetListeners> with NavigateOnceHelper {
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
@@ -31,28 +38,28 @@ class ViewMultiClosetListeners extends StatelessWidget {
           listener: (context, state) {
             if (state is MultiClosetAccessState) {
               if (state.accessStatus == AccessStatus.trialPending) {
-                logger.i('Trial pending, navigating to trialStarted screen');
-                WidgetsBinding.instance.addPostFrameCallback((_) {
+                widget.logger.i('Trial pending → navigating to trialStarted');
+                navigateOnce(() {
                   context.goNamed(
                     AppRoutesName.trialStarted,
                     extra: {
                       'selectedFeatureRoute': AppRoutesName.viewMultiCloset,
-                      'isFromMyCloset': isFromMyCloset,
+                      'isFromMyCloset': widget.isFromMyCloset,
                     },
                   );
                 });
               } else if (state.accessStatus == AccessStatus.granted) {
-                logger.i('Access granted: Fetching data');
+                widget.logger.i('Access granted → fetching closets and crossAxisCount');
                 context.read<ViewMultiClosetBloc>().add(FetchViewMultiClosetsEvent());
                 context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
               } else if (state.accessStatus == AccessStatus.denied) {
-                logger.w('Access denied: Navigating to payment page');
-                WidgetsBinding.instance.addPostFrameCallback((_) {
+                widget.logger.w('Access denied → navigating to payment');
+                navigateOnce(() {
                   context.goNamed(
                     AppRoutesName.payment,
                     extra: {
                       'featureKey': FeatureKey.multicloset,
-                      'isFromMyCloset': isFromMyCloset,
+                      'isFromMyCloset': widget.isFromMyCloset,
                       'previousRoute': AppRoutesName.myCloset,
                       'nextRoute': AppRoutesName.viewMultiCloset,
                     },
@@ -60,32 +67,32 @@ class ViewMultiClosetListeners extends StatelessWidget {
                 });
               }
             } else if (state is CreateMultiClosetNavigationState) {
-              logger.i('Navigating to Create Multi Closet screen.');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('Navigation → CreateMultiCloset');
+              navigateOnce(() {
                 context.pushNamed(AppRoutesName.createMultiCloset);
               });
             } else if (state is EditSingleMultiClosetNavigationState ||
                 state is EditAllMultiClosetNavigationState) {
-              logger.i('Navigating to Edit Multi Closet screen.');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('Navigation → EditMultiCloset');
+              navigateOnce(() {
                 context.pushNamed(AppRoutesName.editMultiCloset);
               });
             } else {
-              logger.d('Unhandled state in MultiClosetNavigationBloc: ${state.runtimeType}');
+              widget.logger.d('Unhandled state: ${state.runtimeType}');
             }
           },
         ),
         BlocListener<TutorialBloc, TutorialState>(
           listener: (context, tutorialState) {
             if (tutorialState is ShowTutorial) {
-              logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('Tutorial trigger → navigating to tutorial video');
+              navigateOnce(() {
                 context.goNamed(
                   AppRoutesName.tutorialVideoPopUp,
                   extra: {
                     'nextRoute': AppRoutesName.viewMultiCloset,
                     'tutorialInputKey': TutorialType.paidMultiCloset.value,
-                    'isFromMyCloset': isFromMyCloset,
+                    'isFromMyCloset': widget.isFromMyCloset,
                   },
                 );
               });
@@ -93,7 +100,7 @@ class ViewMultiClosetListeners extends StatelessWidget {
           },
         ),
       ],
-      child: child,
+      child: widget.child,
     );
   }
 }

@@ -22,7 +22,7 @@ class PhotoEditItemScreen extends BasePhotoScreen {
   PhotoEditItemScreenState createState() => PhotoEditItemScreenState();
 }
 
-class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen> {
+class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>{
   bool paymentRequired = false; // 🚨 Track whether payment was needed
 
   @override
@@ -38,7 +38,7 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
   @override
   void onPermissionClose() {
     widget.logger.i('Camera permission check failed, navigating to EditItem');
-    navigateSafely(AppRoutesName.editItem, extra: widget.itemId);
+    navigateOnceTo(AppRoutesName.editItem, extra: widget.itemId);
   }
 
   @override
@@ -73,7 +73,7 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
 
                 paymentRequired = true; // 🚨 Mark that payment was required
 
-                navigateSafely(AppRoutesName.payment, extra: {
+                navigateOnceTo(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
                   'previousRoute': AppRoutesName.editItem,
@@ -113,14 +113,14 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
                   photoBloc.add(CaptureEditItemPhoto(widget.itemId!));
                 } else {
                   widget.logger.e('Item ID is null. Cannot capture EditItem.');
-                  navigateSafely(AppRoutesName.editItem, extra: {'itemId': widget.itemId});
+                  navigateOnceTo(AppRoutesName.editItem, extra: {'itemId': widget.itemId});
                 }
               } else if (state is PhotoCaptureFailure) {
                 widget.logger.e('Photo capture failed');
-                navigateSafely(AppRoutesName.editItem, extra: widget.itemId);
+                navigateOnceTo(AppRoutesName.editItem, extra: widget.itemId);
               } else if (state is EditItemCaptureSuccess) {
                 widget.logger.i('Photo upload succeeded with itemId: ${state.itemId}');
-                navigateSafely(AppRoutesName.myCloset);
+                navigateOnceTo(AppRoutesName.myCloset);
               }
             },
           ),

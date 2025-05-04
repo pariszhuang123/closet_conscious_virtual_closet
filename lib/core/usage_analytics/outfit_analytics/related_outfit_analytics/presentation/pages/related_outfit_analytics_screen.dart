@@ -44,9 +44,10 @@ class _RelatedOutfitAnalyticsScreenState extends State<RelatedOutfitAnalyticsScr
   @override
   void initState() {
     super.initState();
-    _logger.i('initState: Fetching outfit and related data for outfitId: ${widget.outfitId}');
-
-    context.read<UsageAnalyticsNavigationBloc>().add(CheckUsageAnalyticsAccessEvent());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<UsageAnalyticsNavigationBloc>().add(CheckUsageAnalyticsAccessEvent());
+    });
   }
 
   @override

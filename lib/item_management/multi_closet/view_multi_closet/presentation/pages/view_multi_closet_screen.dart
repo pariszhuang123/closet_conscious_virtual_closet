@@ -33,13 +33,14 @@ class _ViewMultiClosetScreenState extends State<ViewMultiClosetScreen> {
   void initState() {
     super.initState();
 
-    // ✅ Dispatch once after widget is mounted
-    context.read<MultiClosetNavigationBloc>().add(CheckMultiClosetAccessEvent());
-    context.read<TutorialBloc>().add(
-      const CheckTutorialStatus(TutorialType.paidMultiCloset),
-    );
-
-    logger.i('Initialized ViewMultiClosetScreen');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<MultiClosetNavigationBloc>().add(CheckMultiClosetAccessEvent());
+      context.read<TutorialBloc>().add(
+        const CheckTutorialStatus(TutorialType.paidMultiCloset),
+      );
+      logger.i('Dispatched access and tutorial check in post-frame');
+    });
   }
 
   @override

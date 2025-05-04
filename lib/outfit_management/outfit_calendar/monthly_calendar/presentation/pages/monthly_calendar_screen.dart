@@ -42,11 +42,14 @@ class MonthlyCalendarScreenState extends State<MonthlyCalendarScreen> {
     super.initState();
     eventNameController = TextEditingController();
 
-    context.read<CalendarNavigationBloc>().add(CheckCalendarAccessEvent());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<CalendarNavigationBloc>().add(CheckCalendarAccessEvent());
+      context.read<TutorialBloc>().add(
+        const CheckTutorialStatus(TutorialType.paidCalendar),
+      );
+    });
 
-    context.read<TutorialBloc>().add(
-      const CheckTutorialStatus(TutorialType.paidCalendar),
-    );
     logger = CustomLogger('MonthlyCalendarScreen');
     logger.i('Initializing MonthlyCalendarScreen with selectedOutfitIds: ${widget.selectedOutfitIds}');
   }

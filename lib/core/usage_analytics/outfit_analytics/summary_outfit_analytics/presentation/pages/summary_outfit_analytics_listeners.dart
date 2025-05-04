@@ -17,8 +17,9 @@ import '../../../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_
 import '../../../../../../item_management/multi_closet/core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
 import '../../../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../../../../utilities/helper_functions/tutorial_helper.dart';
+import '../../../../../utilities/helper_functions/navigate_once_helper.dart';
 
-class SummaryOutfitAnalyticsListeners extends StatelessWidget {
+class SummaryOutfitAnalyticsListeners extends StatefulWidget {
   final Widget child;
   final bool isFromMyCloset;
   final List<String> selectedOutfitIds;
@@ -33,6 +34,12 @@ class SummaryOutfitAnalyticsListeners extends StatelessWidget {
   });
 
   @override
+  State<SummaryOutfitAnalyticsListeners> createState() => _SummaryOutfitAnalyticsListenersState();
+}
+
+class _SummaryOutfitAnalyticsListenersState extends State<SummaryOutfitAnalyticsListeners> with NavigateOnceHelper {
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
@@ -40,35 +47,37 @@ class SummaryOutfitAnalyticsListeners extends StatelessWidget {
           listener: (context, state) {
             if (state is UsageAnalyticsAccessState) {
               if (state.accessStatus == AccessStatus.denied) {
-                logger.w('Access denied: Navigating to payment page');
-                context.goNamed(
-                  AppRoutesName.payment,
-                  extra: {
-                    'featureKey': FeatureKey.usageAnalytics,
-                    'isFromMyCloset': isFromMyCloset,
-                    'previousRoute': AppRoutesName.myCloset,
-                    'nextRoute': AppRoutesName.summaryItemsAnalytics,
-                  },
-                );
+                widget.logger.w('Access denied → navigating to payment');
+                navigateOnce(() {
+                  context.goNamed(
+                    AppRoutesName.payment,
+                    extra: {
+                      'featureKey': FeatureKey.usageAnalytics,
+                      'isFromMyCloset': widget.isFromMyCloset,
+                      'previousRoute': AppRoutesName.myCloset,
+                      'nextRoute': AppRoutesName.summaryItemsAnalytics,
+                    },
+                  );
+                });
+              } else if (state.accessStatus == AccessStatus.trialPending) {
+                widget.logger.i('Trial pending → navigating to trialStarted');
+                navigateOnce(() {
+                  context.goNamed(
+                    AppRoutesName.trialStarted,
+                    extra: {
+                      'selectedFeatureRoute': AppRoutesName.summaryItemsAnalytics,
+                      'isFromMyCloset': widget.isFromMyCloset,
+                    },
+                  );
+                });
               } else if (state.accessStatus == AccessStatus.granted) {
-                logger.i('Access granted: Fetching data');
+                widget.logger.i('Access granted → fetching analytics data');
                 context.read<FilteredOutfitsCubit>().fetchFilteredOutfits();
-                context.read<MultiSelectionOutfitCubit>().initializeSelection(selectedOutfitIds);
+                context.read<MultiSelectionOutfitCubit>().initializeSelection(widget.selectedOutfitIds);
                 context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
                 context.read<FocusOrCreateClosetBloc>().add(FetchFocusOrCreateCloset());
                 context.read<MultiClosetNavigationBloc>().add(CheckMultiClosetAccessEvent());
-                context.read<SummaryOutfitAnalyticsBloc>().add(
-                  FetchOutfitAnalytics(),
-                );
-              } else if (state.accessStatus == AccessStatus.trialPending) {
-                logger.i('Trial pending, navigating to trialStarted screen');
-                context.goNamed(
-                  AppRoutesName.trialStarted,
-                  extra: {
-                    'selectedFeatureRoute': AppRoutesName.summaryItemsAnalytics,
-                    'isFromMyCloset': isFromMyCloset,
-                  },
-                );
+                context.read<SummaryOutfitAnalyticsBloc>().add(FetchOutfitAnalytics());
               }
             }
           },
@@ -76,27 +85,28 @@ class SummaryOutfitAnalyticsListeners extends StatelessWidget {
         BlocListener<SummaryOutfitAnalyticsBloc, SummaryOutfitAnalyticsState>(
           listener: (context, state) {
             if (state is UpdateOutfitReviewSuccess) {
-              logger.i("✅ Outfit review updated successfully. Navigating...");
-              context.goNamed(
-                AppRoutesName.summaryOutfitAnalytics,
-                extra: {
-                  'isFromMyCloset': isFromMyCloset,
-                  'selectedOutfitIds': selectedOutfitIds,
-                },
-              );
+              widget.logger.i("✅ Outfit review updated → navigating back");
+              navigateOnce(() {
+                context.goNamed(
+                  AppRoutesName.summaryOutfitAnalytics,
+                  extra: {
+                    'isFromMyCloset': widget.isFromMyCloset,
+                    'selectedOutfitIds': widget.selectedOutfitIds,
+                  },
+                );
+              });
             }
           },
         ),
         BlocListener<OutfitFocusedDateCubit, OutfitFocusedDateState>(
           listener: (context, state) {
             if (state is OutfitFocusedDateSuccess) {
-              logger.i("✅ Focused date set successfully for outfit: ${state.outfitId}");
-              context.pushNamed(
-                AppRoutesName.relatedOutfitAnalytics,
-                extra: state.outfitId,
-              );
+              widget.logger.i("✅ Focused date set → navigating to related analytics");
+              navigateOnce(() {
+                context.pushNamed(AppRoutesName.relatedOutfitAnalytics, extra: state.outfitId);
+              });
             } else if (state is OutfitFocusedDateFailure) {
-              logger.e("❌ Failed to set focused date: ${state.error}");
+              widget.logger.e("❌ Failed to set focused date: ${state.error}");
               CustomSnackbar(
                 message: "Failed to set focused date: ${state.error}",
                 theme: Theme.of(context),
@@ -107,39 +117,44 @@ class SummaryOutfitAnalyticsListeners extends StatelessWidget {
         BlocListener<OutfitSelectionBloc, OutfitSelectionState>(
           listener: (context, state) {
             if (state is ActiveItemsFetched) {
-              logger.i('Active items fetched. Navigating to create multi-closet.');
-              context.pushNamed(
-                AppRoutesName.createMultiCloset,
-                extra: {'selectedItemIds': state.activeItemIds},
-              );
+              widget.logger.i('Fetched items → navigating to createMultiCloset');
+              navigateOnce(() {
+                context.pushNamed(
+                  AppRoutesName.createMultiCloset,
+                  extra: {'selectedItemIds': state.activeItemIds},
+                );
+              });
             }
           },
         ),
         BlocListener<TutorialBloc, TutorialState>(
           listener: (context, tutorialState) {
             if (tutorialState is ShowTutorial) {
-              logger.i('Tutorial trigger detected, navigating to tutorial video pop-up');
-              context.goNamed(
-                AppRoutesName.tutorialVideoPopUp,
-                extra: {
-                  'nextRoute': AppRoutesName.summaryOutfitAnalytics,
-                  'tutorialInputKey': TutorialType.paidUsageAnalytics.value,
-                  'isFromMyCloset': isFromMyCloset,
-                },
-              );
+              widget.logger.i('Tutorial shown → navigating to tutorial video');
+              navigateOnce(() {
+                context.goNamed(
+                  AppRoutesName.tutorialVideoPopUp,
+                  extra: {
+                    'nextRoute': AppRoutesName.summaryOutfitAnalytics,
+                    'tutorialInputKey': TutorialType.paidUsageAnalytics.value,
+                    'isFromMyCloset': widget.isFromMyCloset,
+                  },
+                );
+              });
             }
           },
         ),
         BlocListener<MultiClosetNavigationBloc, MultiClosetNavigationState>(
           listener: (context, state) {
-            if (state is MultiClosetAccessState && state.accessStatus == AccessStatus.granted) {
-              logger.i("Multi-closet access granted. Fetching focus or create closet state.");
+            if (state is MultiClosetAccessState &&
+                state.accessStatus == AccessStatus.granted) {
+              widget.logger.i("Multi-closet access granted → re-fetching closet state");
               context.read<FocusOrCreateClosetBloc>().add(FetchFocusOrCreateCloset());
             }
           },
         ),
       ],
-      child: child,
+      child: widget.child,
     );
   }
 }

@@ -13,8 +13,9 @@ import '../widgets/show_photo_permission_dialog.dart';
 import '../../../utilities/helper_functions/tutorial_helper.dart';
 import '../../../core_enums.dart';
 import '../widgets/show_upload_success_dialog.dart';
+import '../../../utilities/helper_functions/navigate_once_helper.dart';
 
-class PendingPhotoLibraryScreenListeners extends StatelessWidget {
+class PendingPhotoLibraryScreenListeners extends StatefulWidget {
   final CustomLogger logger;
   final Widget child;
   final void Function(BuildContext context) handleLibraryPermission;
@@ -34,6 +35,12 @@ class PendingPhotoLibraryScreenListeners extends StatelessWidget {
     required this.grantLibraryAccess,
   });
 
+  @override
+  State<PendingPhotoLibraryScreenListeners> createState() => _PendingPhotoLibraryScreenListenersState();
+}
+
+class _PendingPhotoLibraryScreenListenersState extends State<PendingPhotoLibraryScreenListeners> with NavigateOnceHelper {
+
   FeatureKey _getFeatureKeyForState(NavigateCoreState state) {
     if (state is BronzeUploadItemDeniedState) return FeatureKey.uploadItemBronze;
     if (state is SilverUploadItemDeniedState) return FeatureKey.uploadItemSilver;
@@ -48,8 +55,8 @@ class PendingPhotoLibraryScreenListeners extends StatelessWidget {
         BlocListener<TutorialBloc, TutorialState>(
           listener: (context, tutorialState) {
             if (tutorialState is ShowTutorial) {
-              logger.i('Tutorial trigger detected → navigating to tutorial pop-up');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('ShowTutorial → navigating to popup');
+              navigateOnce(() {
                 context.goNamed(
                   AppRoutesName.tutorialVideoPopUp,
                   extra: {
@@ -73,35 +80,41 @@ class PendingPhotoLibraryScreenListeners extends StatelessWidget {
             }
 
             if (state is PhotoLibraryNoAvailableImages) {
-              logger.w('No available images → show permission dialog');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.w('No images → showing permission dialog');
+              navigateOnce(() {
                 showPhotoPermissionDialog(context: context);
               });
             }
 
             if (state is PhotoLibraryNoPendingItem) {
-              logger.i('No pending item → dispatch access check');
+              widget.logger.i('No pending items → checking feature access');
               context.read<NavigateCoreBloc>().add(const CheckUploadItemCreationAccessEvent());
             }
 
             if (state is PhotoLibraryPermissionDenied) {
-              logger.w('Permission denied → triggering permission helper');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                handleLibraryPermission(context);
+              widget.logger.w('Permission denied → triggering handler');
+              navigateOnce(() {
+                widget.handleLibraryPermission(context);
               });
             }
 
-            if (state is PhotoLibraryPermissionGranted && !libraryInitialized) {
-              logger.i('Permission granted → initializing library');
-              markLibraryInitialized();
+            if (state is PhotoLibraryPermissionGranted && !widget.libraryInitialized) {
+              widget.logger.i('Permission granted → initializing');
+              widget.markLibraryInitialized();
               context.read<PhotoLibraryBloc>().add(InitializePhotoLibrary());
             }
 
             if (state is PhotoLibraryUploadSuccess) {
               context.read<PhotoLibraryBloc>().add(CheckPostUploadApparelCount());
-            } else if (state is PhotoLibraryViewPendingLibrary) {
-              context.goNamed(AppRoutesName.viewPendingItem);
-            } else if (state is PhotoLibraryUploadSuccessShowDialog) {
+            }
+
+            if (state is PhotoLibraryViewPendingLibrary) {
+              navigateOnce(() {
+                context.goNamed(AppRoutesName.viewPendingItem);
+              });
+            }
+
+            if (state is PhotoLibraryUploadSuccessShowDialog) {
               showUploadSuccessDialog(context, Theme.of(context));
             }
           },
@@ -112,8 +125,8 @@ class PendingPhotoLibraryScreenListeners extends StatelessWidget {
                 state is SilverUploadItemDeniedState ||
                 state is GoldUploadItemDeniedState) {
               final featureKey = _getFeatureKeyForState(state);
-              logger.i('Access denied → navigating to payment');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('Access denied → navigating to payment');
+              navigateOnce(() {
                 context.goNamed(
                   AppRoutesName.payment,
                   extra: {
@@ -126,13 +139,13 @@ class PendingPhotoLibraryScreenListeners extends StatelessWidget {
                 );
               });
             } else if (state is ItemAccessGrantedState) {
-              logger.i('Access granted');
-              grantLibraryAccess();
+              widget.logger.i('Item access granted');
+              widget.grantLibraryAccess();
             }
           },
         ),
       ],
-      child: child,
+      child: widget.child,
     );
   }
 }

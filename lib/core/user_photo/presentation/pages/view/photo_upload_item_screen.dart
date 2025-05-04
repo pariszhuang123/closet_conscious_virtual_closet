@@ -37,7 +37,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
   @override
   void onPermissionClose() {
     widget.logger.i('Camera permission denied. Navigating to MyCloset.');
-    navigateSafely(AppRoutesName.myCloset);
+    navigateOnceTo(AppRoutesName.myCloset);
   }
 
   @override
@@ -48,7 +48,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
 
   void _navigateToUploadItem(String imageUrl) {
     widget.logger.d('Navigating to UploadItem with imageUrl: $imageUrl');
-    navigateSafely(AppRoutesName.uploadItem, extra: imageUrl);
+    navigateOnceTo(AppRoutesName.uploadItem, extra: imageUrl);
   }
 
   @override
@@ -73,7 +73,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
               paymentRequired = true;
 
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                navigateSafely(AppRoutesName.payment, extra: {
+                navigateOnceTo(AppRoutesName.payment, extra: {
                   'featureKey': featureKey,
                   'isFromMyCloset': true,
                   'previousRoute': AppRoutesName.myCloset,
@@ -102,7 +102,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
               photoBloc.add(CapturePhoto());
             } else if (state is PhotoCaptureFailure) {
               widget.logger.e('Photo capture failed');
-              navigateSafely(AppRoutesName.myCloset);
+              navigateOnceTo(AppRoutesName.myCloset);
             } else if (state is PhotoCaptureSuccess) {
               widget.logger.i(
                   'Photo uploaded with imageUrl: ${state.imageUrl}');

@@ -41,10 +41,13 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
     super.initState();
     _logger.i('CustomizeScreen initState');
 
-    context.read<CustomizeBloc>().add(const CustomizeStarted());
-    context.read<TutorialBloc>().add(
-      const CheckTutorialStatus(TutorialType.paidCustomize),
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<CustomizeBloc>().add(const CustomizeStarted());
+      context.read<TutorialBloc>().add(
+        const CheckTutorialStatus(TutorialType.paidCustomize),
+      );
+    });
   }
 
   @override

@@ -8,16 +8,17 @@ import '../../../utilities/logger.dart';
 import '../../../utilities/app_router.dart';
 import '../../../core_enums.dart';
 import '../../../utilities/helper_functions/tutorial_helper.dart';
+import '../../../utilities/helper_functions/navigate_once_helper.dart';
 import '../../../presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 
-class FilterScreenListeners extends StatelessWidget {
+class FilterScreenListeners extends StatefulWidget {
   final bool isFromMyCloset;
   final String returnRoute;
   final List<String> selectedItemIds;
   final List<String> selectedOutfitIds;
   final bool showOnlyClosetFilter;
   final CustomLogger logger;
-  final Widget child; // <- wrap this
+  final Widget child;
 
   const FilterScreenListeners({
     super.key,
@@ -31,42 +32,50 @@ class FilterScreenListeners extends StatelessWidget {
   });
 
   @override
+  State<FilterScreenListeners> createState() => _FilterScreenListenersState();
+}
+
+class _FilterScreenListenersState extends State<FilterScreenListeners> with NavigateOnceHelper {
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
         BlocListener<FilterBloc, FilterState>(
           listener: (context, state) {
             if (state.saveStatus == SaveStatus.saveSuccess) {
-              logger.i('Save success, navigating back to $returnRoute');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('saveSuccess → returning to ${widget.returnRoute}');
+              navigateOnce(() {
                 context.goNamed(
-                  returnRoute,
+                  widget.returnRoute,
                   extra: {
-                    'selectedItemIds': selectedItemIds,
-                    'selectedOutfitIds': selectedOutfitIds,
+                    'selectedItemIds'   : widget.selectedItemIds,
+                    'selectedOutfitIds' : widget.selectedOutfitIds,
                   },
                 );
               });
             } else if (state.accessStatus == AccessStatus.trialPending) {
-              logger.i('Trial pending, navigating to trialStarted');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('trialPending → trialStarted');
+              navigateOnce(() {
                 context.goNamed(
                   AppRoutesName.trialStarted,
                   extra: {
                     'selectedFeatureRoute': AppRoutesName.filter,
-                    'isFromMyCloset': isFromMyCloset,
+                    'isFromMyCloset'     : widget.isFromMyCloset,
                   },
                 );
               });
             } else if (state.accessStatus == AccessStatus.denied) {
-              logger.i('Access denied, navigating to payment');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              widget.logger.i('accessDenied → payment');
+              navigateOnce(() {
                 context.goNamed(
                   AppRoutesName.payment,
                   extra: {
-                    'featureKey': FeatureKey.filter,
-                    'isFromMyCloset': isFromMyCloset,
-                    'previousRoute': isFromMyCloset ? AppRoutesName.myCloset : AppRoutesName.createOutfit,
+                    'featureKey'  : FeatureKey.filter,
+                    'isFromMyCloset': widget.isFromMyCloset,
+                    'previousRoute': widget.isFromMyCloset
+                        ? AppRoutesName.myCloset
+                        : AppRoutesName.createOutfit,
                     'nextRoute': AppRoutesName.filter,
                   },
                 );
@@ -75,16 +84,16 @@ class FilterScreenListeners extends StatelessWidget {
           },
         ),
         BlocListener<TutorialBloc, TutorialState>(
-          listener: (context, tutorialState) {
-            if (tutorialState is ShowTutorial) {
-              logger.i('Showing tutorial popup');
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+          listener: (context, tutorial) {
+            if (tutorial is ShowTutorial) {
+              widget.logger.i('showTutorial → popup');
+              navigateOnce(() {
                 context.goNamed(
                   AppRoutesName.tutorialVideoPopUp,
                   extra: {
-                    'nextRoute': AppRoutesName.filter,
+                    'nextRoute'       : AppRoutesName.filter,
                     'tutorialInputKey': TutorialType.paidFilter.value,
-                    'isFromMyCloset': isFromMyCloset,
+                    'isFromMyCloset'  : widget.isFromMyCloset,
                   },
                 );
               });
@@ -92,17 +101,17 @@ class FilterScreenListeners extends StatelessWidget {
           },
         ),
         BlocListener<FilterBloc, FilterState>(
-          listenWhen: (previous, current) =>
-          previous.hasMultiClosetFeature != current.hasMultiClosetFeature,
+          listenWhen: (prev, curr) =>
+          prev.hasMultiClosetFeature != curr.hasMultiClosetFeature,
           listener: (context, state) {
             if (state.hasMultiClosetFeature) {
-              logger.i('Multi-closet feature active — fetching cross axis count');
+              widget.logger.i('multiCloset → fetchCrossAxisCount');
               context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
             }
           },
         ),
       ],
-      child: child,
+      child: widget.child,
     );
   }
 }
