@@ -353,7 +353,7 @@ GoRouter appRouter = GoRouter(
         pageBuilder: (context, state) {
           final args = state.extra as Map<String, dynamic>? ?? {};
           return buildCustomTransitionPage(
-            key: state.pageKey,
+            key: UniqueKey(),
             transitionType: TransitionType.slideFromRight,
             child: MultiClosetScaffold(
               body: ViewMultiClosetProvider(
