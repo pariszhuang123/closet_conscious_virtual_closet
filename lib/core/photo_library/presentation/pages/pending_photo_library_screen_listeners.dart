@@ -100,6 +100,7 @@ class _PendingPhotoLibraryScreenListenersState extends State<PendingPhotoLibrary
 
             if (state is PhotoLibraryPermissionGranted && !widget.libraryInitialized) {
               widget.logger.i('Permission granted → initializing');
+              widget.grantLibraryAccess(); // ✅ only now
               widget.markLibraryInitialized();
               context.read<PhotoLibraryBloc>().add(InitializePhotoLibrary());
             }
@@ -139,8 +140,8 @@ class _PendingPhotoLibraryScreenListenersState extends State<PendingPhotoLibrary
                 );
               });
             } else if (state is ItemAccessGrantedState) {
-              widget.logger.i('Item access granted');
-              widget.grantLibraryAccess();
+              widget.logger.i('Item access granted → now request system permission');
+              context.read<PhotoLibraryBloc>().add(PhotoLibraryPermissionRequested());
             }
           },
         ),

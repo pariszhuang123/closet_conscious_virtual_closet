@@ -128,7 +128,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
   }
 
   void _onUploadButtonPressed() {
-    context.read<PhotoLibraryBloc>().add(PhotoLibraryStarted());
+    context.read<PhotoLibraryBloc>().add(PhotoLibraryCheckPendingItems());
   }
 
   void _onPhotoButtonPressed() {

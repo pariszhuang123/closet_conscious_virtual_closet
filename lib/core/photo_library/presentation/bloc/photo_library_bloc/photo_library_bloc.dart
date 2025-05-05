@@ -97,7 +97,8 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
               .map((p) => p.length).toList()}');
     });
 
-    on<PhotoLibraryStarted>(_onPhotoLibraryStarted);
+    on<PhotoLibraryCheckPendingItems>(_onCheckPendingItems);
+    on<PhotoLibraryPermissionRequested>(_onPermissionRequested);
     on<InitializePhotoLibrary>(_onInitialize);
     on<ToggleLibraryImageSelection>(_onToggleSelection);
     on<UploadSelectedLibraryImages>(_onUploadSelectedImages);
@@ -108,41 +109,33 @@ class PhotoLibraryBloc extends Bloc<PhotoLibraryEvent, PhotoLibraryState> {
     });
   }
 
-  Future<void> _onPhotoLibraryStarted(
-      PhotoLibraryStarted event,
-      Emitter<PhotoLibraryState> emit,
-      ) async {
-    _logger.i("PhotoLibraryStarted triggered");
 
-    // ✅ Set loading state immediately
+  Future<void> _onCheckPendingItems(PhotoLibraryCheckPendingItems event, Emitter<PhotoLibraryState> emit) async {
     emit(const PhotoLibraryInitial());
-
     try {
       final hasPendingItems = await _itemFetchService.hasPendingItems();
-      _logger.d("Pending items check result: $hasPendingItems");
-
       if (hasPendingItems) {
-        _logger.i("Pending items found — skip photo permission");
         emit(const PhotoLibraryPendingItem());
-        return;
+      } else {
+        emit(const PhotoLibraryNoPendingItem());
       }
-      emit (const PhotoLibraryNoPendingItem());
-      // ✅ No pending items — request permission
-      final permissionGranted = await _photoLibraryService.requestPhotoPermission();
-
-      if (!permissionGranted) {
-        _logger.w("Photo permission denied");
-        emit(const PhotoLibraryPermissionDenied());
-        return;
-      }
-
-      emit(const PhotoLibraryPermissionGranted());
-
-      // Proceed to full initialization
-      add(InitializePhotoLibrary());
     } catch (e, stack) {
-      _logger.e("Error during PhotoLibraryStarted: $e\n$stack");
-      emit(const PhotoLibraryFailure("Failed to load photo library"));
+      _logger.e("Pending check failed: $e\n$stack");
+      emit(const PhotoLibraryFailure("Failed to check pending items."));
+    }
+  }
+
+  Future<void> _onPermissionRequested(PhotoLibraryPermissionRequested event, Emitter<PhotoLibraryState> emit) async {
+    try {
+      final granted = await _photoLibraryService.requestPhotoPermission();
+      if (granted) {
+        emit(const PhotoLibraryPermissionGranted());
+      } else {
+        emit(const PhotoLibraryPermissionDenied());
+      }
+    } catch (e, stack) {
+      _logger.e("Permission request failed: $e\n$stack");
+      emit(const PhotoLibraryFailure("Permission check failed."));
     }
   }
 

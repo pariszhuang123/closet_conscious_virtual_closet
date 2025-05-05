@@ -18,6 +18,7 @@ import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../../core_enums.dart';
 import 'pending_photo_library_screen_listeners.dart';
 
+
 class PendingPhotoLibraryScreen extends StatefulWidget {
   const PendingPhotoLibraryScreen({super.key});
 
@@ -39,7 +40,7 @@ class _PendingPhotoLibraryScreenState extends State<PendingPhotoLibraryScreen> w
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      context.read<PhotoLibraryBloc>().add(PhotoLibraryStarted());
+      context.read<PhotoLibraryBloc>().add(PhotoLibraryCheckPendingItems());
       context.read<TutorialBloc>().add(
         const CheckTutorialStatus(TutorialType.freeUploadPhotoLibrary),
       );
@@ -81,6 +82,12 @@ class _PendingPhotoLibraryScreenState extends State<PendingPhotoLibraryScreen> w
       context: context,
       theme: Theme.of(context),
       onClose: _navigateToMyCloset,
+      onGranted: () {
+        _logger.i('Permission granted — dispatching PhotoLibraryStarted & TutorialCheck');
+        context.read<PhotoLibraryBloc>().add(PhotoLibraryPermissionRequested());
+        _libraryAccessGranted = true;
+        setState(() {});
+      },
     );
   }
 

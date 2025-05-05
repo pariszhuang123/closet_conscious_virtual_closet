@@ -2,8 +2,12 @@ part of 'photo_library_bloc.dart';
 
 abstract class PhotoLibraryEvent {}
 
-class PhotoLibraryStarted extends PhotoLibraryEvent {
-  PhotoLibraryStarted();
+class PhotoLibraryCheckPendingItems  extends PhotoLibraryEvent {
+  PhotoLibraryCheckPendingItems();
+}
+
+class PhotoLibraryPermissionRequested   extends PhotoLibraryEvent {
+  PhotoLibraryPermissionRequested();
 }
 
 class InitializePhotoLibrary extends PhotoLibraryEvent {}

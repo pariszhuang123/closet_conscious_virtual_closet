@@ -12,6 +12,7 @@ class LibraryPermissionHelper {
     required BuildContext context, // Required context
     ThemeData? theme, // Optional theme
     required VoidCallback onClose, // Callback for when settings dialog is closed
+    required VoidCallback onGranted,
   }) async {
     _logger.i('Checking photo library permission...');
 
@@ -27,7 +28,8 @@ class LibraryPermissionHelper {
     _logger.i('Photo library permission status: $status');
 
     if (status.isGranted) {
-      _logger.i('Photo library permission granted.');
+      _logger.i('Photo library permission granted. Running onGranted callback.');
+      onGranted(); // ✅ Trigger after permission confirmed
       return true;
     }
 

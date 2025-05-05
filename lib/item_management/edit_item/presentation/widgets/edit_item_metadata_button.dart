@@ -148,7 +148,7 @@ class _EditItemMetadataWithButtonState extends State<EditItemMetadataWithButton>
           setState(() => _isSubmitting = true);
         } else if (state is EditItemUpdateSuccess) {
           if (widget.isPendingFlow) {
-            context.read<PhotoLibraryBloc>().add(PhotoLibraryStarted());
+            context.read<PhotoLibraryBloc>().add(PhotoLibraryCheckPendingItems());
             widget.onPostUpdate?.call(); // trigger post-update callback if present
           } else {
             context.goNamed(AppRoutesName.myCloset);

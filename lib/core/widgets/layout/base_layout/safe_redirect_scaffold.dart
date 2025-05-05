@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../progress_indicator/closet_progress_indicator.dart';
+
 class SafeRedirectScaffold extends StatefulWidget {
   final VoidCallback onRedirect;
 
@@ -26,7 +28,9 @@ class _SafeRedirectScaffoldState extends State<SafeRedirectScaffold> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: SizedBox.expand(),
+      body: Center(
+        child: ClosetProgressIndicator(), // <- force visible UI
+      ),
     );
   }
 }
