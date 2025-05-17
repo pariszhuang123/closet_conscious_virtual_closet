@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../core/achievement_celebration/presentation/bloc/achievement_celebration_bloc/achievement_celebration_bloc.dart';
 import '../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../generated/l10n.dart';
 import '../../core/utilities/logger.dart';
@@ -61,24 +63,6 @@ class MyOutfitBlocListeners extends StatelessWidget {
                 extra: DateTime.now().millisecondsSinceEpoch.toString(),
               );
             }
-            if (state is FetchAndSaveClothingAchievementMilestoneSuccessState ||
-                state is FetchAndSaveNoBuyMilestoneSuccessState ||
-                state is FetchFirstOutfitMilestoneSuccessState ||
-                state is FetchFirstSelfieTakenMilestoneSuccessState) {
-              final dynamic s = state;
-              logger.i('Navigating to achievement pages for achievement: ${s.badgeUrl}');
-              context.read<NavigationStatusCubit>().setNavigating(true);
-
-              handleAchievementNavigationWithTheme(
-                context: context,
-                achievementKey: s.achievementName,
-                badgeUrl: s.badgeUrl,
-                nextRoute: AppRoutesName.createOutfit,
-                isFromMyCloset: false,
-              );
-
-              context.read<NavigationStatusCubit>().setNavigating(false);
-            }
             if (state is MultiOutfitAccessState) {
               if (state.accessStatus == AccessStatus.denied) {
                 logger.w('Access denied: Navigating to payment page');
@@ -101,6 +85,29 @@ class MyOutfitBlocListeners extends StatelessWidget {
                   },
                 );
               }
+            }
+          },
+        ),
+        BlocListener<AchievementCelebrationBloc, AchievementCelebrationState>(
+          listener: (context, state) {
+            logger.i('NavigateOutfitBloc listener triggered with state: $state');
+            if (state is ClothingWornAchievementSuccessState ||
+                state is NoBuyMilestoneAchievementSuccessState ||
+                state is FirstOutfitAchievementSuccessState ||
+                state is FirstSelfieAchievementSuccessState) {
+              final dynamic s = state;
+              logger.i('Navigating to achievement pages for achievement: ${s.badgeUrl}');
+              context.read<NavigationStatusCubit>().setNavigating(true);
+
+              handleAchievementNavigationWithTheme(
+                context: context,
+                achievementKey: s.achievementName,
+                badgeUrl: s.badgeUrl,
+                nextRoute: AppRoutesName.createOutfit,
+                isFromMyCloset: false,
+              );
+
+              context.read<NavigationStatusCubit>().setNavigating(false);
             }
           },
         ),

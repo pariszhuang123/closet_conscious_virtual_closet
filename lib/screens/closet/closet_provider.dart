@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../item_management/streak_item/presentation/bloc/upload_item_streak_bloc.dart';
 import '../../item_management/core/presentation/bloc/navigate_item_bloc/navigate_item_bloc.dart';
 import '../../item_management/core/data/services/item_fetch_service.dart';
@@ -10,6 +11,7 @@ import '../../item_management/core/presentation/bloc/single_selection_item_cubit
 import '../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import 'closet_screen.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../core/achievement_celebration/presentation/bloc/achievement_celebration_bloc/achievement_celebration_bloc.dart';
 import '../../core/data/services/core_fetch_services.dart';
 import '../../core/data/services/core_save_services.dart';
 import '../../core/photo_library/presentation/bloc/photo_library_bloc/photo_library_bloc.dart';
@@ -17,6 +19,7 @@ import '../../core/photo_library/usecase/photo_library_service.dart';
 import '../../core/tutorial/scenario/presentation/bloc/first_time_scenario_bloc.dart';
 import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../core/tutorial/core/presentation/bloc/tutorial_cubit.dart';
+import '../../core/presentation/bloc/trial_bloc/trial_bloc.dart';
 
 class MyClosetProvider extends StatelessWidget {
   final ThemeData myClosetTheme;
@@ -29,6 +32,7 @@ class MyClosetProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final itemFetchService = GetIt.instance<ItemFetchService>();
+    final outfitFetchService = GetIt.instance<OutfitFetchService>();
     final coreFetchService = GetIt.instance<CoreFetchService>();
     final coreSaveService = GetIt.instance<CoreSaveService>();
     final photoLibraryService = GetIt.instance<PhotoLibraryService>();
@@ -84,6 +88,15 @@ class MyClosetProvider extends StatelessWidget {
         ),
         BlocProvider<TutorialTypeCubit>(
           create: (_) => TutorialTypeCubit(),
+        ),
+        BlocProvider<AchievementCelebrationBloc>(
+          create: (_) => AchievementCelebrationBloc(
+            outfitFetchService: outfitFetchService,
+            itemFetchService: itemFetchService,
+          ),
+        ),
+        BlocProvider<TrialBloc>(
+          create: (_) => TrialBloc(coreFetchService),
         ),
       ],
       child: MyClosetScreen(

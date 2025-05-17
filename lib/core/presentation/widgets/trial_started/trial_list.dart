@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../widgets/button/navigation_type_button.dart';
-import '../../bloc/trial_bloc/trial_started_bloc.dart';
+import '../../bloc/trial_bloc/trial_bloc.dart';
 import '../../../data/type_data.dart';
 import '../../../core_enums.dart';
 import '../../../utilities/helper_functions/trial_helper/trial_state_mapper.dart';

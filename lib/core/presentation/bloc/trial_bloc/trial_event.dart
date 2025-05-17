@@ -1,4 +1,4 @@
-part of 'trial_started_bloc.dart';
+part of 'trial_bloc.dart';
 
 /// ✅ **Base Event**
 abstract class TrialEvent extends Equatable {
@@ -23,3 +23,6 @@ class CheckCalendarFeatureAccessEvent extends TrialEvent {}
 class CheckOutfitCreationFeatureAccessEvent extends TrialEvent {}
 
 class ActivateTrialEvent extends TrialEvent {}
+
+class TrialEndedEvent extends TrialEvent {}
+

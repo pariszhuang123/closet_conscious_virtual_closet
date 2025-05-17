@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../widgets/progress_indicator/closet_progress_indicator.dart';
 import '../../../../generated/l10n.dart';
-import '../../bloc/trial_bloc/trial_started_bloc.dart';
+import '../../bloc/trial_bloc/trial_bloc.dart';
 import '../../widgets/trial_started/trial_list.dart';
 import '../../../widgets/dialog/trial_started_dialog.dart';
 import '../../../utilities/app_router.dart';

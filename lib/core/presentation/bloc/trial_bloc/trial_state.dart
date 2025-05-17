@@ -1,4 +1,4 @@
-part of 'trial_started_bloc.dart';
+part of 'trial_bloc.dart';
 
 abstract class TrialState extends Equatable {
   const TrialState();
@@ -43,3 +43,5 @@ class TrialActivationInProgress extends TrialState {}
 class TrialActivated extends TrialState {}
 
 class TrialActivationFailed extends TrialState {}
+
+class TrialEndedSuccessState extends TrialState {}

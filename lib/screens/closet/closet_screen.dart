@@ -13,6 +13,8 @@ import '../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../core/photo_library/presentation/bloc/photo_library_bloc/photo_library_bloc.dart';
 import '../../core/tutorial/scenario/presentation/bloc/first_time_scenario_bloc.dart';
 import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../core/presentation/bloc/trial_bloc/trial_bloc.dart';
+import '../../core/achievement_celebration/presentation/bloc/achievement_celebration_bloc/achievement_celebration_bloc.dart';
 import '../../item_management/view_items/presentation/bloc/view_items_bloc.dart'; // Import ViewItemsBloc
 import '../../item_management/streak_item/presentation/bloc/upload_item_streak_bloc.dart';
 import '../../item_management/core/presentation/bloc/navigate_item_bloc/navigate_item_bloc.dart';
@@ -89,32 +91,32 @@ class MyClosetScreenState extends State<MyClosetScreen> {
 
   void _triggerItemUploadAchievement() {
     logger.i('Checking if Item Upload Milestone is successful');
-    context.read<NavigateItemBloc>().add(
-        const FetchFirstItemUploadedAchievementEvent());
+    context.read<AchievementCelebrationBloc>().add(
+        FetchFirstItemUploadedAchievementEvent());
   }
 
   void _triggerItemPicEditedAchievement() {
     logger.i('Checking if Item Pic Edited Milestone is successful');
-    context.read<NavigateItemBloc>().add(
-        const FetchFirstItemPicEditedAchievementEvent());
+    context.read<AchievementCelebrationBloc>().add(
+        FetchFirstItemPicEditedAchievementEvent());
   }
 
   void _triggerItemGiftedAchievement() {
     logger.i('Checking if Item Gifted Milestone is successful');
-    context.read<NavigateItemBloc>().add(
-        const FetchFirstItemGiftedAchievementEvent());
+    context.read<AchievementCelebrationBloc>().add(
+        FetchFirstItemGiftedAchievementEvent());
   }
 
   void _triggerItemSoldAchievement() {
     logger.i('Checking if Item Sold Milestone is successful');
-    context.read<NavigateItemBloc>().add(
-        const FetchFirstItemSoldAchievementEvent());
+    context.read<AchievementCelebrationBloc>().add(
+        FetchFirstItemSoldAchievementEvent());
   }
 
   void _triggerItemSwapAchievement() {
     logger.i('Checking if Item Swap Milestone is successful');
-    context.read<NavigateItemBloc>().add(
-        const FetchFirstItemSwapAchievementEvent());
+    context.read<AchievementCelebrationBloc>().add(
+        FetchFirstItemSwapAchievementEvent());
   }
 
   void _triggerDisappearingClosetPermanent() {
@@ -124,7 +126,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
 
   void _triggerTrialEndedDialog() {
     logger.i('Trigger Trial Ended Dialog if it is completed');
-    context.read<NavigateItemBloc>().add(const TrialEndedEvent());
+    context.read<TrialBloc>().add(TrialEndedEvent());
   }
 
   void _onUploadButtonPressed() {

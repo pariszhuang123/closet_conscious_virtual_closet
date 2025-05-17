@@ -9,6 +9,8 @@ import '../../core/utilities/logger.dart';
 import '../../core/widgets/dialog/trial_ended_dialog.dart';
 import '../../generated/l10n.dart';
 
+import '../../core/achievement_celebration/presentation/bloc/achievement_celebration_bloc/achievement_celebration_bloc.dart';
+import '../../core/presentation/bloc/trial_bloc/trial_bloc.dart';
 import '../../core/photo_library/presentation/bloc/photo_library_bloc/photo_library_bloc.dart';
 import '../../core/tutorial/scenario/presentation/bloc/first_time_scenario_bloc.dart';
 import '../../item_management/core/presentation/bloc/navigate_item_bloc/navigate_item_bloc.dart';
@@ -51,20 +53,6 @@ class MyClosetBlocListeners extends StatelessWidget {
         ),
         BlocListener<NavigateItemBloc, NavigateItemState>(
           listener: (context, state) {
-            if (state is FetchFirstItemUploadedMilestoneSuccessState ||
-                state is FetchFirstItemGiftedMilestoneSuccessState ||
-                state is FetchFirstItemSoldMilestoneSuccessState ||
-                state is FetchFirstItemSwapMilestoneSuccessState ||
-                state is FetchFirstItemPicEditedMilestoneSuccessState) {
-              final dynamic s = state;
-              handleAchievementNavigationWithTheme(
-                context: context,
-                achievementKey: s.achievementName,
-                badgeUrl: s.badgeUrl,
-                nextRoute: AppRoutesName.myCloset,
-                isFromMyCloset: true,
-              );
-            }
             if (state is FetchDisappearedClosetsSuccessState) {
               context.pushNamed(
                 AppRoutesName.reappearCloset,
@@ -75,6 +63,28 @@ class MyClosetBlocListeners extends StatelessWidget {
                 },
               );
             }
+          },
+        ),
+        BlocListener<AchievementCelebrationBloc, AchievementCelebrationState>(
+          listener: (context, state) {
+            if (state is FirstItemUploadedAchievementSuccessState ||
+                state is FirstItemGiftedAchievementSuccessState ||
+                state is FirstItemSoldAchievementSuccessState ||
+                state is FirstItemSwapAchievementSuccessState ||
+                state is FirstItemPicEditedAchievementSuccessState) {
+              final dynamic s = state;
+              handleAchievementNavigationWithTheme(
+                context: context,
+                achievementKey: s.achievementName,
+                badgeUrl: s.badgeUrl,
+                nextRoute: AppRoutesName.myCloset,
+                isFromMyCloset: true,
+              );
+            }
+          },
+        ),
+        BlocListener<TrialBloc, TrialState>(
+          listener: (context, state) {
             if (state is TrialEndedSuccessState) {
               logger.i('Trial has ended');
               showDialog(

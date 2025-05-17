@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../bloc/trial_bloc/trial_started_bloc.dart';
+import '../../bloc/trial_bloc/trial_bloc.dart';
 import '../../../data/services/core_fetch_services.dart';
 import 'trial_started_screen.dart';
 import '../../../presentation/bloc/personalization_flow_cubit/personalization_flow_cubit.dart';

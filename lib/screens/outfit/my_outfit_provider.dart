@@ -1,3 +1,4 @@
+import 'package:closet_conscious/item_management/core/data/services/item_fetch_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -17,7 +18,7 @@ import '../../core/data/services/core_fetch_services.dart';
 import '../../core/data/services/core_save_services.dart';
 import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../core/presentation/bloc/navigation_status_cubit/navigation_status_cubit.dart';
-
+import '../../core/achievement_celebration/presentation/bloc/achievement_celebration_bloc/achievement_celebration_bloc.dart';
 
 class MyOutfitProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -40,6 +41,7 @@ class MyOutfitProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.d('Building MyOutfitProvider widgets');
 
+    final itemFetchService = GetIt.instance<ItemFetchService>();
     final outfitFetchService = GetIt.instance<OutfitFetchService>();
     final outfitSaveService = GetIt.instance<OutfitSaveService>();
     final coreFetchService = GetIt.instance<CoreFetchService>();
@@ -95,6 +97,12 @@ class MyOutfitProvider extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => NavigationStatusCubit(),
+        ),
+        BlocProvider<AchievementCelebrationBloc>(
+          create: (_) => AchievementCelebrationBloc(
+            outfitFetchService: outfitFetchService,
+            itemFetchService: itemFetchService,
+          ),
         ),
       ],
       child: MyOutfitScreen(

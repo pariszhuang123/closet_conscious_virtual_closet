@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import '../../../data/type_data.dart';
-import '../../../presentation/bloc/trial_bloc/trial_started_bloc.dart';
+import '../../../presentation/bloc/trial_bloc/trial_bloc.dart';
 
 TypeData mapDeniedStateToTypeData(TrialState state, BuildContext context) {
   if (state is AccessFilterFeatureDenied) return TypeDataList.filter(context);

@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
+import '../../core/achievement_celebration/presentation/bloc/achievement_celebration_bloc/achievement_celebration_bloc.dart';
 import '../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../outfit_management/save_outfit_items/presentation/bloc/save_outfit_items_bloc.dart';
 import '../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_stylist_usage_bottom_sheet.dart';
@@ -93,19 +94,19 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
 
 
   void _triggerClothingAchievement() {
-    context.read<NavigateOutfitBloc>().add(const FetchAndSaveClothingWornAchievementEvent());
+    context.read<AchievementCelebrationBloc>().add(FetchAndSaveClothingWornAchievementEvent());
   }
 
   void _triggerNoBuyAchievement() {
-    context.read<NavigateOutfitBloc>().add(const FetchAndSaveNoBuyMilestoneAchievementEvent());
+    context.read<AchievementCelebrationBloc>().add(FetchAndSaveNoBuyMilestoneAchievementEvent());
   }
 
   void _triggerOutfitCreateAchievement() {
-    context.read<NavigateOutfitBloc>().add(const FetchFirstOutfitCreatedAchievementEvent());
+    context.read<AchievementCelebrationBloc>().add(FetchFirstOutfitCreatedAchievementEvent());
   }
 
   void _triggerSelfieTakenAchievement() {
-    context.read<NavigateOutfitBloc>().add(const FetchFirstSelfieTakenAchievementEvent());
+    context.read<AchievementCelebrationBloc>().add(FetchFirstSelfieTakenAchievementEvent());
   }
 
   void _triggerOutfitCreation() {

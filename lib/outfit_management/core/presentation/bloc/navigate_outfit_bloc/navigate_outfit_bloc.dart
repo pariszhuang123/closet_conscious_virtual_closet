@@ -27,14 +27,6 @@ class NavigateOutfitBloc extends Bloc<NavigateOutfitEvent, NavigateOutfitState> 
         super(InitialNavigateOutfitState()) {
     on<CheckNavigationToReviewEvent>(_onCheckNavigationToReview);
     on<TriggerNpsSurveyEvent>(_onTriggerNpsSurvey);
-    on<FetchAndSaveClothingWornAchievementEvent>(
-        _onFetchAndSaveClothingWornAchievement);
-    on<FetchAndSaveNoBuyMilestoneAchievementEvent>(
-        _onFetchAndSaveNoBuyMilestoneAchievement);
-    on<FetchFirstOutfitCreatedAchievementEvent>(
-        _onFetchFirstOutfitCreatedAchievement);
-    on<FetchFirstSelfieTakenAchievementEvent>(
-        _onFetchFirstSelfieTakenAchievement);
     on<CheckOutfitCreationAccessEvent>(
         _onCheckOutfitCreationAccess); // Add event handler
 
@@ -82,113 +74,6 @@ class NavigateOutfitBloc extends Bloc<NavigateOutfitEvent, NavigateOutfitState> 
       logger.e('Error triggering NPS survey: $error');
     }
   }
-
-  Future<void> _onFetchAndSaveClothingWornAchievement(
-      FetchAndSaveClothingWornAchievementEvent event,
-      Emitter<NavigateOutfitState> emit,) async {
-    emit(FetchAndSaveClothingWornAchievementInProgressState());
-    try {
-      // Call the generalized fetch method, passing the appropriate RPC function name
-      final achievementData = await outfitFetchService.fetchAchievementData(
-          'fetch_clothes_worn_achievement_combined');
-
-      if (achievementData != null && achievementData['badge_url'] != null) {
-        final badgeUrl = achievementData['badge_url'] as String;
-        final achievementName = achievementData['achievement_name'] as String;
-
-        logger.i(
-            'Achievement milestone processed, badge URL: $badgeUrl, achievement Name: $achievementName');
-
-        emit(FetchAndSaveClothingAchievementMilestoneSuccessState(
-            badgeUrl: badgeUrl,
-            achievementName: achievementName)); // Emit success state with badge URL
-      } else {
-        logger.i('Failed to fetch achievement milestone.');
-      }
-    } catch (error) {
-      logger.e('Error fetching achievement milestone: $error');
-    }
-  }
-
-  Future<void> _onFetchAndSaveNoBuyMilestoneAchievement(
-      FetchAndSaveNoBuyMilestoneAchievementEvent event,
-      Emitter<NavigateOutfitState> emit,) async {
-    emit(FetchAndSaveNoBuyMilestoneAchievementInProgressState());
-    try {
-      // Call the generalized fetch method, passing the appropriate RPC function name
-      final achievementData = await outfitFetchService.fetchAchievementData(
-          'fetch_milestone_achievements');
-
-      if (achievementData != null && achievementData['badge_url'] != null) {
-        final badgeUrl = achievementData['badge_url'] as String;
-        final achievementName = achievementData['achievement_name'] as String;
-
-        logger.i(
-            'Achievement milestone processed, badge URL: $badgeUrl, achievement Name: $achievementName');
-
-        emit(FetchAndSaveNoBuyMilestoneSuccessState(
-            badgeUrl: badgeUrl, achievementName: achievementName));
-      } else {
-        logger.i('Failed to fetch achievement milestone.');
-      }
-    } catch (error) {
-      logger.e('Error fetching achievement milestone: $error');
-    }
-  }
-
-
-  Future<void> _onFetchFirstOutfitCreatedAchievement(
-      FetchFirstOutfitCreatedAchievementEvent event,
-      Emitter<NavigateOutfitState> emit,) async {
-    emit(FetchFirstOutfitAchievementInProgressState());
-    try {
-      // Call the generalized fetch method, passing the appropriate RPC function name
-      final achievementData = await outfitFetchService.fetchAchievementData(
-          'first_outfit_created_achievement');
-
-      if (achievementData != null && achievementData['badge_url'] != null) {
-        final badgeUrl = achievementData['badge_url'] as String;
-        final achievementName = achievementData['achievement_name'] as String;
-
-        logger.i(
-            'Achievement milestone processed, badge URL: $badgeUrl, achievement Name: $achievementName');
-
-        emit(FetchFirstOutfitMilestoneSuccessState(badgeUrl: badgeUrl,
-            achievementName: achievementName)); // Emit success state with badge URL
-      } else {
-        logger.i('Failed to fetch achievement milestone.');
-      }
-    } catch (error) {
-      logger.e('Error fetching achievement milestone: $error');
-    }
-  }
-
-  Future<void> _onFetchFirstSelfieTakenAchievement(
-      FetchFirstSelfieTakenAchievementEvent event,
-      Emitter<NavigateOutfitState> emit,) async {
-    emit(FetchFirstSelfieTakenAchievementInProgressState());
-    try {
-      // Call the generalized fetch method, passing the appropriate RPC function name
-      final achievementData = await outfitFetchService.fetchAchievementData(
-          'first_selfie_taken_achievement');
-
-      if (achievementData != null && achievementData['badge_url'] != null) {
-        final badgeUrl = achievementData['badge_url'] as String;
-        final achievementName = achievementData['achievement_name'] as String;
-
-        logger.i(
-            'Achievement milestone processed, badge URL: $badgeUrl, achievement Name: $achievementName');
-
-        emit(FetchFirstSelfieTakenMilestoneSuccessState(badgeUrl: badgeUrl,
-            achievementName: achievementName)); // Emit success state with badge URL
-      } else {
-        logger.i('Failed to fetch achievement milestone.');
-      }
-    } catch (error) {
-      logger.e('Error fetching achievement milestone: $error');
-    }
-  }
-
 
   Future<void> _onCheckOutfitCreationAccess(
       CheckOutfitCreationAccessEvent event,

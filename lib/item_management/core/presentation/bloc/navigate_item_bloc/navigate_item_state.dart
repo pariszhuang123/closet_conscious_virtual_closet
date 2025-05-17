@@ -9,81 +9,6 @@ class InitialNavigateItemState extends NavigateItemState {
   List<Object?> get props => [];
 }
 
-class FetchFirstItemUploadedAchievementInProgressState extends NavigateItemState {
-  @override
-  List<Object?> get props => [];
-}
-
-class FetchFirstItemUploadedMilestoneSuccessState extends NavigateItemState {
-  final String badgeUrl;
-  final String achievementName;
-
-  const FetchFirstItemUploadedMilestoneSuccessState({required this.badgeUrl, required this.achievementName});
-
-  @override
-  List<Object?> get props => [badgeUrl, achievementName];
-}
-
-class FetchFirstItemPicEditedAchievementInProgressState extends NavigateItemState {
-  @override
-  List<Object?> get props => [];
-}
-
-class FetchFirstItemPicEditedMilestoneSuccessState extends NavigateItemState {
-  final String badgeUrl;
-  final String achievementName;
-
-  const FetchFirstItemPicEditedMilestoneSuccessState({required this.badgeUrl, required this.achievementName});
-
-  @override
-  List<Object?> get props => [badgeUrl, achievementName];
-}
-
-class FetchFirstItemGiftedAchievementInProgressState extends NavigateItemState {
-  @override
-  List<Object?> get props => [];
-}
-
-class FetchFirstItemGiftedMilestoneSuccessState extends NavigateItemState {
-  final String badgeUrl;
-  final String achievementName;
-
-  const FetchFirstItemGiftedMilestoneSuccessState({required this.badgeUrl, required this.achievementName});
-
-  @override
-  List<Object?> get props => [badgeUrl, achievementName];
-}
-
-class FetchFirstItemSoldAchievementInProgressState extends NavigateItemState {
-  @override
-  List<Object?> get props => [];
-}
-
-class FetchFirstItemSoldMilestoneSuccessState extends NavigateItemState {
-  final String badgeUrl;
-  final String achievementName;
-
-  const FetchFirstItemSoldMilestoneSuccessState({required this.badgeUrl, required this.achievementName});
-
-  @override
-  List<Object?> get props => [badgeUrl, achievementName];
-}
-
-class FetchFirstItemSwapAchievementInProgressState extends NavigateItemState {
-  @override
-  List<Object?> get props => [];
-}
-
-class FetchFirstItemSwapMilestoneSuccessState extends NavigateItemState {
-  final String badgeUrl;
-  final String achievementName;
-
-  const FetchFirstItemSwapMilestoneSuccessState({required this.badgeUrl, required this.achievementName});
-
-  @override
-  List<Object?> get props => [badgeUrl, achievementName];
-}
-
 class FetchDisappearedClosetsInProgressState extends NavigateItemState {
   @override
   List<Object?> get props => [];
@@ -102,11 +27,6 @@ class FetchDisappearedClosetsSuccessState extends NavigateItemState {
 
   @override
   List<Object?> get props => [closetId, closetImage, closetName];
-}
-
-class TrialEndedSuccessState extends NavigateItemState {
-  @override
-  List<Object?> get props => [];
 }
 
 // New failure state for handling errors in achievement fetch or save

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../presentation/bloc/payment_bloc.dart';
+import '../bloc/payment_bloc/payment_bloc.dart';
 import '../../../widgets/button/themed_elevated_button.dart';
 import '../../data/premium_feature_data.dart';
 import '../../data/feature_key.dart';
