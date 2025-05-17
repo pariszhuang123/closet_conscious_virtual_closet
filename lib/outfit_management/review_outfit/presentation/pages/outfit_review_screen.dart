@@ -13,7 +13,6 @@ import '../../../../core/data/type_data.dart';
 import '../widgets/outfit_review_custom_dialogue.dart';
 import '../../../../core/widgets/feedback/custom_snack_bar.dart';
 import '../../../../core/core_enums.dart';
-import '../../../core/outfit_enums.dart';
 import '../widgets/outfit_review_content.dart';
 import '../../../../core/presentation/bloc/personalization_flow_cubit/personalization_flow_cubit.dart';
 import '../../../../core/utilities/helper_functions/prompt_helper/comment_prompt_helper.dart';
@@ -166,19 +165,9 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                       child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
                         builder: (context, state) {
                           final isSubmitting = state is ReviewSubmissionInProgress;
-                          final selectedItems = context.watch<MultiSelectionItemCubit>().state.selectedItemIds;
-
-                          // Adjust the button's enabled/disabled state based on validation logic
-                          bool isButtonDisabled = false;
-                          if (state is OutfitReviewItemsLoaded) {
-                            isButtonDisabled = !(state.feedback == OutfitReviewFeedback.like ||
-                                selectedItems.isNotEmpty); // Ensure at least one item is selected
-                          } else if (state is OutfitImageUrlAvailable) {
-                            isButtonDisabled = state.feedback != OutfitReviewFeedback.like;
-                          }
 
                           return ElevatedButton(
-                            onPressed: isSubmitting || isButtonDisabled
+                            onPressed: isSubmitting
                                 ? null
                                 : () {
                               logger.i('Submit button pressed');
@@ -197,11 +186,11 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
                                 logger.d('Comments: $comments');
 
                                 context.read<OutfitReviewBloc>().add(
-                                  ValidateReviewSubmission(
+                                  SubmitOutfitReview(
                                     outfitId: outfitId,
                                     feedback: feedback,
                                     comments: comments,
-                                    selectedItems: selectedItems,
+                                      itemIds: selectedItems,
                                   ),
                                 );
                               } else {

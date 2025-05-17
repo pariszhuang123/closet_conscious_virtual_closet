@@ -730,6 +730,7 @@ class CoreFetchService {
           .select('user_id')
           .eq('user_id', userId)
           .eq('tutorial_type', 'scenario')
+          .limit(1)
           .maybeSingle();
 
       if (data == null) {

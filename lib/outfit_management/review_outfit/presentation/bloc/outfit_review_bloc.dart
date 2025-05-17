@@ -19,16 +19,6 @@ String convertFeedbackToString(OutfitReviewFeedback feedback) {
   return feedback.toString().split('.').last;
 }
 
-// Helper function to validate feedback and disliked items
-bool validateFeedbackAndItems(String feedback, List<String> dislikedItemIds, CustomLogger logger) {
-  logger.d('Feedback received: $feedback');
-  if (feedback != 'like' && dislikedItemIds.isEmpty) {
-    logger.e('Validation failed: No disliked items selected.');
-    return false; // Validation failed
-  }
-  return true; // Validation passed
-}
-
 class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
   final CustomLogger _logger = CustomLogger('OutfitReviewBlocLogger');
   final AuthBloc _authBloc = locator<AuthBloc>();
@@ -43,8 +33,6 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     on<FetchOutfitItems>(_onFetchOutfitItems);
     on<FeedbackSelected>(_onFeedbackSelected);
     on<SubmitOutfitReview>(_onSubmitOutfitReview);
-    on<ValidateSelectedItems>(_onValidateSelectedItems);
-    on<ValidateReviewSubmission>(_onValidateReviewSubmission);
   }
 
   Future<void> _onCheckAndLoadOutfit(CheckAndLoadOutfit event,
@@ -237,47 +225,6 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
     }
   }
 
-
-  void _onValidateSelectedItems(ValidateSelectedItems event,
-      Emitter<OutfitReviewState> emit) {
-    _logger.i('Validating selected items: ${event.selectedItems.length}');
-
-    if (event.selectedItems.isEmpty &&
-        (event.feedback == OutfitReviewFeedback.alright ||
-            event.feedback == OutfitReviewFeedback.dislike)) {
-      emit(ReviewInvalidItems());
-    } else {
-      return; // Continue with the process if valid
-    }
-  }
-
-  Future<void> _onValidateReviewSubmission(ValidateReviewSubmission event, Emitter<OutfitReviewState> emit) async {
-    _logger.i('Validating review submission for outfitId: ${event.outfitId}');
-
-    List<String> dislikedItemIds = event.selectedItems; // Use selected items from MultiSelectionItemCubit
-
-    // Convert the feedback enum to string for logging
-    final OutfitReviewFeedback feedbackEnum = stringToFeedback(
-        event.feedback);
-    final String feedbackString = convertFeedbackToString(feedbackEnum);
-    _logger.d('Feedback received: $feedbackString');
-
-    // Use shared validation logic
-    if (!validateFeedbackAndItems(feedbackString, dislikedItemIds, _logger)) {
-      emit(ReviewInvalidItems());
-      return;
-    }
-
-    // Proceed with submission, passing the enum instead of the string
-    _logger.i('Review validation passed, proceeding with submission');
-    add(SubmitOutfitReview(
-      outfitId: event.outfitId,
-      feedback: feedbackString, // Use the enum directly
-      itemIds: dislikedItemIds,
-      comments: event.comments ?? '', // Ensure comments are non-null
-    ));
-  }
-
   Future<void> _onSubmitOutfitReview(SubmitOutfitReview event,
       Emitter<OutfitReviewState> emit) async {
     try {
@@ -290,12 +237,6 @@ class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
       final List<String> dislikedItemIds = event.itemIds;
 
       _logger.d('Feedback received: $feedbackString');
-
-      // Use shared validation logic before submission
-      if (!validateFeedbackAndItems(feedbackString, dislikedItemIds, _logger)) {
-        emit(ReviewInvalidItems());
-        return;
-      }
 
       // Submit the review with feedback and disliked item IDs
       await saveService.reviewOutfit(

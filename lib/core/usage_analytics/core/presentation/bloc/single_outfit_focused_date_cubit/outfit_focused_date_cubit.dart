@@ -28,6 +28,7 @@ class OutfitFocusedDateCubit extends Cubit<OutfitFocusedDateState> {
       _logger.d("RPC result: $result");
 
       if (result) {
+        _logger.i("Emitted Outfit FocusedDateSuccess");
         emit(OutfitFocusedDateSuccess(outfitId));
       } else {
         _logger.e("⚠️ Failed to set focused date.");

@@ -89,12 +89,10 @@ class _FocusedItemsAnalyticsListenersState extends State<FocusedItemsAnalyticsLi
           listener: (context, state) {
             if (state is OutfitFocusedDateSuccess) {
               widget.logger.i('✅ Focused date set for outfitId: ${state.outfitId}');
-              navigateOnce(() {
-                context.pushNamed(
-                  AppRoutesName.dailyCalendar,
-                  extra: {'outfitId': state.outfitId},
-                );
-              });
+              context.pushNamed(
+                AppRoutesName.dailyCalendar,
+                extra: {'outfitId': state.outfitId},
+              );
             } else if (state is OutfitFocusedDateFailure) {
               widget.logger.e('❌ Failed to set focused date: ${state.error}');
               ScaffoldMessenger.of(context).showSnackBar(
