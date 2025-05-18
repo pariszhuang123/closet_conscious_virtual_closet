@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/photo_bloc.dart';
-import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
+import '../../../../paywall/presentation/bloc/premium_feature_access_bloc/premium_feature_access_bloc.dart';
 import '../../../../utilities/app_router.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../widgets/progress_indicator/closet_progress_indicator.dart';
@@ -31,7 +31,7 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
   @override
   void triggerAccessCheck() {
     // Dispatch the event to check edit item creation access
-    navigateCoreBloc.add(const CheckEditItemCreationAccessEvent());
+    premiumFeatureAccessBloc.add(const CheckEditItemCreationAccessEvent());
     widget.logger.i('Checking if edit item can be triggered');
   }
 
@@ -58,7 +58,7 @@ class PhotoEditItemScreenState extends BasePhotoScreenState<PhotoEditItemScreen>
       body: MultiBlocListener(
         listeners: [
           // Listen for navigation and access events
-          BlocListener<NavigateCoreBloc, NavigateCoreState>(
+          BlocListener<PremiumFeatureAccessBloc, PremiumFeatureAccessState>(
             listener: (context, state) {
               if (state is BronzeEditItemDeniedState ||
                   state is SilverEditItemDeniedState ||

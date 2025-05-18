@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/photo_bloc.dart';
-import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
+import '../../../../paywall/presentation/bloc/premium_feature_access_bloc/premium_feature_access_bloc.dart';
 import '../../../../core_enums.dart';
 import '../../../../utilities/app_router.dart';
 import '../../../../utilities/logger.dart';
@@ -31,7 +31,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
   @override
   void triggerAccessCheck() {
     widget.logger.i('Checking if upload item can be triggered');
-    navigateCoreBloc.add(const CheckUploadItemCreationAccessEvent());
+    premiumFeatureAccessBloc.add(const CheckUploadItemCreationAccessEvent());
   }
 
   @override
@@ -57,7 +57,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
 
     return MultiBlocListener(
       listeners: [
-        BlocListener<NavigateCoreBloc, NavigateCoreState>(
+        BlocListener<PremiumFeatureAccessBloc, PremiumFeatureAccessState>(
           listener: (context, state) {
             if (state is BronzeUploadItemDeniedState ||
                 state is SilverUploadItemDeniedState ||
@@ -111,7 +111,7 @@ class PhotoUploadItemScreenState extends BasePhotoScreenState<PhotoUploadItemScr
           },
         ),
       ],
-      child: BlocBuilder<NavigateCoreBloc, NavigateCoreState>(
+      child: BlocBuilder<PremiumFeatureAccessBloc, PremiumFeatureAccessState>(
         builder: (context, accessState) {
           if (accessState is InitialNavigateCoreState) {
             return const Scaffold(

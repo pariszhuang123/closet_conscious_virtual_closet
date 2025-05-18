@@ -36,13 +36,16 @@ class NavigateOutfitFailureState extends NavigateOutfitState {
   @override
   List<Object?> get props => [error];
 }
-
-class MultiOutfitAccessState extends NavigateOutfitState {
-  final AccessStatus accessStatus;
-
-  const MultiOutfitAccessState({this.accessStatus = AccessStatus.pending});
+class NoReviewNeededState extends NavigateOutfitState {
+  const NoReviewNeededState();
 
   @override
-  List<Object> get props => [accessStatus];
+  List<Object?> get props => [];
 }
 
+class NavigateOutfitIdleState extends NavigateOutfitState {
+  const NavigateOutfitIdleState();
+
+  @override
+  List<Object?> get props => [];
+}

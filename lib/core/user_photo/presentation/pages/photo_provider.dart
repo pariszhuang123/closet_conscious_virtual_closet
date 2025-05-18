@@ -11,7 +11,7 @@ import '../../../core_enums.dart';
 import '../../usecase/photo_capture_service.dart';
 import '../../../data/services/core_save_services.dart';
 import '../../../data/services/core_fetch_services.dart';
-import '../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
+import '../../../paywall/presentation/bloc/premium_feature_access_bloc/premium_feature_access_bloc.dart';
 import '../../../utilities/logger.dart';
 
 final GetIt coreLocator = GetIt.instance;
@@ -41,8 +41,8 @@ class PhotoProvider extends StatelessWidget {
             coreSaveService: coreLocator<CoreSaveService>(),  // Access CoreSaveService via GetIt
           ),
         ),
-        BlocProvider<NavigateCoreBloc>(
-          create: (context) => NavigateCoreBloc(
+        BlocProvider<PremiumFeatureAccessBloc>(
+          create: (context) => PremiumFeatureAccessBloc(
             coreFetchService: coreLocator<CoreFetchService>(),  // Access CoreFetchService via GetIt
             coreSaveService: coreLocator<CoreSaveService>(),    // Access CoreSaveService via GetIt
           ),

@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../data/services/core_fetch_services.dart';
+import '../../../core_enums.dart';
 
 part 'trial_event.dart';
 part 'trial_state.dart';
@@ -12,6 +13,7 @@ class TrialBloc extends Bloc<TrialEvent, TrialState> {
 
   TrialBloc(this.coreFetchService) : super(TrialInitial()) {
     on<CheckTrialAccessEvent>(_onCheckTrialAccess);
+    on<CheckTrialAccessByFeatureEvent>(_onCheckTrialAccessByFeature);
     on<ActivateTrialEvent>(_onActivateTrial);
     on<TrialEndedEvent>(_onTrialEnded);
   }
@@ -45,6 +47,48 @@ class TrialBloc extends Bloc<TrialEvent, TrialState> {
       emit(TrialSuccess());
     }
   }
+
+  Future<void> _onCheckTrialAccessByFeature(
+      CheckTrialAccessByFeatureEvent event, Emitter<TrialState> emit) async {
+    bool isDenied = false;
+    TrialState? denialState;
+
+    switch (event.feature) {
+      case FeatureKey.filter:
+        isDenied = !await coreFetchService.accessFilterPage();
+        denialState = AccessFilterFeatureDenied();
+        break;
+      case FeatureKey.multicloset:
+        isDenied = !await coreFetchService.checkMultiClosetFeature();
+        denialState = AccessMultiClosetFeatureDenied();
+        break;
+      case FeatureKey.customize:
+        isDenied = !await coreFetchService.accessCustomizePage();
+        denialState = AccessCustomizeFeatureDenied();
+        break;
+      case FeatureKey.calendar:
+        isDenied = !await coreFetchService.checkCalendarFeature();
+        denialState = AccessCalendarFeatureDenied();
+        break;
+      case FeatureKey.usageAnalytics:
+        isDenied = !await coreFetchService.checkUsageAnalyticsFeature();
+        denialState = AccessUsageAnalyticsFeatureDenied();
+        break;
+      case FeatureKey.multiOutfit:
+        isDenied = !await coreFetchService.checkOutfitAccess();
+        denialState = AccessOutfitCreationFeatureDenied();
+        break;
+      default:
+        break;
+    }
+
+    if (isDenied && denialState != null) {
+      emit(TrialAccessDenied([denialState]));
+    } else {
+      emit(TrialSuccess());
+    }
+  }
+
 
   Future<void> _onActivateTrial(
       ActivateTrialEvent event, Emitter<TrialState> emit) async {

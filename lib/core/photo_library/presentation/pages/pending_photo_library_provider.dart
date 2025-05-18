@@ -7,7 +7,7 @@ import '../../usecase/photo_library_service.dart';
 import '../../../data/services/core_save_services.dart';
 import '../../../data/services/core_fetch_services.dart';
 import 'pending_photo_library_screen.dart';
-import '../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
+import '../../../paywall/presentation/bloc/premium_feature_access_bloc/premium_feature_access_bloc.dart';
 import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../../utilities/logger.dart';
 
@@ -24,8 +24,8 @@ class PendingPhotoLibraryProvider extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider<NavigateCoreBloc>(
-          create: (context) => NavigateCoreBloc(
+        BlocProvider<PremiumFeatureAccessBloc>(
+          create: (context) => PremiumFeatureAccessBloc(
             coreFetchService: coreLocator<CoreFetchService>(),  // Access CoreFetchService via GetIt
             coreSaveService: coreLocator<CoreSaveService>(),    // Access CoreSaveService via GetIt
           ),

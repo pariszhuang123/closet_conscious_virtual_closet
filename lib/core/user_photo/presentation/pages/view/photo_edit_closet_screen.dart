@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/photo_bloc.dart';
-import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
+import '../../../../paywall/presentation/bloc/premium_feature_access_bloc/premium_feature_access_bloc.dart';
 import '../../../../utilities/app_router.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../widgets/progress_indicator/closet_progress_indicator.dart';
@@ -31,7 +31,7 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
   @override
   void triggerAccessCheck() {
     // Dispatch event specific for closet editing
-    navigateCoreBloc.add(const CheckEditClosetCreationAccessEvent());
+    premiumFeatureAccessBloc.add(const CheckEditClosetCreationAccessEvent());
     widget.logger.i('Triggering EditCloset creation access check');
   }
 
@@ -59,7 +59,7 @@ class PhotoEditClosetScreenState extends BasePhotoScreenState<PhotoEditClosetScr
     return Scaffold(
       body: MultiBlocListener(
         listeners: [
-          BlocListener<NavigateCoreBloc, NavigateCoreState>(
+          BlocListener<PremiumFeatureAccessBloc, PremiumFeatureAccessState>(
             listener: (context, state) {
               if (state is BronzeEditClosetDeniedState ||
                   state is SilverEditClosetDeniedState ||

@@ -8,7 +8,7 @@ import '../../../utilities/app_router.dart';
 import '../../../widgets/feedback/custom_snack_bar.dart';
 import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../bloc/photo_library_bloc/photo_library_bloc.dart';
-import '../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
+import '../../../paywall/presentation/bloc/premium_feature_access_bloc/premium_feature_access_bloc.dart';
 import '../widgets/show_photo_permission_dialog.dart';
 import '../../../utilities/helper_functions/tutorial_helper.dart';
 import '../../../core_enums.dart';
@@ -41,7 +41,7 @@ class PendingPhotoLibraryScreenListeners extends StatefulWidget {
 
 class _PendingPhotoLibraryScreenListenersState extends State<PendingPhotoLibraryScreenListeners> with NavigateOnceHelper {
 
-  FeatureKey _getFeatureKeyForState(NavigateCoreState state) {
+  FeatureKey _getFeatureKeyForState(PremiumFeatureAccessState state) {
     if (state is BronzeUploadItemDeniedState) return FeatureKey.uploadItemBronze;
     if (state is SilverUploadItemDeniedState) return FeatureKey.uploadItemSilver;
     if (state is GoldUploadItemDeniedState) return FeatureKey.uploadItemGold;
@@ -88,7 +88,7 @@ class _PendingPhotoLibraryScreenListenersState extends State<PendingPhotoLibrary
 
             if (state is PhotoLibraryNoPendingItem) {
               widget.logger.i('No pending items → checking feature access');
-              context.read<NavigateCoreBloc>().add(const CheckUploadItemCreationAccessEvent());
+              context.read<PremiumFeatureAccessBloc>().add(const CheckUploadItemCreationAccessEvent());
             }
 
             if (state is PhotoLibraryPermissionDenied) {
@@ -120,7 +120,7 @@ class _PendingPhotoLibraryScreenListenersState extends State<PendingPhotoLibrary
             }
           },
         ),
-        BlocListener<NavigateCoreBloc, NavigateCoreState>(
+        BlocListener<PremiumFeatureAccessBloc, PremiumFeatureAccessState>(
           listener: (context, state) {
             if (state is BronzeUploadItemDeniedState ||
                 state is SilverUploadItemDeniedState ||

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/photo_bloc.dart';
-import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
+import '../../../../paywall/presentation/bloc/premium_feature_access_bloc/premium_feature_access_bloc.dart';
 import '../../../../utilities/app_router.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../widgets/progress_indicator/outfit_progress_indicator.dart';
@@ -33,7 +33,7 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
 
   @override
   void triggerAccessCheck() {
-    navigateCoreBloc.add(const CheckSelfieCreationAccessEvent());
+    premiumFeatureAccessBloc.add(const CheckSelfieCreationAccessEvent());
     widget.logger.i('Checking if selfie creation can be triggered');
   }
 
@@ -56,7 +56,7 @@ class PhotoSelfieScreenState extends BasePhotoScreenState<PhotoSelfieScreen> {
       child: Scaffold(
         body: MultiBlocListener(
           listeners: [
-            BlocListener<NavigateCoreBloc, NavigateCoreState>(
+            BlocListener<PremiumFeatureAccessBloc, PremiumFeatureAccessState>(
               listener: (context, state) {
                 if (state is BronzeSelfieDeniedState ||
                     state is SilverSelfieDeniedState ||

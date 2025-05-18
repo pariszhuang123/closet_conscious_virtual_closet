@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../bloc/photo_bloc.dart';
-import '../../../../presentation/bloc/navigate_core_bloc/navigate_core_bloc.dart';
+import '../../../../paywall/presentation/bloc/premium_feature_access_bloc/premium_feature_access_bloc.dart';
 import '../../../../utilities/helper_functions/permission_helper/camera_permission_helper.dart';
 import '../../../../utilities/logger.dart';
 import '../../../../core_enums.dart';
@@ -22,7 +22,7 @@ abstract class BasePhotoScreen extends StatefulWidget {
 abstract class BasePhotoScreenState<T extends BasePhotoScreen>
     extends State<T> with WidgetsBindingObserver, NavigateOnceHelper<T> {
   late final PhotoBloc photoBloc;
-  late final NavigateCoreBloc navigateCoreBloc;
+  late final PremiumFeatureAccessBloc premiumFeatureAccessBloc;
   late final CameraPermissionHelper cameraPermissionHelper;
   bool cameraInitialized = false;
   bool accessGranted = false;
@@ -32,7 +32,7 @@ abstract class BasePhotoScreenState<T extends BasePhotoScreen>
   void initState() {
     super.initState();
     photoBloc = context.read<PhotoBloc>();
-    navigateCoreBloc = context.read<NavigateCoreBloc>();
+    premiumFeatureAccessBloc = context.read<PremiumFeatureAccessBloc>();
     cameraPermissionHelper = CameraPermissionHelper();
 
     if (autoTriggerAccessCheck) {

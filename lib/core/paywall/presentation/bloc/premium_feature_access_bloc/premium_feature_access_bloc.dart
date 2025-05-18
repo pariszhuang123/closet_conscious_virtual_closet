@@ -1,33 +1,34 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../../../core/utilities/logger.dart';
-import '../../../data/services/core_fetch_services.dart';
-import '../../../data/services/core_save_services.dart';
-import '../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
-import '../../../../user_management/user_service_locator.dart';
+import '../../../../../core/utilities/logger.dart';
+import '../../../../data/services/core_fetch_services.dart';
+import '../../../../data/services/core_save_services.dart';
+import '../../../../../user_management/authentication/presentation/bloc/auth_bloc.dart';
+import '../../../../../user_management/user_service_locator.dart';
 
-part 'navigate_core_event.dart';
-part 'navigate_core_state.dart';
+part 'premium_feature_access_event.dart';
+part 'premium_feature_access_state.dart';
 
-class NavigateCoreBloc extends Bloc<NavigateCoreEvent, NavigateCoreState> {
+class PremiumFeatureAccessBloc extends Bloc<PremiumFeatureAccessEvent, PremiumFeatureAccessState> {
   final CoreFetchService coreFetchService;
   final CoreSaveService coreSaveService;
   final CustomLogger logger;
   final AuthBloc authBloc;
 
-  NavigateCoreBloc({required this.coreFetchService, required this.coreSaveService})
-      : logger = CustomLogger('NavigateCoreBlocLogger'),
+  PremiumFeatureAccessBloc({required this.coreFetchService, required this.coreSaveService})
+      : logger = CustomLogger('PremiumFeatureAccessBlocLogger'),
         authBloc = locator<AuthBloc>(),
         super(InitialNavigateCoreState()) {
     on<CheckUploadItemCreationAccessEvent>(_onCheckUploadItemCreationAccess); // Add event handler
     on<CheckEditItemCreationAccessEvent>(_onCheckEditItemCreationAccess); // Add event handler
     on<CheckSelfieCreationAccessEvent>(_onCheckSelfieCreationAccess); // Add event handler
     on<CheckEditClosetCreationAccessEvent>(_onCheckEditClosetCreationAccess); // Add event handler
+    on<CheckOutfitCreationAccessEvent>(_onCheckOutfitCreationAccess);
   }
 
   Future<void> _onCheckUploadItemCreationAccess(
       CheckUploadItemCreationAccessEvent event,
-      Emitter<NavigateCoreState> emit) async {
+      Emitter<PremiumFeatureAccessState> emit) async {
     logger.i('Checking if the user has access to upload items.');
     try {
       final result = await coreFetchService.checkUserAccessToUploadItems();
@@ -53,7 +54,7 @@ class NavigateCoreBloc extends Bloc<NavigateCoreEvent, NavigateCoreState> {
 
   Future<void> _onCheckEditItemCreationAccess(
       CheckEditItemCreationAccessEvent event,
-      Emitter<NavigateCoreState> emit) async {
+      Emitter<PremiumFeatureAccessState> emit) async {
     logger.i('Checking if the user has access to edit items.');
     try {
       final result = await coreFetchService.checkUserAccessToEditItems();
@@ -79,7 +80,7 @@ class NavigateCoreBloc extends Bloc<NavigateCoreEvent, NavigateCoreState> {
 
   Future<void> _onCheckSelfieCreationAccess(
       CheckSelfieCreationAccessEvent event,
-      Emitter<NavigateCoreState> emit) async {
+      Emitter<PremiumFeatureAccessState> emit) async {
     logger.i('Checking if the user has access to selfie.');
     try {
       final result = await coreFetchService.checkUserAccessToSelfie();
@@ -105,7 +106,7 @@ class NavigateCoreBloc extends Bloc<NavigateCoreEvent, NavigateCoreState> {
 
   Future<void> _onCheckEditClosetCreationAccess(
       CheckEditClosetCreationAccessEvent event,
-      Emitter<NavigateCoreState> emit) async {
+      Emitter<PremiumFeatureAccessState> emit) async {
     logger.i('Checking if the user has access to edit closet photo.');
     try {
       final result = await coreFetchService.checkUserAccessToEditCloset();
@@ -126,6 +127,27 @@ class NavigateCoreBloc extends Bloc<NavigateCoreEvent, NavigateCoreState> {
     } catch (error) {
       logger.e('Error checking edit closet access: $error');
       emit(const ClosetAccessErrorState('Failed to check edit closet access.'));
+    }
+  }
+
+  Future<void> _onCheckOutfitCreationAccess(
+      CheckOutfitCreationAccessEvent event,
+      Emitter<PremiumFeatureAccessState> emit,
+      ) async {
+    logger.i('Checking if the user has access to create multiple outfits.');
+    try {
+      final hasAccess = await coreFetchService.checkOutfitAccess();
+
+      if (hasAccess) {
+        emit(OutfitAccessGrantedState());
+        logger.i('User has access to create multiple outfits.');
+      } else {
+        emit(OutfitAccessDeniedState());
+        logger.i('User denied access to create multiple outfits.');
+      }
+    } catch (error) {
+      logger.e('Error checking outfit creation access: $error');
+      emit(const OutfitAccessErrorState('Failed to check outfit creation access.'));
     }
   }
 

@@ -11,6 +11,9 @@ import '../../outfit_management/core/outfit_enums.dart';
 import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc/navigate_outfit_bloc.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import 'my_outfit_screen.dart';
+import 'my_outfit_access_wrapper.dart';
+import 'my_outfit_achievement_wrapper.dart';
+import 'my_outfit_review_wrapper.dart';
 import '../../core/utilities/logger.dart';
 import '../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
 import '../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
@@ -19,6 +22,8 @@ import '../../core/data/services/core_save_services.dart';
 import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../core/presentation/bloc/navigation_status_cubit/navigation_status_cubit.dart';
 import '../../core/achievement_celebration/presentation/bloc/achievement_celebration_bloc/achievement_celebration_bloc.dart';
+import '../../core/presentation/bloc/trial_bloc/trial_bloc.dart';
+import '../../core/paywall/presentation/bloc/premium_feature_access_bloc/premium_feature_access_bloc.dart';
 
 class MyOutfitProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -104,10 +109,25 @@ class MyOutfitProvider extends StatelessWidget {
             itemFetchService: itemFetchService,
           ),
         ),
+        BlocProvider<TrialBloc>(
+          create: (_) => TrialBloc(coreFetchService),
+        ),
+        BlocProvider(
+          create: (_) => PremiumFeatureAccessBloc(
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
+          ),
+        ),
       ],
-      child: MyOutfitScreen(
-        myOutfitTheme: myOutfitTheme,
-        selectedItemIds: selectedItemIds,
+      child: MyOutfitAccessWrapper(
+        child: MyOutfitAchievementWrapper(
+          child: MyOutfitReviewWrapper(
+            child: MyOutfitScreen(
+              myOutfitTheme: myOutfitTheme,
+              selectedItemIds: selectedItemIds,
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -4,7 +4,6 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
-import '../../core/achievement_celebration/presentation/bloc/achievement_celebration_bloc/achievement_celebration_bloc.dart';
 import '../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../outfit_management/save_outfit_items/presentation/bloc/save_outfit_items_bloc.dart';
 import '../../core/widgets/bottom_sheet/usage_bottom_sheet/ai_stylist_usage_bottom_sheet.dart';
@@ -24,7 +23,6 @@ import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../core/presentation/bloc/navigation_status_cubit/navigation_status_cubit.dart';
 import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
-import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import 'my_outfit_bloc_listeners.dart';
 
 class MyOutfitScreen extends StatefulWidget {
@@ -55,13 +53,6 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
     _fetchOutfitsCount();
     _checkNavigationToReview();
-    _triggerClothingAchievement();
-    _triggerNoBuyAchievement();
-    _triggerOutfitCreation();
-    _triggerOutfitCreateAchievement();
-    _triggerSelfieTakenAchievement();
-    context.read<TutorialBloc>().add(const CheckTutorialStatus(TutorialType.freeCreateOutfit));
-
     _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
         _fetchMoreItems();
@@ -90,27 +81,6 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
         'Checking if NPS survey should be triggered for outfit count: $newOutfitCount');
     context.read<NavigateOutfitBloc>().add(
         TriggerNpsSurveyEvent(newOutfitCount));
-  }
-
-
-  void _triggerClothingAchievement() {
-    context.read<AchievementCelebrationBloc>().add(FetchAndSaveClothingWornAchievementEvent());
-  }
-
-  void _triggerNoBuyAchievement() {
-    context.read<AchievementCelebrationBloc>().add(FetchAndSaveNoBuyMilestoneAchievementEvent());
-  }
-
-  void _triggerOutfitCreateAchievement() {
-    context.read<AchievementCelebrationBloc>().add(FetchFirstOutfitCreatedAchievementEvent());
-  }
-
-  void _triggerSelfieTakenAchievement() {
-    context.read<AchievementCelebrationBloc>().add(FetchFirstSelfieTakenAchievementEvent());
-  }
-
-  void _triggerOutfitCreation() {
-    context.read<NavigateOutfitBloc>().add(const CheckOutfitCreationAccessEvent());
   }
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {

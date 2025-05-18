@@ -12,16 +12,14 @@ abstract class TrialEvent extends Equatable {
 class CheckTrialAccessEvent extends TrialEvent {}
 
 /// ✅ **Check individual feature access (Optional)**
-class CheckFilterFeatureAccessEvent extends TrialEvent {}
+class CheckTrialAccessByFeatureEvent extends TrialEvent {
+  final FeatureKey feature;
 
-class CheckMultiClosetFeatureAccessEvent extends TrialEvent {}
+  const CheckTrialAccessByFeatureEvent(this.feature);
 
-class CheckCustomizeFeatureAccessEvent extends TrialEvent {}
-
-class CheckCalendarFeatureAccessEvent extends TrialEvent {}
-
-class CheckOutfitCreationFeatureAccessEvent extends TrialEvent {}
-
+  @override
+  List<Object> get props => [feature];
+}
 class ActivateTrialEvent extends TrialEvent {}
 
 class TrialEndedEvent extends TrialEvent {}

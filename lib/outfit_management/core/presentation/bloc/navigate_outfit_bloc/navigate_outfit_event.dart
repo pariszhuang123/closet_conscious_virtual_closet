@@ -36,13 +36,3 @@ class SaveNpsSurveyResultEvent extends NavigateOutfitEvent {
   @override
   List<Object> get props => [userId, score, milestone];
 }
-
-class CheckOutfitCreationAccessEvent extends NavigateOutfitEvent {
-
-  const CheckOutfitCreationAccessEvent();
-
-  @override
-  List<Object?> get props => [];
-}
-
-
