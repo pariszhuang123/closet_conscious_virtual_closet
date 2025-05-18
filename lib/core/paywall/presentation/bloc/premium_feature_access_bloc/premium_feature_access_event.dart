@@ -42,3 +42,11 @@ class CheckOutfitCreationAccessEvent extends PremiumFeatureAccessEvent {
   @override
   List<Object?> get props => [];
 }
+
+
+class CheckCustomizeAccessEvent extends PremiumFeatureAccessEvent {
+  const CheckCustomizeAccessEvent();
+
+  @override
+  List<Object?> get props => [];
+}

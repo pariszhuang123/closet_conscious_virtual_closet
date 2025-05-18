@@ -7,10 +7,6 @@ abstract class CustomizeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class CustomizeStarted extends CustomizeEvent {
-  const CustomizeStarted();
-}
-
 class LoadCustomizeEvent extends CustomizeEvent {}
 
 class UpdateCustomizeEvent extends CustomizeEvent {

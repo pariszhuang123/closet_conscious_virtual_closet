@@ -25,39 +25,10 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
         sortOrder: 'DESC',
         saveStatus: SaveStatus.initial,
       )) {
-    on<CustomizeStarted>(_onCustomizeStarted); // ✅ Add here
     on<LoadCustomizeEvent>(_onLoadCustomize);
     on<UpdateCustomizeEvent>(_onUpdateCustomize);
     on<SaveCustomizeEvent>(_onSaveCustomize);
     on<ResetCustomizeEvent>(_onResetCustomize);
-  }
-
-  Future<void> _onCustomizeStarted(
-      CustomizeStarted event,
-      Emitter<CustomizeState> emit,
-      ) async {
-    logger.i('CustomizeStarted triggered – checking access...');
-
-    emit(state.copyWith(saveStatus: SaveStatus.initial));
-
-    try {
-      final hasAccess = await coreFetchService.accessCustomizePage();
-
-      if (hasAccess) {
-        logger.i('Access granted. Loading customize settings...');
-        emit(state.copyWith(accessStatus: AccessStatus.granted));
-        add(LoadCustomizeEvent());
-      } else if (await coreFetchService.isTrialPending()) {
-        logger.i('Trial is pending.');
-        emit(state.copyWith(accessStatus: AccessStatus.trialPending));
-      } else {
-        logger.i('Access denied.');
-        emit(state.copyWith(accessStatus: AccessStatus.denied));
-      }
-    } catch (error) {
-      logger.e('Error during CustomizeStarted sequence: $error');
-      emit(state.copyWith(accessStatus: AccessStatus.error));
-    }
   }
 
   Future<void> _onLoadCustomize(LoadCustomizeEvent event,

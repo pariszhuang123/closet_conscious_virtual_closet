@@ -24,6 +24,7 @@ class PremiumFeatureAccessBloc extends Bloc<PremiumFeatureAccessEvent, PremiumFe
     on<CheckSelfieCreationAccessEvent>(_onCheckSelfieCreationAccess); // Add event handler
     on<CheckEditClosetCreationAccessEvent>(_onCheckEditClosetCreationAccess); // Add event handler
     on<CheckOutfitCreationAccessEvent>(_onCheckOutfitCreationAccess);
+    on<CheckCustomizeAccessEvent>(_onCheckCustomizeAccess);
   }
 
   Future<void> _onCheckUploadItemCreationAccess(
@@ -148,6 +149,24 @@ class PremiumFeatureAccessBloc extends Bloc<PremiumFeatureAccessEvent, PremiumFe
     } catch (error) {
       logger.e('Error checking outfit creation access: $error');
       emit(const OutfitAccessErrorState('Failed to check outfit creation access.'));
+    }
+  }
+
+  Future<void> _onCheckCustomizeAccess(
+      CheckCustomizeAccessEvent event,
+      Emitter<PremiumFeatureAccessState> emit,
+      ) async {
+    logger.i('Checking access for customize feature');
+    try {
+      final hasAccess = await coreFetchService.accessCustomizePage();
+      if (hasAccess) {
+        emit(CustomizeAccessGrantedState());
+      } else {
+        emit(CustomizeAccessDeniedState());
+      }
+    } catch (error) {
+      logger.e('Error checking customize access: $error');
+      emit(const CustomizeAccessErrorState('Failed to check customize access'));
     }
   }
 

@@ -6,59 +6,75 @@ import '../../../data/services/core_fetch_services.dart';
 import '../../../data/services/core_save_services.dart';
 import '../../presentation/bloc/customize_bloc.dart';
 import 'customize_screen.dart';
-import '../../../utilities/logger.dart'; // Import your logger
+import 'customize_access_wrapper.dart';
+import '../../../utilities/logger.dart';
 import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../../presentation/bloc/trial_bloc/trial_bloc.dart';
+import '../../../paywall/presentation/bloc/premium_feature_access_bloc/premium_feature_access_bloc.dart';
 
-class CustomizeProvider extends StatelessWidget {
+class CustomizeProvider extends StatefulWidget {
   final bool isFromMyCloset;
   final List<String> selectedItemIds;
   final String returnRoute;
 
-  // Initialize logger at the class level
-  final CustomLogger _logger = CustomLogger('CustomizeProvider');
-
-  CustomizeProvider({
+  const CustomizeProvider({
     super.key,
     required this.isFromMyCloset,
     required this.selectedItemIds,
     required this.returnRoute,
-  }) {
-    _logger.i('CustomizeProvider initialized with isFromMyCloset: $isFromMyCloset, selectedItemIds: $selectedItemIds');
+  });
+
+  @override
+  State<CustomizeProvider> createState() => _CustomizeProviderState();
+}
+
+class _CustomizeProviderState extends State<CustomizeProvider> {
+  final CustomLogger _logger = CustomLogger('CustomizeProvider');
+
+  @override
+  void initState() {
+    super.initState();
+    _logger.i('CustomizeProvider initialized with isFromMyCloset: ${widget.isFromMyCloset}, selectedItemIds: ${widget.selectedItemIds}');
   }
 
   @override
   Widget build(BuildContext context) {
     _logger.d('Building CustomizeProvider widgets');
 
-    // Fetch services from GetIt inside the build method
-    final coreFetchService = GetIt.instance.get<CoreFetchService>();
-    final coreSaveService = GetIt.instance.get<CoreSaveService>();
+    final coreFetchService = GetIt.instance<CoreFetchService>();
+    final coreSaveService = GetIt.instance<CoreSaveService>();
 
     return MultiBlocProvider(
       providers: [
         BlocProvider<CustomizeBloc>(
-          create: (context) {
-            _logger.d('Creating CustomizeBloc with core services');
-            return CustomizeBloc(
-              coreFetchService: coreFetchService,
-              coreSaveService: coreSaveService,
-            );
-          },
+          create: (_) => CustomizeBloc(
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
+          ),
         ),
         BlocProvider<TutorialBloc>(
-          create: (context) {
-            _logger.d('Creating TutorialBloc with core services');
-            return TutorialBloc(
-              coreFetchService: coreFetchService,
-              coreSaveService: coreSaveService,
-            );
-          },
+          create: (_) => TutorialBloc(
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
+          ),
+        ),
+        BlocProvider<TrialBloc>(
+          create: (_) => TrialBloc(coreFetchService),
+        ),
+        BlocProvider<PremiumFeatureAccessBloc>(
+          create: (_) => PremiumFeatureAccessBloc(
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
+          ),
         ),
       ],
-      child: CustomizeScreen(
-        isFromMyCloset: isFromMyCloset,
-        selectedItemIds: selectedItemIds,
-        returnRoute: returnRoute,
+      child: CustomizeAccessWrapper(
+        isFromMyCloset: widget.isFromMyCloset,
+        child: CustomizeScreen(
+          isFromMyCloset: widget.isFromMyCloset,
+          selectedItemIds: widget.selectedItemIds,
+          returnRoute: widget.returnRoute,
+        ),
       ),
     );
   }

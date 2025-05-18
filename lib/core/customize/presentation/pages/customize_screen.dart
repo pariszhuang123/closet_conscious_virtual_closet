@@ -14,7 +14,6 @@ import '../../../theme/my_outfit_theme.dart';
 import '../../../widgets/button/themed_elevated_button.dart';
 import '../../../utilities/app_router.dart';
 import '../../../utilities/logger.dart';
-import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import 'customize_screen_listeners.dart';
 
 class CustomizeScreen extends StatefulWidget {
@@ -43,10 +42,7 @@ class _CustomizeScreenState extends State<CustomizeScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      context.read<CustomizeBloc>().add(const CustomizeStarted());
-      context.read<TutorialBloc>().add(
-        const CheckTutorialStatus(TutorialType.paidCustomize),
-      );
+      context.read<CustomizeBloc>().add(LoadCustomizeEvent());
     });
   }
 

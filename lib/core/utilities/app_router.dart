@@ -318,7 +318,7 @@ GoRouter appRouter = GoRouter(
         pageBuilder: (context, state) {
           final args = state.extra as Map<String, dynamic>? ?? {};
           return buildCustomTransitionPage(
-            key: state.pageKey,
+            key: UniqueKey(),
             child: CustomizeProvider(
               isFromMyCloset: args['isFromMyCloset'] ?? true,
               selectedItemIds: args['selectedItemIds'] ?? [],

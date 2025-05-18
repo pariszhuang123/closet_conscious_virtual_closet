@@ -114,3 +114,21 @@ class OutfitAccessErrorState extends PremiumFeatureAccessState {
   @override
   List<Object?> get props => [errorMessage];
 }
+
+class CustomizeAccessGrantedState extends PremiumFeatureAccessState {
+  @override
+  List<Object?> get props => [];
+}
+
+class CustomizeAccessDeniedState extends PremiumFeatureAccessState {
+  @override
+  List<Object?> get props => [];
+}
+
+class CustomizeAccessErrorState extends PremiumFeatureAccessState {
+  final String errorMessage;
+  const CustomizeAccessErrorState(this.errorMessage);
+
+  @override
+  List<Object?> get props => [errorMessage];
+}
