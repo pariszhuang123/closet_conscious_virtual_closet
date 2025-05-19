@@ -94,7 +94,7 @@ using (false);
 
 create table item_transfers (
   id uuid primary key default uuid_generate_v4(),
-  item_id uuid not null references items(id),
+  item_id uuid not null references items(item_id),
   from_user uuid not null references user_profiles(id) on delete restrict,
   to_user uuid not null references user_profiles(id) on delete restrict,
   created_at timestamptz not null default now()
