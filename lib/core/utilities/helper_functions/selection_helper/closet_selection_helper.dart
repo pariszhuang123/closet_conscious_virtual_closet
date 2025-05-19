@@ -44,9 +44,6 @@ class ClosetSelectionHelper {
       case ClosetSelectionMode.disabled:
         logger.d('Selection is disabled.');
         break;
-
-      default:
-        logger.e('Unsupported selection mode: $closetSelectionMode');
     }
   }
 }

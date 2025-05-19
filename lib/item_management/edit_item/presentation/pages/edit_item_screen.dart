@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../generated/l10n.dart';
-import '../../../../core/widgets/bottom_sheet/premium_bottom_sheet/swap_premium_bottom_sheet.dart';
 import '../../../../core/widgets/bottom_sheet/premium_bottom_sheet/metadata_premium_bottom_sheet.dart';
 import '../../../../core/utilities/app_router.dart';
 import '../../../../core/utilities/logger.dart';
@@ -15,6 +14,7 @@ import '../../presentation/widgets/edit_item_image_with_additional_features.dart
 import '../widgets/edit_item_metadata_button.dart';
 import '../../../../core/theme/my_closet_theme.dart';
 import 'edit_item_listeners.dart';
+import '../../../swap_item/presentation/widgets/swap_qr_dialog.dart';
 
 class EditItemScreen extends StatefulWidget {
   final String itemId;
@@ -63,12 +63,9 @@ class _EditItemScreenState extends State<EditItemScreen> {
     context.pushNamed(AppRoutesName.editPhoto, extra: widget.itemId);
   }
 
-  void _openSwapSheet() {
-    _logger.d('Opening swap sheet for itemId: ${widget.itemId}');
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => const SwapFeatureBottomSheet(isFromMyCloset: true),
-    );
+  void _openSwapQrDialog() {
+    _logger.d('Opening swap QR dialog for itemId: ${widget.itemId}');
+    showSwapQrDialog(context, widget.itemId);
   }
 
   void _openMetadataSheet() {
@@ -137,8 +134,9 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         EditItemImageWithAdditionalFeatures(
                           imageUrl: _imageUrl,
                           onImageTap: _navigateToPhotoProvider,
-                          onSwapPressed: _openSwapSheet,
+                          onSwapPressed: _openSwapQrDialog,
                           onMetadataPressed: _openMetadataSheet,
+                          itemId: widget.itemId,
                         ),
                         Expanded(
                           child: EditItemMetadataWithButton(

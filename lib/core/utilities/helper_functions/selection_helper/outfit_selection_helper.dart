@@ -45,9 +45,6 @@ class OutfitSelectionHelper {
       case OutfitSelectionMode.disabled:
         logger.d('Selection is disabled.');
         break;
-
-      default:
-        logger.e('Unsupported selection mode: $outfitSelectionMode');
     }
   }
 }

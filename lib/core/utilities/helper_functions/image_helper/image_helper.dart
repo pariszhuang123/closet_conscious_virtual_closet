@@ -58,9 +58,6 @@ class ImageHelper {
 
       case OutfitSize.smallOutfitImage:
         return 0.2;
-
-      default:
-        return 0.3; // Fallback height
     }
   }
 

@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:workmanager/workmanager.dart';
+import 'package:timezone/timezone.dart' as tz;
 import 'dart:io';
 import 'package:go_router/go_router.dart';
 
@@ -78,45 +78,6 @@ class NotificationService {
     _logger.i('Notification channel created: ${androidChannel.id}');
   }
 
-  /// Handles the notification display from a background WorkManager task.
-  static Future<void> showWorkManagerNotification(Map<String, dynamic>? inputData) async {
-    final title = inputData?['title'] ?? 'Closet Reminder';
-    final body = inputData?['body'] ?? 'Time to upload your closet!';
-    final scheduledAt = inputData?['scheduled_at'];
-
-    final now = DateTime.now();
-    _logger.i('[WorkManager] 🔔 Notification firing at: $now');
-
-    if (scheduledAt != null) {
-      final parsedScheduled = DateTime.tryParse(scheduledAt);
-      if (parsedScheduled != null) {
-        final delay = now.difference(parsedScheduled);
-        _logger.i('[WorkManager] ⏱ Elapsed time since scheduled: ${delay.inSeconds}s');
-      }
-    }
-
-    try {
-      await _notifications.show(
-        1001,
-        title,
-        body,
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'reminder_channel_id',
-            'Closet Reminders',
-            importance: Importance.high,
-            priority: Priority.high,
-            styleInformation: DefaultStyleInformation(true, true),
-          ),
-          iOS: DarwinNotificationDetails(),
-        ),
-      );
-      _logger.i('[WorkManager] ✅ Notification shown');
-    } catch (e, st) {
-      _logger.e('[WorkManager] ❌ Failed to show notification: $e\n$st');
-    }
-  }
-
   /// Requests permission, picks datetime, and schedules a notification.
   static Future<void> scheduleReminderFromPicker(BuildContext context) async {
     _logger.i('Requesting notification permission...');
@@ -156,18 +117,24 @@ class NotificationService {
       return;
     }
 
-    await Workmanager().registerOneOffTask(
-      'closet_reminder_${when.millisecondsSinceEpoch}',
-      'show_closet_reminder',
-      initialDelay: delay,
-      inputData: {
-        'title': _localized('title'),
-        'body':  _localized('body'),
-        'scheduled_at': DateTime.now().toIso8601String(),
-      },
+    await _notifications.zonedSchedule(
+      when.millisecondsSinceEpoch ~/ 1000,
+      _localized('title'),
+      _localized('body'),
+      tz.TZDateTime.from(when, tz.local),
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'reminder_channel_id',
+          'Closet Reminders',
+          importance: Importance.high,
+          priority: Priority.high,
+        ),
+        iOS: DarwinNotificationDetails(),
+      ),
+      androidScheduleMode: AndroidScheduleMode.inexact,
     );
-    _logger.i('✅ Reminder scheduled for $when');
 
+    _logger.i('✅ Reminder scheduled for $when');
   }
 
   static String _localized(String key) {

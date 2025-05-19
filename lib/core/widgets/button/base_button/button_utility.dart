@@ -11,8 +11,6 @@ class ButtonUtils {
           return theme.colorScheme.primary;
         case ButtonType.secondary:
           return theme.colorScheme.secondary;
-        default:
-          return theme.colorScheme.primary;
       }
     }
   }

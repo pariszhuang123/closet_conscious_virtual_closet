@@ -6,12 +6,12 @@ import '../../../../core/widgets/button/navigation_type_button.dart';
 
 class EditItemAdditionalFeature extends StatelessWidget {
   final VoidCallback openMetadataSheet;
-  final VoidCallback openSwapSheet;
+  final VoidCallback swapQRShown;
 
   const EditItemAdditionalFeature({
     super.key,
     required this.openMetadataSheet,
-    required this.openSwapSheet,
+    required this.swapQRShown,
   });
 
   @override
@@ -30,7 +30,7 @@ class EditItemAdditionalFeature extends StatelessWidget {
         NavigationTypeButton(
           label: TypeDataList.swapItem(context).getName(context),
           selectedLabel: '',
-          onPressed: openSwapSheet,
+          onPressed: swapQRShown,
           assetPath: TypeDataList.swapItem(context).assetPath,
           isFromMyCloset: true,
           buttonType: ButtonType.secondary,

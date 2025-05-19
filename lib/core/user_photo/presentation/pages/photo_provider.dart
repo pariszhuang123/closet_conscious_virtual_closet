@@ -60,8 +60,6 @@ class PhotoProvider extends StatelessWidget {
               return PhotoSelfieScreen(outfitId: outfitId, cameraContext: CameraPermissionContext.selfie);  // outfitId is required
             case CameraPermissionContext.editCloset:
               return PhotoEditClosetScreen(closetId: closetId, cameraContext: CameraPermissionContext.editCloset);  // outfitId is required
-            default:
-              return Container(); // Fallback
           }
         },
       ),

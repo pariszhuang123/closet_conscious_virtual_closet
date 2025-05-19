@@ -18,7 +18,6 @@ String getFlowSpecificTrialExplanation({
     case OnboardingJourneyType.lifeChangeFlow:
       return _getLifeChangeExplanation(typeData, l10n);
     case OnboardingJourneyType.defaultFlow:
-    default:
       return _getDefaultExplanation(typeData, l10n);
   }
 }

@@ -45,9 +45,6 @@ class ItemSelectionHelper {
       case ItemSelectionMode.disabled:
         logger.d('Selection is disabled.');
         break;
-
-      default:
-        logger.e('Unsupported selection mode: $itemSelectionMode');
     }
   }
 }

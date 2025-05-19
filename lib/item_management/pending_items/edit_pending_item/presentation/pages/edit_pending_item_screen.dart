@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../edit_item/presentation/bloc/edit_item_bloc.dart';
-import '../../../../../core/widgets/bottom_sheet/premium_bottom_sheet/swap_premium_bottom_sheet.dart';
 import '../../../../../core/widgets/bottom_sheet/premium_bottom_sheet/metadata_premium_bottom_sheet.dart';
 import '../../../../../core/utilities/app_router.dart';
 import '../../../../../core/utilities/logger.dart';
@@ -11,6 +10,7 @@ import '../../../../edit_item/presentation/widgets/edit_item_image_with_addition
 import '../../../../../core/photo_library/presentation/bloc/photo_library_bloc/photo_library_bloc.dart';
 import '../widgets/show_edit_pending_success_dialog.dart';
 import '../../../../edit_item/presentation/widgets/edit_item_metadata_button.dart';
+import '../../../../swap_item/presentation/widgets/swap_qr_dialog.dart';
 
 class EditPendingItemScreen extends StatefulWidget {
   final String itemId;
@@ -60,14 +60,9 @@ class _EditPendingItemScreenState extends State<EditPendingItemScreen> {
   }
 
   // Open swap bottom sheet.
-  void _openSwapSheet() {
-    _logger.d('Opening swap sheet for itemId: ${widget.itemId}');
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) => const SwapFeatureBottomSheet(
-        isFromMyCloset: true,
-      ),
-    );
+  void _openSwapQrDialog() {
+    _logger.d('Opening swap QR dialog for itemId: ${widget.itemId}');
+    showSwapQrDialog(context, widget.itemId);
   }
 
   // Open metadata bottom sheet.
@@ -121,8 +116,9 @@ class _EditPendingItemScreenState extends State<EditPendingItemScreen> {
               EditItemImageWithAdditionalFeatures(
                 imageUrl: _imageUrl,
                 onImageTap: _navigateToPhotoProvider,
-                onSwapPressed: _openSwapSheet,
+                onSwapPressed: _openSwapQrDialog,
                 onMetadataPressed: _openMetadataSheet,
+                itemId: widget.itemId,
               ),
 
               // Metadata section is inside BlocBuilder to update when necessary.

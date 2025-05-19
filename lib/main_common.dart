@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:workmanager/workmanager.dart';
 
 import 'core/config/config_reader.dart';
 import 'core/config/flavor_config.dart';
@@ -12,7 +11,6 @@ import 'core/core_service_locator.dart' as core_locator;
 import 'core/utilities/logger.dart';
 import 'core/utilities/navigation_service.dart';
 import 'core/notification/data/services/notification_service.dart';
-import 'core/notification/data/services/notification_callback_dispatcher.dart';
 import 'outfit_management/outfit_service_locator.dart' as outfit_locator;
 import 'item_management/item_service_locator.dart' as item_locator;
 
@@ -29,10 +27,6 @@ Future<void> mainCommon(String environment) async {
     // Wrap the rest of the app initialization
     appRunner: () async {
       WidgetsFlutterBinding.ensureInitialized();
-
-      await Workmanager().initialize(
-          notificationCallbackDispatcher,
-          isInDebugMode: false);
 
       core_locator.setupCoreLocator();
       final logger = core_locator.coreLocator<CustomLogger>(instanceName: 'MainCommonLogger');

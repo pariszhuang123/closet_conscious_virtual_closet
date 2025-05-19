@@ -10,6 +10,7 @@ class EditItemImageWithAdditionalFeatures extends StatelessWidget {
   final VoidCallback onImageTap;
   final VoidCallback onSwapPressed;
   final VoidCallback onMetadataPressed;
+  final String itemId;
 
   const EditItemImageWithAdditionalFeatures({
     super.key,
@@ -17,6 +18,7 @@ class EditItemImageWithAdditionalFeatures extends StatelessWidget {
     required this.onImageTap,
     required this.onSwapPressed,
     required this.onMetadataPressed,
+    required this.itemId
   });
 
   @override
@@ -49,7 +51,7 @@ class EditItemImageWithAdditionalFeatures extends StatelessWidget {
                 bottom: 0,
                 child: EditItemAdditionalFeature(
                   openMetadataSheet: onMetadataPressed,  // New callback
-                  openSwapSheet: onSwapPressed,  // Reusing the swap callback
+                  swapQRShown: onSwapPressed, // ✅ use the callback from parent
                 ),
               ),
             ],
