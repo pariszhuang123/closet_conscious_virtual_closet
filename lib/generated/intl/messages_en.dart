@@ -1359,6 +1359,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "public_closet": MessageLookupByLibrary.simpleMessage("Public"),
     "purchase_button": MessageLookupByLibrary.simpleMessage("Unlock Now"),
+    "qrScanner": MessageLookupByLibrary.simpleMessage("QR Scanner"),
     "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
       "We’re thinking about adding advanced filters to help you find your items more easily. Sound good?",
     ),
@@ -1392,6 +1393,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Save Customization",
     ),
     "saveFilter": MessageLookupByLibrary.simpleMessage("Save Filter"),
+    "scanToReceiveItem": MessageLookupByLibrary.simpleMessage(
+      "Scan to Receive Item",
+    ),
     "scarf": MessageLookupByLibrary.simpleMessage("Scarf"),
     "scenarioTutorials": MessageLookupByLibrary.simpleMessage(
       "Scenario Tutorials",
@@ -1541,6 +1545,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
       "Track your cost per wear and get personalized outfit insights. Would this be helpful?",
+    ),
+    "transferFailed": MessageLookupByLibrary.simpleMessage(
+      "Transfer failed. Please try again.",
     ),
     "trialEndedMessage": MessageLookupByLibrary.simpleMessage(
       "Your premium trial period has ended.",

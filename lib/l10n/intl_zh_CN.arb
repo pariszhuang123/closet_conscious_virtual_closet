@@ -526,6 +526,9 @@
   "showLess": "收起",
   "pickingDateAndTime": "正在选择日期和时间…",
   "swapDialogTitle": "扫描以交换",
+  "scanToReceiveItem": "扫描以接收物品",
+  "transferFailed": "转移失败，请再试一次。",
+  "qrScanner": "二维码扫描器",
 
   "tutorialFreePhotoLibraryTitle": "从相册上传",
   "tutorialClosetUploadedTitle": "衣橱上传教程",

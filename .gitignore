@@ -74,3 +74,6 @@ lib/main.dart
 
 # CocoaPods podspec file
 ios/Flutter/Flutter 2.podspec
+
+# Android NDK/Native build artifacts
+android/app/.cxx/

@@ -262,6 +262,10 @@ class TypeDataList {
     return TypeData('ContactUs', (context) => S.of(context).contactUs, 'assets/icons/drawer/contact_us.svg', false);
   }
 
+  static TypeData drawerQrScanner(BuildContext context) {
+    return TypeData('QrScanner', (context) => S.of(context).qrScanner, 'assets/icons/drawer/qr_scanner.svg', false);
+  }
+
   static TypeData drawerDeleteAccount(BuildContext context) {
     return TypeData('DeleteAccount', (context) => S.of(context).deleteAccount, 'assets/icons/drawer/delete_account.svg', false);
   }

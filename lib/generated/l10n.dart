@@ -4659,6 +4659,31 @@ class S {
     );
   }
 
+  /// `Scan to Receive Item`
+  String get scanToReceiveItem {
+    return Intl.message(
+      'Scan to Receive Item',
+      name: 'scanToReceiveItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transfer failed. Please try again.`
+  String get transferFailed {
+    return Intl.message(
+      'Transfer failed. Please try again.',
+      name: 'transferFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `QR Scanner`
+  String get qrScanner {
+    return Intl.message('QR Scanner', name: 'qrScanner', desc: '', args: []);
+  }
+
   /// `Upload from Photo Library`
   String get tutorialFreePhotoLibraryTitle {
     return Intl.message(

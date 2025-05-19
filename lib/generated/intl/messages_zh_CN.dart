@@ -997,6 +997,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "public_closet": MessageLookupByLibrary.simpleMessage("公共衣橱"),
     "purchase_button": MessageLookupByLibrary.simpleMessage("立即购买"),
+    "qrScanner": MessageLookupByLibrary.simpleMessage("二维码扫描器"),
     "quicklyFindItems": MessageLookupByLibrary.simpleMessage(
       "我们考虑添加高级筛选功能，以帮助您更快找到物品。这个功能好吗？",
     ),
@@ -1026,6 +1027,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "saveCustomization": MessageLookupByLibrary.simpleMessage("保存自定义设置"),
     "saveFilter": MessageLookupByLibrary.simpleMessage("保存筛选"),
+    "scanToReceiveItem": MessageLookupByLibrary.simpleMessage("扫描以接收物品"),
     "scarf": MessageLookupByLibrary.simpleMessage("围巾"),
     "scenarioTutorials": MessageLookupByLibrary.simpleMessage("场景教程"),
     "seasonFieldNotFilled": MessageLookupByLibrary.simpleMessage("季节未选择。"),
@@ -1128,6 +1130,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "trackAnalyticsDescription": MessageLookupByLibrary.simpleMessage(
       "我们正在探索如何帮助您跟踪物品的穿着成本，并提供个性化的穿搭洞察。这个功能对您有帮助吗？",
     ),
+    "transferFailed": MessageLookupByLibrary.simpleMessage("转移失败，请再试一次。"),
     "trialEndedMessage": MessageLookupByLibrary.simpleMessage("您的高级功能试用期已结束。"),
     "trialEndedNextSteps": MessageLookupByLibrary.simpleMessage(
       "高级功能现已锁定。您可以随时通过一次性购买来解锁这些功能。",

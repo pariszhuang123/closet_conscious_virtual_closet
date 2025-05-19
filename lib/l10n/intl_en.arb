@@ -526,6 +526,9 @@
   "showLess": "Show Less",
   "pickingDateAndTime": "Picking date & time…",
   "swapDialogTitle": "Scan to Swap",
+  "scanToReceiveItem": "Scan to Receive Item",
+  "transferFailed": "Transfer failed. Please try again.",
+  "qrScanner": "QR Scanner",
 
   "tutorialFreePhotoLibraryTitle": "Upload from Photo Library",
   "tutorialClosetUploadedTitle": "Closet Upload Tutorial",

@@ -23,6 +23,7 @@ import '../../item_management/multi_closet/create_multi_closet/presentation/page
 import '../../item_management/multi_closet/edit_multi_closet/presentation/pages/edit_multi_closet_provider.dart';
 import '../../item_management/multi_closet/swap_closet/presentation/pages/swap_closet_provider.dart';
 import '../../item_management/multi_closet/reappear_closet/presentation/pages/reappear_closet_provider.dart';
+import '../../item_management/swap_item/presentation/pages/qr_scan_provider.dart';
 import '../../outfit_management/outfit_calendar/core/presentation/pages/calendar_scaffold.dart';
 import '../../outfit_management/outfit_calendar/monthly_calendar/presentation/pages/monthly_calendar_provider.dart';
 import '../../outfit_management/outfit_calendar/daily_calendar/presentation/pages/daily_calendar_provider.dart';
@@ -83,6 +84,7 @@ abstract class AppRoutesName {
   static const String focusedItemsAnalytics = 'focused_items_analytics';
   static const String summaryOutfitAnalytics = 'summary_outfit_analytics';
   static const String relatedOutfitAnalytics = 'related_outfit_analytics';
+  static const String qrScanner = 'qr_scanner';
   static const String webView = 'web_view';
   static const String trialStarted = 'trial_started';
   static const String achievementPage = 'achievement_page';
@@ -546,6 +548,17 @@ GoRouter appRouter = GoRouter(
                 isFromMyCloset: false,
                 outfitId: outfitId,
               ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/qr_scanner',
+        name: 'qr_scanner',
+        pageBuilder: (context, state) {
+          return buildCustomTransitionPage(
+            key: state.pageKey,
+            transitionType: TransitionType.fadeScale, // or `fadeScale`, `slide`, etc.
+            child: const QrScanProvider(), // ✅ Wraps QrScanScreen with Bloc
           );
         },
       ),

@@ -38,6 +38,7 @@ class AppDrawer extends StatelessWidget {
     final insightsItem = TypeDataList.drawerInsights(context);
     final infoHubItem = TypeDataList.drawerInfoHub(context);
     final contactUsItem = TypeDataList.drawerContactUs(context);
+    final qrScannerItem = TypeDataList.drawerQrScanner(context);
     final deleteAccountItem = TypeDataList.drawerDeleteAccount(context);
     final logOutItem = TypeDataList.drawerLogOut(context);
 
@@ -96,6 +97,8 @@ class AppDrawer extends StatelessWidget {
                   _buildVerticalSpacing(),
                   _buildNavigationButton(context, contactUsItem, null, (ctx) =>
                       launchEmail(context, EmailType.support)),
+                  _buildVerticalSpacing(),
+                  _buildNavigationButton(context, qrScannerItem, null, _navigateToQrScanner),
                   _buildVerticalSpacing(),
                   _buildNavigationButton(context, deleteAccountItem, null,
                       _showDeleteAccountDialog),
@@ -202,6 +205,12 @@ class AppDrawer extends StatelessWidget {
         title: infoHubTitle,
         fallbackRouteName: AppRoutesName.myCloset,
       ),
+    );
+  }
+
+  void _navigateToQrScanner(BuildContext context) {
+    context.pushNamed(
+      AppRoutesName.qrScanner
     );
   }
 

@@ -310,5 +310,37 @@ class ItemSaveService {
       rethrow; // Re-throw the error for handling at the calling location
     }
   }
+
+  Future<bool> transferItemOwnership({
+    required String itemId,
+    required String newOwnerId,
+  }) async {
+    final logger = CustomLogger('ItemSaveService');
+
+    logger.i('Attempting to transfer item $itemId to user $newOwnerId');
+
+    try {
+      final response = await SupabaseConfig.client.rpc(
+        'transfer_item_ownership',
+        params: {
+          'p_item_id': itemId,
+          'p_new_owner_id': newOwnerId,
+        },
+      );
+
+      logger.d('Transfer response: $response');
+
+      if (response is bool) {
+        return response;
+      } else {
+        logger.e('Unexpected response format: $response');
+        return false;
+      }
+    } catch (e) {
+      logger.e('Failed to transfer ownership for item $itemId to user $newOwnerId');
+      return false;
+    }
+  }
+
 }
 
