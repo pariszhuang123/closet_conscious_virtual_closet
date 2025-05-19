@@ -7,7 +7,7 @@ create table public.events (
   end_time timestamptz not null,                        -- End time with timezone
   event_status text not null default 'active' check (
     event_status in ('active', 'expired', 'deleted')),
-  user_id uuid not null references public.user_profile(id) on delete restrict,  -- Event creator
+  user_id uuid not null references public.user_profiles(id) on delete restrict,  -- Event creator
   closet_id uuid not null references public.user_closets(closet_id) on delete restrict, -- Related closet
   description text not null default 'cc_none',          -- Description of the event
   social_tags text not null default '#closetconscious', -- Social tags (e.g., for sharing or grouping)
@@ -95,8 +95,8 @@ using (false);
 create table item_transfers (
   id uuid primary key default uuid_generate_v4(),
   item_id uuid not null references items(id),
-  from_user uuid not null references user_profile(id) on delete restrict,
-  to_user uuid not null references user_profile(id) on delete restrict,
+  from_user uuid not null references user_profiles(id) on delete restrict,
+  to_user uuid not null references user_profiles(id) on delete restrict,
   created_at timestamptz not null default now()
 );
 
