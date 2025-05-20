@@ -19,3 +19,8 @@ class QrCodeScanned extends QrScanEvent {
 class StartListeningForTransferEvent extends QrScanEvent {}
 
 class StopListeningForTransferEvent extends QrScanEvent {}
+
+class TransferDetectedEvent extends QrScanEvent {
+  @override
+  List<Object?> get props => [];
+}

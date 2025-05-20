@@ -38,10 +38,10 @@ class SlidingProgressButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
           foregroundColor: isUploadingItem
-              ? myClosetTheme.colorScheme.onPrimary.withValues()
+              ? myClosetTheme.colorScheme.onPrimary.withValues(alpha: 0.5)
               : myClosetTheme.colorScheme.onPrimary,
           backgroundColor: isUploadingItem
-              ? myClosetTheme.colorScheme.primary.withValues()  // Dim button during loading
+              ? myClosetTheme.colorScheme.primary.withValues(alpha: 0.5)  // Dim button during loading
               : myClosetTheme.colorScheme.primary,
           
         ),

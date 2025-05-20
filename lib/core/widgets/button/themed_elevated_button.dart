@@ -22,7 +22,7 @@ class ThemedElevatedButton extends StatelessWidget {
           : theme.disabledColor,
       backgroundColor: onPressed != null
           ? theme.colorScheme.primary
-          : theme.colorScheme.onSurface.withValues(),
+          : theme.colorScheme.onSurface.withValues(alpha: 0.12),
       textStyle: theme.textTheme.bodyMedium, // Text style
     );
 

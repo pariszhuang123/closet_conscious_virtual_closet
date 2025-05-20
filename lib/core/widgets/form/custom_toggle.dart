@@ -35,7 +35,7 @@ class CustomToggle extends StatelessWidget {
           },
           trackColor: WidgetStateProperty.resolveWith<Color>((states) {
             return states.contains(WidgetState.selected)
-                ? Theme.of(context).colorScheme.primary.withValues()
+                ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.5)
                 : Theme.of(context).colorScheme.surface;
           }),
           thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
