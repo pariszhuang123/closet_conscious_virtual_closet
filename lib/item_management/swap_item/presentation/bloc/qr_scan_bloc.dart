@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';  // provides RealtimeChannel
+import 'package:permission_handler/permission_handler.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../../core/utilities/logger.dart';
 import '../../../../../core/config/supabase_config.dart';
@@ -28,15 +29,13 @@ class QrScanBloc extends Bloc<QrScanEvent, QrScanState> {
     on<StartListeningForTransferEvent>(_onStartListeningForTransfer);
     on<TransferDetectedEvent>(_onTransferDetected);
     on<StopListeningForTransferEvent>(_onStopListeningForTransfer);
+    on<CheckQrCameraPermission>(_onCheckQrCameraPermission);
   }
 
-  // 1️⃣ Handle actual QR scan → perform the transfer RPC
-  Future<void> _onQrCodeScanned(
-      QrCodeScanned event,
-      Emitter<QrScanState> emit,
-      ) async {
+  Future<void> _onQrCodeScanned(QrCodeScanned event, Emitter<QrScanState> emit) async {
     logger.i('Received QrCodeScanned(event.itemId=${event.itemId})');
     final newOwnerId = authBloc.userId;
+
     if (newOwnerId == null) {
       logger.e('No authenticated user.');
       emit(QrTransferFailed());
@@ -60,7 +59,6 @@ class QrScanBloc extends Bloc<QrScanEvent, QrScanState> {
     }
   }
 
-  // 2️⃣ Start listening only for INSERTs where from_user=current user
   Future<void> _onStartListeningForTransfer(
       StartListeningForTransferEvent event,
       Emitter<QrScanState> emit,
@@ -73,24 +71,22 @@ class QrScanBloc extends Bloc<QrScanEvent, QrScanState> {
 
     logger.i('Subscribing to INSERTs on item_transfers for $fromUserId');
 
-    // Cleanup any previous channel
     if (_transferChannel != null) {
       await SupabaseConfig.client.removeChannel(_transferChannel!);
     }
 
-    // Create a channel scoped to INSERT events on your table+filter
     _transferChannel = SupabaseConfig.client
         .realtime
         .channel('public:item_transfers')
         .onPostgresChanges(
-      event: PostgresChangeEvent.insert,   // only INSERTs :contentReference[oaicite:0]{index=0}
+      event: PostgresChangeEvent.insert,
       schema: 'public',
       table: 'item_transfers',
-        filter: PostgresChangeFilter(               // ✅ Use the object
-          type: PostgresChangeFilterType.eq,
-          column: 'from_user',
-          value: fromUserId,
-        ),
+      filter: PostgresChangeFilter(
+        type: PostgresChangeFilterType.eq,
+        column: 'from_user',
+        value: fromUserId,
+      ),
       callback: (payload) {
         logger.i('Realtime INSERT detected: ${payload.newRecord}');
         add(TransferDetectedEvent());
@@ -99,7 +95,6 @@ class QrScanBloc extends Bloc<QrScanEvent, QrScanState> {
         .subscribe();
   }
 
-  // 3️⃣ When we detect the transfer, emit the away state
   Future<void> _onTransferDetected(
       TransferDetectedEvent event,
       Emitter<QrScanState> emit,
@@ -108,7 +103,6 @@ class QrScanBloc extends Bloc<QrScanEvent, QrScanState> {
     emit(QrItemTransferredAway());
   }
 
-  // 4️⃣ Unsubscribe when dialog closes or bloc is torn down
   Future<void> _onStopListeningForTransfer(
       StopListeningForTransferEvent event,
       Emitter<QrScanState> emit,
@@ -117,6 +111,22 @@ class QrScanBloc extends Bloc<QrScanEvent, QrScanState> {
     if (_transferChannel != null) {
       await SupabaseConfig.client.removeChannel(_transferChannel!);
       _transferChannel = null;
+    }
+  }
+
+  Future<void> _onCheckQrCameraPermission(
+      CheckQrCameraPermission event,
+      Emitter<QrScanState> emit,
+      ) async {
+    emit(QrCameraPermissionChecking());
+
+    await Future.delayed(const Duration(milliseconds: 250));
+    final status = await Permission.camera.status;
+
+    if (status.isGranted) {
+      emit(QrCameraPermissionGranted());
+    } else {
+      emit(QrCameraPermissionDenied());
     }
   }
 

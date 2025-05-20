@@ -16,3 +16,9 @@ class QrTransferSuccess extends QrScanState {}
 class QrTransferFailed extends QrScanState {}
 
 class QrItemTransferredAway extends QrScanState {}
+
+class QrCameraPermissionChecking extends QrScanState {}
+
+class QrCameraPermissionGranted extends QrScanState {}
+
+class QrCameraPermissionDenied extends QrScanState {}

@@ -23,7 +23,8 @@ enum CameraPermissionContext {
   uploadItem,
   editItem,
   selfie,
-  editCloset
+  editCloset,
+  qrScan
 }
 
 enum ButtonType {

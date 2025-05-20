@@ -9,18 +9,16 @@ abstract class QrScanEvent extends Equatable {
 
 class QrCodeScanned extends QrScanEvent {
   final String itemId;
-
   const QrCodeScanned(this.itemId);
 
   @override
-  List<Object?> get props => [itemId];
+  List<Object> get props => [itemId];
 }
 
 class StartListeningForTransferEvent extends QrScanEvent {}
 
+class TransferDetectedEvent extends QrScanEvent {}
+
 class StopListeningForTransferEvent extends QrScanEvent {}
 
-class TransferDetectedEvent extends QrScanEvent {
-  @override
-  List<Object?> get props => [];
-}
+class CheckQrCameraPermission extends QrScanEvent {}
