@@ -14,6 +14,13 @@ DECLARE
   feature_name TEXT;
   feature_exists BOOLEAN;
   acquisition_method TEXT := 'milestone';
+  items_gifted INTEGER;
+  items_sold INTEGER;
+  items_swapped INTEGER;
+  items_uploaded INTEGER;
+  items_edited INTEGER;
+  outfits_created INTEGER;
+  selfie_taken INTEGER;
 
 BEGIN
   IF current_user_id IS NULL THEN
