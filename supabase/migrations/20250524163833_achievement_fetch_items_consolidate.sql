@@ -261,7 +261,7 @@ RETURNS TABLE (
   item_type      TEXT,
   price_per_wear NUMERIC,
   worn_in_outfit NUMERIC,
-  item_last_worn DATE,
+  item_last_worn DATE
 ) AS $$
 DECLARE
   items_per_page INT;
