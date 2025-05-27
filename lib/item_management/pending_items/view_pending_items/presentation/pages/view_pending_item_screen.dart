@@ -79,8 +79,7 @@ class ViewPendingItemScreenState extends State<ViewPendingItemScreen> {
                                   children: [
                                     Expanded(
                                       child: InteractiveItemGrid(
-                                        items: viewItemsState.items,
-                                        scrollController: _scrollController,
+                                        usePagination: true,
                                         crossAxisCount: crossAxisCount,
                                         selectedItemIds: const [], // Adjust based on selection logic
                                         itemSelectionMode: itemSelectionMode,

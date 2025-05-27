@@ -82,8 +82,8 @@ class CarouselOutfit<T> extends StatelessWidget {
                   child: IgnorePointer(
                     ignoring: true,
                     child: InteractiveItemGrid(
-                      scrollController: ScrollController(),
-                      items: items,
+                      usePagination: false,
+                        items: items,
                       crossAxisCount: crossAxisCount,
                       selectedItemIds: const [],
                       itemSelectionMode: ItemSelectionMode.disabled,

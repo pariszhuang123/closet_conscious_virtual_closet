@@ -6,7 +6,9 @@ import '../../../../../core/utilities/logger.dart';
 import '../../../../core/data/services/item_save_service.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
 import 'swap_closet_screen.dart';
-
+import '../../../../../item_management/multi_closet/core/presentation/bloc/single_selection_closet_cubit/single_selection_closet_cubit.dart';
+import '../../../../../item_management/multi_closet/core/presentation/bloc/multi_selection_closet_cubit/multi_selection_closet_cubit.dart';
+import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 
 class SwapClosetProvider extends StatelessWidget {
   final List<String> selectedItemIds;
@@ -51,6 +53,13 @@ class SwapClosetProvider extends StatelessWidget {
             itemSaveService: itemSaveService,
             fetchService: coreFetchService, // Ensure name matches 'fetchService'
           ),
+        ),
+        BlocProvider(create: (_) => MultiSelectionClosetCubit()),
+        BlocProvider(create: (_) => SingleSelectionClosetCubit()),
+
+        // ← optional, if you prefer BlocBuilder over FutureBuilder for crossAxisCount →
+        BlocProvider(
+          create: (_) => CrossAxisCountCubit(coreFetchService: coreFetchService),
         ),
       ],
       child: SwapClosetScreen(

@@ -9,9 +9,11 @@ import '../../../../item_management/core/presentation/bloc/single_selection_item
 import '../../../../core/presentation/bloc/personalization_flow_cubit/personalization_flow_cubit.dart';
 import '../bloc/outfit_review_bloc.dart';
 import 'outfit_review_screen.dart';
-import 'package:get_it/get_it.dart';
 import '../../../../core/core_service_locator.dart';
 import '../../../outfit_service_locator.dart';
+import '../../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../../core/presentation/bloc/grid_pagination_cubit/grid_pagination_cubit.dart';
+import '../../../core/outfit_enums.dart';
 
 class OutfitReviewProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -23,41 +25,56 @@ class OutfitReviewProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final outfitFetchService = outfitLocator<OutfitFetchService>();
-    final outfitSaveService = outfitLocator<OutfitSaveService>();
-    final coreFetchService = coreLocator<CoreFetchService>();
+    final outfitSaveService  = outfitLocator<OutfitSaveService>();
+    final coreFetchService   = coreLocator<CoreFetchService>();
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => OutfitReviewBloc(outfitFetchService, outfitSaveService),
-        ),
+    return BlocProvider<OutfitReviewBloc>(
+      create: (_) => OutfitReviewBloc(
+        outfitFetchService,
+        outfitSaveService,
+      )..add(CheckAndLoadOutfit(OutfitReviewFeedback.like)),
+      child: BlocBuilder<OutfitReviewBloc, OutfitReviewState>(
+        builder: (context, state) {
+          // Only render providers once outfit data is available
+          if (state is OutfitReviewItemsLoaded || state is OutfitImageUrlAvailable) {
+            final items = (state is OutfitReviewItemsLoaded)
+                ? state.items
+                : (state is OutfitImageUrlAvailable)
+                ? state.items
+                : <ClosetItemMinimal>[];
 
-        BlocProvider(
-          create: (context) {
-            final coreFetchService = GetIt.instance<CoreFetchService>();
-            final crossAxisCubit = CrossAxisCountCubit(coreFetchService: coreFetchService);
-            crossAxisCubit.fetchCrossAxisCount(); // Fetch initial state
-            return crossAxisCubit;
-          },
-        ),
-        BlocProvider(
-          create: (context) => MultiSelectionItemCubit(), // Add MultiSelectionItemCubit here
-        ),
-        BlocProvider<SingleSelectionItemCubit>(
-          create: (_) {
-            return SingleSelectionItemCubit();
-          },
-        ),
-        BlocProvider(
-          create: (_) => PersonalizationFlowCubit(coreFetchService: coreFetchService)
-            ..fetchPersonalizationFlowType(),
-        ),
-      ],
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<GridPaginationCubit<ClosetItemMinimal>>(
+                  create: (_) => GridPaginationCubit<ClosetItemMinimal>(
+                    fetchPage: ({required int pageKey, OutfitItemCategory? category}) async {
+                      if (pageKey == 0) return items;
+                      return <ClosetItemMinimal>[]; // no more pages after the first
+                    },
+                    initialCategory: null, // not needed for this screen
+                  ),
+                ),
+                BlocProvider(
+                  create: (_) => CrossAxisCountCubit(
+                    coreFetchService: coreFetchService,
+                  )..fetchCrossAxisCount(),
+                ),
+                BlocProvider(create: (_) => MultiSelectionItemCubit()),
+                BlocProvider(create: (_) => SingleSelectionItemCubit()),
+                BlocProvider(
+                  create: (_) => PersonalizationFlowCubit(
+                    coreFetchService: coreFetchService,
+                  )..fetchPersonalizationFlowType(),
+                ),
+              ],
+              child: OutfitReviewScreen(myOutfitTheme: myOutfitTheme),
+            );
+          }
 
-      child: OutfitReviewScreen(
-        myOutfitTheme: myOutfitTheme,
+          // Show loading until valid outfit state is reached
+          return const Center(child: CircularProgressIndicator());
+        },
       ),
     );
   }

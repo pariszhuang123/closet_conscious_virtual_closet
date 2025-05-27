@@ -21,6 +21,7 @@ import '../../../../../../outfit_management/core/presentation/bloc/multi_selecti
 import '../../../../../../outfit_management/core/presentation/bloc/single_selection_outfit_cubit/single_selection_outfit_cubit.dart';
 import '../../../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 
+
 class SummaryOutfitAnalyticsProvider extends StatelessWidget {
   final bool isFromMyCloset;
   final List<String> selectedOutfitIds;

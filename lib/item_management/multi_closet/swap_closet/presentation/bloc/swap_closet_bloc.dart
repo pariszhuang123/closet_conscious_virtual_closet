@@ -19,7 +19,6 @@ class SwapClosetBloc extends Bloc<SwapClosetEvent, SwapClosetState> {
       : logger = CustomLogger('SwapClosetBloc'),
         super(SwapClosetInitial()) {
     on<FetchAllClosetsEvent>(_onFetchAllClosets);
-    on<SelectNewClosetIdEvent>(_onSelectNewClosetId);
     on<ConfirmClosetSwapEvent>(_onConfirmClosetSwap);
   }
 
@@ -48,13 +47,6 @@ class SwapClosetBloc extends Bloc<SwapClosetEvent, SwapClosetState> {
     }
   }
 
-  Future<void> _onSelectNewClosetId(
-      SelectNewClosetIdEvent event,
-      Emitter<SwapClosetState> emit,
-      ) async {
-    logger.i('New closet selected: ${event.newClosetId}');
-    emit(state.copyWith(selectedClosetId: event.newClosetId));
-  }
 
   Future<void> _onConfirmClosetSwap(
       ConfirmClosetSwapEvent event,

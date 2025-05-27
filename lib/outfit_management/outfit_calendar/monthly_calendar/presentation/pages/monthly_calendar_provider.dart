@@ -16,6 +16,7 @@ import '../../../../../core/data/services/core_save_services.dart';
 import '../../../../../core/core_service_locator.dart';
 import '../../../../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../../../outfit_service_locator.dart';
+import '../../../../../core/usage_analytics/core/presentation/bloc/focus_or_create_closet_bloc/focus_or_create_closet_bloc.dart';
 
 class MonthlyCalendarProvider extends StatelessWidget {
   final bool isFromMyCloset;
@@ -75,6 +76,13 @@ class MonthlyCalendarProvider extends StatelessWidget {
             coreSaveService: coreSaveService,
           ),
         ),
+        BlocProvider(
+          create: (_) => FocusOrCreateClosetBloc(
+            coreFetchService: coreFetchService,
+            coreSaveService: coreSaveService,
+          )
+        ),
+
       ],
       child: MonthlyCalendarScreen(
         isFromMyCloset: isFromMyCloset,

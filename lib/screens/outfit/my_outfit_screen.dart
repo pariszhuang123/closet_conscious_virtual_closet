@@ -16,13 +16,13 @@ import '../../core/core_enums.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
 import '../../core/utilities/app_router.dart';
-import '../../outfit_management/fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
 import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc/navigate_outfit_bloc.dart';
 import '../../outfit_management/fetch_outfit_items/presentation/widgets/outfit_type_container.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
-import '../../core/presentation/bloc/navigation_status_cubit/navigation_status_cubit.dart';
 import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
+import '../../core/presentation/bloc/grid_pagination_cubit/grid_pagination_cubit.dart';
+import '../../item_management/core/data/models/closet_item_minimal.dart';
 import 'my_outfit_bloc_listeners.dart';
 
 class MyOutfitScreen extends StatefulWidget {
@@ -42,7 +42,6 @@ class MyOutfitScreen extends StatefulWidget {
 class MyOutfitScreenState extends State<MyOutfitScreen> {
   final int _selectedIndex = 1;
   final CustomLogger logger = CustomLogger('OutfitPage');
-  final ScrollController _scrollController = ScrollController();
   int newOutfitCount = 2;
   final OutfitFetchService _outfitFetchService = GetIt.instance<OutfitFetchService>();
 
@@ -53,15 +52,6 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
     _fetchOutfitsCount();
     _checkNavigationToReview();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-        _fetchMoreItems();
-      }
-    });
-  }
-
-  void _fetchMoreItems() {
-    context.read<FetchOutfitItemBloc>().add(FetchMoreItemsEvent());
   }
 
   void _onSaveOutfit() {
@@ -77,83 +67,57 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
   }
 
   void _triggerNpsSurveyIfNeeded() {
-    logger.i(
-        'Checking if NPS survey should be triggered for outfit count: $newOutfitCount');
-    context.read<NavigateOutfitBloc>().add(
-        TriggerNpsSurveyEvent(newOutfitCount));
+    logger.i('Checking if NPS survey should be triggered for outfit count: $newOutfitCount');
+    context.read<NavigateOutfitBloc>().add(TriggerNpsSurveyEvent(newOutfitCount));
   }
 
   void _onFilterButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context
-        .read<MultiSelectionItemCubit>()
-        .state
-        .selectedItemIds;
-    context.pushNamed(
-      AppRoutesName.filter,
-      extra: {
-        'isFromMyCloset': isFromMyCloset,
-        'selectedItemIds': selectedItemIds,
-        'returnRoute': AppRoutesName.createOutfit,
-      },
-    );
+    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
+    context.pushNamed(AppRoutesName.filter, extra: {
+      'isFromMyCloset': isFromMyCloset,
+      'selectedItemIds': selectedItemIds,
+      'returnRoute': AppRoutesName.createOutfit,
+    });
   }
 
   void _onArrangeButtonPressed(BuildContext context, bool isFromMyCloset) {
-    final selectedItemIds = context
-        .read<MultiSelectionItemCubit>()
-        .state
-        .selectedItemIds;
-    context.pushNamed(
-      AppRoutesName.customize,
-      extra: {
-        'isFromMyCloset': isFromMyCloset,
-        'selectedItemIds': selectedItemIds,
-        'returnRoute': AppRoutesName.createOutfit,
-      },
-    );
+    final selectedItemIds = context.read<MultiSelectionItemCubit>().state.selectedItemIds;
+    context.pushNamed(AppRoutesName.customize, extra: {
+      'isFromMyCloset': isFromMyCloset,
+      'selectedItemIds': selectedItemIds,
+      'returnRoute': AppRoutesName.createOutfit,
+    });
   }
 
   void _onCalendarButtonPressed() {
-    context.pushNamed(
-      AppRoutesName.monthlyCalendar,
-    );
+    context.pushNamed(AppRoutesName.monthlyCalendar);
   }
 
   void _onAiStylistButtonPressed() {
-    logger.i('AI Stylist button pressed, showing ai stylist...');
+    logger.i('AI Stylist button pressed');
     showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) {
-        return const AiStylistUsageBottomSheet(isFromMyCloset: false);
-      },
+      builder: (context) => const AiStylistUsageBottomSheet(isFromMyCloset: false),
     );
   }
 
   Future<void> _fetchOutfitsCount() async {
     try {
       final result = await _outfitFetchService.fetchOutfitsCountAndNPS();
-      final count = result['outfits_created'];
       if (mounted) {
         setState(() {
-          newOutfitCount = count;
+          newOutfitCount = result['outfits_created'];
         });
-        logger.i('New outfit count set to $newOutfitCount');
         _triggerNpsSurveyIfNeeded();
       }
     } catch (e) {
-      logger.e('Error fetching new outfits count: $e');
+      logger.e('Error fetching outfit count: $e');
     }
   }
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    logger.i('Building MyOutfitView...');
+    logger.i('Building MyOutfitScreen');
 
     final outfitClothingType = TypeDataList.outfitClothingType(context);
     final outfitAccessoryType = TypeDataList.outfitAccessoryType(context);
@@ -170,13 +134,9 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(appBarHeight),
               child: AppBar(
-                title: Text(S
-                    .of(context)
-                    .myOutfitTitle,
+                title: Text(S.of(context).myOutfitTitle,
                     style: widget.myOutfitTheme.textTheme.titleMedium),
-                automaticallyImplyLeading: true,
-                backgroundColor: widget.myOutfitTheme.appBarTheme
-                    .backgroundColor,
+                backgroundColor: widget.myOutfitTheme.appBarTheme.backgroundColor,
               ),
             ),
             drawer: AppDrawer(isFromMyCloset: false),
@@ -190,15 +150,17 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                     outfitAccessoryType: outfitAccessoryType,
                     outfitShoesType: outfitShoesType,
                     theme: widget.myOutfitTheme,
+                    onCategorySelected: (newCategory) {
+                      context.read<GridPaginationCubit<ClosetItemMinimal>>()
+                          .updateCategory(newCategory);
+                    },
                   ),
                   const SizedBox(height: 16),
                   OutfitFeatureContainer(
                     theme: widget.myOutfitTheme,
                     outfitCount: newOutfitCount,
-                    onFilterButtonPressed: () =>
-                        _onFilterButtonPressed(context, false),
-                    onArrangeButtonPressed: () =>
-                        _onArrangeButtonPressed(context, false),
+                    onFilterButtonPressed: () => _onFilterButtonPressed(context, false),
+                    onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
                     onCalendarButtonPressed: _onCalendarButtonPressed,
                     onStylistButtonPressed: _onAiStylistButtonPressed,
                   ),
@@ -206,58 +168,25 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                   Expanded(
                     child: BlocBuilder<CrossAxisCountCubit, int>(
                       builder: (context, crossAxisCount) {
-                        return BlocBuilder<
-                            FetchOutfitItemBloc,
-                            FetchOutfitItemState>(
-                          builder: (context, state) {
-                            logger.i(
-                                'FetchOutfitItemBloc builder triggered with state: $state');
-
-                            final currentItems =
-                                state.categoryItems[state.currentCategory] ??
-                                    [];
-
-                            if (state.saveStatus == SaveStatus.failure) {
-                              return Center(
-                                  child: Text(S
-                                      .of(context)
-                                      .failedToLoadItems));
-                            } else if (currentItems.isEmpty) {
-                              context.read<NavigationStatusCubit>().setSnackBarShown(false);
-                              return Center(
-                                  child: Text(S
-                                      .of(context)
-                                      .noItemsInOutfitCategory));
-                            } else {
-                              return InteractiveItemGrid(
-                                scrollController: _scrollController,
-                                items: currentItems,
-                                itemSelectionMode: ItemSelectionMode.multiSelection,
-                                crossAxisCount: crossAxisCount,
-                                selectedItemIds: widget.selectedItemIds,
-                                isOutfit: false,
-                                isLocalImage: false,
-                              );
-                            }
-                          },
+                        return InteractiveItemGrid(
+                          usePagination: true,
+                          itemSelectionMode: ItemSelectionMode.multiSelection,
+                          crossAxisCount: crossAxisCount,
+                          selectedItemIds: widget.selectedItemIds,
+                          isOutfit: false,
+                          isLocalImage: false,
                         );
                       },
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: BlocBuilder<
-                        MultiSelectionItemCubit,
-                        MultiSelectionItemState>(
+                    child: BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
                       builder: (context, state) {
-                        logger.i(
-                            'SelectionOutfitItemBloc bottom button builder triggered with state: $state');
                         return state.hasSelectedItems
                             ? ElevatedButton(
                           onPressed: _onSaveOutfit,
-                          child: Text(S
-                              .of(context)
-                              .OutfitDay),
+                          child: Text(S.of(context).OutfitDay),
                         )
                             : const SizedBox.shrink();
                       },
@@ -267,8 +196,8 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
               ),
             ),
             bottomNavigationBar: MainBottomNavBar(
-              currentIndex: _selectedIndex, // My Outfit tab
-              isFromMyCloset: false, // This is the outfit screen, not the closet
+              currentIndex: _selectedIndex,
+              isFromMyCloset: false,
             ),
           ),
         ),

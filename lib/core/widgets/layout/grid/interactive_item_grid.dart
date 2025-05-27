@@ -5,7 +5,7 @@ import '../../../utilities/helper_functions/image_helper/image_helper.dart';
 import '../../../utilities/logger.dart';
 import '../base_layout/base_grid.dart';
 import '../../../../item_management/core/data/models/closet_item_minimal.dart';
-import '../../../../generated/l10n.dart';
+import '../../../presentation/bloc/grid_pagination_cubit/grid_pagination_cubit.dart';
 import '../../../core_enums.dart';
 
 import '../grid_item/grid_item.dart';
@@ -14,131 +14,85 @@ import '../../../../item_management/core/presentation/bloc/single_selection_item
 import '../../../utilities/helper_functions/selection_helper/item_selection_helper.dart';
 
 class InteractiveItemGrid extends StatelessWidget {
-  final ScrollController? scrollController; // ✅ Make this optional
-  final List<ClosetItemMinimal> items;
   final int crossAxisCount;
   final List<String> selectedItemIds;
-  final ItemSelectionMode itemSelectionMode; // New parameter
-  final VoidCallback? onAction; // Optional callback for action mode
-  final bool enablePricePerWear; // ✅ New parameter to control price-per-wear visibility
-  final bool enableItemName; // ✅ New parameter to control item name visibility
-  final VoidCallback? onInactiveTap; // New callback for inactive items
+  final ItemSelectionMode itemSelectionMode;
+  final VoidCallback? onAction;
+  final bool enablePricePerWear;
+  final bool enableItemName;
+  final VoidCallback? onInactiveTap;
   final bool isOutfit;
   final bool isLocalImage;
+  final bool usePagination;
+  final List<ClosetItemMinimal>? items;
 
   InteractiveItemGrid({
     super.key,
-    this.scrollController, // ✅ Now optional
-    required this.items,
     required this.crossAxisCount,
     required this.selectedItemIds,
     required this.itemSelectionMode,
-    this.onAction, // Optional
-    this.enablePricePerWear = false, // ✅ Default to false so other screens don’t show price per wear
-    this.enableItemName = true, // ✅ Default to true to show item Name unless explicitly enabled
-    this.onInactiveTap, // Accept the callback
+    this.onAction,
+    this.enablePricePerWear = false,
+    this.enableItemName = true,
+    this.onInactiveTap,
     required this.isOutfit,
-    required this.isLocalImage
-
-
+    required this.isLocalImage,
+    required this.usePagination,
+    this.items,
   }) : _logger = CustomLogger('ItemGrid');
 
   final CustomLogger _logger;
 
-
-  void _handleTap(BuildContext context, String itemId) {
-    final item = items.firstWhere((element) => element.itemId == itemId);
-
+  void _handleTap(BuildContext context, ClosetItemMinimal item) {
     if (!item.itemIsActive) {
-      _logger.d('Item $itemId is inactive.');
-      // Instead of showing the snackbar here, call the parent callback if provided
+      _logger.d('Item ${item.itemId} is inactive.');
       if (onInactiveTap != null) {
         onInactiveTap!();
       }
       return;
     }
-    if (itemId.isEmpty) {
+
+    if (item.itemId.isEmpty) {
       _logger.e('Error: itemId is empty. Cannot proceed.');
       return;
     }
 
-      final singleSelectionCubit = context.read<SingleSelectionItemCubit>();
-      final multiSelectionCubit = context.read<MultiSelectionItemCubit>();
+    final singleSelectionCubit = context.read<SingleSelectionItemCubit>();
+    final multiSelectionCubit = context.read<MultiSelectionItemCubit>();
 
-      ItemSelectionHelper.handleTap(
-        context: context,
-        itemId: itemId,
-        itemSelectionMode: itemSelectionMode,
-        singleSelectionCubit: singleSelectionCubit,
-        multiSelectionCubit: multiSelectionCubit,
-        onAction: onAction,
-      );
-    }
+    ItemSelectionHelper.handleTap(
+      context: context,
+      itemId: item.itemId,
+      itemSelectionMode: itemSelectionMode,
+      singleSelectionCubit: singleSelectionCubit,
+      multiSelectionCubit: multiSelectionCubit,
+      onAction: onAction,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final showItemName = enableItemName && !(crossAxisCount == 5 || crossAxisCount == 7); // ✅ Use enableItemName
+    final showItemName = enableItemName && !(crossAxisCount == 5 || crossAxisCount == 7);
     final showPricePerWear = enablePricePerWear && !(crossAxisCount == 5 || crossAxisCount == 7);
-    final childAspectRatio =  (!enableItemName || crossAxisCount == 5 || crossAxisCount == 7) ? 1 /
-        1 : 2.15 / 3;
+    final childAspectRatio = (!enableItemName || crossAxisCount == 5 || crossAxisCount == 7)
+        ? 1 / 1
+        : 2.15 / 3;
     final imageSize = ImageHelper.getImageSize(crossAxisCount);
 
-    _logger.d('Building ItemGrid');
-    _logger.d('Total items: ${items.length}');
-    _logger.i('Selected item IDs: $selectedItemIds');
-    _logger.i('Cross axis count: $crossAxisCount');
-    _logger.i('Image size: $imageSize');
-
-    if (items.isEmpty) {
-      _logger.d('No items.');
-      return Center(child: Text(S
-          .of(context)
-          .noItemsInCloset));
-    }
+    _logger.d('Building Paginated Item Grid');
 
     return BaseGrid<ClosetItemMinimal>(
-      items: items,
-      scrollController: itemSelectionMode == ItemSelectionMode.disabled ? null : scrollController, // ✅ Only disable scrolling when necessary
-      shrinkWrap: itemSelectionMode == ItemSelectionMode.disabled, // ✅ Allow it to take full space if not scrollable
-      isScrollable: itemSelectionMode != ItemSelectionMode.disabled, // ✅ Ensure scrolling when needed
-      // ✅ Corrected parameter (instead of physics)
+      usePagination: usePagination,                             // 👈 now required
+      pagingController: usePagination
+          ? context.read<GridPaginationCubit<ClosetItemMinimal>>().pagingController
+          : null,                                               // 👈 pass only in paginated mode
+      items: usePagination ? null : items,                      // 👈 pass only in plain mode
+      crossAxisCount: crossAxisCount,
+      childAspectRatio: childAspectRatio,
       itemBuilder: (context, item, index) {
         if (itemSelectionMode == ItemSelectionMode.singleSelection) {
-          return BlocSelector<SingleSelectionItemCubit,
-              SingleSelectionItemState,
-              bool>(
-            selector: (state) {
-              final isSelected = state.selectedItemId == item.itemId;
-              _logger.d('Single Selection - Item ID: ${item
-                  .itemId}, isSelected: $isSelected');
-              return isSelected;
-            },
-            builder: (context, isSelected) {
-              return GridItem(
-                key: ValueKey('${item.itemId}_$isSelected'),
-                item: item,
-                isSelected: isSelected,
-                isDisliked: item.isDisliked,
-                imageSize: imageSize,
-                showItemName: showItemName,
-                showPricePerWear: showPricePerWear, // ✅ New parameter
-                isOutfit: isOutfit,
-                onItemTapped: () {
-                  _handleTap(context, item.itemId);
-                },
-              );
-            },
-          );
-        } else {
-          return BlocSelector<MultiSelectionItemCubit,
-              MultiSelectionItemState,
-              bool>(
-            selector: (state) {
-              final isSelected = state.selectedItemIds.contains(item.itemId);
-              _logger.d('Multi Selection - Item ID: ${item
-                  .itemId}, isSelected: $isSelected');
-              return isSelected;
-            },
+          return BlocSelector<SingleSelectionItemCubit, SingleSelectionItemState, bool>(
+            selector: (state) => state.selectedItemId == item.itemId,
             builder: (context, isSelected) {
               return GridItem(
                 key: ValueKey('${item.itemId}_$isSelected'),
@@ -149,16 +103,29 @@ class InteractiveItemGrid extends StatelessWidget {
                 showItemName: showItemName,
                 showPricePerWear: showPricePerWear,
                 isOutfit: isOutfit,
-                onItemTapped: () {
-                  _handleTap(context, item.itemId);
-                },
+                onItemTapped: () => _handleTap(context, item),
+              );
+            },
+          );
+        } else {
+          return BlocSelector<MultiSelectionItemCubit, MultiSelectionItemState, bool>(
+            selector: (state) => state.selectedItemIds.contains(item.itemId),
+            builder: (context, isSelected) {
+              return GridItem(
+                key: ValueKey('${item.itemId}_$isSelected'),
+                item: item,
+                isSelected: isSelected,
+                isDisliked: item.isDisliked,
+                imageSize: imageSize,
+                showItemName: showItemName,
+                showPricePerWear: showPricePerWear,
+                isOutfit: isOutfit,
+                onItemTapped: () => _handleTap(context, item),
               );
             },
           );
         }
       },
-      crossAxisCount: crossAxisCount,
-      childAspectRatio: childAspectRatio,
     );
   }
 }

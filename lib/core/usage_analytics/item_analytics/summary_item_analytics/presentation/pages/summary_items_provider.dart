@@ -17,7 +17,9 @@ import '../../../../../../item_management/item_service_locator.dart';
 import '../../../../../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
 import '../../../../../core_service_locator.dart';
 import '../../../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
-
+import '../../../../../../core/presentation/bloc/grid_pagination_cubit/grid_pagination_cubit.dart';
+import '../../../../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../../../../outfit_management/core/outfit_enums.dart';
 
 class SummaryItemsProvider extends StatelessWidget {
   final bool isFromMyCloset; // Determines the theme
@@ -67,6 +69,15 @@ class SummaryItemsProvider extends StatelessWidget {
               coreFetchService: coreFetchService,
               coreSaveService: coreSaveService,
             )),
+        BlocProvider<GridPaginationCubit<ClosetItemMinimal>>(
+          create: (_) => GridPaginationCubit<ClosetItemMinimal>(
+            fetchPage: ({
+              required int pageKey,
+              OutfitItemCategory? category,
+            }) => itemFetchService.fetchItems(pageKey), // ignores `category`
+            initialCategory: null,
+          ),
+        ),
       ],
       child: SummaryItemsScreen(
         isFromMyCloset: isFromMyCloset,

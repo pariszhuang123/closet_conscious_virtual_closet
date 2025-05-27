@@ -2820,30 +2820,40 @@ class S {
     );
   }
 
-  /// `3 items per row`
+  /// `2 items\nper row`
+  String get gridSize2 {
+    return Intl.message(
+      '2 items\nper row',
+      name: 'gridSize2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `3 items\nper row`
   String get gridSize3 {
     return Intl.message(
-      '3 items per row',
+      '3 items\nper row',
       name: 'gridSize3',
       desc: '',
       args: [],
     );
   }
 
-  /// `5 items per row`
+  /// `5 items\nper row`
   String get gridSize5 {
     return Intl.message(
-      '5 items per row',
+      '5 items\nper row',
       name: 'gridSize5',
       desc: '',
       args: [],
     );
   }
 
-  /// `7 items per row`
+  /// `7 items\nper row`
   String get gridSize7 {
     return Intl.message(
-      '7 items per row',
+      '7 items\nper row',
       name: 'gridSize7',
       desc: '',
       args: [],

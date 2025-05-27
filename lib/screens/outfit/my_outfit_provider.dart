@@ -1,9 +1,6 @@
-import 'package:closet_conscious/item_management/core/data/services/item_fetch_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
-import '../../outfit_management/fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
 import '../../outfit_management/save_outfit_items/presentation/bloc/save_outfit_items_bloc.dart';
 import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../outfit_management/core/data/services/outfits_save_services.dart';
@@ -12,7 +9,7 @@ import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc/navi
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import 'my_outfit_screen.dart';
 import 'my_outfit_access_wrapper.dart';
-import 'my_outfit_achievement_wrapper.dart';
+import 'achievement_wrapper.dart';
 import 'my_outfit_review_wrapper.dart';
 import '../../core/utilities/logger.dart';
 import '../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
@@ -24,6 +21,10 @@ import '../../core/presentation/bloc/navigation_status_cubit/navigation_status_c
 import '../../core/achievement_celebration/presentation/bloc/achievement_celebration_bloc/achievement_celebration_bloc.dart';
 import '../../core/presentation/bloc/trial_bloc/trial_bloc.dart';
 import '../../core/paywall/presentation/bloc/premium_feature_access_bloc/premium_feature_access_bloc.dart';
+import '../../core/presentation/bloc/grid_pagination_cubit/grid_pagination_cubit.dart';
+import '../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../core/core_service_locator.dart';
+import '../../outfit_management/outfit_service_locator.dart';
 
 class MyOutfitProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -46,23 +47,14 @@ class MyOutfitProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     _logger.d('Building MyOutfitProvider widgets');
 
-    final itemFetchService = GetIt.instance<ItemFetchService>();
-    final outfitFetchService = GetIt.instance<OutfitFetchService>();
-    final outfitSaveService = GetIt.instance<OutfitSaveService>();
-    final coreFetchService = GetIt.instance<CoreFetchService>();
-    final coreSaveService = GetIt.instance<CoreSaveService>();
+    final outfitFetchService = outfitLocator<OutfitFetchService>();
+    final outfitSaveService = outfitLocator<OutfitSaveService>();
+    final coreFetchService = coreLocator<CoreFetchService>();
+    final coreSaveService = coreLocator<CoreSaveService>();
+
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) {
-            _logger.d('Initializing FetchOutfitItemBloc');
-            final fetchOutfitItemBloc = FetchOutfitItemBloc(outfitFetchService, outfitSaveService)
-              ..add(const SelectCategoryEvent(OutfitItemCategory.clothing));
-            _logger.i('SelectCategoryEvent added to FetchOutfitItemBloc with category: OutfitItemCategory.clothing');
-            return fetchOutfitItemBloc;
-          },
-        ),
         BlocProvider<MultiSelectionItemCubit>(
           create: (context) => MultiSelectionItemCubit()..initializeSelection(selectedItemIds),
         ),
@@ -106,7 +98,6 @@ class MyOutfitProvider extends StatelessWidget {
         BlocProvider<AchievementCelebrationBloc>(
           create: (_) => AchievementCelebrationBloc(
             outfitFetchService: outfitFetchService,
-            itemFetchService: itemFetchService,
           ),
         ),
         BlocProvider<TrialBloc>(
@@ -118,9 +109,19 @@ class MyOutfitProvider extends StatelessWidget {
             coreSaveService: coreSaveService,
           ),
         ),
+        BlocProvider<GridPaginationCubit<ClosetItemMinimal>>(
+          create: (_) => GridPaginationCubit<ClosetItemMinimal>(
+            fetchPage: ({
+              required int pageKey,
+              OutfitItemCategory? category,
+            }) => outfitFetchService.fetchCreateOutfitItemsRPC(pageKey, category!),
+            initialCategory: OutfitItemCategory.clothing,
+          ),
+        ),
       ],
       child: MyOutfitAccessWrapper(
-        child: MyOutfitAchievementWrapper(
+        child: AchievementWrapper(
+          isFromMyCloset: false,
           child: MyOutfitReviewWrapper(
             child: MyOutfitScreen(
               myOutfitTheme: myOutfitTheme,

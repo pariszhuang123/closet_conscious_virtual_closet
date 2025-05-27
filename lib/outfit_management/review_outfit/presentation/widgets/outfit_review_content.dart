@@ -99,7 +99,7 @@ class OutfitReviewContent extends StatelessWidget {
                   return BlocBuilder<CrossAxisCountCubit, int>(
                     builder: (context, crossAxisCount) {
                       return InteractiveItemGrid(
-                        scrollController: ScrollController(),
+                        usePagination: false,
                         items: loadedState.items,
                         crossAxisCount: crossAxisCount,
                         selectedItemIds: context.watch<MultiSelectionItemCubit>().state.selectedItemIds,

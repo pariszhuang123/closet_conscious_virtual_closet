@@ -20,6 +20,8 @@ import '../../../../core/core_enums.dart';
 import '../widgets/event_name_input.dart';
 import '../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../item_management/core/presentation/bloc/multi_selection_item_cubit/multi_selection_item_cubit.dart';
+import '../../../../core/presentation/bloc/grid_pagination_cubit/grid_pagination_cubit.dart';
+import '../../../../item_management/core/data/models/closet_item_minimal.dart';
 
 class OutfitWearScreen extends StatefulWidget {
   final String outfitId;
@@ -37,14 +39,12 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
   late CustomLogger logger;
   late String formattedDate;
   final TextEditingController _eventNameController = TextEditingController();
-  late final ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
     logger = CustomLogger('OutfitWearViewLogger');
     logger.i('Initializing OutfitWearView with outfitId: ${widget.outfitId}');
-    _scrollController = ScrollController(); // 👈 Add this line
 
     formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
     logger.i('Formatted date: $formattedDate');
@@ -74,7 +74,6 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
   @override
   void dispose() {
     _eventNameController.dispose();
-    _scrollController.dispose(); // 👈 Dispose the scroll controller
     super.dispose();
   }
 
@@ -99,6 +98,13 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
                 );
               },
             );
+          }
+          if (state is OutfitWearLoaded || state is OutfitImageUrlAvailable) {
+            final pager = context
+                .read<GridPaginationCubit<ClosetItemMinimal>>()
+                .pagingController;
+            pager.refresh();
+            pager.fetchNextPage();
           }
         },
         child: GestureDetector(
@@ -166,7 +172,7 @@ class OutfitWearScreenState extends State<OutfitWearScreen> {
                                   return BlocBuilder<MultiSelectionItemCubit, MultiSelectionItemState>(
                                     builder: (context, multiSelectionState) {
                                       return InteractiveItemGrid(
-                                        scrollController: ScrollController(),
+                                        usePagination: false,
                                         items: state.items,
                                         crossAxisCount: crossAxisCount,
                                         selectedItemIds: const [], // No selection

@@ -11,13 +11,9 @@ import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubi
 import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
 import '../../core/widgets/layout/grid/interactive_item_grid.dart';
 import '../../core/photo_library/presentation/bloc/photo_library_bloc/photo_library_bloc.dart';
-import '../../core/tutorial/scenario/presentation/bloc/first_time_scenario_bloc.dart';
 import '../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
 import '../../core/presentation/bloc/trial_bloc/trial_bloc.dart';
-import '../../core/achievement_celebration/presentation/bloc/achievement_celebration_bloc/achievement_celebration_bloc.dart';
-import '../../item_management/view_items/presentation/bloc/view_items_bloc.dart'; // Import ViewItemsBloc
 import '../../item_management/streak_item/presentation/bloc/upload_item_streak_bloc.dart';
-import '../../item_management/core/presentation/bloc/navigate_item_bloc/navigate_item_bloc.dart';
 import '../../item_management/view_items/presentation/widgets/my_closet_container.dart';
 import '../../core/data/type_data.dart';
 import '../../generated/l10n.dart';
@@ -27,6 +23,9 @@ import '../app_drawer.dart';
 import '../../item_management/core/presentation/bloc/single_selection_item_cubit/single_selection_item_cubit.dart';
 import 'my_closet_bloc_listeners.dart';
 import '../../core/tutorial/core/presentation/bloc/tutorial_cubit.dart';
+import '../../core/presentation/bloc/grid_pagination_cubit/grid_pagination_cubit.dart';
+import '../../item_management/core/data/models/closet_item_minimal.dart';
+
 
 class MyClosetScreen extends StatefulWidget {
   final ThemeData myClosetTheme;
@@ -39,36 +38,27 @@ class MyClosetScreen extends StatefulWidget {
 
 class MyClosetScreenState extends State<MyClosetScreen> {
   final int _selectedIndex = 0;
-  final ScrollController _scrollController = ScrollController();
   final CustomLogger logger = CustomLogger('MyClosetPage');
+
   bool _showFab = true;
 
   @override
   void initState() {
     super.initState();
     context.read<UploadStreakBloc>().add(CheckUploadStatus());
-    context.read<FirstTimeScenarioBloc>().add(CheckFirstTimeScenario());
-    _triggerItemUploadAchievement();
-    _triggerItemPicEditedAchievement();
-    _triggerItemGiftedAchievement();
-    _triggerItemSoldAchievement();
-    _triggerItemSwapAchievement();
-    _triggerDisappearingClosetPermanent();
-    _triggerTrialEndedDialog();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        final currentState = context
-            .read<ViewItemsBloc>()
-            .state;
-        if (currentState is ItemsLoaded) {
-          final currentPage = currentState.currentPage;
-          context.read<ViewItemsBloc>().add(
-              FetchItemsEvent(currentPage, isPending: false));
-        }
-      }
+    context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+
+    // 2) But *also* schedule an immediate "page 0" load once
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context
+          .read<GridPaginationCubit<ClosetItemMinimal>>()
+          .pagingController
+          .refresh();
     });
+    _triggerTrialEndedDialog();
   }
+
 
   @override
   void didChangeDependencies() {
@@ -89,40 +79,6 @@ class MyClosetScreenState extends State<MyClosetScreen> {
     }
   }
 
-  void _triggerItemUploadAchievement() {
-    logger.i('Checking if Item Upload Milestone is successful');
-    context.read<AchievementCelebrationBloc>().add(
-        FetchFirstItemUploadedAchievementEvent());
-  }
-
-  void _triggerItemPicEditedAchievement() {
-    logger.i('Checking if Item Pic Edited Milestone is successful');
-    context.read<AchievementCelebrationBloc>().add(
-        FetchFirstItemPicEditedAchievementEvent());
-  }
-
-  void _triggerItemGiftedAchievement() {
-    logger.i('Checking if Item Gifted Milestone is successful');
-    context.read<AchievementCelebrationBloc>().add(
-        FetchFirstItemGiftedAchievementEvent());
-  }
-
-  void _triggerItemSoldAchievement() {
-    logger.i('Checking if Item Sold Milestone is successful');
-    context.read<AchievementCelebrationBloc>().add(
-        FetchFirstItemSoldAchievementEvent());
-  }
-
-  void _triggerItemSwapAchievement() {
-    logger.i('Checking if Item Swap Milestone is successful');
-    context.read<AchievementCelebrationBloc>().add(
-        FetchFirstItemSwapAchievementEvent());
-  }
-
-  void _triggerDisappearingClosetPermanent() {
-    logger.i('Checking if Disappearing Closet becomes permanent is successful');
-    context.read<NavigateItemBloc>().add(const FetchDisappearedClosetsEvent());
-  }
 
   void _triggerTrialEndedDialog() {
     logger.i('Trigger Trial Ended Dialog if it is completed');
@@ -207,7 +163,6 @@ class MyClosetScreenState extends State<MyClosetScreen> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
   }
 
@@ -267,7 +222,7 @@ class MyClosetScreenState extends State<MyClosetScreen> {
                         itemUploadData: itemUploadData,
                         currentStreakData: uploadStreakState.isUploadCompleted
                             ? currentStreakData
-                            : null,
+                                                                                                                                                                     : null,
                         highestStreakData: uploadStreakState.isUploadCompleted
                             ? highestStreakData
                             : null,
@@ -301,37 +256,19 @@ class MyClosetScreenState extends State<MyClosetScreen> {
 
                 /// ViewItemsBloc + CrossAxisCountCubit for Interactive Grid
                 Expanded(
-                  child: BlocBuilder<ViewItemsBloc, ViewItemsState>(
-                    builder: (context, viewItemsState) {
-                      if (viewItemsState is ItemsLoading) {
-                        return const ClosetProgressIndicator();
-                      }
-
-                      if (viewItemsState is ItemsLoaded) {
-                        return BlocBuilder<CrossAxisCountCubit, int>(
-                          builder: (context, crossAxisCount) {
-                            return InteractiveItemGrid(
-                              items: viewItemsState.items,
-                              scrollController: _scrollController,
-                              crossAxisCount: crossAxisCount,
-                              selectedItemIds: const [],
-                              itemSelectionMode: ItemSelectionMode.action,
-                              enablePricePerWear: false,
-                              enableItemName: true,
-                              isOutfit: false,
-                              isLocalImage: false,
-                              onAction: () => _onItemSelected(context),
-                            );
-                          },
-                        );
-                      }
-
-                      if (viewItemsState is ItemsError) {
-                        return Center(child: Text(
-                            'Error: ${viewItemsState.error}'));
-                      }
-
-                      return const ClosetProgressIndicator();
+                  child: BlocBuilder<CrossAxisCountCubit, int>(
+                    builder: (_, crossAxisCount) {
+                      return InteractiveItemGrid(
+                        usePagination: true,
+                        crossAxisCount: crossAxisCount,
+                        selectedItemIds: const [],
+                        itemSelectionMode: ItemSelectionMode.action,
+                        enablePricePerWear: false,
+                        enableItemName: true,
+                        isOutfit: false,
+                        isLocalImage: false,
+                        onAction: () => _onItemSelected(context),
+                      );
                     },
                   ),
                 ),

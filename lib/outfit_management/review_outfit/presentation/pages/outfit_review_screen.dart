@@ -16,6 +16,8 @@ import '../../../../core/core_enums.dart';
 import '../widgets/outfit_review_content.dart';
 import '../../../../core/presentation/bloc/personalization_flow_cubit/personalization_flow_cubit.dart';
 import '../../../../core/utilities/helper_functions/prompt_helper/comment_prompt_helper.dart';
+import '../../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../../core/presentation/bloc/grid_pagination_cubit/grid_pagination_cubit.dart';
 
 class OutfitReviewScreen extends StatefulWidget {
   final ThemeData myOutfitTheme;
@@ -53,13 +55,26 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
     final outfitReviewAlright = TypeDataList.outfitReviewAlright(context);
     final outfitReviewDislike = TypeDataList.outfitReviewDislike(context);
 
-    return PopScope<Object?>(
+    return BlocListener<OutfitReviewBloc, OutfitReviewState>(
+        listener: (context, state) {
+          if (state is OutfitReviewItemsLoaded || state is OutfitImageUrlAvailable) {
+            logger.i('🏷 OutfitReviewItemsLoaded — items fetched');
+            logger.i('🚀 Triggering pagination fetchNextPage()');
+            final pager = context.read<GridPaginationCubit<ClosetItemMinimal>>().pagingController;
+            logger.i('🔄 Resetting and loading page 0');
+            pager.refresh();
+            pager.fetchNextPage();
+          }
+        },
+
+        child:  PopScope<Object?>(
       canPop: false,
       onPopInvokedWithResult: (bool didPop, Object? result) {
         if (didPop) {
           logger.d('Back navigation prevented on OutfitReviewScreen');
         }
       },
+
       child: GestureDetector(
         onTap: () {
           logger.d('Tap detected outside input – dismissing keyboard');
@@ -215,6 +230,7 @@ class OutfitReviewScreenState extends State<OutfitReviewScreen> {
           ),
         ),
       ),
+        )
     );
   }
 }

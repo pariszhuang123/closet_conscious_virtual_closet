@@ -27,8 +27,7 @@ class OutfitReviewCustomDialogState extends State<OutfitReviewCustomDialog> {
       if (mounted) {  // Check if the widgets is still mounted
         Navigator.of(context).pop();
         context.goNamed(
-          AppRoutesName.reviewOutfit,
-          extra: DateTime.now().millisecondsSinceEpoch.toString(), // Just for uniqueness
+          AppRoutesName.createOutfit,
         );
       }
     });

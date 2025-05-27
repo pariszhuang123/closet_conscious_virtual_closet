@@ -82,16 +82,20 @@ class _ViewMultiClosetScreenState extends State<ViewMultiClosetScreen> {
                     builder: (context, state) {
                       if (state is ViewMultiClosetsLoading ||
                           state is ViewMultiClosetsInitial) {
+                        logger.i('Loading or initial state, showing loader');
                         return const Center(child: ClosetProgressIndicator());
                       } else if (state is ViewMultiClosetsLoaded) {
+                        logger.i('Loaded ${state.closets.length} closets');
                         return ClosetGridWidget(
                           closets: state.closets,
                           selectedClosetId: '',
                           crossAxisCount: crossAxisCount,
+                          closetSelectionMode: ClosetSelectionMode.action,
                           onSelectCloset: (closetId) {
-                            context.read<MultiClosetNavigationBloc>().add(
-                              NavigateToEditSingleMultiCloset(closetId),
-                            );
+                            logger.i('Closet selected: $closetId');
+                            context
+                                .read<MultiClosetNavigationBloc>()
+                                .add(NavigateToEditSingleMultiCloset(closetId));
                           },
                         );
                       } else if (state is ViewMultiClosetsError) {

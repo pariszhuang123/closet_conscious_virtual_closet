@@ -13,6 +13,10 @@ import 'edit_multi_closet_screen.dart';
 import '../bloc/edit_closet_metadata_bloc/edit_closet_metadata_bloc.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
+import '../../../../../core/presentation/bloc/grid_pagination_cubit/grid_pagination_cubit.dart';
+import '../../../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../../../outfit_management/core/outfit_enums.dart';
+
 
 class EditMultiClosetProvider extends StatelessWidget {
   final List<String> selectedItemIds;
@@ -64,6 +68,15 @@ class EditMultiClosetProvider extends StatelessWidget {
             crossAxisCubit.fetchCrossAxisCount(); // Trigger initial fetch
             return crossAxisCubit;
           },
+        ),
+        BlocProvider<GridPaginationCubit<ClosetItemMinimal>>(
+          create: (_) => GridPaginationCubit<ClosetItemMinimal>(
+            fetchPage: ({
+              required int pageKey,
+              OutfitItemCategory? category,
+            }) => itemFetchService.fetchItems(pageKey), // ignores `category`
+            initialCategory: null,
+          ),
         ),
       ],
       child: EditMultiClosetScreen(

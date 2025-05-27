@@ -296,9 +296,8 @@ class SummaryItemsScreenState extends State<SummaryItemsScreen> {
                                       .failedToLoadItems));
                                 } else if (viewState is ItemsLoaded) {
                                   return InteractiveItemGrid(
-                                    items: viewState.items,
-                                    scrollController: _scrollController,
                                     crossAxisCount: crossAxisCount,
+                                    usePagination: true,
                                     enablePricePerWear: true,
                                     itemSelectionMode: itemSelectionMode,
                                     selectedItemIds: widget.selectedItemIds,

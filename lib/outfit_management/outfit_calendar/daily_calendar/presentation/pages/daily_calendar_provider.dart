@@ -5,6 +5,7 @@ import '../bloc/daily_calendar_bloc.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../../core/data/services/outfits_fetch_services.dart';
 import '../../../../core/data/services/outfits_save_services.dart';
+import '../../../../../item_management/core/data/services/item_fetch_service.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../../core/data/services/core_save_services.dart';
 import 'daily_calendar_screen.dart';
@@ -15,6 +16,11 @@ import '../../../../outfit_service_locator.dart';
 import '../../../core/presentation/bloc/calendar_navigation_bloc/calendar_navigation_bloc.dart';
 import '../../../../../core/usage_analytics/core/presentation/bloc/single_outfit_focused_date_cubit/outfit_focused_date_cubit.dart';
 import '../../../../core/presentation/bloc/outfit_selection_bloc/outfit_selection_bloc.dart';
+import '../../../../../core/presentation/bloc/grid_pagination_cubit/grid_pagination_cubit.dart';
+import '../../../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../../core/outfit_enums.dart';
+import '../../../../../item_management/item_service_locator.dart';
+
 
 class DailyCalendarProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -37,6 +43,7 @@ class DailyCalendarProvider extends StatelessWidget {
     final outfitSaveService = outfitLocator<OutfitSaveService>();
     final coreFetchService = coreLocator<CoreFetchService>();
     final coreSaveService = coreLocator<CoreSaveService>();
+    final itemFetchService = itemLocator<ItemFetchService>();
 
     return MultiBlocProvider(
       providers: [
@@ -86,6 +93,15 @@ class DailyCalendarProvider extends StatelessWidget {
               logger: CustomLogger('OutfitSelectionBloc'),
             );
           },
+        ),
+        BlocProvider<GridPaginationCubit<ClosetItemMinimal>>(
+          create: (_) => GridPaginationCubit<ClosetItemMinimal>(
+            fetchPage: ({
+              required int pageKey,
+              OutfitItemCategory? category,
+            }) => itemFetchService.fetchItems(pageKey), // ignores `category`
+            initialCategory: null,
+          ),
         ),
       ],
       child: DailyCalendarScreen(

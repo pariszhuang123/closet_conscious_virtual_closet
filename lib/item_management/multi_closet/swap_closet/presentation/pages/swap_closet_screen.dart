@@ -10,6 +10,7 @@ import '../../../../../core/utilities/app_router.dart';
 import '../../../../core/data/items_enums.dart';
 import '../../../../../core/data/services/core_fetch_services.dart';
 import '../../../../../core/widgets/progress_indicator/closet_progress_indicator.dart';
+import '../../../../../item_management/multi_closet/core/presentation/bloc/single_selection_closet_cubit/single_selection_closet_cubit.dart';
 
 class SwapClosetScreen extends StatelessWidget {
   final String? currentClosetId;
@@ -44,13 +45,16 @@ class SwapClosetScreen extends StatelessWidget {
     return await coreFetchService.fetchCrossAxisCount(); // Dynamic fetch
   }
 
-  Future<void> _handleConfirmSwap(BuildContext context, String newClosetId) async {
+  Future<void> _handleConfirmSwap(BuildContext context) async {
+    final selectedId = context.read<SingleSelectionClosetCubit>().state.selectedClosetId;
+    if (selectedId == null) return;
+
     final bloc = context.read<SwapClosetBloc>();
     try {
       bloc.add(
         ConfirmClosetSwapEvent(
           currentClosetId: currentClosetId,
-          newClosetId: newClosetId,
+          newClosetId: selectedId,
           selectedItemIds: selectedItemIds,
           closetName: closetName,
           closetType: closetType,
@@ -116,19 +120,26 @@ class SwapClosetScreen extends StatelessWidget {
                         closets: state.closets,
                         selectedClosetId: state.selectedClosetId ?? '',
                         onSelectCloset: (closetId) {
-                          context.read<SwapClosetBloc>().add(SelectNewClosetIdEvent(closetId));
+                          context.read<SingleSelectionClosetCubit>().selectCloset(closetId);
                         },
                         crossAxisCount: crossAxisCount, // Pass the fetched value
                       ),
                     ),
-                    if (state.selectedClosetId != null)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          onPressed: () => _handleConfirmSwap(context, state.selectedClosetId!),
-                          child: Text(S.of(context).confirmSwap),
-                        ),
-                      ),
+                    BlocBuilder<SingleSelectionClosetCubit, SingleSelectionClosetState>(
+                      builder: (context, selectionState) {
+                        if (selectionState.selectedClosetId == null) {
+                          return const SizedBox.shrink();
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () => _handleConfirmSwap(context),
+                            child: Text(S.of(context).confirmSwap),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 );
               },

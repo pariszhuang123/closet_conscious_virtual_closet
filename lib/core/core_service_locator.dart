@@ -9,11 +9,11 @@ final GetIt coreLocator = GetIt.instance;
 void setupCoreLocator() {
   // Registering the logger with a specific tag
   coreLocator.registerSingleton<CustomLogger>(CustomLogger('CoreLogger'), instanceName: 'CoreLogger');
-
   coreLocator.registerFactory(() => CustomLogger('MainCommonLogger'), instanceName: 'MainCommonLogger');
 
-  coreLocator.registerLazySingleton(() => CoreFetchService());  // Register CoreFetchService
-  coreLocator.registerLazySingleton(() => CoreSaveService());  // Register CoreSaveService
+  coreLocator.registerLazySingleton(() => CoreFetchService());
+  coreLocator.registerLazySingleton(() => CoreSaveService());
+
   coreLocator.registerLazySingleton<PhotoLibraryService>(
         () => PhotoLibraryService(coreLocator<CoreSaveService>()),
   );

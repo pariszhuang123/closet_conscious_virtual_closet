@@ -16,6 +16,9 @@ import 'create_multi_closet_screen.dart';
 import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../../core/presentation/bloc/multi_closet_navigation_bloc/multi_closet_navigation_bloc.dart';
 import '../../../../../core/tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../../../../core/presentation/bloc/grid_pagination_cubit/grid_pagination_cubit.dart';
+import '../../../../../item_management/core/data/models/closet_item_minimal.dart';
+import '../../../../../outfit_management/core/outfit_enums.dart';
 
 class CreateMultiClosetProvider extends StatelessWidget {
   final List<String> selectedItemIds;
@@ -82,6 +85,15 @@ class CreateMultiClosetProvider extends StatelessWidget {
               coreSaveService: coreSaveService,
             );
           },
+        ),
+        BlocProvider<GridPaginationCubit<ClosetItemMinimal>>(
+          create: (_) => GridPaginationCubit<ClosetItemMinimal>(
+            fetchPage: ({
+              required int pageKey,
+              OutfitItemCategory? category,
+            }) => itemFetchService.fetchItems(pageKey), // ignores `category`
+            initialCategory: null,
+          ),
         ),
       ],
       child: CreateMultiClosetScreen(

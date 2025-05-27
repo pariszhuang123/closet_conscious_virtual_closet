@@ -1,51 +1,76 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utilities/logger.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 typedef ItemBuilder<T> = Widget Function(BuildContext context, T item, int index);
 
 class BaseGrid<T> extends StatelessWidget {
-  final List<T> items;
-  final ScrollController? scrollController;
+  /// If true, we use [pagingController] + PagedGridView.
+  /// Otherwise we render a normal GridView over [items].
+  final bool usePagination;
+
+  final PagingController<int, T>? pagingController;
+
+  final List<T>? items;
+
   final ItemBuilder<T> itemBuilder;
+
   final int crossAxisCount;
   final double childAspectRatio;
-  final bool isScrollable; // ✅ New parameter
-  final bool shrinkWrap; // ✅ New parameter
 
-  BaseGrid({
+  const BaseGrid({
     super.key,
-    required this.items,
-    this.scrollController,
+    required this.usePagination,
+    this.pagingController,
+    this.items,
     required this.itemBuilder,
-    this.crossAxisCount = 3,
+    required this.crossAxisCount,
     required this.childAspectRatio,
-    this.isScrollable = true, // ✅ Defaults to scrollable
-    this.shrinkWrap = false, // ✅ Defaults to not shrinking
-  }) : _logger = CustomLogger('BaseGrid');
-
-  final CustomLogger _logger;
+  }) : assert(
+  usePagination
+      ? pagingController != null
+      : items != null,
+  'Provide pagingController in paginated mode, or items in plain mode'
+  );
 
   @override
   Widget build(BuildContext context) {
-    _logger.d('BaseGrid: Received ${items.length} items');
-    if (items.isEmpty) {
-      _logger.d('BaseGrid: No items to display');
+    if (!usePagination) {
+      // —— plain GridView ——
+      final allItems = items!;
+      return GridView.builder(
+        padding: EdgeInsets.zero,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          childAspectRatio: childAspectRatio,
+        ),
+        itemCount: allItems.length,
+        itemBuilder: (ctx, idx) => itemBuilder(ctx, allItems[idx], idx),
+      );
     }
 
-    return GridView.builder(
-      controller: scrollController,
-      shrinkWrap: shrinkWrap, // ✅ Allows it to work inside Column
-      physics: isScrollable ? const AlwaysScrollableScrollPhysics() : const NeverScrollableScrollPhysics(), // ✅ Ensure proper scroll physics
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
-        childAspectRatio: childAspectRatio,
-      ),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        // Wrap each item with ValueKey to optimize rebuilding
-        return KeyedSubtree(
-          key: ValueKey(items[index]),
-          child: itemBuilder(context, items[index], index),
+    // —— paginated PagedGridView ——
+    return PagingListener(
+      controller: pagingController!,
+      builder: (context, state, fetchNextPage) {
+        return PagedGridView<int, T>(
+          state: state,
+          fetchNextPage: fetchNextPage,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            childAspectRatio: childAspectRatio,
+          ),
+          builderDelegate: PagedChildBuilderDelegate<T>(
+            itemBuilder: (ctx, item, idx) => itemBuilder(ctx, item, idx),
+            firstPageProgressIndicatorBuilder: (_) =>
+            const Center(child: CircularProgressIndicator()),
+            newPageProgressIndicatorBuilder: (_) =>
+            const Padding(
+              padding: EdgeInsets.all(8),
+              child: Center(child: CircularProgressIndicator()),
+            ),
+            noItemsFoundIndicatorBuilder: (_) =>
+            const Center(child: Text("No items found")),
+          ),
         );
       },
     );

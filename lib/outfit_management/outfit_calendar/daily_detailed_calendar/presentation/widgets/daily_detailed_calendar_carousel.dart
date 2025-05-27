@@ -102,8 +102,7 @@ class _DailyDetailedCalendarCarouselState extends State<DailyDetailedCalendarCar
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0), // ✅ Added padding
                       child: InteractiveItemGrid(
-                        scrollController: ScrollController(),
-                        items: outfits[index].items,
+                        usePagination: true,
                         crossAxisCount: widget.crossAxisCount,
                         selectedItemIds: const [],
                         itemSelectionMode: ItemSelectionMode.action,

@@ -85,8 +85,8 @@ class TypeDataList {
   static List<TypeData> itemGeneralTypes(BuildContext context) {
     return [
       TypeData('clothing', (context) => S.of(context).clothing, 'assets/icons/my_closet/upload/general_type/clothing.svg', false),
-      TypeData('shoes', (context) => S.of(context).shoes, 'assets/icons/my_closet/upload/general_type/shoes.svg', false),
       TypeData('accessory', (context) => S.of(context).accessory, 'assets/icons/my_closet/upload/general_type/accessory.svg', false),
+      TypeData('shoes', (context) => S.of(context).shoes, 'assets/icons/my_closet/upload/general_type/shoes.svg', false),
     ];
   }
 
@@ -364,6 +364,7 @@ class TypeDataList {
 
   static List<TypeData> gridSizes(BuildContext context) {
     return [
+      TypeData('2', (context) => S.of(context).gridSize2, 'assets/icons/general/arrange/counter_2.svg', false),
       TypeData('3', (context) => S.of(context).gridSize3, 'assets/icons/general/arrange/counter_3.svg', false),
       TypeData('5', (context) => S.of(context).gridSize5, 'assets/icons/general/arrange/counter_5.svg', false),
       TypeData('7', (context) => S.of(context).gridSize7, 'assets/icons/general/arrange/counter_7.svg', false),

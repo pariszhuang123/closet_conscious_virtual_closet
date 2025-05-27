@@ -9,15 +9,6 @@ abstract class SwapClosetEvent extends Equatable {
 
 class FetchAllClosetsEvent extends SwapClosetEvent {}
 
-class SelectNewClosetIdEvent extends SwapClosetEvent {
-  final String newClosetId;
-
-  const SelectNewClosetIdEvent(this.newClosetId);
-
-  @override
-  List<Object?> get props => [newClosetId];
-}
-
 class ConfirmClosetSwapEvent extends SwapClosetEvent {
   final String? currentClosetId;
   final String newClosetId;

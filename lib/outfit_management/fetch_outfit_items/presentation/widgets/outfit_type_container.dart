@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../fetch_outfit_items/presentation/bloc/fetch_outfit_item_bloc.dart';
 import '../../../../core/widgets/button/navigation_type_button.dart';
 import '../../../../core/core_enums.dart';
 import '../../../core/outfit_enums.dart';
@@ -12,6 +10,7 @@ class OutfitTypeContainer extends StatefulWidget {
   final TypeData outfitClothingType;
   final TypeData outfitAccessoryType;
   final TypeData outfitShoesType;
+  final void Function(OutfitItemCategory category) onCategorySelected;
 
   const OutfitTypeContainer({
     super.key,
@@ -19,6 +18,7 @@ class OutfitTypeContainer extends StatefulWidget {
     required this.outfitClothingType,
     required this.outfitAccessoryType,
     required this.outfitShoesType,
+    required this.onCategorySelected,
   });
 
   @override
@@ -26,34 +26,37 @@ class OutfitTypeContainer extends StatefulWidget {
 }
 
 class OutfitTypeContainerState extends State<OutfitTypeContainer> {
+  OutfitItemCategory selectedCategory = OutfitItemCategory.clothing;
+
   @override
   Widget build(BuildContext context) {
-    final selectedCategory = context.select((FetchOutfitItemBloc bloc) => bloc.state.currentCategory);
-
     return BaseContainerNoFormat(
       theme: widget.theme,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildNavigationButton(widget.outfitClothingType, OutfitItemCategory.clothing, selectedCategory),
-          _buildNavigationButton(widget.outfitAccessoryType, OutfitItemCategory.accessory, selectedCategory),
-          _buildNavigationButton(widget.outfitShoesType, OutfitItemCategory.shoes, selectedCategory),
+          _buildNavigationButton(widget.outfitClothingType, OutfitItemCategory.clothing),
+          _buildNavigationButton(widget.outfitAccessoryType, OutfitItemCategory.accessory),
+          _buildNavigationButton(widget.outfitShoesType, OutfitItemCategory.shoes),
         ],
       ),
     );
   }
 
-  Widget _buildNavigationButton(TypeData typeData, OutfitItemCategory category, OutfitItemCategory selectedCategory) {
+  Widget _buildNavigationButton(TypeData typeData, OutfitItemCategory category) {
+    final isSelected = selectedCategory == category;
+
     return NavigationTypeButton(
       label: typeData.getName(context),
       selectedLabel: typeData.getName(context),
       onPressed: () {
-        context.read<FetchOutfitItemBloc>().add(SelectCategoryEvent(category));
+        setState(() => selectedCategory = category);
+        widget.onCategorySelected(category);
       },
       assetPath: typeData.assetPath,
       isFromMyCloset: false,
       buttonType: ButtonType.primary,
-      isSelected: selectedCategory == category,
+      isSelected: isSelected,
       usePredefinedColor: false,
     );
   }

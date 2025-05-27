@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../../data/services/core_fetch_services.dart';
 import '../../../data/services/core_save_services.dart';
 import '../../presentation/bloc/filter_bloc.dart';
-import '../../../../../core/utilities/logger.dart';
-import '../../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
+import '../../../../core/utilities/logger.dart';
+import '../../../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import 'filter_screen.dart';
 import '../../../tutorial/pop_up_tutorial/presentation/bloc/tutorial_bloc.dart';
+import '../../../core_service_locator.dart';
+import '../../../../../item_management/multi_closet/core/presentation/bloc/single_selection_closet_cubit/single_selection_closet_cubit.dart';
+import '../../../../../item_management/multi_closet/core/presentation/bloc/multi_selection_closet_cubit/multi_selection_closet_cubit.dart';
 
 class FilterProvider extends StatelessWidget {
   final bool isFromMyCloset;
@@ -33,8 +35,8 @@ class FilterProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Fetch services from GetIt
-    final coreFetchService = GetIt.instance<CoreFetchService>();
-    final coreSaveService = GetIt.instance<CoreSaveService>();
+    final coreFetchService = coreLocator<CoreFetchService>();
+    final coreSaveService = coreLocator<CoreSaveService>();
 
     logger.d('Building FilterProvider widgets');
 
@@ -67,6 +69,8 @@ class FilterProvider extends StatelessWidget {
             );
           },
         ),
+        BlocProvider(create: (_) => MultiSelectionClosetCubit()),
+        BlocProvider(create: (_) => SingleSelectionClosetCubit()),
       ],
       child: FilterScreen(
         isFromMyCloset: isFromMyCloset,

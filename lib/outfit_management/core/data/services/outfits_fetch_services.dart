@@ -55,7 +55,6 @@ class OutfitFetchService {
     }
   }
 
-
   Future<List<ClosetItemMinimal>> fetchOutfitItems(String outfitId) async {
     final response = await _executeQuery(
           () => client.rpc('get_outfit_items', params: {'outfit_id': outfitId}),

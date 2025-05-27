@@ -12,7 +12,7 @@ class SingleSelectionClosetCubit extends Cubit<SingleSelectionClosetState> {
         super(const SingleSelectionClosetState());
 
   void selectCloset(String closetId) {
-    logger.d('Item selected: $closetId');
+    logger.d('Closet selected: $closetId');
     emit(state.copyWith(selectedClosetId: closetId));
   }
 }

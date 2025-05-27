@@ -7,22 +7,4 @@ abstract class AchievementCelebrationEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-// === Outfit Achievements ===
-class FetchAndSaveClothingWornAchievementEvent extends AchievementCelebrationEvent {}
-
-class FetchAndSaveNoBuyMilestoneAchievementEvent extends AchievementCelebrationEvent {}
-
-class FetchFirstOutfitCreatedAchievementEvent extends AchievementCelebrationEvent {}
-
-class FetchFirstSelfieTakenAchievementEvent extends AchievementCelebrationEvent {}
-
-// === Item Achievements ===
-class FetchFirstItemUploadedAchievementEvent extends AchievementCelebrationEvent {}
-
-class FetchFirstItemPicEditedAchievementEvent extends AchievementCelebrationEvent {}
-
-class FetchFirstItemGiftedAchievementEvent extends AchievementCelebrationEvent {}
-
-class FetchFirstItemSoldAchievementEvent extends AchievementCelebrationEvent {}
-
-class FetchFirstItemSwapAchievementEvent extends AchievementCelebrationEvent {}
+class AwardAchievementEvent extends AchievementCelebrationEvent {}

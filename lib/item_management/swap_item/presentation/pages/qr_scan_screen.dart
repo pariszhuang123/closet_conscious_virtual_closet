@@ -83,7 +83,9 @@ class _QrScanScreenState extends State<QrScanScreen> with WidgetsBindingObserver
           else if (state is QrCameraPermissionGranted && _dialogUp) {
             // permission granted ─ pop the dialog
             _dialogUp = false;
-            Navigator.of(context, rootNavigator: true).pop();
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            }
           }
           else if (state is QrTransferSuccess) {
             context.goNamed(AppRoutesName.myCloset);

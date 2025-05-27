@@ -9,248 +9,184 @@ import '../../../core/data/services/outfits_fetch_services.dart';
 import '../../../core/data/services/outfits_save_services.dart';
 import '../../../../core/utilities/logger.dart';
 import '../../../../core/utilities/helper_functions/feedback_utilities.dart';
-import '../../../../core/utilities/helper_functions/image_helper/image_helper.dart';
 
 part 'outfit_review_state.dart';
 part 'outfit_review_event.dart';
 
 // Helper function to convert feedback enum to string
-String convertFeedbackToString(OutfitReviewFeedback feedback) {
-  return feedback.toString().split('.').last;
-}
+String convertFeedbackToString(OutfitReviewFeedback feedback) =>
+    feedback.toString().split('.').last;
 
-class OutfitReviewBloc extends Bloc<OutfitReviewEvent, OutfitReviewState> {
+class OutfitReviewBloc
+    extends Bloc<OutfitReviewEvent, OutfitReviewState> {
   final CustomLogger _logger = CustomLogger('OutfitReviewBlocLogger');
   final AuthBloc _authBloc = locator<AuthBloc>();
   final OutfitFetchService _outfitFetchService;
   final OutfitSaveService saveService;
 
-  List<String> selectedItems = [];
+  List<ClosetItemMinimal> _cachedItems = [];
 
-  OutfitReviewBloc(this._outfitFetchService, this.saveService)
-      : super(OutfitReviewInitial()) {
+  OutfitReviewBloc(
+      this._outfitFetchService,
+      this.saveService,
+      ) : super(OutfitReviewInitial()) {
     on<CheckAndLoadOutfit>(_onCheckAndLoadOutfit);
-    on<FetchOutfitItems>(_onFetchOutfitItems);
     on<FeedbackSelected>(_onFeedbackSelected);
     on<SubmitOutfitReview>(_onSubmitOutfitReview);
   }
 
-  Future<void> _onCheckAndLoadOutfit(CheckAndLoadOutfit event,
-      Emitter<OutfitReviewState> emit) async {
+  Future<void> _onCheckAndLoadOutfit(
+      CheckAndLoadOutfit event,
+      Emitter<OutfitReviewState> emit,
+      ) async {
     final authState = _authBloc.state;
-    if (authState is Authenticated) {
-      emit(OutfitReviewLoading(
-          outfitId: state.outfitId)); // Maintain outfitId during loading state
-      _logger.i('Starting _onCheckAndLoadOutfit');
+    if (authState is! Authenticated) {
+      _logger.w('User not authenticated');
+      emit(NavigateToMyOutfit());
+      return;
+    }
 
-      final String userId = authState.user.id;
+    emit(const OutfitReviewLoading());
 
-      try {
-        final response = await _outfitFetchService.fetchOutfitId(userId);
+    try {
+      final resp = await _outfitFetchService.fetchOutfitId(authState.user.id);
 
-        if (response != null && response.outfitId != null) {
-          _logger.i('Outfit ID: ${response.outfitId}, Event Name: ${response.eventName}');
-
-          // Update state with the fetched outfitId and eventName
-          emit(OutfitReviewItemsLoaded(
-            items: const [],
-            outfitId: response.outfitId,
-            eventName: response.eventName,
-            feedback: event.feedback,
-            canSelectItems: event.feedback != OutfitReviewFeedback.like,
-            hasSelectedItems: false,
-          ));
-
-          // Handle the feedback depending on the type
-          await _handleFeedback(event.feedback, response.outfitId!, emit);
-
-        } else {
-          _logger.w('No outfit ID found, navigating to My Closet.');
-          emit(NavigateToMyOutfit());
-        }
-      } catch (e, stackTrace) {
-        _logger.e('Failed to load outfit: $e');
-        _logger.e('Stack trace: $stackTrace');
+      if (resp?.outfitId == null) {
+        _logger.w('No outfit ID found');
         emit(NavigateToMyOutfit());
+        return;
       }
-    } else {
-      _logger.w('User is not authenticated');
+
+      final outfitId = resp!.outfitId!;
+      final eventName = resp.eventName;
+
+      _logger.i('Got outfitId=$outfitId, eventName=$eventName');
+
+      // Now fetch either the image or the items:
+      await _handleFeedback(
+        event.feedback,
+        outfitId,
+        eventName,
+        emit,
+      );
+    } catch (e, st) {
+      _logger.e('Error in _onCheckAndLoadOutfit: $e\n$st');
       emit(NavigateToMyOutfit());
     }
   }
 
-
-  Future<void> _handleFeedback(OutfitReviewFeedback feedback, String outfitId,
-      Emitter<OutfitReviewState> emit) async {
+  Future<void> _handleFeedback(
+      OutfitReviewFeedback feedback,
+      String outfitId,
+      String? eventName,
+      Emitter<OutfitReviewState> emit,
+      ) async {
     if (feedback == OutfitReviewFeedback.like) {
-      await _handleLikeFeedback(outfitId, emit);
+      await _handleLikeFeedback(outfitId, eventName, emit);
     } else {
-      await _handleOtherFeedback(feedback, outfitId, emit);
+      await _handleOtherFeedback(feedback, outfitId, eventName, emit);
     }
   }
 
-  Future<void> _handleLikeFeedback(String outfitId,
-      Emitter<OutfitReviewState> emit) async {
+  Future<void> _handleLikeFeedback(
+      String outfitId,
+      String? eventName,
+      Emitter<OutfitReviewState> emit,
+      ) async {
     try {
       final imageUrl = await _outfitFetchService.fetchOutfitImageUrl(outfitId);
+
       if (imageUrl != null && imageUrl != 'cc_none') {
-        _logger.i('Outfit Image URL found: $imageUrl');
+        // 1) Preload items into cache (no UI state change yet)
+        _cachedItems = await _outfitFetchService.fetchOutfitItems(outfitId);
 
-        if (!emit.isDone) {
-          emit(OutfitImageUrlAvailable(
-              imageUrl,
-              outfitId: outfitId,
-              eventName: state.eventName // Preserve eventName
-
-          )); // Ensure outfitId is included
-        }
-      } else {
-        _logger.w('No Outfit Image URL found, fetching outfit items.');
-
-        final outfitItems = await _outfitFetchService.fetchOutfitItems(outfitId);
-
-        if (!emit.isDone) {
-          emit(OutfitReviewItemsLoaded(
-            items: outfitItems,
-            canSelectItems: false,
-            feedback: OutfitReviewFeedback.like,
-            outfitId: outfitId, // Include outfitId
-            eventName: state.eventName, // Preserve eventName
-          ));
-        }
-      }
-    } catch (e, stackTrace) {
-      _logger.e('Failed to load outfit image URL: $e');
-      _logger.e('Stack trace: $stackTrace');
-
-      if (!emit.isDone) {
-        emit(NavigateToMyOutfit()); // Include outfitId
-      }
-    }
-  }
-
-  Future<void> _handleOtherFeedback(OutfitReviewFeedback feedback,
-      String outfitId, Emitter<OutfitReviewState> emit) async {
-    try {
-      final canSelectItems = feedback == OutfitReviewFeedback.alright ||
-          feedback == OutfitReviewFeedback.dislike;
-
-      final outfitItems = await _outfitFetchService.fetchOutfitItems(outfitId);
-      _logger.i('Fetched outfit items:');
-      for (var item in outfitItems) {
-        _logger.i('Item: ${item.name}, ID: ${item.itemId}, Image URL: ${getImagePathFromSource(item.imageSource)}');
-      }
-
-      if (!emit.isDone) {
-        emit(OutfitReviewItemsLoaded(
-          items: outfitItems,
-          canSelectItems: canSelectItems,
-          feedback: feedback,
+        _logger.i('Emitting image state for outfit $outfitId');
+        emit(OutfitImageUrlAvailable(
+          imageUrl,
+          _cachedItems,
           outfitId: outfitId,
-          eventName: state.eventName// Ensure outfitId is included
+          eventName: eventName,
+          feedback: OutfitReviewFeedback.like,
+        ));
+      } else {
+        // no image, just fetch items & show grid
+        _cachedItems = await _outfitFetchService.fetchOutfitItems(outfitId);
+        emit(OutfitReviewItemsLoaded(
+          items: _cachedItems,
+          outfitId: outfitId,
+          eventName: eventName,
+          feedback: OutfitReviewFeedback.like,
+          canSelectItems: false,
+          hasSelectedItems: false,
         ));
       }
-    } catch (e, stackTrace) {
-      _logger.e('Failed to load outfit items: $e');
-      _logger.e('Stack trace: $stackTrace');
-
-      if (!emit.isDone) {
-        emit(OutfitReviewError('Failed to load outfit items', outfitId: outfitId)); // Ensure outfitId is included
-      }
+    } catch (e, st) {
+      _logger.e('Error in _handleLikeFeedback: $e\n$st');
+      emit(NavigateToMyOutfit());
     }
   }
 
-  void _onFeedbackSelected(FeedbackSelected event,
-      Emitter<OutfitReviewState> emit) async {
-    final feedback = event.feedback;
+  Future<void> _handleOtherFeedback(
+      OutfitReviewFeedback feedback,
+      String outfitId,
+      String? eventName,
+      Emitter<OutfitReviewState> emit,
+      ) async {
+    try {
+      // if we already preloaded, skip the network call
+      final items = _cachedItems.isNotEmpty
+          ? _cachedItems
+          : await _outfitFetchService.fetchOutfitItems(outfitId);
 
-    _logger.i('Feedback selected: $feedback for outfitId: ${event.outfitId}');
-
-    // Check if the state is OutfitReviewItemsLoaded before calling copyWith
-    if (state is OutfitReviewItemsLoaded) {
-      final loadedState = state as OutfitReviewItemsLoaded;
-
-      emit(loadedState.copyWith(
-        feedback: feedback,
-        canSelectItems: feedback != OutfitReviewFeedback.like,
-        hasSelectedItems: loadedState.items.any((item) => item.isDisliked),
-      ));
-    } else {
-      // If it's not OutfitReviewItemsLoaded, manually emit a new state
+      _logger.i('Emitting items-loaded state with ${items.length} items');
       emit(OutfitReviewItemsLoaded(
-        items: const [], // Empty items list (default)
-        outfitId: state.outfitId,
-        eventName: state.eventName,
+        items: items,
+        outfitId: outfitId,
+        eventName: eventName,
         feedback: feedback,
         canSelectItems: feedback != OutfitReviewFeedback.like,
         hasSelectedItems: false,
       ));
-    }
-
-
-    if (feedback == OutfitReviewFeedback.like) {
-      _logger.i('Handling "like" feedback');
-      await _handleLikeFeedback(event.outfitId, emit); // Ensure outfitId is passed
-    } else {
-      _logger.i('Handling other feedback: $feedback');
-      await _handleOtherFeedback(feedback, event.outfitId, emit); // Ensure outfitId is passed
+    } catch (e, st) {
+      _logger.e('Error in _handleOtherFeedback: $e\n$st');
+      emit(OutfitReviewError('Failed to load items for outfit', outfitId: outfitId));
     }
   }
 
-  Future<void> _onFetchOutfitItems(FetchOutfitItems event,
-      Emitter<OutfitReviewState> emit) async {
-    _logger.i('Handling FetchOutfitItems event');
-    emit(OutfitReviewLoading(outfitId: state.outfitId));
-
-    try {
-      final selectedItems = await _outfitFetchService.fetchOutfitItems(
-          event.outfitId);
-
-      _logger.i('Fetched items: $selectedItems');
-
-      if (selectedItems.isEmpty) {
-        _logger.w('No items found for the outfit');
-        emit(NoOutfitItemsFound(outfitId: state.outfitId));
-      } else {
-        emit(OutfitReviewItemsLoaded(
-          items: selectedItems, // Corrected to named parameter
-          outfitId: event.outfitId,
-        ));
-      }
-    } catch (e, stackTrace) {
-      _logger.e('Failed to load outfit items: $e');
-      _logger.e('Stack trace: $stackTrace');
-      emit(OutfitReviewError(
-          'Failed to load outfit items', outfitId: state.outfitId));
-    }
+  Future<void> _onFeedbackSelected(
+      FeedbackSelected event,
+      Emitter<OutfitReviewState> emit,
+      ) async {
+    // You can re-use the same _handleOtherFeedback/_handleLikeFeedback
+    // logic if you want to re-fetch items when the user toggles feedback.
+    await _handleFeedback(
+      event.feedback,
+      event.outfitId,
+      state.eventName,
+      emit,
+    );
   }
 
-  Future<void> _onSubmitOutfitReview(SubmitOutfitReview event,
-      Emitter<OutfitReviewState> emit) async {
+  Future<void> _onSubmitOutfitReview(
+      SubmitOutfitReview event,
+      Emitter<OutfitReviewState> emit,
+      ) async {
     try {
-      _logger.i('Submitting outfit review...');
+      final fb = stringToFeedback(event.feedback);
+      final fbString = convertFeedbackToString(fb);
 
-      final OutfitReviewFeedback feedbackEnum = stringToFeedback(
-          event.feedback);
-      final String feedbackString = convertFeedbackToString(feedbackEnum);
-
-      final List<String> dislikedItemIds = event.itemIds;
-
-      _logger.d('Feedback received: $feedbackString');
-
-      // Submit the review with feedback and disliked item IDs
       await saveService.reviewOutfit(
         outfitId: event.outfitId,
-        feedback: feedbackString, // Pass the converted feedback string
-        itemIds: dislikedItemIds, // Pass the extracted disliked item IDs
-        comments: event.comments, // Pass optional comments
+        feedback: fbString,
+        itemIds: event.itemIds,
+        comments: event.comments,
       );
 
       emit(ReviewSubmissionSuccess());
-      _logger.i('Outfit review submitted successfully');
-    } catch (error) {
-      emit(ReviewSubmissionFailure(error.toString()));
-      _logger.e('Failed to submit outfit review: $error');
+      _logger.i('Review submitted for ${event.outfitId}');
+    } catch (e, st) {
+      _logger.e('Error submitting review: $e\n$st');
+      emit(ReviewSubmissionFailure(e.toString()));
     }
   }
 }

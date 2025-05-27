@@ -7,50 +7,62 @@ part 'multi_selection_item_state.dart';
 
 class MultiSelectionItemCubit extends Cubit<MultiSelectionItemState> {
   final CustomLogger logger;
+  int? maxSelected;
 
-  MultiSelectionItemCubit()
+  MultiSelectionItemCubit({ this.maxSelected })
       : logger = CustomLogger('MultiSelectionItemCubit'),
         super(const MultiSelectionItemState());
 
-
   void initializeSelection(List<String> selectedItemIds) {
-    logger.i(
-        'SelectionItemCubit initialized with selectedItemIds: $selectedItemIds');
     emit(MultiSelectionItemLoaded(
       selectedItemIds: selectedItemIds,
-      hasSelectedItems: selectedItemIds
-          .isNotEmpty, // Ensure this is updated correctly
+      hasSelectedItems: selectedItemIds.isNotEmpty,
     ));
   }
 
   void toggleSelection(String itemId) {
-    final updatedItems = List<String>.from(state.selectedItemIds);
-    if (updatedItems.contains(itemId)) {
-      logger.d('Item deselected: $itemId');
-      updatedItems.remove(itemId);
+    final current = state.selectedItemIds;
+    final updated = List<String>.from(current);
+
+    if (updated.contains(itemId)) {
+      updated.remove(itemId);
     } else {
-      logger.d('Item selected: $itemId');
-      updatedItems.add(itemId);
+      if (maxSelected != null && current.length >= maxSelected!) {
+        logger.w('Max selection ($maxSelected) reached — cannot add $itemId');
+        return;
+      }
+      updated.add(itemId);
     }
+
     emit(state.copyWith(
-      selectedItemIds: updatedItems,
-      hasSelectedItems: updatedItems.isNotEmpty,
+      selectedItemIds: updated,
+      hasSelectedItems: updated.isNotEmpty,
     ));
-    logger.d('Updated selected items: $updatedItems');
   }
 
   void clearSelection() {
-    logger.i('Clearing all selected items');
     emit(const MultiSelectionItemState());
-    logger.d('State after clearing items: $state');
   }
 
   void selectAll(List<String> allItemIds) {
-    logger.i('Selecting all item IDs: $allItemIds');
+    final toSelect = (maxSelected != null && allItemIds.length > maxSelected!)
+        ? allItemIds.sublist(0, maxSelected!)
+        : allItemIds;
     emit(state.copyWith(
-      selectedItemIds: allItemIds,
-      hasSelectedItems: allItemIds.isNotEmpty,
+      selectedItemIds: toSelect,
+      hasSelectedItems: toSelect.isNotEmpty,
     ));
-    logger.d('State after selecting all items: $state');
+  }
+
+  /// If your backend later recalculates a new maxAllowed, call this.
+  void updateMax(int? newMax) {
+    maxSelected = newMax;
+    if (newMax != null && state.selectedItemIds.length > newMax) {
+      final truncated = state.selectedItemIds.sublist(0, newMax);
+      emit(state.copyWith(
+        selectedItemIds: truncated,
+        hasSelectedItems: truncated.isNotEmpty,
+      ));
+    }
   }
 }

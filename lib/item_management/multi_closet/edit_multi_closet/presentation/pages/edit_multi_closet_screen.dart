@@ -357,8 +357,7 @@ class _EditMultiClosetScreenState extends State<EditMultiClosetScreen> {
                               return Center(child: Text(S.of(context).failedToLoadItems));
                             } else if (viewState is ItemsLoaded) {
                               return InteractiveItemGrid(
-                                items: viewState.items,
-                                scrollController: _scrollController,
+                                usePagination: true,
                                 crossAxisCount: crossAxisCount,
                                 itemSelectionMode: ItemSelectionMode.multiSelection,
                                 selectedItemIds: widget.selectedItemIds,

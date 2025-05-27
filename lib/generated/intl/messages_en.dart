@@ -594,9 +594,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "gloves": MessageLookupByLibrary.simpleMessage("Gloves"),
     "green": MessageLookupByLibrary.simpleMessage("Green"),
     "grey": MessageLookupByLibrary.simpleMessage("Grey"),
-    "gridSize3": MessageLookupByLibrary.simpleMessage("3 items per row"),
-    "gridSize5": MessageLookupByLibrary.simpleMessage("5 items per row"),
-    "gridSize7": MessageLookupByLibrary.simpleMessage("7 items per row"),
+    "gridSize2": MessageLookupByLibrary.simpleMessage("2 items\nper row"),
+    "gridSize3": MessageLookupByLibrary.simpleMessage("3 items\nper row"),
+    "gridSize5": MessageLookupByLibrary.simpleMessage("5 items\nper row"),
+    "gridSize7": MessageLookupByLibrary.simpleMessage("7 items\nper row"),
     "gridSizePickerTitle": MessageLookupByLibrary.simpleMessage(
       "Grid Size Picker",
     ),

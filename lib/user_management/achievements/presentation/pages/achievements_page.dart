@@ -25,7 +25,6 @@ class AchievementsPage extends StatefulWidget {
 }
 
 class AchievementsPageState extends State<AchievementsPage> {
-  final ScrollController _scrollController = ScrollController();
   final CustomLogger _logger = CustomLogger('AchievementsPage');
   final userFetchService = UserFetchSupabaseService();
   late Future<List<Achievement>> _futureAchievements;
@@ -38,15 +37,9 @@ class AchievementsPageState extends State<AchievementsPage> {
   }
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final theme = widget.isFromMyCloset ? myClosetTheme : myOutfitTheme;
-    _logger.d('Building AchievementsGrid');
+    _logger.d('Building AchievementsPage');
 
     return Theme(
       data: theme,
@@ -67,16 +60,19 @@ class AchievementsPageState extends State<AchievementsPage> {
                 return const Center(child: Text('Error loading achievements'));
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 _logger.d('No achievements to display');
-                return Center(child: Text(S.of(context).noAchievementFound,
-                ));
-              } else {
-                final achievements = snapshot.data!;
-                return AchievementGrid(
-                  achievements: achievements,
-                  scrollController: _scrollController,
-                  logger: _logger,
+                return Center(
+                  child: Text(S.of(context).noAchievementFound),
                 );
               }
+
+              final achievements = snapshot.data!;
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(16.0),
+                child: AchievementGrid(
+                  achievements: achievements,
+                  logger: _logger,
+                ),
+              );
             },
           ),
         ),
