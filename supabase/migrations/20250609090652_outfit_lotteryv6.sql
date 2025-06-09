@@ -235,27 +235,27 @@ END IF;
   SET updated_at = NOW()
   WHERE item_id = ANY(v_items);
 
-  RETURN (
-    SELECT jsonb_build_object(
-      'can_create', true,
-      'reason',     null,
-      'items',      jsonb_agg(jsonb_build_object(
-                       'item_id',        i.item_id,
-                       'image_url',      i.image_url,
-                       'name',           i.name,
-                       'item_type',      i.item_type
-                     )),
-'suggestions',
-  COALESCE((
-    SELECT jsonb_agg(s) FROM (
-      SELECT 'Upload a scarf for winter outfits' AS s WHERE v_missing_scarf
-      UNION ALL
-      SELECT 'Upload a hat for winter outfits' AS s WHERE v_missing_hat
-    ) AS sub
-  ), '[]'::jsonb)
-
-    FROM public.items i
-    WHERE i.item_id = ANY(v_items)
-  );
+RETURN (
+  SELECT jsonb_build_object(
+    'can_create', true,
+    'reason',     null,
+    'items', jsonb_agg(jsonb_build_object(
+      'item_id',   i.item_id,
+      'image_url', i.image_url,
+      'name',      i.name,
+      'item_type', i.item_type
+    )),
+    'suggestions', COALESCE((
+      SELECT jsonb_agg(s)
+      FROM (
+        SELECT 'Upload a scarf for winter outfits' AS s WHERE v_missing_scarf
+        UNION ALL
+        SELECT 'Upload a hat for winter outfits' AS s WHERE v_missing_hat
+      ) AS sub
+    ), '[]'::jsonb)
+  )
+  FROM public.items i
+  WHERE i.item_id = ANY(v_items)
+);
 END;
 $$;
