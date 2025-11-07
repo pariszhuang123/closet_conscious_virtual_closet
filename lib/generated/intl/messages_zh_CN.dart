@@ -31,6 +31,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m4(maxAllowed) => "你最多只能选择 ${maxAllowed} 张图片。";
 
+  static String m5(item1, item2) => "你可以上传${item1}和${item2}来完善你的冬季穿搭。";
+
+  static String m6(items, lastItem) => "你可以上传${items}和${lastItem}来完善你的冬季穿搭。";
+
+  static String m7(item) => "你可以上传一件${item}来完善你的冬季穿搭。";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "AmountHint": MessageLookupByLibrary.simpleMessage("这件美丽的单品花了多少钱？"),
@@ -427,6 +433,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "general_permission_explanation": MessageLookupByLibrary.simpleMessage(
       "我们需要此权限以使应用正常工作。",
     ),
+    "generateOutfit": MessageLookupByLibrary.simpleMessage("生成穿搭"),
     "gentlyUsed": MessageLookupByLibrary.simpleMessage("轻微\n使用"),
     "gift": MessageLookupByLibrary.simpleMessage("赠送"),
     "gloves": MessageLookupByLibrary.simpleMessage("手套"),
@@ -818,6 +825,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "outfitCreationSuccessTitle": MessageLookupByLibrary.simpleMessage("继续时尚！"),
     "outfitInactive": MessageLookupByLibrary.simpleMessage("非活跃穿搭"),
     "outfitLabel": MessageLookupByLibrary.simpleMessage("造型"),
+    "outfitLottery": MessageLookupByLibrary.simpleMessage("穿搭抽奖"),
+    "outfitLotteryResult": MessageLookupByLibrary.simpleMessage("穿搭结果"),
+    "outfitLotteryTitle": MessageLookupByLibrary.simpleMessage("你的风格匹配"),
     "outfitRelatedOutfitsDescription": MessageLookupByLibrary.simpleMessage(
       "探索更多穿搭灵感—根据你的主穿搭找到相似造型。",
     ),
@@ -1089,6 +1099,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "styleOn": MessageLookupByLibrary.simpleMessage("确认穿搭"),
     "success": MessageLookupByLibrary.simpleMessage("成功"),
+    "suggestionDouble": m5,
+    "suggestionMultiple": m6,
+    "suggestionSingle": m7,
+    "suggestionsTitle": MessageLookupByLibrary.simpleMessage("提升冬季穿搭建议"),
     "summaryItemAnalytics": MessageLookupByLibrary.simpleMessage("物品洞察"),
     "summaryOutfitAnalytics": MessageLookupByLibrary.simpleMessage("穿搭洞察"),
     "summer": MessageLookupByLibrary.simpleMessage("夏季"),

@@ -284,7 +284,78 @@ class OutfitFetchService {
       throw OutfitFetchException('Failed to fetch daily outfits');
     }
   }
+
+  Future<bool> shouldShowOutfitLottery() async {
+    try {
+      logger.d('Checking if outfit lottery should be shown');
+      final result = await client.rpc('should_show_outfit_lottery');
+      logger.d('Result from RPC: $result');
+
+      if (result is bool) {
+        return result;
+      } else {
+        throw OutfitFetchException('Unexpected response type for should_show_outfit_lottery');
+      }
+    } catch (error) {
+      logger.e('Error checking outfit lottery availability: $error');
+      throw OutfitFetchException('Failed to check outfit lottery availability');
+    }
+  }
+
+  /// ✅ NEW: Generate an outfit using outfit lottery
+  Future<Map<String, dynamic>> runOutfitLottery({
+    String? occasion,
+    String? season,
+    bool useAllClosets = false,
+  }) async {
+    try {
+      logger.d('Running outfit lottery with occasion=$occasion, season=$season, useAllClosets=$useAllClosets');
+      final result = await client.rpc('outfit_lottery', params: {
+        'p_occasion': occasion,
+        'p_season': season,
+        'p_use_all_closets': useAllClosets,
+      });
+
+      logger.d('Outfit lottery result: $result');
+
+      if (result is Map<String, dynamic>) {
+        logger.d('Suggestions: ${result['suggestions']}');
+        return result;
+      } else {
+        throw OutfitFetchException('Unexpected response format from outfit_lottery');
+      }
+    } catch (error) {
+      logger.e('Error running outfit lottery: $error');
+      throw OutfitFetchException('Failed to run outfit lottery');
+    }
+  }
+
+  Future<bool> shouldShowAiStylist() async {
+    try {
+      logger.d('Checking if user has reviewed 60+ outfits for AI stylist');
+
+      final response = await client
+          .from('user_high_freq_stats')
+          .select('outfits_reviewed')
+          .eq('user_id', client.auth.currentUser!.id)
+          .maybeSingle();
+
+      if (response == null) {
+        logger.w('User not found in user_high_freq_stats');
+        return false;
+      }
+
+      final reviewed = response['outfits_reviewed'] as int? ?? 0;
+      final result = reviewed >= 60;
+      logger.i('Outfits reviewed: $reviewed → Show AI stylist: $result');
+      return result;
+    } catch (e) {
+      logger.e('Error checking AI stylist eligibility: $e');
+      return false;
+    }
+  }
 }
+
 
 class OutfitFetchException implements Exception {
   final String message;

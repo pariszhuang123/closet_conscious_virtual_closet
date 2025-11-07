@@ -18,6 +18,8 @@ import '../../generated/l10n.dart';
 import '../../core/utilities/app_router.dart';
 import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc/navigate_outfit_bloc.dart';
 import '../../outfit_management/fetch_outfit_items/presentation/widgets/outfit_type_container.dart';
+import '../../outfit_management/outfit_lottery/outfit_lottery_result/presentation/bloc/outfit_lottery_bloc.dart';
+import '../../outfit_management/outfit_ai_stylist/presentation/bloc/ai_stylist_bloc.dart';
 import '../../user_management/authentication/presentation/bloc/auth_bloc.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import '../../core/widgets/layout/bottom_nav_bar/main_bottom_nav_bar.dart';
@@ -50,6 +52,8 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
     super.initState();
     logger.i('MyOutfitView initialized');
     context.read<CrossAxisCountCubit>().fetchCrossAxisCount();
+    context.read<OutfitLotteryBloc>().add(CheckIfShouldShowOutfitLottery());
+    context.read<AiStylistBloc>().add(CheckAiStylistEligibility());
     _fetchOutfitsCount();
     _checkNavigationToReview();
   }
@@ -91,6 +95,10 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
 
   void _onCalendarButtonPressed() {
     context.pushNamed(AppRoutesName.monthlyCalendar);
+  }
+
+  void _onOutfitLotteryButtonPressed() {
+    context.pushNamed(AppRoutesName.outfitLotterySelectionPage);
   }
 
   void _onAiStylistButtonPressed() {
@@ -156,13 +164,30 @@ class MyOutfitScreenState extends State<MyOutfitScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  OutfitFeatureContainer(
-                    theme: widget.myOutfitTheme,
-                    outfitCount: newOutfitCount,
-                    onFilterButtonPressed: () => _onFilterButtonPressed(context, false),
-                    onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
-                    onCalendarButtonPressed: _onCalendarButtonPressed,
-                    onStylistButtonPressed: _onAiStylistButtonPressed,
+                  BlocBuilder<AiStylistBloc, AiStylistState>(
+                    builder: (context, aiState) {
+                      final showAiStylistButton =
+                          aiState is AiStylistEligibilityChecked && aiState.shouldShow;
+
+                      return BlocBuilder<OutfitLotteryBloc, OutfitLotteryState>(
+                        builder: (context, lotteryState) {
+                          final showOutfitLotteryButton =
+                              lotteryState is OutfitLotteryCheckResult && lotteryState.shouldShow;
+
+                          return OutfitFeatureContainer(
+                            theme: widget.myOutfitTheme,
+                            outfitCount: newOutfitCount,
+                            onFilterButtonPressed: () => _onFilterButtonPressed(context, false),
+                            onArrangeButtonPressed: () => _onArrangeButtonPressed(context, false),
+                            onCalendarButtonPressed: _onCalendarButtonPressed,
+                            onOutfitLotteryButtonPressed: _onOutfitLotteryButtonPressed,
+                            onStylistButtonPressed: _onAiStylistButtonPressed,
+                            showOutfitLotteryButton: showOutfitLotteryButton,
+                            showAiStylistButton: showAiStylistButton, // 👈 Add this
+                          );
+                        },
+                      );
+                    },
                   ),
                   const SizedBox(height: 15),
                   Expanded(

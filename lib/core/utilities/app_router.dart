@@ -30,6 +30,9 @@ import '../../outfit_management/outfit_calendar/daily_calendar/presentation/page
 import '../../outfit_management/outfit_calendar/daily_detailed_calendar/presentation/pages/daily_detailed_calendar_provider.dart';
 import '../../outfit_management/review_outfit/presentation/pages/outfit_review_provider.dart';
 import '../../outfit_management/wear_outfit/presentation/pages/outfit_wear_provider.dart';
+import '../../outfit_management/outfit_lottery/outfit_lottery_selection/presentation/pages/outfit_lottery_selection_screen.dart';
+import '../../outfit_management/outfit_lottery/outfit_lottery_result/presentation/pages/outfit_lottery_result_provider.dart';
+
 import '../presentation/pages/webview/webview_screen.dart';
 import 'helper_functions/argument_helper.dart';
 import 'navigation_service.dart';
@@ -94,6 +97,8 @@ abstract class AppRoutesName {
   static const String tutorialHub = 'tutorial_hub';
   static const String goalSelectionProvider = 'goal_selection_provider';
   static const String scheduleReminderProvider = 'schedule_reminder_provider';
+  static const String outfitLotterySelectionPage = 'outfit_lottery_selection_page';
+  static const String outfitLotteryResultProvider = 'outfit_lottery_result_provider';
 }
 
 GoRouter appRouter = GoRouter(
@@ -698,6 +703,39 @@ GoRouter appRouter = GoRouter(
           );
         },
       ),
+      GoRoute(
+        path: '/outfit_lottery_selection_page',
+        name: 'outfit_lottery_selection_page',
+        pageBuilder: (context, state) {
+          return buildCustomTransitionPage(
+            key: state.pageKey,
+            transitionType: TransitionType.slideFromLeft, // or `fadeScale`, `slide`, etc.
+            child: const OutfitLotterySelectionScreen(), // ✅ Wraps QrScanScreen with Bloc
+          );
+        },
+      ),
+      GoRoute(
+        path: '/outfit_lottery_result_provider',
+        name: 'outfit_lottery_result_provider',
+        pageBuilder: (context, state) {
+          final args = state.extra as Map<String, dynamic>;
+
+          final String? occasion = args['occasion'] as String?;
+          final String? season = args['season'] as String?;
+          final bool useAllClosets = args['useAllClosets'] as bool;
+
+          return buildCustomTransitionPage(
+            key: state.pageKey,
+            child: OutfitLotteryResultProvider(
+              occasion: occasion,
+              season: season,
+              useAllClosets: useAllClosets,
+            ),
+            transitionType: TransitionType.fadeScale, // Customize if needed
+          );
+        },
+      ),
+
     ],
     errorBuilder: (context, state) =>
         Scaffold(

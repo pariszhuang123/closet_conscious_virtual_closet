@@ -34,6 +34,14 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m4(maxAllowed) =>
       "You can only select up to ${maxAllowed} images.";
 
+  static String m5(item1, item2) =>
+      "Try uploading a ${item1} and a ${item2} for your winter outfits.";
+
+  static String m6(items, lastItem) =>
+      "Try uploading ${items} and ${lastItem} for your winter outfits.";
+
+  static String m7(item) => "Try uploading a ${item} for your winter outfits.";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "AmountHint": MessageLookupByLibrary.simpleMessage(
@@ -589,6 +597,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "general_permission_explanation": MessageLookupByLibrary.simpleMessage(
       "We need this permission to make the app work properly.",
     ),
+    "generateOutfit": MessageLookupByLibrary.simpleMessage("Generate Outfit"),
     "gentlyUsed": MessageLookupByLibrary.simpleMessage("Gently\nUsed"),
     "gift": MessageLookupByLibrary.simpleMessage("Gift"),
     "gloves": MessageLookupByLibrary.simpleMessage("Gloves"),
@@ -1108,6 +1117,13 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "outfitInactive": MessageLookupByLibrary.simpleMessage("Inactive Outfits"),
     "outfitLabel": MessageLookupByLibrary.simpleMessage("Outfit"),
+    "outfitLottery": MessageLookupByLibrary.simpleMessage("Lottery"),
+    "outfitLotteryResult": MessageLookupByLibrary.simpleMessage(
+      "Outfit Result",
+    ),
+    "outfitLotteryTitle": MessageLookupByLibrary.simpleMessage(
+      "Your Style Match",
+    ),
     "outfitRelatedOutfitsDescription": MessageLookupByLibrary.simpleMessage(
       "Find new ways to wear what you own—similar outfit ideas based on your favorites.",
     ),
@@ -1487,6 +1503,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "styleOn": MessageLookupByLibrary.simpleMessage("Confirm Outfit"),
     "success": MessageLookupByLibrary.simpleMessage("Success"),
+    "suggestionDouble": m5,
+    "suggestionMultiple": m6,
+    "suggestionSingle": m7,
+    "suggestionsTitle": MessageLookupByLibrary.simpleMessage(
+      "Suggestions to improve your outfit",
+    ),
     "summaryItemAnalytics": MessageLookupByLibrary.simpleMessage(
       "Item\nInsights",
     ),

@@ -15,6 +15,9 @@ import 'outfit_management/outfit_service_locator.dart' as outfit_locator;
 import 'item_management/item_service_locator.dart' as item_locator;
 
 import 'app.dart';
+import 'core/presentation/pages/service_closed_app.dart';
+import 'core/presentation/pages/pre_shutdown_wrapper.dart';
+
 
 Future<void> mainCommon(String environment) async {
   // Initialize Sentry before other services
@@ -37,6 +40,20 @@ Future<void> mainCommon(String environment) async {
       await ConfigReader.initialize(environment);
       logger.i('ConfigReader initialized successfully');
 
+      final cutoff = ConfigReader.shutdownAfter;
+      final now = DateTime.now();
+      final dateReached = (cutoff != null) && now.isAfter(cutoff);
+      final shouldShutdown = ConfigReader.appShutdown || dateReached;
+
+      if (shouldShutdown) {
+        logger.w('App is in shutdown mode. cutoff=$cutoff now=$now');
+        runApp(ServiceClosedApp(
+          title: ConfigReader.shutdownTitle,
+          message: ConfigReader.shutdownMessage,
+        ));
+        return; // stop boot — do NOT init Supabase or any services
+      }
+
       await SupabaseConfig.initialize();
       user_management_locator.setupUserManagementLocator();
       outfit_locator.setupOutfitLocator();
@@ -51,7 +68,9 @@ Future<void> mainCommon(String environment) async {
       await NotificationService.createNotificationChannel();
       logger.i('Timezone & notifications initialized: ${TimezoneService.localTimezone}');
 
-      runApp(MainApp(navigatorKey: navigatorKey));
+      runApp(PreShutdownWrapper(
+        child: MainApp(navigatorKey: navigatorKey),
+      ));
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         NotificationService.handlePendingNavigation();

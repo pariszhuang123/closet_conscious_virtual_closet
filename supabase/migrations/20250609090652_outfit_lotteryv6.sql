@@ -28,6 +28,7 @@ BEGIN
   JOIN public.items_clothing_basic c ON c.item_id = i.item_id
   WHERE i.item_type = 'clothing'
     AND c.clothing_type = 'onePiece'
+    AND c.clothing_layer = 'base'
     AND i.is_active = true
     AND i.disliked_count = 0
     AND i.current_owner_id = current_user_id
@@ -41,6 +42,7 @@ BEGIN
     JOIN public.items_clothing_basic c ON c.item_id = i.item_id
     WHERE i.item_type = 'clothing'
       AND c.clothing_type = 'top'
+      AND c.clothing_layer = 'base'
       AND i.is_active = true
       AND i.disliked_count = 0
       AND i.current_owner_id = current_user_id
@@ -53,6 +55,7 @@ BEGIN
     JOIN public.items_clothing_basic c ON c.item_id = i.item_id
     WHERE i.item_type = 'clothing'
       AND c.clothing_type = 'bottom'
+      AND c.clothing_layer = 'base'
       AND i.is_active = true
       AND i.disliked_count = 0
       AND i.current_owner_id = current_user_id
@@ -115,6 +118,7 @@ BEGIN
   JOIN public.items_clothing_basic c ON c.item_id = i.item_id
   WHERE i.item_type = 'clothing'
     AND c.clothing_type = 'onePiece'
+    AND c.clothing_layer = 'base'
     AND i.is_active = true
     AND i.disliked_count = 0
     AND i.current_owner_id = current_user_id
@@ -131,6 +135,7 @@ BEGIN
     JOIN public.items_clothing_basic c ON c.item_id = i.item_id
     WHERE i.item_type = 'clothing'
       AND c.clothing_type = 'top'
+      AND c.clothing_layer = 'base'
       AND i.is_active = true
       AND i.disliked_count = 0
       AND i.current_owner_id = current_user_id
@@ -145,6 +150,7 @@ BEGIN
     JOIN public.items_clothing_basic c ON c.item_id = i.item_id
     WHERE i.item_type = 'clothing'
       AND c.clothing_type = 'bottom'
+      AND c.clothing_layer = 'base'
       AND i.is_active = true
       AND i.disliked_count = 0
       AND i.current_owner_id = current_user_id
@@ -248,12 +254,16 @@ RETURN (
     'suggestions', COALESCE((
       SELECT jsonb_agg(s)
       FROM (
-        SELECT 'Upload a scarf for winter outfits' AS s WHERE v_missing_scarf
+        SELECT 'scarf' AS s WHERE v_missing_scarf
         UNION ALL
-        SELECT 'Upload a hat for winter outfits' AS s WHERE v_missing_hat
+        SELECT 'hat' AS s WHERE v_missing_hat
       ) AS sub
-    ), '[]'::jsonb)
-  )
+    ), '[]'::jsonb),
+      'parameters', jsonb_build_object(
+        'occasion', p_occasion,
+        'season',   p_season
+      )
+    )
   FROM public.items i
   WHERE i.item_id = ANY(v_items)
 );

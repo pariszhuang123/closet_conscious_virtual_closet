@@ -6,7 +6,7 @@ class CrossAxisCountCubit extends Cubit<int> {
   final CoreFetchService coreFetchService;
   final CustomLogger _logger = CustomLogger('CrossAxisCountCubit');
 
-  CrossAxisCountCubit({required this.coreFetchService}) : super(3); // Default to 3 as the initial state
+  CrossAxisCountCubit({required this.coreFetchService}) : super(2); // Default to 3 as the initial state
 
   Future<void> fetchCrossAxisCount() async {
     _logger.i('Fetching cross-axis count...');
@@ -16,7 +16,7 @@ class CrossAxisCountCubit extends Cubit<int> {
       emit(crossAxisCount);
     } catch (e) {
       _logger.e('Error fetching cross-axis count: $e');
-      emit(3); // Default to 3 if there's an error
+      emit(2); // Default to 3 if there's an error
     }
   }
 }

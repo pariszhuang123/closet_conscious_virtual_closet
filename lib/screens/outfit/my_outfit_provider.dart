@@ -6,6 +6,9 @@ import '../../outfit_management/core/data/services/outfits_fetch_services.dart';
 import '../../outfit_management/core/data/services/outfits_save_services.dart';
 import '../../outfit_management/core/outfit_enums.dart';
 import '../../outfit_management/core/presentation/bloc/navigate_outfit_bloc/navigate_outfit_bloc.dart';
+import '../../outfit_management/outfit_lottery/outfit_lottery_result/presentation/bloc/outfit_lottery_bloc.dart';
+import '../../outfit_management/outfit_service_locator.dart';
+import '../../outfit_management/outfit_ai_stylist/presentation/bloc/ai_stylist_bloc.dart';
 import '../../core/presentation/bloc/cross_axis_core_cubit/cross_axis_count_cubit.dart';
 import 'my_outfit_screen.dart';
 import 'my_outfit_access_wrapper.dart';
@@ -24,7 +27,7 @@ import '../../core/paywall/presentation/bloc/premium_feature_access_bloc/premium
 import '../../core/presentation/bloc/grid_pagination_cubit/grid_pagination_cubit.dart';
 import '../../item_management/core/data/models/closet_item_minimal.dart';
 import '../../core/core_service_locator.dart';
-import '../../outfit_management/outfit_service_locator.dart';
+
 
 class MyOutfitProvider extends StatelessWidget {
   final ThemeData myOutfitTheme;
@@ -108,6 +111,18 @@ class MyOutfitProvider extends StatelessWidget {
             coreFetchService: coreFetchService,
             coreSaveService: coreSaveService,
           ),
+        ),
+        BlocProvider<OutfitLotteryBloc>(
+          create: (context) {
+            _logger.d('Initializing OutfitLotteryBloc');
+            return OutfitLotteryBloc(outfitFetchService: outfitFetchService);
+          },
+        ),
+        BlocProvider<AiStylistBloc>(
+          create: (context) {
+            _logger.d('Initializing AiStylistBloc');
+            return AiStylistBloc(outfitFetchService: outfitFetchService);
+          },
         ),
         BlocProvider<GridPaginationCubit<ClosetItemMinimal>>(
           create: (_) => GridPaginationCubit<ClosetItemMinimal>(

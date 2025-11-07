@@ -4694,6 +4694,81 @@ class S {
     return Intl.message('QR Scanner', name: 'qrScanner', desc: '', args: []);
   }
 
+  /// `Lottery`
+  String get outfitLottery {
+    return Intl.message('Lottery', name: 'outfitLottery', desc: '', args: []);
+  }
+
+  /// `Outfit Result`
+  String get outfitLotteryResult {
+    return Intl.message(
+      'Outfit Result',
+      name: 'outfitLotteryResult',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Style Match`
+  String get outfitLotteryTitle {
+    return Intl.message(
+      'Your Style Match',
+      name: 'outfitLotteryTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generate Outfit`
+  String get generateOutfit {
+    return Intl.message(
+      'Generate Outfit',
+      name: 'generateOutfit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suggestions to improve your outfit`
+  String get suggestionsTitle {
+    return Intl.message(
+      'Suggestions to improve your outfit',
+      name: 'suggestionsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try uploading a {item} for your winter outfits.`
+  String suggestionSingle(Object item) {
+    return Intl.message(
+      'Try uploading a $item for your winter outfits.',
+      name: 'suggestionSingle',
+      desc: '',
+      args: [item],
+    );
+  }
+
+  /// `Try uploading a {item1} and a {item2} for your winter outfits.`
+  String suggestionDouble(Object item1, Object item2) {
+    return Intl.message(
+      'Try uploading a $item1 and a $item2 for your winter outfits.',
+      name: 'suggestionDouble',
+      desc: '',
+      args: [item1, item2],
+    );
+  }
+
+  /// `Try uploading {items} and {lastItem} for your winter outfits.`
+  String suggestionMultiple(Object items, Object lastItem) {
+    return Intl.message(
+      'Try uploading $items and $lastItem for your winter outfits.',
+      name: 'suggestionMultiple',
+      desc: '',
+      args: [items, lastItem],
+    );
+  }
+
   /// `Upload from Photo Library`
   String get tutorialFreePhotoLibraryTitle {
     return Intl.message(

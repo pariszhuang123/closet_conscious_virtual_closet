@@ -12,9 +12,10 @@ class OutfitFeatureContainer extends StatelessWidget {
   final VoidCallback onFilterButtonPressed;
   final VoidCallback onArrangeButtonPressed;
   final VoidCallback onCalendarButtonPressed;
+  final VoidCallback onOutfitLotteryButtonPressed;
   final VoidCallback onStylistButtonPressed;
-
-
+  final bool showOutfitLotteryButton;
+  final bool showAiStylistButton;
 
   const OutfitFeatureContainer({
     super.key,
@@ -23,7 +24,10 @@ class OutfitFeatureContainer extends StatelessWidget {
     required this.onFilterButtonPressed,
     required this.onArrangeButtonPressed,
     required this.onCalendarButtonPressed,
+    required this.onOutfitLotteryButtonPressed,
     required this.onStylistButtonPressed,
+    required this.showOutfitLotteryButton,
+    required this.showAiStylistButton
   });
 
   @override
@@ -62,7 +66,8 @@ class OutfitFeatureContainer extends StatelessWidget {
                 buttonType: ButtonType.secondary,
                 usePredefinedColor: false,
               ),
-              NavigationTypeButton(
+              if (showAiStylistButton)
+                NavigationTypeButton(
                 label: TypeDataList.aistylist(context).getName(context),
                 selectedLabel: '',
                 onPressed: onStylistButtonPressed,
